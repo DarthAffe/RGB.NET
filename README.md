@@ -1,2 +1,3 @@
 # RGB.NET
-The one-stop SDK for RGB-keyboards
+
+Thinking about it, maybe one day it will be true <3
