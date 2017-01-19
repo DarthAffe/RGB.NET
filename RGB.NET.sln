@@ -23,6 +23,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Input.Corsair", "RG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Groups", "RGB.NET.Groups\RGB.NET.Groups.csproj", "{2A39F859-AAD0-4C16-94F8-78057820B376}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566-481F-4571-80EE-7BB05B1E0299}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.Config = NuGet.Config
+		NuGet\nuget.exe = NuGet\nuget.exe
+		NuGet\pack_all.bat = NuGet\pack_all.bat
+		NuGet\RGB.NET.Brushes.nuspec = NuGet\RGB.NET.Brushes.nuspec
+		NuGet\RGB.NET.Core.nuspec = NuGet\RGB.NET.Core.nuspec
+		NuGet\RGB.NET.Devices.Corsair.nuspec = NuGet\RGB.NET.Devices.Corsair.nuspec
+		NuGet\RGB.NET.Effects.nuspec = NuGet\RGB.NET.Effects.nuspec
+		NuGet\RGB.NET.Groups.nuspec = NuGet\RGB.NET.Groups.nuspec
+		NuGet\RGB.NET.Input.Corsair.nuspec = NuGet\RGB.NET.Input.Corsair.nuspec
+		NuGet\RGB.NET.Input.nuspec = NuGet\RGB.NET.Input.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

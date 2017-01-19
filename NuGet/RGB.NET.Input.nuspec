@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>RGB.NET.Input</id>
+    <title>CUE.NET.Input</title>
+    <version>1.0.0.0</version>
+    <authors>Darth Affe</authors>
+    <owners>Darth Affe</owners>
+    <projectUrl>https://github.com/DarthAffe/RGB.NET</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Input-Module of RGB.NET</description>
+    <releaseNotes></releaseNotes>
+    <summary>Input-Module of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
+    <copyright>Copyright © Wyrez 2017</copyright>
+    <language>en-US</language>
+  </metadata>
+  <files>
+    <file src="..\bin\RGB.NET.Input.dll" target="lib\net45\RGB.NET.Input.dll" />
+  </files>
+</package>
