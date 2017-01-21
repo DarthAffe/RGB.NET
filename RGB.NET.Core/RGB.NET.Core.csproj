@@ -42,6 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brushes\BrushCalculationMode.cs" />
+    <Compile Include="Brushes\BrushRenderTarget.cs" />
+    <Compile Include="Brushes\IBrush.cs" />
+    <Compile Include="ColorCorrection\IColorCorrection.cs" />
+    <Compile Include="Effects\IEffect.cs" />
+    <Compile Include="Effects\IEffectTarget.cs" />
     <Compile Include="ILedId.cs" />
     <Compile Include="MVVM\AbstractBindable.cs" />
     <Compile Include="Color.cs" />
