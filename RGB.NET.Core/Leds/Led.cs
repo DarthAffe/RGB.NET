@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
+
+using System.Diagnostics;
 
 namespace RGB.NET.Core
 {

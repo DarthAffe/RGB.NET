@@ -47,6 +47,8 @@
     <Compile Include="Brushes\IBrush.cs" />
     <Compile Include="ColorCorrection\IColorCorrection.cs" />
     <Compile Include="Devices\AbstractRGBDevice.cs" />
+    <Compile Include="Devices\DeviceType.cs" />
+    <Compile Include="Devices\IDeviceProvider.cs" />
     <Compile Include="Devices\IRGBDeviceInfo.cs" />
     <Compile Include="Effects\IEffect.cs" />
     <Compile Include="Effects\IEffectTarget.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Events\LedsUpdatingEventArgs.cs" />
     <Compile Include="Events\UpdatedEventArgs.cs" />
     <Compile Include="Events\UpdatingEventArgs.cs" />
+    <Compile Include="Exceptions\RGBDeviceException.cs" />
     <Compile Include="Leds\ILedId.cs" />
     <Compile Include="Surfaces\IRGBSurface.cs" />
     <Compile Include="MVVM\AbstractBindable.cs" />

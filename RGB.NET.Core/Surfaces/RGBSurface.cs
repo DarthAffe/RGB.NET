@@ -6,7 +6,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic RGB-surface.
     /// </summary>
-    public class RGBSurface
+    public class RGBSurface : IRGBSurface
     {
         #region Properties & Fields
 
@@ -18,29 +18,19 @@ namespace RGB.NET.Core
 
         // ReSharper disable EventNeverSubscribedTo.Global
 
-        /// <summary>
-        /// Occurs when a catched exception is thrown inside the <see cref="IRGBSurface"/>.
-        /// </summary>
+        /// <inheritdoc />
         public event ExceptionEventHandler Exception;
 
-        /// <summary>
-        /// Occurs when the <see cref="IRGBSurface"/> starts updating.
-        /// </summary>
+        /// <inheritdoc />
         public event UpdatingEventHandler Updating;
 
-        /// <summary>
-        /// Occurs when the <see cref="IRGBSurface"/> update is done.
-        /// </summary>
+        /// <inheritdoc />
         public event UpdatedEventHandler Updated;
 
-        /// <summary>
-        /// Occurs when the <see cref="IRGBSurface"/> starts to update the <see cref="Led"/>.
-        /// </summary>
+        /// <inheritdoc />
         public event LedsUpdatingEventHandler LedsUpdating;
 
-        /// <summary>
-        /// Occurs when the <see cref="IRGBSurface"/> updated the <see cref="Led"/>.
-        /// </summary>
+        /// <inheritdoc />
         public event LedsUpdatedEventHandler LedsUpdated;
 
         // ReSharper restore EventNeverSubscribedTo.Global

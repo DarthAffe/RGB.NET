@@ -48,12 +48,7 @@ namespace RGB.NET.Core
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Initializes the <see cref="IRGBDevice"/>.
-        /// </summary>
-        void Initialize();
-
+        
         /// <summary>
         /// Perform an update for all dirty <see cref="Led"/>, or all <see cref="Led"/> if flushLeds is set to true.
         /// </summary>

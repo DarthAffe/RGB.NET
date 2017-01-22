@@ -11,15 +11,11 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        /// <summary>
-        /// Gets generic information about the <see cref="IRGBDevice"/>.
-        /// </summary>
-        public IRGBDeviceInfo DeviceInfo { get; }
+        /// <inheritdoc />
+        public abstract IRGBDeviceInfo DeviceInfo { get; }
 
-        /// <summary>
-        /// Gets the <see cref="Rectangle"/> representing the whole <see cref="IRGBDevice"/>.
-        /// </summary>
-        public Rectangle DeviceRectangle { get; }
+        /// <inheritdoc />
+        public abstract Rectangle DeviceRectangle { get; }
 
         /// <summary>
         /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
@@ -28,6 +24,7 @@ namespace RGB.NET.Core
 
         #region Indexer
 
+        /// <inheritdoc />
         Led IRGBDevice.this[ILedId ledId]
         {
             get
@@ -37,8 +34,10 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <inheritdoc />
         Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
 
+        /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, float minOverlayPercentage]
             => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.LedRectangle) >= minOverlayPercentage)
         ;
@@ -47,20 +46,39 @@ namespace RGB.NET.Core
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Methods
 
-        public void Initialize()
+        /// <inheritdoc />
+        public virtual void Update(bool flushLeds = false)
         {
-            throw new System.NotImplementedException();
+            // Device-specific updates
+            DeviceUpdate();
+
+            // Send LEDs to SDK
+            IEnumerable<Led> ledsToUpdate = flushLeds ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty);
+            foreach (Led ledToUpdate in ledsToUpdate)
+                ledToUpdate.Update();
         }
 
-        public void Update(bool flushLeds = false)
+        /// <summary>
+        /// Performs device specific updates.
+        /// </summary>
+        protected virtual void DeviceUpdate()
+        { }
+
+        /// <summary>
+        /// Initializes the <see cref="Led"/> with the specified id.
+        /// </summary>
+        /// <param name="ledId">The <see cref="ILedId"/> to initialize.</param>
+        /// <param name="ledRectangle">The <see cref="Rectangle"/> representing the position of the <see cref="Led"/> to initialize.</param>
+        /// <returns></returns>
+        protected virtual Led InitializeLed(ILedId ledId, Rectangle ledRectangle)
         {
-            throw new System.NotImplementedException();
+            if (LedMapping.ContainsKey(ledId)) return null;
+
+            Led led = new Led(this, ledId, ledRectangle);
+            LedMapping.Add(ledId, led);
+            return led;
         }
 
         #region Enumerator
