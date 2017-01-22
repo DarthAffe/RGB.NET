@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RGB.NET.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RGB.NET.Core.1.0.0\lib\net45\RGB.NET.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,8 +45,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CorsairDeviceProvider.cs" />
+    <Compile Include="Enum\CorsairAccessMode.cs" />
+    <Compile Include="Enum\CorsairDeviceCaps.cs" />
+    <Compile Include="Enum\CorsairDeviceType.cs" />
+    <Compile Include="Enum\CorsairError.cs" />
+    <Compile Include="Enum\CorsairLedIds.cs" />
+    <Compile Include="Enum\CorsairLogicalKeyboardLayout.cs" />
+    <Compile Include="Enum\CorsairPhysicalKeyboardLayout.cs" />
+    <Compile Include="Enum\CorsairPhysicalMouseLayout.cs" />
+    <Compile Include="Exceptions\CUEException.cs" />
+    <Compile Include="Generic\CorsairLedId.cs" />
+    <Compile Include="Generic\CorsairProtocolDetails.cs" />
+    <Compile Include="Generic\CorsairRGBDeviceInfo.cs" />
+    <Compile Include="Generic\CorsairRGBDevice.cs" />
+    <Compile Include="Headset\CorsairHeadsetRGBDevice.cs" />
+    <Compile Include="Headset\CorsairHeadsetRGBDeviceInfo.cs" />
+    <Compile Include="Keyboard\CorsairKeyboardRGBDevice.cs" />
+    <Compile Include="Keyboard\CorsairKeyboardRGBDeviceInfo.cs" />
+    <Compile Include="Mouse\CorsairMouseRGBDevice.cs" />
+    <Compile Include="Mouse\CorsairMouseRGBDeviceInfo.cs" />
+    <Compile Include="Mousmat\CorsairMousematRGBDevice.cs" />
+    <Compile Include="Mousmat\CorsairMousematRGBDeviceInfo.cs" />
+    <Compile Include="Native\_CorsairDeviceInfo.cs" />
+    <Compile Include="Native\_CorsairLedColor.cs" />
+    <Compile Include="Native\_CorsairLedPosition.cs" />
+    <Compile Include="Native\_CorsairLedPositions.cs" />
+    <Compile Include="Native\_CorsairProtocolDetails.cs" />
+    <Compile Include="Native\_CUESDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
