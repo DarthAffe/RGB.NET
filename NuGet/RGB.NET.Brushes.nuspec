@@ -17,5 +17,8 @@
   </metadata>
   <files>
     <file src="..\bin\RGB.NET.Brushes.dll" target="lib\net45\RGB.NET.Brushes.dll" />
+    <file src="..\bin\RGB.NET.Brushes.pdb" target="lib\net45\RGB.NET.Brushes.pdb" />
+    <file src="..\bin\RGB.NET.Brushes.xml" target="lib\net45\RGB.NET.Brushes.xml" />
+	<file src="..\RGB.NET.Brushes\**\*.cs" target="src" exclude="..\RGB.NET.Brushes\obj\**\*.*" />
   </files>
 </package>

@@ -17,5 +17,8 @@
   </metadata>
   <files>
     <file src="..\bin\RGB.NET.Effects.dll" target="lib\net45\RGB.NET.Effects.dll" />
+    <file src="..\bin\RGB.NET.Effects.pdb" target="lib\net45\RGB.NET.Effects.pdb" />
+    <file src="..\bin\RGB.NET.Effects.xml" target="lib\net45\RGB.NET.Effects.xml" />
+	<file src="..\RGB.NET.Effects\**\*.cs" target="src" exclude="..\RGB.NET.Effects\obj\**\*.*" />
   </files>
 </package>

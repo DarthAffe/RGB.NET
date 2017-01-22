@@ -17,5 +17,8 @@
   </metadata>
   <files>
     <file src="..\bin\RGB.NET.Groups.dll" target="lib\net45\RGB.NET.Groups.dll" />
+    <file src="..\bin\RGB.NET.Groups.pdb" target="lib\net45\RGB.NET.Groups.pdb" />
+    <file src="..\bin\RGB.NET.Groups.xml" target="lib\net45\RGB.NET.Groups.xml" />
+	<file src="..\RGB.NET.Groups\**\*.cs" target="src" exclude="..\RGB.NET.Groups\obj\**\*.*" />
   </files>
 </package>
