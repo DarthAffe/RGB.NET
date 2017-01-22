@@ -51,7 +51,19 @@ namespace RGB.NET.Devices.Corsair
         /// <exception cref="CUEException">Thrown if the CUE-SDK provides an error.</exception>
         public bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
-            _CUESDK.Reload();
+            IsInitialized = false;
+
+            try
+            {
+                _CUESDK.Reload();
+            }
+            catch
+            {
+                if (throwExceptions)
+                    throw;
+                else
+                    return false;
+            }
 
             ProtocolDetails = new CorsairProtocolDetails(_CUESDK.CorsairPerformProtocolHandshake());
 
@@ -160,7 +172,14 @@ namespace RGB.NET.Devices.Corsair
         public void ResetDevices()
         {
             if (IsInitialized)
-                _CUESDK.Reload();
+                try
+                {
+                    _CUESDK.Reload();
+                }
+                catch
+                {
+                    // shit happens ...
+                }
         }
 
         private void Reset()

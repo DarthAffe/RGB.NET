@@ -13,12 +13,17 @@
     <releaseNotes></releaseNotes>
     <summary>Corsair-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
     <copyright>Copyright © Wyrez 2017</copyright>
-    <language>en-US</language>
+    <language>en-US</language>    
+	<dependencies>
+      <dependency id="RGB.NET.Core" version="1.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="..\bin\RGB.NET.Devices.Corsair.dll" target="lib\net45\RGB.NET.Devices.Corsair.dll" />
     <file src="..\bin\RGB.NET.Devices.Corsair.pdb" target="lib\net45\RGB.NET.Devices.Corsair.pdb" />
     <file src="..\bin\RGB.NET.Devices.Corsair.xml" target="lib\net45\RGB.NET.Devices.Corsair.xml" />
 	<file src="..\RGB.NET.Devices.Corsair\**\*.cs" target="src" exclude="..\RGB.NET.Devices.Corsair\obj\**\*.*" />
+    <file src="..\RGB.NET.Devices.Corsair\libs\**\*.*" target="build\net45\libs\" />
+    <file src="..\RGB.NET.Devices.Corsair\targets\*.targets" target="build\net45\" />
   </files>
 </package>

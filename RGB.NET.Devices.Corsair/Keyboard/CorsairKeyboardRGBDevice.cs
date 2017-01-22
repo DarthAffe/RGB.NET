@@ -41,9 +41,7 @@ namespace RGB.NET.Devices.Corsair
         protected override void InitializeLeds()
         {
             _CorsairLedPositions nativeLedPositions =
-                (_CorsairLedPositions)
-                Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(KeyboardDeviceInfo.CorsairDeviceIndex),
-                                       typeof(_CorsairLedPositions));
+                (_CorsairLedPositions)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositions(), typeof(_CorsairLedPositions));
 
             int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
             IntPtr ptr = nativeLedPositions.pLedPosition;

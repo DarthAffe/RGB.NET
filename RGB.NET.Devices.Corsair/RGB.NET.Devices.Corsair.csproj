@@ -77,8 +77,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="targets\RGB.NET.Devices.Corsair.targets" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="libs\x64\CUESDK_2015.dll" />
+    <None Include="libs\x86\CUESDK_2015.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

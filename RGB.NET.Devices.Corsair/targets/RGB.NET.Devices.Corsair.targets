@@ -1,0 +1,150 @@
+<!--
+ * Build targets hacked from SQLite (thanks!)
+ * System.Data.SQLite.Core.targets -
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--
+  ******************************************************************************
+  **                                Build Items                               **
+  ******************************************************************************
+  -->
+
+  <ItemGroup>
+    <CueSDKFiles Condition="'$(MSBuildThisFileDirectory)' != '' And
+                                   HasTrailingSlash('$(MSBuildThisFileDirectory)')"
+                        Include="$(MSBuildThisFileDirectory)libs\**\*.dll" />
+
+    <AdditionalPublishFilex86 Include="$(MSBuildThisFileDirectory)libs\x86\*.dll">
+      <Visible>False</Visible>
+    </AdditionalPublishFilex86>
+    <AdditionalPublishFilex64 Include="$(MSBuildThisFileDirectory)libs\x64\*.dll">
+      <Visible>False</Visible>
+    </AdditionalPublishFilex64>
+  </ItemGroup>
+
+  <!--
+  ******************************************************************************
+  **                               Content Items                              **
+  ******************************************************************************
+  -->
+
+  <ItemGroup Condition="'$(ContentCueSDKFiles)' != '' And
+                        '$(ContentCueSDKFiles)' != 'false' And
+                        '@(CueSDKFiles)' != ''">
+    <Content Include="@(CueSDKFiles)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!--
+  ******************************************************************************
+  **                              Build Targets*                              **
+  ******************************************************************************
+  -->
+
+  <Target Name="CopyCueSDKFiles"
+          Condition="'$(CopyCueSDKFiles)' != 'false' And
+                     '$(OutDir)' != '' And
+                     HasTrailingSlash('$(OutDir)') And
+                     Exists('$(OutDir)')"
+          Inputs="@(CueSDKFiles)"
+          Outputs="@(CueSDKFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')">
+    <!--
+        NOTE: Copy "CUESDK*.dll" and all related files, for every
+              architecture that we support, to the build output directory.
+    -->
+    <Message Text="Copying SDK files..." Importance="high" />
+    <Copy SourceFiles="@(CueSDKFiles)"
+          DestinationFiles="@(CueSDKFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="CleanCueSDKFiles"
+          Condition="'$(CleanCueSDKFiles)' != 'false' And
+                     '$(OutDir)' != '' And
+                     HasTrailingSlash('$(OutDir)') And
+                     Exists('$(OutDir)')">
+
+    <!--
+        NOTE: Delete "CUESDK*.dll" and all related files, for every
+              architecture that we support, from the build output directory.
+    -->
+    <Message Text="this file $(MSBuildThisFileDirectory)" Importance="high"/>
+    <Message Text="Cleaning SDK files..." Importance="high" />
+
+    <Delete Files="@(CueSDKFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="CollectCueSDKFiles"
+          Condition="'$(CollectCueSDKFiles)' != 'false'">
+    <Message Text="Collecting SDK files..." Importance="high" />
+    <ItemGroup>
+      <FilesForPackagingFromProject Include="@(CueSDKFiles)">
+        <DestinationRelativePath>bin\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="BeforePublish">
+    <Touch Files="@(IntermediateAssembly)" />
+  </Target>
+  <Target Name="BeforeBuild">
+    <CreateItem Include="@(AdditionalPublishFilex86)" AdditionalMetadata="TargetPath=x86\%(FileName)%(Extension);IsDataFile=false">
+      <Output TaskParameter="Include" ItemName="_DeploymentManifestFiles" />
+    </CreateItem>
+    <CreateItem Include="@(AdditionalPublishFilex64)" AdditionalMetadata="TargetPath=x64\%(FileName)%(Extension);IsDataFile=false">
+      <Output TaskParameter="Include" ItemName="_DeploymentManifestFiles" />
+    </CreateItem>
+  </Target>
+  
+  <!--
+  ******************************************************************************
+  **                            Build Properties                              **
+  ******************************************************************************
+  -->
+
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+      $(PostBuildEventDependsOn);
+      CopyCueSDKFiles;
+    </PostBuildEventDependsOn>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      CopyCueSDKFiles;
+    </BuildDependsOn>
+    <CleanDependsOn>
+      $(CleanDependsOn);
+      CleanCueSDKFiles;
+    </CleanDependsOn>
+  </PropertyGroup>
+
+  <!--
+  ******************************************************************************
+  **                 Publish Properties for Visual Studio 201x                **
+  ******************************************************************************
+  -->
+
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' Or
+                            '$(VisualStudioVersion)' == '10.0' Or
+                            '$(VisualStudioVersion)' == '11.0' Or
+                            '$(VisualStudioVersion)' == '12.0'">
+    <PipelineCollectFilesPhaseDependsOn>
+      CollectCueSDKFiles;
+      $(PipelineCollectFilesPhaseDependsOn);
+    </PipelineCollectFilesPhaseDependsOn>
+  </PropertyGroup>
+</Project>
