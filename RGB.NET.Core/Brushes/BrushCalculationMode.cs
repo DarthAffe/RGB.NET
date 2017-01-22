@@ -1,6 +1,6 @@
-﻿using RGB.NET.Core.Devices;
+﻿// ReSharper disable UnusedMember.Global
 
-namespace RGB.NET.Core.Brushes
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Contains a list of all brush calculation modes.

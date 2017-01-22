@@ -3,10 +3,8 @@
 // ReSharper disable ReturnTypeCanBeEnumerable.Global
 
 using System.Collections.Generic;
-using RGB.NET.Core.ColorCorrection;
-using RGB.NET.Core.Effects;
 
-namespace RGB.NET.Core.Brushes
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a basic brush.

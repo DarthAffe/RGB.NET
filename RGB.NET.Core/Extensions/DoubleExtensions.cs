@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace RGB.NET.Core.Extensions
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Offers some extensions and helper-methods for the work with doubles

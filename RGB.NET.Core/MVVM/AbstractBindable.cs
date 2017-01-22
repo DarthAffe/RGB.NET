@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace RGB.NET.Core.MVVM
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a basic bindable class which notifies when a property value changes.
@@ -43,11 +43,11 @@ namespace RGB.NET.Core.MVVM
         /// <returns><c>true</c> if the value was changed, <c>false</c> if the existing value matched the desired value.</returns>
         protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            if (!RequiresUpdate(ref storage, value)) return false;
+            if (!this.RequiresUpdate(ref storage, value)) return false;
 
             storage = value;
             // ReSharper disable once ExplicitCallerInfoArgument
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
             return true;
         }
 
@@ -58,7 +58,7 @@ namespace RGB.NET.Core.MVVM
         /// and can be provided automatically when invoked from compilers that support <see cref="CallerMemberNameAttribute"/>.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable UnusedMember.Global
 
-namespace RGB.NET.Core.Effects
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a basic effect-target.

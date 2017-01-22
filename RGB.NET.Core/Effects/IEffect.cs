@@ -2,9 +2,7 @@
 // ReSharper disable UnusedMemberInSuper.Global
 // ReSharper disable UnusedParameter.Global
 
-using RGB.NET.Core.Devices;
-
-namespace RGB.NET.Core.Effects
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a basic effect.

@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using RGB.NET.Core.Extensions;
-using RGB.NET.Core.MVVM;
 
 namespace RGB.NET.Core
 {
@@ -201,6 +199,107 @@ namespace RGB.NET.Core
                 return new Rectangle(x1, y1, x2 - x1, y2 - y1);
 
             return new Rectangle();
+        }
+
+        /// <summary>
+        /// Determines if the specified <see cref="Point"/> is contained within this <see cref="Rectangle"/>.
+        /// </summary>
+        /// <param name="point">The <see cref="Point"/> to test.</param>
+        /// <returns></returns>
+        public bool Contains(Point point)
+        {
+            return Contains(point.X, point.Y);
+        }
+
+        /// <summary>
+        /// Determines if the specified location is contained within this <see cref="Rectangle"/>.
+        /// </summary>
+        /// <param name="x">The X-location to test.</param>
+        /// <param name="y">The Y-location to test.</param>
+        /// <returns></returns>
+        public bool Contains(double x, double y)
+        {
+            return (Location.X <= x) && (x < (Location.X + Size.Width)) && (Location.Y <= y) && (y < (Location.Y + Size.Height));
+        }
+
+        /// <summary>
+        /// Determines if the specified <see cref="Rectangle"/> is contained within this <see cref="Rectangle"/>.
+        /// </summary>
+        /// <param name="rect">The <see cref="Rectangle"/> to test.</param>
+        /// <returns></returns>
+        public bool Contains(Rectangle rect)
+        {
+            return (Location.X <= rect.Location.X) && ((rect.Location.X + rect.Size.Width) <= (Location.X + Size.Width))
+                   && (Location.Y <= rect.Location.Y) && ((rect.Location.Y + rect.Size.Height) <= (Location.Y + Size.Height));
+        }
+
+        /// <summary>
+        /// Converts the <see cref="Location"/>- and <see cref="Size"/>-position of this <see cref="Rectangle"/> to a human-readable string.
+        /// </summary>
+        /// <returns>A string that contains the <see cref="Location"/> and <see cref="Size"/>  of this <see cref="Rectangle"/>. For example "[Location: [X: 100, Y: 10], Size: [Width: 20, Height: [40]]".</returns>
+        public override string ToString()
+        {
+            return $"[Location: {Location}, Size: {Size}]";
+        }
+
+        /// <summary>
+        /// Tests whether the specified object is a <see cref="Rectangle" /> and is equivalent to this <see cref="Rectangle" />.
+        /// </summary>
+        /// <param name="obj">The object to test.</param>
+        /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rectangle" /> equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object obj)
+        {
+            Rectangle compareRect = obj as Rectangle;
+            if (ReferenceEquals(compareRect, null))
+                return false;
+
+            if (ReferenceEquals(this, compareRect))
+                return true;
+
+            if (GetType() != compareRect.GetType())
+                return false;
+
+            return (Location == compareRect.Location) && (Size == compareRect.Size);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this <see cref="Rectangle" />.
+        /// </summary>
+        /// <returns>An integer value that specifies the hash code for this <see cref="Rectangle" />.</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Location.GetHashCode();
+                hashCode = (hashCode * 397) ^ Size.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        #endregion
+
+        #region Operators
+
+        /// <summary>
+        /// Returns a value that indicates whether two specified <see cref="Rectangle" /> are equal.
+        /// </summary>
+        /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
+        /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
+        /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are equal; otherwise, <c>false</c>.</returns>
+        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2)
+        {
+            return ReferenceEquals(rectangle1, null) ? ReferenceEquals(rectangle2, null) : rectangle1.Equals(rectangle2);
+        }
+
+        /// <summary>
+        /// Returns a value that indicates whether two specified <see cref="Rectangle" /> are equal.
+        /// </summary>
+        /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
+        /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
+        /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are not equal; otherwise, <c>false</c>.</returns>
+        public static bool operator !=(Rectangle rectangle1, Rectangle rectangle2)
+        {
+            return !(rectangle1 == rectangle2);
         }
 
         #endregion

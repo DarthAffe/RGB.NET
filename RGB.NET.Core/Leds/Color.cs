@@ -3,8 +3,6 @@
 
 using System;
 using System.Diagnostics;
-using RGB.NET.Core.Extensions;
-using RGB.NET.Core.MVVM;
 
 namespace RGB.NET.Core
 {

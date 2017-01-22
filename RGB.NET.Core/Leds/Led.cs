@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
-using RGB.NET.Core.Devices;
-using RGB.NET.Core.MVVM;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace RGB.NET.Core
 {

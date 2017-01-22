@@ -2,8 +2,6 @@
 // ReSharper disable UnusedMember.Global
 
 using System.Diagnostics;
-using RGB.NET.Core.Extensions;
-using RGB.NET.Core.MVVM;
 
 namespace RGB.NET.Core
 {
@@ -76,17 +74,17 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Point" /> equivalent to this <see cref="Point" />; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            Point compareColor = obj as Point;
-            if (ReferenceEquals(compareColor, null))
+            Point comparePoint = obj as Point;
+            if (ReferenceEquals(comparePoint, null))
                 return false;
 
-            if (ReferenceEquals(this, compareColor))
+            if (ReferenceEquals(this, comparePoint))
                 return true;
 
-            if (GetType() != compareColor.GetType())
+            if (GetType() != comparePoint.GetType())
                 return false;
 
-            return X.EqualsInTolerance(compareColor.X) && Y.EqualsInTolerance(compareColor.Y);
+            return X.EqualsInTolerance(comparePoint.X) && Y.EqualsInTolerance(comparePoint.Y);
         }
 
         /// <summary>

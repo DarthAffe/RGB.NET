@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Core.ColorCorrection
+﻿// ReSharper disable UnusedMember.Global
+
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a generic color-correction.

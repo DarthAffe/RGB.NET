@@ -46,18 +46,27 @@
     <Compile Include="Brushes\BrushRenderTarget.cs" />
     <Compile Include="Brushes\IBrush.cs" />
     <Compile Include="ColorCorrection\IColorCorrection.cs" />
+    <Compile Include="Devices\AbstractRGBDevice.cs" />
+    <Compile Include="Devices\IRGBDeviceInfo.cs" />
     <Compile Include="Effects\IEffect.cs" />
     <Compile Include="Effects\IEffectTarget.cs" />
-    <Compile Include="ILedId.cs" />
+    <Compile Include="Events\ExceptionEventArgs.cs" />
+    <Compile Include="Events\LedsUpdatedEventArgs.cs" />
+    <Compile Include="Events\LedsUpdatingEventArgs.cs" />
+    <Compile Include="Events\UpdatedEventArgs.cs" />
+    <Compile Include="Events\UpdatingEventArgs.cs" />
+    <Compile Include="Leds\ILedId.cs" />
+    <Compile Include="Surfaces\IRGBSurface.cs" />
     <Compile Include="MVVM\AbstractBindable.cs" />
-    <Compile Include="Color.cs" />
+    <Compile Include="Leds\Color.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Devices\IRGBDevice.cs" />
-    <Compile Include="Led.cs" />
+    <Compile Include="Leds\Led.cs" />
     <Compile Include="Positioning\Point.cs" />
     <Compile Include="Positioning\Size.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Positioning\Rectangle.cs" />
+    <Compile Include="Surfaces\RGBSurface.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

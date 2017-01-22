@@ -1,7 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace RGB.NET.Core.Brushes
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a single target of a brush render.
