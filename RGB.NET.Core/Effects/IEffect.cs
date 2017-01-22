@@ -24,7 +24,7 @@ namespace RGB.NET.Core
         /// Updates this <see cref="IEffect"/>.
         /// </summary>
         /// <param name="deltaTime">The elapsed time (in seconds) since the last update.</param>
-        void Update(float deltaTime);
+        void Update(double deltaTime);
 
         #endregion
     }

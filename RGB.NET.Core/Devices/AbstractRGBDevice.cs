@@ -38,7 +38,7 @@ namespace RGB.NET.Core
         Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
 
         /// <inheritdoc />
-        IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, float minOverlayPercentage]
+        IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
             => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.LedRectangle) >= minOverlayPercentage)
         ;
 

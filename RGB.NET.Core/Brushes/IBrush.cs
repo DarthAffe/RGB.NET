@@ -19,12 +19,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets or sets the overall percentage brightness of the <see cref="IBrush"/>.
         /// </summary>
-        float Brightness { get; set; }
+        double Brightness { get; set; }
 
         /// <summary>
         /// Gets or sets the overall percentage opacity of the <see cref="IBrush"/>.
         /// </summary>
-        float Opacity { get; set; }
+        double Opacity { get; set; }
 
         /// <summary>
         /// Gets a list of <see cref="IColorCorrection"/> used to correct the colors of the <see cref="IBrush"/>.
