@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains list of different types of device.
     /// </summary>
-    public enum DeviceType
+    public enum RGBDeviceType
     {
         /// <summary>
         /// Represents a device where the type is not known or not present in the list.

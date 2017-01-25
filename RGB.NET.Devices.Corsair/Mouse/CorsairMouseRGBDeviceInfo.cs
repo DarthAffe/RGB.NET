@@ -24,7 +24,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceIndex">The index of the <see cref="CorsairMouseRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
         internal CorsairMouseRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
-            : base(deviceIndex, Core.DeviceType.Mouse, nativeInfo)
+            : base(deviceIndex, Core.RGBDeviceType.Mouse, nativeInfo)
         {
             this.PhysicalLayout = (CorsairPhysicalMouseLayout)nativeInfo.physicalLayout;
         }

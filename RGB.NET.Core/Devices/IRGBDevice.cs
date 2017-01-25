@@ -5,7 +5,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic RGB-device
     /// </summary>
-    public interface IRGBDevice : IEnumerable<Led>
+    public interface IRGBDevice : IEnumerable<Led>, IBindable
     {
         #region Properties
 
@@ -15,9 +15,14 @@ namespace RGB.NET.Core
         IRGBDeviceInfo DeviceInfo { get; }
 
         /// <summary>
-        /// Gets the <see cref="Rectangle"/> representing the whole <see cref="IRGBDevice"/>.
+        /// Gets or sets the location of the <see cref="IRGBDevice"/>.
         /// </summary>
-        Rectangle DeviceRectangle { get; }
+        Point Location { get; set; }
+
+        /// <summary>
+        /// Gets a copy of the <see cref="Size"/> of the whole <see cref="IRGBDevice"/>.
+        /// </summary>
+        Size Size { get; }
 
         #endregion
 
@@ -48,7 +53,7 @@ namespace RGB.NET.Core
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Perform an update for all dirty <see cref="Led"/>, or all <see cref="Led"/> if flushLeds is set to true.
         /// </summary>

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
@@ -10,9 +13,14 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a device provider responsible for corsair (CUE) devices.
     /// </summary>
-    public class CorsairDeviceProvider : IDeviceProvider
+    public class CorsairDeviceProvider : IRGBDeviceProvider
     {
         #region Properties & Fields
+
+        /// <summary>
+        /// Gets the singleton <see cref="CorsairDeviceProvider"/> instance.
+        /// </summary>
+        public static CorsairDeviceProvider Instance { get; } = new CorsairDeviceProvider();
 
         /// <summary>
         /// Indicates if the SDK is initialized and ready to use.
@@ -41,6 +49,13 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; }
+
+        #endregion
+
+        #region Constructors
+
+        private CorsairDeviceProvider()
+        { }
 
         #endregion
 
@@ -109,7 +124,7 @@ namespace RGB.NET.Devices.Corsair
             {
                 _CorsairDeviceInfo nativeDeviceInfo =
                     (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo));
-                CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, DeviceType.Unknown, nativeDeviceInfo);
+                CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, RGBDeviceType.Unknown, nativeDeviceInfo);
                 if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
                     continue; // Everything that doesn't support lighting control is useless
 

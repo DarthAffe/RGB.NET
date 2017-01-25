@@ -105,20 +105,26 @@ namespace RGB.NET.Core
         /// <param name="rectangles">The list of <see cref="Rectangle"/> used to calculate the <see cref="Location"/> and <see cref="Size"/></param>
         public Rectangle(IEnumerable<Rectangle> rectangles)
         {
+            bool hasPoint = false;
             double posX = double.MaxValue;
             double posY = double.MaxValue;
             double posX2 = double.MinValue;
             double posY2 = double.MinValue;
 
-            foreach (Rectangle rectangle in rectangles)
-            {
-                posX = Math.Min(posX, rectangle.Location.X);
-                posY = Math.Min(posY, rectangle.Location.Y);
-                posX2 = Math.Max(posX2, rectangle.Location.X + rectangle.Size.Width);
-                posY2 = Math.Max(posY2, rectangle.Location.Y + rectangle.Size.Height);
-            }
+            if (rectangles != null)
+                foreach (Rectangle rectangle in rectangles)
+                {
+                    hasPoint = true;
+                    posX = Math.Min(posX, rectangle.Location.X);
+                    posY = Math.Min(posY, rectangle.Location.Y);
+                    posX2 = Math.Max(posX2, rectangle.Location.X + rectangle.Size.Width);
+                    posY2 = Math.Max(posY2, rectangle.Location.Y + rectangle.Size.Height);
+                }
 
-            InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2));
+            if (hasPoint)
+                InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2));
+            else
+                InitializeFromPoints(new Point(0, 0), new Point(0, 0));
         }
 
         /// <summary>
@@ -138,20 +144,26 @@ namespace RGB.NET.Core
         public Rectangle(IEnumerable<Point> points)
             : this()
         {
+            bool hasPoint = false;
             double posX = double.MaxValue;
             double posY = double.MaxValue;
             double posX2 = double.MinValue;
             double posY2 = double.MinValue;
 
-            foreach (Point point in points)
+            if (points != null)
+                foreach (Point point in points)
             {
+                hasPoint = true;
                 posX = Math.Min(posX, point.X);
                 posY = Math.Min(posY, point.Y);
                 posX2 = Math.Max(posX2, point.X);
                 posY2 = Math.Max(posY2, point.Y);
             }
 
-            InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2));
+            if (hasPoint)
+                InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2));
+            else
+                InitializeFromPoints(new Point(0, 0), new Point(0, 0));
         }
 
         #endregion

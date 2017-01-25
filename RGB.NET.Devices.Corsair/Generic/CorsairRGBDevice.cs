@@ -15,9 +15,8 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         public override IRGBDeviceInfo DeviceInfo { get; }
 
-        private Rectangle _deviceRectangle;
         /// <inheritdoc />
-        public override Rectangle DeviceRectangle => _deviceRectangle;
+        protected override Size InternalSize { get; set; }
 
         #endregion
 
@@ -43,7 +42,8 @@ namespace RGB.NET.Devices.Corsair
         {
             InitializeLeds();
 
-            _deviceRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+            Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+            InternalSize = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
         }
 
         /// <summary>

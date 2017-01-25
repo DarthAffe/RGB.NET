@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a Id of a <see cref="Led"/> on a <see cref="CorsairRGBDevice"/>.
     /// </summary>
-    [DebuggerDisplay("{_ledId}")]
+    [DebuggerDisplay("{" + nameof(_ledId) + "}")]
     public class CorsairLedId : ILedId
     {
         #region Properties & Fields

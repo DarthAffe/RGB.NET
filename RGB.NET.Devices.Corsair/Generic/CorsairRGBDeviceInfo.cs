@@ -23,7 +23,7 @@ namespace RGB.NET.Devices.Corsair
         public int CorsairDeviceIndex { get; }
 
         /// <inheritdoc />
-        public DeviceType DeviceType { get; }
+        public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
         public string Manufacturer => "Corsair";
@@ -46,7 +46,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceIndex">The index of the <see cref="CorsairRGBDevice"/>.</param>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
-        internal CorsairRGBDeviceInfo(int deviceIndex, DeviceType deviceType, _CorsairDeviceInfo nativeInfo)
+        internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo)
         {
             this.CorsairDeviceIndex = deviceIndex;
             this.DeviceType = deviceType;

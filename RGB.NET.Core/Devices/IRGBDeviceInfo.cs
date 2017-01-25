@@ -8,9 +8,9 @@
         #region Properties & Fields
 
         /// <summary>
-        /// Gets the <see cref="Core.DeviceType"/> of the <see cref="IRGBDevice"/>.
+        /// Gets the <see cref="RGBDeviceType"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
-        DeviceType DeviceType { get; }
+        RGBDeviceType DeviceType { get; }
 
         /// <summary>
         /// Gets the manufacturer-name of the <see cref="IRGBDevice"/>.

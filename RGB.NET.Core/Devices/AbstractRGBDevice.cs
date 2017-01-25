@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +10,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic RGB-device
     /// </summary>
-    public abstract class AbstractRGBDevice : IRGBDevice
+    public abstract class AbstractRGBDevice : AbstractBindable, IRGBDevice
     {
         #region Properties & Fields
 
@@ -15,7 +18,20 @@ namespace RGB.NET.Core
         public abstract IRGBDeviceInfo DeviceInfo { get; }
 
         /// <inheritdoc />
-        public abstract Rectangle DeviceRectangle { get; }
+        public Size Size => new Size(InternalSize?.Width ?? 0, InternalSize?.Height ?? 0);
+
+        /// <summary>
+        /// Gets the <see cref="Size"/> of the whole <see cref="IRGBDevice"/>.
+        /// </summary>
+        protected abstract Size InternalSize { get; set; }
+
+        private Point _location = new Point();
+        /// <inheritdoc />
+        public Point Location
+        {
+            get { return _location; }
+            set { SetProperty(ref _location, value ?? new Point()); }
+        }
 
         /// <summary>
         /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
@@ -39,8 +55,7 @@ namespace RGB.NET.Core
 
         /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
-            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.LedRectangle) >= minOverlayPercentage)
-        ;
+            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.LedRectangle) >= minOverlayPercentage);
 
         #endregion
 

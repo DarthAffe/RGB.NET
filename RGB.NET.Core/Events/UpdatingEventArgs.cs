@@ -6,7 +6,7 @@ using System;
 namespace RGB.NET.Core
 {
     /// <summary>
-    /// Represents the information supplied with an <see cref="IRGBSurface.Updating"/>-event.
+    /// Represents the information supplied with an <see cref="RGBSurface.Updating"/>-event.
     /// </summary>
     public class UpdatingEventArgs : EventArgs
     {

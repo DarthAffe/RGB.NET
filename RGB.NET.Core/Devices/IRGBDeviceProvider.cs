@@ -5,7 +5,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic device provider.
     /// </summary>
-    public interface IDeviceProvider
+    public interface IRGBDeviceProvider
     {
         #region Properties & Fields
 
@@ -15,7 +15,7 @@ namespace RGB.NET.Core
         bool IsInitialized { get; }
 
         /// <summary>
-        /// Gets a list of <see cref="IRGBDevice"/> loaded by this <see cref="IDeviceProvider"/>.
+        /// Gets a list of <see cref="IRGBDevice"/> loaded by this <see cref="IRGBDeviceProvider"/>.
         /// </summary>
         IEnumerable<IRGBDevice> Devices { get; }
 
@@ -27,9 +27,9 @@ namespace RGB.NET.Core
         #endregion
 
         #region Methods
-
+        
         /// <summary>
-        /// Initializes the <see cref="IDeviceProvider"/> if not already happened or reloads it if it is already initialized.
+        /// Initializes the <see cref="IRGBDeviceProvider"/> if not already happened or reloads it if it is already initialized.
         /// </summary>
         /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
         /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>

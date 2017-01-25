@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceIndex">The index if the <see cref="CorsairMousematRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
         internal CorsairMousematRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
-            : base(deviceIndex, Core.DeviceType.Mousemat, nativeInfo)
+            : base(deviceIndex, Core.RGBDeviceType.Mousemat, nativeInfo)
         { }
 
         #endregion

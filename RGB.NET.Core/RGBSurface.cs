@@ -1,42 +1,42 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace RGB.NET.Core
 {
     /// <summary>
-    /// Represents a generic RGB-surface.
+    /// Represents a RGB-surface containing multiple devices.
     /// </summary>
-    public class RGBSurface : AbstractLedGroup, IRGBSurface
+    public static partial class RGBSurface
     {
         #region Properties & Fields
 
-        private DateTime _lastUpdate;
+        private static DateTime _lastUpdate;
 
-        /// <inheritdoc />
-        public Dictionary<IRGBDevice, Point> Devices { get; } = new Dictionary<IRGBDevice, Point>();
+        private static IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
+        private static IList<IRGBDevice> _devices = new List<IRGBDevice>();
+        
+        // ReSharper disable InconsistentNaming
 
-        private readonly LinkedList<ILedGroup> _ledGroups = new LinkedList<ILedGroup>();
+        private static readonly LinkedList<ILedGroup> _ledGroups = new LinkedList<ILedGroup>();
 
-        /// <inheritdoc />
-        public Rectangle SurfaceRectangle => new Rectangle(Devices.Select(x => x.Key.DeviceRectangle));
+        private static readonly Rectangle _surfaceRectangle = new Rectangle();
 
-        #endregion
+        // ReSharper restore InconsistentNaming
 
-        #region Events
+        /// <summary>
+        /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
+        /// </summary>
+        public static IEnumerable<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(_devices);
 
-        // ReSharper disable EventNeverSubscribedTo.Global
-
-        /// <inheritdoc />
-        public event ExceptionEventHandler Exception;
-
-        /// <inheritdoc />
-        public event UpdatingEventHandler Updating;
-
-        /// <inheritdoc />
-        public event UpdatedEventHandler Updated;
-
-        // ReSharper restore EventNeverSubscribedTo.Global
+        /// <summary>
+        /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.
+        /// </summary>
+        public static Rectangle SurfaceRectangle => new Rectangle(_surfaceRectangle);
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="RGBSurface"/> class.
         /// </summary>
-        public RGBSurface()
+        static RGBSurface()
         {
             _lastUpdate = DateTime.Now;
         }
@@ -54,8 +54,11 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        /// <inheritdoc />
-        public void Update(bool flushLeds = false)
+        /// <summary>
+        /// Perform an update for all dirty <see cref="Led"/>, or all <see cref="Led"/>, if flushLeds is set to true.
+        /// </summary>
+        /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
+        public static void Update(bool flushLeds = false)
         {
             OnUpdating();
 
@@ -66,12 +69,11 @@ namespace RGB.NET.Core
                     ledGroup.UpdateEffects();
 
                 // Render brushes
-                Render(this);
                 foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
                     Render(ledGroup);
             }
 
-            foreach (IRGBDevice device in Devices.Keys)
+            foreach (IRGBDevice device in Devices)
                 device.Update(flushLeds);
 
             OnUpdated();
@@ -81,7 +83,7 @@ namespace RGB.NET.Core
         /// Renders a ledgroup.
         /// </summary>
         /// <param name="ledGroup">The led group to render.</param>
-        private void Render(ILedGroup ledGroup)
+        private static void Render(ILedGroup ledGroup)
         {
             IList<Led> leds = ledGroup.GetLeds().ToList();
             IBrush brush = ledGroup.Brush;
@@ -118,24 +120,11 @@ namespace RGB.NET.Core
             }
         }
 
-        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset = null)
+        private static Rectangle GetDeviceLedLocation(Led led, Point extraOffset = null)
         {
-            Point deviceLocation;
-            if (!Devices.TryGetValue(led.Device, out deviceLocation))
-                deviceLocation = new Point();
-
             return extraOffset != null
-                       ? new Rectangle(led.LedRectangle.Location + deviceLocation + extraOffset, led.LedRectangle.Size)
-                       : new Rectangle(led.LedRectangle.Location + deviceLocation, led.LedRectangle.Size);
-        }
-
-        /// <inheritdoc />
-        public void PositionDevice(IRGBDevice device, Point location)
-        {
-            if (device == null) return;
-
-            lock (Devices)
-                Devices[device] = location ?? new Point();
+                       ? new Rectangle(led.LedRectangle.Location + led.Device.Location + extraOffset, led.LedRectangle.Size)
+                       : new Rectangle(led.LedRectangle.Location + led.Device.Location, led.LedRectangle.Size);
         }
 
         /// <summary>
@@ -143,9 +132,8 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
-        public bool AttachLedGroup(ILedGroup ledGroup)
+        public static bool AttachLedGroup(ILedGroup ledGroup)
         {
-            if (ledGroup is IRGBSurface) return false;
             if (ledGroup == null) return false;
 
             lock (_ledGroups)
@@ -162,9 +150,8 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to detached.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
-        public bool DetachLedGroup(ILedGroup ledGroup)
+        public static bool DetachLedGroup(ILedGroup ledGroup)
         {
-            if (ledGroup is IRGBSurface) return false;
             if (ledGroup == null) return false;
 
             lock (_ledGroups)
@@ -177,63 +164,13 @@ namespace RGB.NET.Core
             }
         }
 
-        /// <inheritdoc />
-        public override IEnumerable<Led> GetLeds()
+        private static void UpdateSurfaceRectangle()
         {
-            return Devices.SelectMany(d => d.Key);
+            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => new Rectangle(d.Location, d.Size)));
+
+            _surfaceRectangle.Size.Width = devicesRectangle.Location.X + devicesRectangle.Size.Width;
+            _surfaceRectangle.Size.Height = devicesRectangle.Location.Y + devicesRectangle.Size.Height;
         }
-
-        #region EventCaller
-
-        /// <summary>
-        /// Handles the needed event-calls for an exception.
-        /// </summary>
-        /// <param name="ex">The exception previously thrown.</param>
-        protected virtual void OnException(Exception ex)
-        {
-            try
-            {
-                Exception?.Invoke(this, new ExceptionEventArgs(ex));
-            }
-            catch
-            {
-                // Well ... that's not my fault
-            }
-        }
-
-        /// <summary>
-        /// Handles the needed event-calls before updating.
-        /// </summary>
-        protected virtual void OnUpdating()
-        {
-            try
-            {
-                long lastUpdateTicks = _lastUpdate.Ticks;
-                _lastUpdate = DateTime.Now;
-                Updating?.Invoke(this, new UpdatingEventArgs((DateTime.Now.Ticks - lastUpdateTicks) / 10000000.0));
-            }
-            catch
-            {
-                // Well ... that's not my fault
-            }
-        }
-
-        /// <summary>
-        /// Handles the needed event-calls after an update.
-        /// </summary>
-        protected virtual void OnUpdated()
-        {
-            try
-            {
-                Updated?.Invoke(this, new UpdatedEventArgs());
-            }
-            catch
-            {
-                // Well ... that's not my fault
-            }
-        }
-
-        #endregion
 
         #endregion
     }

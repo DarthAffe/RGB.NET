@@ -6,7 +6,7 @@ using System;
 namespace RGB.NET.Core
 {
     /// <summary>
-    /// Represents the information supplied with an <see cref="IRGBSurface.Exception"/>-event.
+    /// Represents the information supplied with an <see cref="RGBSurface.Exception"/>-event.
     /// </summary>
     public class ExceptionEventArgs : EventArgs
     {

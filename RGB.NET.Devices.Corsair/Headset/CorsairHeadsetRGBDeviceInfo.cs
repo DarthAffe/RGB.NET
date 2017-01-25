@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceIndex">The index of the <see cref="CorsairHeadsetRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
         internal CorsairHeadsetRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
-            : base(deviceIndex, Core.DeviceType.Headset, nativeInfo)
+            : base(deviceIndex, Core.RGBDeviceType.Headset, nativeInfo)
         { }
 
         #endregion
