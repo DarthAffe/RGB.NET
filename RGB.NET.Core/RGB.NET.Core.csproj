@@ -75,6 +75,8 @@
     <Compile Include="RGBSurface.cs" />
     <Compile Include="RGBSurfaceDeviceEvents.cs" />
     <Compile Include="RGBSurfaceDeviceLoader.cs" />
+    <Compile Include="RGBSurfaceUpdater.cs" />
+    <Compile Include="UpdateMode.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
