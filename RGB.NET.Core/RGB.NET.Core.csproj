@@ -51,7 +51,9 @@
     <Compile Include="Devices\RGBDeviceType.cs" />
     <Compile Include="Devices\IRGBDeviceProvider.cs" />
     <Compile Include="Devices\IRGBDeviceInfo.cs" />
+    <Compile Include="Effects\AbstractBrushEffect.cs" />
     <Compile Include="Effects\AbstractEffectTarget.cs" />
+    <Compile Include="Effects\AbstractLedGroupEffect.cs" />
     <Compile Include="Effects\EffectTimeContainer.cs" />
     <Compile Include="Effects\IEffect.cs" />
     <Compile Include="Effects\IEffectTarget.cs" />
