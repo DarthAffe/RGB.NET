@@ -40,8 +40,8 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         protected override void InitializeLeds()
         {
-            InitializeLed(new CorsairLedId(CorsairLedIds.LeftLogo), new Rectangle(0, 0, 10, 10));
-            InitializeLed(new CorsairLedId(CorsairLedIds.RightLogo), new Rectangle(10, 0, 10, 10));
+            InitializeLed(new CorsairLedId(this, CorsairLedIds.LeftLogo), new Rectangle(0, 0, 10, 10));
+            InitializeLed(new CorsairLedId(this, CorsairLedIds.RightLogo), new Rectangle(10, 0, 10, 10));
         }
 
         #endregion

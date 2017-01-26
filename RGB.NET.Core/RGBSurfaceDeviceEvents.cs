@@ -7,22 +7,28 @@ namespace RGB.NET.Core
         #region EventHandler
 
         /// <summary>
-        /// Represents the event-handler of the <see cref="RGBSurface.Exception"/>-event.
+        /// Represents the event-handler of the <see cref="Exception"/>-event.
         /// </summary>
         /// <param name="args">The arguments provided by the event.</param>
         public delegate void ExceptionEventHandler(ExceptionEventArgs args);
 
         /// <summary>
-        /// Represents the event-handler of the <see cref="RGBSurface.Updating"/>-event.
+        /// Represents the event-handler of the <see cref="Updating"/>-event.
         /// </summary>
         /// <param name="args">The arguments provided by the event.</param>
         public delegate void UpdatingEventHandler(UpdatingEventArgs args);
 
         /// <summary>
-        /// Represents the event-handler of the <see cref="RGBSurface.Updated"/>-event.
+        /// Represents the event-handler of the <see cref="Updated"/>-event.
         /// </summary>
         /// <param name="args">The arguments provided by the event.</param>
         public delegate void UpdatedEventHandler(UpdatedEventArgs args);
+
+        /// <summary>
+        /// Represents the event-handler of the <see cref="SurfaceLayoutChanged"/>-event.
+        /// </summary>
+        /// <param name="args"></param>
+        public delegate void SurfaceLayoutChangedEventHandler(SurfaceLayoutChangedEventArgs args);
 
         #endregion
 
@@ -44,6 +50,11 @@ namespace RGB.NET.Core
         /// Occurs when the <see cref="RGBSurface"/> update is done.
         /// </summary>
         public static event UpdatedEventHandler Updated;
+
+        /// <summary>
+        /// Occurs when the layout of this <see cref="RGBSurface"/> changed.
+        /// </summary>
+        public static event SurfaceLayoutChangedEventHandler SurfaceLayoutChanged;
 
         // ReSharper restore EventNeverSubscribedTo.Global
 

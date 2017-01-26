@@ -19,7 +19,7 @@ namespace RGB.NET.Core
 
         private static IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
         private static IList<IRGBDevice> _devices = new List<IRGBDevice>();
-        
+
         // ReSharper disable InconsistentNaming
 
         private static readonly LinkedList<ILedGroup> _ledGroups = new LinkedList<ILedGroup>();
@@ -37,6 +37,11 @@ namespace RGB.NET.Core
         /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.
         /// </summary>
         public static Rectangle SurfaceRectangle => new Rectangle(_surfaceRectangle);
+
+        /// <summary>
+        /// Gets a list of all <see cref="Led"/> on this <see cref="RGBSurface"/>.
+        /// </summary>
+        public static IEnumerable<Led> Leds => _devices.SelectMany(x => x);
 
         #endregion
 
@@ -141,6 +146,8 @@ namespace RGB.NET.Core
                 if (_ledGroups.Contains(ledGroup)) return false;
 
                 _ledGroups.AddLast(ledGroup);
+                ledGroup.OnAttach();
+
                 return true;
             }
         }
@@ -160,6 +167,8 @@ namespace RGB.NET.Core
                 if (node == null) return false;
 
                 _ledGroups.Remove(node);
+                node.Value.OnDetach();
+
                 return true;
             }
         }

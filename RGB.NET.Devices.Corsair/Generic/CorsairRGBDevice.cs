@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
@@ -50,6 +54,34 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes the <see cref="Led"/> of the device.
         /// </summary>
         protected abstract void InitializeLeds();
+
+        /// <inheritdoc />
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
+        {
+            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
+
+            if (leds.Count > 0) // CUE seems to crash if 'CorsairSetLedsColors' is called with a zero length array
+            {
+                int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
+                IntPtr ptr = Marshal.AllocHGlobal(structSize * leds.Count);
+                IntPtr addPtr = new IntPtr(ptr.ToInt64());
+                foreach (Led led in leds)
+                {
+                    _CorsairLedColor color = new _CorsairLedColor
+                    {
+                        ledId = (int)((CorsairLedId)led.Id).LedId,
+                        r = led.Color.R,
+                        g = led.Color.G,
+                        b = led.Color.B
+                    };
+
+                    Marshal.StructureToPtr(color, addPtr, false);
+                    addPtr = new IntPtr(addPtr.ToInt64() + structSize);
+                }
+                _CUESDK.CorsairSetLedsColors(leds.Count, ptr);
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
 
         #endregion
     }

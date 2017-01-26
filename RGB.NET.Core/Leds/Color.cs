@@ -278,9 +278,9 @@ namespace RGB.NET.Core
             if (color.A == 255)
             {
                 A = color.A;
-                R = color.A;
-                G = color.A;
-                B = color.A;
+                R = color.R;
+                G = color.G;
+                B = color.B;
             }
             else
             {

@@ -70,9 +70,11 @@ namespace RGB.NET.Core
             DeviceUpdate();
 
             // Send LEDs to SDK
-            IEnumerable<Led> ledsToUpdate = flushLeds ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty);
+            IEnumerable<Led> ledsToUpdate = (flushLeds ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).ToList();
             foreach (Led ledToUpdate in ledsToUpdate)
                 ledToUpdate.Update();
+
+            UpdateLeds(ledsToUpdate);
         }
 
         /// <summary>
@@ -80,6 +82,11 @@ namespace RGB.NET.Core
         /// </summary>
         protected virtual void DeviceUpdate()
         { }
+
+        /// <summary>
+        /// Sends all the updated <see cref="Led"/> to the device.
+        /// </summary>
+        protected abstract void UpdateLeds(IEnumerable<Led> ledsToUpdate);
 
         /// <summary>
         /// Initializes the <see cref="Led"/> with the specified id.

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brushes\AbstractBrush.cs" />
     <Compile Include="Brushes\BrushCalculationMode.cs" />
     <Compile Include="Brushes\BrushRenderTarget.cs" />
     <Compile Include="Brushes\IBrush.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Effects\IEffect.cs" />
     <Compile Include="Effects\IEffectTarget.cs" />
     <Compile Include="Events\ExceptionEventArgs.cs" />
+    <Compile Include="Events\SurfaceLayoutChangedEventArgs.cs" />
     <Compile Include="Events\UpdatedEventArgs.cs" />
     <Compile Include="Events\UpdatingEventArgs.cs" />
     <Compile Include="Exceptions\EffectException.cs" />

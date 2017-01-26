@@ -16,6 +16,7 @@ namespace RGB.NET.Core
         {
             if (_deviceProvider.Contains(deviceProvider) || _deviceProvider.Any(x => x.GetType() == deviceProvider.GetType())) return;
 
+            IRGBDevice addedDevice = null;
             if (deviceProvider.IsInitialized || deviceProvider.Initialize())
             {
                 _deviceProvider.Add(deviceProvider);
@@ -24,18 +25,27 @@ namespace RGB.NET.Core
                 {
                     if (_devices.Contains(device)) continue;
 
+                    addedDevice = device;
+
                     device.PropertyChanged += DeviceOnPropertyChanged;
                     _devices.Add(device);
                 }
             }
 
-            UpdateSurfaceRectangle();
+            if (addedDevice != null)
+            {
+                UpdateSurfaceRectangle();
+                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(addedDevice, true, false));
+            }
         }
 
         private static void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (string.Equals(propertyChangedEventArgs.PropertyName, nameof(IRGBDevice.Location)))
+            {
+                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(sender as IRGBDevice, false, true));
                 UpdateSurfaceRectangle();
+            }
         }
 
         #endregion

@@ -59,7 +59,8 @@ namespace RGB.NET.Core
             {
                 if (!IsLocked)
                 {
-                    RequestedColor.Blend(value);
+                    // DarthAffe 26.01.2017: DON'T USE THE PROPERTY HERE! Working on the copy doesn't work!
+                    _requestedColor.Blend(value);
 
                     // ReSharper disable ExplicitCallerInfoArgument
                     OnPropertyChanged(nameof(RequestedColor));

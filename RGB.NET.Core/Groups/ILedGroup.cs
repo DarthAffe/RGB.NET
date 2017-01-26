@@ -25,5 +25,15 @@ namespace RGB.NET.Core
         /// </summary>
         /// <returns>The list containing all <see cref="Led"/> of this <see cref="ILedGroup"/>.</returns>
         IEnumerable<Led> GetLeds();
+
+        /// <summary>
+        /// Called when the <see cref="ILedId"/> is attached to the <see cref="RGBSurface"/>.
+        /// </summary>
+        void OnAttach();
+
+        /// <summary>
+        /// Called when the <see cref="ILedId"/> is detached from the <see cref="RGBSurface"/>.
+        /// </summary>
+        void OnDetach();
     }
 }

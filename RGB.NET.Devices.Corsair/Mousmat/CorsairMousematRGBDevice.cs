@@ -62,7 +62,7 @@ namespace RGB.NET.Devices.Corsair
             }
 
             foreach (_CorsairLedPosition ledPosition in positions.OrderBy(p => p.ledId))
-                InitializeLed(new CorsairLedId(ledPosition.ledId),
+                InitializeLed(new CorsairLedId(this, ledPosition.ledId),
                               new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
         }
 

@@ -6,15 +6,18 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a Id of a <see cref="Led"/> on a <see cref="CorsairRGBDevice"/>.
     /// </summary>
-    [DebuggerDisplay("{" + nameof(_ledId) + "}")]
+    [DebuggerDisplay("{" + nameof(LedId) + "}")]
     public class CorsairLedId : ILedId
     {
         #region Properties & Fields
 
-        private readonly CorsairLedIds _ledId;
+        internal readonly CorsairLedIds LedId;
 
         /// <inheritdoc />
-        public bool IsValid => _ledId != CorsairLedIds.Invalid;
+        public IRGBDevice Device { get; }
+
+        /// <inheritdoc />
+        public bool IsValid => LedId != CorsairLedIds.Invalid;
 
         #endregion
 
@@ -23,10 +26,12 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Initializes a new instance of the <see cref="CorsairLedId"/> class.
         /// </summary>
-        /// <param name="ledId">The corsair-id of the represented <see cref="Led"/>.</param>
-        public CorsairLedId(CorsairLedIds ledId)
+        /// <param name="device">The <see cref="IRGBDevice"/> the <see cref="ILedId"/> belongs to.</param>
+        /// <param name="ledId">The <see cref="CorsairLedId"/> of the represented <see cref="Led"/>.</param>
+        public CorsairLedId(IRGBDevice device, CorsairLedIds ledId)
         {
-            this._ledId = ledId;
+            this.Device = device;
+            this.LedId = ledId;
         }
 
         #endregion
@@ -39,7 +44,7 @@ namespace RGB.NET.Devices.Corsair
         /// <returns>A string that contains the Id of this <see cref="CorsairLedId"/>. For example "Enter".</returns>
         public override string ToString()
         {
-            return _ledId.ToString();
+            return LedId.ToString();
         }
 
         /// <summary>
@@ -59,7 +64,7 @@ namespace RGB.NET.Devices.Corsair
             if (GetType() != compareLedId.GetType())
                 return false;
 
-            return compareLedId._ledId == _ledId;
+            return compareLedId.LedId == LedId;
         }
 
         /// <summary>
@@ -68,7 +73,7 @@ namespace RGB.NET.Devices.Corsair
         /// <returns>An integer value that specifies the hash code for this <see cref="CorsairLedId" />.</returns>
         public override int GetHashCode()
         {
-            return _ledId.GetHashCode();
+            return LedId.GetHashCode();
         }
 
         #endregion

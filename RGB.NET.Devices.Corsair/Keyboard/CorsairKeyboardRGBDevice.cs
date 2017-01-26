@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.Corsair
             for (int i = 0; i < nativeLedPositions.numberOfLed; i++)
             {
                 _CorsairLedPosition ledPosition = (_CorsairLedPosition)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
-                InitializeLed(new CorsairLedId(ledPosition.ledId),
+                InitializeLed(new CorsairLedId(this, ledPosition.ledId),
                               new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
 
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
