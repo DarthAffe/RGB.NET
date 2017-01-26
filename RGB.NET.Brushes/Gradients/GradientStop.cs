@@ -1,0 +1,42 @@
+﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
+
+using RGB.NET.Core;
+
+namespace RGB.NET.Brushes.Gradients
+{
+    /// <summary>
+    /// Represents a stop on a gradient.
+    /// </summary>
+    public class GradientStop
+    {
+        #region Properties & Fields
+
+        /// <summary>
+        /// Gets or sets the percentage offset to place this <see cref="GradientStop"/>. This should be inside the range of [0..1] but it's not necessary.
+        /// </summary>
+        public double Offset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Color"/> of this <see cref="GradientStop"/>.
+        /// </summary>
+        public Color Color { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GradientStop"/> class.
+        /// </summary>
+        /// <param name="offset">The percentage offset to place this <see cref="GradientStop"/>.</param>
+        /// <param name="color">The <see cref="Color"/> of the <see cref="GradientStop"/>.</param>
+        public GradientStop(double offset, Color color)
+        {
+            this.Offset = offset;
+            this.Color = color;
+        }
+
+        #endregion
+    }
+}
