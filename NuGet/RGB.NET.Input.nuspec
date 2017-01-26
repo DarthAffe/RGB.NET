@@ -19,6 +19,6 @@
     <file src="..\bin\RGB.NET.Input.dll" target="lib\net45\RGB.NET.Input.dll" />
     <file src="..\bin\RGB.NET.Input.pdb" target="lib\net45\RGB.NET.Input.pdb" />
     <file src="..\bin\RGB.NET.Input.xml" target="lib\net45\RGB.NET.Input.xml" />
-	<file src="..\RGB.NET.Input\**\*.cs" target="src" exclude="..\RGB.NET.Input\obj\**\*.*" />
+    <file src="..\RGB.NET.Input\**\*.cs" target="src" exclude="..\RGB.NET.Input\obj\**\*.*" />
   </files>
 </package>

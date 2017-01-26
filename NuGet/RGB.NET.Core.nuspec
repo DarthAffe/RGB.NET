@@ -19,6 +19,6 @@
     <file src="..\bin\RGB.NET.Core.dll" target="lib\net45\RGB.NET.Core.dll" />
     <file src="..\bin\RGB.NET.Core.pdb" target="lib\net45\RGB.NET.Core.pdb" />
     <file src="..\bin\RGB.NET.Core.xml" target="lib\net45\RGB.NET.Core.xml" />
-	<file src="..\RGB.NET.Core\**\*.cs" target="src" exclude="..\RGB.NET.Core\obj\**\*.*" />
+    <file src="..\RGB.NET.Core\**\*.cs" target="src" exclude="..\RGB.NET.Core\obj\**\*.*" />
   </files>
 </package>

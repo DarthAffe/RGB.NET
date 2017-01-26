@@ -14,11 +14,14 @@
     <summary>Group-Presets of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
     <copyright>Copyright © Wyrez 2017</copyright>
     <language>en-US</language>
+    <dependencies>
+      <dependency id="RGB.NET.Core" version="1.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="..\bin\RGB.NET.Groups.dll" target="lib\net45\RGB.NET.Groups.dll" />
     <file src="..\bin\RGB.NET.Groups.pdb" target="lib\net45\RGB.NET.Groups.pdb" />
     <file src="..\bin\RGB.NET.Groups.xml" target="lib\net45\RGB.NET.Groups.xml" />
-	<file src="..\RGB.NET.Groups\**\*.cs" target="src" exclude="..\RGB.NET.Groups\obj\**\*.*" />
+    <file src="..\RGB.NET.Groups\**\*.cs" target="src" exclude="..\RGB.NET.Groups\obj\**\*.*" />
   </files>
 </package>

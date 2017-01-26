@@ -14,11 +14,15 @@
     <summary>Effects-Presets of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
     <copyright>Copyright © Wyrez 2017</copyright>
     <language>en-US</language>
+    <dependencies>
+      <dependency id="RGB.NET.Core" version="1.0" />
+      <dependency id="RGB.NET.Brushes" version="1.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="..\bin\RGB.NET.Effects.dll" target="lib\net45\RGB.NET.Effects.dll" />
     <file src="..\bin\RGB.NET.Effects.pdb" target="lib\net45\RGB.NET.Effects.pdb" />
     <file src="..\bin\RGB.NET.Effects.xml" target="lib\net45\RGB.NET.Effects.xml" />
-	<file src="..\RGB.NET.Effects\**\*.cs" target="src" exclude="..\RGB.NET.Effects\obj\**\*.*" />
+    <file src="..\RGB.NET.Effects\**\*.cs" target="src" exclude="..\RGB.NET.Effects\obj\**\*.*" />
   </files>
 </package>
