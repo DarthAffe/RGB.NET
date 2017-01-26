@@ -28,6 +28,7 @@ namespace RGB.NET.Core
                     addedDevice = device;
 
                     device.PropertyChanged += DeviceOnPropertyChanged;
+                    device.Location.PropertyChanged += DeviceLocationOnPropertyChanged;
                     _devices.Add(device);
                 }
             }
@@ -45,7 +46,15 @@ namespace RGB.NET.Core
             {
                 SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(sender as IRGBDevice, false, true));
                 UpdateSurfaceRectangle();
+
+                ((IRGBDevice)sender).Location.PropertyChanged += DeviceLocationOnPropertyChanged;
             }
+        }
+
+        private static void DeviceLocationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(sender as IRGBDevice, false, true));
+            UpdateSurfaceRectangle();
         }
 
         #endregion
