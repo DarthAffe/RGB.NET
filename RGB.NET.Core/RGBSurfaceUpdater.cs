@@ -75,8 +75,7 @@ namespace RGB.NET.Core
             {
                 long preUpdateTicks = DateTime.Now.Ticks;
 
-                foreach (IRGBDevice device in _devices)
-                    device.Update();
+                Update();
 
                 int sleep = (int)((UpdateFrequency * 1000.0) - ((DateTime.Now.Ticks - preUpdateTicks) / 10000.0));
                 if (sleep > 0)
