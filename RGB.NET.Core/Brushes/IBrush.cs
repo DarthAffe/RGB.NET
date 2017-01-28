@@ -12,6 +12,11 @@ namespace RGB.NET.Core
     public interface IBrush : IEffectTarget<IBrush>
     {
         /// <summary>
+        /// Gets or sets if the <see cref="IBrush"/> is enabled and will be drawn on an update.
+        /// </summary>
+        bool IsEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets the calculation mode used for the rectangle/points used for color-selection in brushes.
         /// </summary>
         BrushCalculationMode BrushCalculationMode { get; set; }

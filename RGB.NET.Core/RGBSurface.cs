@@ -93,6 +93,8 @@ namespace RGB.NET.Core
             IList<Led> leds = ledGroup.GetLeds().ToList();
             IBrush brush = ledGroup.Brush;
 
+            if (!brush.IsEnabled) return;
+
             try
             {
                 switch (brush.BrushCalculationMode)

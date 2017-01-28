@@ -15,6 +15,9 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         /// <inheritdoc />
+        public bool IsEnabled { get; set; } = true;
+
+        /// <inheritdoc />
         public BrushCalculationMode BrushCalculationMode { get; set; } = BrushCalculationMode.Relative;
 
         /// <inheritdoc />

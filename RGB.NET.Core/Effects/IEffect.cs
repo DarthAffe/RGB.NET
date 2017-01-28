@@ -12,6 +12,11 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         /// <summary>
+        /// Gets or sets if the <see cref="IEffect"/> is enabled and will be updated.
+        /// </summary>
+        bool IsEnabled { get; set; }
+
+        /// <summary>
         /// Gets if this <see cref="IEffect"/> has finished all of his work.
         /// </summary>
         bool IsDone { get; }

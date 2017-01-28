@@ -13,6 +13,9 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         /// <inheritdoc />
+        public bool IsEnabled { get; set; } = true;
+
+        /// <inheritdoc />
         public bool IsDone { get; protected set; }
 
         /// <summary>
