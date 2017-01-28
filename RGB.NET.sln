@@ -35,7 +35,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566
 		NuGet\RGB.NET.Groups.nuspec = NuGet\RGB.NET.Groups.nuspec
 		NuGet\RGB.NET.Input.Corsair.nuspec = NuGet\RGB.NET.Input.Corsair.nuspec
 		NuGet\RGB.NET.Input.nuspec = NuGet\RGB.NET.Input.nuspec
+		NuGet\RGB.NET.WPF.nuspec = NuGet\RGB.NET.WPF.nuspec
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{BD7C9994-1747-4595-9C21-298E8FDCB657}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.WPF", "RGB.NET.WPF\RGB.NET.WPF.csproj", "{8D6C4FE6-0046-4E98-876F-4C0B87249989}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +76,10 @@ Global
 		{2A39F859-AAD0-4C16-94F8-78057820B376}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A39F859-AAD0-4C16-94F8-78057820B376}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A39F859-AAD0-4C16-94F8-78057820B376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6C4FE6-0046-4E98-876F-4C0B87249989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6C4FE6-0046-4E98-876F-4C0B87249989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6C4FE6-0046-4E98-876F-4C0B87249989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6C4FE6-0046-4E98-876F-4C0B87249989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +91,6 @@ Global
 		{C854766D-9C1D-474B-B5B8-249DF4A9E552} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{F905C418-76BB-4BA6-88AB-0793BC2681D3} = {C854766D-9C1D-474B-B5B8-249DF4A9E552}
 		{2A39F859-AAD0-4C16-94F8-78057820B376} = {FFBCAF88-6646-43EC-9F24-2D719D3779C8}
+		{8D6C4FE6-0046-4E98-876F-4C0B87249989} = {BD7C9994-1747-4595-9C21-298E8FDCB657}
 	EndGlobalSection
 EndGlobal

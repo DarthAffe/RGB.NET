@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E850CAF8-3E55-40C1-B0BE-30174391E55E}</ProjectGuid>
+    <ProjectGuid>{8D6C4FE6-0046-4E98-876F-4C0B87249989}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RGB.NET.Effects</RootNamespace>
-    <AssemblyName>RGB.NET.Effects</AssemblyName>
+    <RootNamespace>RGB.NET.WPF</RootNamespace>
+    <AssemblyName>RGB.NET.WPF</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Effects.XML</DocumentationFile>
+    <DocumentationFile>..\bin\RGB.NET.WPF.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,13 +29,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Effects.XML</DocumentationFile>
+    <DocumentationFile>..\bin\RGB.NET.WPF.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RGB.NET.Brushes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RGB.NET.Brushes.1.0.0\lib\net45\RGB.NET.Brushes.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="RGB.NET.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RGB.NET.Core.1.0.0\lib\net45\RGB.NET.Core.dll</HintPath>
       <Private>True</Private>
@@ -50,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Effects\FlashEffect.cs" />
-    <Compile Include="Effects\MoveGradientEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
