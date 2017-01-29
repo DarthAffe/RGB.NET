@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace RGB.NET.Core
@@ -16,7 +17,7 @@ namespace RGB.NET.Core
         {
             if (_deviceProvider.Contains(deviceProvider) || _deviceProvider.Any(x => x.GetType() == deviceProvider.GetType())) return;
 
-            IRGBDevice addedDevice = null;
+            List<IRGBDevice> addedDevices = new List<IRGBDevice>();
             if (deviceProvider.IsInitialized || deviceProvider.Initialize())
             {
                 _deviceProvider.Add(deviceProvider);
@@ -25,7 +26,7 @@ namespace RGB.NET.Core
                 {
                     if (_devices.Contains(device)) continue;
 
-                    addedDevice = device;
+                    addedDevices.Add(device);
 
                     device.PropertyChanged += DeviceOnPropertyChanged;
                     device.Location.PropertyChanged += DeviceLocationOnPropertyChanged;
@@ -33,10 +34,10 @@ namespace RGB.NET.Core
                 }
             }
 
-            if (addedDevice != null)
+            if (addedDevices.Any())
             {
                 UpdateSurfaceRectangle();
-                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(addedDevice, true, false));
+                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(addedDevices, true, false));
             }
         }
 
@@ -44,8 +45,8 @@ namespace RGB.NET.Core
         {
             if (string.Equals(propertyChangedEventArgs.PropertyName, nameof(IRGBDevice.Location)))
             {
-                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(sender as IRGBDevice, false, true));
                 UpdateSurfaceRectangle();
+                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(new[] { sender as IRGBDevice }, false, true));
 
                 ((IRGBDevice)sender).Location.PropertyChanged += DeviceLocationOnPropertyChanged;
             }
@@ -53,8 +54,8 @@ namespace RGB.NET.Core
 
         private static void DeviceLocationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(sender as IRGBDevice, false, true));
             UpdateSurfaceRectangle();
+            SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(new[] { sender as IRGBDevice }, false, true));
         }
 
         #endregion

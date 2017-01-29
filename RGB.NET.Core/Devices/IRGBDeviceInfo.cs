@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Core
+﻿using System;
+
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a generic information for a <see cref="IRGBDevice"/>
@@ -22,9 +24,10 @@
         /// </summary>
         string Model { get; }
 
-        #endregion
-
-        #region Methods
+        /// <summary>
+        /// Gets the URI of an image of the <see cref="IRGBDevice"/> or null if there is no image.
+        /// </summary>
+        Uri Image { get; }
 
         #endregion
     }

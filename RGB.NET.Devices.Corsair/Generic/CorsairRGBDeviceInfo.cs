@@ -31,6 +31,9 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <inheritdoc />
+        public Uri Image { get; protected set; }
+
         /// <summary>
         /// Gets a flag that describes device capabilities. (<see cref="CorsairDeviceCaps" />)
         /// </summary>

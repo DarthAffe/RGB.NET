@@ -1,4 +1,5 @@
-﻿using RGB.NET.Devices.Corsair.Native;
+﻿using System;
+using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
@@ -27,6 +28,8 @@ namespace RGB.NET.Devices.Corsair
             : base(deviceIndex, Core.RGBDeviceType.Mouse, nativeInfo)
         {
             this.PhysicalLayout = (CorsairPhysicalMouseLayout)nativeInfo.physicalLayout;
+
+            Image = new Uri($"pack://application:,,,/RGB.NET.Devices.Corsair;component/Images/Mice/{Model.Replace(" ", string.Empty).ToUpper()}.png", UriKind.Absolute);
         }
 
         #endregion

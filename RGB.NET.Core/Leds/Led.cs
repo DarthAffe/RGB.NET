@@ -116,6 +116,8 @@ namespace RGB.NET.Core
         internal void Update()
         {
             _color = RequestedColor;
+            // ReSharper disable once ExplicitCallerInfoArgument
+            OnPropertyChanged(nameof(Color));
         }
 
         /// <summary>
@@ -126,6 +128,9 @@ namespace RGB.NET.Core
             _color = Color.Transparent;
             RequestedColor = Color.Transparent;
             IsLocked = false;
+
+            // ReSharper disable once ExplicitCallerInfoArgument
+            OnPropertyChanged(nameof(Color));
         }
 
         #endregion

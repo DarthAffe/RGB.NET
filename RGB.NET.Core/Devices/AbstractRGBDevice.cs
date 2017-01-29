@@ -20,10 +20,20 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public Size Size => new Size(InternalSize?.Width ?? 0, InternalSize?.Height ?? 0);
 
+        private Size _internalSize;
         /// <summary>
         /// Gets the <see cref="Size"/> of the whole <see cref="IRGBDevice"/>.
         /// </summary>
-        protected abstract Size InternalSize { get; set; }
+        protected Size InternalSize
+        {
+            get { return _internalSize; }
+            set
+            {
+                // ReSharper disable once ExplicitCallerInfoArgument
+                if (SetProperty(ref _internalSize, value))
+                    OnPropertyChanged(nameof(Size));
+            }
+        }
 
         private Point _location = new Point();
         /// <inheritdoc />

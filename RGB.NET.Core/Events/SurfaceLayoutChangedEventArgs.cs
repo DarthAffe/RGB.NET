@@ -2,6 +2,7 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 using System;
+using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
@@ -15,7 +16,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the <see cref="IRGBDevice"/> that caused the change. Returns null if the change isn't caused by a <see cref="IRGBDevice"/>.
         /// </summary>
-        public IRGBDevice Device { get; }
+        public IEnumerable<IRGBDevice> Devices { get; }
 
         /// <summary>
         /// Gets a value indicating if the event is caused by the addition of a new <see cref="IRGBDevice"/> to the <see cref="RGBSurface"/>.
@@ -34,12 +35,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="SurfaceLayoutChangedEventArgs"/> class.
         /// </summary>
-        /// <param name="device">The <see cref="IRGBDevice"/> that caused the change</param>
+        /// <param name="devices">The <see cref="IRGBDevice"/> that caused the change.</param>
         /// <param name="deviceAdded">A value indicating if the event is caused by the addition of a new <see cref="IRGBDevice"/> to the <see cref="RGBSurface"/>.</param>
         /// <param name="deviceLocationChanged">A value indicating if the event is caused by a changed location of one of the devices on the <see cref="RGBSurface"/>.</param>
-        public SurfaceLayoutChangedEventArgs(IRGBDevice device, bool deviceAdded, bool deviceLocationChanged)
+        public SurfaceLayoutChangedEventArgs(IEnumerable<IRGBDevice> devices, bool deviceAdded, bool deviceLocationChanged)
         {
-            this.Device = device;
+            this.Devices = devices;
             this.DeviceAdded = deviceAdded;
             this.DeviceLocationChanged = deviceLocationChanged;
         }

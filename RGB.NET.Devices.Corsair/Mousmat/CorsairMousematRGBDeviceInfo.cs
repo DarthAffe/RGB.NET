@@ -1,4 +1,5 @@
-﻿using RGB.NET.Devices.Corsair.Native;
+﻿using System;
+using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
@@ -16,7 +17,9 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
         internal CorsairMousematRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
             : base(deviceIndex, Core.RGBDeviceType.Mousemat, nativeInfo)
-        { }
+        {
+            Image = new Uri($"pack://application:,,,/RGB.NET.Devices.Corsair;component/Images/Mousemat/{Model.Replace(" ", string.Empty).ToUpper()}.png", UriKind.Absolute);
+        }
 
         #endregion
     }
