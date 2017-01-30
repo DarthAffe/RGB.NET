@@ -1,7 +1,7 @@
 ﻿namespace RGB.NET.Core
 {
     /// <summary>
-    /// Contains list of different types of device.
+    /// Contains a list of different types of device.
     /// </summary>
     public enum RGBDeviceType
     {
