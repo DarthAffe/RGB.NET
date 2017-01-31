@@ -85,10 +85,14 @@
     <None Include="libs\x86\CUESDK_2015.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\Headsets\" />
-    <Folder Include="Images\Keyboards\" />
-    <Folder Include="Images\Mice\" />
-    <Folder Include="Images\Mousemat\" />
+    <Folder Include="Images\Corsair\Headsets\" />
+    <Folder Include="Images\Corsair\Keyboards\" />
+    <Folder Include="Images\Corsair\Mice\" />
+    <Folder Include="Images\Corsair\Mousemat\" />
+    <Folder Include="Layouts\Corsair\Headsets\" />
+    <Folder Include="Layouts\Corsair\Keyboards\" />
+    <Folder Include="Layouts\Corsair\Mice\" />
+    <Folder Include="Layouts\Corsair\Mousemat\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

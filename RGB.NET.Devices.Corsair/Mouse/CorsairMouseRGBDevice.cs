@@ -1,6 +1,8 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System.IO;
+using System.Reflection;
 using RGB.NET.Core;
 using RGB.NET.Core.Exceptions;
 
@@ -36,10 +38,8 @@ namespace RGB.NET.Devices.Corsair
 
         #region Methods
 
-        /// <summary>
-        /// Initializes the <see cref="Led"/> of the mouse.
-        /// </summary>
-        protected override void InitializeLeds()
+        /// <inheritdoc />
+        protected override void InitializeLayout()
         {
             switch (MouseDeviceInfo.PhysicalLayout)
             {
@@ -64,6 +64,9 @@ namespace RGB.NET.Devices.Corsair
                 default:
                     throw new RGBDeviceException($"Can't initial mouse with layout '{MouseDeviceInfo.PhysicalLayout}'");
             }
+
+            ApplyLayoutFromFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+                $@"Layouts\Corsair\String\{MouseDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"));
         }
 
         #endregion

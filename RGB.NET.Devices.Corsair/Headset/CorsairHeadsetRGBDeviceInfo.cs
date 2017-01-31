@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -18,7 +20,8 @@ namespace RGB.NET.Devices.Corsair
         internal CorsairHeadsetRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
             : base(deviceIndex, Core.RGBDeviceType.Headset, nativeInfo)
         {
-            Image = new Uri($"pack://application:,,,/RGB.NET.Devices.Corsair;component/Images/Headsets/{Model.Replace(" ", string.Empty).ToUpper()}.png", UriKind.Absolute);
+            Image = new Uri(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), 
+                $@"Images\Corsair\Headsets\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Relative);
         }
 
         #endregion

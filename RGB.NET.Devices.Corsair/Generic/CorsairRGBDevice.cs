@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Core.Layout;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -41,16 +44,49 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         internal void Initialize()
         {
-            InitializeLeds();
-            
-            Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
-            InternalSize = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
+            InitializeLayout();
+
+            if (InternalSize == null)
+            {
+                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                InternalSize = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
+            }
         }
 
         /// <summary>
-        /// Initializes the <see cref="Led"/> of the device.
+        /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
         /// </summary>
-        protected abstract void InitializeLeds();
+        protected abstract void InitializeLayout();
+
+        /// <summary>
+        /// Applies the given layout.
+        /// </summary>
+        /// <param name="layoutPath">The file containing the layout.</param>
+        protected void ApplyLayoutFromFile(string layoutPath)
+        {
+            DeviceLayout layout = DeviceLayout.Load(layoutPath);
+            if (layout != null)
+            {
+                InternalSize = new Size(layout.Width, layout.Height);
+
+                if (layout.Leds != null)
+                    foreach (LedLayout layoutLed in layout.Leds)
+                    {
+                        CorsairLedIds ledId;
+                        if (Enum.TryParse(layoutLed.Id, true, out ledId))
+                        {
+                            Led led;
+                            if (LedMapping.TryGetValue(new CorsairLedId(this, ledId), out led))
+                            {
+                                led.LedRectangle.Location.X = layoutLed.X;
+                                led.LedRectangle.Location.Y = layoutLed.Y;
+                                led.LedRectangle.Size.Width = layoutLed.Width;
+                                led.LedRectangle.Size.Height = layoutLed.Height;
+                            }
+                        }
+                    }
+            }
+        }
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)

@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
@@ -40,10 +42,8 @@ namespace RGB.NET.Devices.Corsair
 
         #region Methods
 
-        /// <summary>
-        /// Initializes the <see cref="Led"/> of the mousemat.
-        /// </summary>
-        protected override void InitializeLeds()
+        /// <inheritdoc />
+        protected override void InitializeLayout()
         {
             _CorsairLedPositions nativeLedPositions =
                 (_CorsairLedPositions)
@@ -64,6 +64,9 @@ namespace RGB.NET.Devices.Corsair
             foreach (_CorsairLedPosition ledPosition in positions.OrderBy(p => p.ledId))
                 InitializeLed(new CorsairLedId(this, ledPosition.ledId),
                               new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
+
+            ApplyLayoutFromFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+                $@"Layouts\Corsair\Mousemat\{MousematDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"));
         }
 
         #endregion

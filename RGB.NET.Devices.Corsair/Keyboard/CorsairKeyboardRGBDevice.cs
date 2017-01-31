@@ -2,6 +2,8 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
@@ -38,10 +40,8 @@ namespace RGB.NET.Devices.Corsair
 
         #region Methods
 
-        /// <summary>
-        /// Initializes the <see cref="Led"/> of the keyboard.
-        /// </summary>
-        protected override void InitializeLeds()
+        /// <inheritdoc />
+        protected override void InitializeLayout()
         {
             _CorsairLedPositions nativeLedPositions =
                 (_CorsairLedPositions)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositions(), typeof(_CorsairLedPositions));
@@ -57,6 +57,9 @@ namespace RGB.NET.Devices.Corsair
 
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
             }
+
+            ApplyLayoutFromFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+                $@"Layouts\Corsair\Keyboards\{KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}\{KeyboardDeviceInfo.LogicalLayout.ToString().ToUpper()}.xml"));
         }
 
         #endregion

@@ -14,7 +14,7 @@
   <ItemGroup>
     <CueSDKFiles Condition="'$(MSBuildThisFileDirectory)' != '' And
                                    HasTrailingSlash('$(MSBuildThisFileDirectory)')"
-                        Include="$(MSBuildThisFileDirectory)libs\**\*.dll" />
+                        Include="$(MSBuildThisFileDirectory)libs\**\*.dll;$(MSBuildThisFileDirectory)resources\**\*.*" />
 
     <AdditionalPublishFilex86 Include="$(MSBuildThisFileDirectory)libs\x86\*.dll">
       <Visible>False</Visible>

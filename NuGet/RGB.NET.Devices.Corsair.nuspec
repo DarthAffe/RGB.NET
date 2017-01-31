@@ -23,6 +23,8 @@
     <file src="..\bin\RGB.NET.Devices.Corsair.pdb" target="lib\net45\RGB.NET.Devices.Corsair.pdb" />
     <file src="..\bin\RGB.NET.Devices.Corsair.xml" target="lib\net45\RGB.NET.Devices.Corsair.xml" />
     <file src="..\RGB.NET.Devices.Corsair\**\*.cs" target="src" exclude="..\RGB.NET.Devices.Corsair\obj\**\*.*" />
+    <file src="..\RGB.NET.Devices.Corsair\Images\**\*.*" target="build\net45\resources\Images\" />
+    <file src="..\RGB.NET.Devices.Corsair\Layouts\**\*.*" target="build\net45\resources\Layouts\" />
     <file src="..\RGB.NET.Devices.Corsair\libs\**\*.*" target="build\net45\libs\" />
     <file src="..\RGB.NET.Devices.Corsair\targets\*.targets" target="build\net45\" />
   </files>

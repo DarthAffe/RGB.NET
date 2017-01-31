@@ -2,6 +2,8 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.IO;
+using System.Reflection;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -38,7 +40,8 @@ namespace RGB.NET.Devices.Corsair
             this.PhysicalLayout = (CorsairPhysicalKeyboardLayout)nativeInfo.physicalLayout;
             this.LogicalLayout = (CorsairLogicalKeyboardLayout)nativeInfo.logicalLayout;
 
-            Image = new Uri($"pack://application:,,,/RGB.NET.Devices.Corsair;component/Images/Keyboards/{Model.Replace(" ", string.Empty).ToUpper()}/{LogicalLayout.ToString().ToUpper()}.png", UriKind.Absolute);
+            Image = new Uri(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+                $@"Images\Corsair\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}\{LogicalLayout.ToString().ToUpper()}.png"), UriKind.Absolute);
         }
 
         #endregion
