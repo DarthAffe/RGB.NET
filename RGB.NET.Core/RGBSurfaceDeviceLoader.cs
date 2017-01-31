@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
-    public static partial class RGBSurface
+    public partial class RGBSurface
     {
         #region Methods
 
@@ -13,7 +13,7 @@ namespace RGB.NET.Core
         /// Loads all devices the given <see cref="IRGBDeviceProvider"/> is able to provide.
         /// </summary>
         /// <param name="deviceProvider"></param>
-        public static void LoadDevices(IRGBDeviceProvider deviceProvider)
+        public void LoadDevices(IRGBDeviceProvider deviceProvider)
         {
             if (_deviceProvider.Contains(deviceProvider) || _deviceProvider.Any(x => x.GetType() == deviceProvider.GetType())) return;
 
@@ -41,7 +41,7 @@ namespace RGB.NET.Core
             }
         }
 
-        private static void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (string.Equals(propertyChangedEventArgs.PropertyName, nameof(IRGBDevice.Location)))
             {
@@ -52,7 +52,7 @@ namespace RGB.NET.Core
             }
         }
 
-        private static void DeviceLocationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void DeviceLocationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             UpdateSurfaceRectangle();
             SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(new[] { sender as IRGBDevice }, false, true));

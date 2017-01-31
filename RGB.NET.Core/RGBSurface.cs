@@ -11,37 +11,42 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a RGB-surface containing multiple devices.
     /// </summary>
-    public static partial class RGBSurface
+    public partial class RGBSurface : AbstractBindable
     {
         #region Properties & Fields
 
-        private static DateTime _lastUpdate;
+        /// <summary>
+        /// Gets the singelot-instance of the <see cref="RGBSurface"/> class.
+        /// </summary>
+        public static RGBSurface Instance { get; } = new RGBSurface();
 
-        private static IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
-        private static IList<IRGBDevice> _devices = new List<IRGBDevice>();
+        private DateTime _lastUpdate;
+
+        private IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
+        private IList<IRGBDevice> _devices = new List<IRGBDevice>();
 
         // ReSharper disable InconsistentNaming
 
-        private static readonly LinkedList<ILedGroup> _ledGroups = new LinkedList<ILedGroup>();
+        private readonly LinkedList<ILedGroup> _ledGroups = new LinkedList<ILedGroup>();
 
-        private static readonly Rectangle _surfaceRectangle = new Rectangle();
+        private readonly Rectangle _surfaceRectangle = new Rectangle();
 
         // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
         /// </summary>
-        public static IEnumerable<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(_devices);
+        public IEnumerable<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(_devices);
 
         /// <summary>
         /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.
         /// </summary>
-        public static Rectangle SurfaceRectangle => new Rectangle(_surfaceRectangle);
+        public Rectangle SurfaceRectangle => new Rectangle(_surfaceRectangle);
 
         /// <summary>
         /// Gets a list of all <see cref="Led"/> on this <see cref="RGBSurface"/>.
         /// </summary>
-        public static IEnumerable<Led> Leds => _devices.SelectMany(x => x);
+        public IEnumerable<Led> Leds => _devices.SelectMany(x => x);
 
         #endregion
 
@@ -50,7 +55,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="RGBSurface"/> class.
         /// </summary>
-        static RGBSurface()
+        private RGBSurface()
         {
             _lastUpdate = DateTime.Now;
         }
@@ -63,7 +68,7 @@ namespace RGB.NET.Core
         /// Perform an update for all dirty <see cref="Led"/>, or all <see cref="Led"/>, if flushLeds is set to true.
         /// </summary>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
-        public static void Update(bool flushLeds = false)
+        public void Update(bool flushLeds = false)
         {
             OnUpdating();
 
@@ -88,7 +93,7 @@ namespace RGB.NET.Core
         /// Renders a ledgroup.
         /// </summary>
         /// <param name="ledGroup">The led group to render.</param>
-        private static void Render(ILedGroup ledGroup)
+        private void Render(ILedGroup ledGroup)
         {
             IList<Led> leds = ledGroup.GetLeds().ToList();
             IBrush brush = ledGroup.Brush;
@@ -127,7 +132,7 @@ namespace RGB.NET.Core
             }
         }
 
-        private static Rectangle GetDeviceLedLocation(Led led, Point extraOffset = null)
+        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset = null)
         {
             return extraOffset != null
                        ? new Rectangle(led.LedRectangle.Location + led.Device.Location + extraOffset, led.LedRectangle.Size)
@@ -139,7 +144,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
-        public static bool AttachLedGroup(ILedGroup ledGroup)
+        public bool AttachLedGroup(ILedGroup ledGroup)
         {
             if (ledGroup == null) return false;
 
@@ -159,7 +164,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to detached.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
-        public static bool DetachLedGroup(ILedGroup ledGroup)
+        public bool DetachLedGroup(ILedGroup ledGroup)
         {
             if (ledGroup == null) return false;
 
@@ -175,7 +180,7 @@ namespace RGB.NET.Core
             }
         }
 
-        private static void UpdateSurfaceRectangle()
+        private void UpdateSurfaceRectangle()
         {
             Rectangle devicesRectangle = new Rectangle(_devices.Select(d => new Rectangle(d.Location, d.Size)));
 

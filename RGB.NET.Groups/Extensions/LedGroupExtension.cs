@@ -63,7 +63,7 @@ namespace RGB.NET.Groups
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
         public static bool Attach(this ILedGroup ledGroup)
         {
-            return RGBSurface.AttachLedGroup(ledGroup);
+            return RGBSurface.Instance.AttachLedGroup(ledGroup);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace RGB.NET.Groups
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
         public static bool Detach(this ILedGroup ledGroup)
         {
-            return RGBSurface.DetachLedGroup(ledGroup);
+            return RGBSurface.Instance.DetachLedGroup(ledGroup);
         }
     }
 }

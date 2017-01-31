@@ -4,30 +4,35 @@ using System.Threading.Tasks;
 
 namespace RGB.NET.Core
 {
-    public static partial class RGBSurface
+    public partial class RGBSurface
     {
         #region Properties & Fields
 
-        private static CancellationTokenSource _updateTokenSource;
-        private static CancellationToken _updateToken;
-        private static Task _updateTask;
+        private CancellationTokenSource _updateTokenSource;
+        private CancellationToken _updateToken;
+        private Task _updateTask;
 
+        private double _updateFrequency = 1.0 / 30.0;
         /// <summary>
         /// Gets or sets the update-frequency in seconds. (Calculate by using '1.0 / updates per second')
         /// </summary>
-        public static double UpdateFrequency { get; set; } = 1.0 / 30.0;
+        public double UpdateFrequency
+        {
+            get { return _updateFrequency; }
+            set { SetProperty(ref _updateFrequency, value); }
+        }
 
-        private static UpdateMode _updateMode = UpdateMode.Manual;
+        private UpdateMode _updateMode = UpdateMode.Manual;
         /// <summary>
         /// Gets or sets the update-mode.
         /// </summary>
-        public static UpdateMode UpdateMode
+        public UpdateMode UpdateMode
         {
             get { return _updateMode; }
             set
             {
-                _updateMode = value;
-                CheckUpdateLoop();
+                if (SetProperty(ref _updateMode, value))
+                    CheckUpdateLoop();
             }
         }
 
@@ -39,7 +44,7 @@ namespace RGB.NET.Core
         /// Checks if automatic updates should occur and starts/stops the update-loop if needed.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the requested update-mode is not available.</exception>
-        private static async void CheckUpdateLoop()
+        private async void CheckUpdateLoop()
         {
             bool shouldRun;
             switch (UpdateMode)
@@ -69,7 +74,7 @@ namespace RGB.NET.Core
             }
         }
 
-        private static void UpdateLoop()
+        private void UpdateLoop()
         {
             while (!_updateToken.IsCancellationRequested)
             {

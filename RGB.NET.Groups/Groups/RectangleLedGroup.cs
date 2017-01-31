@@ -102,13 +102,13 @@ namespace RGB.NET.Groups
         /// <inheritdoc />
         public override void OnAttach()
         {
-            RGBSurface.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
+            RGBSurface.Instance.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
         }
 
         /// <inheritdoc />
         public override void OnDetach()
         {
-            RGBSurface.SurfaceLayoutChanged -= RGBSurfaceOnSurfaceLayoutChanged;
+            RGBSurface.Instance.SurfaceLayoutChanged -= RGBSurfaceOnSurfaceLayoutChanged;
         }
 
         private void RGBSurfaceOnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args)
@@ -122,7 +122,7 @@ namespace RGB.NET.Groups
         /// <returns>The list containing all <see cref="Led"/> of this <see cref="RectangleLedGroup"/>.</returns>
         public override IEnumerable<Led> GetLeds()
         {
-            return _ledCache ?? (_ledCache = RGBSurface.Leds.Where(x => x.LedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList());
+            return _ledCache ?? (_ledCache = RGBSurface.Instance.Leds.Where(x => x.LedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList());
         }
 
         private void InvalidateCache()

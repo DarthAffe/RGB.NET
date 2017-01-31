@@ -2,7 +2,7 @@
 
 namespace RGB.NET.Core
 {
-    public static partial class RGBSurface
+    public partial class RGBSurface
     {
         #region EventHandler
 
@@ -39,22 +39,22 @@ namespace RGB.NET.Core
         /// <summary>
         /// Occurs when a catched exception is thrown inside the <see cref="RGBSurface"/>.
         /// </summary>
-        public static event ExceptionEventHandler Exception;
+        public event ExceptionEventHandler Exception;
 
         /// <summary>
         /// Occurs when the <see cref="RGBSurface"/> starts updating.
         /// </summary>
-        public static event UpdatingEventHandler Updating;
+        public event UpdatingEventHandler Updating;
 
         /// <summary>
         /// Occurs when the <see cref="RGBSurface"/> update is done.
         /// </summary>
-        public static event UpdatedEventHandler Updated;
+        public event UpdatedEventHandler Updated;
 
         /// <summary>
         /// Occurs when the layout of this <see cref="RGBSurface"/> changed.
         /// </summary>
-        public static event SurfaceLayoutChangedEventHandler SurfaceLayoutChanged;
+        public event SurfaceLayoutChangedEventHandler SurfaceLayoutChanged;
 
         // ReSharper restore EventNeverSubscribedTo.Global
 
@@ -66,7 +66,7 @@ namespace RGB.NET.Core
         /// Handles the needed event-calls for an exception.
         /// </summary>
         /// <param name="ex">The exception previously thrown.</param>
-        private static void OnException(Exception ex)
+        private void OnException(Exception ex)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Handles the needed event-calls before updating.
         /// </summary>
-        private static void OnUpdating()
+        private void OnUpdating()
         {
             try
             {
@@ -92,7 +92,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Handles the needed event-calls after an update.
         /// </summary>
-        private static void OnUpdated()
+        private void OnUpdated()
         {
             try
             {

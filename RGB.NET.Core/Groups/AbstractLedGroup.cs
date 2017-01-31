@@ -31,7 +31,7 @@ namespace RGB.NET.Core
         protected AbstractLedGroup(bool autoAttach)
         {
             if (autoAttach)
-                RGBSurface.AttachLedGroup(this);
+                RGBSurface.Instance.AttachLedGroup(this);
         }
 
         #endregion

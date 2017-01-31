@@ -18,6 +18,7 @@ namespace RGB.NET.WPF.Controls
 
         #region Properties & Fields
 
+        private RGBSurface _surface;
         private Canvas _canvas;
 
         #endregion
@@ -29,8 +30,10 @@ namespace RGB.NET.WPF.Controls
         /// </summary>
         public RGBSurfaceVisualizer()
         {
-            RGBSurface.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
-            foreach (IRGBDevice device in RGBSurface.Devices)
+            _surface = RGBSurface.Instance;
+
+            _surface.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
+            foreach (IRGBDevice device in _surface.Devices)
                 AddDevice(device);
         }
 
@@ -40,8 +43,8 @@ namespace RGB.NET.WPF.Controls
                 foreach (IRGBDevice device in args.Devices)
                     AddDevice(device);
 
-            _canvas.Width = RGBSurface.SurfaceRectangle.Size.Width;
-            _canvas.Height = RGBSurface.SurfaceRectangle.Size.Height;
+            _canvas.Width = _surface.SurfaceRectangle.Size.Width;
+            _canvas.Height = _surface.SurfaceRectangle.Size.Height;
         }
 
         #endregion
