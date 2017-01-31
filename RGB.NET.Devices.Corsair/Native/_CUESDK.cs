@@ -40,45 +40,16 @@ namespace RGB.NET.Devices.Corsair.Native
 
             _dllHandle = LoadLibrary(dllPath);
 
-            _corsairSetLedsColorsPointer =
-                (CorsairSetLedsColorsPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairSetLedsColors"),
-                                                      typeof(CorsairSetLedsColorsPointer));
-            _corsairGetDeviceCountPointer =
-                (CorsairGetDeviceCountPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetDeviceCount"),
-                                                      typeof(CorsairGetDeviceCountPointer));
-            _corsairGetDeviceInfoPointer =
-                (CorsairGetDeviceInfoPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetDeviceInfo"),
-                                                      typeof(CorsairGetDeviceInfoPointer));
-            _corsairGetLedPositionsPointer =
-                (CorsairGetLedPositionsPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLedPositions"),
-                                                      typeof(CorsairGetLedPositionsPointer));
-            _corsairGetLedPositionsByDeviceIndexPointer =
-                (CorsairGetLedPositionsByDeviceIndexPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLedPositionsByDeviceIndex"),
-                                                      typeof(CorsairGetLedPositionsByDeviceIndexPointer));
-            _corsairGetLedIdForKeyNamePointer =
-                (CorsairGetLedIdForKeyNamePointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLedIdForKeyName"),
-                                                      typeof(CorsairGetLedIdForKeyNamePointer));
-            _corsairRequestControlPointer =
-                (CorsairRequestControlPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairRequestControl"),
-                                                      typeof(CorsairRequestControlPointer));
-            _corsairReleaseControlPointer =
-                (CorsairReleaseControlPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairReleaseControl"),
-                                                      typeof(CorsairReleaseControlPointer));
-            _corsairPerformProtocolHandshakePointer =
-                (CorsairPerformProtocolHandshakePointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairPerformProtocolHandshake"),
-                                                      typeof(CorsairPerformProtocolHandshakePointer));
-            _corsairGetLastErrorPointer =
-                (CorsairGetLastErrorPointer)
-                Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLastError"), typeof(CorsairGetLastErrorPointer));
+            _corsairSetLedsColorsPointer = (CorsairSetLedsColorsPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairSetLedsColors"), typeof(CorsairSetLedsColorsPointer));
+            _corsairGetDeviceCountPointer = (CorsairGetDeviceCountPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetDeviceCount"), typeof(CorsairGetDeviceCountPointer));
+            _corsairGetDeviceInfoPointer = (CorsairGetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetDeviceInfo"), typeof(CorsairGetDeviceInfoPointer));
+            _corsairGetLedPositionsPointer = (CorsairGetLedPositionsPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLedPositions"), typeof(CorsairGetLedPositionsPointer));
+            _corsairGetLedPositionsByDeviceIndexPointer = (CorsairGetLedPositionsByDeviceIndexPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLedPositionsByDeviceIndex"), typeof(CorsairGetLedPositionsByDeviceIndexPointer));
+            _corsairGetLedIdForKeyNamePointer = (CorsairGetLedIdForKeyNamePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLedIdForKeyName"), typeof(CorsairGetLedIdForKeyNamePointer));
+            _corsairRequestControlPointer = (CorsairRequestControlPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairRequestControl"), typeof(CorsairRequestControlPointer));
+            _corsairReleaseControlPointer = (CorsairReleaseControlPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairReleaseControl"), typeof(CorsairReleaseControlPointer));
+            _corsairPerformProtocolHandshakePointer = (CorsairPerformProtocolHandshakePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairPerformProtocolHandshake"), typeof(CorsairPerformProtocolHandshakePointer));
+            _corsairGetLastErrorPointer = (CorsairGetLastErrorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLastError"), typeof(CorsairGetLastErrorPointer));
         }
 
         private static void UnloadCUESDK()
