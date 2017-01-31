@@ -33,10 +33,10 @@ namespace RGB.NET.Core.Layout
         public RGBDeviceType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="LayoutLighting"/> of the <see cref="DeviceLayout"/>.
+        /// Gets or sets the <see cref="RGBDeviceLighting"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Lighting")]
-        public LayoutLighting Lighting { get; set; }
+        public RGBDeviceLighting Lighting { get; set; }
 
         /// <summary>
         /// Gets or sets the vendor of the <see cref="DeviceLayout"/>.

@@ -48,7 +48,7 @@
     <Compile Include="Brushes\IBrush.cs" />
     <Compile Include="ColorCorrection\IColorCorrection.cs" />
     <Compile Include="Devices\AbstractRGBDevice.cs" />
-    <Compile Include="Devices\Layout\LayoutLighting.cs" />
+    <Compile Include="Devices\RGBDeviceLighting.cs" />
     <Compile Include="Devices\Layout\LayoutShape.cs" />
     <Compile Include="Devices\Layout\LedLayout.cs" />
     <Compile Include="Devices\Layout\DeviceLayout.cs" />

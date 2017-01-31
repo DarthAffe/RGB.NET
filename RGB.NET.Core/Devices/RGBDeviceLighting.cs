@@ -1,9 +1,11 @@
-﻿namespace RGB.NET.Core.Layout
+﻿using RGB.NET.Core.Layout;
+
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Contains a list of different lightning-modes used by <see cref="DeviceLayout"/>.
     /// </summary>
-    public enum LayoutLighting
+    public enum RGBDeviceLighting
     {
         /// <summary>
         /// The <see cref="IRGBDevice"/> supports per-key-lightning.
