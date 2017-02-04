@@ -93,6 +93,18 @@
     <Folder Include="Layouts\Corsair\Mousemat\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\Corsair\Keyboards\K70RGB\BE.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\CH.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\DE.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\ES.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\EU.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\FR.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\IT.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\MEX.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\ND.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\RU.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\US_Int.png" />
+    <Content Include="Images\Corsair\Keyboards\K70RGB\UK.png" />
     <Content Include="Images\Corsair\Keyboards\K95RGB\BE.png" />
     <Content Include="Images\Corsair\Keyboards\K95RGB\CH.png" />
     <Content Include="Images\Corsair\Keyboards\K95RGB\DE.png" />
@@ -105,6 +117,9 @@
     <Content Include="Images\Corsair\Keyboards\K95RGB\RU.png" />
     <Content Include="Images\Corsair\Keyboards\K95RGB\US_Int.png" />
     <Content Include="Images\Corsair\Keyboards\K95RGB\UK.png" />
+    <Content Include="Layouts\Corsair\Keyboards\K70RGB\UK.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Layouts\Corsair\Keyboards\K95RGB\UK.xml">
       <SubType>Designer</SubType>
     </Content>
