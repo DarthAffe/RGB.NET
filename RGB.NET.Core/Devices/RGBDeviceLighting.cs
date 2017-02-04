@@ -8,13 +8,18 @@ namespace RGB.NET.Core
     public enum RGBDeviceLighting
     {
         /// <summary>
+        /// The <see cref="IRGBDevice"/> doesn't support lighting,
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// The <see cref="IRGBDevice"/> supports per-key-lightning.
         /// </summary>
-        Key = 0,
+        Key = 1,
 
         /// <summary>
         /// The <see cref="IRGBDevice"/> supports per-keyboard-lightning.
         /// </summary>
-        Keyboard = 1,
+        Keyboard = 2,
     }
 }
