@@ -86,13 +86,28 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\Corsair\Headsets\" />
-    <Folder Include="Images\Corsair\Keyboards\" />
     <Folder Include="Images\Corsair\Mice\" />
     <Folder Include="Images\Corsair\Mousemat\" />
     <Folder Include="Layouts\Corsair\Headsets\" />
-    <Folder Include="Layouts\Corsair\Keyboards\" />
     <Folder Include="Layouts\Corsair\Mice\" />
     <Folder Include="Layouts\Corsair\Mousemat\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Corsair\Keyboards\K95RGB\BE.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\CH.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\DE.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\ES.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\EU.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\FR.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\IT.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\MEX.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\ND.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\RU.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\US_Int.png" />
+    <Content Include="Images\Corsair\Keyboards\K95RGB\UK.png" />
+    <Content Include="Layouts\Corsair\Keyboards\K95RGB\UK.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
