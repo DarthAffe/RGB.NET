@@ -53,7 +53,7 @@
           Inputs="@(LogitechSDKFiles)"
           Outputs="@(LogitechSDKFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')">
     <!--
-        NOTE: Copy "CUESDK*.dll" and all related files, for every
+        NOTE: Copy "LogitechLedEnginesWrapper*.dll" and all related files, for every
               architecture that we support, to the build output directory.
     -->
     <Message Text="Copying SDK files..." Importance="high" />
@@ -72,7 +72,7 @@
                      Exists('$(OutDir)')">
 
     <!--
-        NOTE: Delete "CUESDK*.dll" and all related files, for every
+        NOTE: Delete "LogitechLedEnginesWrapper*.dll" and all related files, for every
               architecture that we support, from the build output directory.
     -->
     <Message Text="this file $(MSBuildThisFileDirectory)" Importance="high"/>
