@@ -5,6 +5,24 @@
 
     <converter:ColorToSolidColorBrushConverter x:Key="ConverterColorToSolidColorBrush" />
 
+    <ControlTemplate x:Key="ControlTemplateLedRectangle"
+                     TargetType="{x:Type controls:LedVisualizer}">
+        <Rectangle VerticalAlignment="Stretch"
+                   HorizontalAlignment="Stretch"
+                   Stroke="{TemplateBinding BorderBrush}"
+                   StrokeThickness="{TemplateBinding BorderThickness}"
+                   Fill="{TemplateBinding Background}" />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ControlTemplateLedCircle"
+                     TargetType="{x:Type controls:LedVisualizer}">
+        <Ellipse VerticalAlignment="Stretch"
+                 HorizontalAlignment="Stretch"
+                 Stroke="{TemplateBinding BorderBrush}"
+                 StrokeThickness="{TemplateBinding BorderThickness}"
+                 Fill="{TemplateBinding Background}" />
+    </ControlTemplate>
+
     <Style x:Key="StyleLedVisualizer"
            TargetType="{x:Type controls:LedVisualizer}">
         <Setter Property="Width" Value="{Binding Led.LedRectangle.Size.Width, RelativeSource={RelativeSource Self}}" />
@@ -18,22 +36,16 @@
                                                       Converter={StaticResource ConverterColorToSolidColorBrush}}" />
         <Setter Property="Opacity" Value="0.66" />
 
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:LedVisualizer}">
-                    <Rectangle VerticalAlignment="Stretch"
-                               HorizontalAlignment="Stretch"
-                               Stroke="{TemplateBinding BorderBrush}"
-                               StrokeThickness="{TemplateBinding BorderThickness}"
-                               Fill="{TemplateBinding Background}" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        
+        <Setter Property="Template" Value="{StaticResource ControlTemplateLedRectangle}" />
+
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="BorderBrush" Value="#FFFFFF" />
             </Trigger>
+
+            <DataTrigger Binding="{Binding Led.Shape, RelativeSource={RelativeSource Self}}" Value="Circle">
+                <Setter Property="Template" Value="{StaticResource ControlTemplateLedCircle}" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
     <Style TargetType="{x:Type controls:LedVisualizer}" BasedOn="{StaticResource StyleLedVisualizer}" />
