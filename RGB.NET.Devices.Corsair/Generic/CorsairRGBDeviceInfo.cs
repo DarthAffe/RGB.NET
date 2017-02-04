@@ -34,6 +34,9 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public Uri Image { get; protected set; }
 
+        /// <inheritdoc />
+        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
+
         /// <summary>
         /// Gets a flag that describes device capabilities. (<see cref="CorsairDeviceCaps" />)
         /// </summary>

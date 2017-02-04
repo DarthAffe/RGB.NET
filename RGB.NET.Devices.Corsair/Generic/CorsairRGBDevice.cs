@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Core.Layout;
@@ -82,6 +80,8 @@ namespace RGB.NET.Devices.Corsair
                                 led.LedRectangle.Location.Y = layoutLed.Y;
                                 led.LedRectangle.Size.Width = layoutLed.Width;
                                 led.LedRectangle.Size.Height = layoutLed.Height;
+
+                                led.Shape = layoutLed.Shape;
                             }
                         }
                     }

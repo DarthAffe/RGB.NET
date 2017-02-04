@@ -51,10 +51,10 @@ namespace RGB.NET.Core.Layout
         public string Model { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="LayoutShape"/> of the <see cref="DeviceLayout"/>.
+        /// Gets or sets the <see cref="Core.Shape"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Shape")]
-        public LayoutShape Shape { get; set; }
+        public Shape Shape { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the <see cref="DeviceLayout"/>.

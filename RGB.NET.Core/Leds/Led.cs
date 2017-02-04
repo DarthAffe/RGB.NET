@@ -22,6 +22,16 @@ namespace RGB.NET.Core
         /// </summary>
         public ILedId Id { get; }
 
+        private Shape _shape = Shape.Rectangle;
+        /// <summary>
+        /// Gets or sets the <see cref="Core.Shape"/> of the <see cref="Led"/>.
+        /// </summary>
+        public Shape Shape
+        {
+            get { return _shape; }
+            set { SetProperty(ref _shape, value); }
+        }
+
         /// <summary>
         /// Gets a rectangle representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
         /// </summary>

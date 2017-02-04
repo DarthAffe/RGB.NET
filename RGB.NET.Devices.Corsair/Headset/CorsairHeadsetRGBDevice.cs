@@ -1,11 +1,9 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using System;
 using System.IO;
 using System.Reflection;
 using RGB.NET.Core;
-using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Devices.Corsair
 {

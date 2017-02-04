@@ -19,10 +19,10 @@ namespace RGB.NET.Core.Layout
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="LayoutShape"/> of the <see cref="LedLayout"/>.
+        /// Gets or sets the <see cref="RGB.NET.Core.Shape"/> of the <see cref="LedLayout"/>.
         /// </summary>
         [XmlElement("Shape")]
-        public LayoutShape Shape { get; set; }
+        public Shape Shape { get; set; }
 
         /// <summary>
         /// Gets or sets the x-position of the <see cref="LedLayout"/>.
