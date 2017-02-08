@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -54,7 +55,8 @@ namespace RGB.NET.Core.Layout
         /// Gets or sets the <see cref="Core.Shape"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Shape")]
-        public Shape Shape { get; set; }
+        [DefaultValue(Shape.Rectangle)]
+        public Shape Shape { get; set; } = Shape.Rectangle;
 
         /// <summary>
         /// Gets or sets the width of the <see cref="DeviceLayout"/>.
@@ -67,6 +69,20 @@ namespace RGB.NET.Core.Layout
         /// </summary>
         [XmlElement("Height")]
         public double Height { get; set; }
+
+        /// <summary>
+        /// Gets or sets the width of one 'unit' used for the calculation of led positions and sizes.
+        /// </summary>
+        [XmlElement("LedUnitWidth")]
+        [DefaultValue(19.0)]
+        public double LedUnitWidth { get; set; } = 19.0;
+
+        /// <summary>
+        /// Gets or sets the height of one 'unit' used for the calculation of led positions and sizes.
+        /// </summary>
+        [XmlElement("LedUnitHeight")]
+        [DefaultValue(19.0)]
+        public double LedUnitHeight { get; set; } = 19.0;
 
         /// <summary>
         /// Gets or sets a list of <see cref="LedLayout"/> representing all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
@@ -91,7 +107,20 @@ namespace RGB.NET.Core.Layout
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(DeviceLayout));
                 using (StreamReader reader = new StreamReader(path))
-                    return serializer.Deserialize(reader) as DeviceLayout;
+                {
+                    DeviceLayout layout = serializer.Deserialize(reader) as DeviceLayout;
+                    if (layout?.Leds != null)
+                    {
+                        LedLayout lastLed = null;
+                        foreach (LedLayout led in layout.Leds)
+                        {
+                            led.CalculateValues(layout, lastLed);
+                            lastLed = led;
+                        }
+                    }
+
+                    return layout;
+                }
             }
             catch
             {

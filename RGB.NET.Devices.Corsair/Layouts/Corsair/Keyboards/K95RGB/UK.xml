@@ -1,1101 +1,359 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:noNamespaceSchemaLocation="../../../DeviceLayout.xsd">
   <Name>Corsair K95 RGB - Physical UK</Name>
   <Description>Physical UK-Layout of Corsairs K95 RGB (Logical: BE, CH, DE, ES, EU, FR, IT, ND, MEX, RU, UK, US_Int)</Description>
   <Type>Keyboard</Type>
   <Lighting>Key</Lighting>
   <Vendor>Corsair</Vendor>
   <Model>K95RGB</Model>
-  <Shape>Rectangle</Shape>
   <Width>501</Width>
   <Height>165</Height>
   <Leds>
-    <Led>
-      <Id>GraveAccentAndTilde</Id>
-      <Shape>Rectangle</Shape>
-      <X>70.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D1</Id>
-      <Shape>Rectangle</Shape>
-      <X>89.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D2</Id>
-      <Shape>Rectangle</Shape>
-      <X>108.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D3</Id>
-      <Shape>Rectangle</Shape>
-      <X>127.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D4</Id>
-      <Shape>Rectangle</Shape>
-      <X>146.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D5</Id>
-      <Shape>Rectangle</Shape>
-      <X>165.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D6</Id>
-      <Shape>Rectangle</Shape>
-      <X>184.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D7</Id>
-      <Shape>Rectangle</Shape>
-      <X>203.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D8</Id>
-      <Shape>Rectangle</Shape>
-      <X>222.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D9</Id>
-      <Shape>Rectangle</Shape>
-      <X>241.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D0</Id>
-      <Shape>Rectangle</Shape>
-      <X>260.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>MinusAndUnderscore</Id>
-      <Shape>Rectangle</Shape>
-      <X>279.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>EqualsAndPlus</Id>
-      <Shape>Rectangle</Shape>
-      <X>298.5</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-
-    <Led>
-      <Id>Q</Id>
-      <Shape>Rectangle</Shape>
-      <X>99</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>W</Id>
-      <Shape>Rectangle</Shape>
-      <X>118</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>E</Id>
-      <Shape>Rectangle</Shape>
-      <X>137</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>R</Id>
-      <Shape>Rectangle</Shape>
-      <X>156</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>T</Id>
-      <Shape>Rectangle</Shape>
-      <X>175</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Y</Id>
-      <Shape>Rectangle</Shape>
-      <X>194</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>U</Id>
-      <Shape>Rectangle</Shape>
-      <X>213</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>I</Id>
-      <Shape>Rectangle</Shape>
-      <X>232</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>O</Id>
-      <Shape>Rectangle</Shape>
-      <X>250.75</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>P</Id>
-      <Shape>Rectangle</Shape>
-      <X>269.75</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>BracketLeft</Id>
-      <Shape>Rectangle</Shape>
-      <X>288.75</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>BracketRight</Id>
-      <Shape>Rectangle</Shape>
-      <X>307.75</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-
-    <Led>
-      <Id>A</Id>
-      <Shape>Rectangle</Shape>
-      <X>103.75</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>S</Id>
-      <Shape>Rectangle</Shape>
-      <X>122.75</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>D</Id>
-      <Shape>Rectangle</Shape>
-      <X>141.75</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F</Id>
-      <Shape>Rectangle</Shape>
-      <X>160.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G</Id>
-      <Shape>Rectangle</Shape>
-      <X>179.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>H</Id>
-      <Shape>Rectangle</Shape>
-      <X>198.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>J</Id>
-      <Shape>Rectangle</Shape>
-      <X>217.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>K</Id>
-      <Shape>Rectangle</Shape>
-      <X>236.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>L</Id>
-      <Shape>Rectangle</Shape>
-      <X>255.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>SemicolonAndColon</Id>
-      <Shape>Rectangle</Shape>
-      <X>274.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>ApostropheAndDoubleQuote</Id>
-      <Shape>Rectangle</Shape>
-      <X>293.5</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>NonUsTilde</Id>
-      <Shape>Rectangle</Shape>
-      <X>312.25</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-
-    <Led>
-      <Id>NonUsBackslash</Id>
-      <Shape>Rectangle</Shape>
-      <X>94.5</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Z</Id>
-      <Shape>Rectangle</Shape>
-      <X>113.5</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>X</Id>
-      <Shape>Rectangle</Shape>
-      <X>132.5</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>C</Id>
-      <Shape>Rectangle</Shape>
-      <X>151.5</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>V</Id>
-      <Shape>Rectangle</Shape>
-      <X>170.25</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>B</Id>
-      <Shape>Rectangle</Shape>
-      <X>189.25</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>N</Id>
-      <Shape>Rectangle</Shape>
-      <X>208.25</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>M</Id>
-      <Shape>Rectangle</Shape>
-      <X>227</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>CommaAndLessThan</Id>
-      <Shape>Rectangle</Shape>
-      <X>246</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>PeriodAndBiggerThan</Id>
-      <Shape>Rectangle</Shape>
-      <X>265</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>SlashAndQuestionMark</Id>
-      <Shape>Rectangle</Shape>
-      <X>284</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-
-    <!-- Control-Keys -->
-    <Led>
-      <Id>Backspace</Id>
-      <Shape>Rectangle</Shape>
-      <X>317</X>
-      <Y>50.5</Y>
-      <Width>33</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Tab</Id>
-      <Shape>Rectangle</Shape>
-      <X>70.5</X>
-      <Y>69.5</Y>
-      <Width>23</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Enter</Id>
-      <Shape>Rectangle</Shape>
-      <X>330</X>
-      <Y>69.5</Y>
-      <Width>20</Width>
-      <Height>32.75</Height>
-    </Led>
-    <Led>
-      <Id>CapsLock</Id>
-      <Shape>Rectangle</Shape>
-      <X>70.5</X>
-      <Y>88.25</Y>
-      <Width>28</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>LeftShift</Id>
-      <Shape>Rectangle</Shape>
-      <X>70.5</X>
-      <Y>107</Y>
-      <Width>20</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>RightShift</Id>
-      <Shape>Rectangle</Shape>
-      <X>303</X>
-      <Y>107</Y>
-      <Width>47</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>LeftCtrl</Id>
-      <Shape>Rectangle</Shape>
-      <X>70.5</X>
-      <Y>126</Y>
-      <Width>23</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>LeftGui</Id>
-      <Shape>Rectangle</Shape>
-      <X>99</X>
-      <Y>126</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>LeftAlt</Id>
-      <Shape>Rectangle</Shape>
-      <X>118.5</X>
-      <Y>126</Y>
-      <Width>18</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Space</Id>
-      <Shape>Rectangle</Shape>
-      <X>142</X>
-      <Y>126</Y>
-      <Width>118</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>RightAlt</Id>
-      <Shape>Rectangle</Shape>
-      <X>265</X>
-      <Y>126</Y>
-      <Width>18</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>RightGui</Id>
-      <Shape>Rectangle</Shape>
-      <X>288.5</X>
-      <Y>126</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Application</Id>
-      <Shape>Rectangle</Shape>
-      <X>307.5</X>
-      <Y>126</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>RightCtrl</Id>
-      <Shape>Rectangle</Shape>
-      <X>326.5</X>
-      <Y>126</Y>
-      <Width>23</Width>
-      <Height>14</Height>
-    </Led>
-
-    <!-- Function-Keys -->
-    <Led>
-      <Id>Escape</Id>
-      <Shape>Rectangle</Shape>
-      <X>70.5</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F1</Id>
-      <Shape>Rectangle</Shape>
-      <X>102</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F2</Id>
-      <Shape>Rectangle</Shape>
-      <X>121</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F3</Id>
-      <Shape>Rectangle</Shape>
-      <X>140</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F4</Id>
-      <Shape>Rectangle</Shape>
-      <X>159</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F5</Id>
-      <Shape>Rectangle</Shape>
-      <X>190.5</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F6</Id>
-      <Shape>Rectangle</Shape>
-      <X>209.5</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F7</Id>
-      <Shape>Rectangle</Shape>
-      <X>228.5</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F8</Id>
-      <Shape>Rectangle</Shape>
-      <X>247.5</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F9</Id>
-      <Shape>Rectangle</Shape>
-      <X>279</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F10</Id>
-      <Shape>Rectangle</Shape>
-      <X>298</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F11</Id>
-      <Shape>Rectangle</Shape>
-      <X>317</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>F12</Id>
-      <Shape>Rectangle</Shape>
-      <X>336</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>PrintScreen</Id>
-      <Shape>Rectangle</Shape>
-      <X>360</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>ScrollLock</Id>
-      <Shape>Rectangle</Shape>
-      <X>379</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>PauseBreak</Id>
-      <Shape>Rectangle</Shape>
-      <X>398</X>
-      <Y>29.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Insert</Id>
-      <Shape>Rectangle</Shape>
-      <X>360</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Home</Id>
-      <Shape>Rectangle</Shape>
-      <X>379</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>PageUp</Id>
-      <Shape>Rectangle</Shape>
-      <X>398</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Delete</Id>
-      <Shape>Rectangle</Shape>
-      <X>360</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>End</Id>
-      <Shape>Rectangle</Shape>
-      <X>379</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>PageDown</Id>
-      <Shape>Rectangle</Shape>
-      <X>398</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>UpArrow</Id>
-      <Shape>Rectangle</Shape>
-      <X>379</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>LeftArrow</Id>
-      <Shape>Rectangle</Shape>
-      <X>360</X>
-      <Y>126</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>DownArrow</Id>
-      <Shape>Rectangle</Shape>
-      <X>379</X>
-      <Y>126</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>RightArrow</Id>
-      <Shape>Rectangle</Shape>
-      <X>398</X>
-      <Y>126</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-
-    <!-- NumBlock-Keys -->
-    <Led>
-      <Id>NumLock</Id>
-      <Shape>Rectangle</Shape>
-      <X>422</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>KeypadSlash</Id>
-      <Shape>Rectangle</Shape>
-      <X>441</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>KeypadAsterisk</Id>
-      <Shape>Rectangle</Shape>
-      <X>460</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>KeypadMinus</Id>
-      <Shape>Rectangle</Shape>
-      <X>479</X>
-      <Y>50.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad7</Id>
-      <Shape>Rectangle</Shape>
-      <X>422</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad8</Id>
-      <Shape>Rectangle</Shape>
-      <X>441</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad9</Id>
-      <Shape>Rectangle</Shape>
-      <X>460</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>KeypadPlus</Id>
-      <Shape>Rectangle</Shape>
-      <X>479</X>
-      <Y>69.5</Y>
-      <Width>14</Width>
-      <Height>33</Height>
-    </Led>
-    <Led>
-      <Id>Keypad4</Id>
-      <Shape>Rectangle</Shape>
-      <X>422</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad5</Id>
-      <Shape>Rectangle</Shape>
-      <X>441</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad6</Id>
-      <Shape>Rectangle</Shape>
-      <X>460</X>
-      <Y>88.25</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad1</Id>
-      <Shape>Rectangle</Shape>
-      <X>422</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad2</Id>
-      <Shape>Rectangle</Shape>
-      <X>441</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>Keypad3</Id>
-      <Shape>Rectangle</Shape>
-      <X>460</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>KeypadEnter</Id>
-      <Shape>Rectangle</Shape>
-      <X>479</X>
-      <Y>107</Y>
-      <Width>14</Width>
-      <Height>33</Height>
-    </Led>
-    <Led>
-      <Id>Keypad0</Id>
-      <Shape>Rectangle</Shape>
-      <X>422</X>
-      <Y>126</Y>
-      <Width>33</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>KeypadPeriodAndDelete</Id>
-      <Shape>Rectangle</Shape>
-      <X>460</X>
-      <Y>126</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-
-    <!-- G-Keys -->
-    <Led>
-      <Id>G1</Id>
-      <Shape>Rectangle</Shape>
-      <X>9.5</X>
-      <Y>29</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G2</Id>
-      <Shape>Rectangle</Shape>
-      <X>27.5</X>
-      <Y>29</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G3</Id>
-      <Shape>Rectangle</Shape>
-      <X>45.5</X>
-      <Y>29</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G4</Id>
-      <Shape>Rectangle</Shape>
-      <X>9.5</X>
-      <Y>47</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G5</Id>
-      <Shape>Rectangle</Shape>
-      <X>27.5</X>
-      <Y>47</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G6</Id>
-      <Shape>Rectangle</Shape>
-      <X>45.5</X>
-      <Y>47</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G7</Id>
-      <Shape>Rectangle</Shape>
-      <X>9.5</X>
-      <Y>69</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G8</Id>
-      <Shape>Rectangle</Shape>
-      <X>27.5</X>
-      <Y>69</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G9</Id>
-      <Shape>Rectangle</Shape>
-      <X>45.5</X>
-      <Y>69</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G10</Id>
-      <Shape>Rectangle</Shape>
-      <X>9.5</X>
-      <Y>87</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G11</Id>
-      <Shape>Rectangle</Shape>
-      <X>27.5</X>
-      <Y>87</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G12</Id>
-      <Shape>Rectangle</Shape>
-      <X>45.5</X>
-      <Y>87</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G13</Id>
-      <Shape>Rectangle</Shape>
-      <X>9.5</X>
-      <Y>109</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G14</Id>
-      <Shape>Rectangle</Shape>
-      <X>27.5</X>
-      <Y>109</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G15</Id>
-      <Shape>Rectangle</Shape>
-      <X>45.5</X>
-      <Y>109</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G16</Id>
-      <Shape>Rectangle</Shape>
-      <X>9.5</X>
-      <Y>127</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G17</Id>
-      <Shape>Rectangle</Shape>
-      <X>27.5</X>
-      <Y>127</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-    <Led>
-      <Id>G18</Id>
-      <Shape>Rectangle</Shape>
-      <X>45.5</X>
-      <Y>127</Y>
-      <Width>14</Width>
-      <Height>14</Height>
-    </Led>
-
-    <!-- Media-Keys -->
-    <Led>
-      <Id>Mute</Id>
-      <Shape>Rectangle</Shape>
-      <X>439.5</X>
-      <Y>6.5</Y>
-      <Width>17.5</Width>
-      <Height>11.5</Height>
-    </Led>
-    <Led>
-      <Id>Stop</Id>
-      <Shape>Rectangle</Shape>
-      <X>421</X>
-      <Y>29</Y>
-      <Width>17.5</Width>
-      <Height>11.5</Height>
-    </Led>
-    <Led>
-      <Id>ScanPreviousTrack</Id>
-      <Shape>Rectangle</Shape>
-      <X>439.5</X>
-      <Y>29</Y>
-      <Width>17.5</Width>
-      <Height>11.5</Height>
-    </Led>
-    <Led>
-      <Id>PlayPause</Id>
-      <Shape>Rectangle</Shape>
-      <X>458</X>
-      <Y>29</Y>
-      <Width>17.5</Width>
-      <Height>11.5</Height>
-    </Led>
-    <Led>
-      <Id>ScanNextTrack</Id>
-      <Shape>Rectangle</Shape>
-      <X>476.5</X>
-      <Y>29</Y>
-      <Width>17.5</Width>
-      <Height>11.5</Height>
-    </Led>
-
-    <!-- Special-Keys -->
-    <Led>
-      <Id>MR</Id>
+    <!-- Extra-Keys: MR -> Mute -->
+    <Led Id="MR">
       <Shape>Circle</Shape>
-      <X>73</X>
-      <Y>7.5</Y>
-      <Width>9.5</Width>
-      <Height>9.5</Height>
+      <X>72</X>
+      <Y>6</Y>
+      <Width>12mm</Width>
+      <Height>12mm</Height>
     </Led>
-    <Led>
-      <Id>M1</Id>
+    <Led Id="M1">
       <Shape>Circle</Shape>
-      <X>92</X>
-      <Y>7.5</Y>
-      <Width>9.5</Width>
-      <Height>9.5</Height>
+      <X>91.5</X>
+      <Y>7</Y>
+      <Width>10mm</Width>
+      <Height>10mm</Height>
     </Led>
-    <Led>
-      <Id>M2</Id>
+    <Led Id="M2">
       <Shape>Circle</Shape>
-      <X>111</X>
-      <Y>7.5</Y>
-      <Width>9.5</Width>
-      <Height>9.5</Height>
+      <X>+9</X>
+      <Width>10mm</Width>
+      <Height>10mm</Height>
     </Led>
-    <Led>
-      <Id>M3</Id>
+    <Led Id="M3">
       <Shape>Circle</Shape>
-      <X>130</X>
-      <Y>7.5</Y>
-      <Width>9.5</Width>
-      <Height>9.5</Height>
+      <X>+9</X>
+      <Width>10mm</Width>
+      <Height>10mm</Height>
     </Led>
-    <Led>
-      <Id>Brightness</Id>
+
+    <Led Id="Brightness">
       <Shape>Circle</Shape>
-      <X>362.5</X>
-      <Y>7.5</Y>
-      <Width>9.5</Width>
-      <Height>9.5</Height>
+      <X>362</X>
+      <Width>10mm</Width>
+      <Height>10mm</Height>
     </Led>
-    <Led>
-      <Id>WinLock</Id>
+    <Led Id="WinLock">
       <Shape>Circle</Shape>
-      <X>381.5</X>
-      <Y>7.5</Y>
-      <Width>9.5</Width>
-      <Height>9.5</Height>
+      <X>+9</X>
+      <Width>10mm</Width>
+      <Height>10mm</Height>
+    </Led>
+
+    <Led Id="Mute">
+      <X>439</X>
+      <Y>6</Y>
+      <Height>13mm</Height>
+    </Led>
+
+    <!-- Esc -> NextTrack -->
+    <Led Id="Escape">
+      <X>68</X>
+      <Y>28</Y>
+    </Led>
+
+    <Led Id="F1">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F2" />
+    <Led Id="F3" />
+    <Led Id="F4" />
+
+    <Led Id="F5">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F6" />
+    <Led Id="F7" />
+    <Led Id="F8" />
+
+    <Led Id="F9">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F10" />
+    <Led Id="F11" />
+    <Led Id="F12" />
+
+    <Led Id="PrintScreen">
+      <X>+5</X>
+    </Led>
+    <Led Id="ScrollLock" />
+    <Led Id="PauseBreak" />
+
+    <Led Id="Stop">
+      <X>+5</X>
+      <Height>14mm</Height>
+    </Led>
+    <Led Id="ScanPreviousTrack">
+      <Height>14mm</Height>
+    </Led>
+    <Led Id="PlayPause">
+      <Height>14mm</Height>
+    </Led>
+    <Led Id="ScanNextTrack">
+      <Height>14mm</Height>
+    </Led>
+
+    <!-- ^ -> Num- -->
+    <Led Id="GraveAccentAndTilde">
+      <X>68</X>
+      <Y>49</Y>
+    </Led>
+    <Led Id="D1" />
+    <Led Id="D2" />
+    <Led Id="D3" />
+    <Led Id="D4" />
+    <Led Id="D5" />
+    <Led Id="D6" />
+    <Led Id="D7" />
+    <Led Id="D8" />
+    <Led Id="D9" />
+    <Led Id="D0" />
+    <Led Id="MinusAndUnderscore" />
+    <Led Id="EqualsAndPlus" />
+    <Led Id="Backspace">
+      <Width>2</Width>
+    </Led>
+
+    <Led Id="Insert">
+      <X>+5</X>
+    </Led>
+    <Led Id="Home" />
+    <Led Id="PageUp" />
+
+    <Led Id="NumLock">
+      <X>+5</X>
+    </Led>
+    <Led Id="KeypadSlash" />
+    <Led Id="KeypadAsterisk" />
+    <Led Id="KeypadMinus" />
+
+    <!-- Tab -> Num+ -->
+    <Led Id="Tab">
+      <X>68</X>
+      <Y>+</Y>
+      <Width>1.5</Width>
+    </Led>
+    <Led Id="Q" />
+    <Led Id="W" />
+    <Led Id="E" />
+    <Led Id="R" />
+    <Led Id="T" />
+    <Led Id="Y" />
+    <Led Id="U" />
+    <Led Id="I" />
+    <Led Id="O" />
+    <Led Id="P" />
+    <Led Id="BracketLeft" />
+    <Led Id="BracketRight" />
+    <Led Id="Enter">
+      <Width>1.5</Width>
+      <Height>2</Height>
+    </Led>
+
+    <Led Id="Delete">
+      <X>+5</X>
+    </Led>
+    <Led Id="End" />
+    <Led Id="PageDown" />
+
+    <Led Id="Keypad7">
+      <X>+5</X>
+    </Led>
+    <Led Id="Keypad8" />
+    <Led Id="Keypad9" />
+    <Led Id="KeypadPlus">
+      <Height>2</Height>
+    </Led>
+
+    <!-- CapsLock -> Num6 -->
+    <Led Id="CapsLock">
+      <X>68</X>
+      <Y>~</Y>
+      <Width>1.75</Width>
+    </Led>
+    <Led Id="A" />
+    <Led Id="S" />
+    <Led Id="D" />
+    <Led Id="F" />
+    <Led Id="G" />
+    <Led Id="H" />
+    <Led Id="J" />
+    <Led Id="K" />
+    <Led Id="L" />
+    <Led Id="SemicolonAndColon" />
+    <Led Id="ApostropheAndDoubleQuote" />
+    <Led Id="NonUsTilde" />
+
+    <Led Id="Keypad4">
+      <X>+90.75</X>
+    </Led>
+    <Led Id="Keypad5" />
+    <Led Id="Keypad6" />
+
+    <!-- LShift -> NumEnter -->
+    <Led Id="LeftShift">
+      <X>68</X>
+      <Y>+</Y>
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="NonUsBackslash" />
+    <Led Id="Z" />
+    <Led Id="X" />
+    <Led Id="C" />
+    <Led Id="V" />
+    <Led Id="B" />
+    <Led Id="N" />
+    <Led Id="M" />
+    <Led Id="CommaAndLessThan" />
+    <Led Id="PeriodAndBiggerThan" />
+    <Led Id="SlashAndQuestionMark" />
+    <Led Id="RightShift">
+      <Width>2.75</Width>
+    </Led>
+
+    <Led Id="UpArrow">
+      <X>+24</X>
+    </Led>
+
+    <Led Id="Keypad1">
+      <X>+24</X>
+    </Led>
+    <Led Id="Keypad2" />
+    <Led Id="Keypad3" />
+    <Led Id="KeypadEnter">
+      <Height>2</Height>
+    </Led>
+
+    <!-- LCtrl -> NumPeriod -->
+    <Led Id="LeftCtrl">
+      <X>68</X>
+      <Y>~</Y>
+      <Width>1.5</Width>
+    </Led>
+    <Led Id="LeftGui" />
+    <Led Id="LeftAlt">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="Space">
+      <Width>6.5</Width>
+    </Led>
+    <Led Id="RightAlt">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="RightGui" />
+    <Led Id="Application" />
+    <Led Id="RightCtrl">
+      <Width>1.5</Width>
+    </Led>
+
+    <Led Id="LeftArrow">
+      <X>+5</X>
+    </Led>
+    <Led Id="DownArrow" />
+    <Led Id="RightArrow" />
+
+    <Led Id="Keypad0">
+      <X>+5</X>
+      <Width>2</Width>
+    </Led>
+    <Led Id="KeypadPeriodAndDelete" />
+
+    <!-- G-Keys: They are a bit messy since there size isn't 19mm x 19mm as any standard-key -->
+    <Led Id="G1">
+      <X>7</X>
+      <Y>28</Y>
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G2">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G3">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G4">
+      <X>7</X>
+      <Y>+</Y>
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G5">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G6">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+
+    <Led Id="G7">
+      <X>7</X>
+      <Y>+4</Y>
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G8">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G9">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G10">
+      <X>7</X>
+      <Y>+</Y>
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G11">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G12">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+
+    <Led Id="G13">
+      <X>7</X>
+      <Y>+4</Y>
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G14">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G15">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G16">
+      <X>7</X>
+      <Y>+</Y>
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G17">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
+    </Led>
+    <Led Id="G18">
+      <Width>18mm</Width>
+      <Height>18mm</Height>
     </Led>
   </Leds>
 </Device>
