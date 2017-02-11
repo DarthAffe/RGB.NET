@@ -3,11 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Corsair.Helper;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -65,8 +64,8 @@ namespace RGB.NET.Devices.Corsair
                 InitializeLed(new CorsairLedId(this, ledPosition.ledId),
                               new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
 
-            ApplyLayoutFromFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
-                $@"Layouts\Corsair\Mousemat\{MousematDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mousemats\{MousematDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+                null, PathHelper.GetAbsolutePath(@"Images\Corsair\Mousemats"));
         }
 
         #endregion

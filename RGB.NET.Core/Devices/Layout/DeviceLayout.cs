@@ -90,6 +90,12 @@ namespace RGB.NET.Core.Layout
         [XmlArray("Leds")]
         public List<LedLayout> Leds { get; set; } = new List<LedLayout>();
 
+        /// <summary>
+        /// Gets or sets a list of <see cref="LedImageLayout"/> representing the layouts for the images of all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
+        /// </summary>
+        [XmlArray("LedImageLayouts")]
+        public List<LedImageLayout> LedImageLayouts { get; set; } = new List<LedImageLayout>();
+
         #endregion
 
         #region Methods

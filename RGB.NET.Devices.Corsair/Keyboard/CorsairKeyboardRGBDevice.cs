@@ -2,10 +2,9 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
-using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Corsair.Helper;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -58,8 +57,10 @@ namespace RGB.NET.Devices.Corsair
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
             }
 
-            ApplyLayoutFromFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
-                $@"Layouts\Corsair\Keyboards\{KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"));
+            string model = KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
+                $@"Layouts\Corsair\Keyboards\{model}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
+                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath($@"Images\Corsair\Keyboards\{model}"));
         }
 
         #endregion

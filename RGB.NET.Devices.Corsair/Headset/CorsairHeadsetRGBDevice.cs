@@ -1,9 +1,8 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using System.IO;
-using System.Reflection;
 using RGB.NET.Core;
+using RGB.NET.Devices.Corsair.Helper;
 
 namespace RGB.NET.Devices.Corsair
 {
@@ -43,8 +42,8 @@ namespace RGB.NET.Devices.Corsair
             InitializeLed(new CorsairLedId(this, CorsairLedIds.LeftLogo), new Rectangle(0, 0, 10, 10));
             InitializeLed(new CorsairLedId(this, CorsairLedIds.RightLogo), new Rectangle(10, 0, 10, 10));
 
-            ApplyLayoutFromFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
-                $@"Layouts\Corsair\Headsets\{HeadsetDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Headsets\{HeadsetDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+                null, PathHelper.GetAbsolutePath(@"Images\Corsair\Headsets"));
         }
 
         #endregion

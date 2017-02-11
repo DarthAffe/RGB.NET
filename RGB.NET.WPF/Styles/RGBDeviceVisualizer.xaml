@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:RGB.NET.WPF.Controls">
 
-
     <Style x:Key="StyleRGBDeviceVisualizer"
            TargetType="{x:Type controls:RGBDeviceVisualizer}">
         <Setter Property="Width" Value="{Binding Device.Size.Width, RelativeSource={RelativeSource Self}}" />

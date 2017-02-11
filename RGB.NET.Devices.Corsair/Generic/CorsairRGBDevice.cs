@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
@@ -60,11 +61,15 @@ namespace RGB.NET.Devices.Corsair
         /// Applies the given layout.
         /// </summary>
         /// <param name="layoutPath">The file containing the layout.</param>
-        protected void ApplyLayoutFromFile(string layoutPath)
+        /// <param name="imageLayout">The name of the layout used tp get the images of the leds.</param>
+        /// <param name="imageBasePath">The path images for this device are collected in.</param>
+        protected void ApplyLayoutFromFile(string layoutPath, string imageLayout, string imageBasePath)
         {
             DeviceLayout layout = DeviceLayout.Load(layoutPath);
             if (layout != null)
             {
+                LedImageLayout ledImageLayout = layout.LedImageLayouts.FirstOrDefault(x => string.Equals(x.Layout, imageLayout, StringComparison.OrdinalIgnoreCase));
+
                 InternalSize = new Size(layout.Width, layout.Height);
 
                 if (layout.Leds != null)
@@ -82,6 +87,11 @@ namespace RGB.NET.Devices.Corsair
                                 led.LedRectangle.Size.Height = layoutLed.Height;
 
                                 led.Shape = layoutLed.Shape;
+
+                                LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
+                                led.Image = (!string.IsNullOrEmpty(image?.Image))
+                                    ? new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute)
+                                    : new Uri(Path.Combine(imageBasePath, "Clean.png"), UriKind.Absolute);
                             }
                         }
                     }

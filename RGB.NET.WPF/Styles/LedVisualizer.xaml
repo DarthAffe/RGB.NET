@@ -7,20 +7,38 @@
 
     <ControlTemplate x:Key="ControlTemplateLedRectangle"
                      TargetType="{x:Type controls:LedVisualizer}">
-        <Rectangle VerticalAlignment="Stretch"
-                   HorizontalAlignment="Stretch"
-                   Stroke="{TemplateBinding BorderBrush}"
-                   StrokeThickness="{TemplateBinding BorderThickness}"
-                   Fill="{TemplateBinding Background}" />
+        <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Border.Background>
+                <ImageBrush AlignmentX="Center" AlignmentY="Center"
+                            Stretch="Fill"
+                            ImageSource="{Binding Led.Image, RelativeSource={RelativeSource TemplatedParent}}" />
+            </Border.Background>
+
+            <Rectangle VerticalAlignment="Stretch"
+                       HorizontalAlignment="Stretch"
+                       Opacity="0.5"
+                       Stroke="{TemplateBinding BorderBrush}"
+                       StrokeThickness="1"
+                       Fill="{TemplateBinding Background}" />
+        </Border>
     </ControlTemplate>
 
     <ControlTemplate x:Key="ControlTemplateLedCircle"
                      TargetType="{x:Type controls:LedVisualizer}">
-        <Ellipse VerticalAlignment="Stretch"
-                 HorizontalAlignment="Stretch"
-                 Stroke="{TemplateBinding BorderBrush}"
-                 StrokeThickness="{TemplateBinding BorderThickness}"
-                 Fill="{TemplateBinding Background}" />
+        <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Border.Background>
+                <ImageBrush AlignmentX="Center" AlignmentY="Center"
+                            Stretch="Fill"
+                            ImageSource="{Binding Led.Image, RelativeSource={RelativeSource TemplatedParent}}" />
+            </Border.Background>
+
+            <Ellipse VerticalAlignment="Stretch"
+                     HorizontalAlignment="Stretch"
+                     Opacity="0.5"
+                     Stroke="{TemplateBinding BorderBrush}"
+                     StrokeThickness="1"
+                     Fill="{TemplateBinding Background}" />
+        </Border>
     </ControlTemplate>
 
     <Style x:Key="StyleLedVisualizer"
@@ -30,17 +48,15 @@
         <Setter Property="Canvas.Left" Value="{Binding Led.LedRectangle.Location.X, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Canvas.Top" Value="{Binding Led.LedRectangle.Location.Y, RelativeSource={RelativeSource Self}}" />
 
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="#202020" />
+        <Setter Property="BorderBrush" Value="#A8202020" />
         <Setter Property="Background" Value="{Binding Led.Color, RelativeSource={RelativeSource Self}, 
                                                       Converter={StaticResource ConverterColorToSolidColorBrush}}" />
-        <Setter Property="Opacity" Value="0.66" />
 
         <Setter Property="Template" Value="{StaticResource ControlTemplateLedRectangle}" />
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="#FFFFFF" />
+                <Setter Property="BorderBrush" Value="#A8FFFFFF" />
             </Trigger>
 
             <DataTrigger Binding="{Binding Led.Shape, RelativeSource={RelativeSource Self}}" Value="Circle">

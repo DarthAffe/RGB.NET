@@ -1,5 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
+using System;
 using System.Diagnostics;
 
 namespace RGB.NET.Core
@@ -89,6 +90,11 @@ namespace RGB.NET.Core
             get { return _isLocked; }
             set { SetProperty(ref _isLocked, value); }
         }
+
+        /// <summary>
+        /// Gets the URI of an image of the <see cref="Led"/> or null if there is no image.
+        /// </summary>
+        public Uri Image { get; set; }
 
         #endregion
 

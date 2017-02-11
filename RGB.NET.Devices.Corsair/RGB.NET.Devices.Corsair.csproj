@@ -62,6 +62,7 @@
     <Compile Include="Generic\CorsairRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDeviceInfo.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Keyboard\CorsairKeyboardRGBDevice.cs" />
     <Compile Include="Keyboard\CorsairKeyboardRGBDeviceInfo.cs" />
     <Compile Include="Mouse\CorsairMouseRGBDevice.cs" />
@@ -90,10 +91,10 @@
   <ItemGroup>
     <Folder Include="Images\Corsair\Headsets\" />
     <Folder Include="Images\Corsair\Mice\" />
-    <Folder Include="Images\Corsair\Mousemat\" />
+    <Folder Include="Images\Corsair\Mousemats\" />
     <Folder Include="Layouts\Corsair\Headsets\" />
     <Folder Include="Layouts\Corsair\Mice\" />
-    <Folder Include="Layouts\Corsair\Mousemat\" />
+    <Folder Include="Layouts\Corsair\Mousemats\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Corsair\Keyboards\K70RGB\BE.png" />

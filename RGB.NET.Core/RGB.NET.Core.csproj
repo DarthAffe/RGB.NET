@@ -48,6 +48,8 @@
     <Compile Include="Brushes\IBrush.cs" />
     <Compile Include="ColorCorrection\IColorCorrection.cs" />
     <Compile Include="Devices\AbstractRGBDevice.cs" />
+    <Compile Include="Devices\Layout\LedImage.cs" />
+    <Compile Include="Devices\Layout\LedImageLayout.cs" />
     <Compile Include="Devices\RGBDeviceLighting.cs" />
     <Compile Include="Positioning\Shape.cs" />
     <Compile Include="Devices\Layout\LedLayout.cs" />
