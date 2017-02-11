@@ -10,13 +10,18 @@ namespace RGB.NET.Core
     public enum Shape
     {
         /// <summary>
+        /// A custom shape defined by vector-data.
+        /// </summary>
+        Custom = 0,
+
+        /// <summary>
         /// A simple rectangle.
         /// </summary>
-        Rectangle = 0,
+        Rectangle = 1,
 
         /// <summary>
         /// A simple circle.
         /// </summary>
-        Circle = 1
+        Circle = 2,
     }
 }

@@ -21,11 +21,12 @@ namespace RGB.NET.Core.Layout
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="RGB.NET.Core.Shape"/> of the <see cref="LedLayout"/>.
+        /// Gets or sets the descriptive <see cref="RGB.NET.Core.Shape"/> of the <see cref="LedLayout"/>.
+        /// This property is for XML-serialization only and should not be directly accessed.
         /// </summary>
         [XmlElement("Shape")]
-        [DefaultValue(Shape.Rectangle)]
-        public Shape Shape { get; set; } = Shape.Rectangle;
+        [DefaultValue("Rectangle")]
+        public string DescriptiveShape { get; set; } = "Rectangle";
 
         /// <summary>
         /// Gets or sets the descriptive x-position of the <see cref="LedLayout"/>.
@@ -58,6 +59,18 @@ namespace RGB.NET.Core.Layout
         [XmlElement("Height")]
         [DefaultValue("1.0")]
         public string DescriptiveHeight { get; set; } = "1.0";
+
+        /// <summary>
+        /// Gets or sets the <see cref="RGB.NET.Core.Shape"/> of the <see cref="LedLayout"/>.
+        /// </summary>
+        [XmlIgnore]
+        public Shape Shape { get; set; }
+
+        /// <summary>
+        /// Gets or sets the vecor-data representing a custom-shape of the <see cref="LedLayout"/>.
+        /// </summary>
+        [XmlIgnore]
+        public string ShapeData { get; set; }
 
         /// <summary>
         /// Gets or sets the x-position of the <see cref="LedLayout"/>.
@@ -94,6 +107,14 @@ namespace RGB.NET.Core.Layout
         /// <param name="lastLed">The <see cref="LedLayout"/> previously calculated.</param>
         public void CalculateValues(DeviceLayout device, LedLayout lastLed)
         {
+            Shape shape;
+            if (!Enum.TryParse(DescriptiveShape, true, out shape))
+            {
+                shape = Shape.Custom;
+                ShapeData = DescriptiveShape;
+            }
+            Shape = shape;
+
             Width = GetSizeValue(DescriptiveWidth, device.LedUnitWidth);
             Height = GetSizeValue(DescriptiveHeight, device.LedUnitHeight);
 

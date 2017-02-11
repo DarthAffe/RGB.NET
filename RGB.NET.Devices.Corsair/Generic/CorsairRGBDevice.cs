@@ -87,6 +87,7 @@ namespace RGB.NET.Devices.Corsair
                                 led.LedRectangle.Size.Height = layoutLed.Height;
 
                                 led.Shape = layoutLed.Shape;
+                                led.ShapeData = layoutLed.ShapeData;
 
                                 LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
                                 led.Image = (!string.IsNullOrEmpty(image?.Image))

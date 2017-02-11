@@ -41,6 +41,32 @@
         </Border>
     </ControlTemplate>
 
+    <ControlTemplate x:Key="ControlTemplateLedCustom"
+                     TargetType="{x:Type controls:LedVisualizer}">
+        <Border x:Name="Border" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Border.Background>
+                <ImageBrush AlignmentX="Center" AlignmentY="Center"
+                            Stretch="Fill"
+                            ImageSource="{Binding Led.Image, RelativeSource={RelativeSource TemplatedParent}}" />
+            </Border.Background>
+
+            <Path Opacity="0.5"
+                  Clip="{Binding Data, RelativeSource={RelativeSource Self}}"
+                  Stroke="{TemplateBinding BorderBrush}"
+                  StrokeThickness="2" 
+                  Fill="{TemplateBinding Background}">
+                <Path.Data>
+                    <PathGeometry Figures="{Binding Led.ShapeData, RelativeSource={RelativeSource TemplatedParent}}">
+                        <PathGeometry.Transform>
+                            <ScaleTransform ScaleX="{Binding ActualWidth, ElementName=Border}" 
+                                            ScaleY="{Binding ActualHeight, ElementName=Border}" />
+                        </PathGeometry.Transform>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Border>
+    </ControlTemplate>
+
     <Style x:Key="StyleLedVisualizer"
            TargetType="{x:Type controls:LedVisualizer}">
         <Setter Property="Width" Value="{Binding Led.LedRectangle.Size.Width, RelativeSource={RelativeSource Self}}" />
@@ -61,6 +87,10 @@
 
             <DataTrigger Binding="{Binding Led.Shape, RelativeSource={RelativeSource Self}}" Value="Circle">
                 <Setter Property="Template" Value="{StaticResource ControlTemplateLedCircle}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Led.Shape, RelativeSource={RelativeSource Self}}" Value="Custom">
+                <Setter Property="Template" Value="{StaticResource ControlTemplateLedCustom}" />
             </DataTrigger>
         </Style.Triggers>
     </Style>

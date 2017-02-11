@@ -33,6 +33,16 @@ namespace RGB.NET.Core
             set { SetProperty(ref _shape, value); }
         }
 
+        private string _shapeData;
+        /// <summary>
+        /// Gets or sets the data used for by the <see cref="Core.Shape.Custom"/>-<see cref="Core.Shape"/>.
+        /// </summary>
+        public string ShapeData
+        {
+            get { return _shapeData; }
+            set { SetProperty(ref _shapeData, value); }
+        }
+
         /// <summary>
         /// Gets a rectangle representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
         /// </summary>
