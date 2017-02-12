@@ -74,7 +74,7 @@
         <Setter Property="Canvas.Left" Value="{Binding Led.LedRectangle.Location.X, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Canvas.Top" Value="{Binding Led.LedRectangle.Location.Y, RelativeSource={RelativeSource Self}}" />
 
-        <Setter Property="BorderBrush" Value="#A8202020" />
+        <Setter Property="BorderBrush" Value="#000000" />
         <Setter Property="Background" Value="{Binding Led.Color, RelativeSource={RelativeSource Self}, 
                                                       Converter={StaticResource ConverterColorToSolidColorBrush}}" />
 
@@ -82,7 +82,7 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="#A8FFFFFF" />
+                <Setter Property="BorderBrush" Value="#FFFFFF" />
             </Trigger>
 
             <DataTrigger Binding="{Binding Led.Shape, RelativeSource={RelativeSource Self}}" Value="Circle">

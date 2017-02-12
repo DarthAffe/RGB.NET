@@ -40,7 +40,7 @@ namespace RGB.NET.Devices.Corsair
             this.LogicalLayout = (CorsairLogicalKeyboardLayout)nativeInfo.logicalLayout;
 
             string model = Model.Replace(" ", string.Empty).ToUpper();
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Corsair\Keyboards\{model}\{model}.png"), UriKind.Absolute);
+            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Corsair\Keyboards\{model}.png"), UriKind.Absolute);
         }
 
         #endregion

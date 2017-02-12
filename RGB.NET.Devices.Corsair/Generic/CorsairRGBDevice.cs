@@ -92,7 +92,7 @@ namespace RGB.NET.Devices.Corsair
                                 LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
                                 led.Image = (!string.IsNullOrEmpty(image?.Image))
                                     ? new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute)
-                                    : new Uri(Path.Combine(imageBasePath, "Clean.png"), UriKind.Absolute);
+                                    : new Uri(Path.Combine(imageBasePath, "Missing.png"), UriKind.Absolute);
                             }
                         }
                     }

@@ -60,7 +60,7 @@ namespace RGB.NET.Devices.Corsair
             string model = KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
                 $@"Layouts\Corsair\Keyboards\{model}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath($@"Images\Corsair\Keyboards\{model}"));
+                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath($@"Images\Corsair\Keyboards"));
         }
 
         #endregion
