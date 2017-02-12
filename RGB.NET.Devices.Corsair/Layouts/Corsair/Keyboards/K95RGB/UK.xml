@@ -446,14 +446,13 @@
         <LedImage Id="L" Image="K_Keys\L.png" />
         <LedImage Id="SemicolonAndColon" Image="K_Keys\OE.png" />
         <LedImage Id="ApostropheAndDoubleQuote" Image="K_Keys\AE.png" />
-        <LedImage Id="NonUsTilde" Image="K_Keys\Sharp_Apostrophe.png" />
+        <LedImage Id="NonUsTilde" Image="K_Keys\Hash_Apostrophe.png" />
         <LedImage Id="Keypad4" Image="K_Keys\Num4_ArrowLeft.png" />
         <LedImage Id="Keypad5" Image="K_Keys\Num5.png" />
         <LedImage Id="Keypad6" Image="K_Keys\Num6_ArrowRight.png" />
 
         <LedImage Id="LeftShift" Image="K_Keys\Shift.png" />
         <LedImage Id="NonUsBackslash" Image="K_Keys\LessThan_GreaterThan_Pipe.png" />
-        <LedImage Id="CommaAndLessThan" Image="K_Keys\Comma_Semicolon.png" />
         <LedImage Id="Z" Image="K_Keys\Y.png" />
         <LedImage Id="X" Image="K_Keys\X.png" />
         <LedImage Id="C" Image="K_Keys\C.png" />
@@ -461,6 +460,7 @@
         <LedImage Id="B" Image="K_Keys\B.png" />
         <LedImage Id="N" Image="K_Keys\N.png" />
         <LedImage Id="M" Image="K_Keys\M_Mu.png" />
+        <LedImage Id="CommaAndLessThan" Image="K_Keys\Comma_Semicolon.png" />
         <LedImage Id="PeriodAndBiggerThan" Image="K_Keys\Dot_Colon.png" />
         <LedImage Id="SlashAndQuestionMark" Image="K_Keys\Hyphen_Underscore.png" />
         <LedImage Id="RightShift" Image="K_Keys\ShiftBig.png" />
@@ -483,6 +483,151 @@
         <LedImage Id="RightArrow" Image="K_Keys\CaretRight.png" />
         <LedImage Id="Keypad0" Image="K_Keys\Num0_Einfg.png" />
         <LedImage Id="KeypadPeriodAndDelete" Image="K_Keys\Comma_Entf.png" />
+
+        <LedImage Id="G1" Image="K_Keys\G1.png" />
+        <LedImage Id="G2" Image="K_Keys\G2.png" />
+        <LedImage Id="G3" Image="K_Keys\G3.png" />
+        <LedImage Id="G4" Image="K_Keys\G4.png" />
+        <LedImage Id="G5" Image="K_Keys\G5.png" />
+        <LedImage Id="G6" Image="K_Keys\G6.png" />
+        <LedImage Id="G7" Image="K_Keys\G7.png" />
+        <LedImage Id="G8" Image="K_Keys\G8.png" />
+        <LedImage Id="G9" Image="K_Keys\G9.png" />
+        <LedImage Id="G10" Image="K_Keys\G10.png" />
+        <LedImage Id="G11" Image="K_Keys\G11.png" />
+        <LedImage Id="G12" Image="K_Keys\G12.png" />
+        <LedImage Id="G13" Image="K_Keys\G13.png" />
+        <LedImage Id="G14" Image="K_Keys\G14.png" />
+        <LedImage Id="G15" Image="K_Keys\G15.png" />
+        <LedImage Id="G16" Image="K_Keys\G16.png" />
+        <LedImage Id="G17" Image="K_Keys\G17.png" />
+        <LedImage Id="G18" Image="K_Keys\G18.png" />
+      </LedImages>
+    </LedImageLayout>
+    <LedImageLayout Layout="EU">
+      <LedImages>
+        <LedImage Id="MR" Image="K_Keys\MR.png" />
+        <LedImage Id="M1" Image="K_Keys\M1.png" />
+        <LedImage Id="M2" Image="K_Keys\M2.png" />
+        <LedImage Id="M3" Image="K_Keys\M3.png" />
+        <LedImage Id="Brightness" Image="K_Keys\Brightness.png" />
+        <LedImage Id="WinLock" Image="K_Keys\WinLock.png" />
+        <LedImage Id="Mute" Image="K_Keys\Mute.png" />
+
+        <LedImage Id="Escape" Image="K_Keys\Escape.png" />
+        <LedImage Id="F1" Image="K_Keys\F1.png" />
+        <LedImage Id="F2" Image="K_Keys\F2.png" />
+        <LedImage Id="F3" Image="K_Keys\F3.png" />
+        <LedImage Id="F4" Image="K_Keys\F4.png" />
+        <LedImage Id="F5" Image="K_Keys\F5.png" />
+        <LedImage Id="F6" Image="K_Keys\F6.png" />
+        <LedImage Id="F7" Image="K_Keys\F7.png" />
+        <LedImage Id="F8" Image="K_Keys\F8.png" />
+        <LedImage Id="F9" Image="K_Keys\F9.png" />
+        <LedImage Id="F10" Image="K_Keys\F10.png" />
+        <LedImage Id="F11" Image="K_Keys\F11.png" />
+        <LedImage Id="F12" Image="K_Keys\F12.png" />
+        <LedImage Id="PrintScreen" Image="K_Keys\PrtScnSysRq.png" />
+        <LedImage Id="ScrollLock" Image="K_Keys\ScrollLock.png" />
+        <LedImage Id="PauseBreak" Image="K_Keys\PauseBreak.png" />
+        <LedImage Id="Stop" Image="K_Keys\Stop.png" />
+        <LedImage Id="ScanPreviousTrack" Image="K_Keys\PreviousTrack.png" />
+        <LedImage Id="PlayPause" Image="K_Keys\PlayPause.png" />
+        <LedImage Id="ScanNextTrack" Image="K_Keys\NextTrack.png" />
+
+        <LedImage Id="GraveAccentAndTilde" Image="K_Keys\AccentGrave_Tilde.png" />
+        <LedImage Id="D1" Image="K_Keys\1_ExclamationMark.png" />
+        <LedImage Id="D2" Image="K_Keys\2_At.png" />
+        <LedImage Id="D3" Image="K_Keys\3_Hash.png" />
+        <LedImage Id="D4" Image="K_Keys\4_Dollar.png" />
+        <LedImage Id="D5" Image="K_Keys\5_Percent_Euro.png" />
+        <LedImage Id="D6" Image="K_Keys\6_Circumflex.png" />
+        <LedImage Id="D7" Image="K_Keys\7_Ampersand.png" />
+        <LedImage Id="D8" Image="K_Keys\8_Asterisk.png" />
+        <LedImage Id="D9" Image="K_Keys\9_BracketRight.png" />
+        <LedImage Id="D0" Image="K_Keys\0_BracketRight.png" />
+        <LedImage Id="MinusAndUnderscore" Image="K_Keys\Hyphen_Underscore.png" />
+        <LedImage Id="EqualsAndPlus" Image="K_Keys\Equals_Plus.png" />
+        <LedImage Id="Backspace" Image="K_Keys\Backspace.png" />
+        <LedImage Id="Insert" Image="K_Keys\Insert.png" />
+        <LedImage Id="Home" Image="K_Keys\Home.png" />
+        <LedImage Id="PageUp" Image="K_Keys\PageUp.png" />
+        <LedImage Id="NumLock" Image="K_Keys\NumLock.png" />
+        <LedImage Id="KeypadSlash" Image="K_Keys\Slash.png" />
+        <LedImage Id="KeypadAsterisk" Image="K_Keys\Asterisk.png" />
+        <LedImage Id="KeypadMinus" Image="K_Keys\Minus.png" />
+
+        <LedImage Id="Tab" Image="K_Keys\TabWText.png" />
+        <LedImage Id="Q" Image="K_Keys\Q.png" />
+        <LedImage Id="W" Image="K_Keys\W.png" />
+        <LedImage Id="E" Image="K_Keys\E.png" />
+        <LedImage Id="R" Image="K_Keys\R.png" />
+        <LedImage Id="T" Image="K_Keys\T.png" />
+        <LedImage Id="Y" Image="K_Keys\Y.png" />
+        <LedImage Id="U" Image="K_Keys\U.png" />
+        <LedImage Id="I" Image="K_Keys\I.png" />
+        <LedImage Id="O" Image="K_Keys\O.png" />
+        <LedImage Id="P" Image="K_Keys\P.png" />
+        <LedImage Id="BracketLeft" Image="K_Keys\SquareBracketLeft_CurlyBracketLeft.png" />
+        <LedImage Id="BracketRight" Image="K_Keys\SquareBracketRight_CurlyBracketRight.png" />
+        <LedImage Id="Enter" Image="K_Keys\EnterWText.png" />
+        <LedImage Id="Delete" Image="K_Keys\Delete.png" />
+        <LedImage Id="End" Image="K_Keys\End.png" />
+        <LedImage Id="PageDown" Image="K_Keys\PageDown.png" />
+        <LedImage Id="Keypad7" Image="K_Keys\Num7_Home.png" />
+        <LedImage Id="Keypad8" Image="K_Keys\Num8_ArrowUp.png" />
+        <LedImage Id="Keypad9" Image="K_Keys\Num9_PgUp.png" />
+        <LedImage Id="KeypadPlus" Image="K_Keys\NumPlus.png" />
+
+        <LedImage Id="CapsLock" Image="K_Keys\CapsLockText.png" />
+        <LedImage Id="A" Image="K_Keys\A.png" />
+        <LedImage Id="S" Image="K_Keys\S.png" />
+        <LedImage Id="D" Image="K_Keys\D.png" />
+        <LedImage Id="F" Image="K_Keys\F.png" />
+        <LedImage Id="G" Image="K_Keys\G.png" />
+        <LedImage Id="H" Image="K_Keys\H.png" />
+        <LedImage Id="J" Image="K_Keys\J.png" />
+        <LedImage Id="K" Image="K_Keys\K.png" />
+        <LedImage Id="L" Image="K_Keys\L.png" />
+        <LedImage Id="SemicolonAndColon" Image="K_Keys\Semicolon_Colon.png" />
+        <LedImage Id="ApostropheAndDoubleQuote" Image="K_Keys\Apostrophe_QuotationMark.png" />
+        <LedImage Id="NonUsTilde" Image="K_Keys\Blackslash_Pipe.png" />
+        <LedImage Id="Keypad4" Image="K_Keys\Num4_ArrowLeft.png" />
+        <LedImage Id="Keypad5" Image="K_Keys\Num5.png" />
+        <LedImage Id="Keypad6" Image="K_Keys\Num6_ArrowRight.png" />
+
+        <LedImage Id="LeftShift" Image="K_Keys\ShiftWText.png" />
+        <LedImage Id="NonUsBackslash" Image="K_Keys\Blackslash_Pipe.png" />
+        <LedImage Id="Z" Image="K_Keys\Z.png" />
+        <LedImage Id="X" Image="K_Keys\X.png" />
+        <LedImage Id="C" Image="K_Keys\C.png" />
+        <LedImage Id="V" Image="K_Keys\V.png" />
+        <LedImage Id="B" Image="K_Keys\B.png" />
+        <LedImage Id="N" Image="K_Keys\N.png" />
+        <LedImage Id="M" Image="K_Keys\M.png" />
+        <LedImage Id="CommaAndLessThan" Image="K_Keys\LessThan_Comma.png" />
+        <LedImage Id="PeriodAndBiggerThan" Image="K_Keys\GreaterThan_Dot.png" />
+        <LedImage Id="SlashAndQuestionMark" Image="K_Keys\QuestionMark_Slash.png" />
+        <LedImage Id="RightShift" Image="K_Keys\ShiftWTextBig.png" />
+        <LedImage Id="UpArrow" Image="K_Keys\CaretUp.png" />
+        <LedImage Id="Keypad1" Image="K_Keys\Num1_End.png" />
+        <LedImage Id="Keypad2" Image="K_Keys\Num2_ArrowDown.png" />
+        <LedImage Id="Keypad3" Image="K_Keys\Num3_PgDn.png" />
+        <LedImage Id="KeypadEnter" Image="K_Keys\NumEnter.png" />
+
+        <LedImage Id="LeftCtrl" Image="K_Keys\Ctrl.png" />
+        <LedImage Id="LeftGui" Image="K_Keys\Windows.png" />
+        <LedImage Id="LeftAlt" Image="K_Keys\Alt.png" />
+        <LedImage Id="Space" Image="K_Keys\Space.png" />
+        <LedImage Id="RightAlt" Image="K_Keys\AltGr.png" />
+        <LedImage Id="RightGui" Image="K_Keys\Windows.png" />
+        <LedImage Id="Application" Image="K_Keys\Menu.png" />
+        <LedImage Id="RightCtrl" Image="K_Keys\Ctrl.png" />
+        <LedImage Id="LeftArrow" Image="K_Keys\CaretLeft.png" />
+        <LedImage Id="DownArrow" Image="K_Keys\CaretDown.png" />
+        <LedImage Id="RightArrow" Image="K_Keys\CaretRight.png" />
+        <LedImage Id="Keypad0" Image="K_Keys\Num0_Ins.png" />
+        <LedImage Id="KeypadPeriodAndDelete" Image="K_Keys\Comma_Del.png" />
 
         <LedImage Id="G1" Image="K_Keys\G1.png" />
         <LedImage Id="G2" Image="K_Keys\G2.png" />
