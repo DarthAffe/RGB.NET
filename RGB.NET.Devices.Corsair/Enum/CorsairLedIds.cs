@@ -162,6 +162,8 @@ namespace RGB.NET.Devices.Corsair
         B2 = 149,
         B3 = 150,
         B4 = 151,
+        B5 = 189,
+        B6 = 190,
 
         LeftLogo = 152,
         RightLogo = 153,
@@ -182,6 +184,26 @@ namespace RGB.NET.Devices.Corsair
         Zone12 = 166,
         Zone13 = 167,
         Zone14 = 168,
-        Zone15 = 169
+        Zone15 = 169,
+
+        Lightbar1 = 170,
+        Lightbar2 = 171,
+        Lightbar3 = 172,
+        Lightbar4 = 173,
+        Lightbar5 = 174,
+        Lightbar6 = 175,
+        Lightbar7 = 176,
+        Lightbar8 = 177,
+        Lightbar9 = 178,
+        Lightbar10 = 179,
+        Lightbar11 = 180,
+        Lightbar12 = 181,
+        Lightbar13 = 182,
+        Lightbar14 = 183,
+        Lightbar15 = 184,
+        Lightbar16 = 185,
+        Lightbar17 = 186,
+        Lightbar18 = 187,
+        Lightbar19 = 188,
     }
 }
