@@ -70,23 +70,33 @@ namespace RGB.NET.Core
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
         public void Update(bool flushLeds = false)
         {
-            OnUpdating();
-
-            lock (_ledGroups)
+            try
             {
-                // Update effects
-                foreach (ILedGroup ledGroup in _ledGroups)
-                    ledGroup.UpdateEffects();
+                OnUpdating();
 
-                // Render brushes
-                foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
-                    Render(ledGroup);
+                lock (_ledGroups)
+                {
+                    // Update effects
+                    foreach (ILedGroup ledGroup in _ledGroups)
+                        try { ledGroup.UpdateEffects(); }
+                        catch (Exception ex) { OnException(ex); }
+
+                    // Render brushes
+                    foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
+                        try { Render(ledGroup); }
+                        catch (Exception ex) { OnException(ex); }
+                }
+
+                foreach (IRGBDevice device in Devices)
+                    try { device.Update(flushLeds); }
+                    catch (Exception ex) { OnException(ex); }
+
+                OnUpdated();
             }
-
-            foreach (IRGBDevice device in Devices)
-                device.Update(flushLeds);
-
-            OnUpdated();
+            catch (Exception ex)
+            {
+                OnException(ex);
+            }
         }
 
         /// <summary>
@@ -100,36 +110,28 @@ namespace RGB.NET.Core
 
             if ((brush == null) || !brush.IsEnabled) return;
 
-            try
+            switch (brush.BrushCalculationMode)
             {
-                switch (brush.BrushCalculationMode)
-                {
-                    case BrushCalculationMode.Relative:
-                        Rectangle brushRectangle = new Rectangle(leds.Select(x => GetDeviceLedLocation(x)));
-                        Point offset = new Point(-brushRectangle.Location.X, -brushRectangle.Location.Y);
-                        brushRectangle.Location.X = 0;
-                        brushRectangle.Location.Y = 0;
-                        brush.PerformRender(brushRectangle,
-                                            leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x, offset))));
-                        break;
-                    case BrushCalculationMode.Absolute:
-                        brush.PerformRender(SurfaceRectangle, leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x))));
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-
-                brush.UpdateEffects();
-                brush.PerformFinalize();
-
-                foreach (KeyValuePair<BrushRenderTarget, Color> renders in brush.RenderedTargets)
-                    renders.Key.Led.Color = renders.Value;
+                case BrushCalculationMode.Relative:
+                    Rectangle brushRectangle = new Rectangle(leds.Select(x => GetDeviceLedLocation(x)));
+                    Point offset = new Point(-brushRectangle.Location.X, -brushRectangle.Location.Y);
+                    brushRectangle.Location.X = 0;
+                    brushRectangle.Location.Y = 0;
+                    brush.PerformRender(brushRectangle,
+                                        leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x, offset))));
+                    break;
+                case BrushCalculationMode.Absolute:
+                    brush.PerformRender(SurfaceRectangle, leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x))));
+                    break;
+                default:
+                    throw new ArgumentException();
             }
-            // ReSharper disable once CatchAllClause
-            catch (Exception ex)
-            {
-                OnException(ex);
-            }
+
+            brush.UpdateEffects();
+            brush.PerformFinalize();
+
+            foreach (KeyValuePair<BrushRenderTarget, Color> renders in brush.RenderedTargets)
+                renders.Key.Led.Color = renders.Value;
         }
 
         private Rectangle GetDeviceLedLocation(Led led, Point extraOffset = null)
