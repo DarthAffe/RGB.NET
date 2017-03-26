@@ -48,6 +48,7 @@ namespace RGB.NET.Devices.Logitech.Native
             _lgiLedSaveCurrentLightingPointer = (LogiLedSaveCurrentLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSaveCurrentLighting"), typeof(LogiLedSaveCurrentLightingPointer));
             _logiLedRestoreLightingPointer = (LogiLedRestoreLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedRestoreLighting"), typeof(LogiLedRestoreLightingPointer));
             _logiLedSetLightingForKeyWithKeyNamePointer = (LogiLedSetLightingForKeyWithKeyNamePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingForKeyWithKeyName"), typeof(LogiLedSetLightingForKeyWithKeyNamePointer));
+            _logiLedSetLightingFromBitmapPointer = (LogiLedSetLightingFromBitmapPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingFromBitmap"), typeof(LogiLedSetLightingFromBitmapPointer));
         }
 
         private static void UnloadLogitechGSDK()
@@ -83,6 +84,7 @@ namespace RGB.NET.Devices.Logitech.Native
         private static LogiLedSaveCurrentLightingPointer _lgiLedSaveCurrentLightingPointer;
         private static LogiLedRestoreLightingPointer _logiLedRestoreLightingPointer;
         private static LogiLedSetLightingForKeyWithKeyNamePointer _logiLedSetLightingForKeyWithKeyNamePointer;
+        private static LogiLedSetLightingFromBitmapPointer _logiLedSetLightingFromBitmapPointer;
 
         #endregion
 
@@ -108,6 +110,9 @@ namespace RGB.NET.Devices.Logitech.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool LogiLedSetLightingForKeyWithKeyNamePointer(int keyCode, int redPercentage, int greenPercentage, int bluePercentage);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool LogiLedSetLightingFromBitmapPointer(byte[] bitmap);
 
         #endregion
 
@@ -157,6 +162,11 @@ namespace RGB.NET.Devices.Logitech.Native
             int redPercentage, int greenPercentage, int bluePercentage)
         {
             return _logiLedSetLightingForKeyWithKeyNamePointer(keyCode, redPercentage, greenPercentage, bluePercentage);
+        }
+
+        internal static bool LogiLedSetLightingFromBitmap(byte[] bitmap)
+        {
+            return _logiLedSetLightingFromBitmapPointer(bitmap);
         }
 
         // ReSharper restore EventExceptionNotDocumented

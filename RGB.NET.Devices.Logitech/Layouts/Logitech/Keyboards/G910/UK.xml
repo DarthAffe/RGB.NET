@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Logitech G910 - Physical UK</Name>
+  <Description>Physical UK-Layout of Logitech G910 (Logical: ???)</Description>
+  <Type>Keyboard</Type>
+  <Lighting>Key</Lighting>
+  <Vendor>Logitech</Vendor>
+  <Model>G910</Model>
+  <Width>491</Width>
+  <Height>238</Height>
+  <Leds>
+    <!-- Esc -> Pause -->
+    <Led Id="ESC">
+      <X>42</X>
+      <Y>28</Y>
+    </Led>
+
+    <Led Id="F1">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F2" />
+    <Led Id="F3" />
+    <Led Id="F4" />
+
+    <Led Id="F5">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F6" />
+    <Led Id="F7" />
+    <Led Id="F8" />
+
+    <Led Id="F9">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F10" />
+    <Led Id="F11" />
+    <Led Id="F12" />
+
+    <Led Id="PRINT_SCREEN">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="SCROLL_LOCK" />
+    <Led Id="PAUSE_BREAK" />
+
+    <!-- ^ -> Num- -->
+    <Led Id="TILDE">
+      <X>42</X>
+      <Y>52</Y>
+    </Led>
+    <Led Id="ONE" />
+    <Led Id="TWO" />
+    <Led Id="THREE" />
+    <Led Id="FOUR" />
+    <Led Id="FIVE" />
+    <Led Id="SIX" />
+    <Led Id="SEVEN" />
+    <Led Id="EIGHT" />
+    <Led Id="NINE" />
+    <Led Id="ZERO" />
+    <Led Id="MINUS" />
+    <Led Id="EQUALS" />
+    <Led Id="BACKSPACE">
+      <Width>2</Width>
+    </Led>
+
+    <Led Id="INSERT">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="HOME" />
+    <Led Id="PAGE_UP" />
+
+    <Led Id="NUM_LOCK">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="NUM_SLASH" />
+    <Led Id="NUM_ASTERISK" />
+    <Led Id="NUM_MINUS" />
+
+    <!-- Tab -> Num+ -->
+    <Led Id="TAB">
+      <X>42</X>
+      <Y>+</Y>
+      <Width>1.5</Width>
+    </Led>
+    <Led Id="Q" />
+    <Led Id="W" />
+    <Led Id="E" />
+    <Led Id="R" />
+    <Led Id="T" />
+    <Led Id="Y" />
+    <Led Id="U" />
+    <Led Id="I" />
+    <Led Id="O" />
+    <Led Id="P" />
+    <Led Id="OPEN_BRACKET" />
+    <Led Id="CLOSE_BRACKET" />
+    <Led Id="ENTER">
+      <Shape>M0,0 L0,0.5 L0.16666666666,0.5 L0.16666666666,1 L1,1 L1,0 Z</Shape>
+      <Width>1.5</Width>
+      <Height>2</Height>
+    </Led>
+
+    <Led Id="KEYBOARD_DELETE">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="END" />
+    <Led Id="PAGE_DOWN" />
+
+    <Led Id="NUM_SEVEN">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="NUM_EIGHT" />
+    <Led Id="NUM_NINE" />
+    <Led Id="NUM_PLUS">
+      <Height>2</Height>
+    </Led>
+
+    <!-- CapsLock -> Num6 -->
+    <Led Id="CAPS_LOCK">
+      <X>42</X>
+      <Y>~</Y>
+      <Width>1.75</Width>
+    </Led>
+    <Led Id="A" />
+    <Led Id="S" />
+    <Led Id="D" />
+    <Led Id="F" />
+    <Led Id="G" />
+    <Led Id="H" />
+    <Led Id="J" />
+    <Led Id="K" />
+    <Led Id="L" />
+    <Led Id="SEMICOLON" />
+    <Led Id="APOSTROPHE" />
+    <Led Id="NonUsTilde" />
+
+    <Led Id="NUM_FOUR">
+      <X>+94.25</X>
+    </Led>
+    <Led Id="NUM_FIVE" />
+    <Led Id="NUM_SIX" />
+
+    <!-- LShift -> NumEnter -->
+    <Led Id="LEFT_SHIFT">
+      <X>42</X>
+      <Y>+</Y>
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="BACKSLASH" />
+    <Led Id="Z" />
+    <Led Id="X" />
+    <Led Id="C" />
+    <Led Id="V" />
+    <Led Id="B" />
+    <Led Id="N" />
+    <Led Id="M" />
+    <Led Id="COMMA" />
+    <Led Id="PERIOD" />
+    <Led Id="FORWARD_SLASH" />
+    <Led Id="RIGHT_SHIFT">
+      <Width>2.75</Width>
+    </Led>
+
+    <Led Id="ARROW_UP">
+      <X>+25.75</X>
+    </Led>
+
+    <Led Id="NUM_ONE">
+      <X>+25.75</X>
+    </Led>
+    <Led Id="NUM_TWO" />
+    <Led Id="NUM_THREE" />
+    <Led Id="NUM_ENTER">
+      <Height>2</Height>
+    </Led>
+
+    <!-- LCtrl -> NumPeriod -->
+    <Led Id="LEFT_CONTROL">
+      <X>42</X>
+      <Y>~</Y>
+      <Width>1.5</Width>
+    </Led>
+    <Led Id="LEFT_WINDOWS">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="LEFT_ALT">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="SPACE">
+      <Width>5.75</Width>
+    </Led>
+    <Led Id="RIGHT_ALT">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="RIGHT_WINDOWS">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="APPLICATION_SELECT">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="RIGHT_CONTROL">
+      <Width>1.5</Width>
+    </Led>
+
+    <Led Id="ARROW_LEFT">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="ARROW_DOWN" />
+    <Led Id="ARROW_RIGHT" />
+
+    <Led Id="NUM_ZERO">
+      <X>+6.75</X>
+      <Width>2</Width>
+    </Led>
+    <Led Id="NUM_PERIOD" />
+
+    <!-- G-Keys -->
+    <Led Id="G_1">
+      <X>18</X>
+      <Y>52</Y>
+    </Led>
+    <Led Id="G_2">
+      <X>18</X>
+      <Y>+</Y>
+    </Led>
+    <Led Id="G_3">
+      <X>18</X>
+      <Y>+</Y>
+    </Led>
+    <Led Id="G_4">
+      <X>18</X>
+      <Y>+</Y>
+    </Led>
+    <Led Id="G_5">
+      <X>18</X>
+      <Y>+</Y>
+    </Led>
+
+    <Led Id="G_6">
+      <X>73.667</X>
+      <Y>9</Y>
+    </Led>
+    <Led Id="G_7" />
+    <Led Id="G_8" />
+    <Led Id="G_9" />
+
+    <Led Id="G_LOGO">
+      <Shape>M 0.43535,0.91509 c -0.083,-0.013 -0.1809,-0.0541 -0.24123,-0.11683 -0.21672,-0.2247 -0.10831,-0.63995 0.19645,-0.71442 0.044,-0.0108 0.44173,-0.0156 0.47505,-0.006 0.0632,0.0184 0.0708,0.15184 0.0119,0.18175 -0.0174,0.009 -0.0369,0.009 -0.21797,0.009 -0.23755,0 -0.25559,-0.002 -0.3144,0.067 -0.14073,0.16404 -0.0357,0.36697 0.16357,0.40076 0.0569,0.01 0.0835,0.0391 0.0831,0.0846 -4.5e-4,0.0636 -0.0621,0.10873 -0.15647,0.0941 z m 0.36491,6.7e-4 c -0.0366,-0.0138 -0.0539,-0.0325 -0.0567,-0.0973 -0.006,-0.14226 -0.0741,-0.23758 -0.21563,-0.24355 -0.0562,-0.003 -0.0629,-0.004 -0.0811,-0.0233 -0.0344,-0.0359 -0.021,-0.11984 0.0238,-0.14402 0.0129,-0.007 0.0145,-0.007 0.19631,-0.007 0.25897,0 0.25297,0.005 0.25151,0.27271 -8e-4,0.17441 -8e-4,0.19394 -0.0107,0.20972 -0.0183,0.0297 -0.0769,0.0443 -0.10753,0.0326 Z</Shape>
+      <X>18</X>
+      <Y>28</Y>
+    </Led>
+    <Led Id="G_BADGE">
+      <Shape>M 0,0 L0.15,1 0.85,1 L 1,0 Z</Shape>
+      <X>92.5</X>
+      <Y>166.5</Y>
+      <Width>55mm</Width>
+      <Height>9mm</Height>
+    </Led>
+  </Leds>
+
+  <LedImageLayouts>
+    <LedImageLayout Layout="DE">
+      <LedImages>
+
+        <LedImage Id="ESC" Image="Raptor_Keys\Escape.png" />
+        <LedImage Id="F1" Image="Raptor_Keys\F1.png" />
+        <LedImage Id="F2" Image="Raptor_Keys\F2.png" />
+        <LedImage Id="F3" Image="Raptor_Keys\F3.png" />
+        <LedImage Id="F4" Image="Raptor_Keys\F4.png" />
+        <LedImage Id="F5" Image="Raptor_Keys\F5.png" />
+        <LedImage Id="F6" Image="Raptor_Keys\F6.png" />
+        <LedImage Id="F7" Image="Raptor_Keys\F7.png" />
+        <LedImage Id="F8" Image="Raptor_Keys\F8.png" />
+        <LedImage Id="F9" Image="Raptor_Keys\F9.png" />
+        <LedImage Id="F10" Image="Raptor_Keys\F10.png" />
+        <LedImage Id="F11" Image="Raptor_Keys\F11.png" />
+        <LedImage Id="F12" Image="Raptor_Keys\F12.png" />
+        <LedImage Id="PRINT_SCREEN" Image="Raptor_Keys\Drucken.png" />
+        <LedImage Id="SCROLL_LOCK" Image="Raptor_Keys\Rollen.png" />
+        <LedImage Id="PAUSE_BREAK" Image="Raptor_Keys\PauseUntbr.png" />
+
+        <LedImage Id="TILDE" Image="Raptor_Keys\Circumflex_Degree.png" />
+        <LedImage Id="ONE" Image="Raptor_Keys\1_ExclamationMark.png" />
+        <LedImage Id="TWO" Image="Raptor_Keys\2_QuotationMark_Exponent2.png" />
+        <LedImage Id="THREE" Image="Raptor_Keys\3_SectionSign_Exponent3.png" />
+        <LedImage Id="FOUR" Image="Raptor_Keys\4_Dollar.png" />
+        <LedImage Id="FIVE" Image="Raptor_Keys\5_Percent.png" />
+        <LedImage Id="SIX" Image="Raptor_Keys\6_Ampersand.png" />
+        <LedImage Id="SEVEN" Image="Raptor_Keys\7_Slash_CurlyBracketLeft.png" />
+        <LedImage Id="EIGHT" Image="Raptor_Keys\8_BracketLeft_SquareBracketLeft.png" />
+        <LedImage Id="NINE" Image="Raptor_Keys\9_BracketRight_SquareBracketRight.png" />
+        <LedImage Id="ZERO" Image="Raptor_Keys\0_Equals_CurlyBracketRight.png" />
+        <LedImage Id="MINUS" Image="Raptor_Keys\QuestionMark_SharpS_Backslash.png" />
+        <LedImage Id="EQUALS" Image="Raptor_Keys\AccentGrave_AccentAcute.png" />
+        <LedImage Id="BACKSPACE" Image="Raptor_Keys\Backspace.png" />
+        <LedImage Id="INSERT" Image="Raptor_Keys\Einfg.png" />
+        <LedImage Id="HOME" Image="Raptor_Keys\Pos1.png" />
+        <LedImage Id="PAGE_UP" Image="Raptor_Keys\BildUp.png" />
+        <LedImage Id="NUM_LOCK" Image="Raptor_Keys\Num.png" />
+        <LedImage Id="NUM_SLASH" Image="Raptor_Keys\Slash.png" />
+        <LedImage Id="NUM_ASTERISK" Image="Raptor_Keys\Asterisk.png" />
+        <LedImage Id="NUM_MINUS" Image="Raptor_Keys\Minus.png" />
+
+        <LedImage Id="TAB" Image="Raptor_Keys\Tab.png" />
+        <LedImage Id="Q" Image="Raptor_Keys\Q_At.png" />
+        <LedImage Id="W" Image="Raptor_Keys\W.png" />
+        <LedImage Id="E" Image="Raptor_Keys\E_Euro.png" />
+        <LedImage Id="R" Image="Raptor_Keys\R.png" />
+        <LedImage Id="T" Image="Raptor_Keys\T.png" />
+        <LedImage Id="Y" Image="Raptor_Keys\Z.png" />
+        <LedImage Id="U" Image="Raptor_Keys\U.png" />
+        <LedImage Id="I" Image="Raptor_Keys\I.png" />
+        <LedImage Id="O" Image="Raptor_Keys\O.png" />
+        <LedImage Id="P" Image="Raptor_Keys\P.png" />
+        <LedImage Id="OPEN_BRACKET" Image="Raptor_Keys\UE.png" />
+        <LedImage Id="CLOSE_BRACKET" Image="Raptor_Keys\Plus_Asterisk_Tilde.png" />
+        <LedImage Id="ENTER" Image="Raptor_Keys\Enter.png" />
+        <LedImage Id="KEYBOARD_DELETE" Image="Raptor_Keys\Entf.png" />
+        <LedImage Id="END" Image="Raptor_Keys\Ende.png" />
+        <LedImage Id="PAGE_DOWN" Image="Raptor_Keys\BildDown.png" />
+        <LedImage Id="NUM_SEVEN" Image="Raptor_Keys\Num7_Pos1.png" />
+        <LedImage Id="NUM_EIGHT" Image="Raptor_Keys\Num8_ArrowUp.png" />
+        <LedImage Id="NUM_NINE" Image="Raptor_Keys\Num9_BildUp.png" />
+        <LedImage Id="NUM_PLUS" Image="Raptor_Keys\NumPlus.png" />
+
+        <LedImage Id="CAPS_LOCK" Image="Raptor_Keys\CapsLockA.png" />
+        <LedImage Id="A" Image="Raptor_Keys\A.png" />
+        <LedImage Id="S" Image="Raptor_Keys\S.png" />
+        <LedImage Id="D" Image="Raptor_Keys\D.png" />
+        <LedImage Id="F" Image="Raptor_Keys\F.png" />
+        <LedImage Id="G" Image="Raptor_Keys\G.png" />
+        <LedImage Id="H" Image="Raptor_Keys\H.png" />
+        <LedImage Id="J" Image="Raptor_Keys\J.png" />
+        <LedImage Id="K" Image="Raptor_Keys\K.png" />
+        <LedImage Id="L" Image="Raptor_Keys\L.png" />
+        <LedImage Id="SEMICOLON" Image="Raptor_Keys\OE.png" />
+        <LedImage Id="APOSTROPHE" Image="Raptor_Keys\AE.png" />
+        <LedImage Id="NonUsTilde" Image="Raptor_Keys\Hash_Apostrophe.png" />
+        <LedImage Id="NUM_FOUR" Image="Raptor_Keys\Num4_ArrowLeft.png" />
+        <LedImage Id="NUM_FIVE" Image="Raptor_Keys\Num5.png" />
+        <LedImage Id="NUM_SIX" Image="Raptor_Keys\Num6_ArrowRight.png" />
+
+        <LedImage Id="LEFT_SHIFT" Image="Raptor_Keys\Shift.png" />
+        <LedImage Id="BACKSLASH" Image="Raptor_Keys\LessThan_GreaterThan_Pipe.png" />
+        <LedImage Id="Z" Image="Raptor_Keys\Y.png" />
+        <LedImage Id="X" Image="Raptor_Keys\X.png" />
+        <LedImage Id="C" Image="Raptor_Keys\C.png" />
+        <LedImage Id="V" Image="Raptor_Keys\V.png" />
+        <LedImage Id="B" Image="Raptor_Keys\B.png" />
+        <LedImage Id="N" Image="Raptor_Keys\N.png" />
+        <LedImage Id="M" Image="Raptor_Keys\M_Mu.png" />
+        <LedImage Id="COMMA" Image="Raptor_Keys\Comma_Semicolon.png" />
+        <LedImage Id="PERIOD" Image="Raptor_Keys\Dot_Colon.png" />
+        <LedImage Id="FORWARD_SLASH" Image="Raptor_Keys\Hyphen_Underscore.png" />
+        <LedImage Id="RIGHT_SHIFT" Image="Raptor_Keys\ShiftBig.png" />
+        <LedImage Id="ARROW_UP" Image="Raptor_Keys\CaretUp.png" />
+        <LedImage Id="NUM_ONE" Image="Raptor_Keys\Num1_Ende.png" />
+        <LedImage Id="NUM_TWO" Image="Raptor_Keys\Num2_ArrowDown.png" />
+        <LedImage Id="NUM_THREE" Image="Raptor_Keys\Num3_BildDown.png" />
+        <LedImage Id="NUM_ENTER" Image="Raptor_Keys\NumEnter.png" />
+
+        <LedImage Id="LEFT_CONTROL" Image="Raptor_Keys\Strg.png" />
+        <LedImage Id="LEFT_WINDOWS" Image="Raptor_Keys\Windows.png" />
+        <LedImage Id="LEFT_ALT" Image="Raptor_Keys\Alt.png" />
+        <LedImage Id="SPACE" Image="Raptor_Keys\Space.png" />
+        <LedImage Id="RIGHT_ALT" Image="Raptor_Keys\AltGr.png" />
+        <LedImage Id="RIGHT_WINDOWS" Image="Raptor_Keys\Windows.png" />
+        <LedImage Id="APPLICATION_SELECT" Image="Raptor_Keys\Menu.png" />
+        <LedImage Id="RIGHT_CONTROL" Image="Raptor_Keys\Strg.png" />
+        <LedImage Id="ARROW_LEFT" Image="Raptor_Keys\CaretLeft.png" />
+        <LedImage Id="ARROW_DOWN" Image="Raptor_Keys\CaretDown.png" />
+        <LedImage Id="ARROW_RIGHT" Image="Raptor_Keys\CaretRight.png" />
+        <LedImage Id="NUM_ZERO" Image="Raptor_Keys\Num0_Einfg.png" />
+        <LedImage Id="NUM_PERIOD" Image="Raptor_Keys\Comma_Entf.png" />
+
+        <LedImage Id="G_1" Image="Raptor_Keys\G1.png" />
+        <LedImage Id="G_2" Image="Raptor_Keys\G2.png" />
+        <LedImage Id="G_3" Image="Raptor_Keys\G3.png" />
+        <LedImage Id="G_4" Image="Raptor_Keys\G4.png" />
+        <LedImage Id="G_5" Image="Raptor_Keys\G5.png" />
+        <LedImage Id="G_6" Image="Raptor_Keys\G6.png" />
+        <LedImage Id="G_7" Image="Raptor_Keys\G7.png" />
+        <LedImage Id="G_8" Image="Raptor_Keys\G8.png" />
+        <LedImage Id="G_9" Image="Raptor_Keys\G9.png" />
+      </LedImages>
+    </LedImageLayout>
+  </LedImageLayouts>
+</Device>

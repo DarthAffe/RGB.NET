@@ -9,8 +9,8 @@ namespace RGB.NET.Devices.Logitech.HID
         #region Constants
 
         //TODO DarthAffe 04.02.2017: Add IDs
-        private const int VENDOR_ID = 0x0;
-        private const int G910_ID = 0x0;
+        private const int VENDOR_ID = 0x046D;
+        private const int G910_ID = 0xC32B;
         private const int G810_ID = 0x0;
 
         #endregion

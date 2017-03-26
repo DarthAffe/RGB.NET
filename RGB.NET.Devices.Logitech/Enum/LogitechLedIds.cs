@@ -26,6 +26,7 @@ namespace RGB.NET.Devices.Logitech
         PRINT_SCREEN = 0x137,
         SCROLL_LOCK = 0x46,
         PAUSE_BREAK = 0x45,
+
         TILDE = 0x29,
         ONE = 0x02,
         TWO = 0x03,
@@ -47,6 +48,7 @@ namespace RGB.NET.Devices.Logitech
         NUM_SLASH = 0x135,
         NUM_ASTERISK = 0x37,
         NUM_MINUS = 0x4A,
+
         TAB = 0x0F,
         Q = 0x10,
         W = 0x11,
@@ -68,6 +70,7 @@ namespace RGB.NET.Devices.Logitech
         NUM_EIGHT = 0x48,
         NUM_NINE = 0x49,
         NUM_PLUS = 0x4E,
+
         CAPS_LOCK = 0x3A,
         A = 0x1E,
         S = 0x1F,
@@ -80,10 +83,12 @@ namespace RGB.NET.Devices.Logitech
         L = 0x26,
         SEMICOLON = 0x27,
         APOSTROPHE = 0x28,
+        NonUsTilde = 0xFF, //TODO DarthAffe 26.03.2017: Find the real ID/Name of this key - it's not documented ...
         ENTER = 0x1C,
         NUM_FOUR = 0x4B,
         NUM_FIVE = 0x4C,
         NUM_SIX = 0x4D,
+
         LEFT_SHIFT = 0x2A,
         Z = 0x2C,
         X = 0x2D,
@@ -101,6 +106,7 @@ namespace RGB.NET.Devices.Logitech
         NUM_TWO = 0x50,
         NUM_THREE = 0x51,
         NUM_ENTER = 0x11C,
+
         LEFT_CONTROL = 0x1D,
         LEFT_WINDOWS = 0x15B,
         LEFT_ALT = 0x38,
@@ -114,6 +120,7 @@ namespace RGB.NET.Devices.Logitech
         ARROW_RIGHT = 0x14D,
         NUM_ZERO = 0x52,
         NUM_PERIOD = 0x53,
+
         G_1 = 0xFFF1,
         G_2 = 0xFFF2,
         G_3 = 0xFFF3,

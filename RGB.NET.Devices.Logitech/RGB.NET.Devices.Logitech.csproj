@@ -57,7 +57,9 @@
     <Compile Include="Generic\LogitechLedId.cs" />
     <Compile Include="Generic\LogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
+    <Compile Include="Helper\BitmapMapping.cs" />
     <Compile Include="Helper\CultureHelper.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="HID\DeviceChecker.cs" />
     <Compile Include="Keyboard\LogitechKeyboardRGBDevice.cs" />
     <Compile Include="Keyboard\LogitechKeyboardRGBDeviceInfo.cs" />
@@ -66,14 +68,130 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Layouts\DeviceLayout.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="targets\RGB.NET.Devices.Logitech.targets" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\Logitech\Keyboards\" />
-    <Folder Include="Layouts\Logitech\Keyboards\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Images\Logitech\Keyboards\G910.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\0_Equals_CurlyBracketRight.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\1_ExclamationMark.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\2_QuotationMark_Exponent2.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\3_SectionSign_Exponent3.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\4_Dollar.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\5_Percent.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\6_Ampersand.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\7_Slash_CurlyBracketLeft.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\8_BracketLeft_SquareBracketLeft.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\9_BracketRight_SquareBracketRight.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\A.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\AccentGrave_AccentAcute.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\AE.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Alt.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\AltGr.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Asterisk.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\B.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Backspace.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\BildDown.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\BildUp.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\C.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CapsLockA.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretDown.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretLeft.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretRight.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretUp.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Circumflex_Degree.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Comma_Entf.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Comma_Semicolon.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\D.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Dot_Colon.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Drucken.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Einfg.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Ende.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Enter.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Entf.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Escape.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\E_Euro.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F1.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F10.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F11.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F12.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F2.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F3.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F4.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F5.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F6.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F7.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F8.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F9.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G1.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G2.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G3.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G4.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G5.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G6.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G7.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G8.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G9.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\H.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Hash_Apostrophe.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Hyphen_Underscore.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\I.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\J.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\K.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\L.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\LessThan_GreaterThan_Pipe.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Menu.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Minus.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\M_Mu.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\N.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num0_Einfg.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num1_Ende.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num2_ArrowDown.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num3_BildDown.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num4_ArrowLeft.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num5.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num6_ArrowRight.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num7_Pos1.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num8_ArrowUp.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num9_BildUp.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\NumEnter.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\NumPlus.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\O.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\OE.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\P.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\PauseUntbr.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Plus_Asterisk_Tilde.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Pos1.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\QuestionMark_SharpS_Backslash.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Q_At.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\R.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Rollen.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\S.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Shift.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\ShiftBig.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Slash.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Space.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Strg.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\T.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Tab.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\U.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\UE.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\V.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\W.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Windows.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\X.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Y.png" />
+    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Z.png" />
+    <Content Include="Layouts\Logitech\Keyboards\G910\UK.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="libs\x64\LogitechLedEnginesWrapper.dll" />
     <Content Include="libs\x86\LogitechLedEnginesWrapper.dll" />
   </ItemGroup>

@@ -43,7 +43,7 @@ namespace RGB.NET.Devices.Logitech
             SetLayouts(culture.KeyboardLayoutId);
 
             Image = new Uri(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
-                $@"Images\Logitech\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}\{LogicalLayout.ToString().ToUpper()}.png"), UriKind.Absolute);
+                $@"Images\Logitech\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
         }
 
         private void SetLayouts(int keyboardLayoutId)
@@ -52,8 +52,8 @@ namespace RGB.NET.Devices.Logitech
             {
                 //TODO DarthAffe 04.02.2017: Check all available keyboards and there layout-ids
                 default:
-                    PhysicalLayout = LogitechPhysicalKeyboardLayout.US;
-                    LogicalLayout = LogitechLogicalKeyboardLayout.NA;
+                    PhysicalLayout = LogitechPhysicalKeyboardLayout.UK;
+                    LogicalLayout = LogitechLogicalKeyboardLayout.DE;
                     break;
             }
         }

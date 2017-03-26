@@ -69,7 +69,6 @@ namespace RGB.NET.Devices.Logitech
                 if (!_LogitechGSDK.LogiLedInit()) return false;
 
                 _LogitechGSDK.LogiLedSaveCurrentLighting();
-                _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.PerKeyRGB);
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
 
