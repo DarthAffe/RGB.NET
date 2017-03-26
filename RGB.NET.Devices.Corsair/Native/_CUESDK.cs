@@ -34,7 +34,7 @@ namespace RGB.NET.Devices.Corsair.Native
             if (_dllHandle != IntPtr.Zero) return;
 
             // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-            string dllPath = (LoadedArchitecture = Environment.Is64BitProcess ? "x64" : "x86") + "/CUESDK_2015.dll";
+            string dllPath = (LoadedArchitecture = Environment.Is64BitProcess ? "x64" : "x86") + "/CUESDK.dll";
             if (!File.Exists(dllPath))
                 throw new RGBDeviceException($"Can't find the CUE-SDK at the expected location '{Path.GetFullPath(dllPath)}'");
 

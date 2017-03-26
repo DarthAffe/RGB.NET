@@ -85,8 +85,8 @@
     <None Include="targets\RGB.NET.Devices.Corsair.targets" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="libs\x64\CUESDK_2015.dll" />
-    <None Include="libs\x86\CUESDK_2015.dll" />
+    <None Include="libs\x64\CUESDK.dll" />
+    <None Include="libs\x86\CUESDK.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\Corsair\Headsets\" />
