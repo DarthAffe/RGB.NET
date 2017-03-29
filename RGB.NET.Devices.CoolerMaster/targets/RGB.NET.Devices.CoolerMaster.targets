@@ -1,0 +1,150 @@
+<!--
+ * Build targets hacked from SQLite (thanks!)
+ * System.Data.SQLite.Core.targets -
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--
+  ******************************************************************************
+  **                                Build Items                               **
+  ******************************************************************************
+  -->
+
+  <ItemGroup>
+    <CoolerMasterSDKFiles Condition="'$(MSBuildThisFileDirectory)' != '' And
+                                   HasTrailingSlash('$(MSBuildThisFileDirectory)')"
+                        Include="$(MSBuildThisFileDirectory)libs\**\*.dll;$(MSBuildThisFileDirectory)resources\**\*.*" />
+
+    <AdditionalPublishFilex86 Include="$(MSBuildThisFileDirectory)libs\x86\*.dll">
+      <Visible>False</Visible>
+    </AdditionalPublishFilex86>
+    <AdditionalPublishFilex64 Include="$(MSBuildThisFileDirectory)libs\x64\*.dll">
+      <Visible>False</Visible>
+    </AdditionalPublishFilex64>
+  </ItemGroup>
+
+  <!--
+  ******************************************************************************
+  **                               Content Items                              **
+  ******************************************************************************
+  -->
+
+  <ItemGroup Condition="'$(ContentCoolerMasterSDKFiles)' != '' And
+                        '$(ContentCoolerMasterSDKFiles)' != 'false' And
+                        '@(CoolerMasterSDKFiles)' != ''">
+    <Content Include="@(CoolerMasterSDKFiles)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!--
+  ******************************************************************************
+  **                              Build Targets*                              **
+  ******************************************************************************
+  -->
+
+  <Target Name="CopyCoolerMasterSDKFiles"
+          Condition="'$(CopyCoolerMasterSDKFiles)' != 'false' And
+                     '$(OutDir)' != '' And
+                     HasTrailingSlash('$(OutDir)') And
+                     Exists('$(OutDir)')"
+          Inputs="@(CoolerMasterSDKFiles)"
+          Outputs="@(CoolerMasterSDKFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')">
+    <!--
+        NOTE: Copy "CoolerMasterSDK*.dll" and all related files, for every
+              architecture that we support, to the build output directory.
+    -->
+    <Message Text="Copying SDK files..." Importance="high" />
+    <Copy SourceFiles="@(CoolerMasterSDKFiles)"
+          DestinationFiles="@(CoolerMasterSDKFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="CleanCoolerMasterSDKFiles"
+          Condition="'$(CleanCoolerMasterSDKFiles)' != 'false' And
+                     '$(OutDir)' != '' And
+                     HasTrailingSlash('$(OutDir)') And
+                     Exists('$(OutDir)')">
+
+    <!--
+        NOTE: Delete "CoolerMasterSDK*.dll" and all related files, for every
+              architecture that we support, from the build output directory.
+    -->
+    <Message Text="this file $(MSBuildThisFileDirectory)" Importance="high"/>
+    <Message Text="Cleaning SDK files..." Importance="high" />
+
+    <Delete Files="@(CoolerMasterSDKFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="CollectCoolerMasterSDKFiles"
+          Condition="'$(CollectCoolerMasterSDKFiles)' != 'false'">
+    <Message Text="Collecting SDK files..." Importance="high" />
+    <ItemGroup>
+      <FilesForPackagingFromProject Include="@(CoolerMasterSDKFiles)">
+        <DestinationRelativePath>bin\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="BeforePublish">
+    <Touch Files="@(IntermediateAssembly)" />
+  </Target>
+  <Target Name="BeforeBuild">
+    <CreateItem Include="@(AdditionalPublishFilex86)" AdditionalMetadata="TargetPath=x86\%(FileName)%(Extension);IsDataFile=false">
+      <Output TaskParameter="Include" ItemName="_DeploymentManifestFiles" />
+    </CreateItem>
+    <CreateItem Include="@(AdditionalPublishFilex64)" AdditionalMetadata="TargetPath=x64\%(FileName)%(Extension);IsDataFile=false">
+      <Output TaskParameter="Include" ItemName="_DeploymentManifestFiles" />
+    </CreateItem>
+  </Target>
+  
+  <!--
+  ******************************************************************************
+  **                            Build Properties                              **
+  ******************************************************************************
+  -->
+
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+      $(PostBuildEventDependsOn);
+      CopyCoolerMasterSDKFiles;
+    </PostBuildEventDependsOn>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      CopyCoolerMasterSDKFiles;
+    </BuildDependsOn>
+    <CleanDependsOn>
+      $(CleanDependsOn);
+      CleanCoolerMasterSDKFiles;
+    </CleanDependsOn>
+  </PropertyGroup>
+
+  <!--
+  ******************************************************************************
+  **                 Publish Properties for Visual Studio 201x                **
+  ******************************************************************************
+  -->
+
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' Or
+                            '$(VisualStudioVersion)' == '10.0' Or
+                            '$(VisualStudioVersion)' == '11.0' Or
+                            '$(VisualStudioVersion)' == '12.0'">
+    <PipelineCollectFilesPhaseDependsOn>
+      CollectCoolerMasterSDKFiles;
+      $(PipelineCollectFilesPhaseDependsOn);
+    </PipelineCollectFilesPhaseDependsOn>
+  </PropertyGroup>
+</Project>
