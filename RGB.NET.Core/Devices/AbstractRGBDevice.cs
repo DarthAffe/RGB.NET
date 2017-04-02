@@ -87,6 +87,12 @@ namespace RGB.NET.Core
             UpdateLeds(ledsToUpdate);
         }
 
+        /// <inheritdoc />
+        public virtual void Dispose()
+        {
+            LedMapping.Clear();
+        }
+
         /// <summary>
         /// Performs device specific updates.
         /// </summary>

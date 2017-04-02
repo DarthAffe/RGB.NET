@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a generic RGB-device
     /// </summary>
-    public interface IRGBDevice : IEnumerable<Led>, IBindable
+    public interface IRGBDevice : IEnumerable<Led>, IBindable, IDisposable
     {
         #region Properties
 
