@@ -11,7 +11,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a RGB-surface containing multiple devices.
     /// </summary>
-    public partial class RGBSurface : AbstractBindable
+    public partial class RGBSurface : AbstractBindable, IDisposable
     {
         #region Properties & Fields
 
@@ -97,6 +97,18 @@ namespace RGB.NET.Core
             {
                 OnException(ex);
             }
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            foreach (IRGBDevice device in _devices)
+                try { device.Dispose(); }
+                catch { /* We do what we can */ }
+
+            _ledGroups.Clear();
+            _devices = null;
+            _deviceProvider = null;
         }
 
         /// <summary>
