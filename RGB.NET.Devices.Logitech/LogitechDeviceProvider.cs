@@ -76,7 +76,7 @@ namespace RGB.NET.Devices.Logitech
                 if (DeviceChecker.IsDeviceConnected)
                 {
                     LogitechRGBDevice device = new LogitechKeyboardRGBDevice(new LogitechKeyboardRGBDeviceInfo(
-                        RGBDeviceType.Keyboard, DeviceChecker.ConnectedDeviceModel, LogitechDeviceCaps.PerKeyRGB, GetCulture()));
+                        DeviceChecker.ConnectedDeviceModel, LogitechDeviceCaps.PerKeyRGB, GetCulture()));
                     devices.Add(device);
 
                     try

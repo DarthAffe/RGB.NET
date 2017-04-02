@@ -7,12 +7,12 @@ namespace RGB.NET.Devices.Logitech
     /// <summary>
     /// Offers some helper-methods for culture related things.
     /// </summary>
-    public static class CultureHelper
+    internal static class CultureHelper
     {
         #region DLLImports
 
         [DllImport("user32.dll")]
-        static extern IntPtr GetKeyboardLayout(uint thread);
+        private static extern IntPtr GetKeyboardLayout(uint thread);
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace RGB.NET.Devices.Logitech
         /// Gets the current keyboard-layout from the OS.
         /// </summary>
         /// <returns>The current keyboard-layout</returns>
-        public static CultureInfo GetCurrentCulture()
+        internal static CultureInfo GetCurrentCulture()
         {
             try
             {

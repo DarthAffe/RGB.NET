@@ -60,7 +60,7 @@ namespace RGB.NET.Devices.Logitech
         /// Applies the given layout.
         /// </summary>
         /// <param name="layoutPath">The file containing the layout.</param>
-        /// <param name="imageLayout">The name of the layout used tp get the images of the leds.</param>
+        /// <param name="imageLayout">The name of the layout used to get the images of the leds.</param>
         /// <param name="imageBasePath">The path images for this device are collected in.</param>
         protected void ApplyLayoutFromFile(string layoutPath, string imageLayout, string imageBasePath)
         {

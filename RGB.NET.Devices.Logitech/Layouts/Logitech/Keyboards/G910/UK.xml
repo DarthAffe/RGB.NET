@@ -261,7 +261,6 @@
   <LedImageLayouts>
     <LedImageLayout Layout="DE">
       <LedImages>
-
         <LedImage Id="ESC" Image="Raptor_Keys\Escape.png" />
         <LedImage Id="F1" Image="Raptor_Keys\F1.png" />
         <LedImage Id="F2" Image="Raptor_Keys\F2.png" />
