@@ -47,6 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DeviceTypeAttribute.cs" />
+    <Compile Include="CoolerMasterDeviceProvider.cs" />
+    <Compile Include="Enum\CoolerMasterLedIds.cs" />
+    <Compile Include="Enum\CoolerMasterPhysicalKeyboardLayout.cs" />
+    <Compile Include="Enum\CoolerMasterDevicesIndexes.cs" />
+    <Compile Include="Enum\CoolerMasterEffects.cs" />
+    <Compile Include="Enum\CoolerMasterLogicalKeyboardLayout.cs" />
+    <Compile Include="Generic\CoolerMasterLedId.cs" />
+    <Compile Include="Generic\CoolerMasterRGBDevice.cs" />
+    <Compile Include="Generic\CoolerMasterRGBDeviceInfo.cs" />
+    <Compile Include="Helper\CultureHelper.cs" />
+    <Compile Include="Helper\EnumExtension.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
+    <Compile Include="Keyboard\CoolerMasterKeyboardRGBDevice.cs" />
+    <Compile Include="Keyboard\CoolerMasterKeyboardRGBDeviceInfo.cs" />
+    <Compile Include="Keyboard\CoolerMasterKeyboardLedMappings.cs" />
+    <Compile Include="Mouse\CoolerMasterMouseLedMappings.cs" />
+    <Compile Include="Native\_CoolerMasterSDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,8 +79,8 @@
     <Folder Include="Layouts\CoolerMaster\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="libs\x64\SDKDLL.dll" />
-    <Content Include="libs\x86\SDKDLL.dll" />
+    <Content Include="libs\x64\CMSDK.dll" />
+    <Content Include="libs\x86\CMSDK.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
