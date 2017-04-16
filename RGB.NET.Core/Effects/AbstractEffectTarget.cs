@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using RGB.NET.Core.Exceptions;
 
@@ -24,7 +25,10 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets all <see cref="IEffect{T}" /> attached to this <see cref="IEffectTarget{T}"/>.
         /// </summary>
-        protected IList<IEffect<T>> Effects => EffectTimes.Select(x => x.Effect).Cast<IEffect<T>>().ToList();
+        protected IList<IEffect<T>> InternalEffects => EffectTimes.Select(x => x.Effect).Cast<IEffect<T>>().ToList();
+
+        /// <inheritdoc />
+        public IEnumerable<IEffect<T>> Effects => new ReadOnlyCollection<IEffect<T>>(InternalEffects);
 
         /// <summary>
         /// Gets the strongly-typed target used for the <see cref="IEffect{T}"/>.
@@ -40,7 +44,7 @@ namespace RGB.NET.Core
         /// </summary>
         public virtual void UpdateEffects()
         {
-            lock (Effects)
+            lock (InternalEffects)
             {
                 for (int i = EffectTimes.Count - 1; i >= 0; i--)
                 {
@@ -94,6 +98,19 @@ namespace RGB.NET.Core
 
             effect.OnDetach(EffectTarget);
             EffectTimes.Remove(effectTimeToRemove);
+        }
+
+        /// <inheritdoc />
+        public bool HasEffect(IEffect<T> effect)
+        {
+            return InternalEffects.Contains(effect);
+        }
+
+        /// <inheritdoc />
+        public bool HasEffect<TEffect>()
+            where TEffect : IEffect
+        {
+            return InternalEffects.Any(x => x.GetType() == typeof(TEffect));
         }
 
         #endregion
