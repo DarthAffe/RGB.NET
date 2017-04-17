@@ -271,75 +271,79 @@
     <Led Id="Lightbar1">
       <X>0</X>
       <Y>0</Y>
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar2">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar3">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar4">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar5">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar6">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar7">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar8">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar9">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar10">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar11">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar12">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar13">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar14">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar15">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar16">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar17">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
     <Led Id="Lightbar18">
-      <Width>31mm</Width>
+      <Width>24.47368mm</Width>
+      <Height>4mm</Height>
+    </Led>
+    <Led Id="Lightbar19">
+      <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
   </Leds>
@@ -466,12 +470,12 @@
         <LedImage Id="Keypad0" Image="Strafe_Keys\Num0_Einfg.png" />
         <LedImage Id="KeypadPeriodAndDelete" Image="Strafe_Keys\Comma_Entf.png" />
 
-        <LedImage Id="G1" Image="Strafe_Keys\G1.png" />
-        <LedImage Id="G2" Image="Strafe_Keys\G2.png" />
-        <LedImage Id="G3" Image="Strafe_Keys\G3.png" />
-        <LedImage Id="G4" Image="Strafe_Keys\G4.png" />
-        <LedImage Id="G5" Image="Strafe_Keys\G5.png" />
-        <LedImage Id="G6" Image="Strafe_Keys\G6.png" />
+        <LedImage Id="G3" Image="Strafe_Keys\G1.png" />
+        <LedImage Id="G6" Image="Strafe_Keys\G2.png" />
+        <LedImage Id="G9" Image="Strafe_Keys\G3.png" />
+        <LedImage Id="G12" Image="Strafe_Keys\G4.png" />
+        <LedImage Id="G15" Image="Strafe_Keys\G5.png" />
+        <LedImage Id="G18" Image="Strafe_Keys\G6.png" />
       
         <LedImage Id="Lightbar1" Image="Empty.png" />
         <LedImage Id="Lightbar2" Image="Empty.png" />
@@ -491,6 +495,7 @@
         <LedImage Id="Lightbar16" Image="Empty.png" />
         <LedImage Id="Lightbar17" Image="Empty.png" />
         <LedImage Id="Lightbar18" Image="Empty.png" />
+        <LedImage Id="Lightbar19" Image="Empty.png" />
       </LedImages>
     </LedImageLayout>
     <LedImageLayout Layout="EU_Int">
@@ -614,12 +619,12 @@
         <LedImage Id="Keypad0" Image="Strafe_Keys\Num0_Ins.png" />
         <LedImage Id="KeypadPeriodAndDelete" Image="Strafe_Keys\Dot_Del.png" />
 
-        <LedImage Id="G1" Image="Strafe_Keys\G1.png" />
-        <LedImage Id="G2" Image="Strafe_Keys\G2.png" />
-        <LedImage Id="G3" Image="Strafe_Keys\G3.png" />
-        <LedImage Id="G4" Image="Strafe_Keys\G4.png" />
-        <LedImage Id="G5" Image="Strafe_Keys\G5.png" />
-        <LedImage Id="G6" Image="Strafe_Keys\G6.png" />
+        <LedImage Id="G3" Image="Strafe_Keys\G1.png" />
+        <LedImage Id="G6" Image="Strafe_Keys\G2.png" />
+        <LedImage Id="G9" Image="Strafe_Keys\G3.png" />
+        <LedImage Id="G12" Image="Strafe_Keys\G4.png" />
+        <LedImage Id="G15" Image="Strafe_Keys\G5.png" />
+        <LedImage Id="G18" Image="Strafe_Keys\G6.png" />
       
         <LedImage Id="Lightbar1" Image="Empty.png" />
         <LedImage Id="Lightbar2" Image="Empty.png" />
@@ -639,6 +644,7 @@
         <LedImage Id="Lightbar16" Image="Empty.png" />
         <LedImage Id="Lightbar17" Image="Empty.png" />
         <LedImage Id="Lightbar18" Image="Empty.png" />
+        <LedImage Id="Lightbar19" Image="Empty.png" />
       </LedImages>
     </LedImageLayout>
   </LedImageLayouts>
