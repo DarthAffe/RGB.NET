@@ -56,44 +56,7 @@ namespace RGB.NET.Effects
             if (!Direction)
                 movement = -movement;
 
-            // ReSharper disable once CanBeReplacedWithTryCastAndCheckForNull
-            if (Brush.Gradient is LinearGradient)
-            {
-                LinearGradient linearGradient = (LinearGradient)Brush.Gradient;
-
-                movement /= 360.0;
-
-                foreach (GradientStop gradientStop in linearGradient.GradientStops)
-                {
-                    gradientStop.Offset = gradientStop.Offset + movement;
-
-                    if (gradientStop.Offset > 1)
-                        gradientStop.Offset -= 1;
-                    else if (gradientStop.Offset < 0)
-                        gradientStop.Offset += 1;
-                }
-            }
-            else if (Brush.Gradient is RainbowGradient)
-            {
-                RainbowGradient rainbowGradient = (RainbowGradient)Brush.Gradient;
-
-                // RainbowGradient is calculated inverse but the movement should be the same for all.
-                movement *= -1;
-
-                rainbowGradient.StartHue += movement;
-                rainbowGradient.EndHue += movement;
-
-                if ((rainbowGradient.StartHue > 360) && (rainbowGradient.EndHue > 360))
-                {
-                    rainbowGradient.StartHue -= 360;
-                    rainbowGradient.EndHue -= 360;
-                }
-                else if ((rainbowGradient.StartHue < -360) && (rainbowGradient.EndHue < -360))
-                {
-                    rainbowGradient.StartHue += 360;
-                    rainbowGradient.EndHue += 360;
-                }
-            }
+            Brush?.Gradient?.Move(movement);
         }
 
         #endregion

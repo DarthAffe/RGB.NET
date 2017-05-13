@@ -56,6 +56,27 @@ namespace RGB.NET.Brushes.Gradients
             return new Color(hue, 1f, 1f);
         }
 
+        /// <inheritdoc />
+        public void Move(double offset)
+        {
+            // RainbowGradient is calculated inverse
+            offset *= -1;
+
+            StartHue += offset;
+            EndHue += offset;
+
+            if ((StartHue > 360) && (EndHue > 360))
+            {
+                StartHue -= 360;
+                EndHue -= 360;
+            }
+            else if ((StartHue < -360) && (EndHue < -360))
+            {
+                StartHue += 360;
+                EndHue += 360;
+            }
+        }
+
         #endregion
     }
 }

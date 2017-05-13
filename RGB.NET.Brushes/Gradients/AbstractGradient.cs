@@ -82,6 +82,22 @@ namespace RGB.NET.Brushes.Gradients
         /// <inheritdoc />
         public abstract Color GetColor(double offset);
 
+        /// <inheritdoc />
+        public virtual void Move(double offset)
+        {
+            offset /= 360.0;
+
+            foreach (GradientStop gradientStop in GradientStops)
+            {
+                gradientStop.Offset = gradientStop.Offset + offset;
+
+                if (gradientStop.Offset > 1)
+                    gradientStop.Offset -= 1;
+                else if (gradientStop.Offset < 0)
+                    gradientStop.Offset += 1;
+            }
+        }
+
         #endregion
     }
 }
