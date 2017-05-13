@@ -22,6 +22,18 @@ namespace RGB.NET.Devices.CoolerMaster
         public static CoolerMasterDeviceProvider Instance { get; } = new CoolerMasterDeviceProvider();
 
         /// <summary>
+        /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
+        /// The first match will be used.
+        /// </summary>
+        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/CMSDK.dll" };
+
+        /// <summary>
+        /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
+        /// The first match will be used.
+        /// </summary>
+        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/CMSDK.dll" };
+
+        /// <summary>
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
         public bool IsInitialized { get; private set; }

@@ -27,7 +27,7 @@ namespace RGB.NET.Core
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Initializes the <see cref="IRGBDeviceProvider"/> if not already happened or reloads it if it is already initialized.
         /// </summary>

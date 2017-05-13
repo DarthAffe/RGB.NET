@@ -2,7 +2,9 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core.Exceptions;
 
@@ -34,9 +36,9 @@ namespace RGB.NET.Devices.CoolerMaster.Native
             if (_dllHandle != IntPtr.Zero) return;
 
             // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-            string dllPath = (LoadedArchitecture = Environment.Is64BitProcess ? "x64" : "x86") + "/CMSDK.dll";
-            if (!File.Exists(dllPath))
-                throw new RGBDeviceException($"Can't find the CoolerMaster-SDK at the expected location '{Path.GetFullPath(dllPath)}'");
+            List<string> possiblePathList = Environment.Is64BitProcess ? CoolerMasterDeviceProvider.PossibleX64NativePaths : CoolerMasterDeviceProvider.PossibleX86NativePaths;
+            string dllPath = possiblePathList.FirstOrDefault(File.Exists);
+            if (dllPath == null) throw new RGBDeviceException($"Can't find the CoolerMaster-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
             _dllHandle = LoadLibrary(dllPath);
 
