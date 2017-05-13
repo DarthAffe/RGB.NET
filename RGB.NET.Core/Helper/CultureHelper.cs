@@ -2,12 +2,12 @@
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace RGB.NET.Devices.CoolerMaster.Helper
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Offers some helper-methods for culture related things.
     /// </summary>
-    internal static class CultureHelper
+    public static class CultureHelper
     {
         #region DLLImports
 
@@ -26,7 +26,7 @@ namespace RGB.NET.Devices.CoolerMaster.Helper
         /// Gets the current keyboard-layout from the OS.
         /// </summary>
         /// <returns>The current keyboard-layout</returns>
-        internal static CultureInfo GetCurrentCulture()
+        public static CultureInfo GetCurrentCulture()
         {
             try
             {

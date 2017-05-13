@@ -36,8 +36,8 @@ namespace RGB.NET.WPF.Controls
         /// </summary>
         public IRGBDevice Device
         {
-            get { return (IRGBDevice)GetValue(DeviceProperty); }
-            set { SetValue(DeviceProperty, value); }
+            get => (IRGBDevice)GetValue(DeviceProperty);
+            set => SetValue(DeviceProperty, value);
         }
 
         // ReSharper restore InconsistentNaming

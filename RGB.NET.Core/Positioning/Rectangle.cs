@@ -22,7 +22,7 @@ namespace RGB.NET.Core
         /// </summary>
         public Point Location
         {
-            get { return _location; }
+            get => _location;
             set
             {
                 if (SetProperty(ref _location, value))
@@ -37,7 +37,7 @@ namespace RGB.NET.Core
         /// </summary>
         public Size Size
         {
-            get { return _size; }
+            get => _size;
             set
             {
                 if (SetProperty(ref _size, value))
@@ -152,13 +152,13 @@ namespace RGB.NET.Core
 
             if (points != null)
                 foreach (Point point in points)
-            {
-                hasPoint = true;
-                posX = Math.Min(posX, point.X);
-                posY = Math.Min(posY, point.Y);
-                posX2 = Math.Max(posX2, point.X);
-                posY2 = Math.Max(posY2, point.Y);
-            }
+                {
+                    hasPoint = true;
+                    posX = Math.Min(posX, point.X);
+                    posY = Math.Min(posY, point.Y);
+                    posX2 = Math.Max(posX2, point.X);
+                    posY2 = Math.Max(posY2, point.Y);
+                }
 
             if (hasPoint)
                 InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2));

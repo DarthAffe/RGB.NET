@@ -4,7 +4,6 @@
 using System;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
-using RGB.NET.Devices.Corsair.Helper;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair

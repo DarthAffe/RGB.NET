@@ -12,14 +12,16 @@ namespace RGB.NET.Core
         private CancellationToken _updateToken;
         private Task _updateTask;
 
+        // ReSharper disable MemberCanBePrivate.Global
+
         private double _updateFrequency = 1.0 / 30.0;
         /// <summary>
         /// Gets or sets the update-frequency in seconds. (Calculate by using '1.0 / updates per second')
         /// </summary>
         public double UpdateFrequency
         {
-            get { return _updateFrequency; }
-            set { SetProperty(ref _updateFrequency, value); }
+            get => _updateFrequency;
+            set => SetProperty(ref _updateFrequency, value);
         }
 
         private UpdateMode _updateMode = UpdateMode.Manual;
@@ -28,7 +30,7 @@ namespace RGB.NET.Core
         /// </summary>
         public UpdateMode UpdateMode
         {
-            get { return _updateMode; }
+            get => _updateMode;
             set
             {
                 if (SetProperty(ref _updateMode, value))
@@ -36,6 +38,7 @@ namespace RGB.NET.Core
             }
         }
 
+        // ReSharper restore MemberCanBePrivate.Global
         #endregion
 
         #region Methods

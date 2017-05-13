@@ -19,8 +19,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double X
         {
-            get { return _x; }
-            set { SetProperty(ref _x, value); }
+            get => _x;
+            set => SetProperty(ref _x, value);
         }
 
         private double _y;
@@ -29,8 +29,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double Y
         {
-            get { return _y; }
-            set { SetProperty(ref _y, value); }
+            get => _y;
+            set => SetProperty(ref _y, value);
         }
 
         #endregion

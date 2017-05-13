@@ -62,7 +62,6 @@
     <Compile Include="Generic\CorsairRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDeviceInfo.cs" />
-    <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Keyboard\CorsairKeyboardRGBDevice.cs" />
     <Compile Include="Keyboard\CorsairKeyboardRGBDeviceInfo.cs" />
     <Compile Include="Mouse\CorsairMouseRGBDevice.cs" />

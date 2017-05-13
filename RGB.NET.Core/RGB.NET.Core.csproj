@@ -51,6 +51,8 @@
     <Compile Include="Devices\Layout\LedImage.cs" />
     <Compile Include="Devices\Layout\LedImageLayout.cs" />
     <Compile Include="Devices\RGBDeviceLighting.cs" />
+    <Compile Include="Helper\CultureHelper.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Positioning\Shape.cs" />
     <Compile Include="Devices\Layout\LedLayout.cs" />
     <Compile Include="Devices\Layout\DeviceLayout.cs" />

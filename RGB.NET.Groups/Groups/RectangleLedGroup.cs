@@ -23,7 +23,7 @@ namespace RGB.NET.Groups
         /// </summary>
         public Rectangle Rectangle
         {
-            get { return _rectangle; }
+            get => _rectangle;
             set
             {
                 _rectangle = value;
@@ -37,7 +37,7 @@ namespace RGB.NET.Groups
         /// </summary>
         public double MinOverlayPercentage
         {
-            get { return _minOverlayPercentage; }
+            get => _minOverlayPercentage;
             set
             {
                 _minOverlayPercentage = value;

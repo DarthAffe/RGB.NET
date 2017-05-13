@@ -57,9 +57,7 @@
     <Compile Include="Generic\CoolerMasterLedId.cs" />
     <Compile Include="Generic\CoolerMasterRGBDevice.cs" />
     <Compile Include="Generic\CoolerMasterRGBDeviceInfo.cs" />
-    <Compile Include="Helper\CultureHelper.cs" />
     <Compile Include="Helper\EnumExtension.cs" />
-    <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Keyboard\CoolerMasterKeyboardRGBDevice.cs" />
     <Compile Include="Keyboard\CoolerMasterKeyboardRGBDeviceInfo.cs" />
     <Compile Include="Keyboard\CoolerMasterKeyboardLedMappings.cs" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using RGB.NET.Core;
-using RGB.NET.Devices.CoolerMaster.Helper;
 
 namespace RGB.NET.Devices.CoolerMaster
 {

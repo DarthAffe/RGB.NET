@@ -19,8 +19,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double Width
         {
-            get { return _width; }
-            set { SetProperty(ref _width, value); }
+            get => _width;
+            set => SetProperty(ref _width, value);
         }
 
         private double _height;
@@ -29,8 +29,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double Height
         {
-            get { return _height; }
-            set { SetProperty(ref _height, value); }
+            get => _height;
+            set => SetProperty(ref _height, value);
         }
 
         #endregion

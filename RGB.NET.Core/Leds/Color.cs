@@ -31,7 +31,7 @@ namespace RGB.NET.Core
         /// </summary>
         public byte A
         {
-            get { return _a; }
+            get => _a;
             set
             {
                 if (SetProperty(ref _a, value))
@@ -45,8 +45,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double APercent
         {
-            get { return A / (double)byte.MaxValue; }
-            set { A = GetByteValueFromPercentage(value); }
+            get => A / (double)byte.MaxValue;
+            set => A = GetByteValueFromPercentage(value);
         }
 
         private byte _r;
@@ -55,7 +55,7 @@ namespace RGB.NET.Core
         /// </summary>
         public byte R
         {
-            get { return _r; }
+            get => _r;
             set
             {
                 if (SetProperty(ref _r, value))
@@ -72,8 +72,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double RPercent
         {
-            get { return R / (double)byte.MaxValue; }
-            set { R = GetByteValueFromPercentage(value); }
+            get => R / (double)byte.MaxValue;
+            set => R = GetByteValueFromPercentage(value);
         }
 
         private byte _g;
@@ -82,7 +82,7 @@ namespace RGB.NET.Core
         /// </summary>
         public byte G
         {
-            get { return _g; }
+            get => _g;
             set
             {
                 if (SetProperty(ref _g, value))
@@ -100,8 +100,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double GPercent
         {
-            get { return G / (double)byte.MaxValue; }
-            set { G = GetByteValueFromPercentage(value); }
+            get => G / (double)byte.MaxValue;
+            set => G = GetByteValueFromPercentage(value);
         }
 
         private byte _b;
@@ -110,7 +110,7 @@ namespace RGB.NET.Core
         /// </summary>
         public byte B
         {
-            get { return _b; }
+            get => _b;
             set
             {
                 if (SetProperty(ref _b, value))
@@ -128,8 +128,8 @@ namespace RGB.NET.Core
         /// </summary>
         public double BPercent
         {
-            get { return B / (double)byte.MaxValue; }
-            set { B = GetByteValueFromPercentage(value); }
+            get => B / (double)byte.MaxValue;
+            set => B = GetByteValueFromPercentage(value);
         }
 
         #endregion
@@ -142,7 +142,7 @@ namespace RGB.NET.Core
         /// </summary>
         public double Hue
         {
-            get { return _hue ?? (_hue = CaclulateHueFromRGB()).Value; }
+            get => _hue ?? (_hue = CaclulateHueFromRGB()).Value;
             set
             {
                 if (SetProperty(ref _hue, value))
@@ -156,7 +156,7 @@ namespace RGB.NET.Core
         /// </summary>
         public double Saturation
         {
-            get { return _saturation ?? (_saturation = CaclulateSaturationFromRGB()).Value; }
+            get => _saturation ?? (_saturation = CaclulateSaturationFromRGB()).Value;
             set
             {
                 if (SetProperty(ref _saturation, value))
@@ -170,7 +170,7 @@ namespace RGB.NET.Core
         /// </summary>
         public double Value
         {
-            get { return _value ?? (_value = CaclulateValueFromRGB()).Value; }
+            get => _value ?? (_value = CaclulateValueFromRGB()).Value;
             set
             {
                 if (SetProperty(ref _value, value))

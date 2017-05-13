@@ -29,8 +29,8 @@ namespace RGB.NET.Core
         /// </summary>
         public Shape Shape
         {
-            get { return _shape; }
-            set { SetProperty(ref _shape, value); }
+            get => _shape;
+            set => SetProperty(ref _shape, value);
         }
 
         private string _shapeData;
@@ -39,8 +39,8 @@ namespace RGB.NET.Core
         /// </summary>
         public string ShapeData
         {
-            get { return _shapeData; }
-            set { SetProperty(ref _shapeData, value); }
+            get => _shapeData;
+            set => SetProperty(ref _shapeData, value);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace RGB.NET.Core
         /// </summary>
         public Color RequestedColor
         {
-            get { return new Color(_requestedColor); }
+            get => new Color(_requestedColor);
             private set
             {
                 SetProperty(ref _requestedColor, value);
@@ -75,7 +75,7 @@ namespace RGB.NET.Core
         /// </summary>
         public Color Color
         {
-            get { return _color; }
+            get => _color;
             set
             {
                 if (!IsLocked)
@@ -97,8 +97,8 @@ namespace RGB.NET.Core
         /// </summary>
         public bool IsLocked
         {
-            get { return _isLocked; }
-            set { SetProperty(ref _isLocked, value); }
+            get => _isLocked;
+            set => SetProperty(ref _isLocked, value);
         }
 
         /// <summary>

@@ -23,8 +23,8 @@ namespace RGB.NET.WPF.Controls
         /// </summary>
         public Led Led
         {
-            get { return (Led)GetValue(LedProperty); }
-            set { SetValue(LedProperty, value); }
+            get => (Led)GetValue(LedProperty);
+            set => SetValue(LedProperty, value);
         }
 
         // ReSharper restore InconsistentNaming

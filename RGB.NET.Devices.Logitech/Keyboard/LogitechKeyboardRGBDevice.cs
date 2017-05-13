@@ -1,8 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using System.IO;
-using System.Reflection;
+using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {

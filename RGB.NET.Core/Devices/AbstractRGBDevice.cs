@@ -26,7 +26,7 @@ namespace RGB.NET.Core
         /// </summary>
         protected Size InternalSize
         {
-            get { return _internalSize; }
+            get => _internalSize;
             set
             {
                 // ReSharper disable once ExplicitCallerInfoArgument
@@ -39,8 +39,8 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public Point Location
         {
-            get { return _location; }
-            set { SetProperty(ref _location, value ?? new Point()); }
+            get => _location;
+            set => SetProperty(ref _location, value ?? new Point());
         }
 
         /// <summary>

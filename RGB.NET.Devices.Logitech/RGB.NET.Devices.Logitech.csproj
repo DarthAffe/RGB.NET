@@ -58,8 +58,6 @@
     <Compile Include="Generic\LogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
     <Compile Include="Helper\BitmapMapping.cs" />
-    <Compile Include="Helper\CultureHelper.cs" />
-    <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="HID\DeviceChecker.cs" />
     <Compile Include="Keyboard\LogitechKeyboardRGBDevice.cs" />
     <Compile Include="Keyboard\LogitechKeyboardRGBDeviceInfo.cs" />
