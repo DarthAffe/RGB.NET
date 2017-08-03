@@ -1,4 +1,7 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -16,10 +19,11 @@ namespace RGB.NET.Devices.CoolerMaster
     {
         #region Properties & Fields
 
+        private static CoolerMasterDeviceProvider _instance;
         /// <summary>
         /// Gets the singleton <see cref="CoolerMasterDeviceProvider"/> instance.
         /// </summary>
-        public static CoolerMasterDeviceProvider Instance { get; } = new CoolerMasterDeviceProvider();
+        public static CoolerMasterDeviceProvider Instance => _instance ?? new CoolerMasterDeviceProvider();
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -60,8 +64,15 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region Constructors
 
-        private CoolerMasterDeviceProvider()
-        { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CoolerMasterDeviceProvider"/> class.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+        public CoolerMasterDeviceProvider()
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instanc of type {nameof(CoolerMasterDeviceProvider)}");
+            _instance = this;
+        }
 
         #endregion
 

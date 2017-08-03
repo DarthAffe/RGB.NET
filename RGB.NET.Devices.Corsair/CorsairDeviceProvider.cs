@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
@@ -17,10 +18,11 @@ namespace RGB.NET.Devices.Corsair
     {
         #region Properties & Fields
 
+        private static CorsairDeviceProvider _instance;
         /// <summary>
         /// Gets the singleton <see cref="CorsairDeviceProvider"/> instance.
         /// </summary>
-        public static CorsairDeviceProvider Instance { get; } = new CorsairDeviceProvider();
+        public static CorsairDeviceProvider Instance => _instance ?? new CorsairDeviceProvider();
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -66,8 +68,15 @@ namespace RGB.NET.Devices.Corsair
 
         #region Constructors
 
-        private CorsairDeviceProvider()
-        { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CorsairDeviceProvider"/> class.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+        public CorsairDeviceProvider()
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instanc of type {nameof(CorsairDeviceProvider)}");
+            _instance = this;
+        }
 
         #endregion
 

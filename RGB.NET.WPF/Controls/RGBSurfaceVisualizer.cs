@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using RGB.NET.Core;
 
@@ -21,6 +22,9 @@ namespace RGB.NET.WPF.Controls
         private RGBSurface _surface;
         private Canvas _canvas;
 
+        //TODO DarthAffe 17.06.2017: This is ugly - redesign how device connect/disconnect is generally handled!
+        private readonly List<IRGBDevice> _newDevices = new List<IRGBDevice>();
+
         #endregion
 
         #region Constructors
@@ -30,21 +34,35 @@ namespace RGB.NET.WPF.Controls
         /// </summary>
         public RGBSurfaceVisualizer()
         {
+            this.Loaded += OnLoaded;
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             _surface = RGBSurface.Instance;
 
             _surface.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
             foreach (IRGBDevice device in _surface.Devices)
-                AddDevice(device);
+                _newDevices.Add(device);
+
+            UpdateSurface();
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            _surface.SurfaceLayoutChanged -= RGBSurfaceOnSurfaceLayoutChanged;
+            _canvas?.Children.Clear();
+            _newDevices.Clear();
         }
 
         private void RGBSurfaceOnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args)
         {
             if (args.DeviceAdded)
                 foreach (IRGBDevice device in args.Devices)
-                    AddDevice(device);
+                    _newDevices.Add(device);
 
-            _canvas.Width = _surface.SurfaceRectangle.Size.Width;
-            _canvas.Height = _surface.SurfaceRectangle.Size.Height;
+            UpdateSurface();
         }
 
         #endregion
@@ -54,12 +72,21 @@ namespace RGB.NET.WPF.Controls
         /// <inheritdoc />
         public override void OnApplyTemplate()
         {
+            _canvas?.Children.Clear();
             _canvas = (Canvas)GetTemplateChild(PART_CANVAS);
+            UpdateSurface();
         }
 
-        private void AddDevice(IRGBDevice device)
+        private void UpdateSurface()
         {
-            _canvas.Children.Add(new RGBDeviceVisualizer { Device = device });
+            if ((_canvas == null) || (_newDevices.Count == 0)) return;
+
+            foreach (IRGBDevice device in _newDevices)
+                _canvas.Children.Add(new RGBDeviceVisualizer { Device = device });
+            _newDevices.Clear();
+
+            _canvas.Width = _surface.SurfaceRectangle.Size.Width;
+            _canvas.Height = _surface.SurfaceRectangle.Size.Height;
         }
 
         #endregion

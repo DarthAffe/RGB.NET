@@ -1,4 +1,7 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -15,10 +18,11 @@ namespace RGB.NET.Devices.Logitech
     {
         #region Properties & Fields
 
+        private static LogitechDeviceProvider _instance;
         /// <summary>
         /// Gets the singleton <see cref="LogitechDeviceProvider"/> instance.
         /// </summary>
-        public static LogitechDeviceProvider Instance { get; } = new LogitechDeviceProvider();
+        public static LogitechDeviceProvider Instance => _instance ?? new LogitechDeviceProvider();
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -55,8 +59,15 @@ namespace RGB.NET.Devices.Logitech
 
         #region Constructors
 
-        private LogitechDeviceProvider()
-        { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogitechDeviceProvider"/> class.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+        public LogitechDeviceProvider()
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instanc of type {nameof(LogitechDeviceProvider)}");
+            _instance = this;
+        }
 
         #endregion
 
