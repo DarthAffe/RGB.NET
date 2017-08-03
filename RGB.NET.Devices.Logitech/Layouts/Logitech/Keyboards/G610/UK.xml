@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Logitech G610 - Physical UK</Name>
+  <Description>Physical UK-Layout of Logitech G610 (Logical: ???)</Description>
+  <Type>Keyboard</Type>
+  <Lighting>Key</Lighting>
+  <Vendor>Logitech</Vendor>
+  <Model>G610</Model>
+  <Width>442</Width>
+  <Height>152</Height>
+  <Leds>
+    <!-- Esc -> Pause -->
+    <Led Id="ESC">
+      <X>5</X>
+      <Y>28</Y>
+    </Led>
+
+    <Led Id="F1">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F2" />
+    <Led Id="F3" />
+    <Led Id="F4" />
+
+    <Led Id="F5">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F6" />
+    <Led Id="F7" />
+    <Led Id="F8" />
+
+    <Led Id="F9">
+      <X>+12.667</X>
+    </Led>
+    <Led Id="F10" />
+    <Led Id="F11" />
+    <Led Id="F12" />
+
+    <Led Id="PRINT_SCREEN">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="SCROLL_LOCK" />
+    <Led Id="PAUSE_BREAK" />
+
+    <!-- ^ -> Num- -->
+    <Led Id="TILDE">
+      <X>5</X>
+      <Y>52</Y>
+    </Led>
+    <Led Id="ONE" />
+    <Led Id="TWO" />
+    <Led Id="THREE" />
+    <Led Id="FOUR" />
+    <Led Id="FIVE" />
+    <Led Id="SIX" />
+    <Led Id="SEVEN" />
+    <Led Id="EIGHT" />
+    <Led Id="NINE" />
+    <Led Id="ZERO" />
+    <Led Id="MINUS" />
+    <Led Id="EQUALS" />
+    <Led Id="BACKSPACE">
+      <Width>2</Width>
+    </Led>
+
+    <Led Id="INSERT">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="HOME" />
+    <Led Id="PAGE_UP" />
+
+    <Led Id="NUM_LOCK">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="NUM_SLASH" />
+    <Led Id="NUM_ASTERISK" />
+    <Led Id="NUM_MINUS" />
+
+    <!-- Tab -> Num+ -->
+    <Led Id="TAB">
+      <X>5</X>
+      <Y>+</Y>
+      <Width>1.5</Width>
+    </Led>
+    <Led Id="Q" />
+    <Led Id="W" />
+    <Led Id="E" />
+    <Led Id="R" />
+    <Led Id="T" />
+    <Led Id="Y" />
+    <Led Id="U" />
+    <Led Id="I" />
+    <Led Id="O" />
+    <Led Id="P" />
+    <Led Id="OPEN_BRACKET" />
+    <Led Id="CLOSE_BRACKET" />
+    <Led Id="ENTER">
+      <Shape>M0,0 L0,0.5 L0.16666666666,0.5 L0.16666666666,1 L1,1 L1,0 Z</Shape>
+      <Width>1.5</Width>
+      <Height>2</Height>
+    </Led>
+
+    <Led Id="KEYBOARD_DELETE">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="END" />
+    <Led Id="PAGE_DOWN" />
+
+    <Led Id="NUM_SEVEN">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="NUM_EIGHT" />
+    <Led Id="NUM_NINE" />
+    <Led Id="NUM_PLUS">
+      <Height>2</Height>
+    </Led>
+
+    <!-- CapsLock -> Num6 -->
+    <Led Id="CAPS_LOCK">
+      <X>5</X>
+      <Y>~</Y>
+      <Width>1.75</Width>
+    </Led>
+    <Led Id="A" />
+    <Led Id="S" />
+    <Led Id="D" />
+    <Led Id="F" />
+    <Led Id="G" />
+    <Led Id="H" />
+    <Led Id="J" />
+    <Led Id="K" />
+    <Led Id="L" />
+    <Led Id="SEMICOLON" />
+    <Led Id="APOSTROPHE" />
+    <Led Id="NonUsTilde" />
+
+    <Led Id="NUM_FOUR">
+      <X>+94.25</X>
+    </Led>
+    <Led Id="NUM_FIVE" />
+    <Led Id="NUM_SIX" />
+
+    <!-- LShift -> NumEnter -->
+    <Led Id="LEFT_SHIFT">
+      <X>5</X>
+      <Y>+</Y>
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="BACKSLASH" />
+    <Led Id="Z" />
+    <Led Id="X" />
+    <Led Id="C" />
+    <Led Id="V" />
+    <Led Id="B" />
+    <Led Id="N" />
+    <Led Id="M" />
+    <Led Id="COMMA" />
+    <Led Id="PERIOD" />
+    <Led Id="FORWARD_SLASH" />
+    <Led Id="RIGHT_SHIFT">
+      <Width>2.75</Width>
+    </Led>
+
+    <Led Id="ARROW_UP">
+      <X>+25.75</X>
+    </Led>
+
+    <Led Id="NUM_ONE">
+      <X>+25.75</X>
+    </Led>
+    <Led Id="NUM_TWO" />
+    <Led Id="NUM_THREE" />
+    <Led Id="NUM_ENTER">
+      <Height>2</Height>
+    </Led>
+
+    <!-- LCtrl -> NumPeriod -->
+    <Led Id="LEFT_CONTROL">
+      <X>5</X>
+      <Y>~</Y>
+      <Width>1.5</Width>
+    </Led>
+    <Led Id="LEFT_WINDOWS">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="LEFT_ALT">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="SPACE">
+      <Width>5.75</Width>
+    </Led>
+    <Led Id="RIGHT_ALT">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="RIGHT_WINDOWS">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="APPLICATION_SELECT">
+      <Width>1.25</Width>
+    </Led>
+    <Led Id="RIGHT_CONTROL">
+      <Width>1.5</Width>
+    </Led>
+
+    <Led Id="ARROW_LEFT">
+      <X>+6.75</X>
+    </Led>
+    <Led Id="ARROW_DOWN" />
+    <Led Id="ARROW_RIGHT" />
+
+    <Led Id="NUM_ZERO">
+      <X>+6.75</X>
+      <Width>2</Width>
+    </Led>
+    <Led Id="NUM_PERIOD" />
+
+    <Led Id="G_LOGO">
+      <Shape>M 0.43535,0.91509 c -0.083,-0.013 -0.1809,-0.0541 -0.24123,-0.11683 -0.21672,-0.2247 -0.10831,-0.63995 0.19645,-0.71442 0.044,-0.0108 0.44173,-0.0156 0.47505,-0.006 0.0632,0.0184 0.0708,0.15184 0.0119,0.18175 -0.0174,0.009 -0.0369,0.009 -0.21797,0.009 -0.23755,0 -0.25559,-0.002 -0.3144,0.067 -0.14073,0.16404 -0.0357,0.36697 0.16357,0.40076 0.0569,0.01 0.0835,0.0391 0.0831,0.0846 -4.5e-4,0.0636 -0.0621,0.10873 -0.15647,0.0941 z m 0.36491,6.7e-4 c -0.0366,-0.0138 -0.0539,-0.0325 -0.0567,-0.0973 -0.006,-0.14226 -0.0741,-0.23758 -0.21563,-0.24355 -0.0562,-0.003 -0.0629,-0.004 -0.0811,-0.0233 -0.0344,-0.0359 -0.021,-0.11984 0.0238,-0.14402 0.0129,-0.007 0.0145,-0.007 0.19631,-0.007 0.25897,0 0.25297,0.005 0.25151,0.27271 -8e-4,0.17441 -8e-4,0.19394 -0.0107,0.20972 -0.0183,0.0297 -0.0769,0.0443 -0.10753,0.0326 Z</Shape>
+      <X>5</X>
+      <Y>5</Y>
+    </Led>
+  </Leds>
+</Device>

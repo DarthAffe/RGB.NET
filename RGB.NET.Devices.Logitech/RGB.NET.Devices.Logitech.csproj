@@ -187,6 +187,9 @@
     <Content Include="Images\Logitech\Keyboards\Raptor_Keys\X.png" />
     <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Y.png" />
     <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Z.png" />
+    <Content Include="Layouts\Logitech\Keyboards\G610\UK.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Layouts\Logitech\Keyboards\G910\UK.xml">
       <SubType>Designer</SubType>
     </Content>
