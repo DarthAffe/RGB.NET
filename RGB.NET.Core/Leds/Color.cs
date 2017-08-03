@@ -189,7 +189,7 @@ namespace RGB.NET.Core
         /// The class created by this constructor equals <see cref="Transparent"/>.
         /// </summary>
         public Color()
-            : this(0, 0, 0)
+            : this(0, 0, 0, 0)
         { }
 
         /// <summary>
