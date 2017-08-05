@@ -102,6 +102,9 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public void Dispose()
         {
+            if (_updateTokenSource?.IsCancellationRequested == false)
+                _updateTokenSource.Cancel();
+
             foreach (IRGBDevice device in _devices)
                 try { device.Dispose(); }
                 catch { /* We do what we can */ }

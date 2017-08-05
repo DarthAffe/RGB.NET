@@ -66,7 +66,7 @@ namespace RGB.NET.Core
             {
                 _updateTokenSource?.Dispose();
                 _updateTokenSource = new CancellationTokenSource();
-                _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token));
+                _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
             }
             else if (!shouldRun && (_updateTask != null)) // Stop task
             {
