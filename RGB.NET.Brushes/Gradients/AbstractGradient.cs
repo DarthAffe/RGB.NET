@@ -88,14 +88,15 @@ namespace RGB.NET.Brushes.Gradients
             offset /= 360.0;
 
             foreach (GradientStop gradientStop in GradientStops)
-            {
-                gradientStop.Offset = gradientStop.Offset + offset;
+                gradientStop.Offset += offset;
 
-                if (gradientStop.Offset > 1)
+            while (GradientStops.All(x => x.Offset > 1))
+                foreach (GradientStop gradientStop in GradientStops)
                     gradientStop.Offset -= 1;
-                else if (gradientStop.Offset < 0)
+
+            while (GradientStops.All(x => x.Offset < 0))
+                foreach (GradientStop gradientStop in GradientStops)
                     gradientStop.Offset += 1;
-            }
         }
 
         #endregion

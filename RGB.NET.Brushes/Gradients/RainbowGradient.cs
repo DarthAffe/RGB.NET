@@ -65,12 +65,12 @@ namespace RGB.NET.Brushes.Gradients
             StartHue += offset;
             EndHue += offset;
 
-            if ((StartHue > 360) && (EndHue > 360))
+            while ((StartHue > 360) && (EndHue > 360))
             {
                 StartHue -= 360;
                 EndHue -= 360;
             }
-            else if ((StartHue < -360) && (EndHue < -360))
+            while ((StartHue < -360) && (EndHue < -360))
             {
                 StartHue += 360;
                 EndHue += 360;

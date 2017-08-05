@@ -48,35 +48,9 @@ namespace RGB.NET.Brushes.Gradients
         public override Color GetColor(double offset)
         {
             if (GradientStops.Count == 0) return Color.Transparent;
-            if (GradientStops.Count == 1) return new Color(GradientStops.First().Color);
+            if (GradientStops.Count == 1) return new Color(GradientStops[0].Color);
 
-            GradientStop gsBefore;
-            GradientStop gsAfter;
-
-            IList<GradientStop> orderedStops = GradientStops.OrderBy(x => x.Offset).ToList();
-            if (WrapGradient)
-            {
-                gsBefore = orderedStops.LastOrDefault(n => n.Offset <= offset);
-                if (gsBefore == null)
-                {
-                    GradientStop lastStop = orderedStops[orderedStops.Count - 1];
-                    gsBefore = new GradientStop(lastStop.Offset - 1, lastStop.Color);
-                }
-
-                gsAfter = orderedStops.FirstOrDefault(n => n.Offset >= offset);
-                if (gsAfter == null)
-                {
-                    GradientStop firstStop = orderedStops[0];
-                    gsAfter = new GradientStop(firstStop.Offset + 1, firstStop.Color);
-                }
-            }
-            else
-            {
-                offset = ClipOffset(offset);
-
-                gsBefore = orderedStops.Last(n => n.Offset <= offset);
-                gsAfter = orderedStops.First(n => n.Offset >= offset);
-            }
+            (GradientStop gsBefore, GradientStop gsAfter) = GetEnclosingGradientStops(offset, GradientStops, WrapGradient);
 
             double blendFactor = 0;
             if (!gsBefore.Offset.Equals(gsAfter.Offset))
@@ -88,6 +62,48 @@ namespace RGB.NET.Brushes.Gradients
             byte colB = (byte)(((gsAfter.Color.B - gsBefore.Color.B) * blendFactor) + gsBefore.Color.B);
 
             return new Color(colA, colR, colG, colB);
+        }
+
+        /// <summary>
+        /// Get the two <see cref="GradientStop"/>s encapsulating the given offset.
+        /// </summary>
+        /// <param name="offset">The reference offset.</param>
+        /// <param name="stops">The <see cref="GradientStop"/> to choose from.</param>
+        /// <param name="wrap">Bool indicating if the gradient should be wrapped or not.</param>
+        /// <returns></returns>
+        protected virtual (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(double offset, IEnumerable<GradientStop> stops, bool wrap)
+        {
+            LinkedList<GradientStop> orderedStops = new LinkedList<GradientStop>(stops.OrderBy(x => x.Offset));
+
+            if (wrap)
+            {
+                GradientStop gsBefore, gsAfter;
+
+                do
+                {
+                    gsBefore = orderedStops.LastOrDefault(n => n.Offset <= offset);
+                    if (gsBefore == null)
+                    {
+                        GradientStop lastStop = orderedStops.Last.Value;
+                        orderedStops.AddFirst(new GradientStop(lastStop.Offset - 1, lastStop.Color));
+                        orderedStops.RemoveLast();
+                    }
+
+                    gsAfter = orderedStops.FirstOrDefault(n => n.Offset >= offset);
+                    if (gsAfter == null)
+                    {
+                        GradientStop firstStop = orderedStops.First.Value;
+                        orderedStops.AddLast(new GradientStop(firstStop.Offset + 1, firstStop.Color));
+                        orderedStops.RemoveFirst();
+                    }
+
+                } while ((gsBefore == null) || (gsAfter == null));
+
+                return (gsBefore, gsAfter);
+            }
+
+            offset = ClipOffset(offset);
+            return (orderedStops.Last(n => n.Offset <= offset), orderedStops.First(n => n.Offset >= offset));
         }
 
         #endregion
