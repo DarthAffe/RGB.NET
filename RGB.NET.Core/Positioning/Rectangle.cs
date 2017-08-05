@@ -53,8 +53,9 @@ namespace RGB.NET.Core
 
         /// <summary>
         /// Gets a bool indicating if both, the width and the height of the rectangle is greater than zero.
+        /// <c>True</c> if the rectangle has a width or a height of zero; otherwise, <c>false</c>.
         /// </summary>
-        public bool IsEmpty => (Size.Width > DoubleExtensions.TOLERANCE) && (Size.Height > DoubleExtensions.TOLERANCE);
+        public bool IsEmpty => (Size.Width <= DoubleExtensions.TOLERANCE) || (Size.Height <= DoubleExtensions.TOLERANCE);
 
         #endregion
 
