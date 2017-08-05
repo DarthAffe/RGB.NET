@@ -48,11 +48,15 @@ namespace RGB.NET.Core
             {
                 for (int i = EffectTimes.Count - 1; i >= 0; i--)
                 {
-                    EffectTimeContainer effectTime = EffectTimes[i];
-                    if (!effectTime.Effect.IsEnabled) continue;
-
                     long currentTicks = DateTime.Now.Ticks;
 
+                    EffectTimeContainer effectTime = EffectTimes[i];
+                    if (!effectTime.Effect.IsEnabled)
+                    {
+                        effectTime.TicksAtLastUpdate = currentTicks;
+                        continue;
+                    }
+                    
                     double deltaTime;
                     if (effectTime.TicksAtLastUpdate < 0)
                     {
