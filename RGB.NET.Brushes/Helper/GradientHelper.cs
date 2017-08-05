@@ -10,6 +10,8 @@ namespace RGB.NET.Brushes.Helper
     /// </summary>
     public static class GradientHelper
     {
+        #region Methods
+
         // Based on https://web.archive.org/web/20170125201230/https://dotupdate.wordpress.com/2008/01/28/find-the-color-of-a-point-in-a-lineargradientbrush/
         /// <summary>
         /// Calculates the offset of an given <see cref="Point"/> on an gradient.
@@ -72,9 +74,8 @@ namespace RGB.NET.Brushes.Helper
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>The distance between the two <see cref="Point"/>.</returns>
-        public static double CalculateDistance(Point point1, Point point2)
-        {
-            return Math.Sqrt(((point1.Y - point2.Y) * (point1.Y - point2.Y)) + ((point1.X - point2.X) * (point1.X - point2.X)));
-        }
+        public static double CalculateDistance(Point point1, Point point2) => Math.Sqrt(((point1.Y - point2.Y) * (point1.Y - point2.Y)) + ((point1.X - point2.X) * (point1.X - point2.X)));
+
+        #endregion
     }
 }
