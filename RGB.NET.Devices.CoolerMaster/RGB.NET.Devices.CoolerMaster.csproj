@@ -33,10 +33,6 @@
     <DocumentationFile>..\bin\RGB.NET.Devices.CoolerMaster.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RGB.NET.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RGB.NET.Core.1.0.0\lib\net45\RGB.NET.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,7 +65,6 @@
     <None Include="Layouts\DeviceLayout.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
     <None Include="targets\RGB.NET.Devices.CoolerMaster.targets" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +74,12 @@
   <ItemGroup>
     <Content Include="libs\x64\CMSDK.dll" />
     <Content Include="libs\x86\CMSDK.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
+      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
+      <Name>RGB.NET.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

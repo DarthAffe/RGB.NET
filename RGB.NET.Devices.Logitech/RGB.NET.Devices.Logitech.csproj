@@ -36,10 +36,6 @@
       <HintPath>..\packages\HidSharp.1.5\lib\net35\HidSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RGB.NET.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RGB.NET.Core.1.0.0\lib\net45\RGB.NET.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,7 +68,12 @@
     <None Include="packages.config" />
     <None Include="targets\RGB.NET.Devices.Logitech.targets" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
+      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
+      <Name>RGB.NET.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Logitech\Keyboards\G910.png" />
     <Content Include="Images\Logitech\Keyboards\Raptor_Keys\0_Equals_CurlyBracketRight.png" />

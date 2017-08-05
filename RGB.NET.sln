@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Core", "RGB.NET.Core\RGB.NET.Core.csproj", "{5A4F9A75-75FE-47CD-90E5-914D5B20D232}"
 EndProject
@@ -25,7 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Groups", "RGB.NET.G
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566-481F-4571-80EE-7BB05B1E0299}"
 	ProjectSection(SolutionItems) = preProject
-		NuGet.Config = NuGet.Config
 		NuGet\nuget.exe = NuGet\nuget.exe
 		NuGet\pack_all.bat = NuGet\pack_all.bat
 		NuGet\RGB.NET.Brushes.nuspec = NuGet\RGB.NET.Brushes.nuspec

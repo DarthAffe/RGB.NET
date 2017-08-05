@@ -32,14 +32,6 @@
     <DocumentationFile>..\bin\RGB.NET.Effects.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RGB.NET.Brushes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RGB.NET.Brushes.1.0.0\lib\net45\RGB.NET.Brushes.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RGB.NET.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RGB.NET.Core.1.0.0\lib\net45\RGB.NET.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,7 +47,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\RGB.NET.Brushes\RGB.NET.Brushes.csproj">
+      <Project>{347c5f0f-f490-4dec-9c1c-6e84750d838d}</Project>
+      <Name>RGB.NET.Brushes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
+      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
+      <Name>RGB.NET.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
