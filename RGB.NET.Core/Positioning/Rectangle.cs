@@ -192,7 +192,7 @@ namespace RGB.NET.Core
             if (IsEmpty || intersectingRect.IsEmpty) return 0;
 
             Rectangle intersection = CalculateIntersection(intersectingRect);
-            return intersection.IsEmpty ? 0 : (intersection.Size.Width * intersection.Size.Height) / (Size.Width * Size.Height);
+            return (intersection.Size.Width * intersection.Size.Height) / (Size.Width * Size.Height);
         }
 
         /// <summary>

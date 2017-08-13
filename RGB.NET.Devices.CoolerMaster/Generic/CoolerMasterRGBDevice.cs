@@ -9,7 +9,7 @@ using RGB.NET.Devices.CoolerMaster.Native;
 namespace RGB.NET.Devices.CoolerMaster
 {
     /// <summary>
-    /// Represents a generic CoolerMaster-device. (keyboard, mouse, headset, mousmat).
+    /// Represents a generic CoolerMaster-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
     public abstract class CoolerMasterRGBDevice : AbstractRGBDevice
     {

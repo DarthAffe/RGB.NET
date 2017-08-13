@@ -9,7 +9,7 @@ using RGB.NET.Devices.Logitech.Native;
 namespace RGB.NET.Devices.Logitech
 {
     /// <summary>
-    /// Represents a generic Logitech-device. (keyboard, mouse, headset, mousmat).
+    /// Represents a generic Logitech-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
     public abstract class LogitechRGBDevice : AbstractRGBDevice
     {

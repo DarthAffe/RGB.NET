@@ -15,6 +15,6 @@ namespace RGB.NET.Devices.Corsair
         Mouse = 1,
         Keyboard = 2,
         Headset = 3,
-        Mousemat = 4
+        Mousepad = 4
     };
 }

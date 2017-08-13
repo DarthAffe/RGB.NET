@@ -26,9 +26,9 @@
         Headset = 3,
 
         /// <summary>
-        /// Represents a mousmat.
+        /// Represents a mousepad.
         /// </summary>
-        Mousemat = 4,
+        Mousepad = 4,
 
         /// <summary>
         /// Represents a LED-stipe.

@@ -11,29 +11,29 @@ using RGB.NET.Devices.Corsair.Native;
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Represents a corsair mousemat.
+    /// Represents a corsair mousepad.
     /// </summary>
-    public class CorsairMousematRGBDevice : CorsairRGBDevice
+    public class CorsairMousepadRGBDevice : CorsairRGBDevice
     {
         #region Properties & Fields
 
         /// <summary>
-        /// Gets information about the <see cref="CorsairMousematRGBDevice"/>.
+        /// Gets information about the <see cref="CorsairMousepadRGBDevice"/>.
         /// </summary>
-        public CorsairMousematRGBDeviceInfo MousematDeviceInfo { get; }
+        public CorsairMousepadRGBDeviceInfo MousepadDeviceInfo { get; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CorsairMousematRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="CorsairMousepadRGBDevice"/> class.
         /// </summary>
-        /// <param name="info">The specific information provided by CUE for the mousemat</param>
-        internal CorsairMousematRGBDevice(CorsairMousematRGBDeviceInfo info)
+        /// <param name="info">The specific information provided by CUE for the mousepad</param>
+        internal CorsairMousepadRGBDevice(CorsairMousepadRGBDeviceInfo info)
             : base(info)
         {
-            this.MousematDeviceInfo = info;
+            this.MousepadDeviceInfo = info;
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.Corsair
         {
             _CorsairLedPositions nativeLedPositions =
                 (_CorsairLedPositions)
-                Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(MousematDeviceInfo.CorsairDeviceIndex),
+                Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(MousepadDeviceInfo.CorsairDeviceIndex),
                                        typeof(_CorsairLedPositions));
 
             int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
@@ -63,8 +63,8 @@ namespace RGB.NET.Devices.Corsair
                 InitializeLed(new CorsairLedId(this, ledPosition.ledId),
                               new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mousemats\{MousematDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
-                null, PathHelper.GetAbsolutePath(@"Images\Corsair\Mousemats"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mousepads\{MousepadDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+                null, PathHelper.GetAbsolutePath(@"Images\Corsair\Mousepads"));
         }
 
         #endregion

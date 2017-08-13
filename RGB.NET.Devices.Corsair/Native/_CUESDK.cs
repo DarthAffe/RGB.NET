@@ -160,7 +160,7 @@ namespace RGB.NET.Devices.Corsair.Native
         }
 
         /// <summary>
-        /// CUE-SDK: provides list of keyboard or mousemat LEDs with their physical positions.
+        /// CUE-SDK: provides list of keyboard or mousepad LEDs with their physical positions.
         /// </summary>
         internal static IntPtr CorsairGetLedPositionsByDeviceIndex(int deviceIndex)
         {

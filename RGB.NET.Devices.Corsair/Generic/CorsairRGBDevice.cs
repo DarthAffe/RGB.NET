@@ -10,7 +10,7 @@ using RGB.NET.Devices.Corsair.Native;
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Represents a generic CUE-device. (keyboard, mouse, headset, mousmat).
+    /// Represents a generic CUE-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
     public abstract class CorsairRGBDevice : AbstractRGBDevice
     {

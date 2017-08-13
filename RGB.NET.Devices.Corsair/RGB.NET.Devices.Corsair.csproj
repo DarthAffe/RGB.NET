@@ -65,8 +65,8 @@
     <Compile Include="Keyboard\CorsairKeyboardRGBDeviceInfo.cs" />
     <Compile Include="Mouse\CorsairMouseRGBDevice.cs" />
     <Compile Include="Mouse\CorsairMouseRGBDeviceInfo.cs" />
-    <Compile Include="Mousmat\CorsairMousematRGBDevice.cs" />
-    <Compile Include="Mousmat\CorsairMousematRGBDeviceInfo.cs" />
+    <Compile Include="Mousepad\CorsairMousepadRGBDevice.cs" />
+    <Compile Include="Mousepad\CorsairMousepadRGBDeviceInfo.cs" />
     <Compile Include="Native\_CorsairDeviceInfo.cs" />
     <Compile Include="Native\_CorsairLedColor.cs" />
     <Compile Include="Native\_CorsairLedPosition.cs" />
@@ -89,10 +89,10 @@
   <ItemGroup>
     <Folder Include="Images\Corsair\Headsets\" />
     <Folder Include="Images\Corsair\Mice\" />
-    <Folder Include="Images\Corsair\Mousemats\" />
+    <Folder Include="Images\Corsair\Mousepads\" />
     <Folder Include="Layouts\Corsair\Headsets\" />
     <Folder Include="Layouts\Corsair\Mice\" />
-    <Folder Include="Layouts\Corsair\Mousemats\" />
+    <Folder Include="Layouts\Corsair\Mousepads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Corsair\Keyboards\K70RGB.png" />
