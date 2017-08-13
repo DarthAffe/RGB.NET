@@ -5,7 +5,7 @@
   <Type>Keyboard</Type>
   <Lighting>Key</Lighting>
   <Vendor>Corsair</Vendor>
-  <Model>K95RGB</Model>
+  <Model>K95 RGB Platinum</Model>
   <Width>465</Width>
   <Height>169</Height>
   <Leds>
@@ -476,7 +476,7 @@
         <LedImage Id="G12" Image="Strafe_Keys\G4.png" />
         <LedImage Id="G15" Image="Strafe_Keys\G5.png" />
         <LedImage Id="G18" Image="Strafe_Keys\G6.png" />
-      
+
         <LedImage Id="Lightbar1" Image="Empty.png" />
         <LedImage Id="Lightbar2" Image="Empty.png" />
         <LedImage Id="Lightbar3" Image="Empty.png" />
@@ -625,7 +625,7 @@
         <LedImage Id="G12" Image="Strafe_Keys\G4.png" />
         <LedImage Id="G15" Image="Strafe_Keys\G5.png" />
         <LedImage Id="G18" Image="Strafe_Keys\G6.png" />
-      
+
         <LedImage Id="Lightbar1" Image="Empty.png" />
         <LedImage Id="Lightbar2" Image="Empty.png" />
         <LedImage Id="Lightbar3" Image="Empty.png" />
