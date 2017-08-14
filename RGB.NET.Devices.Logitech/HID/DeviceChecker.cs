@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.Logitech.HID
         private const int VENDOR_ID = 0x046D;
         private const int G910_ID = 0xC32B;
         private const int G810_ID = 0x0;
-        private const int G610_ID = 0x0;
+        private const int G610_ID = 0xC333;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace RGB.NET.Devices.Logitech.HID
                     else if (hidDevice.ProductID == G810_ID)
                         IsG810Connected = true;
                     else if (hidDevice.ProductID == G610_ID)
-                        IsG810Connected = true;
+                        IsG610Connected = true;
                 }
         }
 
