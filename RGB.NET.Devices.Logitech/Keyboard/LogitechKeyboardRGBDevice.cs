@@ -24,7 +24,7 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Initializes a new instance of the <see cref="LogitechKeyboardRGBDevice"/> class.
         /// </summary>
-        /// <param name="info">The specific information provided by CUE for the keyboard</param>
+        /// <param name="info">The specific information provided by logitech for the keyboard</param>
         internal LogitechKeyboardRGBDevice(LogitechKeyboardRGBDeviceInfo info)
             : base(info)
         {
