@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>RGB.NET.Groups</id>
-    <title>CUE.NET.Groups</title>
+    <title>RGB.NET.Groups</title>
     <version>1.0.0.0</version>
     <authors>Darth Affe</authors>
     <owners>Darth Affe</owners>

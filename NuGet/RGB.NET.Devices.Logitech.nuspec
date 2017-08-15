@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>RGB.NET.Devices.Logitech</id>
-    <title>CUE.NET.Devices.Logitech</title>
+    <title>RGB.NET.Devices.Logitech</title>
     <version>1.0.0.0</version>
     <authors>Darth Affe</authors>
     <owners>Darth Affe</owners>

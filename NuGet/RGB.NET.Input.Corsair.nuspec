@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>RGB.NET.Input.Corsair</id>
-    <title>CUE.NET.Input.Corsair</title>
+    <title>RGB.NET.Input.Corsair</title>
     <version>1.0.0.0</version>
     <authors>Darth Affe</authors>
     <owners>Darth Affe</owners>

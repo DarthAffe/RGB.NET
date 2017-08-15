@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>RGB.NET.WPF</id>
-    <title>CUE.NET.WPF</title>
+    <title>RGB.NET.WPF</title>
     <version>1.0.0.0</version>
     <authors>Darth Affe</authors>
     <owners>Darth Affe</owners>
