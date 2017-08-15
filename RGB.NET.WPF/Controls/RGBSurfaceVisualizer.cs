@@ -79,11 +79,14 @@ namespace RGB.NET.WPF.Controls
 
         private void UpdateSurface()
         {
-            if ((_canvas == null) || (_newDevices.Count == 0)) return;
+            if ((_canvas == null) || (_surface == null)) return;
 
-            foreach (IRGBDevice device in _newDevices)
-                _canvas.Children.Add(new RGBDeviceVisualizer { Device = device });
-            _newDevices.Clear();
+            if (_newDevices.Count > 0)
+            {
+                foreach (IRGBDevice device in _newDevices)
+                    _canvas.Children.Add(new RGBDeviceVisualizer { Device = device });
+                _newDevices.Clear();
+            }
 
             _canvas.Width = _surface.SurfaceRectangle.Size.Width;
             _canvas.Height = _surface.SurfaceRectangle.Size.Height;
