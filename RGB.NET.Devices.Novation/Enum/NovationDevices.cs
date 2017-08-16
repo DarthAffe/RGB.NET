@@ -12,6 +12,7 @@ namespace RGB.NET.Devices.Novation
     public enum NovationDevices
     {
         [DeviceId("Launchpad S")]
+        [ColorCapability(NovationColorCapabilities.LimitedRG)]
         LaunchpadS
     }
 }

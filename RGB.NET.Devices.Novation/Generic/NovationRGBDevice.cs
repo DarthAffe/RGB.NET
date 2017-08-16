@@ -16,11 +16,12 @@ namespace RGB.NET.Devices.Novation
         #region Properties & Fields
 
         private readonly OutputDevice _outputDevice;
+        private readonly NovationRGBDeviceInfo _deviceInfo;
 
         /// <summary>
         /// Gets information about the <see cref="NovationRGBDevice"/>.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo { get; }
+        public override IRGBDeviceInfo DeviceInfo => _deviceInfo;
 
         #endregion
 
@@ -32,7 +33,7 @@ namespace RGB.NET.Devices.Novation
         /// <param name="info">The generic information provided by Novation for the device.</param>
         protected NovationRGBDevice(NovationRGBDeviceInfo info)
         {
-            this.DeviceInfo = info;
+            _deviceInfo = info;
 
             _outputDevice = new OutputDevice(info.DeviceId);
         }
@@ -112,46 +113,72 @@ namespace RGB.NET.Devices.Novation
             {
                 foreach (Led led in leds)
                 {
-                    NovationLedId ledId = (NovationLedId)led.Id;
+                    NovationLedId ledId = led.Id as NovationLedId;
+                    if (ledId == null) continue;
 
-                    int color = 0;
-
-                    if (led.Color.R > 0)
-                    {
-                        color = 1;
-
-                        if (led.Color.R > 127)
-                            color = 2;
-                        if (led.Color.R == 255)
-                            color = 3;
-                    }
-
-                    if (led.Color.G > 0)
-                    {
-                        color = 16;
-
-                        if (led.Color.G > 127)
-                            color = 32;
-                        if (led.Color.G == 255)
-                            color = 48;
-                    }
-
-                    if ((led.Color.R > 0) && (led.Color.G > 0))
-                    {
-                        color = 17;
-
-                        if (((led.Color.R > 127) && (led.Color.G < 127)) || ((led.Color.R < 127) && (led.Color.G > 127)))
-                            color = 34;
-                        if ((led.Color.R > 127) && (led.Color.G > 127))
-                            color = 51;
-                    }
-
+                    int color = ConvertColor(led.Color);
                     SendMessage(ledId.LedId.GetStatus(), ledId.LedId.GetId(), color);
                 }
             }
         }
 
-        private void SendMessage(int status, int data1, int data2)
+        /// <summary>
+        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
+        /// </summary>
+        /// <param name="color">The <see cref="Color"/> to convert.</param>
+        /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
+        protected virtual int ConvertColor(Color color)
+        {
+            switch (_deviceInfo.ColorCapabilities)
+            {
+                case NovationColorCapabilities.RGB:
+                    return ConvertColorFull(color);
+                case NovationColorCapabilities.LimitedRG:
+                    return ConvertColorLimited(color);
+                default:
+                    return 0;
+            }
+        }
+
+        /// <summary>
+        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
+        /// The conversion uses the full rgb-range.
+        /// </summary>
+        /// <param name="color">The <see cref="Color"/> to convert.</param>
+        /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
+        protected virtual int ConvertColorFull(Color color)
+        {
+            //TODO DarthAffe 16.08.2017: How are colors for full rgb devices encoded?
+            return 0;
+        }
+
+        /// <summary>
+        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
+        /// The conversion uses only a limited amount of colors (3 red, 3 yellow, 3 green).
+        /// </summary>
+        /// <param name="color">The <see cref="Color"/> to convert.</param>
+        /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
+        protected virtual int ConvertColorLimited(Color color)
+        {
+            if ((color.Hue >= 330) || (color.Hue < 30))
+                return (int)Math.Ceiling(color.Value * 3); // red with brightness 1, 2 or 3
+
+            if ((color.Hue >= 30) && (color.Hue < 90)) // yellow with brightness 17, 34 or 51
+                return (int)Math.Ceiling(color.Value * 17);
+
+            if ((color.Hue >= 90) && (color.Hue < 150)) // green with brightness 16, 32 or 48
+                return (int)Math.Ceiling(color.Value * 16);
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Sends a message to the <see cref="NovationRGBDevice"/>.
+        /// </summary>
+        /// <param name="status">The status-code of the message.</param>
+        /// <param name="data1">The first data-package of the message.</param>
+        /// <param name="data2">The second data-package of the message.</param>
+        protected virtual void SendMessage(int status, int data1, int data2)
         {
             ShortMessage shortMessage = new ShortMessage(Convert.ToByte(status), Convert.ToByte(data1), Convert.ToByte(data2));
             _outputDevice.SendShort(shortMessage.Message);

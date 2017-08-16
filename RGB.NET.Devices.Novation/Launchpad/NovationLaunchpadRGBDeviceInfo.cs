@@ -15,8 +15,9 @@ namespace RGB.NET.Devices.Novation
         /// </summary>
         /// <param name="model">The represented device model.</param>
         /// <param name="deviceId"></param>
-        internal NovationLaunchpadRGBDeviceInfo(string model, int deviceId)
-            : base(RGBDeviceType.LedMatrix, model, deviceId)
+        /// <param name="colorCapabilities">The <see cref="NovationColorCapabilities"/> of the <see cref="IRGBDevice"/>.</param>
+        internal NovationLaunchpadRGBDeviceInfo(string model, int deviceId, NovationColorCapabilities colorCapabilities)
+            : base(RGBDeviceType.LedMatrix, model, deviceId, colorCapabilities)
         {
             Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Novation\Launchpads\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
         }

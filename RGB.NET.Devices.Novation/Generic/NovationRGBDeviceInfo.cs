@@ -26,6 +26,11 @@ namespace RGB.NET.Devices.Novation
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
         /// <summary>
+        /// Gets the <see cref="NovationColorCapabilities"/> of the <see cref="IRGBDevice"/>.
+        /// </summary>
+        public NovationColorCapabilities ColorCapabilities { get; }
+
+        /// <summary>
         /// Gets the (midi)-id of the <see cref="IRGBDevice"/>..
         /// </summary>
         public int DeviceId { get; }
@@ -40,11 +45,13 @@ namespace RGB.NET.Devices.Novation
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The represented device model.</param>
         /// <param name="deviceId">The (midi)-id of the <see cref="IRGBDevice"/>.</param>
-        internal NovationRGBDeviceInfo(RGBDeviceType deviceType, string model, int deviceId)
+        /// <param name="colorCapabilities">The <see cref="NovationColorCapabilities"/> of the <see cref="IRGBDevice"/>.</param>
+        internal NovationRGBDeviceInfo(RGBDeviceType deviceType, string model, int deviceId, NovationColorCapabilities colorCapabilities)
         {
             this.DeviceType = deviceType;
             this.Model = model;
             this.DeviceId = deviceId;
+            this.ColorCapabilities = colorCapabilities;
         }
 
         #endregion

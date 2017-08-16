@@ -17,6 +17,13 @@ namespace RGB.NET.Devices.Novation
         internal static string GetDeviceId(this Enum source) => source.GetAttribute<DeviceIdAttribute>()?.Id;
 
         /// <summary>
+        /// Gets the value of the <see cref="ColorCapabilityAttribute"/>.
+        /// </summary>
+        /// <param name="source">The enum value to get the description from.</param>
+        /// <returns>The value of the <see cref="ColorCapabilityAttribute"/> of the source.</returns>
+        internal static NovationColorCapabilities GetColorCapability(this Enum source) => source.GetAttribute<ColorCapabilityAttribute>()?.Capability ?? NovationColorCapabilities.None;
+
+        /// <summary>
         /// Gets the attribute of type T.
         /// </summary>
         /// <param name="source">The enum value to get the attribute from</param>
