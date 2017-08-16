@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Core.Layout;
+using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
@@ -13,6 +14,9 @@ namespace RGB.NET.Devices.Novation
     public abstract class NovationRGBDevice : AbstractRGBDevice
     {
         #region Properties & Fields
+
+        private readonly OutputDevice _outputDevice;
+
         /// <summary>
         /// Gets information about the <see cref="NovationRGBDevice"/>.
         /// </summary>
@@ -29,6 +33,7 @@ namespace RGB.NET.Devices.Novation
         protected NovationRGBDevice(IRGBDeviceInfo info)
         {
             this.DeviceInfo = info;
+            _outputDevice = new OutputDevice(((NovationRGBDeviceInfo)DeviceInfo).DeviceId);
         }
 
         #endregion
@@ -104,14 +109,57 @@ namespace RGB.NET.Devices.Novation
 
             if (leds.Count > 0)
             {
-                //TODO DarthAffe 15.08.2017: Update Leds
+                foreach (Led led in leds)
+                {
+                    NovationLedId ledId = (NovationLedId)led.Id;
+
+                    int color = 0;
+
+                    if (led.Color.R > 0)
+                    {
+                        color = 1;
+
+                        if (led.Color.R > 127)
+                            color = 2;
+                        if (led.Color.R == 255)
+                            color = 3;
+                    }
+
+                    if (led.Color.G > 0)
+                    {
+                        color = 16;
+
+                        if (led.Color.G > 127)
+                            color = 32;
+                        if (led.Color.G == 255)
+                            color = 48;
+                    }
+
+                    if ((led.Color.R > 0) && (led.Color.G > 0))
+                    {
+                        color = 17;
+
+                        if(((led.Color.R > 127) && (led.Color.G < 127)) || ((led.Color.R < 127) && (led.Color.G > 127)))
+                            color = 34;
+                        if((led.Color.R > 127) && (led.Color.G > 127))
+                            color = 51;
+                    }
+
+                    SendMessage(ledId.LedId.GetStatus(), ledId.LedId.GetId(), color);
+                }
             }
+        }
+
+        private void SendMessage(int status, int data1, int data2)
+        {
+            ShortMessage shortMessage = new ShortMessage(Convert.ToByte(status), Convert.ToByte(data1), Convert.ToByte(data2));
+            _outputDevice.SendShort(shortMessage.Message);
         }
 
         /// <inheritdoc />
         public override void Dispose()
         {
-            //TODO DarthAffe 15.08.2017: Dispose
+            _outputDevice.Dispose();
 
             base.Dispose();
         }

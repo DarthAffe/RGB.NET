@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using RGB.NET.Core;
+using RGB.NET.Core.Extensions;
+using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
@@ -46,6 +49,7 @@ namespace RGB.NET.Devices.Novation
 
         #region Methods
 
+        /// <inheritdoc />
         public bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
             IsInitialized = false;
@@ -54,21 +58,24 @@ namespace RGB.NET.Devices.Novation
             {
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
 
-                //TODO DarthAffe 15.08.2017: Get devices
-                // foreach ...
                 try
                 {
-                    NovationRGBDevice device = null;
-                    device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo("Launchpad S"));
-                    device.Initialize();
-                    devices.Add(device);
+                    for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
+                    {
+                        MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
+
+                        if (outCaps.name.Equals(NovationDevices.LaunchpadS.GetAttribute<DisplayAttribute>().Name))
+                        {
+                            NovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index));
+                            device.Initialize();
+                            devices.Add(device);
+                        }
+                    }
                 }
                 catch
                 {
                     if (throwExceptions)
                         throw;
-                    //else
-                    //continue;
                 }
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
@@ -86,9 +93,15 @@ namespace RGB.NET.Devices.Novation
             return true;
         }
 
+        /// <inheritdoc />
         public void ResetDevices()
         {
-            //TODO DarthAffe 15.08.2017: Is this possible?
+            foreach (IRGBDevice device in Devices)
+            {
+                NovationLaunchpadRGBDeviceInfo deviceInfo = (NovationLaunchpadRGBDeviceInfo)device.DeviceInfo;
+                OutputDevice outputDevice = new OutputDevice(deviceInfo.DeviceId);
+                outputDevice.Reset();
+            }
         }
 
         #endregion

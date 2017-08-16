@@ -1,5 +1,6 @@
 ﻿using System;
 using RGB.NET.Core;
+using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
