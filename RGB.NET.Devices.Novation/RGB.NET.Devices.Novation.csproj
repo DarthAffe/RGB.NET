@@ -49,11 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DeviceIdAttribute.cs" />
     <Compile Include="Enum\NovationDevices.cs" />
     <Compile Include="Enum\NovationLedIds.cs" />
     <Compile Include="Generic\NovationLedId.cs" />
     <Compile Include="Generic\NovationRGBDevice.cs" />
     <Compile Include="Generic\NovationRGBDeviceInfo.cs" />
+    <Compile Include="Helper\EnumExtension.cs" />
     <Compile Include="Helper\NovationLedIdsExtension.cs" />
     <Compile Include="Launchpad\NovationLaunchpadRGBDevice.cs" />
     <Compile Include="Launchpad\NovationLaunchpadRGBDeviceInfo.cs" />

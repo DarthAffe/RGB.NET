@@ -1,13 +1,18 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Core.Extensions;
 using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
+    /// <summary>
+    /// Represents a device provider responsible for Novation  devices.
+    /// </summary>
     public class NovationDeviceProvider : IRGBDeviceProvider
     {
         #region Properties & Fields
@@ -63,13 +68,16 @@ namespace RGB.NET.Devices.Novation
                     for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
                     {
                         MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
+                        if (outCaps.name == null) continue;
 
-                        if (outCaps.name.Equals(NovationDevices.LaunchpadS.GetAttribute<DisplayAttribute>().Name))
-                        {
-                            NovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index));
-                            device.Initialize();
-                            devices.Add(device);
-                        }
+                        NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices)).Cast<Enum>()
+                                                                           .FirstOrDefault(x => string.Equals(x.GetDeviceId(), outCaps.name, StringComparison.OrdinalIgnoreCase));
+
+                        if (deviceId == null) continue;
+
+                        NovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index));
+                        device.Initialize();
+                        devices.Add(device);
                     }
                 }
                 catch

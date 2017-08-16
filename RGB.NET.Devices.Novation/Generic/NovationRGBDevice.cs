@@ -9,7 +9,7 @@ using Sanford.Multimedia.Midi;
 namespace RGB.NET.Devices.Novation
 {
     /// <summary>
-    /// Represents a generic Novation-device. (keyboard, mouse, headset, mousepad).
+    /// Represents a generic Novation-device. (launchpad).
     /// </summary>
     public abstract class NovationRGBDevice : AbstractRGBDevice
     {
@@ -30,10 +30,11 @@ namespace RGB.NET.Devices.Novation
         /// Initializes a new instance of the <see cref="NovationRGBDevice"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by Novation for the device.</param>
-        protected NovationRGBDevice(IRGBDeviceInfo info)
+        protected NovationRGBDevice(NovationRGBDeviceInfo info)
         {
             this.DeviceInfo = info;
-            _outputDevice = new OutputDevice(((NovationRGBDeviceInfo)DeviceInfo).DeviceId);
+
+            _outputDevice = new OutputDevice(info.DeviceId);
         }
 
         #endregion
@@ -139,9 +140,9 @@ namespace RGB.NET.Devices.Novation
                     {
                         color = 17;
 
-                        if(((led.Color.R > 127) && (led.Color.G < 127)) || ((led.Color.R < 127) && (led.Color.G > 127)))
+                        if (((led.Color.R > 127) && (led.Color.G < 127)) || ((led.Color.R < 127) && (led.Color.G > 127)))
                             color = 34;
-                        if((led.Color.R > 127) && (led.Color.G > 127))
+                        if ((led.Color.R > 127) && (led.Color.G > 127))
                             color = 51;
                     }
 

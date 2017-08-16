@@ -1,6 +1,5 @@
 ﻿using System;
 using RGB.NET.Core;
-using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
@@ -38,8 +37,7 @@ namespace RGB.NET.Devices.Novation
         protected override void InitializeLayout()
         {
             //TODO DarthAffe 15.08.2017: Check if all launchpads are using the same basic layout
-            //TODO DarthAffe 15.08.2017: Measure button size
-            const int BUTTON_SIZE = 16;
+            const int BUTTON_SIZE = 20;
             foreach (NovationLedIds ledId in Enum.GetValues(typeof(NovationLedIds)))
             {
                 Rectangle rectangle;
