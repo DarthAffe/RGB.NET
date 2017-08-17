@@ -123,6 +123,14 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <summary>
+        /// Resets the device leds
+        /// </summary>
+        public virtual void Reset()
+        {
+            SendMessage(0xB0, 0, 0);
+        }
+
+        /// <summary>
         /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to convert.</param>
@@ -187,6 +195,7 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc />
         public override void Dispose()
         {
+            Reset();
             _outputDevice.Dispose();
 
             base.Dispose();

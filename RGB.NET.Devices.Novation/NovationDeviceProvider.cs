@@ -106,9 +106,8 @@ namespace RGB.NET.Devices.Novation
         {
             foreach (IRGBDevice device in Devices)
             {
-                NovationLaunchpadRGBDeviceInfo deviceInfo = (NovationLaunchpadRGBDeviceInfo)device.DeviceInfo;
-                OutputDevice outputDevice = new OutputDevice(deviceInfo.DeviceId);
-                outputDevice.Reset();
+                NovationLaunchpadRGBDevice novationDevice = device as NovationLaunchpadRGBDevice;
+                novationDevice?.Reset();
             }
         }
 
