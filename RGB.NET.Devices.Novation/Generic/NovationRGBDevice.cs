@@ -164,10 +164,10 @@ namespace RGB.NET.Devices.Novation
                 return (int)Math.Ceiling(color.Value * 3); // red with brightness 1, 2 or 3
 
             if ((color.Hue >= 30) && (color.Hue < 90)) // yellow with brightness 17, 34 or 51
-                return (int)Math.Ceiling(color.Value * 17);
+                return (int)Math.Ceiling(color.Value * 3) * 17;
 
             if ((color.Hue >= 90) && (color.Hue < 150)) // green with brightness 16, 32 or 48
-                return (int)Math.Ceiling(color.Value * 16);
+                return (int)Math.Ceiling(color.Value * 3) * 16;
 
             return 0;
         }
