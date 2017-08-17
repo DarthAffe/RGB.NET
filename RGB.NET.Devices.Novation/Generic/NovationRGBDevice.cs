@@ -123,12 +123,9 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <summary>
-        /// Resets the device leds
+        /// Resets the <see cref="NovationRGBDevice"/> back top default.
         /// </summary>
-        public virtual void Reset()
-        {
-            SendMessage(0xB0, 0, 0);
-        }
+        public virtual void Reset() => SendMessage(0xB0, 0, 0);
 
         /// <summary>
         /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
