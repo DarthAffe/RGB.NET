@@ -64,10 +64,7 @@
     <Compile Include="NovationDeviceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Novation\" />
-    <Folder Include="Layouts\Novation\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
       <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
@@ -75,7 +72,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Layouts\DeviceLayout.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Novation\Launchpads\Buttons\Grid.png" />
+    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter1.png" />
+    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter2.png" />
+    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter3.png" />
+    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter4.png" />
+    <Content Include="Images\Novation\Launchpads\Buttons\Round.png" />
+    <Content Include="Images\Novation\Launchpads\LaunchpadS.png" />
+    <Content Include="Layouts\Novation\Launchpads\LaunchpadS.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
