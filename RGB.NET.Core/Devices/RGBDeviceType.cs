@@ -33,6 +33,11 @@
         /// <summary>
         /// Represents a LED-stipe.
         /// </summary>
-        LedStripe
+        LedStripe,
+
+        /// <summary>
+        /// Represents a LED-matrix
+        /// </summary>
+        LedMatrix
     }
 }
