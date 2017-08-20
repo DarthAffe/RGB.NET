@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Core.Exceptions;
 using RGB.NET.Devices.Corsair.Native;
+using RGB.NET.Devices.Corsair.SpecialParts;
 
 namespace RGB.NET.Devices.Corsair
 {
@@ -154,6 +155,8 @@ namespace RGB.NET.Devices.Corsair
                 {
                     case CorsairDeviceType.Keyboard:
                         device = new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
+                        if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
+                            device.AddSpecialDevicePart(new LightbarSpecialPart(device));
                         break;
                     case CorsairDeviceType.Mouse:
                         device = new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));

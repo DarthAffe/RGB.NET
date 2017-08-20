@@ -74,6 +74,7 @@
     <Compile Include="Native\_CorsairProtocolDetails.cs" />
     <Compile Include="Native\_CUESDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialParts\LightbarSpecialPart.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Layouts\DeviceLayout.xsd">
