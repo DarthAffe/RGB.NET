@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -25,9 +26,17 @@ namespace RGB.NET.Core
             get => _location;
             set
             {
+                Point oldValue = _location;
                 if (SetProperty(ref _location, value))
-                    // ReSharper disable once ExplicitCallerInfoArgument
-                    OnPropertyChanged(nameof(Center));
+                {
+                    if (oldValue != null)
+                        oldValue.PropertyChanged -= LocationPropertyChanged;
+
+                    if (_location != null)
+                        _location.PropertyChanged += LocationPropertyChanged;
+
+                    OnLocationChanged();
+                }
             }
         }
 
@@ -40,9 +49,17 @@ namespace RGB.NET.Core
             get => _size;
             set
             {
+                Size oldValue = _size;
                 if (SetProperty(ref _size, value))
-                    // ReSharper disable once ExplicitCallerInfoArgument
-                    OnPropertyChanged(nameof(Center));
+                {
+                    if (oldValue != null)
+                        oldValue.PropertyChanged -= SizePropertyChanged;
+
+                    if (_size != null)
+                        _size.PropertyChanged += SizePropertyChanged;
+
+                    OnSizeChanged();
+                }
             }
         }
 
@@ -56,6 +73,14 @@ namespace RGB.NET.Core
         /// <c>True</c> if the rectangle has a width or a height of zero; otherwise, <c>false</c>.
         /// </summary>
         public bool IsEmpty => (Size.Width <= DoubleExtensions.TOLERANCE) || (Size.Height <= DoubleExtensions.TOLERANCE);
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler LocationChanged;
+        public event EventHandler SizeChanged;
+        public event EventHandler Changed;
 
         #endregion
 
@@ -219,10 +244,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="point">The <see cref="Point"/> to test.</param>
         /// <returns></returns>
-        public bool Contains(Point point)
-        {
-            return Contains(point.X, point.Y);
-        }
+        public bool Contains(Point point) => Contains(point.X, point.Y);
 
         /// <summary>
         /// Determines if the specified location is contained within this <see cref="Rectangle"/>.
@@ -230,30 +252,21 @@ namespace RGB.NET.Core
         /// <param name="x">The X-location to test.</param>
         /// <param name="y">The Y-location to test.</param>
         /// <returns></returns>
-        public bool Contains(double x, double y)
-        {
-            return (Location.X <= x) && (x < (Location.X + Size.Width)) && (Location.Y <= y) && (y < (Location.Y + Size.Height));
-        }
+        public bool Contains(double x, double y) => (Location.X <= x) && (x < (Location.X + Size.Width)) && (Location.Y <= y) && (y < (Location.Y + Size.Height));
 
         /// <summary>
         /// Determines if the specified <see cref="Rectangle"/> is contained within this <see cref="Rectangle"/>.
         /// </summary>
         /// <param name="rect">The <see cref="Rectangle"/> to test.</param>
         /// <returns></returns>
-        public bool Contains(Rectangle rect)
-        {
-            return (Location.X <= rect.Location.X) && ((rect.Location.X + rect.Size.Width) <= (Location.X + Size.Width))
-                   && (Location.Y <= rect.Location.Y) && ((rect.Location.Y + rect.Size.Height) <= (Location.Y + Size.Height));
-        }
+        public bool Contains(Rectangle rect) => (Location.X <= rect.Location.X) && ((rect.Location.X + rect.Size.Width) <= (Location.X + Size.Width))
+                                                && (Location.Y <= rect.Location.Y) && ((rect.Location.Y + rect.Size.Height) <= (Location.Y + Size.Height));
 
         /// <summary>
         /// Converts the <see cref="Location"/>- and <see cref="Size"/>-position of this <see cref="Rectangle"/> to a human-readable string.
         /// </summary>
         /// <returns>A string that contains the <see cref="Location"/> and <see cref="Size"/>  of this <see cref="Rectangle"/>. For example "[Location: [X: 100, Y: 10], Size: [Width: 20, Height: [40]]".</returns>
-        public override string ToString()
-        {
-            return $"[Location: {Location}, Size: {Size}]";
-        }
+        public override string ToString() => $"[Location: {Location}, Size: {Size}]";
 
         /// <summary>
         /// Tests whether the specified object is a <see cref="Rectangle" /> and is equivalent to this <see cref="Rectangle" />.
@@ -289,6 +302,24 @@ namespace RGB.NET.Core
             }
         }
 
+        private void LocationPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) => OnLocationChanged();
+        private void OnLocationChanged()
+        {
+            // ReSharper disable once ExplicitCallerInfoArgument
+            OnPropertyChanged(nameof(Center));
+            LocationChanged?.Invoke(this, new EventArgs());
+            Changed?.Invoke(this, new EventArgs());
+        }
+
+        private void SizePropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) => OnSizeChanged();
+        private void OnSizeChanged()
+        {
+            // ReSharper disable once ExplicitCallerInfoArgument
+            OnPropertyChanged(nameof(Center));
+            SizeChanged?.Invoke(this, new EventArgs());
+            Changed?.Invoke(this, new EventArgs());
+        }
+
         #endregion
 
         #region Operators
@@ -299,10 +330,7 @@ namespace RGB.NET.Core
         /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
         /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2)
-        {
-            return ReferenceEquals(rectangle1, null) ? ReferenceEquals(rectangle2, null) : rectangle1.Equals(rectangle2);
-        }
+        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2) => ReferenceEquals(rectangle1, null) ? ReferenceEquals(rectangle2, null) : rectangle1.Equals(rectangle2);
 
         /// <summary>
         /// Returns a value that indicates whether two specified <see cref="Rectangle" /> are equal.
@@ -310,10 +338,7 @@ namespace RGB.NET.Core
         /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
         /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are not equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(Rectangle rectangle1, Rectangle rectangle2)
-        {
-            return !(rectangle1 == rectangle2);
-        }
+        public static bool operator !=(Rectangle rectangle1, Rectangle rectangle2) => !(rectangle1 == rectangle2);
 
         #endregion
     }

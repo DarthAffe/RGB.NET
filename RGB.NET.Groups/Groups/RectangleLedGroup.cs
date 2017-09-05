@@ -2,6 +2,7 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RGB.NET.Core;
@@ -26,8 +27,17 @@ namespace RGB.NET.Groups
             get => _rectangle;
             set
             {
-                _rectangle = value;
-                InvalidateCache();
+                Rectangle oldValue = _rectangle;
+                if (SetProperty(ref _rectangle, value))
+                {
+                    if (oldValue != null)
+                        oldValue.Changed -= RectangleChanged;
+
+                    if (_rectangle != null)
+                        _rectangle.Changed += RectangleChanged;
+
+                    InvalidateCache();
+                }
             }
         }
 
@@ -40,8 +50,8 @@ namespace RGB.NET.Groups
             get => _minOverlayPercentage;
             set
             {
-                _minOverlayPercentage = value;
-                InvalidateCache();
+                if (SetProperty(ref _minOverlayPercentage, value))
+                    InvalidateCache();
             }
         }
 
@@ -100,35 +110,22 @@ namespace RGB.NET.Groups
         #region Methods
 
         /// <inheritdoc />
-        public override void OnAttach()
-        {
-            RGBSurface.Instance.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
-        }
+        public override void OnAttach() => RGBSurface.Instance.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
 
         /// <inheritdoc />
-        public override void OnDetach()
-        {
-            RGBSurface.Instance.SurfaceLayoutChanged -= RGBSurfaceOnSurfaceLayoutChanged;
-        }
+        public override void OnDetach() => RGBSurface.Instance.SurfaceLayoutChanged -= RGBSurfaceOnSurfaceLayoutChanged;
 
-        private void RGBSurfaceOnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args)
-        {
-            InvalidateCache();
-        }
+        private void RGBSurfaceOnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args) => InvalidateCache();
+
+        private void RectangleChanged(object sender, EventArgs eventArgs) => InvalidateCache();
 
         /// <summary>
         /// Gets a list containing all <see cref="Led"/> of this <see cref="RectangleLedGroup"/>.
         /// </summary>
         /// <returns>The list containing all <see cref="Led"/> of this <see cref="RectangleLedGroup"/>.</returns>
-        public override IEnumerable<Led> GetLeds()
-        {
-            return _ledCache ?? (_ledCache = RGBSurface.Instance.Leds.Where(x => x.LedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList());
-        }
+        public override IEnumerable<Led> GetLeds() => _ledCache ?? (_ledCache = RGBSurface.Instance.Leds.Where(x => x.LedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList());
 
-        private void InvalidateCache()
-        {
-            _ledCache = null;
-        }
+        private void InvalidateCache() => _ledCache = null;
 
         #endregion
     }
