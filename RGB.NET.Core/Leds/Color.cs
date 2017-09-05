@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents an ARGB (alpha, red, green, blue) color.
     /// </summary>
@@ -184,21 +185,23 @@ namespace RGB.NET.Core
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Color"/> class.
-        /// The class created by this constructor equals <see cref="Transparent"/>.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Color" /> class.
+        /// The class created by this constructor equals <see cref="P:RGB.NET.Core.Color.Transparent" />.
         /// </summary>
         public Color()
             : this(0, 0, 0, 0)
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Color"/> class using only RGB-Values. 
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Color" /> class using only RGB-Values. 
         /// Alpha defaults to 255.
         /// </summary>
-        /// <param name="r">The red component value of this <see cref="Color"/>.</param>
-        /// <param name="g">The green component value of this <see cref="Color"/>.</param>
-        /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
+        /// <param name="r">The red component value of this <see cref="T:RGB.NET.Core.Color" />.</param>
+        /// <param name="g">The green component value of this <see cref="T:RGB.NET.Core.Color" />.</param>
+        /// <param name="b">The blue component value of this <see cref="T:RGB.NET.Core.Color" />.</param>
         public Color(byte r, byte g, byte b)
             : this(255, r, g, b)
         { }
@@ -218,13 +221,14 @@ namespace RGB.NET.Core
             this.B = b;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Color"/> class using only RGB-Values. 
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Color" /> class using only RGB-Values. 
         /// Alpha defaults to 255.
         /// </summary>
-        /// <param name="hue">The hue component value of this <see cref="Color"/>.</param>
-        /// <param name="saturation">The saturation component value of this <see cref="Color"/>.</param>
-        /// <param name="value">The value component value of this <see cref="Color"/>.</param>
+        /// <param name="hue">The hue component value of this <see cref="T:RGB.NET.Core.Color" />.</param>
+        /// <param name="saturation">The saturation component value of this <see cref="T:RGB.NET.Core.Color" />.</param>
+        /// <param name="value">The value component value of this <see cref="T:RGB.NET.Core.Color" />.</param>
         public Color(double hue, double saturation, double value)
             : this(255, hue, saturation, value)
         { }
@@ -254,10 +258,11 @@ namespace RGB.NET.Core
             UpdateRGBFromHSV();
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Color"/> class by cloning a existing <see cref="Color"/>.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Color" /> class by cloning a existing <see cref="T:RGB.NET.Core.Color" />.
         /// </summary>
-        /// <param name="color">The <see cref="Color"/> the values are copied from.</param>
+        /// <param name="color">The <see cref="T:RGB.NET.Core.Color" /> the values are copied from.</param>
         public Color(Color color)
             : this(color.A, color.R, color.G, color.B)
         { }

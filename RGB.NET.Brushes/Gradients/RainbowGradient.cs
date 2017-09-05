@@ -5,6 +5,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes.Gradients
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a rainbow gradient which circles through all colors of the HUE-color-space.<br />
     /// See <see href="http://upload.wikimedia.org/wikipedia/commons/a/ad/HueScale.svg" /> as reference.
@@ -42,6 +43,7 @@ namespace RGB.NET.Brushes.Gradients
 
         #region Methods
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the color on the rainbow at the given offset.
         /// </summary>

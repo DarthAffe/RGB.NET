@@ -8,14 +8,16 @@ using RGB.NET.Devices.CoolerMaster.Native;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a generic CoolerMaster-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
     public abstract class CoolerMasterRGBDevice : AbstractRGBDevice
     {
         #region Properties & Fields
+        /// <inheritdoc />
         /// <summary>
-        /// Gets information about the <see cref="CoolerMasterRGBDevice"/>.
+        /// Gets information about the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterRGBDevice" />.
         /// </summary>
         public override IRGBDeviceInfo DeviceInfo { get; }
 
@@ -74,11 +76,9 @@ namespace RGB.NET.Devices.CoolerMaster
                 if (layout.Leds != null)
                     foreach (LedLayout layoutLed in layout.Leds)
                     {
-                        CoolerMasterLedIds ledId;
-                        if (Enum.TryParse(layoutLed.Id, true, out ledId))
+                        if (Enum.TryParse(layoutLed.Id, true, out CoolerMasterLedIds ledId))
                         {
-                            Led led;
-                            if (LedMapping.TryGetValue(new CoolerMasterLedId(this, ledId), out led))
+                            if (LedMapping.TryGetValue(new CoolerMasterLedId(this, ledId), out Led led))
                             {
                                 led.LedRectangle.Location.X = layoutLed.X;
                                 led.LedRectangle.Location.Y = layoutLed.Y;

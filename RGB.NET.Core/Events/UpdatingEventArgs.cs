@@ -5,8 +5,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents the information supplied with an <see cref="RGBSurface.Updating"/>-event.
+    /// Represents the information supplied with an <see cref="E:RGB.NET.Core.RGBSurface.Updating" />-event.
     /// </summary>
     public class UpdatingEventArgs : EventArgs
     {
@@ -21,8 +22,9 @@ namespace RGB.NET.Core
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdatingEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.UpdatingEventArgs" /> class.
         /// </summary>
         /// <param name="deltaTime">The elapsed time (in seconds) since the last update.</param>
         public UpdatingEventArgs(double deltaTime)

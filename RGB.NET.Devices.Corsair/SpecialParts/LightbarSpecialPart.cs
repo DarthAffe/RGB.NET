@@ -9,8 +9,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Corsair.SpecialParts
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a lightbar attached to a <see cref="IRGBDevice"/>
+    /// Represents a lightbar attached to a <see cref="T:RGB.NET.Core.IRGBDevice" />
     /// </summary>
     public class LightbarSpecialPart : IRGBDeviceSpecialPart
     {
@@ -59,16 +60,18 @@ namespace RGB.NET.Devices.Corsair.SpecialParts
 
         #region Methods
 
+        /// <inheritdoc />
         /// <summary>
-        /// Returns an enumerator that iterates over all <see cref="Led"/> of the <see cref="IRGBDeviceSpecialPart"/>.
+        /// Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.
         /// </summary>
-        /// <returns>An enumerator for all <see cref="Led"/> of the <see cref="IRGBDeviceSpecialPart"/>.</returns>
+        /// <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.</returns>
         public IEnumerator<Led> GetEnumerator() => _leds.GetEnumerator();
 
+        /// <inheritdoc />
         /// <summary>
-        /// Returns an enumerator that iterates over all <see cref="Led"/> of the <see cref="IRGBDeviceSpecialPart"/>.
+        /// Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.
         /// </summary>
-        /// <returns>An enumerator for all <see cref="Led"/> of the <see cref="IRGBDeviceSpecialPart"/>.</returns>
+        /// <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDeviceSpecialPart" />.</returns>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion

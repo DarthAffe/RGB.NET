@@ -5,8 +5,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents the information supplied with an <see cref="RGBSurface.Exception"/>-event.
+    /// Represents the information supplied with an <see cref="E:RGB.NET.Core.RGBSurface.Exception" />-event.
     /// </summary>
     public class ExceptionEventArgs : EventArgs
     {
@@ -21,10 +22,11 @@ namespace RGB.NET.Core
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.ExceptionEventArgs" /> class.
         /// </summary>
-        /// <param name="exception">The <see cref="System.Exception"/> which is responsible for the event-call.</param>
+        /// <param name="exception">The <see cref="T:System.Exception" /> which is responsible for the event-call.</param>
         public ExceptionEventArgs(Exception exception)
         {
             this.Exception = exception;

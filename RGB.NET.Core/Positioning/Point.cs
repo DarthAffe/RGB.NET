@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a point consisting of a X- and a Y-position.
     /// </summary>

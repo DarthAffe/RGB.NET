@@ -2,8 +2,9 @@
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a generic <see cref="AbstractLedGroup"/>.
+    /// Represents a generic <see cref="T:RGB.NET.Core.AbstractLedGroup" />.
     /// </summary>
     public abstract class AbstractLedGroup : AbstractDecoratable<ILedGroupDecorator>, ILedGroup
     {

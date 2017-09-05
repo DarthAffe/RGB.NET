@@ -3,6 +3,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a basic gradient-brush.
     /// </summary>

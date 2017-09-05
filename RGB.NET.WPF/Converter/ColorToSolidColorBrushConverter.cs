@@ -5,8 +5,9 @@ using System.Windows.Media;
 
 namespace RGB.NET.WPF.Converter
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Converts <see cref="Core.Color"/> into <see cref="SolidColorBrush"/>.
+    /// Converts <see cref="T:RGB.NET.Core.Color" /> into <see cref="T:System.Windows.Media.SolidColorBrush" />.
     /// </summary>
     [ValueConversion(typeof(Core.Color), typeof(SolidColorBrush))]
     public class ColorToSolidColorBrushConverter : IValueConverter
@@ -23,8 +24,7 @@ namespace RGB.NET.WPF.Converter
         /// <inheritdoc />
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SolidColorBrush brush = value as SolidColorBrush;
-            return brush == null
+            return !(value is SolidColorBrush brush)
                        ? Core.Color.Transparent
                        : new Core.Color(brush.Color.A, brush.Color.R, brush.Color.G, brush.Color.B);
         }

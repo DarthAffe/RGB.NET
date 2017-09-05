@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a generic ledgroup.
     /// </summary>

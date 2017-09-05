@@ -4,8 +4,9 @@ using RGB.NET.Devices.CoolerMaster.Helper;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a Corsair-<see cref="IRGBDevice"/>.
+    /// Represents a generic information for a Corsair-<see cref="T:RGB.NET.Core.IRGBDevice" />.
     /// </summary>
     public class CoolerMasterRGBDeviceInfo : IRGBDeviceInfo
     {

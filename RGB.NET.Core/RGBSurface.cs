@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a RGB-surface containing multiple devices.
     /// </summary>

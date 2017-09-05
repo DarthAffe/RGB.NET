@@ -2,6 +2,7 @@
 
 namespace RGB.NET.Devices.Novation.Attributes
 {
+    /// <inheritdoc />
     /// <summary>
     /// Specifies the color-capability of a field.
     /// </summary>
@@ -19,8 +20,9 @@ namespace RGB.NET.Devices.Novation.Attributes
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ColorCapabilityAttribute"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Novation.Attributes.ColorCapabilityAttribute" /> class.
         /// </summary>
         /// <param name="capability">The capability.</param>
         public ColorCapabilityAttribute(NovationColorCapabilities capability)

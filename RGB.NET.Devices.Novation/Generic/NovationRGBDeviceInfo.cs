@@ -3,8 +3,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Novation
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a Corsair-<see cref="IRGBDevice"/>.
+    /// Represents a generic information for a Corsair-<see cref="T:RGB.NET.Core.IRGBDevice" />.
     /// </summary>
     public class NovationRGBDeviceInfo : IRGBDeviceInfo
     {

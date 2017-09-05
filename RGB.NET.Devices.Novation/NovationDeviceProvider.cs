@@ -10,6 +10,7 @@ using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a device provider responsible for Novation  devices.
     /// </summary>
@@ -23,11 +24,13 @@ namespace RGB.NET.Devices.Novation
         /// </summary>
         public static NovationDeviceProvider Instance => _instance ?? new NovationDeviceProvider();
 
+        /// <inheritdoc />
         /// <summary>
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
         public bool IsInitialized { get; private set; }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets whether the application has exclusive access to the SDK or not.
         /// </summary>

@@ -17,9 +17,8 @@ namespace RGB.NET.Groups
         /// <returns>The converted <see cref="ListLedGroup" />.</returns>
         public static ListLedGroup ToListLedGroup(this ILedGroup ledGroup)
         {
-            ListLedGroup listLedGroup = ledGroup as ListLedGroup;
             // ReSharper disable once InvertIf
-            if (listLedGroup == null)
+            if (!(ledGroup is ListLedGroup listLedGroup))
             {
                 bool wasAttached = ledGroup.Detach();
                 listLedGroup = new ListLedGroup(wasAttached, ledGroup.GetLeds()) { Brush = ledGroup.Brush };

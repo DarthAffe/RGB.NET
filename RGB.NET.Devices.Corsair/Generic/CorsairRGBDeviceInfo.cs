@@ -5,8 +5,9 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a Corsair-<see cref="IRGBDevice"/>.
+    /// Represents a generic information for a Corsair-<see cref="T:RGB.NET.Core.IRGBDevice" />.
     /// </summary>
     public class CorsairRGBDeviceInfo : IRGBDeviceInfo
     {

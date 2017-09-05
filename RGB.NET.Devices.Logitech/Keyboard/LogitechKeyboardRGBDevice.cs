@@ -5,6 +5,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a logitech keyboard.
     /// </summary>
@@ -21,8 +22,9 @@ namespace RGB.NET.Devices.Logitech
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogitechKeyboardRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by logitech for the keyboard</param>
         internal LogitechKeyboardRGBDevice(LogitechKeyboardRGBDeviceInfo info)
@@ -41,7 +43,7 @@ namespace RGB.NET.Devices.Logitech
             string model = KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
                 $@"Layouts\Logitech\Keyboards\{model}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath($@"Images\Logitech\Keyboards"));
+                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Logitech\Keyboards"));
         }
 
         #endregion

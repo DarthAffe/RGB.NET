@@ -8,6 +8,7 @@ using RGB.NET.Devices.Logitech.Native;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a generic Logitech-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
@@ -15,8 +16,9 @@ namespace RGB.NET.Devices.Logitech
     {
         #region Properties & Fields
 
+        /// <inheritdoc />
         /// <summary>
-        /// Gets information about the <see cref="LogitechRGBDevice"/>.
+        /// Gets information about the <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDevice" />.
         /// </summary>
         public override IRGBDeviceInfo DeviceInfo { get; }
 
@@ -74,12 +76,10 @@ namespace RGB.NET.Devices.Logitech
                 if (layout.Leds != null)
                     foreach (LedLayout layoutLed in layout.Leds)
                     {
-                        LogitechLedIds ledId;
-                        if (Enum.TryParse(layoutLed.Id, true, out ledId))
+                        if (Enum.TryParse(layoutLed.Id, true, out LogitechLedIds ledId))
                         {
                             LogitechLedId id = new LogitechLedId(this, ledId);
-                            Led led;
-                            if (!LedMapping.TryGetValue(id, out led))
+                            if (!LedMapping.TryGetValue(id, out Led led))
                                 led = InitializeLed(id, new Rectangle());
 
                             led.LedRectangle.Location.X = layoutLed.X;
@@ -110,8 +110,7 @@ namespace RGB.NET.Devices.Logitech
             foreach (Led led in leds)
             {
                 //TODO DarthAffe 26.03.2017: This is only needed since update by name doesn't work as expected for all keys ...
-                int bitmapOffset;
-                if (BitmapMapping.BitmapOffset.TryGetValue(((LogitechLedId)led.Id).LedId, out bitmapOffset))
+                if (BitmapMapping.BitmapOffset.TryGetValue(((LogitechLedId)led.Id).LedId, out int bitmapOffset))
                 {
                     if (bitmap == null)
                         bitmap = BitmapMapping.CreateBitmap();

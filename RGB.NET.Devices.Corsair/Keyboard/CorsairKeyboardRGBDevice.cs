@@ -8,6 +8,7 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a corsair keyboard.
     /// </summary>
@@ -24,8 +25,9 @@ namespace RGB.NET.Devices.Corsair
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="CorsairKeyboardRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keyboard</param>
         internal CorsairKeyboardRGBDevice(CorsairKeyboardRGBDeviceInfo info)
@@ -59,7 +61,7 @@ namespace RGB.NET.Devices.Corsair
             string model = KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
                 $@"Layouts\Corsair\Keyboards\{model}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath($@"Images\Corsair\Keyboards"));
+                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Corsair\Keyboards"));
         }
 
         #endregion

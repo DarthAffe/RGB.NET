@@ -2,12 +2,12 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable VirtualMemberNeverOverridden.Global
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a basic brush.
     /// </summary>

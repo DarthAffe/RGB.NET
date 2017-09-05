@@ -7,6 +7,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Decorators.Brush
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a decorator which allows to flash a brush by modifying his opacity.
     /// </summary>

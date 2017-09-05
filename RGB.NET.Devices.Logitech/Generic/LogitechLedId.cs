@@ -3,8 +3,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a Id of a <see cref="Led"/> on a <see cref="LogitechRGBDevice"/>.
+    /// Represents a Id of a <see cref="T:RGB.NET.Core.Led" /> on a <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDevice" />.
     /// </summary>
     [DebuggerDisplay("{" + nameof(LedId) + "}")]
     public class LogitechLedId : ILedId

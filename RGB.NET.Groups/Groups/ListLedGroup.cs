@@ -6,8 +6,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Groups
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a ledgroup containing arbitrary <see cref="Led"/>.
+    /// Represents a ledgroup containing arbitrary <see cref="T:RGB.NET.Core.Led" />.
     /// </summary>
     public class ListLedGroup : AbstractLedGroup
     {
@@ -22,84 +23,93 @@ namespace RGB.NET.Groups
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="ListLedGroup"/> should be automatically attached or not.</param>
+        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
         public ListLedGroup(bool autoAttach = true)
             : base(autoAttach)
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="leds">The initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(params Led[] leds)
             : this(true, leds)
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="leds">The initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(IEnumerable<Led> leds)
             : this(true, leds)
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="ListLedGroup"/> should be automatically attached or not.</param>
-        /// <param name="leds">The initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(bool autoAttach, IEnumerable<Led> leds)
             : base(autoAttach)
         {
             AddLeds(leds);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="ListLedGroup"/> should be automatically attached or not.</param>
-        /// <param name="leds">The initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(bool autoAttach, params Led[] leds)
             : base(autoAttach)
         {
             AddLeds(leds);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="leds">The IDs of the initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(params ILedId[] leds)
             : this(true, leds)
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="leds">The IDs of the initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(IEnumerable<ILedId> leds)
             : this(true, leds)
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="ListLedGroup"/> should be automatically attached or not.</param>
-        /// <param name="leds">The IDs of the initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(bool autoAttach, params ILedId[] leds)
             : base(autoAttach)
         {
             AddLeds(leds);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLedGroup"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="ListLedGroup"/> should be automatically attached or not.</param>
-        /// <param name="leds">The IDs of the initial <see cref="Led"/> of this <see cref="ListLedGroup"/>.</param>
+        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(bool autoAttach, IEnumerable<ILedId> leds)
             : base(autoAttach)
         {
@@ -227,10 +237,11 @@ namespace RGB.NET.Groups
                     GroupLeds.Add(led);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Gets a list containing the <see cref="Led"/> from this group.
+        /// Gets a list containing the <see cref="T:RGB.NET.Core.Led" /> from this group.
         /// </summary>
-        /// <returns>The list containing the <see cref="Led"/>.</returns>
+        /// <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
         public override IEnumerable<Led> GetLeds()
         {
             return GroupLeds;

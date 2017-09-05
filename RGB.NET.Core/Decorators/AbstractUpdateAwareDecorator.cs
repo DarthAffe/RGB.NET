@@ -1,7 +1,8 @@
 ﻿namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a basic decorator which is aware of the <see cref="RGBSurface.Updating"/> event.
+    /// Represents a basic decorator which is aware of the <see cref="E:RGB.NET.Core.RGBSurface.Updating" /> event.
     /// </summary>
     public abstract class AbstractUpdateAwareDecorator : AbstractDecorator
     {
@@ -20,7 +21,7 @@
         /// Initializes a new instance of the <see cref="AbstractUpdateAwareDecorator"/> class.
         /// </summary>
         /// <param name="updateIfDisabled">Bool indicating if the <see cref="AbstractUpdateAwareDecorator"/> should call <see cref="Update"/> even if the Decorator is disabled.</param>
-        public AbstractUpdateAwareDecorator(bool updateIfDisabled = false)
+        protected AbstractUpdateAwareDecorator(bool updateIfDisabled = false)
         {
             this.UpdateIfDisabled = updateIfDisabled;
         }

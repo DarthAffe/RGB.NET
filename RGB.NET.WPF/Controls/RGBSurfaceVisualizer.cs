@@ -5,8 +5,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.WPF.Controls
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Visualizes the <see cref="RGBSurface"/> in an wpf-application.
+    /// Visualizes the <see cref="T:RGB.NET.Core.RGBSurface" /> in an wpf-application.
     /// </summary>
     [TemplatePart(Name = PART_CANVAS, Type = typeof(Canvas))]
     public class RGBSurfaceVisualizer : Control
@@ -29,8 +30,9 @@ namespace RGB.NET.WPF.Controls
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RGBSurfaceVisualizer"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.WPF.Controls.RGBSurfaceVisualizer" /> class.
         /// </summary>
         public RGBSurfaceVisualizer()
         {

@@ -9,6 +9,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a brush drawing a radial gradient around a center point.
     /// </summary>
@@ -28,14 +29,16 @@ namespace RGB.NET.Brushes
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RadialGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.RadialGradientBrush" /> class.
         /// </summary>
         public RadialGradientBrush()
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RadialGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.RadialGradientBrush" /> class.
         /// </summary>
         /// <param name="gradient">The gradient drawn by the brush.</param>
         public RadialGradientBrush(IGradient gradient)
@@ -43,8 +46,9 @@ namespace RGB.NET.Brushes
             this.Gradient = gradient;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RadialGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.RadialGradientBrush" /> class.
         /// </summary>
         /// <param name="center">The center point (as percentage in the range [0..1]).</param>
         /// <param name="gradient">The gradient drawn by the brush.</param>

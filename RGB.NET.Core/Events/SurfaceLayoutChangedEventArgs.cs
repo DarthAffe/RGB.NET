@@ -6,8 +6,9 @@ using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents the information supplied with an <see cref="RGBSurface.SurfaceLayoutChanged"/>-event.
+    /// Represents the information supplied with an <see cref="E:RGB.NET.Core.RGBSurface.SurfaceLayoutChanged" />-event.
     /// </summary>
     public class SurfaceLayoutChangedEventArgs : EventArgs
     {
@@ -32,12 +33,13 @@ namespace RGB.NET.Core
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="SurfaceLayoutChangedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.SurfaceLayoutChangedEventArgs" /> class.
         /// </summary>
-        /// <param name="devices">The <see cref="IRGBDevice"/> that caused the change.</param>
-        /// <param name="deviceAdded">A value indicating if the event is caused by the addition of a new <see cref="IRGBDevice"/> to the <see cref="RGBSurface"/>.</param>
-        /// <param name="deviceLocationChanged">A value indicating if the event is caused by a changed location of one of the devices on the <see cref="RGBSurface"/>.</param>
+        /// <param name="devices">The <see cref="T:RGB.NET.Core.IRGBDevice" /> that caused the change.</param>
+        /// <param name="deviceAdded">A value indicating if the event is caused by the addition of a new <see cref="T:RGB.NET.Core.IRGBDevice" /> to the <see cref="T:RGB.NET.Core.RGBSurface" />.</param>
+        /// <param name="deviceLocationChanged">A value indicating if the event is caused by a changed location of one of the devices on the <see cref="T:RGB.NET.Core.RGBSurface" />.</param>
         public SurfaceLayoutChangedEventArgs(IEnumerable<IRGBDevice> devices, bool deviceAdded, bool deviceLocationChanged)
         {
             this.Devices = devices;

@@ -11,6 +11,7 @@ using RGB.NET.Devices.Logitech.Native;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a device provider responsible for logitech devices.
     /// </summary>
@@ -53,7 +54,7 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Gets or sets a function to get the culture for a specific device.
         /// </summary>
-        public Func<CultureInfo> GetCulture { get; set; } = () => CultureHelper.GetCurrentCulture();
+        public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
         #endregion
 

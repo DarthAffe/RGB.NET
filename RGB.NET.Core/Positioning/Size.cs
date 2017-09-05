@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a size consisting of a width and a height.
     /// </summary>
@@ -43,10 +44,11 @@ namespace RGB.NET.Core
         public Size()
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Size"/> using the provided size to define a square.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Size" /> using the provided size to define a square.
         /// </summary>
-        /// <param name="size">The size used for the <see cref="Width"/> component value and the <see cref="Height"/> component value.</param>
+        /// <param name="size">The size used for the <see cref="P:RGB.NET.Core.Size.Width" /> component value and the <see cref="P:RGB.NET.Core.Size.Height" /> component value.</param>
         public Size(double size)
             : this(size, size)
         { }

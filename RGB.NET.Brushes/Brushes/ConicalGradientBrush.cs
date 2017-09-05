@@ -10,6 +10,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a brush drawing a conical gradient.
     /// </summary>
@@ -27,6 +28,7 @@ namespace RGB.NET.Brushes
         /// </summary>
         public Point Center { get; set; } = new Point(0.5, 0.5);
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets or sets the gradient drawn by the brush. If null it will default to full transparent.
         /// </summary>
@@ -36,38 +38,42 @@ namespace RGB.NET.Brushes
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConicalGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.ConicalGradientBrush" /> class.
         /// </summary>
         public ConicalGradientBrush()
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConicalGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.ConicalGradientBrush" /> class.
         /// </summary>
-        /// <param name="gradient">The <see cref="IGradient"/> drawn by this <see cref="ConicalGradientBrush"/>.</param>
+        /// <param name="gradient">The <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Brushes.ConicalGradientBrush" />.</param>
         public ConicalGradientBrush(IGradient gradient)
         {
             this.Gradient = gradient;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConicalGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.ConicalGradientBrush" /> class.
         /// </summary>
-        /// <param name="center">The center <see cref="Point"/> (as percentage in the range [0..1]).</param>
-        /// <param name="gradient">The <see cref="IGradient"/> drawn by this <see cref="ConicalGradientBrush"/>.</param>
+        /// <param name="center">The center <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
+        /// <param name="gradient">The <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Brushes.ConicalGradientBrush" />.</param>
         public ConicalGradientBrush(Point center, IGradient gradient)
         {
             this.Center = center;
             this.Gradient = gradient;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConicalGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.ConicalGradientBrush" /> class.
         /// </summary>
-        /// <param name="center">The center <see cref="Point"/> (as percentage in the range [0..1]).</param>
-        /// <param name="origin">The origin (radian-angle) the <see cref="IBrush"/> is drawn to.</param>
-        /// <param name="gradient">The <see cref="IGradient"/> drawn by this <see cref="ConicalGradientBrush"/>.</param>
+        /// <param name="center">The center <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
+        /// <param name="origin">The origin (radian-angle) the <see cref="T:RGB.NET.Core.IBrush" /> is drawn to.</param>
+        /// <param name="gradient">The <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Brushes.ConicalGradientBrush" />.</param>
         public ConicalGradientBrush(Point center, float origin, IGradient gradient)
         {
             this.Center = center;

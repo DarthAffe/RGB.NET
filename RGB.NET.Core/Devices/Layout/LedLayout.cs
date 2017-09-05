@@ -107,8 +107,7 @@ namespace RGB.NET.Core.Layout
         /// <param name="lastLed">The <see cref="LedLayout"/> previously calculated.</param>
         public void CalculateValues(DeviceLayout device, LedLayout lastLed)
         {
-            Shape shape;
-            if (!Enum.TryParse(DescriptiveShape, true, out shape))
+            if (!Enum.TryParse(DescriptiveShape, true, out Shape shape))
             {
                 shape = Shape.Custom;
                 ShapeData = DescriptiveShape;

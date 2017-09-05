@@ -6,6 +6,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes.Gradients
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a linear interpolated gradient with n stops.
     /// </summary>
@@ -13,24 +14,27 @@ namespace RGB.NET.Brushes.Gradients
     {
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LinearGradient"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.Gradients.LinearGradient" /> class.
         /// </summary>
         public LinearGradient()
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LinearGradient"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.Gradients.LinearGradient" /> class.
         /// </summary>
         /// <param name="gradientStops">The stops with which the gradient should be initialized.</param>
         public LinearGradient(params GradientStop[] gradientStops)
             : base(gradientStops)
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractGradient"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.Gradients.AbstractGradient" /> class.
         /// </summary>
-        /// <param name="wrapGradient">Specifies whether the gradient should wrapp or not (see <see cref="AbstractGradient.WrapGradient"/> for an example of what this means).</param>
+        /// <param name="wrapGradient">Specifies whether the gradient should wrapp or not (see <see cref="P:RGB.NET.Brushes.Gradients.AbstractGradient.WrapGradient" /> for an example of what this means).</param>
         /// <param name="gradientStops">The stops with which the gradient should be initialized.</param>
         public LinearGradient(bool wrapGradient, params GradientStop[] gradientStops)
             : base(wrapGradient, gradientStops)
@@ -40,11 +44,12 @@ namespace RGB.NET.Brushes.Gradients
 
         #region Methods
 
+        /// <inheritdoc />
         /// <summary>
-        /// Gets the linear interpolated <see cref="Color"/> at the given offset.
+        /// Gets the linear interpolated <see cref="T:RGB.NET.Core.Color" /> at the given offset.
         /// </summary>
         /// <param name="offset">The percentage offset to take the color from.</param>
-        /// <returns>The <see cref="Color"/> at the specific offset.</returns>
+        /// <returns>The <see cref="T:RGB.NET.Core.Color" /> at the specific offset.</returns>
         public override Color GetColor(double offset)
         {
             if (GradientStops.Count == 0) return Color.Transparent;

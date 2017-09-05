@@ -4,8 +4,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.WPF.Controls
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Visualizes a <see cref="IRGBDevice"/> in an wpf-application.
+    /// Visualizes a <see cref="T:RGB.NET.Core.IRGBDevice" /> in an wpf-application.
     /// </summary>
     [TemplatePart(Name = PART_CANVAS, Type = typeof(Canvas))]
     public class RGBDeviceVisualizer : Control

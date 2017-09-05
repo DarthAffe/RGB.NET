@@ -3,8 +3,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a Id of a <see cref="Led"/> on a <see cref="CoolerMasterRGBDevice"/>.
+    /// Represents a Id of a <see cref="T:RGB.NET.Core.Led" /> on a <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterRGBDevice" />.
     /// </summary>
     [DebuggerDisplay("{" + nameof(LedId) + "}")]
     public class CoolerMasterLedId : ILedId

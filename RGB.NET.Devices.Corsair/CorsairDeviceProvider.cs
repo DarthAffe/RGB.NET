@@ -12,6 +12,7 @@ using RGB.NET.Devices.Corsair.SpecialParts;
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a device provider responsible for corsair (CUE) devices.
     /// </summary>
@@ -37,6 +38,7 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/CUESDK.dll", "x64/CUESDK_2015.dll", "x64/CUESDK_2013.dll" };
 
+        /// <inheritdoc />
         /// <summary>
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
@@ -52,6 +54,7 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         public CorsairProtocolDetails ProtocolDetails { get; private set; }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets whether the application has exclusive access to the SDK or not.
         /// </summary>

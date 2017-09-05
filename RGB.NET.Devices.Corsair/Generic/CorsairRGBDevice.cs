@@ -9,6 +9,7 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a generic CUE-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
@@ -16,8 +17,9 @@ namespace RGB.NET.Devices.Corsair
     {
         #region Properties & Fields
 
+        /// <inheritdoc />
         /// <summary>
-        /// Gets information about the <see cref="CorsairRGBDevice"/>.
+        /// Gets information about the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice" />.
         /// </summary>
         public override IRGBDeviceInfo DeviceInfo { get; }
 
@@ -75,11 +77,9 @@ namespace RGB.NET.Devices.Corsair
                 if (layout.Leds != null)
                     foreach (LedLayout layoutLed in layout.Leds)
                     {
-                        CorsairLedIds ledId;
-                        if (Enum.TryParse(layoutLed.Id, true, out ledId))
+                        if (Enum.TryParse(layoutLed.Id, true, out CorsairLedIds ledId))
                         {
-                            Led led;
-                            if (LedMapping.TryGetValue(new CorsairLedId(this, ledId), out led))
+                            if (LedMapping.TryGetValue(new CorsairLedId(this, ledId), out Led led))
                             {
                                 led.LedRectangle.Location.X = layoutLed.X;
                                 led.LedRectangle.Location.Y = layoutLed.Y;

@@ -5,6 +5,7 @@ using System;
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents an exception thrown by the CUE.
     /// </summary>
@@ -21,10 +22,11 @@ namespace RGB.NET.Devices.Corsair
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="CUEException"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CUEException" /> class.
         /// </summary>
-        /// <param name="error">The <see cref="CorsairError" /> provided by CUE, which leads to this exception.</param>
+        /// <param name="error">The <see cref="T:RGB.NET.Devices.Corsair.CorsairError" /> provided by CUE, which leads to this exception.</param>
         public CUEException(CorsairError error)
         {
             this.Error = error;

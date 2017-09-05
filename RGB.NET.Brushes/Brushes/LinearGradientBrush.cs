@@ -11,6 +11,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a brush drawing a linear gradient.
     /// </summary>
@@ -35,26 +36,29 @@ namespace RGB.NET.Brushes
 
         #region Constructor
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LinearGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.LinearGradientBrush" /> class.
         /// </summary>
         public LinearGradientBrush()
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LinearGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.LinearGradientBrush" /> class.
         /// </summary>
-        /// <param name="gradient">The <see cref="IGradient"/> drawn by this <see cref="LinearGradientBrush"/>.</param>
+        /// <param name="gradient">The <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Brushes.LinearGradientBrush" />.</param>
         public LinearGradientBrush(IGradient gradient)
         {
             this.Gradient = gradient;
         }
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="LinearGradientBrush"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Brushes.LinearGradientBrush" /> class.
         /// </summary>
-        /// <param name="startPoint">The start <see cref="Point"/> (as percentage in the range [0..1]).</param>
-        /// <param name="endPoint">The end <see cref="Point"/> (as percentage in the range [0..1]).</param>
-        /// <param name="gradient">The <see cref="IGradient"/> drawn by this <see cref="LinearGradientBrush"/>.</param>
+        /// <param name="startPoint">The start <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
+        /// <param name="endPoint">The end <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
+        /// <param name="gradient">The <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Brushes.LinearGradientBrush" />.</param>
         public LinearGradientBrush(Point startPoint, Point endPoint, IGradient gradient)
         {
             this.StartPoint = startPoint;
@@ -66,6 +70,7 @@ namespace RGB.NET.Brushes
 
         #region Methods
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets the color at an specific point assuming the brush is drawn into the given rectangle.
         /// </summary>

@@ -3,6 +3,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Novation
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a Novation launchpad.
     /// </summary>
@@ -19,8 +20,9 @@ namespace RGB.NET.Devices.Novation
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="NovationLaunchpadRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Novation.NovationLaunchpadRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Novation for the launchpad</param>
         internal NovationLaunchpadRGBDevice(NovationLaunchpadRGBDeviceInfo info)

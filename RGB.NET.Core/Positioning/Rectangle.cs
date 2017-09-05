@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a rectangle defined by it's position and it's size.
     /// </summary>
@@ -77,6 +78,7 @@ namespace RGB.NET.Core
         #endregion
 
         #region Events
+        // ReSharper disable EventNeverSubscribedTo.Global
 
         /// <summary>
         /// Occurs when a the <see cref="Location"/> of the <see cref="Rectangle"/> changes.
@@ -93,24 +95,27 @@ namespace RGB.NET.Core
         /// </summary>
         public event EventHandler Changed;
 
+        // ReSharper restore EventNeverSubscribedTo.Global
         #endregion
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class.
         /// </summary>
         public Rectangle()
             : this(new Point(), new Size())
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class using the provided values for <see cref="Location"/> ans <see cref="Size"/>.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the provided values for <see cref="P:RGB.NET.Core.Rectangle.Location" /> ans <see cref="P:RGB.NET.Core.Rectangle.Size" />.
         /// </summary>
-        /// <param name="x">The <see cref="Point.X"/>-position of this <see cref="Rectangle"/>.</param>
-        /// <param name="y">The <see cref="Point.Y"/>-position of this <see cref="Rectangle"/>.</param>
-        /// <param name="width">The <see cref="Core.Size.Width"/> of this <see cref="Rectangle"/>.</param>
-        /// <param name="height">The <see cref="Core.Size.Height"/> of this <see cref="Rectangle"/>.</param>
+        /// <param name="x">The <see cref="P:RGB.NET.Core.Point.X" />-position of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="y">The <see cref="P:RGB.NET.Core.Point.Y" />-position of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="width">The <see cref="P:RGB.NET.Core.Size.Width" /> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="height">The <see cref="P:RGB.NET.Core.Size.Height" /> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
         public Rectangle(double x, double y, double width, double height)
             : this(new Point(x, y), new Size(width, height))
         { }
@@ -126,11 +131,12 @@ namespace RGB.NET.Core
             this.Size = size;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class using the given array of <see cref="Rectangle"/>.
-        /// The <see cref="Location"/> and <see cref="Size"/> is calculated to completely contain all rectangles provided as parameters.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the given array of <see cref="T:RGB.NET.Core.Rectangle" />.
+        /// The <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /> is calculated to completely contain all rectangles provided as parameters.
         /// </summary>
-        /// <param name="rectangles">The array of <see cref="Rectangle"/> used to calculate the <see cref="Location"/> and <see cref="Size"/></param>
+        /// <param name="rectangles">The array of <see cref="T:RGB.NET.Core.Rectangle" /> used to calculate the <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /></param>
         public Rectangle(params Rectangle[] rectangles)
             : this(rectangles.AsEnumerable())
         { }
@@ -164,20 +170,22 @@ namespace RGB.NET.Core
                 InitializeFromPoints(new Point(0, 0), new Point(0, 0));
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class using the given array of <see cref="Point"/>.
-        /// The <see cref="Location"/> and <see cref="Size"/> is calculated to contain all points provided as parameters.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the given array of <see cref="T:RGB.NET.Core.Point" />.
+        /// The <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /> is calculated to contain all points provided as parameters.
         /// </summary>
-        /// <param name="points">The array of <see cref="Point"/> used to calculate the <see cref="Location"/> and <see cref="Size"/></param>
+        /// <param name="points">The array of <see cref="T:RGB.NET.Core.Point" /> used to calculate the <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /></param>
         public Rectangle(params Point[] points)
             : this(points.AsEnumerable())
         { }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class using the given list of <see cref="Point"/>.
-        /// The <see cref="Location"/> and <see cref="Size"/> is calculated to contain all points provided as parameters.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the given list of <see cref="T:RGB.NET.Core.Point" />.
+        /// The <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /> is calculated to contain all points provided as parameters.
         /// </summary>
-        /// <param name="points">The list of <see cref="Point"/> used to calculate the <see cref="Location"/> and <see cref="Size"/></param>
+        /// <param name="points">The list of <see cref="T:RGB.NET.Core.Point" /> used to calculate the <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /></param>
         public Rectangle(IEnumerable<Point> points)
             : this()
         {

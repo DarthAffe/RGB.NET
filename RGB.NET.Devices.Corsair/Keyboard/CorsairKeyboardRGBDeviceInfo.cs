@@ -7,8 +7,9 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a <see cref="CorsairKeyboardRGBDevice"/>.
+    /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" />.
     /// </summary>
     public class CorsairKeyboardRGBDeviceInfo : CorsairRGBDeviceInfo
     {
@@ -28,11 +29,12 @@ namespace RGB.NET.Devices.Corsair
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Internal constructor of managed <see cref="CorsairKeyboardRGBDeviceInfo"/>.
+        /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDeviceInfo" />.
         /// </summary>
-        /// <param name="deviceIndex">The index of the <see cref="CorsairKeyboardRGBDevice"/>.</param>
-        /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
+        /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" />.</param>
+        /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
         internal CorsairKeyboardRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
             : base(deviceIndex, RGBDeviceType.Keyboard, nativeInfo)
         {

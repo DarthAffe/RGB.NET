@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a basic bindable class which notifies when a property value changes.
     /// </summary>

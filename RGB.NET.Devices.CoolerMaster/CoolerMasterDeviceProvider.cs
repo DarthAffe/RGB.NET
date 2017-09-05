@@ -12,6 +12,7 @@ using RGB.NET.Devices.CoolerMaster.Native;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a device provider responsible for Cooler Master devices.
     /// </summary>
@@ -37,6 +38,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// </summary>
         public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/CMSDK.dll" };
 
+        /// <inheritdoc />
         /// <summary>
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
@@ -47,6 +49,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// </summary>
         public string LoadedArchitecture => _CoolerMasterSDK.LoadedArchitecture;
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets whether the application has exclusive access to the SDK or not.
         /// </summary>
@@ -58,7 +61,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <summary>
         /// Gets or sets a function to get the culture for a specific device.
         /// </summary>
-        public Func<CultureInfo> GetCulture { get; set; } = () => CultureHelper.GetCurrentCulture();
+        public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
         #endregion
 
@@ -97,7 +100,7 @@ namespace RGB.NET.Devices.CoolerMaster
                     {
                         try
                         {
-                            CoolerMasterRGBDevice device = null;
+                            CoolerMasterRGBDevice device;
                             switch (index.GetDeviceType())
                             {
                                 case RGBDeviceType.Keyboard:

@@ -4,8 +4,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.WPF.Controls
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Visualizes a <see cref="Core.Led"/> in an wpf-application.
+    /// Visualizes a <see cref="T:RGB.NET.Core.Led" /> in an wpf-application.
     /// </summary>
     public class LedVisualizer : Control
     {

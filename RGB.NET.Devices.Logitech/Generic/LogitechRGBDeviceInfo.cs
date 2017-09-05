@@ -3,8 +3,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a Logitech-<see cref="IRGBDevice"/>.
+    /// Represents a generic information for a Logitech-<see cref="T:RGB.NET.Core.IRGBDevice" />.
     /// </summary>
     public class LogitechRGBDeviceInfo : IRGBDeviceInfo
     {

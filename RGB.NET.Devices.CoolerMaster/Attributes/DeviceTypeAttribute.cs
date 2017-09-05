@@ -3,8 +3,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.CoolerMaster.Attributes
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Specifies the <see cref="RGBDeviceType"/> of a field.
+    /// Specifies the <see cref="T:RGB.NET.Core.RGBDeviceType" /> of a field.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public class DeviceTypeAttribute : Attribute
@@ -20,10 +21,11 @@ namespace RGB.NET.Devices.CoolerMaster.Attributes
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Internal constructor of the <see cref="DeviceTypeAttribute"/> class.
+        /// Internal constructor of the <see cref="T:RGB.NET.Devices.CoolerMaster.Attributes.DeviceTypeAttribute" /> class.
         /// </summary>
-        /// <param name="deviceType">The <see cref="RGBDeviceType"/>.</param>
+        /// <param name="deviceType">The <see cref="T:RGB.NET.Core.RGBDeviceType" />.</param>
         public DeviceTypeAttribute(RGBDeviceType deviceType)
         {
             this.DeviceType = deviceType;

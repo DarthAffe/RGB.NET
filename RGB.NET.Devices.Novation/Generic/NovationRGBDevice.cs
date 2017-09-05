@@ -8,6 +8,7 @@ using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a generic Novation-device. (launchpad).
     /// </summary>
@@ -18,8 +19,9 @@ namespace RGB.NET.Devices.Novation
         private readonly OutputDevice _outputDevice;
         private readonly NovationRGBDeviceInfo _deviceInfo;
 
+        /// <inheritdoc />
         /// <summary>
-        /// Gets information about the <see cref="NovationRGBDevice"/>.
+        /// Gets information about the <see cref="T:RGB.NET.Devices.Novation.NovationRGBDevice" />.
         /// </summary>
         public override IRGBDeviceInfo DeviceInfo => _deviceInfo;
 
@@ -80,11 +82,9 @@ namespace RGB.NET.Devices.Novation
                 if (layout.Leds != null)
                     foreach (LedLayout layoutLed in layout.Leds)
                     {
-                        NovationLedIds ledId;
-                        if (Enum.TryParse(layoutLed.Id, true, out ledId))
+                        if (Enum.TryParse(layoutLed.Id, true, out NovationLedIds ledId))
                         {
-                            Led led;
-                            if (LedMapping.TryGetValue(new NovationLedId(this, ledId), out led))
+                            if (LedMapping.TryGetValue(new NovationLedId(this, ledId), out Led led))
                             {
                                 led.LedRectangle.Location.X = layoutLed.X;
                                 led.LedRectangle.Location.Y = layoutLed.Y;

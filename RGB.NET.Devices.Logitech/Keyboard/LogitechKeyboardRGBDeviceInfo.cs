@@ -7,8 +7,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a <see cref="LogitechKeyboardRGBDevice"/>.
+    /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Logitech.LogitechKeyboardRGBDevice" />.
     /// </summary>
     public class LogitechKeyboardRGBDeviceInfo : LogitechRGBDeviceInfo
     {
@@ -28,12 +29,13 @@ namespace RGB.NET.Devices.Logitech
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Internal constructor of managed <see cref="LogitechKeyboardRGBDeviceInfo"/>.
+        /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Logitech.LogitechKeyboardRGBDeviceInfo" />.
         /// </summary>
         /// <param name="model">The represented device model.</param>
         /// <param name="deviceCaps">The lighting-capabilities of the device.</param>
-        /// <param name="culture">The <see cref="CultureInfo"/> of the layout this keyboard is using</param>
+        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using</param>
         internal LogitechKeyboardRGBDeviceInfo(string model, LogitechDeviceCaps deviceCaps, CultureInfo culture)
             : base(RGBDeviceType.Keyboard, model, deviceCaps)
         {

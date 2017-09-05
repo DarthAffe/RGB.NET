@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a single LED of a RGB-device.
     /// </summary>

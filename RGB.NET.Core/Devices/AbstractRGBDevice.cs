@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a generic RGB-device
     /// </summary>
@@ -57,14 +58,7 @@ namespace RGB.NET.Core
         #region Indexer
 
         /// <inheritdoc />
-        Led IRGBDevice.this[ILedId ledId]
-        {
-            get
-            {
-                Led led;
-                return LedMapping.TryGetValue(ledId, out led) ? led : null;
-            }
-        }
+        Led IRGBDevice.this[ILedId ledId] => LedMapping.TryGetValue(ledId, out Led led) ? led : null;
 
         /// <inheritdoc />
         Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
@@ -138,19 +132,21 @@ namespace RGB.NET.Core
 
         #region Enumerator
 
+        /// <inheritdoc />
         /// <summary>
-        /// Returns an enumerator that iterates over all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
+        /// Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.
         /// </summary>
-        /// <returns>An enumerator for all <see cref="Led"/> of the <see cref="IRGBDevice"/>.</returns>
+        /// <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.</returns>
         public IEnumerator<Led> GetEnumerator()
         {
             return LedMapping.Values.GetEnumerator();
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Returns an enumerator that iterates over all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
+        /// Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.
         /// </summary>
-        /// <returns>An enumerator for all <see cref="Led"/> of the <see cref="IRGBDevice"/>.</returns>
+        /// <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

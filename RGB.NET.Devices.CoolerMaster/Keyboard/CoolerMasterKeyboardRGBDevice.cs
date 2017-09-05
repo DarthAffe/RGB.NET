@@ -4,6 +4,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents a CoolerMaster keyboard.
     /// </summary>
@@ -20,8 +21,9 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="CoolerMasterKeyboardRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CoolerMaster for the keyboard</param>
         internal CoolerMasterKeyboardRGBDevice(CoolerMasterKeyboardRGBDeviceInfo info)
@@ -46,7 +48,7 @@ namespace RGB.NET.Devices.CoolerMaster
             string model = KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
                 $@"Layouts\CoolerMaster\Keyboards\{model}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath($@"Images\CoolerMaster\Keyboards"));
+                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\CoolerMaster\Keyboards"));
         }
 
         #endregion
