@@ -78,8 +78,19 @@ namespace RGB.NET.Core
 
         #region Events
 
+        /// <summary>
+        /// Occurs when a the <see cref="Location"/> of the <see cref="Rectangle"/> changes.
+        /// </summary>
         public event EventHandler LocationChanged;
+
+        /// <summary>
+        /// Occurs when a the <see cref="Size"/> of the <see cref="Rectangle"/> changes.
+        /// </summary>
         public event EventHandler SizeChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Location"/> or the <see cref="Size"/> of the <see cref="Rectangle"/> changes.
+        /// </summary>
         public event EventHandler Changed;
 
         #endregion

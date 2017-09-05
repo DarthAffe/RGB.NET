@@ -2,6 +2,7 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable VirtualMemberNeverOverridden.Global
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a basic brush.
     /// </summary>
-    public abstract class AbstractBrush : AbstractEffectTarget<IBrush>, IBrush
+    public abstract class AbstractBrush : AbstractDecoratable<IBrushDecorator>, IBrush
     {
         #region Properties & Fields
 
@@ -35,9 +36,6 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public Dictionary<BrushRenderTarget, Color> RenderedTargets { get; } = new Dictionary<BrushRenderTarget, Color>();
 
-        /// <inheritdoc />
-        protected override IBrush EffectTarget => this;
-
         #endregion
 
         #region Constructors
@@ -57,23 +55,34 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        /// <summary>
-        /// Performas the render pass of the brush and calculates the raw colors for all requested points.
-        /// </summary>
-        /// <param name="rectangle">The rectangle in which the brush should be drawn.</param>
-        /// <param name="renderTargets">The targets (keys/points) of which the color should be calculated.</param>
+        /// <inheritdoc />
         public virtual void PerformRender(Rectangle rectangle, IEnumerable<BrushRenderTarget> renderTargets)
         {
             RenderedRectangle = rectangle;
             RenderedTargets.Clear();
 
-            foreach (BrushRenderTarget point in renderTargets)
-                RenderedTargets[point] = new Color(GetColorAtPoint(rectangle, point)); // Clone the color, we don't want to have reference issues here and brushes might return the same color multiple times!
+            foreach (BrushRenderTarget renderTarget in renderTargets)
+            {
+                Color color = new Color(GetColorAtPoint(rectangle, renderTarget)); // Clone the color, we don't want to have reference issues here and brushes might return the same color multiple times!}
+                ApplyDecorators(rectangle, renderTarget, ref color);
+                RenderedTargets[renderTarget] = color;
+            }
         }
 
         /// <summary>
-        /// Performs the finalize pass of the brush and calculates the final colors for all previously calculated points.
+        /// Applies all attached and enabled decorators to the brush.
         /// </summary>
+        /// <param name="rectangle">The rectangle in which the brush should be drawn.</param>
+        /// <param name="renderTarget">The target (key/point) from which the color should be taken.</param>
+        /// <param name="color">The <see cref="Color"/> to be modified.</param>
+        protected virtual void ApplyDecorators(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
+        {
+            foreach (IBrushDecorator decorator in Decorators)
+                if (decorator.IsEnabled)
+                    decorator.ManipulateColor(rectangle, renderTarget, ref color);
+        }
+
+        /// <inheritdoc />
         public virtual void PerformFinalize()
         {
             List<BrushRenderTarget> renderTargets = RenderedTargets.Keys.ToList();

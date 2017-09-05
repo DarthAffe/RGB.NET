@@ -5,36 +5,36 @@
 using System;
 using RGB.NET.Core;
 
-namespace RGB.NET.Effects
+namespace RGB.NET.Decorators.Brush
 {
     /// <summary>
-    /// Represents an effect which allows to flash an brush by modifying his opacity.
+    /// Represents a decorator which allows to flash a brush by modifying his opacity.
     /// </summary>
-    public class FlashEffect : AbstractBrushEffect
+    public class FlashDecorator : AbstractUpdateAwareDecorator, IBrushDecorator
     {
         #region Properties & Fields
 
         /// <summary>
-        /// Gets or sets the attack-time (in seconds) of the effect. (default: 0.2)<br />
+        /// Gets or sets the attack-time (in seconds) of the decorator. (default: 0.2)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" />  as reference)
         /// </summary>
         public double Attack { get; set; } = 0.2;
 
         /// <summary>
-        /// Gets or sets the decay-time (in seconds) of the effect. (default: 0)<br />
+        /// Gets or sets the decay-time (in seconds) of the decorator. (default: 0)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)
         /// </summary>
         public double Decay { get; set; } = 0;
 
         /// <summary>
-        /// Gets or sets the sustain-time (in seconds) of the effect. (default: 0.3)<br />
+        /// Gets or sets the sustain-time (in seconds) of the decorator. (default: 0.3)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)<br />
         /// Note that this value for naming reasons represents the time NOT the level.
         /// </summary>
         public double Sustain { get; set; } = 0.3;
 
         /// <summary>
-        /// Gets or sets the release-time (in seconds) of the effect. (default: 0.2)<br />
+        /// Gets or sets the release-time (in seconds) of the decorator. (default: 0.2)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)
         /// </summary>
         public double Release { get; set; } = 0.2;
@@ -50,12 +50,12 @@ namespace RGB.NET.Effects
         public double SustainValue { get; set; } = 1;
 
         /// <summary>
-        /// Gets or sets the interval (in seconds) in which the effect should repeat (if repetition is enabled). (default: 1)
+        /// Gets or sets the interval (in seconds) in which the decorator should repeat (if repetition is enabled). (default: 1)
         /// </summary>
         public double Interval { get; set; } = 1;
 
         /// <summary>
-        /// Gets or sets the amount of repetitions the effect should do until it's finished. Zero means infinite. (default: 0)
+        /// Gets or sets the amount of repetitions the decorator should do until it's finished. Zero means infinite. (default: 0)
         /// </summary>
         public int Repetitions { get; set; } = 0;
 
@@ -63,12 +63,17 @@ namespace RGB.NET.Effects
         private double _currentPhaseValue;
         private int _repetitionCount;
 
+        private double _currentValue;
+
         #endregion
 
         #region Methods
 
         /// <inheritdoc />
-        public override void Update(double deltaTime)
+        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color) => color.APercent = _currentValue;
+
+        /// <inheritdoc />
+        protected override void Update(double deltaTime)
         {
             _currentPhaseValue -= deltaTime;
 
@@ -77,7 +82,7 @@ namespace RGB.NET.Effects
 
             if (_currentPhase == ADSRPhase.Attack)
                 if (_currentPhaseValue > 0)
-                    Brush.Opacity = Math.Min(1, (Attack - _currentPhaseValue) / Attack) * AttackValue;
+                    _currentValue = Math.Min(1, (Attack - _currentPhaseValue) / Attack) * AttackValue;
                 else
                 {
                     _currentPhaseValue = Decay;
@@ -86,7 +91,7 @@ namespace RGB.NET.Effects
 
             if (_currentPhase == ADSRPhase.Decay)
                 if (_currentPhaseValue > 0)
-                    Brush.Opacity = SustainValue + (Math.Min(1, _currentPhaseValue / Decay) * (AttackValue - SustainValue));
+                    _currentValue = SustainValue + (Math.Min(1, _currentPhaseValue / Decay) * (AttackValue - SustainValue));
                 else
                 {
                     _currentPhaseValue = Sustain;
@@ -95,7 +100,7 @@ namespace RGB.NET.Effects
 
             if (_currentPhase == ADSRPhase.Sustain)
                 if (_currentPhaseValue > 0)
-                    Brush.Opacity = SustainValue;
+                    _currentValue = SustainValue;
                 else
                 {
                     _currentPhaseValue = Release;
@@ -104,7 +109,7 @@ namespace RGB.NET.Effects
 
             if (_currentPhase == ADSRPhase.Release)
                 if (_currentPhaseValue > 0)
-                    Brush.Opacity = Math.Min(1, _currentPhaseValue / Release) * SustainValue;
+                    _currentValue = Math.Min(1, _currentPhaseValue / Release) * SustainValue;
                 else
                 {
                     _currentPhaseValue = Interval;
@@ -113,11 +118,11 @@ namespace RGB.NET.Effects
 
             if (_currentPhase == ADSRPhase.Pause)
                 if (_currentPhaseValue > 0)
-                    Brush.Opacity = 0;
+                    _currentValue = 0;
                 else
                 {
                     if ((++_repetitionCount >= Repetitions) && (Repetitions > 0))
-                        IsDone = true;
+                        Detach<IBrush, FlashDecorator>();
                     _currentPhaseValue = Attack;
                     _currentPhase = ADSRPhase.Attack;
                 }
@@ -125,17 +130,15 @@ namespace RGB.NET.Effects
             // ReSharper restore InvertIf
         }
 
-        /// <summary>
-        /// Resets the effect.
-        /// </summary>
-        public override void OnAttach(IBrush brush)
+        /// <inheritdoc />
+        public override void OnAttached(IDecoratable decoratable)
         {
-            base.OnAttach(brush);
+            base.OnAttached(decoratable);
 
             _currentPhase = ADSRPhase.Attack;
             _currentPhaseValue = Attack;
             _repetitionCount = 0;
-            brush.Opacity = 0;
+            _currentValue = 0;
         }
 
         #endregion

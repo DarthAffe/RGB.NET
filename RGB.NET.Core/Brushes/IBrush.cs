@@ -9,7 +9,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a basic brush.
     /// </summary>
-    public interface IBrush : IEffectTarget<IBrush>
+    public interface IBrush : IDecoratable<IBrushDecorator>
     {
         /// <summary>
         /// Gets or sets if the <see cref="IBrush"/> is enabled and will be drawn on an update.

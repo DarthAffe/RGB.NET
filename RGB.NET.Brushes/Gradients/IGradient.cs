@@ -5,7 +5,7 @@ namespace RGB.NET.Brushes.Gradients
     /// <summary>
     /// Represents a basic gradient.
     /// </summary>
-    public interface IGradient
+    public interface IGradient : IDecoratable<IGradientDecorator>
     {
         /// <summary>
         /// Gets the <see cref="Color"/> of the <see cref="IGradient"/> on the specified offset.

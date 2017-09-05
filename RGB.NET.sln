@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Core", "RGB.NET.Core\RGB.NET.Core.csproj", "{5A4F9A75-75FE-47CD-90E5-914D5B20D232}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Brushes", "RGB.NET.Brushes\RGB.NET.Brushes.csproj", "{347C5F0F-F490-4DEC-9C1C-6E84750D838D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Effects", "RGB.NET.Effects\RGB.NET.Effects.csproj", "{E850CAF8-3E55-40C1-B0BE-30174391E55E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devices", "Devices", "{33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}"
 EndProject
@@ -29,11 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566
 		NuGet\pack_all.bat = NuGet\pack_all.bat
 		NuGet\RGB.NET.Brushes.nuspec = NuGet\RGB.NET.Brushes.nuspec
 		NuGet\RGB.NET.Core.nuspec = NuGet\RGB.NET.Core.nuspec
+		NuGet\RGB.NET.Decorators.nuspec = NuGet\RGB.NET.Decorators.nuspec
 		NuGet\RGB.NET.Devices.CoolerMaster.nuspec = NuGet\RGB.NET.Devices.CoolerMaster.nuspec
 		NuGet\RGB.NET.Devices.Corsair.nuspec = NuGet\RGB.NET.Devices.Corsair.nuspec
 		NuGet\RGB.NET.Devices.Logitech.nuspec = NuGet\RGB.NET.Devices.Logitech.nuspec
 		NuGet\RGB.NET.Devices.Novation.nuspec = NuGet\RGB.NET.Devices.Novation.nuspec
-		NuGet\RGB.NET.Effects.nuspec = NuGet\RGB.NET.Effects.nuspec
 		NuGet\RGB.NET.Groups.nuspec = NuGet\RGB.NET.Groups.nuspec
 		NuGet\RGB.NET.Input.Corsair.nuspec = NuGet\RGB.NET.Input.Corsair.nuspec
 		NuGet\RGB.NET.Input.nuspec = NuGet\RGB.NET.Input.nuspec
@@ -50,6 +48,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.CoolerMaste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Novation", "RGB.NET.Devices.Novation\RGB.NET.Devices.Novation.csproj", "{DB2911F6-404C-4BC8-B35F-232A7450755F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Decorators", "RGB.NET.Decorators\RGB.NET.Decorators.csproj", "{7012C431-244A-453F-B7FD-59E030CDBC44}"
+	ProjectSection(ProjectDependencies) = postProject
+		{347C5F0F-F490-4DEC-9C1C-6E84750D838D} = {347C5F0F-F490-4DEC-9C1C-6E84750D838D}
+		{5A4F9A75-75FE-47CD-90E5-914D5B20D232} = {5A4F9A75-75FE-47CD-90E5-914D5B20D232}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,10 +68,6 @@ Global
 		{347C5F0F-F490-4DEC-9C1C-6E84750D838D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{347C5F0F-F490-4DEC-9C1C-6E84750D838D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{347C5F0F-F490-4DEC-9C1C-6E84750D838D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E850CAF8-3E55-40C1-B0BE-30174391E55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E850CAF8-3E55-40C1-B0BE-30174391E55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E850CAF8-3E55-40C1-B0BE-30174391E55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E850CAF8-3E55-40C1-B0BE-30174391E55E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DDA8C4C2-8ABF-4FA0-9AF9-C47AD0BFE47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDA8C4C2-8ABF-4FA0-9AF9-C47AD0BFE47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDA8C4C2-8ABF-4FA0-9AF9-C47AD0BFE47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -100,13 +100,16 @@ Global
 		{DB2911F6-404C-4BC8-B35F-232A7450755F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2911F6-404C-4BC8-B35F-232A7450755F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2911F6-404C-4BC8-B35F-232A7450755F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7012C431-244A-453F-B7FD-59E030CDBC44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7012C431-244A-453F-B7FD-59E030CDBC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7012C431-244A-453F-B7FD-59E030CDBC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7012C431-244A-453F-B7FD-59E030CDBC44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{347C5F0F-F490-4DEC-9C1C-6E84750D838D} = {FFBCAF88-6646-43EC-9F24-2D719D3779C8}
-		{E850CAF8-3E55-40C1-B0BE-30174391E55E} = {FFBCAF88-6646-43EC-9F24-2D719D3779C8}
 		{DDA8C4C2-8ABF-4FA0-9AF9-C47AD0BFE47D} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{C854766D-9C1D-474B-B5B8-249DF4A9E552} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{F905C418-76BB-4BA6-88AB-0793BC2681D3} = {C854766D-9C1D-474B-B5B8-249DF4A9E552}
@@ -115,5 +118,9 @@ Global
 		{E7B2F174-FCC6-4FC7-9970-3138B5F4C921} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{85609427-D433-44E2-A249-CE890B66D845} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{DB2911F6-404C-4BC8-B35F-232A7450755F} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
+		{7012C431-244A-453F-B7FD-59E030CDBC44} = {FFBCAF88-6646-43EC-9F24-2D719D3779C8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDECA6C7-8D18-4AF3-94F7-C70A69B8571B}
 	EndGlobalSection
 EndGlobal

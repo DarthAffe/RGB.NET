@@ -12,10 +12,7 @@ namespace RGB.NET.Groups
     public class ListLedGroup : AbstractLedGroup
     {
         #region Properties & Fields
-
-        /// <inheritdoc />
-        protected override ILedGroup EffectTarget => this;
-
+        
         /// <summary>
         /// Gets the list containing the <see cref="Led"/> of this <see cref="ListLedGroup"/>.
         /// </summary>

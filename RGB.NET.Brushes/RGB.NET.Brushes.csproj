@@ -53,6 +53,7 @@
     <Compile Include="Gradients\AbstractGradient.cs" />
     <Compile Include="Gradients\GradientStop.cs" />
     <Compile Include="Gradients\IGradient.cs" />
+    <Compile Include="Decorators\IGradientDecorator.cs" />
     <Compile Include="Gradients\LinearGradient.cs" />
     <Compile Include="Gradients\RainbowGradient.cs" />
     <Compile Include="Helper\GradientHelper.cs" />

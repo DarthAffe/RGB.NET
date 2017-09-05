@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <id>RGB.NET.Effects</id>
-    <title>RGB.NET.Effects</title>
+    <id>RGB.NET.Decorators</id>
+    <title>RGB.NET.Decorators</title>
     <version>1.0.0.0</version>
     <authors>Darth Affe</authors>
     <owners>Darth Affe</owners>
     <projectUrl>https://github.com/DarthAffe/RGB.NET</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Effects-Presets of RGB.NET</description>
+    <description>Decorators-Presets of RGB.NET</description>
     <releaseNotes></releaseNotes>
-    <summary>Effects-Presets of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
+    <summary>Decorators-Presets of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
     <copyright>Copyright © Wyrez 2017</copyright>
     <language>en-US</language>
     <dependencies>
@@ -21,9 +21,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\RGB.NET.Effects.dll" target="lib\net45\RGB.NET.Effects.dll" />
-    <file src="..\bin\RGB.NET.Effects.pdb" target="lib\net45\RGB.NET.Effects.pdb" />
-    <file src="..\bin\RGB.NET.Effects.xml" target="lib\net45\RGB.NET.Effects.xml" />
-    <file src="..\RGB.NET.Effects\**\*.cs" target="src" exclude="..\RGB.NET.Effects\obj\**\*.*" />
+    <file src="..\bin\RGB.NET.Decorators.dll" target="lib\net45\RGB.NET.Decorators.dll" />
+    <file src="..\bin\RGB.NET.Decorators.pdb" target="lib\net45\RGB.NET.Decorators.pdb" />
+    <file src="..\bin\RGB.NET.Decorators.xml" target="lib\net45\RGB.NET.Decorators.xml" />
+    <file src="..\RGB.NET.Decorators\**\*.cs" target="src" exclude="..\RGB.NET.Decorators\obj\**\*.*" />
   </files>
 </package>

@@ -9,7 +9,7 @@ namespace RGB.NET.Brushes.Gradients
     /// Represents a rainbow gradient which circles through all colors of the HUE-color-space.<br />
     /// See <see href="http://upload.wikimedia.org/wikipedia/commons/a/ad/HueScale.svg" /> as reference.
     /// </summary>
-    public class RainbowGradient : IGradient
+    public class RainbowGradient : AbstractDecoratable<IGradientDecorator>, IGradient
     {
         #region Properties & Fields
 

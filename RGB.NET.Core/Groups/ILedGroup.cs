@@ -8,7 +8,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic ledgroup.
     /// </summary>
-    public interface ILedGroup : IEffectTarget<ILedGroup>
+    public interface ILedGroup : IDecoratable<ILedGroupDecorator>
     {
         /// <summary>
         /// Gets or sets the <see cref="IBrush"/> which should be drawn over this <see cref="ILedGroup"/>.

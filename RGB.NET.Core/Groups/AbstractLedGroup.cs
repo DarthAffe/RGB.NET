@@ -5,14 +5,9 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic <see cref="AbstractLedGroup"/>.
     /// </summary>
-    public abstract class AbstractLedGroup : AbstractEffectTarget<ILedGroup>, ILedGroup
+    public abstract class AbstractLedGroup : AbstractDecoratable<ILedGroupDecorator>, ILedGroup
     {
         #region Properties & Fields
-
-        /// <summary>
-        /// Gets the strongly-typed target used for the effect.
-        /// </summary>
-        protected override ILedGroup EffectTarget => this;
 
         /// <inheritdoc />
         public IBrush Brush { get; set; }

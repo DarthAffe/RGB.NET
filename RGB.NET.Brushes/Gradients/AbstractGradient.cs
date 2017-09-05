@@ -11,7 +11,7 @@ namespace RGB.NET.Brushes.Gradients
     /// <summary>
     /// Represents a basic gradient.
     /// </summary>
-    public abstract class AbstractGradient : IGradient
+    public abstract class AbstractGradient : AbstractDecoratable<IGradientDecorator>, IGradient
     {
         #region Properties & Fields
 

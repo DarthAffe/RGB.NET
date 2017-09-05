@@ -76,11 +76,6 @@ namespace RGB.NET.Core
 
                 lock (_ledGroups)
                 {
-                    // Update effects
-                    foreach (ILedGroup ledGroup in _ledGroups)
-                        try { ledGroup.UpdateEffects(); }
-                        catch (Exception ex) { OnException(ex); }
-
                     // Render brushes
                     foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
                         try { Render(ledGroup); }
@@ -142,7 +137,7 @@ namespace RGB.NET.Core
                     throw new ArgumentException();
             }
 
-            brush.UpdateEffects();
+            //brush.UpdateEffects();
             brush.PerformFinalize();
 
             foreach (KeyValuePair<BrushRenderTarget, Color> renders in brush.RenderedTargets)
