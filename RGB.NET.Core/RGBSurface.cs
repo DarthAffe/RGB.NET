@@ -148,8 +148,8 @@ namespace RGB.NET.Core
         private Rectangle GetDeviceLedLocation(Led led, Point extraOffset = null)
         {
             return extraOffset != null
-                       ? new Rectangle(led.LedRectangle.Location + led.Device.Location + extraOffset, led.LedRectangle.Size)
-                       : new Rectangle(led.LedRectangle.Location + led.Device.Location, led.LedRectangle.Size);
+                       ? new Rectangle(led.LedRectangle.Location + led.Device.Location + extraOffset, new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height))
+                       : new Rectangle(led.LedRectangle.Location + led.Device.Location, new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height));
         }
 
         /// <summary>
