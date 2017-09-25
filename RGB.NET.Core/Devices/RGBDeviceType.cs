@@ -1,8 +1,11 @@
-﻿namespace RGB.NET.Core
+﻿using System;
+
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Contains a list of different types of device.
     /// </summary>
+    [Flags]
     public enum RGBDeviceType
     {
         /// <summary>
@@ -13,31 +16,31 @@
         /// <summary>
         /// Represents a keyboard.
         /// </summary>
-        Keyboard = 1,
+        Keyboard = 1 << 0,
 
         /// <summary>
         /// Represents a mouse.
         /// </summary>
-        Mouse = 2,
+        Mouse = 1 << 1,
 
         /// <summary>
         /// Represents a headset.
         /// </summary>
-        Headset = 3,
+        Headset = 1 << 2,
 
         /// <summary>
         /// Represents a mousepad.
         /// </summary>
-        Mousepad = 4,
+        Mousepad = 1 << 3,
 
         /// <summary>
         /// Represents a LED-stipe.
         /// </summary>
-        LedStripe,
+        LedStripe = 1 << 4,
 
         /// <summary>
         /// Represents a LED-matrix
         /// </summary>
-        LedMatrix
+        LedMatrix = 1 << 5
     }
 }
