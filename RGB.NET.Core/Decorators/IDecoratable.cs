@@ -25,5 +25,10 @@
         /// </summary>
         /// <param name="decorator">The <see cref="IDecorator"/> to be removed.</param>
         void RemoveDecorator(T decorator);
+
+        /// <summary>
+        /// Removes all <see cref="IDecorator"/> from the <see cref="IDecoratable"/>.
+        /// </summary>
+        void RemoveAllDecorators();
     }
 }

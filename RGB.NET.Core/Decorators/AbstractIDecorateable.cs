@@ -37,6 +37,13 @@ namespace RGB.NET.Core
             decorator.OnDetached(this);
         }
 
+        /// <inheritdoc />
+        public void RemoveAllDecorators()
+        {
+            foreach (T decorator in Decorators.ToList())
+                RemoveDecorator(decorator);
+        }
+
         #endregion
     }
 }
