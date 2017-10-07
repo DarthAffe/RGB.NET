@@ -44,6 +44,10 @@ namespace RGB.NET.Devices.Logitech
             Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Logitech\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
         }
 
+        #endregion
+
+        #region Methods
+
         private void SetLayouts(int keyboardLayoutId)
         {
             switch (keyboardLayoutId)

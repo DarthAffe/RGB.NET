@@ -40,7 +40,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
             SetLayouts(culture.KeyboardLayoutId);
 
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Logitech\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
+            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\CoolerMaster\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
         }
 
         private void SetLayouts(int keyboardLayoutId)

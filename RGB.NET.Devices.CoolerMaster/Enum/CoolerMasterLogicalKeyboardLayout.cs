@@ -6,7 +6,7 @@
 namespace RGB.NET.Devices.CoolerMaster
 {
     /// <summary>
-    /// Contains list of available logical layouts for logitech keyboards.
+    /// Contains list of available logical layouts for cooler master keyboards.
     /// </summary>
     public enum CoolerMasterLogicalKeyboardLayout
     {
