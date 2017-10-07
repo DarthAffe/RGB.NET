@@ -39,8 +39,18 @@ namespace RGB.NET.Core
         LedStripe = 1 << 4,
 
         /// <summary>
-        /// Represents a LED-matrix
+        /// Represents a LED-matrix.
         /// </summary>
-        LedMatrix = 1 << 5
+        LedMatrix = 1 << 5,
+
+        /// <summary>
+        /// Represents a Mainboard.
+        /// </summary>
+        Mainboard = 1 << 6,
+
+        /// <summary>
+        /// Represents a Graphics card
+        /// </summary>
+        GraphicsCard = 1 << 7
     }
 }

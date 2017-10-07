@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RGB.NET.Devices.Aura</RootNamespace>
+    <AssemblyName>RGB.NET.Devices.Aura</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\RGB.NET.Devices.Aura.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\RGB.NET.Devices.Aura.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuraDeviceProvider.cs" />
+    <Compile Include="Enum\AuraLedIds.cs" />
+    <Compile Include="Enum\AuraLogicalKeyboardLayout.cs" />
+    <Compile Include="Enum\AuraPhysicalKeyboardLayout.cs" />
+    <Compile Include="Generic\AuraRGBDevice.cs" />
+    <Compile Include="Generic\AuraLedId.cs" />
+    <Compile Include="Generic\AuraRGBDeviceInfo.cs" />
+    <Compile Include="GraphicsCard\AuraGraphicsCardRGBDevice.cs" />
+    <Compile Include="GraphicsCard\AuraGraphicsCardRGBDeviceInfo.cs" />
+    <Compile Include="Keyboard\AuraKeyboardRGBDevice.cs" />
+    <Compile Include="Keyboard\AuraKeyboardRGBDeviceInfo.cs" />
+    <Compile Include="Mainboard\AuraMainboardRGBDevice.cs" />
+    <Compile Include="Mainboard\AuraMainboardRGBDeviceInfo.cs" />
+    <Compile Include="Mouse\AuraMouseRGBDevice.cs" />
+    <Compile Include="Mouse\AuraMouseRGBDeviceInfo.cs" />
+    <Compile Include="Native\_AuraSDK.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Layouts\DeviceLayout.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="targets\RGB.NET.Devices.Aura.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="libs\x86\AURA_SDK.dll" />
+    <Content Include="libs\x86\ClaymoreProtocol.dll" />
+    <Content Include="libs\x86\EVOLVE SYNC Dll.dll" />
+    <Content Include="libs\x86\LED_DLL_forMB.dll" />
+    <Content Include="libs\x86\RogNewmouseProtocol.dll" />
+    <Content Include="libs\x86\SPATHA HID Library C++.dll" />
+    <Content Include="libs\x86\SPATHA SYNC Dll.dll" />
+    <Content Include="libs\x86\Vender.dll" />
+    <Content Include="libs\x86\VGA_Extra.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\Aura\" />
+    <Folder Include="Layouts\Aura\" />
+    <Folder Include="libs\x64\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
+      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
+      <Name>RGB.NET.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>RGB.NET.Devices.Aura</id>
+    <title>RGB.NET.Devices.Aura</title>
+    <version>1.0.0.0</version>
+    <authors>Darth Affe</authors>
+    <owners>Darth Affe</owners>
+    <projectUrl>https://github.com/DarthAffe/RGB.NET</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Aura-Device-Implementations of RGB.NET</description>
+    <releaseNotes></releaseNotes>
+    <summary>Aura-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
+    <copyright>Copyright © Wyrez 2017</copyright>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="RGB.NET.Core" version="1.0" />
+      <dependency id="System.ValueTuple" version="4.3.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\bin\RGB.NET.Devices.Aura.dll" target="lib\net45\RGB.NET.Devices.Aura.dll" />
+    <file src="..\bin\RGB.NET.Devices.Aura.pdb" target="lib\net45\RGB.NET.Devices.Aura.pdb" />
+    <file src="..\bin\RGB.NET.Devices.Aura.xml" target="lib\net45\RGB.NET.Devices.Aura.xml" />
+    <file src="..\RGB.NET.Devices.Aura\**\*.cs" target="src" exclude="..\RGB.NET.Devices.Aura\obj\**\*.*" />
+    <file src="..\RGB.NET.Devices.Aura\Images\**\*.*" target="build\net45\resources\Images\" />
+    <file src="..\RGB.NET.Devices.Aura\Layouts\**\*.*" target="build\net45\resources\Layouts\" />
+    <file src="..\RGB.NET.Devices.Aura\libs\**\*.*" target="build\net45\libs\" />
+    <file src="..\RGB.NET.Devices.Aura\targets\*.targets" target="build\net45\" />
+  </files>
+</package>
