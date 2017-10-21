@@ -93,6 +93,7 @@ namespace RGB.NET.Devices.Aura
 
                 #region Mainboard
 
+                //TODO DarthAffe 21.10.2017: Requesting mainboards seems to fail if only a non mb-device (tested with only a gpu) is connected
                 int mainboardCount = _AuraSDK.EnumerateMbController(IntPtr.Zero, 0);
                 if (mainboardCount > 0)
                 {
@@ -113,22 +114,43 @@ namespace RGB.NET.Devices.Aura
 
                 #region Graphics cards
 
-                //TODO DarthAffe 07.10.2017: GPU works but causes huge lags on update
-                //int graphicCardCount = _AuraSDK.EnumerateGPU(IntPtr.Zero, 0);
-                //if (graphicCardCount > 0)
-                //{
-                //    IntPtr grapicsCardHandles = Marshal.AllocHGlobal(graphicCardCount * IntPtr.Size);
-                //    _AuraSDK.EnumerateGPU(grapicsCardHandles, graphicCardCount);
+                //TODO DarthAffe 21.10.2017: This somehow returns non-existant gpus (at least for me) which cause huge lags (if a real aura-ready gpu is connected this doesn't happen)
+                int graphicCardCount = _AuraSDK.EnumerateGPU(IntPtr.Zero, 0);
+                if (graphicCardCount > 0)
+                {
+                    IntPtr grapicsCardHandles = Marshal.AllocHGlobal(graphicCardCount * IntPtr.Size);
+                    _AuraSDK.EnumerateGPU(grapicsCardHandles, graphicCardCount);
 
-                //    for (int i = 0; i < graphicCardCount; i++)
-                //    {
-                //        IntPtr handle = Marshal.ReadIntPtr(grapicsCardHandles, i);
-                //        _AuraSDK.SetGPUMode(handle, 1);
-                //        AuraGraphicsCardRGBDevice device = new AuraGraphicsCardRGBDevice(new AuraGraphicsCardRGBDeviceInfo(RGBDeviceType.GraphicsCard, handle));
-                //        device.Initialize();
-                //        devices.Add(device);
-                //    }
-                //}
+                    for (int i = 0; i < graphicCardCount; i++)
+                    {
+                        IntPtr handle = Marshal.ReadIntPtr(grapicsCardHandles, i);
+                        _AuraSDK.SetGPUMode(handle, 1);
+                        AuraGraphicsCardRGBDevice device = new AuraGraphicsCardRGBDevice(new AuraGraphicsCardRGBDeviceInfo(RGBDeviceType.GraphicsCard, handle));
+                        device.Initialize();
+                        devices.Add(device);
+                    }
+                }
+
+                #endregion
+
+                #region DRAM
+
+                //TODO DarthAffe 21.10.2017: This somehow returns non-existant gpus (at least for me) which cause huge lags (if a real aura-ready gpu is connected this doesn't happen)
+                int dramCount = _AuraSDK.EnumerateDram(IntPtr.Zero, 0);
+                if (dramCount > 0)
+                {
+                    IntPtr dramHandles = Marshal.AllocHGlobal(dramCount * IntPtr.Size);
+                    _AuraSDK.EnumerateDram(dramHandles, dramCount);
+
+                    for (int i = 0; i < dramCount; i++)
+                    {
+                        IntPtr handle = Marshal.ReadIntPtr(dramHandles, i);
+                        _AuraSDK.SetDramMode(handle, 1);
+                        AuraDramRGBDevice device = new AuraDramRGBDevice(new AuraDramRGBDeviceInfo(RGBDeviceType.DRAM, handle));
+                        device.Initialize();
+                        devices.Add(device);
+                    }
+                }
 
                 #endregion
 
@@ -176,7 +198,22 @@ namespace RGB.NET.Devices.Aura
         /// <inheritdoc />
         public void ResetDevices()
         {
-            //TODO DarthAffe 07.10.2017: This seems to be impossible right now
+            foreach (IRGBDevice device in Devices)
+            {
+                AuraRGBDeviceInfo deviceInfo = (AuraRGBDeviceInfo)device.DeviceInfo;
+                switch (deviceInfo.DeviceType)
+                {
+                    case RGBDeviceType.Mainboard:
+                        _AuraSDK.SetMbMode(deviceInfo.Handle, 0);
+                        break;
+                    case RGBDeviceType.GraphicsCard:
+                        _AuraSDK.SetGPUMode(deviceInfo.Handle, 0);
+                        break;
+                    case RGBDeviceType.DRAM:
+                        _AuraSDK.SetDramMode(deviceInfo.Handle, 0);
+                        break;
+                }
+            }
         }
 
         #endregion

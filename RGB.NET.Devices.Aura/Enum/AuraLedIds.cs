@@ -21,8 +21,10 @@ namespace RGB.NET.Devices.Aura
 
         GraphicsCardLed1 = 0x11,
 
-        MouseLed1 = 0x21,
+        DramLed1 = 0x21,
 
-        KeyboardLed1 = 0x31,
+        MouseLed1 = 0x31,
+
+        KeyboardLed1 = 0x41,
     }
 }

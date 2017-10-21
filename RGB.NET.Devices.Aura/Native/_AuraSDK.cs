@@ -17,8 +17,6 @@ namespace RGB.NET.Devices.Aura.Native
 
         private static IntPtr _dllHandle = IntPtr.Zero;
 
-        private static List<IntPtr> _helperLibraries = new List<IntPtr>();
-
         /// <summary>
         /// Gets the loaded architecture (x64/x86).
         /// </summary>
@@ -62,10 +60,16 @@ namespace RGB.NET.Devices.Aura.Native
             _setClaymoreKeyboardModePointer = (SetClaymoreKeyboardModePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetClaymoreKeyboardMode"), typeof(SetClaymoreKeyboardModePointer));
             _setClaymoreKeyboardColorPointer = (SetClaymoreKeyboardColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetClaymoreKeyboardColor"), typeof(SetClaymoreKeyboardColorPointer));
 
-            _enumerateRogMouseControllerPointer = (CreateRogMousePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CreateRogMouse"), typeof(CreateRogMousePointer));
+            _enumerateRogMousePointer = (CreateRogMousePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CreateRogMouse"), typeof(CreateRogMousePointer));
             _getRogMouseLedCountPointer = (GetRogMouseLedCountPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "RogMouseLedCount"), typeof(GetRogMouseLedCountPointer)); // DarthAffe 07.10.2017: Be careful with the naming here - i don't know why but there is no 'Get'!
             _setRogMouseModePointer = (SetRogMouseModePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetRogMouseMode"), typeof(SetRogMouseModePointer));
             _setRogMouseColorPointer = (SetRogMouseColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetRogMouseColor"), typeof(SetRogMouseColorPointer));
+
+            _enumerateDramPointer = (EnumerateDramPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "EnumerateDram"), typeof(EnumerateDramPointer));
+            _getDramLedCountPointer = (GetDramLedCountPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDramLedCount"), typeof(GetDramLedCountPointer));
+            _setDramModePointer = (SetDramModePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetDramMode"), typeof(SetDramModePointer));
+            _setDramColorPointer = (SetDramColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetDramColor"), typeof(SetDramColorPointer));
+            _getDramColorPointer = (GetDramColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDramColor"), typeof(GetDramColorPointer));
         }
 
         private static void UnloadAuraSDK()
@@ -111,10 +115,16 @@ namespace RGB.NET.Devices.Aura.Native
         private static SetClaymoreKeyboardModePointer _setClaymoreKeyboardModePointer;
         private static SetClaymoreKeyboardColorPointer _setClaymoreKeyboardColorPointer;
 
-        private static CreateRogMousePointer _enumerateRogMouseControllerPointer;
+        private static CreateRogMousePointer _enumerateRogMousePointer;
         private static GetRogMouseLedCountPointer _getRogMouseLedCountPointer;
         private static SetRogMouseModePointer _setRogMouseModePointer;
         private static SetRogMouseColorPointer _setRogMouseColorPointer;
+
+        private static EnumerateDramPointer _enumerateDramPointer;
+        private static SetDramModePointer _setDramModePointer;
+        private static GetDramLedCountPointer _getDramLedCountPointer;
+        private static SetDramColorPointer _setDramColorPointer;
+        private static GetDramColorPointer _getDramColorPointer;
 
         #endregion
 
@@ -129,7 +139,7 @@ namespace RGB.NET.Devices.Aura.Native
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate void SetMbColorPointer(IntPtr handle, byte[] colors, int size);
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate void GetMbColorPointer(IntPtr handle, IntPtr colors, int size);
+        private delegate int GetMbColorPointer(IntPtr handle, IntPtr colors, int size);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate int EnumerateGPUPointer(IntPtr handles, int size);
@@ -158,6 +168,17 @@ namespace RGB.NET.Devices.Aura.Native
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate void SetRogMouseColorPointer(IntPtr handle, byte[] colors, int size);
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate int EnumerateDramPointer(IntPtr handles, int size);
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate int GetDramLedCountPointer(IntPtr handle);
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate void SetDramModePointer(IntPtr handle, int mode);
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate void SetDramColorPointer(IntPtr handle, byte[] colors, int size);
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate int GetDramColorPointer(IntPtr handle, IntPtr colors, int size);
+
         #endregion
 
         // ReSharper disable EventExceptionNotDocumented
@@ -167,9 +188,10 @@ namespace RGB.NET.Devices.Aura.Native
         internal static void SetMbMode(IntPtr handle, int mode) => _setMbModePointer(handle, mode);
         internal static void SetMbColor(IntPtr handle, byte[] colors) => _setMbColorPointer(handle, colors, colors.Length);
 
-        internal static byte[] GetMbColor(IntPtr handle, int ledCount)
+        internal static byte[] GetMbColor(IntPtr handle)
         {
-            byte[] colors = new byte[ledCount * 3];
+            int count = _getDramColorPointer(handle, IntPtr.Zero, 0);
+            byte[] colors = new byte[count];
             IntPtr readColorsPtr = Marshal.AllocHGlobal(colors.Length);
             _getMbColorPointer(handle, readColorsPtr, colors.Length);
             Marshal.Copy(readColorsPtr, colors, 0, colors.Length);
@@ -187,10 +209,26 @@ namespace RGB.NET.Devices.Aura.Native
         internal static void SetClaymoreKeyboardMode(IntPtr handle, int mode) => _setClaymoreKeyboardModePointer(handle, mode);
         internal static void SetClaymoreKeyboardColor(IntPtr handle, byte[] colors) => _setClaymoreKeyboardColorPointer(handle, colors, colors.Length);
 
-        internal static bool CreateRogMouse(IntPtr handle) => _enumerateRogMouseControllerPointer(handle);
+        internal static bool CreateRogMouse(IntPtr handle) => _enumerateRogMousePointer(handle);
         internal static int GetRogMouseLedCount(IntPtr handle) => _getRogMouseLedCountPointer(handle);
         internal static void SetRogMouseMode(IntPtr handle, int mode) => _setRogMouseModePointer(handle, mode);
         internal static void SetRogMouseColor(IntPtr handle, byte[] colors) => _setRogMouseColorPointer(handle, colors, colors.Length);
+
+        internal static int EnumerateDram(IntPtr handles, int size) => _enumerateDramPointer(handles, size);
+        internal static int GetDramLedCount(IntPtr handle) => _getDramLedCountPointer(handle);
+        internal static void SetDramMode(IntPtr handle, int mode) => _setDramModePointer(handle, mode);
+        internal static void SetDramColor(IntPtr handle, byte[] colors) => _setDramColorPointer(handle, colors, colors.Length);
+
+        internal static byte[] GetDramColor(IntPtr handle)
+        {
+            int count = _getDramColorPointer(handle, IntPtr.Zero, 0);
+            byte[] colors = new byte[count];
+            IntPtr readColorsPtr = Marshal.AllocHGlobal(colors.Length);
+            _getDramColorPointer(handle, readColorsPtr, colors.Length);
+            Marshal.Copy(readColorsPtr, colors, 0, colors.Length);
+            Marshal.FreeHGlobal(readColorsPtr);
+            return colors;
+        }
 
         // ReSharper restore EventExceptionNotDocumented
 

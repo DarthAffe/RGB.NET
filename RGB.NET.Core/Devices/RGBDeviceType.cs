@@ -51,6 +51,11 @@ namespace RGB.NET.Core
         /// <summary>
         /// Represents a Graphics card
         /// </summary>
-        GraphicsCard = 1 << 7
+        GraphicsCard = 1 << 7,
+
+        /// <summary>
+        /// Represents a DRAM-bank
+        /// </summary>
+        DRAM = 1 << 8,
     }
 }

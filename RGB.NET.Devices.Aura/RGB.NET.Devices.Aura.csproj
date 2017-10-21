@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuraDeviceProvider.cs" />
+    <Compile Include="Dram\AuraDramRGBDevice.cs" />
+    <Compile Include="Dram\AuraDramRGBDeviceInfo.cs" />
     <Compile Include="Enum\AuraLedIds.cs" />
     <Compile Include="Enum\AuraLogicalKeyboardLayout.cs" />
     <Compile Include="Enum\AuraPhysicalKeyboardLayout.cs" />
