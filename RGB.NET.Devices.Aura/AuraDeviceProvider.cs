@@ -135,22 +135,22 @@ namespace RGB.NET.Devices.Aura
 
                 #region DRAM
 
-                //TODO DarthAffe 21.10.2017: This somehow returns non-existant gpus (at least for me) which cause huge lags (if a real aura-ready gpu is connected this doesn't happen)
-                int dramCount = _AuraSDK.EnumerateDram(IntPtr.Zero, 0);
-                if (dramCount > 0)
-                {
-                    IntPtr dramHandles = Marshal.AllocHGlobal(dramCount * IntPtr.Size);
-                    _AuraSDK.EnumerateDram(dramHandles, dramCount);
+                //TODO DarthAffe 29.10.2017: I don't know why they are even documented, but the asus guy said they aren't in the SDK right now.
+                //int dramCount = _AuraSDK.EnumerateDram(IntPtr.Zero, 0);
+                //if (dramCount > 0)
+                //{
+                //    IntPtr dramHandles = Marshal.AllocHGlobal(dramCount * IntPtr.Size);
+                //    _AuraSDK.EnumerateDram(dramHandles, dramCount);
 
-                    for (int i = 0; i < dramCount; i++)
-                    {
-                        IntPtr handle = Marshal.ReadIntPtr(dramHandles, i);
-                        _AuraSDK.SetDramMode(handle, 1);
-                        AuraDramRGBDevice device = new AuraDramRGBDevice(new AuraDramRGBDeviceInfo(RGBDeviceType.DRAM, handle));
-                        device.Initialize();
-                        devices.Add(device);
-                    }
-                }
+                //    for (int i = 0; i < dramCount; i++)
+                //    {
+                //        IntPtr handle = Marshal.ReadIntPtr(dramHandles, i);
+                //        _AuraSDK.SetDramMode(handle, 1);
+                //        AuraDramRGBDevice device = new AuraDramRGBDevice(new AuraDramRGBDeviceInfo(RGBDeviceType.DRAM, handle));
+                //        device.Initialize();
+                //        devices.Add(device);
+                //    }
+                //}
 
                 #endregion
 
@@ -209,9 +209,9 @@ namespace RGB.NET.Devices.Aura
                     case RGBDeviceType.GraphicsCard:
                         _AuraSDK.SetGPUMode(deviceInfo.Handle, 0);
                         break;
-                    case RGBDeviceType.DRAM:
-                        _AuraSDK.SetDramMode(deviceInfo.Handle, 0);
-                        break;
+                    //case RGBDeviceType.DRAM:
+                    //    _AuraSDK.SetDramMode(deviceInfo.Handle, 0);
+                    //    break;
                 }
             }
         }

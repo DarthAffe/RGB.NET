@@ -65,11 +65,12 @@ namespace RGB.NET.Devices.Aura.Native
             _setRogMouseModePointer = (SetRogMouseModePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetRogMouseMode"), typeof(SetRogMouseModePointer));
             _setRogMouseColorPointer = (SetRogMouseColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetRogMouseColor"), typeof(SetRogMouseColorPointer));
 
-            _enumerateDramPointer = (EnumerateDramPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "EnumerateDram"), typeof(EnumerateDramPointer));
-            _getDramLedCountPointer = (GetDramLedCountPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDramLedCount"), typeof(GetDramLedCountPointer));
-            _setDramModePointer = (SetDramModePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetDramMode"), typeof(SetDramModePointer));
-            _setDramColorPointer = (SetDramColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetDramColor"), typeof(SetDramColorPointer));
-            _getDramColorPointer = (GetDramColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDramColor"), typeof(GetDramColorPointer));
+            //TODO DarthAffe 29.10.2017: I don't know why they are even documented, but the asus guy said they aren't in the SDK right now.
+            //_enumerateDramPointer = (EnumerateDramPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "EnumerateDram"), typeof(EnumerateDramPointer));
+            //_getDramLedCountPointer = (GetDramLedCountPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDramLedCount"), typeof(GetDramLedCountPointer));
+            //_setDramModePointer = (SetDramModePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetDramMode"), typeof(SetDramModePointer));
+            //_setDramColorPointer = (SetDramColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetDramColor"), typeof(SetDramColorPointer));
+            //_getDramColorPointer = (GetDramColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDramColor"), typeof(GetDramColorPointer));
         }
 
         private static void UnloadAuraSDK()
@@ -214,21 +215,21 @@ namespace RGB.NET.Devices.Aura.Native
         internal static void SetRogMouseMode(IntPtr handle, int mode) => _setRogMouseModePointer(handle, mode);
         internal static void SetRogMouseColor(IntPtr handle, byte[] colors) => _setRogMouseColorPointer(handle, colors, colors.Length);
 
-        internal static int EnumerateDram(IntPtr handles, int size) => _enumerateDramPointer(handles, size);
-        internal static int GetDramLedCount(IntPtr handle) => _getDramLedCountPointer(handle);
-        internal static void SetDramMode(IntPtr handle, int mode) => _setDramModePointer(handle, mode);
-        internal static void SetDramColor(IntPtr handle, byte[] colors) => _setDramColorPointer(handle, colors, colors.Length);
+        //internal static int EnumerateDram(IntPtr handles, int size) => _enumerateDramPointer(handles, size);
+        //internal static int GetDramLedCount(IntPtr handle) => _getDramLedCountPointer(handle);
+        //internal static void SetDramMode(IntPtr handle, int mode) => _setDramModePointer(handle, mode);
+        //internal static void SetDramColor(IntPtr handle, byte[] colors) => _setDramColorPointer(handle, colors, colors.Length);
 
-        internal static byte[] GetDramColor(IntPtr handle)
-        {
-            int count = _getDramColorPointer(handle, IntPtr.Zero, 0);
-            byte[] colors = new byte[count];
-            IntPtr readColorsPtr = Marshal.AllocHGlobal(colors.Length);
-            _getDramColorPointer(handle, readColorsPtr, colors.Length);
-            Marshal.Copy(readColorsPtr, colors, 0, colors.Length);
-            Marshal.FreeHGlobal(readColorsPtr);
-            return colors;
-        }
+        //internal static byte[] GetDramColor(IntPtr handle)
+        //{
+        //    int count = _getDramColorPointer(handle, IntPtr.Zero, 0);
+        //    byte[] colors = new byte[count];
+        //    IntPtr readColorsPtr = Marshal.AllocHGlobal(colors.Length);
+        //    _getDramColorPointer(handle, readColorsPtr, colors.Length);
+        //    Marshal.Copy(readColorsPtr, colors, 0, colors.Length);
+        //    Marshal.FreeHGlobal(readColorsPtr);
+        //    return colors;
+        //}
 
         // ReSharper restore EventExceptionNotDocumented
 
