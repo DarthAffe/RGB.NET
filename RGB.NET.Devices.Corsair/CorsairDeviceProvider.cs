@@ -158,8 +158,6 @@ namespace RGB.NET.Devices.Corsair
                 {
                     case CorsairDeviceType.Keyboard:
                         device = new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
-                        if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
-                            device.AddSpecialDevicePart(new LightbarSpecialPart(device));
                         break;
                     case CorsairDeviceType.Mouse:
                         device = new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
@@ -182,6 +180,8 @@ namespace RGB.NET.Devices.Corsair
                 try
                 {
                     device.Initialize();
+
+                    AddSpecialParts(device);
                 }
                 catch
                 {
@@ -208,6 +208,12 @@ namespace RGB.NET.Devices.Corsair
             IsInitialized = true;
 
             return true;
+        }
+
+        private void AddSpecialParts(CorsairRGBDevice device)
+        {
+            //if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
+                device.AddSpecialDevicePart(new LightbarSpecialPart(device));
         }
 
         /// <inheritdoc />
