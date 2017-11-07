@@ -42,6 +42,19 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Automatically aligns all devices to prevent overlaps.
+        /// </summary>
+        public void AlignDevies()
+        {
+            double posX = 0;
+            foreach (IRGBDevice device in Devices)
+            {
+                device.Location.X = posX;
+                posX += device.Size.Width + 1;
+            }
+        }
+
         private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (string.Equals(propertyChangedEventArgs.PropertyName, nameof(IRGBDevice.Location)))
