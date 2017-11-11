@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566
 		NuGet\RGB.NET.Brushes.nuspec = NuGet\RGB.NET.Brushes.nuspec
 		NuGet\RGB.NET.Core.nuspec = NuGet\RGB.NET.Core.nuspec
 		NuGet\RGB.NET.Decorators.nuspec = NuGet\RGB.NET.Decorators.nuspec
-		NuGet\RGB.NET.Devices.Aura.nuspec = NuGet\RGB.NET.Devices.Aura.nuspec
+		NuGet\RGB.NET.Devices.Asus.nuspec = NuGet\RGB.NET.Devices.Asus.nuspec
 		NuGet\RGB.NET.Devices.CoolerMaster.nuspec = NuGet\RGB.NET.Devices.CoolerMaster.nuspec
 		NuGet\RGB.NET.Devices.Corsair.nuspec = NuGet\RGB.NET.Devices.Corsair.nuspec
 		NuGet\RGB.NET.Devices.Logitech.nuspec = NuGet\RGB.NET.Devices.Logitech.nuspec
@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Decorators", "RGB.N
 		{5A4F9A75-75FE-47CD-90E5-914D5B20D232} = {5A4F9A75-75FE-47CD-90E5-914D5B20D232}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Aura", "RGB.NET.Devices.Aura\RGB.NET.Devices.Aura.csproj", "{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Asus", "RGB.NET.Devices.Asus\RGB.NET.Devices.Asus.csproj", "{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Msi", "RGB.NET.Devices.Msi\RGB.NET.Devices.Msi.csproj", "{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}"
 EndProject

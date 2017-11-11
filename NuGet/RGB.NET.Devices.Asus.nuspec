@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>RGB.NET.Devices.Asus</id>
+    <title>RGB.NET.Devices.Asus</title>
+    <version>1.0.0.0</version>
+    <authors>Darth Affe</authors>
+    <owners>Darth Affe</owners>
+    <projectUrl>https://github.com/DarthAffe/RGB.NET</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Asus-Device-Implementations of RGB.NET</description>
+    <releaseNotes></releaseNotes>
+    <summary>Asus-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
+    <copyright>Copyright © Wyrez 2017</copyright>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="RGB.NET.Core" version="1.0" />
+      <dependency id="System.ValueTuple" version="4.3.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\bin\RGB.NET.Devices.Asus.dll" target="lib\net45\RGB.NET.Devices.Asus.dll" />
+    <file src="..\bin\RGB.NET.Devices.Asus.pdb" target="lib\net45\RGB.NET.Devices.Asus.pdb" />
+    <file src="..\bin\RGB.NET.Devices.Asus.xml" target="lib\net45\RGB.NET.Devices.Asus.xml" />
+    <file src="..\RGB.NET.Devices.Asus\**\*.cs" target="src" exclude="..\RGB.NET.Devices.Asus\obj\**\*.*" />
+    <file src="..\RGB.NET.Devices.Asus\Images\**\*.*" target="build\net45\resources\Images\" />
+    <file src="..\RGB.NET.Devices.Asus\Layouts\**\*.*" target="build\net45\resources\Layouts\" />
+    <file src="..\RGB.NET.Devices.Asus\libs\**\*.*" target="build\net45\libs\" />
+    <file src="..\RGB.NET.Devices.Asus\targets\*.targets" target="build\net45\" />
+  </files>
+</package>
