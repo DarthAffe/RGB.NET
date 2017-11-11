@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Core", "RGB.NET.Core\RGB.NET.Core.csproj", "{5A4F9A75-75FE-47CD-90E5-914D5B20D232}"
 EndProject
@@ -32,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566
 		NuGet\RGB.NET.Devices.CoolerMaster.nuspec = NuGet\RGB.NET.Devices.CoolerMaster.nuspec
 		NuGet\RGB.NET.Devices.Corsair.nuspec = NuGet\RGB.NET.Devices.Corsair.nuspec
 		NuGet\RGB.NET.Devices.Logitech.nuspec = NuGet\RGB.NET.Devices.Logitech.nuspec
+		NuGet\RGB.NET.Devices.Msi.nuspec = NuGet\RGB.NET.Devices.Msi.nuspec
 		NuGet\RGB.NET.Devices.Novation.nuspec = NuGet\RGB.NET.Devices.Novation.nuspec
 		NuGet\RGB.NET.Groups.nuspec = NuGet\RGB.NET.Groups.nuspec
 		NuGet\RGB.NET.Input.Corsair.nuspec = NuGet\RGB.NET.Input.Corsair.nuspec
@@ -56,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Decorators", "RGB.N
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Aura", "RGB.NET.Devices.Aura\RGB.NET.Devices.Aura.csproj", "{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Msi", "RGB.NET.Devices.Msi\RGB.NET.Devices.Msi.csproj", "{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +114,10 @@ Global
 		{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +134,7 @@ Global
 		{DB2911F6-404C-4BC8-B35F-232A7450755F} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{7012C431-244A-453F-B7FD-59E030CDBC44} = {FFBCAF88-6646-43EC-9F24-2D719D3779C8}
 		{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
+		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDECA6C7-8D18-4AF3-94F7-C70A69B8571B}
