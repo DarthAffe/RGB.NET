@@ -18,8 +18,8 @@ namespace RGB.NET.Core
         Key = 1,
 
         /// <summary>
-        /// The <see cref="IRGBDevice"/> supports per-keyboard-lightning.
+        /// The <see cref="IRGBDevice"/> supports per-device-lightning.
         /// </summary>
-        Keyboard = 2,
+        Device = 2,
     }
 }

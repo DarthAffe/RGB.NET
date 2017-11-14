@@ -8,6 +8,7 @@ using System.Globalization;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.HID;
 using RGB.NET.Devices.Logitech.Native;
+using RGB.NET.Devices.Logitech.PerKey;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -66,7 +67,7 @@ namespace RGB.NET.Devices.Logitech
         /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
         public LogitechDeviceProvider()
         {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instanc of type {nameof(LogitechDeviceProvider)}");
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(LogitechDeviceProvider)}");
             _instance = this;
         }
 
@@ -95,25 +96,22 @@ namespace RGB.NET.Devices.Logitech
                 _LogitechGSDK.LogiLedSaveCurrentLighting();
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
-
                 DeviceChecker.LoadDeviceList();
-                if (DeviceChecker.IsDeviceConnected)
-                {
-                    LogitechRGBDevice device = new LogitechKeyboardRGBDevice(new LogitechKeyboardRGBDeviceInfo(
-                        DeviceChecker.ConnectedDeviceModel, LogitechDeviceCaps.PerKeyRGB, GetCulture()));
-                    devices.Add(device);
 
-                    try
-                    {
-                        device.Initialize();
-                    }
-                    catch
-                    {
-                        if (throwExceptions)
-                            throw;
-                        return false;
-                    }
+                if (DeviceChecker.IsPerKeyDeviceConnected)
+                {
+                    (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
+                    LogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
+                    devices.Add(device);
                 }
+
+                if (DeviceChecker.IsPerDeviceDeviceConnected)
+                {
+                    (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
+                    LogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
+                    devices.Add(device);
+                }
+
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
             }
             catch

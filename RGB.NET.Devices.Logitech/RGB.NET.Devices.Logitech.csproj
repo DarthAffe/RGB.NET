@@ -58,10 +58,10 @@
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
     <Compile Include="Helper\BitmapMapping.cs" />
     <Compile Include="HID\DeviceChecker.cs" />
-    <Compile Include="Keyboard\LogitechKeyboardRGBDevice.cs" />
-    <Compile Include="Keyboard\LogitechKeyboardRGBDeviceInfo.cs" />
     <Compile Include="LogitechDeviceProvider.cs" />
     <Compile Include="Native\_LogitechGSDK.cs" />
+    <Compile Include="PerDevice\LogitechPerDeviceRGBDevice.cs" />
+    <Compile Include="PerKey\LogitechPerKeyRGBDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +200,7 @@
     <Content Include="libs\x64\LogitechLedEnginesWrapper.dll" />
     <Content Include="libs\x86\LogitechLedEnginesWrapper.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

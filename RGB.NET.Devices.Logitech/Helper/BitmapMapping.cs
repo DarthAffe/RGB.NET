@@ -153,10 +153,7 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte[] CreateBitmap()
-        {
-            return new byte[BITMAP_SIZE];
-        }
+        internal static byte[] CreateBitmap() => new byte[BITMAP_SIZE];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void SetColor(ref byte[] bitmap, int offset, Color color)

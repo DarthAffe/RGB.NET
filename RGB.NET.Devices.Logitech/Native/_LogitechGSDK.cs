@@ -49,6 +49,7 @@ namespace RGB.NET.Devices.Logitech.Native
             _logiLedGetSdkVersionPointer = (LogiLedGetSdkVersionPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedGetSdkVersion"), typeof(LogiLedGetSdkVersionPointer));
             _lgiLedSaveCurrentLightingPointer = (LogiLedSaveCurrentLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSaveCurrentLighting"), typeof(LogiLedSaveCurrentLightingPointer));
             _logiLedRestoreLightingPointer = (LogiLedRestoreLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedRestoreLighting"), typeof(LogiLedRestoreLightingPointer));
+            _logiLedSetLightingPointer = (LogiLedSetLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLighting"), typeof(LogiLedSetLightingPointer));
             _logiLedSetLightingForKeyWithKeyNamePointer = (LogiLedSetLightingForKeyWithKeyNamePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingForKeyWithKeyName"), typeof(LogiLedSetLightingForKeyWithKeyNamePointer));
             _logiLedSetLightingFromBitmapPointer = (LogiLedSetLightingFromBitmapPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingFromBitmap"), typeof(LogiLedSetLightingFromBitmapPointer));
         }
@@ -85,6 +86,7 @@ namespace RGB.NET.Devices.Logitech.Native
         private static LogiLedGetSdkVersionPointer _logiLedGetSdkVersionPointer;
         private static LogiLedSaveCurrentLightingPointer _lgiLedSaveCurrentLightingPointer;
         private static LogiLedRestoreLightingPointer _logiLedRestoreLightingPointer;
+        private static LogiLedSetLightingPointer _logiLedSetLightingPointer;
         private static LogiLedSetLightingForKeyWithKeyNamePointer _logiLedSetLightingForKeyWithKeyNamePointer;
         private static LogiLedSetLightingFromBitmapPointer _logiLedSetLightingFromBitmapPointer;
 
@@ -109,6 +111,9 @@ namespace RGB.NET.Devices.Logitech.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool LogiLedRestoreLightingPointer();
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool LogiLedSetLightingPointer(int redPercentage, int greenPercentage, int bluePercentage);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool LogiLedSetLightingForKeyWithKeyNamePointer(int keyCode, int redPercentage, int greenPercentage, int bluePercentage);
@@ -158,6 +163,11 @@ namespace RGB.NET.Devices.Logitech.Native
         internal static bool LogiLedRestoreLighting()
         {
             return _logiLedRestoreLightingPointer();
+        }
+
+        internal static bool LogiLedSetLighting(int redPercentage, int greenPercentage, int bluePercentage)
+        {
+            return _logiLedSetLightingPointer(redPercentage, greenPercentage, bluePercentage);
         }
 
         internal static bool LogiLedSetLightingForKeyWithKeyName(int keyCode,

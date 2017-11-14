@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HidSharp;
+using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech.HID
 {
@@ -8,31 +10,31 @@ namespace RGB.NET.Devices.Logitech.HID
     {
         #region Constants
 
-        //TODO DarthAffe 04.02.2017: Add IDs
         private const int VENDOR_ID = 0x046D;
-        private const int G910_ID = 0xC32B;
-        private const int G810_ID = 0x0;
-        private const int G610_ID = 0xC333;
+
+        //TODO DarthAffe 14.11.2017: Add devices
+        private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)> PER_KEY_DEVICES
+                = new List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)>
+                  {
+                      ("G910", RGBDeviceType.Keyboard, 0xC32B, "", "", ""),
+                      ("G910", RGBDeviceType.Keyboard, 0xC333, "", "", ""),
+                  };
+
+        private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
+            = new List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)>
+              {
+                  ("G403", RGBDeviceType.Mouse, 0xC083, "", "", ""),
+              };
 
         #endregion
 
         #region Properties & Fields
 
-        public static string ConnectedDeviceModel
-        {
-            get
-            {
-                if (IsG910Connected) return "G910";
-                if (IsG810Connected) return "G810";
-                if (IsG610Connected) return "G610";
-                return null;
-            }
-        }
+        public static bool IsPerKeyDeviceConnected { get; private set; }
+        public static (string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath) PerKeyDeviceData { get; private set; }
 
-        public static bool IsDeviceConnected => IsG910Connected || IsG810Connected || IsG610Connected;
-        public static bool IsG910Connected { get; private set; }
-        public static bool IsG810Connected { get; private set; }
-        public static bool IsG610Connected { get; private set; }
+        public static bool IsPerDeviceDeviceConnected { get; private set; }
+        public static (string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath) PerDeviceDeviceData { get; private set; }
 
         #endregion
 
@@ -40,21 +42,23 @@ namespace RGB.NET.Devices.Logitech.HID
 
         internal static void LoadDeviceList()
         {
-            IsG910Connected = false;
-            IsG810Connected = false;
-            IsG610Connected = false;
-
             HidDeviceLoader loader = new HidDeviceLoader();
-            IEnumerable<HidDevice> devices = loader.GetDevices();
-            foreach (HidDevice hidDevice in devices)
-                if (hidDevice.VendorID == VENDOR_ID)
+            List<int> ids = loader.GetDevices(VENDOR_ID).Select(x => x.ProductID).Distinct().ToList();
+
+            foreach ((string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath) deviceData in PER_KEY_DEVICES)
+                if (ids.Contains(deviceData.id))
                 {
-                    if (hidDevice.ProductID == G910_ID)
-                        IsG910Connected = true;
-                    else if (hidDevice.ProductID == G810_ID)
-                        IsG810Connected = true;
-                    else if (hidDevice.ProductID == G610_ID)
-                        IsG610Connected = true;
+                    IsPerKeyDeviceConnected = true;
+                    PerKeyDeviceData = deviceData;
+                    break;
+                }
+
+            foreach ((string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath) deviceData in PER_DEVICE_DEVICES)
+                if (ids.Contains(deviceData.id))
+                {
+                    IsPerDeviceDeviceConnected = true;
+                    PerDeviceDeviceData = deviceData;
+                    break;
                 }
         }
 

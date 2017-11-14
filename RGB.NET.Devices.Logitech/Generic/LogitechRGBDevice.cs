@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Core.Layout;
-using RGB.NET.Devices.Logitech.Native;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -56,7 +54,14 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
         /// </summary>
-        protected abstract void InitializeLayout();
+        protected virtual void InitializeLayout()
+        {
+            if (!(DeviceInfo is LogitechRGBDeviceInfo info)) return;
+            string basePath = info.ImageBasePath;
+            string layout = info.ImageLayout;
+            string layoutPath = info.LayoutPath;
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Logitech\{basePath}\{layoutPath}.xml"), layout, PathHelper.GetAbsolutePath($@"Images\Logitech\{basePath}"));
+        }
 
         /// <summary>
         /// Applies the given layout.
@@ -97,35 +102,6 @@ namespace RGB.NET.Devices.Logitech
                         }
                     }
             }
-        }
-
-        /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.PerKeyRGB);
-
-            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
-
-            byte[] bitmap = null;
-            foreach (Led led in leds)
-            {
-                //TODO DarthAffe 26.03.2017: This is only needed since update by name doesn't work as expected for all keys ...
-                if (BitmapMapping.BitmapOffset.TryGetValue(((LogitechLedId)led.Id).LedId, out int bitmapOffset))
-                {
-                    if (bitmap == null)
-                        bitmap = BitmapMapping.CreateBitmap();
-
-                    BitmapMapping.SetColor(ref bitmap, bitmapOffset, led.Color);
-                }
-                else
-                    _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)((LogitechLedId)led.Id).LedId,
-                                                                      (int)Math.Round(led.Color.RPercent * 100),
-                                                                      (int)Math.Round(led.Color.GPercent * 100),
-                                                                      (int)Math.Round(led.Color.BPercent * 100));
-            }
-
-            if (bitmap != null)
-                _LogitechGSDK.LogiLedSetLightingFromBitmap(bitmap);
         }
 
         #endregion

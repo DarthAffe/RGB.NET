@@ -132,5 +132,7 @@ namespace RGB.NET.Devices.Logitech
         G_9 = 0xFFF9,
         G_LOGO = 0xFFFF1,
         G_BADGE = 0xFFFF2,
+
+        DEVICE = 0xFFFFFFF
     }
 }
