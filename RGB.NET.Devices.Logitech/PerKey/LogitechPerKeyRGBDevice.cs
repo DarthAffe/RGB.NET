@@ -4,7 +4,7 @@ using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.Native;
 
-namespace RGB.NET.Devices.Logitech.PerKey
+namespace RGB.NET.Devices.Logitech
 {
     /// <inheritdoc />
     /// <summary>

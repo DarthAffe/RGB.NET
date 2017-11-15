@@ -11,19 +11,19 @@ namespace RGB.NET.Devices.Logitech.HID
         #region Constants
 
         private const int VENDOR_ID = 0x046D;
-
+        
         //TODO DarthAffe 14.11.2017: Add devices
         private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)> PER_KEY_DEVICES
                 = new List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)>
                   {
-                      ("G910", RGBDeviceType.Keyboard, 0xC32B, "", "", ""),
-                      ("G910", RGBDeviceType.Keyboard, 0xC333, "", "", ""),
+                      ("G910", RGBDeviceType.Keyboard, 0xC32B, "Keyboards", "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
+                      ("G610", RGBDeviceType.Keyboard, 0xC333, "Keyboards", "DE", @"Keyboards\G610\UK"),
                   };
 
         private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
             = new List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)>
               {
-                  ("G403", RGBDeviceType.Mouse, 0xC083, "", "", ""),
+                  ("G403", RGBDeviceType.Mouse, 0xC083, "Mice", "default", @"Mice\G403"),
               };
 
         #endregion

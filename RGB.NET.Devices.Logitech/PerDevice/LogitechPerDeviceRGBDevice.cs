@@ -4,7 +4,7 @@ using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.Native;
 
-namespace RGB.NET.Devices.Logitech.PerDevice
+namespace RGB.NET.Devices.Logitech
 {
     /// <inheritdoc />
     /// <summary>
@@ -44,7 +44,7 @@ namespace RGB.NET.Devices.Logitech.PerDevice
             base.InitializeLayout();
 
             if (LedMapping.Count == 0)
-                InitializeLed(new LogitechLedId(this, LogitechLedIds.DEVICE), new Rectangle(0, 0, 1, 1));
+                InitializeLed(new LogitechLedId(this, LogitechLedIds.DEVICE), new Rectangle(0, 0, 10, 10));
         }
 
         /// <inheritdoc />

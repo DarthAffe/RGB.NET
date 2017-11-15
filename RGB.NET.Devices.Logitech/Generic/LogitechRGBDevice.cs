@@ -60,7 +60,7 @@ namespace RGB.NET.Devices.Logitech
             string basePath = info.ImageBasePath;
             string layout = info.ImageLayout;
             string layoutPath = info.LayoutPath;
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Logitech\{basePath}\{layoutPath}.xml"), layout, PathHelper.GetAbsolutePath($@"Images\Logitech\{basePath}"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Logitech\{layoutPath}.xml"), layout, PathHelper.GetAbsolutePath($@"Images\Logitech\{basePath}"));
         }
 
         /// <summary>

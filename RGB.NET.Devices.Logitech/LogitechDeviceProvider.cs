@@ -8,7 +8,6 @@ using System.Globalization;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.HID;
 using RGB.NET.Devices.Logitech.Native;
-using RGB.NET.Devices.Logitech.PerKey;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -102,13 +101,15 @@ namespace RGB.NET.Devices.Logitech
                 {
                     (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
                     LogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
+                    device.Initialize();
                     devices.Add(device);
                 }
 
                 if (DeviceChecker.IsPerDeviceDeviceConnected)
                 {
                     (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
-                    LogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
+                    LogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
+                    device.Initialize();
                     devices.Add(device);
                 }
 
