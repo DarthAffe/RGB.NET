@@ -24,6 +24,7 @@ namespace RGB.NET.Devices.Logitech.HID
             = new List<(string model, RGBDeviceType deviceType, int id, string imageBasePath, string imageLayout, string layoutPath)>
               {
                   ("G403", RGBDeviceType.Mouse, 0xC083, "Mice", "default", @"Mice\G403"),
+                  ("G502", RGBDeviceType.Mouse, 0xC332, "Mice", "default", @"Mice\G502"),
               };
 
         #endregion
