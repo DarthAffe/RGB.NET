@@ -66,15 +66,16 @@ namespace RGB.NET.Devices.Novation
             {
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
 
-                try
+                for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
                 {
-                    for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
+                    try
                     {
                         MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
                         if (outCaps.name == null) continue;
 
-                        NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices)).Cast<Enum>()
-                                                                           .FirstOrDefault(x => string.Equals(x.GetDeviceId(), outCaps.name, StringComparison.OrdinalIgnoreCase));
+                        NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
+                                                                          .Cast<Enum>()
+                                                                          .FirstOrDefault(x => string.Equals(x.GetDeviceId(), outCaps.name, StringComparison.OrdinalIgnoreCase));
 
                         if (deviceId == null) continue;
 
@@ -82,24 +83,18 @@ namespace RGB.NET.Devices.Novation
                         device.Initialize();
                         devices.Add(device);
                     }
-                }
-                catch
-                {
-                    if (throwExceptions)
-                        throw;
+                    catch { if (throwExceptions) throw; }
                 }
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
+                IsInitialized = true;
             }
             catch
             {
                 if (throwExceptions)
                     throw;
-                else
-                    return false;
+                return false;
             }
-
-            IsInitialized = true;
 
             return true;
         }

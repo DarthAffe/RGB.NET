@@ -96,123 +96,91 @@ namespace RGB.NET.Devices.Corsair
             try
             {
                 _CUESDK.Reload();
+
+                ProtocolDetails = new CorsairProtocolDetails(_CUESDK.CorsairPerformProtocolHandshake());
+
+                CorsairError error = LastError;
+                if (error != CorsairError.Success)
+                    throw new CUEException(error);
+
+                if (ProtocolDetails.BreakingChanges)
+                    throw new RGBDeviceException("The SDK currently used isn't compatible with the installed version of CUE.\r\n"
+                                              + $"CUE-Version: {ProtocolDetails.ServerVersion} (Protocol {ProtocolDetails.ServerProtocolVersion})\r\n"
+                                              + $"SDK-Version: {ProtocolDetails.SdkVersion} (Protocol {ProtocolDetails.SdkProtocolVersion})");
+
+                if (exclusiveAccessIfPossible)
+                {
+                    if (!_CUESDK.CorsairRequestControl(CorsairAccessMode.ExclusiveLightingControl))
+                        throw new CUEException(LastError);
+
+                    HasExclusiveAccess = true;
+                }
+                else
+                    HasExclusiveAccess = false;
+
+                IList<IRGBDevice> devices = new List<IRGBDevice>();
+                int deviceCount = _CUESDK.CorsairGetDeviceCount();
+                for (int i = 0; i < deviceCount; i++)
+                {
+                    try
+                    {
+                        _CorsairDeviceInfo nativeDeviceInfo = (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo));
+                        CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, RGBDeviceType.Unknown, nativeDeviceInfo);
+                        if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
+                            continue; // Everything that doesn't support lighting control is useless
+
+                        CorsairRGBDevice device;
+                        switch (info.CorsairDeviceType)
+                        {
+                            case CorsairDeviceType.Keyboard:
+                                device = new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
+                                break;
+
+                            case CorsairDeviceType.Mouse:
+                                device = new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
+                                break;
+
+                            case CorsairDeviceType.Headset:
+                                device = new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo));
+                                break;
+
+                            case CorsairDeviceType.Mousepad:
+                                device = new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
+                                break;
+
+                            // ReSharper disable once RedundantCaseLabel
+                            case CorsairDeviceType.Unknown:
+                            default:
+                                throw new RGBDeviceException("Unknown Device-Type");
+                        }
+                        device.Initialize();
+                        AddSpecialParts(device);
+
+                        error = LastError;
+                        if (error != CorsairError.Success)
+                            throw new CUEException(error);
+
+                        devices.Add(device);
+                    }
+                    catch { if (throwExceptions) throw; }
+                }
+
+                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
+                IsInitialized = true;
             }
             catch
             {
-                if (throwExceptions)
-                    throw;
-                else
-                    return false;
-            }
-
-            ProtocolDetails = new CorsairProtocolDetails(_CUESDK.CorsairPerformProtocolHandshake());
-
-            CorsairError error = LastError;
-            if (error != CorsairError.Success)
-            {
                 Reset();
-                if (throwExceptions)
-                    throw new CUEException(error);
-                else
-                    return false;
+                if (throwExceptions) throw;
+                return false;
             }
-
-            if (ProtocolDetails.BreakingChanges)
-            {
-                Reset();
-                if (throwExceptions)
-                    throw new RGBDeviceException("The SDK currently used isn't compatible with the installed version of CUE.\r\n"
-                                                 + $"CUE-Version: {ProtocolDetails.ServerVersion} (Protocol {ProtocolDetails.ServerProtocolVersion})\r\n"
-                                                 + $"SDK-Version: {ProtocolDetails.SdkVersion} (Protocol {ProtocolDetails.SdkProtocolVersion})");
-                else
-                    return false;
-            }
-
-            if (exclusiveAccessIfPossible)
-            {
-                if (!_CUESDK.CorsairRequestControl(CorsairAccessMode.ExclusiveLightingControl))
-                {
-                    Reset();
-                    if (throwExceptions)
-                        throw new CUEException(LastError);
-                    else
-                        return false;
-                }
-                HasExclusiveAccess = true;
-            }
-            else
-                HasExclusiveAccess = false;
-
-            IList<IRGBDevice> devices = new List<IRGBDevice>();
-            int deviceCount = _CUESDK.CorsairGetDeviceCount();
-            for (int i = 0; i < deviceCount; i++)
-            {
-                _CorsairDeviceInfo nativeDeviceInfo =
-                    (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo));
-                CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, RGBDeviceType.Unknown, nativeDeviceInfo);
-                if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
-                    continue; // Everything that doesn't support lighting control is useless
-
-                CorsairRGBDevice device;
-                switch (info.CorsairDeviceType)
-                {
-                    case CorsairDeviceType.Keyboard:
-                        device = new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
-                        break;
-                    case CorsairDeviceType.Mouse:
-                        device = new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
-                        break;
-                    case CorsairDeviceType.Headset:
-                        device = new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo));
-                        break;
-                    case CorsairDeviceType.Mousepad:
-                        device = new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
-                        break;
-                    // ReSharper disable once RedundantCaseLabel
-                    case CorsairDeviceType.Unknown:
-                    default:
-                        if (throwExceptions)
-                            throw new RGBDeviceException("Unknown Device-Type");
-                        else
-                            continue;
-                }
-
-                try
-                {
-                    device.Initialize();
-
-                    AddSpecialParts(device);
-                }
-                catch
-                {
-                    if (throwExceptions)
-                        throw;
-                    else
-                        continue;
-                }
-                devices.Add(device);
-
-                error = LastError;
-                if (error != CorsairError.Success)
-                {
-                    Reset();
-                    if (throwExceptions)
-                        throw new CUEException(error);
-                    else
-                        return false;
-                }
-            }
-
-            Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-
-            IsInitialized = true;
 
             return true;
         }
 
         private void AddSpecialParts(CorsairRGBDevice device)
         {
-            //if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
+            if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
                 device.AddSpecialDevicePart(new LightbarSpecialPart(device));
         }
 

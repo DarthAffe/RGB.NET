@@ -95,10 +95,11 @@ namespace RGB.NET.Devices.CoolerMaster
 
                 foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))
                 {
-                    _CoolerMasterSDK.SetControlDevice(index);
-                    if (_CoolerMasterSDK.IsDevicePlugged())
+
+                    try
                     {
-                        try
+                        _CoolerMasterSDK.SetControlDevice(index);
+                        if (_CoolerMasterSDK.IsDevicePlugged())
                         {
                             CoolerMasterRGBDevice device;
                             switch (index.GetDeviceType())
@@ -119,27 +120,19 @@ namespace RGB.NET.Devices.CoolerMaster
                             device.Initialize();
                             devices.Add(device);
                         }
-                        catch
-                        {
-                            if (throwExceptions)
-                                throw;
-                            else
-                                continue;
-                        }
                     }
+                    catch { if (throwExceptions) throw; }
                 }
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
+                IsInitialized = true;
             }
             catch
             {
                 if (throwExceptions)
                     throw;
-                else
-                    return false;
+                return false;
             }
-
-            IsInitialized = true;
 
             return true;
         }

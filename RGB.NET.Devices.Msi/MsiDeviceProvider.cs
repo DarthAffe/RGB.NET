@@ -100,20 +100,22 @@ namespace RGB.NET.Devices.Msi
 
                 for (int i = 0; i < deviceTypes.Length; i++)
                 {
-                    //TODO DarthAffe 11.11.2017: What is this deviceType? Find someone to try that out
+                    try
+                    {
+                        //TODO DarthAffe 11.11.2017: What is this deviceType? Find someone to try that out
+                    }
+                    catch { if (throwExceptions) throw; }
                 }
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
+                IsInitialized = true;
             }
             catch
             {
                 if (throwExceptions)
                     throw;
-                else
-                    return false;
+                return false;
             }
-
-            IsInitialized = true;
 
             return true;
         }

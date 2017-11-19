@@ -82,8 +82,7 @@ namespace RGB.NET.Devices.Logitech
                 if (IsInitialized)
                     _LogitechGSDK.LogiLedRestoreLighting();
             }
-            catch
-            { /* At least we tried ... */ }
+            catch { /* At least we tried ... */ }
 
             IsInitialized = false;
 
@@ -97,33 +96,39 @@ namespace RGB.NET.Devices.Logitech
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
                 DeviceChecker.LoadDeviceList();
 
-                if (DeviceChecker.IsPerKeyDeviceConnected)
+                try
                 {
-                    (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
-                    LogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
-                    device.Initialize();
-                    devices.Add(device);
+                    if (DeviceChecker.IsPerKeyDeviceConnected)
+                    {
+                        (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
+                        LogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
+                        device.Initialize();
+                        devices.Add(device);
+                    }
                 }
+                catch { if (throwExceptions) throw; }
 
-                if (DeviceChecker.IsPerDeviceDeviceConnected)
+                try
                 {
-                    (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
-                    LogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
-                    device.Initialize();
-                    devices.Add(device);
+                    if (DeviceChecker.IsPerDeviceDeviceConnected)
+                    {
+                        (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
+                        LogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
+                        device.Initialize();
+                        devices.Add(device);
+                    }
                 }
+                catch { if (throwExceptions) throw; }
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
+                IsInitialized = true;
             }
             catch
             {
                 if (throwExceptions)
                     throw;
-                else
-                    return false;
+                return false;
             }
-
-            IsInitialized = true;
 
             return true;
         }
