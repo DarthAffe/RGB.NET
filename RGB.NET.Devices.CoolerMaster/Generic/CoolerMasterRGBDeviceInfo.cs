@@ -28,7 +28,7 @@ namespace RGB.NET.Devices.CoolerMaster
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
         /// <summary>
-        /// Gets the <see cref="CoolerMasterDevicesIndexes"/> of the <see cref="CoolerMasterRGBDevice"/>.
+        /// Gets the <see cref="CoolerMasterDevicesIndexes"/> of the <see cref="CoolerMasterRGBDevice{TDeviceInfo}"/>.
         /// </summary>
         public CoolerMasterDevicesIndexes DeviceIndex { get; }
 

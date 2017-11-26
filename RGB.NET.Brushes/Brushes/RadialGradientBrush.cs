@@ -9,7 +9,8 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractBrush" />
+    /// <inheritdoc cref="IGradientBrush" />
     /// <summary>
     /// Represents a brush drawing a radial gradient around a center point.
     /// </summary>

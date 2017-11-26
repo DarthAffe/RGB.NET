@@ -27,7 +27,7 @@ namespace RGB.NET.Devices.Asus
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
         /// <summary>
-        /// Gets the index of the <see cref="AsusRGBDevice"/>.
+        /// Gets the index of the <see cref="AsusRGBDevice{TDeviceInfo}"/>.
         /// </summary>
         internal IntPtr Handle { get; }
 

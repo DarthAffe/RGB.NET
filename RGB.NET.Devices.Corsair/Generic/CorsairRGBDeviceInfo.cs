@@ -19,7 +19,7 @@ namespace RGB.NET.Devices.Corsair
         public CorsairDeviceType CorsairDeviceType { get; }
 
         /// <summary>
-        /// Gets the index of the <see cref="CorsairRGBDevice"/>.
+        /// Gets the index of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.
         /// </summary>
         public int CorsairDeviceIndex { get; }
 
@@ -50,7 +50,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Internal constructor of managed <see cref="CorsairRGBDeviceInfo"/>.
         /// </summary>
-        /// <param name="deviceIndex">The index of the <see cref="CorsairRGBDevice"/>.</param>
+        /// <param name="deviceIndex">The index of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.</param>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
         internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo)

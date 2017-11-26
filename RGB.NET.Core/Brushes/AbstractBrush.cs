@@ -7,7 +7,8 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractDecoratable{T}" />
+    /// <inheritdoc cref="IBrush" />
     /// <summary>
     /// Represents a basic brush.
     /// </summary>

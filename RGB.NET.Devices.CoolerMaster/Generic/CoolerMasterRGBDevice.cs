@@ -8,7 +8,8 @@ using RGB.NET.Devices.CoolerMaster.Native;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="ICoolerMasterRGBDevice" />
     /// <summary>
     /// Represents a generic CoolerMaster-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
@@ -118,7 +119,8 @@ namespace RGB.NET.Devices.CoolerMaster
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
             _CoolerMasterSDK.SetControlDevice(DeviceInfo.DeviceIndex);

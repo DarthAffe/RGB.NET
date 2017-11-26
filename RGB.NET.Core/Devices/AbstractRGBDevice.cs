@@ -8,7 +8,8 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractBindable" />
+    /// <inheritdoc cref="IRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a generic RGB-device
     /// </summary>

@@ -8,7 +8,8 @@ using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="IAsusRGBDevice" />
     /// <summary>
     /// Represents a generic Asus-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
@@ -130,7 +131,8 @@ namespace RGB.NET.Devices.Asus
         /// </summary>
         protected abstract void ApplyColorData();
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
             if ((DeviceInfo is AsusRGBDeviceInfo deviceInfo) && (deviceInfo.Handle != IntPtr.Zero))

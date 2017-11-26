@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractBindable" />
+    /// <inheritdoc cref="IDecoratable{T}" />
     public abstract class AbstractDecoratable<T> : AbstractBindable, IDecoratable<T>
         where T : IDecorator
     {

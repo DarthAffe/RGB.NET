@@ -2,7 +2,8 @@
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractBindable" />
+    /// <inheritdoc cref="IDecorator" />
     public abstract class AbstractDecorator : AbstractBindable, IDecorator
     {
         #region Properties & Fields

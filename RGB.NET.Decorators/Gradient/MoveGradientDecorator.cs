@@ -4,7 +4,8 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Decorators.Gradient
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractUpdateAwareDecorator" />
+    /// <inheritdoc cref="IGradientDecorator" />
     /// <summary>
     /// Represents a decorator which allows to move an <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> by modifying his offset.
     /// </summary>

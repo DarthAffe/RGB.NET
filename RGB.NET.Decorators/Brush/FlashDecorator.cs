@@ -7,7 +7,8 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Decorators.Brush
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractUpdateAwareDecorator" />
+    /// <inheritdoc cref="IBrushDecorator" />
     /// <summary>
     /// Represents a decorator which allows to flash a brush by modifying his opacity.
     /// </summary>
@@ -131,7 +132,8 @@ namespace RGB.NET.Decorators.Brush
             // ReSharper restore InvertIf
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="AbstractUpdateAwareDecorator.OnAttached" />
+        /// <inheritdoc cref="IDecorator.OnAttached" />
         public override void OnAttached(IDecoratable decoratable)
         {
             base.OnAttached(decoratable);

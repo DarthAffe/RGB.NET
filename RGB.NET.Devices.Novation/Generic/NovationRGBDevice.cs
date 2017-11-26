@@ -8,7 +8,8 @@ using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="INovationRGBDevice" />
     /// <summary>
     /// Represents a generic Novation-device. (launchpad).
     /// </summary>
@@ -190,7 +191,8 @@ namespace RGB.NET.Devices.Novation
             _outputDevice.SendShort(shortMessage.Message);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
             Reset();

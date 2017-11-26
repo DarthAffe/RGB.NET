@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IEnumerable{T}" />
+    /// <inheritdoc cref="IBindable" />
+    /// <inheritdoc cref="IDisposable" />
     /// <summary>
     /// Represents a generic RGB-device.
     /// </summary>

@@ -8,7 +8,8 @@ using RGB.NET.Devices.Msi.Native;
 
 namespace RGB.NET.Devices.Msi
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="IMsiRGBDevice" />
     /// <summary>
     /// Represents a generic Msi-device. (keyboard, mouse, headset, mousepad).
     /// </summary>

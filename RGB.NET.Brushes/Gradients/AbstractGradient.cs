@@ -8,7 +8,8 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Brushes.Gradients
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractDecoratable{T}" />
+    /// <inheritdoc cref="IGradient" />
     /// <summary>
     /// Represents a basic gradient.
     /// </summary>

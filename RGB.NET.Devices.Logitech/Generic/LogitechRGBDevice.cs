@@ -6,7 +6,8 @@ using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Devices.Logitech
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="ILogitechRGBDevice" />
     /// <summary>
     /// Represents a generic Logitech-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
