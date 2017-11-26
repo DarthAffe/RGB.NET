@@ -7,17 +7,8 @@ namespace RGB.NET.Devices.Novation
     /// <summary>
     /// Represents a Novation launchpad.
     /// </summary>
-    public class NovationLaunchpadRGBDevice : NovationRGBDevice
+    public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="NovationLaunchpadRGBDevice"/>.
-        /// </summary>
-        public NovationLaunchpadRGBDeviceInfo LaunchpadDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -27,9 +18,7 @@ namespace RGB.NET.Devices.Novation
         /// <param name="info">The specific information provided by Novation for the launchpad</param>
         internal NovationLaunchpadRGBDevice(NovationLaunchpadRGBDeviceInfo info)
             : base(info)
-        {
-            this.LaunchpadDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -54,7 +43,7 @@ namespace RGB.NET.Devices.Novation
                 InitializeLed(new NovationLedId(this, ledId), rectangle);
             }
 
-            string model = LaunchpadDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
+            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
                 $@"Layouts\Novation\Launchpads\{model.ToUpper()}.xml"), "Default", PathHelper.GetAbsolutePath(@"Images\Novation\Launchpads"));
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Core.Layout;
 using RGB.NET.Devices.Msi.Native;
@@ -13,7 +12,8 @@ namespace RGB.NET.Devices.Msi
     /// <summary>
     /// Represents a generic Msi-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class MsiRGBDevice : AbstractRGBDevice
+    public abstract class MsiRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IMsiRGBDevice
+        where TDeviceInfo : MsiRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -21,17 +21,17 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Msi.MsiRGBDevice" />.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo { get; }
+        public override TDeviceInfo DeviceInfo { get; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MsiRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="MsiRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by Msi for the device.</param>
-        protected MsiRGBDevice(IRGBDeviceInfo info)
+        protected MsiRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
         }
@@ -43,7 +43,7 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        internal void Initialize()
+        public void Initialize()
         {
             InitializeLayout();
 
@@ -106,7 +106,7 @@ namespace RGB.NET.Devices.Msi
 
             if (leds.Count > 0)
             {
-                string deviceType = ((MsiRGBDeviceInfo)DeviceInfo).MsiDeviceType;
+                string deviceType = DeviceInfo.MsiDeviceType;
                 foreach (Led led in leds)
                     _MsiSDK.SetLedColor(deviceType, ((MsiLedId)led.Id).Index, led.Color.R, led.Color.G, led.Color.B);
             }

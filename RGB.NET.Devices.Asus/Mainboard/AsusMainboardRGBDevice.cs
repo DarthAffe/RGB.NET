@@ -7,17 +7,8 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a Asus mainboard.
     /// </summary>
-    public class AsusMainboardRGBDevice : AsusRGBDevice
+    public class AsusMainboardRGBDevice : AsusRGBDevice<AsusMainboardRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="AsusMainboardRGBDevice"/>.
-        /// </summary>
-        public AsusMainboardRGBDeviceInfo MainboardDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -27,9 +18,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="info">The specific information provided by Asus for the mainboard.</param>
         internal AsusMainboardRGBDevice(AsusMainboardRGBDeviceInfo info)
             : base(info)
-        {
-            this.MainboardDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -39,17 +28,17 @@ namespace RGB.NET.Devices.Asus
         protected override void InitializeLayout()
         {
             //TODO DarthAffe 07.10.2017: Look for a good default layout
-            int ledCount = _AsusSDK.GetMbLedCount(MainboardDeviceInfo.Handle);
+            int ledCount = _AsusSDK.GetMbLedCount(DeviceInfo.Handle);
             for (int i = 0; i < ledCount; i++)
                 InitializeLed(new AsusLedId(this, AsusLedIds.MainboardAudio1 + i, i), new Rectangle(i * 40, 0, 40, 8));
 
             //TODO DarthAffe 07.10.2017: We don'T know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Mainboards\{MainboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Mainboards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Asus\Mainboards"));
         }
 
         /// <inheritdoc />
-        protected override void ApplyColorData() => _AsusSDK.SetMbColor(MainboardDeviceInfo.Handle, ColorData);
+        protected override void ApplyColorData() => _AsusSDK.SetMbColor(DeviceInfo.Handle, ColorData);
 
         #endregion
     }

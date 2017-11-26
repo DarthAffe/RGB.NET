@@ -12,7 +12,8 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a generic Asus-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class AsusRGBDevice : AbstractRGBDevice
+    public abstract class AsusRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IAsusRGBDevice
+        where TDeviceInfo : AsusRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -25,17 +26,17 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Asus.AsusRGBDevice" />.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo { get; }
+        public override TDeviceInfo DeviceInfo { get; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AsusRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="AsusRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by Asus for the device.</param>
-        protected AsusRGBDevice(IRGBDeviceInfo info)
+        protected AsusRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
         }
@@ -43,11 +44,11 @@ namespace RGB.NET.Devices.Asus
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        internal void Initialize()
+        public void Initialize()
         {
             InitializeLayout();
 

@@ -7,17 +7,8 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a Asus keyboard.
     /// </summary>
-    public class AsusKeyboardRGBDevice : AsusRGBDevice
+    public class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="AsusKeyboardRGBDevice"/>.
-        /// </summary>
-        public AsusKeyboardRGBDeviceInfo KeyboardDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -27,9 +18,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="info">The specific information provided by Asus for the keyboard.</param>
         internal AsusKeyboardRGBDevice(AsusKeyboardRGBDeviceInfo info)
             : base(info)
-        {
-            this.KeyboardDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -39,17 +28,17 @@ namespace RGB.NET.Devices.Asus
         protected override void InitializeLayout()
         {
             //TODO DarthAffe 07.10.2017: Look for a good default layout
-            int ledCount = _AsusSDK.GetClaymoreKeyboardLedCount(KeyboardDeviceInfo.Handle);
+            int ledCount = _AsusSDK.GetClaymoreKeyboardLedCount(DeviceInfo.Handle);
             for (int i = 0; i < ledCount; i++)
                 InitializeLed(new AsusLedId(this, AsusLedIds.KeyboardLed1 + i, i), new Rectangle(i * 19, 0, 19, 19));
 
-            string model = KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Keyboards\{model}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Asus\Keyboards"));
+            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
+                DeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Asus\Keyboards"));
         }
 
         /// <inheritdoc />
-        protected override void ApplyColorData() => _AsusSDK.SetClaymoreKeyboardColor(KeyboardDeviceInfo.Handle, ColorData);
+        protected override void ApplyColorData() => _AsusSDK.SetClaymoreKeyboardColor(DeviceInfo.Handle, ColorData);
 
         #endregion
     }

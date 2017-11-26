@@ -129,7 +129,7 @@ namespace RGB.NET.Devices.Corsair
                         if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
                             continue; // Everything that doesn't support lighting control is useless
 
-                        CorsairRGBDevice device;
+                        ICorsairRGBDevice device;
                         switch (info.CorsairDeviceType)
                         {
                             case CorsairDeviceType.Keyboard:
@@ -178,7 +178,7 @@ namespace RGB.NET.Devices.Corsair
             return true;
         }
 
-        private void AddSpecialParts(CorsairRGBDevice device)
+        private void AddSpecialParts(ICorsairRGBDevice device)
         {
             if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
                 device.AddSpecialDevicePart(new LightbarSpecialPart(device));

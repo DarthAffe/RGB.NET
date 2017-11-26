@@ -109,8 +109,7 @@ namespace RGB.NET.Devices.Asus
                             {
                                 IntPtr handle = Marshal.ReadIntPtr(mainboardHandles, i);
                                 _AsusSDK.SetMbMode(handle, 1);
-                                AsusMainboardRGBDevice device =
-                                    new AsusMainboardRGBDevice(new AsusMainboardRGBDeviceInfo(RGBDeviceType.Mainboard, handle));
+                                AsusMainboardRGBDevice device = new AsusMainboardRGBDevice(new AsusMainboardRGBDeviceInfo(RGBDeviceType.Mainboard, handle));
                                 device.Initialize();
                                 devices.Add(device);
                             }

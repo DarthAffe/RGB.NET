@@ -59,6 +59,7 @@
     <Compile Include="Generic\NovationRGBDeviceInfo.cs" />
     <Compile Include="Helper\EnumExtension.cs" />
     <Compile Include="Helper\NovationLedIdsExtension.cs" />
+    <Compile Include="Generic\INovationRGBDevice.cs" />
     <Compile Include="Launchpad\NovationLaunchpadRGBDevice.cs" />
     <Compile Include="Launchpad\NovationLaunchpadRGBDeviceInfo.cs" />
     <Compile Include="NovationDeviceProvider.cs" />

@@ -10,17 +10,8 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a corsair mouse.
     /// </summary>
-    public class CorsairMouseRGBDevice : CorsairRGBDevice
+    public class CorsairMouseRGBDevice : CorsairRGBDevice<CorsairMouseRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="CorsairMouseRGBDevice"/>.
-        /// </summary>
-        public CorsairMouseRGBDeviceInfo MouseDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -30,9 +21,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="info">The specific information provided by CUE for the mouse</param>
         internal CorsairMouseRGBDevice(CorsairMouseRGBDeviceInfo info)
             : base(info)
-        {
-            this.MouseDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -41,7 +30,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            switch (MouseDeviceInfo.PhysicalLayout)
+            switch (DeviceInfo.PhysicalLayout)
             {
                 case CorsairPhysicalMouseLayout.Zones1:
                     InitializeLed(new CorsairLedId(this, CorsairLedIds.B1), new Rectangle(0, 0, 10, 10));
@@ -62,10 +51,10 @@ namespace RGB.NET.Devices.Corsair
                     InitializeLed(new CorsairLedId(this, CorsairLedIds.B4), new Rectangle(30, 0, 10, 10));
                     break;
                 default:
-                    throw new RGBDeviceException($"Can't initial mouse with layout '{MouseDeviceInfo.PhysicalLayout}'");
+                    throw new RGBDeviceException($"Can't initial mouse with layout '{DeviceInfo.PhysicalLayout}'");
             }
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mice\{MouseDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mice\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Corsair\Mice"));
         }
 

@@ -14,6 +14,9 @@ namespace RGB.NET.Devices.Msi
         /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
+        /// <summary>
+        /// Gets the internal type of the <see cref="IRGBDevice"/>.
+        /// </summary>
         public string MsiDeviceType { get; }
 
         /// <inheritdoc />

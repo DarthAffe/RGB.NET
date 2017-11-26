@@ -53,6 +53,7 @@
     <Compile Include="Enum\LogitechPhysicalKeyboardLayout.cs" />
     <Compile Include="Enum\LogitechDeviceCaps.cs" />
     <Compile Include="Enum\LogitechLedIds.cs" />
+    <Compile Include="Generic\ILogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechLedId.cs" />
     <Compile Include="Generic\LogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />

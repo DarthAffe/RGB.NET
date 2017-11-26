@@ -5,7 +5,7 @@ namespace RGB.NET.Core
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a generic RGB-device
+    /// Represents a generic RGB-device.
     /// </summary>
     public interface IRGBDevice : IEnumerable<Led>, IBindable, IDisposable
     {
@@ -78,5 +78,18 @@ namespace RGB.NET.Core
         T GetSpecialDevicePart<T>() where T : class, IRGBDeviceSpecialPart;
 
         #endregion
+    }
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents a generic RGB-device with an known device-info type.
+    /// </summary>
+    public interface IRGBDevice<out TDeviceInfo> : IRGBDevice
+        where TDeviceInfo : IRGBDeviceInfo
+    {
+        /// <summary>
+        /// Gets generic information about the <see cref="IRGBDevice"/>.
+        /// </summary>
+        new TDeviceInfo DeviceInfo { get; }
     }
 }

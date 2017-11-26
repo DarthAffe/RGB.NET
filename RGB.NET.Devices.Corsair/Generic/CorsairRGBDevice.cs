@@ -13,7 +13,8 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a generic CUE-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class CorsairRGBDevice : AbstractRGBDevice
+    public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, ICorsairRGBDevice
+        where TDeviceInfo : CorsairRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -21,17 +22,17 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice" />.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo { get; }
+        public override TDeviceInfo DeviceInfo { get; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CorsairRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="CorsairRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by CUE for the device.</param>
-        protected CorsairRGBDevice(IRGBDeviceInfo info)
+        protected CorsairRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
         }
@@ -43,7 +44,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        internal void Initialize()
+        public void Initialize()
         {
             InitializeLayout();
 

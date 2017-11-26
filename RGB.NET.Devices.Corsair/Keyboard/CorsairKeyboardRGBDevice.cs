@@ -12,17 +12,8 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a corsair keyboard.
     /// </summary>
-    public class CorsairKeyboardRGBDevice : CorsairRGBDevice
+    public class CorsairKeyboardRGBDevice : CorsairRGBDevice<CorsairKeyboardRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="CorsairKeyboardRGBDevice"/>.
-        /// </summary>
-        public CorsairKeyboardRGBDeviceInfo KeyboardDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -32,9 +23,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="info">The specific information provided by CUE for the keyboard</param>
         internal CorsairKeyboardRGBDevice(CorsairKeyboardRGBDeviceInfo info)
             : base(info)
-        {
-            this.KeyboardDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -58,10 +47,10 @@ namespace RGB.NET.Devices.Corsair
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
             }
 
-            string model = KeyboardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
+            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-                $@"Layouts\Corsair\Keyboards\{model}\{KeyboardDeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                KeyboardDeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Corsair\Keyboards"));
+                $@"Layouts\Corsair\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
+                DeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Corsair\Keyboards"));
         }
 
         #endregion

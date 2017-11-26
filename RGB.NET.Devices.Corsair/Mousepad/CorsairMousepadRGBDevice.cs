@@ -14,17 +14,8 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a corsair mousepad.
     /// </summary>
-    public class CorsairMousepadRGBDevice : CorsairRGBDevice
+    public class CorsairMousepadRGBDevice : CorsairRGBDevice<CorsairMousepadRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="CorsairMousepadRGBDevice"/>.
-        /// </summary>
-        public CorsairMousepadRGBDeviceInfo MousepadDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -34,9 +25,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="info">The specific information provided by CUE for the mousepad</param>
         internal CorsairMousepadRGBDevice(CorsairMousepadRGBDeviceInfo info)
             : base(info)
-        {
-            this.MousepadDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -47,7 +36,7 @@ namespace RGB.NET.Devices.Corsair
         {
             _CorsairLedPositions nativeLedPositions =
                 (_CorsairLedPositions)
-                Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(MousepadDeviceInfo.CorsairDeviceIndex),
+                Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex),
                                        typeof(_CorsairLedPositions));
 
             int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
@@ -65,7 +54,7 @@ namespace RGB.NET.Devices.Corsair
                 InitializeLed(new CorsairLedId(this, ledPosition.ledId),
                               new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mousepads\{MousepadDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mousepads\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Corsair\Mousepads"));
         }
 

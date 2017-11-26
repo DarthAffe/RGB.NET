@@ -59,6 +59,7 @@
     <Compile Include="Generic\CorsairProtocolDetails.cs" />
     <Compile Include="Generic\CorsairRGBDeviceInfo.cs" />
     <Compile Include="Generic\CorsairRGBDevice.cs" />
+    <Compile Include="Generic\ICorsairRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDeviceInfo.cs" />
     <Compile Include="Keyboard\CorsairKeyboardRGBDevice.cs" />

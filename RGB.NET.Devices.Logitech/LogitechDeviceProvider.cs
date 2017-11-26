@@ -101,7 +101,7 @@ namespace RGB.NET.Devices.Logitech
                     if (DeviceChecker.IsPerKeyDeviceConnected)
                     {
                         (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
-                        LogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
+                        ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
                         device.Initialize();
                         devices.Add(device);
                     }
@@ -113,7 +113,7 @@ namespace RGB.NET.Devices.Logitech
                     if (DeviceChecker.IsPerDeviceDeviceConnected)
                     {
                         (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
-                        LogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
+                        ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
                         device.Initialize();
                         devices.Add(device);
                     }

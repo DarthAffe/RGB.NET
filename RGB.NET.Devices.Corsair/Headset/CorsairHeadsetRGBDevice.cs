@@ -9,17 +9,8 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a corsair headset.
     /// </summary>
-    public class CorsairHeadsetRGBDevice : CorsairRGBDevice
+    public class CorsairHeadsetRGBDevice : CorsairRGBDevice<CorsairHeadsetRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="CorsairHeadsetRGBDevice"/>.
-        /// </summary>
-        public CorsairHeadsetRGBDeviceInfo HeadsetDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -29,9 +20,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="info">The specific information provided by CUE for the headset</param>
         internal CorsairHeadsetRGBDevice(CorsairHeadsetRGBDeviceInfo info)
             : base(info)
-        {
-            this.HeadsetDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -43,7 +32,7 @@ namespace RGB.NET.Devices.Corsair
             InitializeLed(new CorsairLedId(this, CorsairLedIds.LeftLogo), new Rectangle(0, 0, 10, 10));
             InitializeLed(new CorsairLedId(this, CorsairLedIds.RightLogo), new Rectangle(10, 0, 10, 10));
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Headsets\{HeadsetDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Headsets\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Corsair\Headsets"));
         }
 

@@ -79,7 +79,7 @@ namespace RGB.NET.Devices.Novation
 
                         if (deviceId == null) continue;
 
-                        NovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, deviceId.GetColorCapability()));
+                        INovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, deviceId.GetColorCapability()));
                         device.Initialize();
                         devices.Add(device);
                     }

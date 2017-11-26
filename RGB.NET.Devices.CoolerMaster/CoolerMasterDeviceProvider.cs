@@ -101,7 +101,7 @@ namespace RGB.NET.Devices.CoolerMaster
                         _CoolerMasterSDK.SetControlDevice(index);
                         if (_CoolerMasterSDK.IsDevicePlugged())
                         {
-                            CoolerMasterRGBDevice device;
+                            ICoolerMasterRGBDevice device;
                             switch (index.GetDeviceType())
                             {
                                 case RGBDeviceType.Keyboard:

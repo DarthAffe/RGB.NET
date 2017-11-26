@@ -10,7 +10,8 @@ namespace RGB.NET.Devices.Logitech
     /// <summary>
     /// Represents a generic Logitech-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class LogitechRGBDevice : AbstractRGBDevice
+    public abstract class LogitechRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, ILogitechRGBDevice
+        where TDeviceInfo : LogitechRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -18,17 +19,17 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDevice" />.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo { get; }
+        public override TDeviceInfo DeviceInfo { get; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogitechRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="LogitechRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by Logitech for the device.</param>
-        protected LogitechRGBDevice(IRGBDeviceInfo info)
+        protected LogitechRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
         }
@@ -40,7 +41,7 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        internal void Initialize()
+        public void Initialize()
         {
             InitializeLayout();
 

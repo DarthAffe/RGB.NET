@@ -10,17 +10,8 @@ namespace RGB.NET.Devices.Logitech
     /// <summary>
     /// Represents a logitech per-device-lightable device.
     /// </summary>
-    public class LogitechPerDeviceRGBDevice : LogitechRGBDevice
+    public class LogitechPerDeviceRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="LogitechPerDeviceRGBDevice"/>.
-        /// </summary>
-        public LogitechRGBDeviceInfo PerDeviceDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -30,9 +21,7 @@ namespace RGB.NET.Devices.Logitech
         /// <param name="info">The specific information provided by logitech for the per-device-lightable device</param>
         internal LogitechPerDeviceRGBDevice(LogitechRGBDeviceInfo info)
             : base(info)
-        {
-            this.PerDeviceDeviceInfo = info;
-        }
+        { }
 
         #endregion
 

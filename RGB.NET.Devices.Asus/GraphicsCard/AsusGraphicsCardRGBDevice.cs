@@ -7,17 +7,8 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a Asus graphicsCard.
     /// </summary>
-    public class AsusGraphicsCardRGBDevice : AsusRGBDevice
+    public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusGraphicsCardRGBDeviceInfo>
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets information about the <see cref="AsusGraphicsCardRGBDevice"/>.
-        /// </summary>
-        public AsusGraphicsCardRGBDeviceInfo GraphicsCardDeviceInfo { get; }
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc />
@@ -27,9 +18,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="info">The specific information provided by Asus for the graphics card.</param>
         internal AsusGraphicsCardRGBDevice(AsusGraphicsCardRGBDeviceInfo info)
             : base(info)
-        {
-            this.GraphicsCardDeviceInfo = info;
-        }
+        { }
 
         #endregion
 
@@ -39,17 +28,17 @@ namespace RGB.NET.Devices.Asus
         protected override void InitializeLayout()
         {
             //TODO DarthAffe 07.10.2017: Look for a good default layout
-            int ledCount = _AsusSDK.GetGPULedCount(GraphicsCardDeviceInfo.Handle);
+            int ledCount = _AsusSDK.GetGPULedCount(DeviceInfo.Handle);
             for (int i = 0; i < ledCount; i++)
                 InitializeLed(new AsusLedId(this, AsusLedIds.GraphicsCardLed1 + i, i), new Rectangle(i * 10, 0, 10, 10));
 
             //TODO DarthAffe 07.10.2017: We don'T know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\GraphicsCards\{GraphicsCardDeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\GraphicsCards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Asus\GraphicsCards"));
         }
 
         /// <inheritdoc />
-        protected override void ApplyColorData() => _AsusSDK.SetGPUColor(GraphicsCardDeviceInfo.Handle, ColorData);
+        protected override void ApplyColorData() => _AsusSDK.SetGPUColor(DeviceInfo.Handle, ColorData);
 
         #endregion
     }

@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Enum\MsiLedIds.cs" />
     <Compile Include="Exceptions\MysticLightException.cs" />
+    <Compile Include="Generic\IMsiRGBDevice.cs" />
     <Compile Include="Generic\MsiLedId.cs" />
     <Compile Include="Generic\MsiRGBDevice.cs" />
     <Compile Include="Generic\MsiRGBDeviceInfo.cs" />
