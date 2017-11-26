@@ -127,6 +127,38 @@ namespace RGB.NET.Devices.Corsair
             }
         }
 
+        /// <summary>
+        /// Reads the current color-data from the device
+        /// </summary>
+        /// <returns>A dictionary mapping the <see cref="CorsairLedIds"/> to the current <see cref="Color"/>.</returns>
+        protected Dictionary<CorsairLedIds, Color> GetColors()
+        {
+            int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
+            IntPtr ptr = Marshal.AllocHGlobal(structSize * LedMapping.Count);
+            IntPtr addPtr = new IntPtr(ptr.ToInt64());
+            foreach (Led led in this)
+            {
+                _CorsairLedColor color = new _CorsairLedColor { ledId = (int)((CorsairLedId)led.Id).LedId };
+                Marshal.StructureToPtr(color, addPtr, false);
+                addPtr = new IntPtr(addPtr.ToInt64() + structSize);
+            }
+            _CUESDK.CorsairGetLedsColors(LedMapping.Count, ptr);
+
+            IntPtr readPtr = ptr;
+            Dictionary<CorsairLedIds, Color> colorData = new Dictionary<CorsairLedIds, Color>();
+            for (int i = 0; i < LedMapping.Count; i++)
+            {
+                _CorsairLedColor ledColor = (_CorsairLedColor)Marshal.PtrToStructure(readPtr, typeof(_CorsairLedColor));
+                colorData.Add((CorsairLedIds)ledColor.ledId, new Color((byte)ledColor.r, (byte)ledColor.g, (byte)ledColor.b));
+
+                readPtr = new IntPtr(readPtr.ToInt64() + structSize);
+            }
+
+            Marshal.FreeHGlobal(ptr);
+
+            return colorData;
+        }
+
         #endregion
     }
 }
