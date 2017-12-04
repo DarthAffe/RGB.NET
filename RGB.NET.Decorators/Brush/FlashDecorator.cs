@@ -72,7 +72,7 @@ namespace RGB.NET.Decorators.Brush
         #region Methods
 
         /// <inheritdoc />
-        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color) => color.APercent = _currentValue;
+        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color) => color.SetAPercent(_currentValue);
 
         /// <inheritdoc />
         protected override void Update(double deltaTime)

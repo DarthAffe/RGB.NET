@@ -80,7 +80,7 @@
     <Compile Include="Leds\ILedId.cs" />
     <Compile Include="MVVM\AbstractBindable.cs" />
     <Compile Include="Leds\Color.cs" />
-    <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Devices\IRGBDevice.cs" />
     <Compile Include="Leds\Led.cs" />
     <Compile Include="MVVM\IBindable.cs" />

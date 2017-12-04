@@ -149,11 +149,11 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Returns a new <see cref="Size"/> representing the substraction of the two provided <see cref="Size"/>.
+        /// Returns a new <see cref="Size"/> representing the subtraction of the two provided <see cref="Size"/>.
         /// </summary>
         /// <param name="size1">The first <see cref="Size"/>.</param>
         /// <param name="size2">The second <see cref="Size"/>.</param>
-        /// <returns>A new <see cref="Size"/> representing the substraction of the two provided <see cref="Size"/>.</returns>
+        /// <returns>A new <see cref="Size"/> representing the subtraction of the two provided <see cref="Size"/>.</returns>
         public static Size operator -(Size size1, Size size2)
         {
             return new Size(size1.Width - size2.Width, size1.Height - size2.Height);

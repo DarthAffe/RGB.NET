@@ -15,8 +15,7 @@ namespace RGB.NET.WPF.Converter
         /// <inheritdoc />
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Core.Color color = value as Core.Color;
-            return new SolidColorBrush(color == null
+            return new SolidColorBrush(!(value is Core.Color color)
                 ? Color.FromArgb(0, 0, 0, 0)
                 : Color.FromArgb(color.A, color.R, color.G, color.B));
         }

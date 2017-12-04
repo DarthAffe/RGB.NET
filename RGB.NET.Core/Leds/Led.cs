@@ -60,7 +60,7 @@ namespace RGB.NET.Core
         /// </summary>
         public Color RequestedColor
         {
-            get => new Color(_requestedColor);
+            get => _requestedColor;
             private set
             {
                 SetProperty(ref _requestedColor, value);
@@ -80,15 +80,7 @@ namespace RGB.NET.Core
             set
             {
                 if (!IsLocked)
-                {
-                    // DarthAffe 26.01.2017: DON'T USE THE PROPERTY HERE! Working on the copy doesn't work!
-                    _requestedColor.Blend(value);
-
-                    // ReSharper disable ExplicitCallerInfoArgument
-                    OnPropertyChanged(nameof(RequestedColor));
-                    OnPropertyChanged(nameof(IsDirty));
-                    // ReSharper restore ExplicitCallerInfoArgument
-                }
+                    RequestedColor += value;
             }
         }
 
@@ -168,19 +160,13 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Core.Color" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Color(Led led)
-        {
-            return led?.Color;
-        }
+        public static implicit operator Color(Led led) => led?.Color ?? Color.Transparent;
 
         /// <summary>
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led)
-        {
-            return led?.LedRectangle;
-        }
+        public static implicit operator Rectangle(Led led) => led?.LedRectangle;
 
         #endregion
     }

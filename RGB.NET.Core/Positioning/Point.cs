@@ -140,11 +140,11 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Returns a new <see cref="Point"/> representing the substraction of the two provided <see cref="Point"/>.
+        /// Returns a new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.
         /// </summary>
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
-        /// <returns>A new <see cref="Point"/> representing the substraction of the two provided <see cref="Point"/>.</returns>
+        /// <returns>A new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.</returns>
         public static Point operator -(Point point1, Point point2)
         {
             return new Point(point1.X - point2.X, point1.Y - point2.Y);

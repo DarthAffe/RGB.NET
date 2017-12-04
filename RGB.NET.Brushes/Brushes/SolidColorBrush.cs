@@ -37,10 +37,7 @@ namespace RGB.NET.Brushes
         #region Methods
 
         /// <inheritdoc />
-        protected override Color GetColorAtPoint(Rectangle rectangle, BrushRenderTarget renderTarget)
-        {
-            return Color;
-        }
+        protected override Color GetColorAtPoint(Rectangle rectangle, BrushRenderTarget renderTarget) => Color;
 
         #endregion
 
@@ -50,19 +47,13 @@ namespace RGB.NET.Brushes
         /// Converts a <see cref="Color" /> to a <see cref="SolidColorBrush" />.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to convert.</param>
-        public static explicit operator SolidColorBrush(Color color)
-        {
-            return new SolidColorBrush(color);
-        }
+        public static explicit operator SolidColorBrush(Color color) => new SolidColorBrush(color);
 
         /// <summary>
         /// Converts a <see cref="SolidColorBrush" /> to a <see cref="Color" />.
         /// </summary>
         /// <param name="brush">The <see cref="Color"/> to convert.</param>
-        public static implicit operator Color(SolidColorBrush brush)
-        {
-            return brush.Color;
-        }
+        public static implicit operator Color(SolidColorBrush brush) => brush.Color;
 
         #endregion
     }

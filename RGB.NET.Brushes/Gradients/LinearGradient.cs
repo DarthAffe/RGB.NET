@@ -53,7 +53,7 @@ namespace RGB.NET.Brushes.Gradients
         public override Color GetColor(double offset)
         {
             if (GradientStops.Count == 0) return Color.Transparent;
-            if (GradientStops.Count == 1) return new Color(GradientStops[0].Color);
+            if (GradientStops.Count == 1) return GradientStops[0].Color;
 
             (GradientStop gsBefore, GradientStop gsAfter) = GetEnclosingGradientStops(offset, GradientStops, WrapGradient);
 

@@ -56,7 +56,7 @@ namespace RGB.NET.Brushes.Gradients
             double hue = (StartHue + (range * offset)) % 360f;
             if (hue < 0)
                 hue += 360;
-            return new Color(hue, 1f, 1f);
+            return Color.FromHSV(hue, 1, 1);
         }
 
         /// <inheritdoc />
