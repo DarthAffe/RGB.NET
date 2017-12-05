@@ -52,6 +52,11 @@ namespace RGB.NET.Decorators.Brush
         public double SustainValue { get; set; } = 1;
 
         /// <summary>
+        /// Gets or sets the level at which the oppacity (percentage) should stay in the pause-cycle. (default: 0);
+        /// </summary>
+        public double PauseValue { get; set; } = 0;
+
+        /// <summary>
         /// Gets or sets the interval (in seconds) in which the decorator should repeat (if repetition is enabled). (default: 1)
         /// </summary>
         public double Interval { get; set; } = 1;
@@ -84,7 +89,7 @@ namespace RGB.NET.Decorators.Brush
 
             if (_currentPhase == ADSRPhase.Attack)
                 if (_currentPhaseValue > 0)
-                    _currentValue = Math.Min(1, (Attack - _currentPhaseValue) / Attack) * AttackValue;
+                    _currentValue = PauseValue + (Math.Min(1, (Attack - _currentPhaseValue) / Attack) * (AttackValue - PauseValue));
                 else
                 {
                     _currentPhaseValue = Decay;
@@ -111,7 +116,7 @@ namespace RGB.NET.Decorators.Brush
 
             if (_currentPhase == ADSRPhase.Release)
                 if (_currentPhaseValue > 0)
-                    _currentValue = Math.Min(1, _currentPhaseValue / Release) * SustainValue;
+                    _currentValue = PauseValue + (Math.Min(1, _currentPhaseValue / Release) * (SustainValue - PauseValue));
                 else
                 {
                     _currentPhaseValue = Interval;
@@ -120,7 +125,7 @@ namespace RGB.NET.Decorators.Brush
 
             if (_currentPhase == ADSRPhase.Pause)
                 if (_currentPhaseValue > 0)
-                    _currentValue = 0;
+                    _currentValue = PauseValue;
                 else
                 {
                     if ((++_repetitionCount >= Repetitions) && (Repetitions > 0))
