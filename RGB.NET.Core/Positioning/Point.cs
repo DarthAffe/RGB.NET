@@ -5,44 +5,36 @@ using System.Diagnostics;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents a point consisting of a X- and a Y-position.
     /// </summary>
     [DebuggerDisplay("[X: {X}, Y: {Y}]")]
-    public class Point : AbstractBindable
+    public struct Point
     {
+        #region Constants
+
+        /// <summary>
+        /// Gets a [NaN,NaN]-Point.
+        /// </summary>
+        public static Point Invalid => new Point(double.NaN, double.NaN);
+
+        #endregion
+
         #region Properties & Fields
 
-        private double _x;
         /// <summary>
-        /// Gets or sets the X-position of this <see cref="Point"/>.
+        /// Gets the X-position of this <see cref="Point"/>.
         /// </summary>
-        public double X
-        {
-            get => _x;
-            set => SetProperty(ref _x, value);
-        }
+        public double X { get; }
 
-        private double _y;
         /// <summary>
-        /// Gets or sets the Y-position of this <see cref="Point"/>.
+        /// Gets the Y-position of this <see cref="Point"/>.
         /// </summary>
-        public double Y
-        {
-            get => _y;
-            set => SetProperty(ref _y, value);
-        }
+        public double Y { get; }
 
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Point"/> class.
-        /// </summary>
-        public Point()
-        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Point"/> class using the provided values.
@@ -63,10 +55,7 @@ namespace RGB.NET.Core
         /// Converts the <see cref="X"/>- and <see cref="Y"/>-position of this <see cref="Point"/> to a human-readable string.
         /// </summary>
         /// <returns>A string that contains the <see cref="X"/> and <see cref="Y"/>  of this <see cref="Point"/>. For example "[X: 100, Y: 20]".</returns>
-        public override string ToString()
-        {
-            return $"[X: {X}, Y: {Y}]";
-        }
+        public override string ToString() => $"[X: {X}, Y: {Y}]";
 
         /// <summary>
         /// Tests whether the specified object is a <see cref="Point" /> and is equivalent to this <see cref="Point" />.
@@ -75,16 +64,9 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Point" /> equivalent to this <see cref="Point" />; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            Point comparePoint = obj as Point;
-            if (ReferenceEquals(comparePoint, null))
-                return false;
+            if (!(obj is Point)) return false;
 
-            if (ReferenceEquals(this, comparePoint))
-                return true;
-
-            if (GetType() != comparePoint.GetType())
-                return false;
-
+            Point comparePoint = (Point)obj;
             return X.EqualsInTolerance(comparePoint.X) && Y.EqualsInTolerance(comparePoint.Y);
         }
 
@@ -112,10 +94,7 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point" /> to compare.</param>
         /// <param name="point2">The second <see cref="Point" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="point1" /> and <paramref name="point2" /> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(Point point1, Point point2)
-        {
-            return ReferenceEquals(point1, null) ? ReferenceEquals(point2, null) : point1.Equals(point2);
-        }
+        public static bool operator ==(Point point1, Point point2) => point1.Equals(point2);
 
         /// <summary>
         /// Returns a value that indicates whether two specified <see cref="Point" /> are equal.
@@ -123,10 +102,7 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point" /> to compare.</param>
         /// <param name="point2">The second <see cref="Point" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="point1" /> and <paramref name="point2" /> are not equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(Point point1, Point point2)
-        {
-            return !(point1 == point2);
-        }
+        public static bool operator !=(Point point1, Point point2) => !(point1 == point2);
 
         /// <summary>
         /// Returns a new <see cref="Point"/> representing the addition of the two provided <see cref="Point"/>.
@@ -134,10 +110,15 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>A new <see cref="Point"/> representing the addition of the two provided <see cref="Point"/>.</returns>
-        public static Point operator +(Point point1, Point point2)
-        {
-            return new Point(point1.X + point2.X, point1.Y + point2.Y);
-        }
+        public static Point operator +(Point point1, Point point2) => new Point(point1.X + point2.X, point1.Y + point2.Y);
+
+        /// <summary>
+        /// Returns a new <see cref="Rectangle"/> created from the provided <see cref="Point"/> and <see cref="Size"/>.
+        /// </summary>
+        /// <param name="point">The <see cref="Point"/> of the rectangle.</param>
+        /// <param name="size">The <see cref="Size"/> of the rectangle.</param>
+        /// <returns>The rectangle created from the provided <see cref="Point"/> and <see cref="Size"/>.</returns>
+        public static Rectangle operator +(Point point, Size size) => new Rectangle(point, size);
 
         /// <summary>
         /// Returns a new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.
@@ -145,10 +126,7 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>A new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.</returns>
-        public static Point operator -(Point point1, Point point2)
-        {
-            return new Point(point1.X - point2.X, point1.Y - point2.Y);
-        }
+        public static Point operator -(Point point1, Point point2) => new Point(point1.X - point2.X, point1.Y - point2.Y);
 
         /// <summary>
         /// Returns a new <see cref="Point"/> representing the multiplication of the two provided <see cref="Point"/>.
@@ -156,10 +134,7 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>A new <see cref="Point"/> representing the multiplication of the two provided <see cref="Point"/>.</returns>
-        public static Point operator *(Point point1, Point point2)
-        {
-            return new Point(point1.X * point2.X, point1.Y * point2.Y);
-        }
+        public static Point operator *(Point point1, Point point2) => new Point(point1.X * point2.X, point1.Y * point2.Y);
 
         /// <summary>
         /// Returns a new <see cref="Point"/> representing the division of the two provided <see cref="Point"/>.
@@ -169,7 +144,7 @@ namespace RGB.NET.Core
         /// <returns>A new <see cref="Point"/> representing the division of the two provided <see cref="Point"/>.</returns>
         public static Point operator /(Point point1, Point point2)
         {
-            if (point2.X.EqualsInTolerance(0) || point2.Y.EqualsInTolerance(0)) return new Point();
+            if (point2.X.EqualsInTolerance(0) || point2.Y.EqualsInTolerance(0)) return Invalid;
             return new Point(point1.X / point2.X, point1.Y / point2.Y);
         }
 

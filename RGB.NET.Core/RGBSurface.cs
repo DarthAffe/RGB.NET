@@ -125,10 +125,9 @@ namespace RGB.NET.Core
             switch (brush.BrushCalculationMode)
             {
                 case BrushCalculationMode.Relative:
-                    Rectangle brushRectangle = new Rectangle(leds.Select(x => GetDeviceLedLocation(x)));
+                    Rectangle brushRectangle = new Rectangle(leds.Select(GetDeviceLedLocation));
                     Point offset = new Point(-brushRectangle.Location.X, -brushRectangle.Location.Y);
-                    brushRectangle.Location.X = 0;
-                    brushRectangle.Location.Y = 0;
+                    brushRectangle.Location = new Point(0, 0);
                     brush.PerformRender(brushRectangle,
                                         leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x, offset))));
                     break;
@@ -146,12 +145,9 @@ namespace RGB.NET.Core
                 renders.Key.Led.Color = renders.Value;
         }
 
-        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset = null)
-        {
-            return extraOffset != null
-                       ? new Rectangle(led.LedRectangle.Location + led.Device.Location + extraOffset, new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height))
-                       : new Rectangle(led.LedRectangle.Location + led.Device.Location, new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height));
-        }
+        private Rectangle GetDeviceLedLocation(Led led) => (led.LedRectangle.Location + led.Device.Location) + new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height);
+
+        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset) => (led.LedRectangle.Location + led.Device.Location + extraOffset) + new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height);
 
         /// <summary>
         /// Attaches the given <see cref="ILedGroup"/>.
@@ -198,8 +194,8 @@ namespace RGB.NET.Core
         {
             Rectangle devicesRectangle = new Rectangle(_devices.Select(d => new Rectangle(d.Location, d.Size)));
 
-            _surfaceRectangle.Size.Width = devicesRectangle.Location.X + devicesRectangle.Size.Width;
-            _surfaceRectangle.Size.Height = devicesRectangle.Location.Y + devicesRectangle.Size.Height;
+            _surfaceRectangle.Width = devicesRectangle.Location.X + devicesRectangle.Size.Width;
+            _surfaceRectangle.Height = devicesRectangle.Location.Y + devicesRectangle.Size.Height;
         }
 
         #endregion

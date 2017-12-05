@@ -46,10 +46,10 @@ namespace RGB.NET.Devices.Logitech
         {
             InitializeLayout();
 
-            if (InternalSize == null)
+            if (Size == Size.Invalid)
             {
                 Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
-                InternalSize = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
+                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
         }
 
@@ -78,7 +78,7 @@ namespace RGB.NET.Devices.Logitech
             {
                 LedImageLayout ledImageLayout = layout.LedImageLayouts.FirstOrDefault(x => string.Equals(x.Layout, imageLayout, StringComparison.OrdinalIgnoreCase));
 
-                InternalSize = new Size(layout.Width, layout.Height);
+                Size = new Size(layout.Width, layout.Height);
 
                 if (layout.Leds != null)
                     foreach (LedLayout layoutLed in layout.Leds)
@@ -89,10 +89,8 @@ namespace RGB.NET.Devices.Logitech
                             if (!LedMapping.TryGetValue(id, out Led led))
                                 led = InitializeLed(id, new Rectangle());
 
-                            led.LedRectangle.Location.X = layoutLed.X;
-                            led.LedRectangle.Location.Y = layoutLed.Y;
-                            led.LedRectangle.Size.Width = layoutLed.Width;
-                            led.LedRectangle.Size.Height = layoutLed.Height;
+                            led.LedRectangle.Location = new Point(layoutLed.X, layoutLed.Y);
+                            led.LedRectangle.Size = new Size(layoutLed.Width, layoutLed.Height);
 
                             led.Shape = layoutLed.Shape;
                             led.ShapeData = layoutLed.ShapeData;

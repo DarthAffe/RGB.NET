@@ -454,7 +454,7 @@ namespace RGB.NET.Core
         /// <param name="value">The value value to add.</param>
         /// <returns>The new color after the modification.</returns>
         public Color AddHSV(int a, double hue, double saturation, double value)
-            => Color.FromHSV(A + a, Hue + hue, Saturation + saturation, Value + value);
+            => FromHSV(A + a, Hue + hue, Saturation + saturation, Value + value);
 
         /// <summary>
         /// Adds the given alpha value to this color.

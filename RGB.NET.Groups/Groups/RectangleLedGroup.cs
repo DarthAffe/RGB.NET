@@ -32,10 +32,10 @@ namespace RGB.NET.Groups
                 if (SetProperty(ref _rectangle, value))
                 {
                     if (oldValue != null)
-                        oldValue.Changed -= RectangleChanged;
+                        oldValue.PropertyChanged -= RectangleChanged;
 
                     if (_rectangle != null)
-                        _rectangle.Changed += RectangleChanged;
+                        _rectangle.PropertyChanged += RectangleChanged;
 
                     InvalidateCache();
                 }

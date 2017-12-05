@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -18,48 +17,111 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private Point _location;
+        private double _x;
+        /// <summary>
+        /// Gets or sets the X-position of this <see cref="Rectangle"/>.
+        /// </summary>
+        public double X
+        {
+            get => _x;
+            set
+            {
+                if (SetProperty(ref _x, value))
+                {
+                    OnPropertyChanged(nameof(Location));
+                    OnPropertyChanged(nameof(Center));
+                }
+            }
+        }
+
+        private double _y;
+        /// <summary>
+        /// Gets or sets the Y-position of this <see cref="Rectangle"/>.
+        /// </summary>
+        public double Y
+        {
+            get => _y;
+            set
+            {
+                if (SetProperty(ref _y, value))
+                {
+                    OnPropertyChanged(nameof(Location));
+                    OnPropertyChanged(nameof(Center));
+                }
+            }
+        }
+
+        private double _width;
+        /// <summary>
+        /// Gets or sets the width of this <see cref="Rectangle"/>.
+        /// </summary>
+        public double Width
+        {
+            get => _width;
+            set
+            {
+                if (SetProperty(ref _width, Math.Max(0, value)))
+                {
+                    OnPropertyChanged(nameof(Size));
+                    OnPropertyChanged(nameof(Center));
+                    OnPropertyChanged(nameof(IsEmpty));
+                }
+            }
+        }
+
+        private double _height;
+        /// <summary>
+        /// Gets or sets the height of this <see cref="Rectangle"/>.
+        /// </summary>
+        public double Height
+        {
+            get => _height;
+            set
+            {
+                if (SetProperty(ref _height, Math.Max(0, value)))
+                {
+                    OnPropertyChanged(nameof(Size));
+                    OnPropertyChanged(nameof(Center));
+                    OnPropertyChanged(nameof(IsEmpty));
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets the <see cref="Point"/> representing the top-left corner of the <see cref="Rectangle"/>.
         /// </summary>
         public Point Location
         {
-            get => _location;
+            get => new Point(X, Y);
             set
             {
-                Point oldValue = _location;
-                if (SetProperty(ref _location, value))
+                if (Location != value)
                 {
-                    if (oldValue != null)
-                        oldValue.PropertyChanged -= LocationPropertyChanged;
+                    _x = value.X;
+                    _y = value.Y;
 
-                    if (_location != null)
-                        _location.PropertyChanged += LocationPropertyChanged;
-
-                    OnLocationChanged();
+                    OnPropertyChanged(nameof(Location));
+                    OnPropertyChanged(nameof(Center));
                 }
             }
         }
 
-        private Size _size;
         /// <summary>
         /// Gets or sets the <see cref="Size"/> of the <see cref="Rectangle"/>.
         /// </summary>
         public Size Size
         {
-            get => _size;
+            get => new Size(Width, Height);
             set
             {
-                Size oldValue = _size;
-                if (SetProperty(ref _size, value))
+                if (Size != value)
                 {
-                    if (oldValue != null)
-                        oldValue.PropertyChanged -= SizePropertyChanged;
+                    _width = value.Width;
+                    _height = value.Height;
 
-                    if (_size != null)
-                        _size.PropertyChanged += SizePropertyChanged;
-
-                    OnSizeChanged();
+                    OnPropertyChanged(nameof(Size));
+                    OnPropertyChanged(nameof(Center));
+                    OnPropertyChanged(nameof(IsEmpty));
                 }
             }
         }
@@ -67,35 +129,14 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a new <see cref="Point"/> representing the center-point of the <see cref="Rectangle"/>.
         /// </summary>
-        public Point Center => new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
+        public Point Center => new Point(X + (Width / 2.0), Y + (Height / 2.0));
 
         /// <summary>
         /// Gets a bool indicating if both, the width and the height of the rectangle is greater than zero.
         /// <c>True</c> if the rectangle has a width or a height of zero; otherwise, <c>false</c>.
         /// </summary>
-        public bool IsEmpty => (Size.Width <= DoubleExtensions.TOLERANCE) || (Size.Height <= DoubleExtensions.TOLERANCE);
+        public bool IsEmpty => (Width <= DoubleExtensions.TOLERANCE) || (Height <= DoubleExtensions.TOLERANCE);
 
-        #endregion
-
-        #region Events
-        // ReSharper disable EventNeverSubscribedTo.Global
-
-        /// <summary>
-        /// Occurs when a the <see cref="Location"/> of the <see cref="Rectangle"/> changes.
-        /// </summary>
-        public event EventHandler LocationChanged;
-
-        /// <summary>
-        /// Occurs when a the <see cref="Size"/> of the <see cref="Rectangle"/> changes.
-        /// </summary>
-        public event EventHandler SizeChanged;
-
-        /// <summary>
-        /// Occurs when the <see cref="Location"/> or the <see cref="Size"/> of the <see cref="Rectangle"/> changes.
-        /// </summary>
-        public event EventHandler Changed;
-
-        // ReSharper restore EventNeverSubscribedTo.Global
         #endregion
 
         #region Constructors
@@ -319,24 +360,6 @@ namespace RGB.NET.Core
                 hashCode = (hashCode * 397) ^ Size.GetHashCode();
                 return hashCode;
             }
-        }
-
-        private void LocationPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) => OnLocationChanged();
-        private void OnLocationChanged()
-        {
-            // ReSharper disable once ExplicitCallerInfoArgument
-            OnPropertyChanged(nameof(Center));
-            LocationChanged?.Invoke(this, new EventArgs());
-            Changed?.Invoke(this, new EventArgs());
-        }
-
-        private void SizePropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) => OnSizeChanged();
-        private void OnSizeChanged()
-        {
-            // ReSharper disable once ExplicitCallerInfoArgument
-            OnPropertyChanged(nameof(Center));
-            SizeChanged?.Invoke(this, new EventArgs());
-            Changed?.Invoke(this, new EventArgs());
         }
 
         #endregion

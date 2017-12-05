@@ -30,7 +30,6 @@ namespace RGB.NET.Core
                     addedDevices.Add(device);
 
                     device.PropertyChanged += DeviceOnPropertyChanged;
-                    device.Location.PropertyChanged += DeviceLocationOnPropertyChanged;
                     _devices.Add(device);
                 }
             }
@@ -50,23 +49,12 @@ namespace RGB.NET.Core
             double posX = 0;
             foreach (IRGBDevice device in Devices)
             {
-                device.Location.X = posX;
+                device.Location += new Point(posX, 0);
                 posX += device.Size.Width + 1;
             }
         }
 
         private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (string.Equals(propertyChangedEventArgs.PropertyName, nameof(IRGBDevice.Location)))
-            {
-                UpdateSurfaceRectangle();
-                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(new[] { sender as IRGBDevice }, false, true));
-
-                ((IRGBDevice)sender).Location.PropertyChanged += DeviceLocationOnPropertyChanged;
-            }
-        }
-
-        private void DeviceLocationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             UpdateSurfaceRectangle();
             SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(new[] { sender as IRGBDevice }, false, true));

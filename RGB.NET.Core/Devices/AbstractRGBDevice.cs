@@ -24,30 +24,20 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
+        private Size _size = Size.Invalid;
         /// <inheritdoc />
-        public Size Size => new Size(InternalSize?.Width ?? 0, InternalSize?.Height ?? 0);
-
-        private Size _internalSize;
-        /// <summary>
-        /// Gets the <see cref="Size"/> of the whole <see cref="IRGBDevice"/>.
-        /// </summary>
-        protected Size InternalSize
+        public Size Size
         {
-            get => _internalSize;
-            set
-            {
-                // ReSharper disable once ExplicitCallerInfoArgument
-                if (SetProperty(ref _internalSize, value))
-                    OnPropertyChanged(nameof(Size));
-            }
+            get => _size;
+            set => SetProperty(ref _size, value);
         }
 
-        private Point _location = new Point();
+        private Point _location = new Point(0, 0);
         /// <inheritdoc />
         public Point Location
         {
             get => _location;
-            set => SetProperty(ref _location, value ?? new Point());
+            set => SetProperty(ref _location, value);
         }
 
         /// <summary>
