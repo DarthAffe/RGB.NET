@@ -30,6 +30,11 @@ namespace RGB.NET.Core
         RGBDeviceLighting Lighting { get; }
 
         /// <summary>
+        /// Gets a bool indicating, if the <see cref="IRGBDevice"/> supports SynBacks or not.
+        /// </summary>
+        bool SupportsSyncBack { get; }
+
+        /// <summary>
         /// Gets the URI of an image of the <see cref="IRGBDevice"/> or null if there is no image.
         /// </summary>
         Uri Image { get; }

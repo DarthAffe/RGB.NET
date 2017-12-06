@@ -27,6 +27,9 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
+        /// <inheritdoc />
+        public bool SupportsSyncBack => false;
+
         /// <summary>
         /// Gets the <see cref="CoolerMasterDevicesIndexes"/> of the <see cref="CoolerMasterRGBDevice{TDeviceInfo}"/>.
         /// </summary>

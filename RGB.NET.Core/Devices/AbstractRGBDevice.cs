@@ -40,6 +40,9 @@ namespace RGB.NET.Core
             set => SetProperty(ref _location, value);
         }
 
+        /// <inheritdoc />
+        public DeviceUpdateMode UpdateMode { get; set; } = DeviceUpdateMode.Sync;
+
         /// <summary>
         /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
@@ -69,7 +72,7 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <inheritdoc />
-        public virtual void Update(bool flushLeds = false)
+        public virtual void Update(bool render = true, bool flushLeds = false)
         {
             // Device-specific updates
             DeviceUpdate();
@@ -79,8 +82,13 @@ namespace RGB.NET.Core
             foreach (Led ledToUpdate in ledsToUpdate)
                 ledToUpdate.Update();
 
-            UpdateLeds(ledsToUpdate);
+            if (UpdateMode.HasFlag(DeviceUpdateMode.Sync))
+                UpdateLeds(ledsToUpdate);
         }
+
+        /// <inheritdoc />
+        public virtual void SyncBack()
+        { }
 
         /// <inheritdoc />
         public virtual void Dispose()

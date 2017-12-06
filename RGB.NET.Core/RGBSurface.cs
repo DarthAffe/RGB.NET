@@ -67,7 +67,7 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <summary>
-        /// Perform an update for all dirty <see cref="Led"/>, or all <see cref="Led"/>, if flushLeds is set to true.
+        /// Perform a full update for all devices. Updates only dirty <see cref="Led"/> by default, or all <see cref="Led"/>, if flushLeds is set to true.
         /// </summary>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
         public void Update(bool flushLeds = false)
@@ -75,6 +75,11 @@ namespace RGB.NET.Core
             try
             {
                 OnUpdating();
+
+                foreach (IRGBDevice device in Devices)
+                    if (device.UpdateMode.HasFlag(DeviceUpdateMode.SyncBack) && device.DeviceInfo.SupportsSyncBack)
+                        try { device.SyncBack(); }
+                        catch (Exception ex) { OnException(ex); }
 
                 lock (_ledGroups)
                 {
@@ -85,8 +90,9 @@ namespace RGB.NET.Core
                 }
 
                 foreach (IRGBDevice device in Devices)
-                    try { device.Update(flushLeds); }
-                    catch (Exception ex) { OnException(ex); }
+                    if (!device.UpdateMode.HasFlag(DeviceUpdateMode.NoUpdate))
+                        try { device.Update(flushLeds); }
+                        catch (Exception ex) { OnException(ex); }
 
                 OnUpdated();
             }

@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a generic information for a Corsair-<see cref="T:RGB.NET.Core.IRGBDevice" />.
     /// </summary>
-    public class AsusRGBDeviceInfo : IRGBDeviceInfo
+    public abstract class AsusRGBDeviceInfo : IRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -26,6 +26,9 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
+        /// <inheritdoc />
+        public abstract bool SupportsSyncBack { get; }
+
         /// <summary>
         /// Gets the index of the <see cref="AsusRGBDevice{TDeviceInfo}"/>.
         /// </summary>
@@ -42,7 +45,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         /// <param name="manufacturer">The manufacturer-name of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The model-name of the <see cref="IRGBDevice"/>.</param>
-        internal AsusRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, string manufacturer = "Unknown", string model = "Generic Asus-Device")
+        internal AsusRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, string manufacturer = "Asus", string model = "Generic Asus-Device")
         {
             this.DeviceType = deviceType;
             this.Handle = handle;

@@ -26,6 +26,9 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
+        /// <inheritdoc />
+        public bool SupportsSyncBack => false;
+
         /// <summary>
         /// Gets the <see cref="NovationColorCapabilities"/> of the <see cref="IRGBDevice"/>.
         /// </summary>

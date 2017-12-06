@@ -76,7 +76,8 @@ namespace RGB.NET.Core
             if (!(obj is Size)) return false;
 
             Size compareSize = (Size)obj;
-            return Width.EqualsInTolerance(compareSize.Width) && Height.EqualsInTolerance(compareSize.Height);
+            return ((double.IsNaN(Width) && double.IsNaN(compareSize.Width)) || Width.EqualsInTolerance(compareSize.Width))
+                && ((double.IsNaN(Height) && double.IsNaN(compareSize.Height)) || Height.EqualsInTolerance(compareSize.Height));
         }
 
         /// <summary>

@@ -11,7 +11,10 @@ namespace RGB.NET.Devices.Asus
     public class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo
     {
         #region Properties & Fields
-        
+
+        /// <inheritdoc />
+        public override bool SupportsSyncBack => false;
+
         /// <summary>
         /// Gets the physical layout of the keyboard.
         /// </summary>

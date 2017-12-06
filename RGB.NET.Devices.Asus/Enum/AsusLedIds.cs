@@ -13,11 +13,11 @@ namespace RGB.NET.Devices.Asus
 
         //TODO DarthAffe 07.10.2017: Create useful Ids for all devices
 
-        MainboardAudio1 = 0x01,
-        MainboardAudio2 = 0x02,
-        MainboardAudio3 = 0x03,
-        MainboardAudio4 = 0x04,
-        MainboardRGBStrip1 = 0x05,
+        MainboardLed1 = 0x01,
+        MainboardLed2 = 0x02,
+        MainboardLed3 = 0x03,
+        MainboardLed4 = 0x04,
+        MainboardLed5 = 0x05,
 
         GraphicsCardLed1 = 0x11,
 

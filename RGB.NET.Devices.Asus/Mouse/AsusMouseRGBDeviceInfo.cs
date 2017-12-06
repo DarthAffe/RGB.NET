@@ -9,6 +9,13 @@ namespace RGB.NET.Devices.Asus
     /// </summary>
     public class AsusMouseRGBDeviceInfo : AsusRGBDeviceInfo
     {
+        #region Properties & Fields
+
+        /// <inheritdoc />
+        public override bool SupportsSyncBack => false;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />

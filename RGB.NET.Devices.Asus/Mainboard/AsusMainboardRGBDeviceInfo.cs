@@ -9,6 +9,13 @@ namespace RGB.NET.Devices.Asus
     /// </summary>
     public class AsusMainboardRGBDeviceInfo : AsusRGBDeviceInfo
     {
+        #region Properties & Fields
+
+        /// <inheritdoc />
+        public override bool SupportsSyncBack => true;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />

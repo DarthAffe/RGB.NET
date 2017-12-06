@@ -28,6 +28,11 @@ namespace RGB.NET.Core
         /// </summary>
         Size Size { get; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="DeviceUpdateMode"/> of the <see cref="IRGBDevice"/>.
+        /// </summary>
+        DeviceUpdateMode UpdateMode { get; set; }
+
         #endregion
 
         #region Indexer
@@ -60,9 +65,17 @@ namespace RGB.NET.Core
 
         /// <summary>
         /// Perform an update for all dirty <see cref="Led"/>, or all <see cref="Led"/> if flushLeds is set to true.
+        /// Only physically syncs the colors to the device if <paramref name="sync"/> is set to true.
         /// </summary>
+        /// <param name="sync">Specifies whether the colors should be synced to the device or not.</param>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/> (including clean ones) should be updated.</param>
-        void Update(bool flushLeds = false);
+        void Update(bool sync = true, bool flushLeds = false);
+
+        /// <summary>
+        /// Synchronizes the internal state of the device to the real (physical) state.
+        /// This isn't supported by all devices! Check <see cref="IRGBDeviceInfo.SupportsSyncBack"/> to see if it's supported or not.
+        /// </summary>
+        void SyncBack();
 
         /// <summary>
         /// Adds the given <see cref="IRGBDeviceSpecialPart"/> to the device.

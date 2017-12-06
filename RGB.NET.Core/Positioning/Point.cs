@@ -67,7 +67,8 @@ namespace RGB.NET.Core
             if (!(obj is Point)) return false;
 
             Point comparePoint = (Point)obj;
-            return X.EqualsInTolerance(comparePoint.X) && Y.EqualsInTolerance(comparePoint.Y);
+            return ((double.IsNaN(X) && double.IsNaN(comparePoint.X)) || X.EqualsInTolerance(comparePoint.X))
+                   && ((double.IsNaN(Y) && double.IsNaN(comparePoint.Y)) || Y.EqualsInTolerance(comparePoint.Y));
         }
 
         /// <summary>
