@@ -60,6 +60,8 @@
     <Compile Include="Generic\CorsairRGBDeviceInfo.cs" />
     <Compile Include="Generic\CorsairRGBDevice.cs" />
     <Compile Include="Generic\ICorsairRGBDevice.cs" />
+    <Compile Include="HeadsetStand\CorsairHeadsetStandRGBDevice.cs" />
+    <Compile Include="HeadsetStand\CorsairHeadsetStandRGBDeviceInfo.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDeviceInfo.cs" />
     <Compile Include="Keyboard\CorsairKeyboardRGBDevice.cs" />
@@ -89,9 +91,11 @@
     <None Include="libs\x86\CUESDK.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Images\Corsair\HeadsetStands\" />
     <Folder Include="Images\Corsair\Headsets\" />
     <Folder Include="Images\Corsair\Mice\" />
     <Folder Include="Images\Corsair\Mousepads\" />
+    <Folder Include="Layouts\Corsair\HeadsetStands\" />
     <Folder Include="Layouts\Corsair\Headsets\" />
     <Folder Include="Layouts\Corsair\Mice\" />
     <Folder Include="Layouts\Corsair\Mousepads\" />

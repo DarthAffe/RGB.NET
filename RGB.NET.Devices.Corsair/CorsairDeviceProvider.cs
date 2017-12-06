@@ -147,6 +147,10 @@ namespace RGB.NET.Devices.Corsair
                             case CorsairDeviceType.Mousepad:
                                 device = new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
                                 break;
+                                
+                            case CorsairDeviceType.HeadsetStand:
+                                device = new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo));
+                                break;
 
                             // ReSharper disable once RedundantCaseLabel
                             case CorsairDeviceType.Unknown:

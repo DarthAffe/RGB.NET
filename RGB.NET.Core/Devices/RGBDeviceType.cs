@@ -57,5 +57,10 @@ namespace RGB.NET.Core
         /// Represents a DRAM-bank
         /// </summary>
         DRAM = 1 << 8,
+
+        /// <summary>
+        /// Represents a headset stand
+        /// </summary>
+        HeadsetStand = 1 << 9,
     }
 }
