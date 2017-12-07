@@ -63,6 +63,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Asus", "RGB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Msi", "RGB.NET.Devices.Msi\RGB.NET.Devices.Msi.csproj", "{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metapackages", "Metapackages", "{C191D5BE-E1B2-47E4-AB39-D954B277188C}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\Metapackages\RGB.NET.Devices.nuspec = NuGet\Metapackages\RGB.NET.Devices.nuspec
+		NuGet\Metapackages\RGB.NET.nuspec = NuGet\Metapackages\RGB.NET.nuspec
+		NuGet\Metapackages\RGB.NET.Presets.nuspec = NuGet\Metapackages\RGB.NET.Presets.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,6 +145,7 @@ Global
 		{7012C431-244A-453F-B7FD-59E030CDBC44} = {FFBCAF88-6646-43EC-9F24-2D719D3779C8}
 		{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
+		{C191D5BE-E1B2-47E4-AB39-D954B277188C} = {06416566-481F-4571-80EE-7BB05B1E0299}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDECA6C7-8D18-4AF3-94F7-C70A69B8571B}

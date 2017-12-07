@@ -20,4 +20,7 @@
       <dependency id="RGB.NET.Presets" version="1.0" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="*\**" target="\" exclude="**\*.*" />
+  </files>
 </package>
