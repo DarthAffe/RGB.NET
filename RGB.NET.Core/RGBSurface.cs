@@ -204,6 +204,23 @@ namespace RGB.NET.Core
             _surfaceRectangle.Height = devicesRectangle.Location.Y + devicesRectangle.Size.Height;
         }
 
+        /// <summary>
+        /// Gets all devices of a specific type.
+        /// </summary>
+        /// <typeparam name="T">The type of devices to get.</typeparam>
+        /// <returns>A list of devices with the specified type.</returns>
+        public IList<T> GetDevices<T>()
+            where T : class
+            => new ReadOnlyCollection<T>(_devices.Select(x => x as T).Where(x => x != null).ToList());
+
+        /// <summary>
+        /// Gets all devices of the specified <see cref="RGBDeviceType"/>.
+        /// </summary>
+        /// <param name="deviceType">The <see cref="RGBDeviceType"/> of the devices to get.</param>
+        /// <returns>a list of devices matching the specified <see cref="RGBDeviceType"/>.</returns>
+        public IList<IRGBDevice> GetDevices(RGBDeviceType deviceType)
+            => new ReadOnlyCollection<IRGBDevice>(_devices.Where(x => x.DeviceInfo.DeviceType == deviceType).ToList());
+
         #endregion
     }
 }
