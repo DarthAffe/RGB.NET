@@ -24,7 +24,7 @@
     <file src="..\bin\RGB.NET.Devices.CoolerMaster.pdb" target="lib\net45\RGB.NET.Devices.CoolerMaster.pdb" />
     <file src="..\bin\RGB.NET.Devices.CoolerMaster.xml" target="lib\net45\RGB.NET.Devices.CoolerMaster.xml" />
     <file src="..\RGB.NET.Devices.CoolerMaster\**\*.cs" target="src" exclude="..\RGB.NET.Devices.CoolerMaster\obj\**\*.*" />
-    <file src="..\RGB.NET.Devices.CoolerMaster\Images\**\*.*" target="build\net45\resources\Images\" />
+    <!--<file src="..\RGB.NET.Devices.CoolerMaster\Images\**\*.*" target="build\net45\resources\Images\" />-->
     <file src="..\RGB.NET.Devices.CoolerMaster\Layouts\**\*.*" target="build\net45\resources\Layouts\" />
     <file src="..\RGB.NET.Devices.CoolerMaster\libs\**\*.*" target="build\net45\libs\" />
     <file src="..\RGB.NET.Devices.CoolerMaster\targets\*.targets" target="build\net45\" />

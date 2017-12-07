@@ -24,7 +24,7 @@
     <file src="..\bin\RGB.NET.Devices.Asus.pdb" target="lib\net45\RGB.NET.Devices.Asus.pdb" />
     <file src="..\bin\RGB.NET.Devices.Asus.xml" target="lib\net45\RGB.NET.Devices.Asus.xml" />
     <file src="..\RGB.NET.Devices.Asus\**\*.cs" target="src" exclude="..\RGB.NET.Devices.Asus\obj\**\*.*" />
-    <file src="..\RGB.NET.Devices.Asus\Images\**\*.*" target="build\net45\resources\Images\" />
+    <!--<file src="..\RGB.NET.Devices.Asus\Images\**\*.*" target="build\net45\resources\Images\" />-->
     <file src="..\RGB.NET.Devices.Asus\Layouts\**\*.*" target="build\net45\resources\Layouts\" />
     <file src="..\RGB.NET.Devices.Asus\libs\**\*.*" target="build\net45\libs\" />
     <file src="..\RGB.NET.Devices.Asus\targets\*.targets" target="build\net45\" />
