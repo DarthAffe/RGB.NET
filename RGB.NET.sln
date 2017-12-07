@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Core", "RGB.NET.Core\RGB.NET.Core.csproj", "{5A4F9A75-75FE-47CD-90E5-914D5B20D232}"
 EndProject
@@ -34,9 +34,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566
 		NuGet\RGB.NET.Devices.Logitech.nuspec = NuGet\RGB.NET.Devices.Logitech.nuspec
 		NuGet\RGB.NET.Devices.Msi.nuspec = NuGet\RGB.NET.Devices.Msi.nuspec
 		NuGet\RGB.NET.Devices.Novation.nuspec = NuGet\RGB.NET.Devices.Novation.nuspec
+		NuGet\RGB.NET.Devices.nuspec = NuGet\RGB.NET.Devices.nuspec
 		NuGet\RGB.NET.Groups.nuspec = NuGet\RGB.NET.Groups.nuspec
 		NuGet\RGB.NET.Input.Corsair.nuspec = NuGet\RGB.NET.Input.Corsair.nuspec
 		NuGet\RGB.NET.Input.nuspec = NuGet\RGB.NET.Input.nuspec
+		NuGet\RGB.NET.nuspec = NuGet\RGB.NET.nuspec
+		NuGet\RGB.NET.Presets.nuspec = NuGet\RGB.NET.Presets.nuspec
 		NuGet\RGB.NET.WPF.nuspec = NuGet\RGB.NET.WPF.nuspec
 	EndProjectSection
 EndProject

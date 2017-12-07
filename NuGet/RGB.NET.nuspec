@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>RGB.NET</id>
+    <title>RGB.NET</title>
+    <version>1.0.0.0</version>
+    <authors>Darth Affe</authors>
+    <owners>Darth Affe</owners>
+    <projectUrl>https://github.com/DarthAffe/RGB.NET</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Metapackage of RGB.NET</description>
+    <releaseNotes></releaseNotes>
+    <summary>Metapackage - containing all libraries except UI of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
+    <copyright>Copyright © Wyrez 2017</copyright>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="RGB.NET.Core" version="1.0" />
+      <dependency id="RGB.NET.Devices" version="1.0" />
+      <dependency id="RGB.NET.Presets" version="1.0" />
+    </dependencies>
+  </metadata>
+</package>
