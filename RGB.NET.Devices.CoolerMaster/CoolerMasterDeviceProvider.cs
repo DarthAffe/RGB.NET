@@ -82,7 +82,7 @@ namespace RGB.NET.Devices.CoolerMaster
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -101,8 +101,11 @@ namespace RGB.NET.Devices.CoolerMaster
                         _CoolerMasterSDK.SetControlDevice(index);
                         if (_CoolerMasterSDK.IsDevicePlugged())
                         {
+                            RGBDeviceType deviceType = index.GetDeviceType();
+                            if (!loadFilter.HasFlag(deviceType)) continue;
+
                             ICoolerMasterRGBDevice device;
-                            switch (index.GetDeviceType())
+                            switch (deviceType)
                             {
                                 case RGBDeviceType.Keyboard:
                                     CoolerMasterPhysicalKeyboardLayout physicalLayout = _CoolerMasterSDK.GetDeviceLayout();

@@ -9,9 +9,14 @@ namespace RGB.NET.Core
     public enum RGBDeviceType
     {
         /// <summary>
+        /// Represents nothing.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// Represents a device where the type is not known or not present in the list.
         /// </summary>
-        Unknown = 0,
+        Unknown = -1,
 
         /// <summary>
         /// Represents a keyboard.
@@ -62,5 +67,10 @@ namespace RGB.NET.Core
         /// Represents a headset stand
         /// </summary>
         HeadsetStand = 1 << 9,
+
+        /// <summary>
+        /// Represents all devices
+        /// </summary>
+        All = 0xFFFFFFF
     }
 }

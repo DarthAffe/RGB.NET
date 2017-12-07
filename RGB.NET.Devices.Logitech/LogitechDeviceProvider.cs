@@ -75,7 +75,7 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
             try
             {
@@ -101,9 +101,12 @@ namespace RGB.NET.Devices.Logitech
                     if (DeviceChecker.IsPerKeyDeviceConnected)
                     {
                         (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
-                        ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
-                        device.Initialize();
-                        devices.Add(device);
+                        if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
+                        {
+                            ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
+                            device.Initialize();
+                            devices.Add(device);
+                        }
                     }
                 }
                 catch { if (throwExceptions) throw; }
@@ -113,9 +116,12 @@ namespace RGB.NET.Devices.Logitech
                     if (DeviceChecker.IsPerDeviceDeviceConnected)
                     {
                         (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
-                        ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
-                        device.Initialize();
-                        devices.Add(device);
+                        if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
+                        {
+                            ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
+                            device.Initialize();
+                            devices.Add(device);
+                        }
                     }
                 }
                 catch { if (throwExceptions) throw; }

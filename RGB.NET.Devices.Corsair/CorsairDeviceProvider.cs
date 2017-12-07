@@ -89,7 +89,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         /// <exception cref="RGBDeviceException">Thrown if the SDK is already initialized or if the SDK is not compatible to CUE.</exception>
         /// <exception cref="CUEException">Thrown if the CUE-SDK provides an error.</exception>
-        public bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -129,34 +129,9 @@ namespace RGB.NET.Devices.Corsair
                         if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
                             continue; // Everything that doesn't support lighting control is useless
 
-                        ICorsairRGBDevice device;
-                        switch (info.CorsairDeviceType)
-                        {
-                            case CorsairDeviceType.Keyboard:
-                                device = new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
-                                break;
+                        ICorsairRGBDevice device = GetRGBDevice(info, i, nativeDeviceInfo);
+                        if ((device == null) || !loadFilter.HasFlag(device.DeviceInfo.DeviceType)) continue;
 
-                            case CorsairDeviceType.Mouse:
-                                device = new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
-                                break;
-
-                            case CorsairDeviceType.Headset:
-                                device = new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo));
-                                break;
-
-                            case CorsairDeviceType.Mousepad:
-                                device = new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
-                                break;
-                                
-                            case CorsairDeviceType.HeadsetStand:
-                                device = new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo));
-                                break;
-
-                            // ReSharper disable once RedundantCaseLabel
-                            case CorsairDeviceType.Unknown:
-                            default:
-                                throw new RGBDeviceException("Unknown Device-Type");
-                        }
                         device.Initialize();
                         AddSpecialParts(device);
 
@@ -180,6 +155,32 @@ namespace RGB.NET.Devices.Corsair
             }
 
             return true;
+        }
+
+        private static ICorsairRGBDevice GetRGBDevice(CorsairRGBDeviceInfo info, int i, _CorsairDeviceInfo nativeDeviceInfo)
+        {
+            switch (info.CorsairDeviceType)
+            {
+                case CorsairDeviceType.Keyboard:
+                    return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
+
+                case CorsairDeviceType.Mouse:
+                    return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
+
+                case CorsairDeviceType.Headset:
+                    return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo));
+
+                case CorsairDeviceType.Mousepad:
+                    return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
+
+                case CorsairDeviceType.HeadsetStand:
+                    return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo));
+
+                // ReSharper disable once RedundantCaseLabel
+                case CorsairDeviceType.Unknown:
+                default:
+                    throw new RGBDeviceException("Unknown Device-Type");
+            }
         }
 
         private void AddSpecialParts(ICorsairRGBDevice device)

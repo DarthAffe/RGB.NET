@@ -58,7 +58,7 @@ namespace RGB.NET.Devices.Novation
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -66,25 +66,26 @@ namespace RGB.NET.Devices.Novation
             {
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
 
-                for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
-                {
-                    try
+                if (loadFilter.HasFlag(RGBDeviceType.LedMatrix))
+                    for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
                     {
-                        MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
-                        if (outCaps.name == null) continue;
+                        try
+                        {
+                            MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
+                            if (outCaps.name == null) continue;
 
-                        NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
-                                                                          .Cast<Enum>()
-                                                                          .FirstOrDefault(x => string.Equals(x.GetDeviceId(), outCaps.name, StringComparison.OrdinalIgnoreCase));
+                            NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
+                                                                              .Cast<Enum>()
+                                                                              .FirstOrDefault(x => string.Equals(x.GetDeviceId(), outCaps.name, StringComparison.OrdinalIgnoreCase));
 
-                        if (deviceId == null) continue;
+                            if (deviceId == null) continue;
 
-                        INovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, deviceId.GetColorCapability()));
-                        device.Initialize();
-                        devices.Add(device);
+                            INovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, deviceId.GetColorCapability()));
+                            device.Initialize();
+                            devices.Add(device);
+                        }
+                        catch { if (throwExceptions) throw; }
                     }
-                    catch { if (throwExceptions) throw; }
-                }
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

@@ -81,7 +81,7 @@ namespace RGB.NET.Devices.Msi
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
             IsInitialized = false;
 

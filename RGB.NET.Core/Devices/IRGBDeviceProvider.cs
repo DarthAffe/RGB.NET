@@ -31,10 +31,11 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes the <see cref="IRGBDeviceProvider"/> if not already happened or reloads it if it is already initialized.
         /// </summary>
+        /// <param name="loadFilter">Specifies which types of devices to load.</param>
         /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
         /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
         /// <returns></returns>
-        bool Initialize(bool exclusiveAccessIfPossible = false, bool throwExceptions = false);
+        bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false);
 
         /// <summary>
         /// Resets all handled <see cref="IRGBDevice"/> back top default.
