@@ -3,7 +3,7 @@
   <metadata>
     <id>RGB.NET.Presets</id>
     <title>RGB.NET.Presets</title>
-    <version>1.0.0.0</version>
+    <version>0.0.1</version>
     <authors>Darth Affe</authors>
     <owners>Darth Affe</owners>
     <projectUrl>https://github.com/DarthAffe/RGB.NET</projectUrl>
@@ -15,9 +15,9 @@
     <copyright>Copyright © Wyrez 2017</copyright>
     <language>en-US</language>
     <dependencies>
-      <dependency id="RGB.NET.Brushes" version="1.0" />
-      <dependency id="RGB.NET.Decorators" version="1.0" />
-      <dependency id="RGB.NET.Groups" version="1.0" />
+      <dependency id="RGB.NET.Brushes" version="0.0.1" />
+      <dependency id="RGB.NET.Decorators" version="0.0.1" />
+      <dependency id="RGB.NET.Groups" version="0.0.1" />
     </dependencies>
   </metadata>
 </package>
