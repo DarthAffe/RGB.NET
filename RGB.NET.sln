@@ -34,12 +34,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566
 		NuGet\RGB.NET.Devices.Logitech.nuspec = NuGet\RGB.NET.Devices.Logitech.nuspec
 		NuGet\RGB.NET.Devices.Msi.nuspec = NuGet\RGB.NET.Devices.Msi.nuspec
 		NuGet\RGB.NET.Devices.Novation.nuspec = NuGet\RGB.NET.Devices.Novation.nuspec
-		NuGet\RGB.NET.Devices.nuspec = NuGet\RGB.NET.Devices.nuspec
+		NuGet\RGB.NET.Devices.Razer.nuspec = NuGet\RGB.NET.Devices.Razer.nuspec
 		NuGet\RGB.NET.Groups.nuspec = NuGet\RGB.NET.Groups.nuspec
 		NuGet\RGB.NET.Input.Corsair.nuspec = NuGet\RGB.NET.Input.Corsair.nuspec
 		NuGet\RGB.NET.Input.nuspec = NuGet\RGB.NET.Input.nuspec
-		NuGet\RGB.NET.nuspec = NuGet\RGB.NET.nuspec
-		NuGet\RGB.NET.Presets.nuspec = NuGet\RGB.NET.Presets.nuspec
 		NuGet\RGB.NET.WPF.nuspec = NuGet\RGB.NET.WPF.nuspec
 	EndProjectSection
 EndProject
@@ -69,6 +67,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metapackages", "Metapackage
 		NuGet\Metapackages\RGB.NET.nuspec = NuGet\Metapackages\RGB.NET.nuspec
 		NuGet\Metapackages\RGB.NET.Presets.nuspec = NuGet\Metapackages\RGB.NET.Presets.nuspec
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Razer", "RGB.NET.Devices.Razer\RGB.NET.Devices.Razer.csproj", "{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +128,10 @@ Global
 		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +150,7 @@ Global
 		{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{C191D5BE-E1B2-47E4-AB39-D954B277188C} = {06416566-481F-4571-80EE-7BB05B1E0299}
+		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDECA6C7-8D18-4AF3-94F7-C70A69B8571B}
