@@ -24,6 +24,11 @@ namespace RGB.NET.Core
             set => SetProperty(ref _updateFrequency, value);
         }
 
+        /// <summary>
+        /// Gets the time it took the last update-loop cycle to run.
+        /// </summary>
+        public double LastUpdateTime { get; private set; }
+
         private UpdateMode _updateMode = UpdateMode.Manual;
         /// <summary>
         /// Gets or sets the update-mode.
@@ -85,7 +90,8 @@ namespace RGB.NET.Core
 
                 Update();
 
-                int sleep = (int)((UpdateFrequency * 1000.0) - ((DateTime.Now.Ticks - preUpdateTicks) / 10000.0));
+                LastUpdateTime = ((DateTime.Now.Ticks - preUpdateTicks) / 10000.0);
+                int sleep = (int)((UpdateFrequency * 1000.0) - LastUpdateTime);
                 if (sleep > 0)
                     Thread.Sleep(sleep);
             }
