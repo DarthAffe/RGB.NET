@@ -72,7 +72,7 @@ namespace RGB.NET.Devices.Msi
         /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
         public MsiDeviceProvider()
         {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instanc of type {nameof(MsiDeviceProvider)}");
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(MsiDeviceProvider)}");
             _instance = this;
         }
 

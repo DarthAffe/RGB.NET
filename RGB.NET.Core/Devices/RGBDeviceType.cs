@@ -54,23 +54,28 @@ namespace RGB.NET.Core
         Mainboard = 1 << 6,
 
         /// <summary>
-        /// Represents a Graphics card
+        /// Represents a Graphics card.
         /// </summary>
         GraphicsCard = 1 << 7,
 
         /// <summary>
-        /// Represents a DRAM-bank
+        /// Represents a DRAM-bank.
         /// </summary>
         DRAM = 1 << 8,
 
         /// <summary>
-        /// Represents a headset stand
+        /// Represents a headset stand.
         /// </summary>
         HeadsetStand = 1 << 9,
 
         /// <summary>
-        /// Represents all devices
+        /// Represents a keypad.
         /// </summary>
-        All = 0xFFFFFFF
+        Keypad = 1 << 10,
+
+        /// <summary>
+        /// Represents all devices.
+        /// </summary>
+        All = ~None
     }
 }

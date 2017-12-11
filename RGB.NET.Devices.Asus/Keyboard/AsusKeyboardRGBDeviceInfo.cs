@@ -35,7 +35,7 @@ namespace RGB.NET.Devices.Asus
         /// </summary>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
-        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using</param>
+        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using.</param>
         internal AsusKeyboardRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, CultureInfo culture)
             : base(deviceType, handle, "Asus", "Claymore")
         {

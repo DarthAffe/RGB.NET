@@ -49,7 +49,7 @@ namespace RGB.NET.Devices.Novation
         /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
         private NovationDeviceProvider()
         {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instanc of type {nameof(NovationDeviceProvider)}");
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(NovationDeviceProvider)}");
             _instance = this;
         }
 
