@@ -30,12 +30,15 @@ namespace RGB.NET.Devices.Asus
             //TODO DarthAffe 07.10.2017: Look for a good default layout
             int ledCount = _AsusSDK.GetGPULedCount(DeviceInfo.Handle);
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(new AsusLedId(this, AsusLedIds.GraphicsCardLed1 + i, i), new Rectangle(i * 10, 0, 10, 10));
+                InitializeLed(LedId.GraphicsCard1 + i, new Rectangle(i * 10, 0, 10, 10));
 
-            //TODO DarthAffe 07.10.2017: We don'T know the model, how to save layouts and images?
+            //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\GraphicsCards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Asus\GraphicsCards"));
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.GraphicsCard1;
 
         /// <inheritdoc />
         protected override void ApplyColorData() => _AsusSDK.SetGPUColor(DeviceInfo.Handle, ColorData);

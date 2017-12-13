@@ -48,12 +48,10 @@
   <ItemGroup>
     <Compile Include="Attributes\DeviceTypeAttribute.cs" />
     <Compile Include="CoolerMasterDeviceProvider.cs" />
-    <Compile Include="Enum\CoolerMasterLedIds.cs" />
     <Compile Include="Enum\CoolerMasterPhysicalKeyboardLayout.cs" />
     <Compile Include="Enum\CoolerMasterDevicesIndexes.cs" />
     <Compile Include="Enum\CoolerMasterEffects.cs" />
     <Compile Include="Enum\CoolerMasterLogicalKeyboardLayout.cs" />
-    <Compile Include="Generic\CoolerMasterLedId.cs" />
     <Compile Include="Generic\CoolerMasterRGBDevice.cs" />
     <Compile Include="Generic\CoolerMasterRGBDeviceInfo.cs" />
     <Compile Include="Generic\ICoolerMasterRGBDevice.cs" />

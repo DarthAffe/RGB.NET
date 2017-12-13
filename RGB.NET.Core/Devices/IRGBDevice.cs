@@ -38,11 +38,11 @@ namespace RGB.NET.Core
         #region Indexer
 
         /// <summary>
-        /// Gets the <see cref="Led"/> with the specified <see cref="ILedId"/>.
+        /// Gets the <see cref="Led"/> with the specified <see cref="LedId"/>.
         /// </summary>
-        /// <param name="ledId">The <see cref="ILedId"/> of the <see cref="Led"/> to get.</param>
-        /// <returns>The <see cref="Led"/> with the specified <see cref="ILedId"/> or null if no <see cref="Led"/> is found.</returns>
-        Led this[ILedId ledId] { get; }
+        /// <param name="ledId">The <see cref="LedId"/> of the <see cref="Led"/> to get.</param>
+        /// <returns>The <see cref="Led"/> with the specified <see cref="LedId"/> or null if no <see cref="Led"/> is found.</returns>
+        Led this[LedId ledId] { get; }
 
         /// <summary>
         /// Gets the <see cref="Led" /> at the given physical location.

@@ -28,6 +28,9 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => PerKeyIdMapping.DEFAULT[ledId];
+
+        /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
         {
             List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
@@ -39,7 +42,7 @@ namespace RGB.NET.Devices.Logitech
             foreach (Led led in leds)
             {
                 // DarthAffe 26.03.2017: This is only needed since update by name doesn't work as expected for all keys ...
-                if (BitmapMapping.BitmapOffset.TryGetValue(((LogitechLedId)led.Id).LedId, out int bitmapOffset))
+                if (BitmapMapping.BitmapOffset.TryGetValue(led.Id, out int bitmapOffset))
                 {
                     if (bitmap == null)
                         bitmap = BitmapMapping.CreateBitmap();
@@ -47,7 +50,7 @@ namespace RGB.NET.Devices.Logitech
                     BitmapMapping.SetColor(ref bitmap, bitmapOffset, led.Color);
                 }
                 else
-                    _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)((LogitechLedId)led.Id).LedId,
+                    _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)led.CustomData,
                                                                       (int)Math.Round(led.Color.RPercent * 100),
                                                                       (int)Math.Round(led.Color.GPercent * 100),
                                                                       (int)Math.Round(led.Color.BPercent * 100));

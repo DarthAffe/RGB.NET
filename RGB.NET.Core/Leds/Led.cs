@@ -20,9 +20,9 @@ namespace RGB.NET.Core
         public IRGBDevice Device { get; }
 
         /// <summary>
-        /// Gets the <see cref="ILedId"/> of the <see cref="Led" />.
+        /// Gets the <see cref="LedId"/> of the <see cref="Led" />.
         /// </summary>
-        public ILedId Id { get; }
+        public LedId Id { get; }
 
         private Shape _shape = Shape.Rectangle;
         /// <summary>
@@ -99,6 +99,11 @@ namespace RGB.NET.Core
         /// </summary>
         public Uri Image { get; set; }
 
+        /// <summary>
+        /// Gets the provider-specific data associated with this led.
+        /// </summary>
+        public object CustomData { get; }
+
         #endregion
 
         #region Constructors
@@ -107,13 +112,15 @@ namespace RGB.NET.Core
         /// Initializes a new instance of the <see cref="Led"/> class.
         /// </summary>
         /// <param name="device">The <see cref="IRGBDevice"/> the <see cref="Led"/> is associated with.</param>
-        /// <param name="id">The <see cref="ILedId"/> of the <see cref="Led"/>.</param>
+        /// <param name="id">The <see cref="LedId"/> of the <see cref="Led"/>.</param>
         /// <param name="ledRectangle">The <see cref="Rectangle"/> representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.</param>
-        internal Led(IRGBDevice device, ILedId id, Rectangle ledRectangle)
+        /// <param name="customData">The provider-specific data associated with this led.</param>
+        internal Led(IRGBDevice device, LedId id, Rectangle ledRectangle, object customData = null)
         {
             this.Device = device;
             this.Id = id;
             this.LedRectangle = ledRectangle;
+            this.CustomData = customData;
         }
 
         #endregion
@@ -124,10 +131,7 @@ namespace RGB.NET.Core
         /// Converts the <see cref="Id"/> and the <see cref="Color"/> of this <see cref="Led"/> to a human-readable string.
         /// </summary>
         /// <returns>A string that contains the <see cref="Id"/> and the <see cref="Color"/> of this <see cref="Led"/>. For example "Enter [A: 255, R: 255, G: 0, B: 0]".</returns>
-        public override string ToString()
-        {
-            return $"{Id} {Color}";
-        }
+        public override string ToString() => $"{Id} {Color}";
 
         /// <summary>
         /// Updates the <see cref="LedRectangle"/> to the requested <see cref="Core.Color"/>.

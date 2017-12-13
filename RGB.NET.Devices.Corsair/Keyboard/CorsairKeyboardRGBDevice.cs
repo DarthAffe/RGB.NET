@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
@@ -38,11 +39,11 @@ namespace RGB.NET.Devices.Corsair
             int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
             IntPtr ptr = nativeLedPositions.pLedPosition;
 
+            Dictionary<CorsairLedId, LedId> mapping = KeyboardIdMapping.DEFAULT.SwapKeyValue();
             for (int i = 0; i < nativeLedPositions.numberOfLed; i++)
             {
                 _CorsairLedPosition ledPosition = (_CorsairLedPosition)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
-                InitializeLed(new CorsairLedId(this, ledPosition.ledId),
-                              new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
+                InitializeLed(mapping.TryGetValue(ledPosition.LedId, out LedId ledId) ? ledId : LedId.Invalid, new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
 
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
             }
@@ -52,6 +53,9 @@ namespace RGB.NET.Devices.Corsair
                 $@"Layouts\Corsair\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
                 DeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Corsair\Keyboards"));
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => KeyboardIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
 
         #endregion
     }

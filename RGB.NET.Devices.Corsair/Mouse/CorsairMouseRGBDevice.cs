@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using RGB.NET.Core;
 using RGB.NET.Core.Exceptions;
 
@@ -33,29 +34,38 @@ namespace RGB.NET.Devices.Corsair
             switch (DeviceInfo.PhysicalLayout)
             {
                 case CorsairPhysicalMouseLayout.Zones1:
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B1), new Rectangle(0, 0, 10, 10));
+                    InitializeLed(LedId.Mouse1, new Rectangle(0, 0, 10, 10));
                     break;
                 case CorsairPhysicalMouseLayout.Zones2:
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B1), new Rectangle(0, 0, 10, 10));
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B2), new Rectangle(10, 0, 10, 10));
+                    InitializeLed(LedId.Mouse1, new Rectangle(0, 0, 10, 10));
+                    InitializeLed(LedId.Mouse2, new Rectangle(10, 0, 10, 10));
                     break;
                 case CorsairPhysicalMouseLayout.Zones3:
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B1), new Rectangle(0, 0, 10, 10));
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B2), new Rectangle(10, 0, 10, 10));
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B3), new Rectangle(20, 0, 10, 10));
+                    InitializeLed(LedId.Mouse1, new Rectangle(0, 0, 10, 10));
+                    InitializeLed(LedId.Mouse2, new Rectangle(10, 0, 10, 10));
+                    InitializeLed(LedId.Mouse3, new Rectangle(20, 0, 10, 10));
                     break;
                 case CorsairPhysicalMouseLayout.Zones4:
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B1), new Rectangle(0, 0, 10, 10));
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B2), new Rectangle(10, 0, 10, 10));
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B3), new Rectangle(20, 0, 10, 10));
-                    InitializeLed(new CorsairLedId(this, CorsairLedIds.B4), new Rectangle(30, 0, 10, 10));
+                    InitializeLed(LedId.Mouse1, new Rectangle(0, 0, 10, 10));
+                    InitializeLed(LedId.Mouse2, new Rectangle(10, 0, 10, 10));
+                    InitializeLed(LedId.Mouse3, new Rectangle(20, 0, 10, 10));
+                    InitializeLed(LedId.Mouse4, new Rectangle(30, 0, 10, 10));
                     break;
                 default:
-                    throw new RGBDeviceException($"Can't initial mouse with layout '{DeviceInfo.PhysicalLayout}'");
+                    throw new RGBDeviceException($"Can't initialize mouse with layout '{DeviceInfo.PhysicalLayout}'");
             }
 
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mice\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Corsair\Mice"));
+        }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId)
+        {
+            if (string.Equals(DeviceInfo.Model, "GLAIVE RGB", StringComparison.OrdinalIgnoreCase))
+                return MouseIdMapping.GLAIVE.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
+            else
+                return MouseIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
         }
 
         #endregion

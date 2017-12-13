@@ -17,7 +17,7 @@ namespace RGB.NET.Devices.Corsair.Native
         /// <summary>
         /// CUE-SDK: identifier of led
         /// </summary>
-        internal CorsairLedIds ledId;
+        internal CorsairLedId LedId;
 
         /// <summary>
         /// CUE-SDK: values in mm

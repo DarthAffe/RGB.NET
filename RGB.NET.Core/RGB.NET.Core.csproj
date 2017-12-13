@@ -79,7 +79,6 @@
     <Compile Include="Exceptions\RGBDeviceException.cs" />
     <Compile Include="Groups\AbstractLedGroup.cs" />
     <Compile Include="Groups\ILedGroup.cs" />
-    <Compile Include="Leds\ILedId.cs" />
     <Compile Include="MVVM\AbstractBindable.cs" />
     <Compile Include="Leds\Color.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />

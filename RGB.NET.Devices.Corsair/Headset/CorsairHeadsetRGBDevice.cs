@@ -29,12 +29,15 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            InitializeLed(new CorsairLedId(this, CorsairLedIds.LeftLogo), new Rectangle(0, 0, 10, 10));
-            InitializeLed(new CorsairLedId(this, CorsairLedIds.RightLogo), new Rectangle(10, 0, 10, 10));
+            InitializeLed(LedId.Headset1, new Rectangle(0, 0, 10, 10));
+            InitializeLed(LedId.Headset2, new Rectangle(10, 0, 10, 10));
 
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Headsets\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
                 null, PathHelper.GetAbsolutePath(@"Images\Corsair\Headsets"));
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => HeadsetIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
 
         #endregion
     }

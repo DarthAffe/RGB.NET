@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Contains list of all LEDs available for all corsair devices.
     /// </summary>
-    public enum CorsairLedIds
+    public enum CorsairLedId
     {
         Invalid = 0,
         Escape = 1,

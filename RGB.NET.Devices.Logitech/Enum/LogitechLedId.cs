@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Logitech
     /// <summary>
     /// Contains list of all LEDs available for all logitech devices.
     /// </summary>
-    public enum LogitechLedIds
+    public enum LogitechLedId
     {
         Invalid = 0,
         ESC = 0x01,

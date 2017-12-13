@@ -50,10 +50,10 @@ namespace RGB.NET.Devices.Corsair.SpecialParts
         /// <param name="device">The device associated with this <see cref="IRGBDeviceSpecialPart"/>.</param>
         public LightbarSpecialPart(IRGBDevice device)
         {
-            _leds = device.Where(led => (((CorsairLedId)led.Id).LedId >= CorsairLedIds.Lightbar1) && (((CorsairLedId)led.Id).LedId <= CorsairLedIds.Lightbar19)).ToList();
-            _left = _leds.Where(led => ((CorsairLedId)led.Id).LedId < CorsairLedIds.Lightbar10).ToList();
-            _right = _leds.Where(led => ((CorsairLedId)led.Id).LedId > CorsairLedIds.Lightbar10).ToList();
-            Center = _leds.FirstOrDefault(led => ((CorsairLedId)led.Id).LedId == CorsairLedIds.Lightbar10);
+            _leds = device.Where(led => ((CorsairLedId)led.CustomData >= CorsairLedId.Lightbar1) && ((CorsairLedId)led.CustomData <= CorsairLedId.Lightbar19)).ToList();
+            _left = _leds.Where(led => (CorsairLedId)led.CustomData < CorsairLedId.Lightbar10).ToList();
+            _right = _leds.Where(led => (CorsairLedId)led.CustomData > CorsairLedId.Lightbar10).ToList();
+            Center = _leds.FirstOrDefault(led => (CorsairLedId)led.CustomData == CorsairLedId.Lightbar10);
         }
 
         #endregion

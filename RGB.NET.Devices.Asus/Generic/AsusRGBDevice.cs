@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
-using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Devices.Asus
 {
@@ -67,44 +65,6 @@ namespace RGB.NET.Devices.Asus
         /// </summary>
         protected abstract void InitializeLayout();
 
-        /// <summary>
-        /// Applies the given layout.
-        /// </summary>
-        /// <param name="layoutPath">The file containing the layout.</param>
-        /// <param name="imageLayout">The name of the layout used to get the images of the leds.</param>
-        /// <param name="imageBasePath">The path images for this device are collected in.</param>
-        protected void ApplyLayoutFromFile(string layoutPath, string imageLayout, string imageBasePath)
-        {
-            DeviceLayout layout = DeviceLayout.Load(layoutPath);
-            if (layout != null)
-            {
-                LedImageLayout ledImageLayout = layout.LedImageLayouts.FirstOrDefault(x => string.Equals(x.Layout, imageLayout, StringComparison.OrdinalIgnoreCase));
-
-                Size = new Size(layout.Width, layout.Height);
-
-                if (layout.Leds != null)
-                    foreach (LedLayout layoutLed in layout.Leds)
-                    {
-                        if (Enum.TryParse(layoutLed.Id, true, out AsusLedIds ledId))
-                        {
-                            if (LedMapping.TryGetValue(new AsusLedId(this, ledId), out Led led))
-                            {
-                                led.LedRectangle.Location = new Point(layoutLed.X, layoutLed.Y);
-                                led.LedRectangle.Size = new Size(layoutLed.Width, layoutLed.Height);
-
-                                led.Shape = layoutLed.Shape;
-                                led.ShapeData = layoutLed.ShapeData;
-
-                                LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
-                                led.Image = (!string.IsNullOrEmpty(image?.Image))
-                                    ? new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute)
-                                    : new Uri(Path.Combine(imageBasePath, "Missing.png"), UriKind.Absolute);
-                            }
-                        }
-                    }
-            }
-        }
-
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
         {
@@ -114,7 +74,7 @@ namespace RGB.NET.Devices.Asus
             {
                 foreach (Led led in leds)
                 {
-                    int index = (((AsusLedId)led.Id).Index) * 3;
+                    int index = ((int)led.CustomData) * 3;
                     ColorData[index] = led.Color.R;
                     ColorData[index + 1] = led.Color.G;
                     ColorData[index + 2] = led.Color.B;

@@ -39,8 +39,11 @@ namespace RGB.NET.Devices.Razer
 
             if (LedMapping.Count == 0)
                 for (int i = 0; i < _Defines.MOUSEPAD_MAX_LEDS; i++)
-                    InitializeLed(new RazerLedId(this, i), new Rectangle(i * 11, 0, 10, 10));
+                    InitializeLed(LedId.Mousepad1 + i, new Rectangle(i * 11, 0, 10, 10));
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mousepad1;
 
         /// <inheritdoc />
         protected override IntPtr CreateEffectParams(IEnumerable<Led> leds)
@@ -48,7 +51,7 @@ namespace RGB.NET.Devices.Razer
             _Color[] colors = new _Color[_Defines.MOUSEPAD_MAX_LEDS];
 
             foreach (Led led in leds)
-                colors[((RazerLedId)led.Id).Index] = new _Color(led.Color.R, led.Color.G, led.Color.B);
+                colors[(int)led.CustomData] = new _Color(led.Color.R, led.Color.G, led.Color.B);
 
             _MousepadCustomEffect effectParams = new _MousepadCustomEffect { Color = colors };
 

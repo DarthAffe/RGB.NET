@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using RGB.NET.Core;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
@@ -14,24 +14,24 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Contains all the hardware-id mappings for CoolerMaster devices.
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        public static readonly Dictionary<CoolerMasterDevicesIndexes, Dictionary<CoolerMasterLedIds, Tuple<int, int>>> Mapping =
-            new Dictionary<CoolerMasterDevicesIndexes, Dictionary<CoolerMasterLedIds, Tuple<int, int>>>
+        public static readonly Dictionary<CoolerMasterDevicesIndexes, Dictionary<LedId, (int row, int column)>> Mapping =
+            new Dictionary<CoolerMasterDevicesIndexes, Dictionary<LedId, (int row, int column)>>
             {
-                { CoolerMasterDevicesIndexes.MasterMouse_L, new Dictionary<CoolerMasterLedIds, Tuple<int, int>>
+                { CoolerMasterDevicesIndexes.MasterMouse_L, new Dictionary<LedId, (int row, int column)>
                   {
-                    { CoolerMasterLedIds.Side1, new Tuple<int, int>(0,0) },
-                    { CoolerMasterLedIds.Side2, new Tuple<int, int>(1,0) },
-                    { CoolerMasterLedIds.Side3, new Tuple<int, int>(2,0) },
-                    { CoolerMasterLedIds.Back1, new Tuple<int, int>(3,0) },
+                    { LedId.Mouse1, (0,0) },
+                    { LedId.Mouse2, (1,0) },
+                    { LedId.Mouse3, (2,0) },
+                    { LedId.Mouse4, (3,0) },
                   }
                 },
 
-                { CoolerMasterDevicesIndexes.MasterMouse_S, new Dictionary<CoolerMasterLedIds, Tuple<int, int>>
+                { CoolerMasterDevicesIndexes.MasterMouse_S, new Dictionary<LedId, (int row, int column)>
                   {
-                    { CoolerMasterLedIds.Back1, new Tuple<int, int>(0,0) },
-                    { CoolerMasterLedIds.Wheel, new Tuple<int, int>(1,0) },
-                    { CoolerMasterLedIds.Side3, new Tuple<int, int>(2,0) },
-                    { CoolerMasterLedIds.Back1, new Tuple<int, int>(3,0) },
+                    { LedId.Mouse1, (0,0) },
+                    { LedId.Mouse2, (1,0) },
+                    { LedId.Mouse3, (2,0) },
+                    { LedId.Mouse4, (3,0) },
                   }
                 },
             };

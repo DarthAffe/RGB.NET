@@ -13,7 +13,7 @@ namespace RGB.NET.Groups
     public class ListLedGroup : AbstractLedGroup
     {
         #region Properties & Fields
-        
+
         /// <summary>
         /// Gets the list containing the <see cref="Led"/> of this <see cref="ListLedGroup"/>.
         /// </summary>
@@ -74,48 +74,6 @@ namespace RGB.NET.Groups
             AddLeds(leds);
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
-        /// </summary>
-        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(params ILedId[] leds)
-            : this(true, leds)
-        { }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
-        /// </summary>
-        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(IEnumerable<ILedId> leds)
-            : this(true, leds)
-        { }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
-        /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
-        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(bool autoAttach, params ILedId[] leds)
-            : base(autoAttach)
-        {
-            AddLeds(leds);
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
-        /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
-        /// <param name="leds">The IDs of the initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(bool autoAttach, IEnumerable<ILedId> leds)
-            : base(autoAttach)
-        {
-            AddLeds(leds);
-        }
-
         #endregion
 
         #region Methods
@@ -124,19 +82,7 @@ namespace RGB.NET.Groups
         /// Adds the given LED(s) to this <see cref="ListLedGroup"/>.
         /// </summary>
         /// <param name="leds">The LED(s) to add.</param>
-        public void AddLed(params Led[] leds)
-        {
-            AddLeds(leds);
-        }
-
-        /// <summary>
-        /// Adds the given LED(s) to this <see cref="ListLedGroup"/>.
-        /// </summary>
-        /// <param name="ledIds">The ID(s) of the LED(s) to add.</param>
-        public void AddLed(params ILedId[] ledIds)
-        {
-            AddLeds(ledIds);
-        }
+        public void AddLed(params Led[] leds) => AddLeds(leds);
 
         /// <summary>
         /// Adds the given <see cref="Led"/> to this <see cref="ListLedGroup"/>.
@@ -152,34 +98,10 @@ namespace RGB.NET.Groups
         }
 
         /// <summary>
-        /// Adds the given <see cref="Led"/> to this <see cref="ListLedGroup"/>.
-        /// </summary>
-        /// <param name="ledIds">The IDs of the <see cref="Led"/> to add.</param>
-        public void AddLeds(IEnumerable<ILedId> ledIds)
-        {
-            if (ledIds == null) return;
-
-            foreach (ILedId ledId in ledIds)
-                AddLed(ledId.Device[ledId]);
-        }
-
-        /// <summary>
         /// Removes the given LED(s) from this <see cref="ListLedGroup"/>.
         /// </summary>
         /// <param name="leds">The LED(s) to remove.</param>
-        public void RemoveLed(params Led[] leds)
-        {
-            RemoveLeds(leds);
-        }
-
-        /// <summary>
-        /// Removes the given LED(s) from this <see cref="ListLedGroup"/>.
-        /// </summary>
-        /// <param name="ledIds">The ID(s) of the LED(s) to remove.</param>
-        public void RemoveLed(params ILedId[] ledIds)
-        {
-            RemoveLeds(ledIds);
-        }
+        public void RemoveLed(params Led[] leds) => RemoveLeds(leds);
 
         /// <summary>
         /// Removes the given <see cref="Led"/> from this <see cref="ListLedGroup"/>.
@@ -195,36 +117,11 @@ namespace RGB.NET.Groups
         }
 
         /// <summary>
-        /// Removes the given <see cref="Led"/> from this <see cref="ListLedGroup"/>.
-        /// </summary>
-        /// <param name="ledIds">The IDs of the <see cref="Led"/> to remove.</param>
-        public void RemoveLeds(IEnumerable<ILedId> ledIds)
-        {
-            if (ledIds == null) return;
-
-            foreach (ILedId ledId in ledIds)
-                RemoveLed(ledId.Device[ledId]);
-        }
-
-        /// <summary>
         /// Checks if a given LED is contained by this ledgroup.
         /// </summary>
         /// <param name="led">The LED which should be checked.</param>
         /// <returns><c>true</c> if the LED is contained by this ledgroup; otherwise, <c>false</c>.</returns>
-        public bool ContainsLed(Led led)
-        {
-            return (led != null) && GroupLeds.Contains(led);
-        }
-
-        /// <summary>
-        /// Checks if a given LED is contained by this ledgroup.
-        /// </summary>
-        /// <param name="ledId">The ID of the LED which should be checked.</param>
-        /// <returns><c>true</c> if the LED is contained by this ledgroup; otherwise, <c>false</c>.</returns>
-        public bool ContainsLed(ILedId ledId)
-        {
-            return ContainsLed(ledId.Device[ledId]);
-        }
+        public bool ContainsLed(Led led) => (led != null) && GroupLeds.Contains(led);
 
         /// <summary>
         /// Merges the <see cref="Led"/> from the given ledgroup in this ledgroup. 
@@ -242,10 +139,7 @@ namespace RGB.NET.Groups
         /// Gets a list containing the <see cref="T:RGB.NET.Core.Led" /> from this group.
         /// </summary>
         /// <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
-        public override IEnumerable<Led> GetLeds()
-        {
-            return GroupLeds;
-        }
+        public override IEnumerable<Led> GetLeds() => GroupLeds;
 
         #endregion
     }

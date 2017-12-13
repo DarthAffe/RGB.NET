@@ -52,16 +52,16 @@
     <Compile Include="Enum\LogitechLogicalKeyboardLayout.cs" />
     <Compile Include="Enum\LogitechPhysicalKeyboardLayout.cs" />
     <Compile Include="Enum\LogitechDeviceCaps.cs" />
-    <Compile Include="Enum\LogitechLedIds.cs" />
+    <Compile Include="Enum\LogitechLedId.cs" />
     <Compile Include="Generic\ILogitechRGBDevice.cs" />
-    <Compile Include="Generic\LogitechLedId.cs" />
     <Compile Include="Generic\LogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
-    <Compile Include="Helper\BitmapMapping.cs" />
+    <Compile Include="PerKey\BitmapMapping.cs" />
     <Compile Include="HID\DeviceChecker.cs" />
     <Compile Include="LogitechDeviceProvider.cs" />
     <Compile Include="Native\_LogitechGSDK.cs" />
     <Compile Include="PerDevice\LogitechPerDeviceRGBDevice.cs" />
+    <Compile Include="PerKey\PerKeyIdMapping.cs" />
     <Compile Include="PerKey\LogitechPerKeyRGBDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

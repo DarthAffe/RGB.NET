@@ -41,9 +41,12 @@ namespace RGB.NET.Devices.Razer
             {
                 for (int i = 0; i < _Defines.KEYPAD_MAX_ROW; i++)
                     for (int j = 0; j < _Defines.KEYPAD_MAX_COLUMN; j++)
-                        InitializeLed(new RazerLedId(this, (i * _Defines.KEYPAD_MAX_COLUMN) + j), new Rectangle(j * 20, i * 20, 19, 19));
+                        InitializeLed(LedId.Keypad1 + ((i * _Defines.KEYPAD_MAX_COLUMN) + j), new Rectangle(j * 20, i * 20, 19, 19));
             }
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keypad1;
 
         /// <inheritdoc />
         protected override IntPtr CreateEffectParams(IEnumerable<Led> leds)
@@ -51,7 +54,7 @@ namespace RGB.NET.Devices.Razer
             _Color[] colors = new _Color[_Defines.KEYPAD_MAX_LEDS];
 
             foreach (Led led in leds)
-                colors[((RazerLedId)led.Id).Index] = new _Color(led.Color.R, led.Color.G, led.Color.B);
+                colors[(int)led.CustomData] = new _Color(led.Color.R, led.Color.G, led.Color.B);
 
             _KeypadCustomEffect effectParams = new _KeypadCustomEffect { Color = colors };
 

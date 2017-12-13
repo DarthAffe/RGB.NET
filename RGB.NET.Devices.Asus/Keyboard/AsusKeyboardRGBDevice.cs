@@ -27,15 +27,18 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            //TODO DarthAffe 07.10.2017: Look for a good default layout
+            //TODO DarthAffe 07.10.2017: This doesn't make sense at all ... Find someone with such a keyboard!
             int ledCount = _AsusSDK.GetClaymoreKeyboardLedCount(DeviceInfo.Handle);
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(new AsusLedId(this, AsusLedIds.KeyboardLed1 + i, i), new Rectangle(i * 19, 0, 19, 19));
+                InitializeLed(LedId.Keyboard_Escape + i, new Rectangle(i * 19, 0, 19, 19));
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
                 DeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Asus\Keyboards"));
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keyboard_Escape;
 
         /// <inheritdoc />
         protected override void ApplyColorData() => _AsusSDK.SetClaymoreKeyboardColor(DeviceInfo.Handle, ColorData);

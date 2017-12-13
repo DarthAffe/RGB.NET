@@ -49,7 +49,6 @@
     <Compile Include="Enum\RazerPhysicalKeyboardLayout.cs" />
     <Compile Include="Enum\DeviceType.cs" />
     <Compile Include="Exceptions\RazerException.cs" />
-    <Compile Include="Generic\RazerLedId.cs" />
     <Compile Include="Generic\RazerRGBDevice.cs" />
     <Compile Include="Generic\RazerRGBDeviceInfo.cs" />
     <Compile Include="Generic\Devices.cs" />

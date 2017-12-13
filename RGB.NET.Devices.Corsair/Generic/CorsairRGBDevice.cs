@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
-using RGB.NET.Core.Layout;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -24,6 +22,24 @@ namespace RGB.NET.Devices.Corsair
         /// Gets information about the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice" />.
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
+
+        /// <summary>
+        /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        protected Dictionary<CorsairLedId, Led> InternalLedMapping { get; } = new Dictionary<CorsairLedId, Led>();
+
+        #endregion
+
+        #region Indexer
+
+        /// <summary>
+        /// Gets the <see cref="Led"/> with the specified <see cref="CorsairLedId"/>.
+        /// </summary>
+        /// <param name="ledId">The <see cref="CorsairLedId"/> of the <see cref="Led"/> to get.</param>
+        /// <returns>The <see cref="Led"/> with the specified <see cref="CorsairLedId"/> or null if no <see cref="Led"/> is found.</returns>
+        // ReSharper disable once MemberCanBePrivate.Global
+        public Led this[CorsairLedId ledId] => InternalLedMapping.TryGetValue(ledId, out Led led) ? led : null;
 
         #endregion
 
@@ -49,6 +65,13 @@ namespace RGB.NET.Devices.Corsair
         {
             InitializeLayout();
 
+            foreach (Led led in LedMapping.Values)
+            {
+                CorsairLedId ledId = (CorsairLedId)led.CustomData;
+                if (ledId != CorsairLedId.Invalid)
+                    InternalLedMapping.Add(ledId, led);
+            }
+
             if (Size == Size.Invalid)
             {
                 Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
@@ -61,48 +84,10 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         protected abstract void InitializeLayout();
 
-        /// <summary>
-        /// Applies the given layout.
-        /// </summary>
-        /// <param name="layoutPath">The file containing the layout.</param>
-        /// <param name="imageLayout">The name of the layout used to get the images of the leds.</param>
-        /// <param name="imageBasePath">The path images for this device are collected in.</param>
-        protected void ApplyLayoutFromFile(string layoutPath, string imageLayout, string imageBasePath)
-        {
-            DeviceLayout layout = DeviceLayout.Load(layoutPath);
-            if (layout != null)
-            {
-                LedImageLayout ledImageLayout = layout.LedImageLayouts.FirstOrDefault(x => string.Equals(x.Layout, imageLayout, StringComparison.OrdinalIgnoreCase));
-
-                Size = new Size(layout.Width, layout.Height);
-
-                if (layout.Leds != null)
-                    foreach (LedLayout layoutLed in layout.Leds)
-                    {
-                        if (Enum.TryParse(layoutLed.Id, true, out CorsairLedIds ledId))
-                        {
-                            if (LedMapping.TryGetValue(new CorsairLedId(this, ledId), out Led led))
-                            {
-                                led.LedRectangle.Location = new Point(layoutLed.X, layoutLed.Y);
-                                led.LedRectangle.Size = new Size(layoutLed.Width, layoutLed.Height);
-
-                                led.Shape = layoutLed.Shape;
-                                led.ShapeData = layoutLed.ShapeData;
-
-                                LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
-                                led.Image = (!string.IsNullOrEmpty(image?.Image))
-                                    ? new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute)
-                                    : new Uri(Path.Combine(imageBasePath, "Missing.png"), UriKind.Absolute);
-                            }
-                        }
-                    }
-            }
-        }
-
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
         {
-            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
+            List<Led> leds = ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))).ToList();
 
             if (leds.Count > 0) // CUE seems to crash if 'CorsairSetLedsColors' is called with a zero length array
             {
@@ -113,7 +98,7 @@ namespace RGB.NET.Devices.Corsair
                 {
                     _CorsairLedColor color = new _CorsairLedColor
                     {
-                        ledId = (int)((CorsairLedId)led.Id).LedId,
+                        ledId = (int)led.CustomData,
                         r = led.Color.R,
                         g = led.Color.G,
                         b = led.Color.B
@@ -135,7 +120,7 @@ namespace RGB.NET.Devices.Corsair
             IntPtr addPtr = new IntPtr(ptr.ToInt64());
             foreach (Led led in this)
             {
-                _CorsairLedColor color = new _CorsairLedColor { ledId = (int)((CorsairLedId)led.Id).LedId };
+                _CorsairLedColor color = new _CorsairLedColor { ledId = (int)led.CustomData };
                 Marshal.StructureToPtr(color, addPtr, false);
                 addPtr = new IntPtr(addPtr.ToInt64() + structSize);
             }
@@ -145,7 +130,7 @@ namespace RGB.NET.Devices.Corsair
             for (int i = 0; i < LedMapping.Count; i++)
             {
                 _CorsairLedColor ledColor = (_CorsairLedColor)Marshal.PtrToStructure(readPtr, typeof(_CorsairLedColor));
-                LedMapping[new CorsairLedId(this, (CorsairLedIds)ledColor.ledId)].Color = new Color(ledColor.r, ledColor.g, ledColor.b);
+                this[(CorsairLedId)ledColor.ledId].Color = new Color(ledColor.r, ledColor.g, ledColor.b);
 
                 readPtr = new IntPtr(readPtr.ToInt64() + structSize);
             }

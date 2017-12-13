@@ -33,8 +33,11 @@ namespace RGB.NET.Devices.Logitech
             base.InitializeLayout();
 
             if (LedMapping.Count == 0)
-                InitializeLed(new LogitechLedId(this, LogitechLedIds.DEVICE), new Rectangle(0, 0, 10, 10));
+                InitializeLed(LedId.Custom1, new Rectangle(0, 0, 10, 10));
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => LogitechLedId.DEVICE;
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)

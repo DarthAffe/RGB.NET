@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Novation
@@ -27,9 +28,11 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
+            Dictionary<NovationLedId, LedId> mapping = LaunchpadIdMapping.DEFAULT.SwapKeyValue();
+
             //TODO DarthAffe 15.08.2017: Check if all launchpads are using the same basic layout
             const int BUTTON_SIZE = 20;
-            foreach (NovationLedIds ledId in Enum.GetValues(typeof(NovationLedIds)))
+            foreach (NovationLedId ledId in Enum.GetValues(typeof(NovationLedId)))
             {
                 Rectangle rectangle;
                 if (ledId.IsCustom())
@@ -40,13 +43,16 @@ namespace RGB.NET.Devices.Novation
                     rectangle = new Rectangle(BUTTON_SIZE * ((int)ledId.GetId() % 0x10), BUTTON_SIZE * (((int)ledId.GetId() / 0x10) + 1), BUTTON_SIZE, BUTTON_SIZE);
                 else continue;
 
-                InitializeLed(new NovationLedId(this, ledId), rectangle);
+                InitializeLed(mapping[ledId], rectangle);
             }
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
                 $@"Layouts\Novation\Launchpads\{model.ToUpper()}.xml"), "Default", PathHelper.GetAbsolutePath(@"Images\Novation\Launchpads"));
         }
+
+        /// <inheritdoc />
+        protected override object CreateLedCustomData(LedId ledId) => LaunchpadIdMapping.DEFAULT[ledId];
 
         #endregion
     }

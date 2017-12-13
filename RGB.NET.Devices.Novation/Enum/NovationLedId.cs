@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Novation
     /// They are represented as Hex 0x[00][11] where [00] is the status flag, [1] the id of the led.
     /// </summary>
     //TODO DarthAffe 15.08.2017: Check if this is really correct for all devices
-    public enum NovationLedIds
+    public enum NovationLedId
     {
         Invalid = -1,
 

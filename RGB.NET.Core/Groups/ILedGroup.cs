@@ -28,12 +28,12 @@ namespace RGB.NET.Core
         IEnumerable<Led> GetLeds();
 
         /// <summary>
-        /// Called when the <see cref="ILedId"/> is attached to the <see cref="RGBSurface"/>.
+        /// Called when the <see cref="ILedGroup"/> is attached to the <see cref="RGBSurface"/>.
         /// </summary>
         void OnAttach();
 
         /// <summary>
-        /// Called when the <see cref="ILedId"/> is detached from the <see cref="RGBSurface"/>.
+        /// Called when the <see cref="ILedGroup"/> is detached from the <see cref="RGBSurface"/>.
         /// </summary>
         void OnDetach();
     }

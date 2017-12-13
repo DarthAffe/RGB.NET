@@ -25,21 +25,7 @@ namespace RGB.NET.Groups
             }
             return listLedGroup;
         }
-
-        /// <summary>
-        /// Returns a new <see cref="ListLedGroup" /> which contains all <see cref="Led"/> from the given <see cref="ILedGroup"/> excluding the specified ones.
-        /// </summary>
-        /// <param name="ledGroup">The base <see cref="ILedGroup"/>.</param>
-        /// <param name="ledIds">The ids of the <see cref="Led"/> to exclude.</param>
-        /// <returns>The new <see cref="ListLedGroup" />.</returns>
-        public static ListLedGroup Exclude(this ILedGroup ledGroup, params ILedId[] ledIds)
-        {
-            ListLedGroup listLedGroup = ledGroup.ToListLedGroup();
-            foreach (ILedId ledId in ledIds)
-                listLedGroup.RemoveLed(ledId);
-            return listLedGroup;
-        }
-
+        
         /// <summary>
         /// Returns a new <see cref="ListLedGroup" /> which contains all <see cref="Led"/> from the given <see cref="ILedGroup"/> excluding the specified ones.
         /// </summary>
@@ -60,19 +46,13 @@ namespace RGB.NET.Groups
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
-        public static bool Attach(this ILedGroup ledGroup)
-        {
-            return RGBSurface.Instance.AttachLedGroup(ledGroup);
-        }
+        public static bool Attach(this ILedGroup ledGroup) => RGBSurface.Instance.AttachLedGroup(ledGroup);
 
         /// <summary>
         /// Detaches the given <see cref="ILedGroup"/> from the <see cref="RGBSurface"/>.
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
-        public static bool Detach(this ILedGroup ledGroup)
-        {
-            return RGBSurface.Instance.DetachLedGroup(ledGroup);
-        }
+        public static bool Detach(this ILedGroup ledGroup) => RGBSurface.Instance.DetachLedGroup(ledGroup);
     }
 }
