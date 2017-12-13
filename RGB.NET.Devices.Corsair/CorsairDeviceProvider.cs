@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
-using RGB.NET.Core.Exceptions;
 using RGB.NET.Devices.Corsair.Native;
-using RGB.NET.Devices.Corsair.SpecialParts;
 
 namespace RGB.NET.Devices.Corsair
 {

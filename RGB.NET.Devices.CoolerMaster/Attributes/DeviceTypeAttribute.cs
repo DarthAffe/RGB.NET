@@ -1,7 +1,7 @@
 ﻿using System;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.CoolerMaster.Attributes
+namespace RGB.NET.Devices.CoolerMaster
 {
     /// <inheritdoc />
     /// <summary>
@@ -23,7 +23,7 @@ namespace RGB.NET.Devices.CoolerMaster.Attributes
 
         /// <inheritdoc />
         /// <summary>
-        /// Internal constructor of the <see cref="T:RGB.NET.Devices.CoolerMaster.Attributes.DeviceTypeAttribute" /> class.
+        /// Internal constructor of the <see cref="T:RGB.NET.Devices.CoolerMaster.DeviceTypeAttribute" /> class.
         /// </summary>
         /// <param name="deviceType">The <see cref="T:RGB.NET.Core.RGBDeviceType" />.</param>
         public DeviceTypeAttribute(RGBDeviceType deviceType)

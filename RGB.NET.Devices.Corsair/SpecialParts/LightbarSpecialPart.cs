@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Corsair.SpecialParts
+namespace RGB.NET.Devices.Corsair
 {
     /// <inheritdoc />
     /// <summary>

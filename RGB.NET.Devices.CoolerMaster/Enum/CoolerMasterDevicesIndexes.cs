@@ -3,7 +3,6 @@
 
 using System.ComponentModel;
 using RGB.NET.Core;
-using RGB.NET.Devices.CoolerMaster.Attributes;
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 

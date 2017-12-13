@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Reflection;
 using RGB.NET.Core;
-using RGB.NET.Devices.CoolerMaster.Attributes;
 
 namespace RGB.NET.Devices.CoolerMaster.Helper
 {

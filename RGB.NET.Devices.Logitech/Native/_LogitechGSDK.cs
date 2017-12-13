@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using RGB.NET.Core.Exceptions;
+using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech.Native
 {

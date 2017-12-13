@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using RGB.NET.Core;
-using RGB.NET.Core.Exceptions;
 using RGB.NET.Devices.CoolerMaster.Helper;
 using RGB.NET.Devices.CoolerMaster.Native;
 

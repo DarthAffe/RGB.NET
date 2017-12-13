@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RGB.NET.Core.Exceptions
+namespace RGB.NET.Core
 {
     /// <inheritdoc />
     /// <summary>
@@ -12,7 +12,7 @@ namespace RGB.NET.Core.Exceptions
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Exceptions.RGBDeviceException" /> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.RGBDeviceException" /> class.
         /// </summary>
         /// <param name="message">The message which describes the reason of throwing this exception.</param>
         /// <param name="innerException">Optional inner exception, which lead to this exception.</param>

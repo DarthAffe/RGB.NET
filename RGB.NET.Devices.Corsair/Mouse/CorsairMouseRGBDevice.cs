@@ -3,7 +3,6 @@
 
 using System;
 using RGB.NET.Core;
-using RGB.NET.Core.Exceptions;
 
 namespace RGB.NET.Devices.Corsair
 {
