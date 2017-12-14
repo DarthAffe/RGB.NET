@@ -2,6 +2,7 @@
 <Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>Logitech G610 - Physical UK</Name>
   <Description>Physical UK-Layout of Logitech G610 (Logical: ???)</Description>
+  <Author>Darth Affe</Author>
   <Type>Keyboard</Type>
   <Lighting>Key</Lighting>
   <Vendor>Logitech</Vendor>

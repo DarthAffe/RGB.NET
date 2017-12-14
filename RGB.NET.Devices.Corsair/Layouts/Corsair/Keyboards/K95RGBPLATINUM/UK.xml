@@ -2,6 +2,7 @@
 <Device xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>Corsair K95 RGB PLATINUM - Physical UK</Name>
   <Description>Physical UK-Layout of Corsairs K95 RGB PLATINUM (Logical: BE, CH, DE, ES, EU_Int, FR, IT, ND, MEX, PT, TR, UK)</Description>
+  <Author>Darth Affe</Author>
   <Type>Keyboard</Type>
   <Lighting>Key</Lighting>
   <Vendor>Corsair</Vendor>

@@ -5,6 +5,7 @@
       <xsd:sequence>
         <xsd:element name="Name" type="xsd:string" />
         <xsd:element name="Description" type="xsd:string" />
+        <xsd:element name="Author" type="xsd:string" />
         <xsd:element name="Type" type="xsd:string" />
         <xsd:element name="Lighting" type="xsd:string" />
         <xsd:element name="Vendor" type="xsd:string" />
