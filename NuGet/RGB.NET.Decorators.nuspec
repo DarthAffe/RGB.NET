@@ -17,7 +17,7 @@
     <dependencies>
       <dependency id="RGB.NET.Core" version="0.0.1" />
       <dependency id="RGB.NET.Brushes" version="0.0.1" />
-      <dependency id="System.ValueTuple" version="4.3.1" />
+      <dependency id="System.ValueTuple" version="4.4.0" />
     </dependencies>
   </metadata>
   <files>
