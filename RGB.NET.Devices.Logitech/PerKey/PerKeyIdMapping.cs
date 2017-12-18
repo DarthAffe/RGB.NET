@@ -122,6 +122,8 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Keyboard_Programmable7, LogitechLedId.G_7 },
             { LedId.Keyboard_Programmable8, LogitechLedId.G_8 },
             { LedId.Keyboard_Programmable9, LogitechLedId.G_9 },
+            { LedId.Logo, LogitechLedId.G_LOGO },
+            { LedId.Keyboard_Custom1, LogitechLedId.G_BADGE },
         };
     }
 }

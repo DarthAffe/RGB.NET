@@ -203,7 +203,7 @@
       <Width>1.5</Width>
     </Led>
 
-    <Led Id="Keyboard_ArrowLef">
+    <Led Id="Keyboard_ArrowLeft">
       <X>+6.75</X>
     </Led>
     <Led Id="Keyboard_ArrowDown" />

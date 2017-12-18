@@ -17,6 +17,7 @@
     <dependencies>
       <dependency id="RGB.NET.Core" version="0.0.1" />
       <dependency id="System.ValueTuple" version="4.4.0" />
+      <dependency id="HidSharp" version="1.5" />
     </dependencies>
   </metadata>
   <files>

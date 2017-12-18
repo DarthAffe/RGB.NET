@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => LaunchpadIdMapping.DEFAULT[ledId];
+        protected override object CreateLedCustomData(LedId ledId) => LaunchpadIdMapping.DEFAULT.TryGetValue(ledId, out NovationLedId novationLedId) ? novationLedId : NovationLedId.Invalid;
 
         #endregion
     }
