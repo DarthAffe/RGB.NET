@@ -76,8 +76,8 @@ namespace RGB.NET.Devices.Asus
                 {
                     int index = ((int)led.CustomData) * 3;
                     ColorData[index] = led.Color.R;
-                    ColorData[index + 1] = led.Color.G;
-                    ColorData[index + 2] = led.Color.B;
+                    ColorData[index + 1] = led.Color.B;
+                    ColorData[index + 2] = led.Color.G;
                 }
 
                 ApplyColorData();
