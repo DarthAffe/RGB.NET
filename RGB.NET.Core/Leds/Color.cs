@@ -219,13 +219,15 @@ namespace RGB.NET.Core
 
         private static (double h, double s, double v) CaclulateHSVFromRGB(byte r, byte g, byte b)
         {
-            if ((r == g) && (g == b)) return (0, 0, 0);
+            if ((r == g) && (g == b)) return (0, 0, r / 255.0);
 
             int min = Math.Min(Math.Min(r, g), b);
             int max = Math.Max(Math.Max(r, g), b);
 
             double hue;
-            if (max == r) // r is max
+            if (max == min)
+                hue = 0;
+            else if (max == r) // r is max
                 hue = (g - b) / (double)(max - min);
             else if (max == g) // g is max
                 hue = 2.0 + ((b - r) / (double)(max - min));
