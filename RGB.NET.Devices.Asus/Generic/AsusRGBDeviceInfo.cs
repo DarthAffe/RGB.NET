@@ -45,12 +45,12 @@ namespace RGB.NET.Devices.Asus
         /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         /// <param name="manufacturer">The manufacturer-name of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The model-name of the <see cref="IRGBDevice"/>.</param>
-        internal AsusRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, string manufacturer = "Asus", string model = "Generic Asus-Device")
+        internal AsusRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, string model = "Generic Asus-Device", string manufacturer = "Asus")
         {
             this.DeviceType = deviceType;
             this.Handle = handle;
-            this.Manufacturer = manufacturer;
             this.Model = model;
+            this.Manufacturer = manufacturer;
         }
 
         #endregion

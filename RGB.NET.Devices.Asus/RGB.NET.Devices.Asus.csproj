@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -55,6 +56,7 @@
     <Compile Include="Generic\IAsusRGBDevice.cs" />
     <Compile Include="GraphicsCard\AsusGraphicsCardRGBDevice.cs" />
     <Compile Include="GraphicsCard\AsusGraphicsCardRGBDeviceInfo.cs" />
+    <Compile Include="Helper\WMIHelper.cs" />
     <Compile Include="Keyboard\AsusKeyboardRGBDevice.cs" />
     <Compile Include="Keyboard\AsusKeyboardRGBDeviceInfo.cs" />
     <Compile Include="Mainboard\AsusMainboardRGBDevice.cs" />
@@ -72,6 +74,10 @@
     <None Include="targets\RGB.NET.Devices.Asus.targets" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\Asus\Mainboards\PRIMEX370-PRO.png" />
+    <Content Include="Layouts\Asus\Mainboards\PRIMEX370-PRO.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="libs\x86\AURA_SDK.dll" />
     <Content Include="libs\x86\ClaymoreProtocol.dll" />
     <Content Include="libs\x86\EVOLVE SYNC Dll.dll" />
@@ -83,8 +89,6 @@
     <Content Include="libs\x86\VGA_Extra.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\Asus\" />
-    <Folder Include="Layouts\Asus\" />
     <Folder Include="libs\x64\" />
   </ItemGroup>
   <ItemGroup>
