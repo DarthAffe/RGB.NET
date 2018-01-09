@@ -49,6 +49,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
             _enableLedControlPointer = (EnableLedControlPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "EnableLedControl"), typeof(EnableLedControlPointer));
             _refreshLedPointer = (RefreshLedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "RefreshLed"), typeof(RefreshLedPointer));
             _setLedColorPointer = (SetLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetLedColor"), typeof(SetLedColorPointer));
+            _setAllLedColorPointer = (SetAllLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetAllLedColor"), typeof(SetAllLedColorPointer));
         }
 
         private static void UnloadCMSDK()
@@ -73,6 +74,31 @@ namespace RGB.NET.Devices.CoolerMaster.Native
 
         #region SDK-METHODS
 
+        #region Structs
+
+        // ReSharper disable InconsistentNaming
+        internal struct KEY_COLOR
+        {
+            public byte r;
+            public byte g;
+            public byte b;
+
+            public KEY_COLOR(byte colR, byte colG, byte colB)
+            {
+                r = colR;
+                g = colG;
+                b = colB;
+            }
+        }
+
+        internal struct COLOR_MATRIX
+        {
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 132)] public KEY_COLOR[,] KeyColor;
+        }
+        // ReSharper restore InconsistentNaming
+
+        #endregion
+
         #region Pointers
 
         private static GetSDKVersionPointer _getSDKVersionPointer;
@@ -82,6 +108,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         private static EnableLedControlPointer _enableLedControlPointer;
         private static RefreshLedPointer _refreshLedPointer;
         private static SetLedColorPointer _setLedColorPointer;
+        private static SetAllLedColorPointer _setAllLedColorPointer;
 
         #endregion
 
@@ -111,6 +138,10 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private delegate bool SetLedColorPointer(int row, int column, byte r, byte g, byte b);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private delegate bool SetAllLedColorPointer(COLOR_MATRIX colorMatrix);
 
         #endregion
 
@@ -170,6 +201,14 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         internal static bool SetLedColor(int row, int column, byte r, byte g, byte b)
         {
             return _setLedColorPointer(row, column, r, g, b);
+        }
+
+        /// <summary>
+        /// CM-SDK: Set Keyboard "every LED" color
+        /// </summary>
+        internal static bool SetAllLedColor(COLOR_MATRIX colorMatrix)
+        {
+            return _setAllLedColorPointer(colorMatrix);
         }
 
         // ReSharper restore EventExceptionNotDocumented
