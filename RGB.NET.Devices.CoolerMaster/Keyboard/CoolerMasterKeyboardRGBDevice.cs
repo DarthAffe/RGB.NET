@@ -34,7 +34,7 @@ namespace RGB.NET.Devices.CoolerMaster
             if (leds.Count > 0)
             {
                 // 6 by 22 seems hard-coded but it's what the CM SDK expects regardless of keyboard size
-                var matrix = new _CoolerMasterSDK.COLOR_MATRIX { KeyColor = new _CoolerMasterSDK.KEY_COLOR[6, 22] };
+                _CoolerMasterSDK.COLOR_MATRIX matrix = new _CoolerMasterSDK.COLOR_MATRIX { KeyColor = new _CoolerMasterSDK.KEY_COLOR[6, 22] };
                 foreach (Led led in leds)
                 {
                     (int row, int column) = ((int, int))led.CustomData;
