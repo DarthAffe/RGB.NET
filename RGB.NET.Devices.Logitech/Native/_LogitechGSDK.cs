@@ -125,20 +125,11 @@ namespace RGB.NET.Devices.Logitech.Native
 
         // ReSharper disable EventExceptionNotDocumented
 
-        internal static bool LogiLedInit()
-        {
-            return _logiLedInitPointer();
-        }
+        internal static bool LogiLedInit() => _logiLedInitPointer();
 
-        internal static void LogiLedShutdown()
-        {
-            _logiLedShutdownPointer();
-        }
+        internal static void LogiLedShutdown() => _logiLedShutdownPointer();
 
-        internal static bool LogiLedSetTargetDevice(LogitechDeviceCaps targetDevice)
-        {
-            return _logiLedSetTargetDevicePointer((int)targetDevice);
-        }
+        internal static bool LogiLedSetTargetDevice(LogitechDeviceCaps targetDevice) => _logiLedSetTargetDevicePointer((int)targetDevice);
 
         internal static string LogiLedGetSdkVersion()
         {
@@ -150,36 +141,18 @@ namespace RGB.NET.Devices.Logitech.Native
             return $"{major}.{minor}.{build}";
         }
 
-        internal static bool LogiLedGetSdkVersion(ref int majorNum, ref int minorNum, ref int buildNum)
-        {
-            return _logiLedGetSdkVersionPointer(ref majorNum, ref minorNum, ref buildNum);
-        }
+        internal static bool LogiLedGetSdkVersion(ref int majorNum, ref int minorNum, ref int buildNum) => _logiLedGetSdkVersionPointer(ref majorNum, ref minorNum, ref buildNum);
 
-        internal static bool LogiLedSaveCurrentLighting()
-        {
-            return _lgiLedSaveCurrentLightingPointer();
-        }
+        internal static bool LogiLedSaveCurrentLighting() => _lgiLedSaveCurrentLightingPointer();
 
-        internal static bool LogiLedRestoreLighting()
-        {
-            return _logiLedRestoreLightingPointer();
-        }
+        internal static bool LogiLedRestoreLighting() => _logiLedRestoreLightingPointer();
 
-        internal static bool LogiLedSetLighting(int redPercentage, int greenPercentage, int bluePercentage)
-        {
-            return _logiLedSetLightingPointer(redPercentage, greenPercentage, bluePercentage);
-        }
+        internal static bool LogiLedSetLighting(int redPercentage, int greenPercentage, int bluePercentage) => _logiLedSetLightingPointer(redPercentage, greenPercentage, bluePercentage);
 
         internal static bool LogiLedSetLightingForKeyWithKeyName(int keyCode,
-            int redPercentage, int greenPercentage, int bluePercentage)
-        {
-            return _logiLedSetLightingForKeyWithKeyNamePointer(keyCode, redPercentage, greenPercentage, bluePercentage);
-        }
+            int redPercentage, int greenPercentage, int bluePercentage) => _logiLedSetLightingForKeyWithKeyNamePointer(keyCode, redPercentage, greenPercentage, bluePercentage);
 
-        internal static bool LogiLedSetLightingFromBitmap(byte[] bitmap)
-        {
-            return _logiLedSetLightingFromBitmapPointer(bitmap);
-        }
+        internal static bool LogiLedSetLightingFromBitmap(byte[] bitmap) => _logiLedSetLightingFromBitmapPointer(bitmap);
 
         // ReSharper restore EventExceptionNotDocumented
 

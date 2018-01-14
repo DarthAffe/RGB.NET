@@ -34,15 +34,15 @@ namespace RGB.NET.Devices.CoolerMaster
             if (leds.Count > 0)
             {
                 // 6 by 22 seems hard-coded but it's what the CM SDK expects regardless of keyboard size
-                _CoolerMasterSDK.COLOR_MATRIX matrix = new _CoolerMasterSDK.COLOR_MATRIX { KeyColor = new _CoolerMasterSDK.KEY_COLOR[6, 22] };
+                _CoolerMasterColorMatrix colorMatrix = new _CoolerMasterColorMatrix { KeyColor = new _CoolerMasterKeyColor[_CoolerMasterColorMatrix.ROWS, _CoolerMasterColorMatrix.COLUMNS] };
                 foreach (Led led in leds)
                 {
                     (int row, int column) = ((int, int))led.CustomData;
-                    matrix.KeyColor[row, column] = new _CoolerMasterSDK.KEY_COLOR(led.Color.R, led.Color.G, led.Color.B);
+                    colorMatrix.KeyColor[row, column] = new _CoolerMasterKeyColor(led.Color.R, led.Color.G, led.Color.B);
                 }
 
                 _CoolerMasterSDK.SetControlDevice(DeviceInfo.DeviceIndex);
-                _CoolerMasterSDK.SetAllLedColor(matrix);
+                _CoolerMasterSDK.SetAllLedColor(colorMatrix);
                 _CoolerMasterSDK.RefreshLed(false);
             }
         }

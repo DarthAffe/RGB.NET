@@ -335,8 +335,7 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rectangle" /> equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            Rectangle compareRect = obj as Rectangle;
-            if (ReferenceEquals(compareRect, null))
+            if (!(obj is Rectangle compareRect))
                 return false;
 
             if (ReferenceEquals(this, compareRect))
@@ -372,7 +371,7 @@ namespace RGB.NET.Core
         /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
         /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2) => ReferenceEquals(rectangle1, null) ? ReferenceEquals(rectangle2, null) : rectangle1.Equals(rectangle2);
+        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2) => rectangle1?.Equals(rectangle2) ?? ReferenceEquals(rectangle2, null);
 
         /// <summary>
         /// Returns a value that indicates whether two specified <see cref="Rectangle" /> are equal.

@@ -74,31 +74,6 @@ namespace RGB.NET.Devices.CoolerMaster.Native
 
         #region SDK-METHODS
 
-        #region Structs
-
-        // ReSharper disable InconsistentNaming
-        internal struct KEY_COLOR
-        {
-            public byte r;
-            public byte g;
-            public byte b;
-
-            public KEY_COLOR(byte colR, byte colG, byte colB)
-            {
-                r = colR;
-                g = colG;
-                b = colB;
-            }
-        }
-
-        internal struct COLOR_MATRIX
-        {
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 132)] public KEY_COLOR[,] KeyColor;
-        }
-        // ReSharper restore InconsistentNaming
-
-        #endregion
-
         #region Pointers
 
         private static GetSDKVersionPointer _getSDKVersionPointer;
@@ -141,7 +116,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private delegate bool SetAllLedColorPointer(COLOR_MATRIX colorMatrix);
+        private delegate bool SetAllLedColorPointer(_CoolerMasterColorMatrix colorMatrix);
 
         #endregion
 
@@ -150,66 +125,42 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         /// <summary>
         /// CM-SDK: Get SDK Dll's Version.
         /// </summary>
-        internal static int GetSDKVersion()
-        {
-            return _getSDKVersionPointer();
-        }
+        internal static int GetSDKVersion() => _getSDKVersionPointer();
 
         /// <summary>
         /// CM-SDK: set operating device
         /// </summary>
-        internal static void SetControlDevice(CoolerMasterDevicesIndexes devicesIndexes)
-        {
-            _setControlDevicenPointer(devicesIndexes);
-        }
+        internal static void SetControlDevice(CoolerMasterDevicesIndexes devicesIndexes) => _setControlDevicenPointer(devicesIndexes);
 
         /// <summary>
         /// CM-SDK: verify if the deviced is plugged in
         /// </summary>
-        internal static bool IsDevicePlugged()
-        {
-            return _isDevicePlugPointer();
-        }
+        internal static bool IsDevicePlugged() => _isDevicePlugPointer();
 
         /// <summary>
         /// CM-SDK: Obtain current device layout
         /// </summary>
-        internal static CoolerMasterPhysicalKeyboardLayout GetDeviceLayout()
-        {
-            return _getDeviceLayoutPointer();
-        }
+        internal static CoolerMasterPhysicalKeyboardLayout GetDeviceLayout() => _getDeviceLayoutPointer();
 
         /// <summary>
         /// CM-SDK: set control over device’s LED
         /// </summary>
-        internal static bool EnableLedControl(bool value)
-        {
-            return _enableLedControlPointer(value);
-        }
+        internal static bool EnableLedControl(bool value) => _enableLedControlPointer(value);
 
         /// <summary>
         /// CM-SDK: Print out the lights setting from Buffer to LED
         /// </summary>
-        internal static bool RefreshLed(bool autoRefresh)
-        {
-            return _refreshLedPointer(autoRefresh);
-        }
+        internal static bool RefreshLed(bool autoRefresh) => _refreshLedPointer(autoRefresh);
 
         /// <summary>
         /// CM-SDK: Set single Key LED color
         /// </summary>
-        internal static bool SetLedColor(int row, int column, byte r, byte g, byte b)
-        {
-            return _setLedColorPointer(row, column, r, g, b);
-        }
+        internal static bool SetLedColor(int row, int column, byte r, byte g, byte b) => _setLedColorPointer(row, column, r, g, b);
 
         /// <summary>
         /// CM-SDK: Set Keyboard "every LED" color
         /// </summary>
-        internal static bool SetAllLedColor(COLOR_MATRIX colorMatrix)
-        {
-            return _setAllLedColorPointer(colorMatrix);
-        }
+        internal static bool SetAllLedColor(_CoolerMasterColorMatrix colorMatrix) => _setAllLedColorPointer(colorMatrix);
 
         // ReSharper restore EventExceptionNotDocumented
 

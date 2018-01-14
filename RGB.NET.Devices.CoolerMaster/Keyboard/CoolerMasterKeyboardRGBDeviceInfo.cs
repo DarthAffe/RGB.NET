@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <summary>
         /// Gets the <see cref="CoolerMasterPhysicalKeyboardLayout"/> of the <see cref="CoolerMasterKeyboardRGBDevice"/>.
         /// </summary>
-        public CoolerMasterPhysicalKeyboardLayout PhysicalLayout { get; private set; }
+        public CoolerMasterPhysicalKeyboardLayout PhysicalLayout { get; }
 
         /// <summary>
         /// Gets the <see cref="CoolerMasterLogicalKeyboardLayout"/> of the <see cref="CoolerMasterKeyboardRGBDevice"/>.

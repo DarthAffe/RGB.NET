@@ -60,6 +60,7 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// Gets or sets a function to get the culture for a specific device.
         /// </summary>
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
         #endregion
