@@ -263,87 +263,87 @@
       <X>7</X>
       <Y>+1</Y>
     </Led>
-    <Led Id="G19">
+    <Led Id="Keyboard_Programmable18">
       <X>7</X>
       <Y>+</Y>
     </Led>
 
     <!-- Lightbar -->
-    <Led Id="Lightbar1">
+    <Led Id="LedStripe1">
       <X>0</X>
       <Y>0</Y>
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar2">
+    <Led Id="LedStripe2">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar3">
+    <Led Id="LedStripe3">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar4">
+    <Led Id="LedStripe4">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar5">
+    <Led Id="LedStripe5">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar6">
+    <Led Id="LedStripe6">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar7">
+    <Led Id="LedStripe7">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar8">
+    <Led Id="LedStripe8">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar9">
+    <Led Id="LedStripe9">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar10">
+    <Led Id="LedStripe10">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar11">
+    <Led Id="LedStripe11">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar12">
+    <Led Id="LedStripe12">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar13">
+    <Led Id="LedStripe13">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar14">
+    <Led Id="LedStripe14">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar15">
+    <Led Id="LedStripe15">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar16">
+    <Led Id="LedStripe16">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar17">
+    <Led Id="LedStripe17">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar18">
+    <Led Id="LedStripe18">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
-    <Led Id="Lightbar19">
+    <Led Id="LedStripe19">
       <Width>24.47368mm</Width>
       <Height>4mm</Height>
     </Led>
@@ -478,25 +478,25 @@
         <LedImage Id="Keyboard_Programmable15" Image="Strafe_Keys\G5.png" />
         <LedImage Id="Keyboard_Programmable18" Image="Strafe_Keys\G6.png" />
 
-        <LedImage Id="Lightbar1" Image="Empty.png" />
-        <LedImage Id="Lightbar2" Image="Empty.png" />
-        <LedImage Id="Lightbar3" Image="Empty.png" />
-        <LedImage Id="Lightbar4" Image="Empty.png" />
-        <LedImage Id="Lightbar5" Image="Empty.png" />
-        <LedImage Id="Lightbar6" Image="Empty.png" />
-        <LedImage Id="Lightbar7" Image="Empty.png" />
-        <LedImage Id="Lightbar8" Image="Empty.png" />
-        <LedImage Id="Lightbar9" Image="Empty.png" />
-        <LedImage Id="Lightbar10" Image="Empty.png" />
-        <LedImage Id="Lightbar11" Image="Empty.png" />
-        <LedImage Id="Lightbar12" Image="Empty.png" />
-        <LedImage Id="Lightbar13" Image="Empty.png" />
-        <LedImage Id="Lightbar14" Image="Empty.png" />
-        <LedImage Id="Lightbar15" Image="Empty.png" />
-        <LedImage Id="Lightbar16" Image="Empty.png" />
-        <LedImage Id="Lightbar17" Image="Empty.png" />
-        <LedImage Id="Lightbar18" Image="Empty.png" />
-        <LedImage Id="Lightbar19" Image="Empty.png" />
+        <LedImage Id="LedStripe1" Image="Empty.png" />
+        <LedImage Id="LedStripe2" Image="Empty.png" />
+        <LedImage Id="LedStripe3" Image="Empty.png" />
+        <LedImage Id="LedStripe4" Image="Empty.png" />
+        <LedImage Id="LedStripe5" Image="Empty.png" />
+        <LedImage Id="LedStripe6" Image="Empty.png" />
+        <LedImage Id="LedStripe7" Image="Empty.png" />
+        <LedImage Id="LedStripe8" Image="Empty.png" />
+        <LedImage Id="LedStripe9" Image="Empty.png" />
+        <LedImage Id="LedStripe10" Image="Empty.png" />
+        <LedImage Id="LedStripe11" Image="Empty.png" />
+        <LedImage Id="LedStripe12" Image="Empty.png" />
+        <LedImage Id="LedStripe13" Image="Empty.png" />
+        <LedImage Id="LedStripe14" Image="Empty.png" />
+        <LedImage Id="LedStripe15" Image="Empty.png" />
+        <LedImage Id="LedStripe16" Image="Empty.png" />
+        <LedImage Id="LedStripe17" Image="Empty.png" />
+        <LedImage Id="LedStripe18" Image="Empty.png" />
+        <LedImage Id="LedStripe19" Image="Empty.png" />
       </LedImages>
     </LedImageLayout>
     <LedImageLayout Layout="EU_Int">
@@ -627,25 +627,25 @@
         <LedImage Id="Keyboard_Programmable15" Image="Strafe_Keys\G5.png" />
         <LedImage Id="Keyboard_Programmable18" Image="Strafe_Keys\G6.png" />
 
-        <LedImage Id="Lightbar1" Image="Empty.png" />
-        <LedImage Id="Lightbar2" Image="Empty.png" />
-        <LedImage Id="Lightbar3" Image="Empty.png" />
-        <LedImage Id="Lightbar4" Image="Empty.png" />
-        <LedImage Id="Lightbar5" Image="Empty.png" />
-        <LedImage Id="Lightbar6" Image="Empty.png" />
-        <LedImage Id="Lightbar7" Image="Empty.png" />
-        <LedImage Id="Lightbar8" Image="Empty.png" />
-        <LedImage Id="Lightbar9" Image="Empty.png" />
-        <LedImage Id="Lightbar10" Image="Empty.png" />
-        <LedImage Id="Lightbar11" Image="Empty.png" />
-        <LedImage Id="Lightbar12" Image="Empty.png" />
-        <LedImage Id="Lightbar13" Image="Empty.png" />
-        <LedImage Id="Lightbar14" Image="Empty.png" />
-        <LedImage Id="Lightbar15" Image="Empty.png" />
-        <LedImage Id="Lightbar16" Image="Empty.png" />
-        <LedImage Id="Lightbar17" Image="Empty.png" />
-        <LedImage Id="Lightbar18" Image="Empty.png" />
-        <LedImage Id="Lightbar19" Image="Empty.png" />
+        <LedImage Id="LedStripe1" Image="Empty.png" />
+        <LedImage Id="LedStripe2" Image="Empty.png" />
+        <LedImage Id="LedStripe3" Image="Empty.png" />
+        <LedImage Id="LedStripe4" Image="Empty.png" />
+        <LedImage Id="LedStripe5" Image="Empty.png" />
+        <LedImage Id="LedStripe6" Image="Empty.png" />
+        <LedImage Id="LedStripe7" Image="Empty.png" />
+        <LedImage Id="LedStripe8" Image="Empty.png" />
+        <LedImage Id="LedStripe9" Image="Empty.png" />
+        <LedImage Id="LedStripe10" Image="Empty.png" />
+        <LedImage Id="LedStripe11" Image="Empty.png" />
+        <LedImage Id="LedStripe12" Image="Empty.png" />
+        <LedImage Id="LedStripe13" Image="Empty.png" />
+        <LedImage Id="LedStripe14" Image="Empty.png" />
+        <LedImage Id="LedStripe15" Image="Empty.png" />
+        <LedImage Id="LedStripe16" Image="Empty.png" />
+        <LedImage Id="LedStripe17" Image="Empty.png" />
+        <LedImage Id="LedStripe18" Image="Empty.png" />
+        <LedImage Id="LedStripe19" Image="Empty.png" />
       </LedImages>
     </LedImageLayout>
   </LedImageLayouts>
