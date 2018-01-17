@@ -37,17 +37,15 @@ namespace RGB.NET.Devices.Asus
         /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using.</param>
         internal AsusKeyboardRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, CultureInfo culture)
-            : base(deviceType, handle, "Asus", "Claymore")
+            : base(deviceType, handle, "Claymore")
         {
             SetLayouts(culture.KeyboardLayoutId);
-
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Asus\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
         }
 
         #endregion
 
         #region Methods
-        
+
         private void SetLayouts(int keyboardLayoutId)
         {
             switch (keyboardLayoutId)

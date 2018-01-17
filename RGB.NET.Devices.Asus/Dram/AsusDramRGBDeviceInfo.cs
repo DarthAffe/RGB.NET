@@ -26,9 +26,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         internal AsusDramRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle)
             : base(deviceType, handle)
-        {
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Asus\Drams\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
-        }
+        { }
 
         #endregion
     }

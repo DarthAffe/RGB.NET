@@ -32,8 +32,7 @@ namespace RGB.NET.Devices.Asus
             for (int i = 0; i < ledCount; i++)
                 InitializeLed(LedId.Mouse1 + i, new Rectangle(i * 10, 0, 10, 10));
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Mouses\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
-                null, PathHelper.GetAbsolutePath(@"Images\Asus\Mouses"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Mouses\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />

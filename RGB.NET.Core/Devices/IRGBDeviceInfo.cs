@@ -37,7 +37,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the URI of an image of the <see cref="IRGBDevice"/> or null if there is no image.
         /// </summary>
-        Uri Image { get; }
+        Uri Image { get; set; }
 
         #endregion
     }

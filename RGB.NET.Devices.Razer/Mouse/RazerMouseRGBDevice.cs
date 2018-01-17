@@ -34,8 +34,7 @@ namespace RGB.NET.Devices.Razer
         protected override void InitializeLayout()
         {
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-                $@"Layouts\Razer\Mice\{model}.xml"), null, PathHelper.GetAbsolutePath(@"Images\Razer\Mice"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Razer\Mice\{model}.xml"), null);
 
             if (LedMapping.Count == 0)
             {

@@ -9,6 +9,8 @@
   <Model>K95 RGB Platinum</Model>
   <Width>465</Width>
   <Height>169</Height>
+  <ImageBasePath>Images\Corsair\Keyboards</ImageBasePath>
+  <DeviceImage>K95RGBPLATINUM.png</DeviceImage>
   <Leds>
     <!-- Extra-Keys: ? -> Mute -->
     <Led Id="Keyboard_Brightness">

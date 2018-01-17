@@ -85,6 +85,18 @@ namespace RGB.NET.Core.Layout
         public double LedUnitHeight { get; set; } = 19.0;
 
         /// <summary>
+        /// The path images for this device are collected in.
+        /// </summary>
+        [XmlElement("ImageBasePath")]
+        public string ImageBasePath { get; set; }
+
+        /// <summary>
+        /// The image file for this device.
+        /// </summary>
+        [XmlElement("DeviceImage")]
+        public string DeviceImage { get; set; }
+
+        /// <summary>
         /// Gets or sets a list of <see cref="LedLayout"/> representing all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlArray("Leds")]

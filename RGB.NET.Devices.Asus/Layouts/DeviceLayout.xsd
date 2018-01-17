@@ -13,6 +13,8 @@
         <xsd:element name="Shape" type="xsd:string" />
         <xsd:element name="Width" type="xsd:double" />
         <xsd:element name="Height" type="xsd:double" />
+        <xsd:element name="ImageBasePath" type="xsd:string" />
+        <xsd:element name="DeviceImage" type="xsd:string" />
         <xsd:element name="LedUnitWidth" type="xsd:double" />
         <xsd:element name="LedUnitHeight" type="xsd:double" />
         <xsd:element name="Leds">

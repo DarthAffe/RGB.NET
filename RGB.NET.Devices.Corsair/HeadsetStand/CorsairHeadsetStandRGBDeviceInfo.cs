@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -20,9 +19,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
         internal CorsairHeadsetStandRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
             : base(deviceIndex, RGBDeviceType.HeadsetStand, nativeInfo)
-        {
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Corsair\HeadsetStands\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
-        }
+        { }
 
         #endregion
     }

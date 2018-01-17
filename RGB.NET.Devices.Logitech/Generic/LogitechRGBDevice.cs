@@ -56,10 +56,9 @@ namespace RGB.NET.Devices.Logitech
         protected virtual void InitializeLayout()
         {
             if (!(DeviceInfo is LogitechRGBDeviceInfo info)) return;
-            string basePath = info.ImageBasePath;
             string layout = info.ImageLayout;
             string layoutPath = info.LayoutPath;
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Logitech\{layoutPath}.xml"), layout, PathHelper.GetAbsolutePath($@"Images\Logitech\{basePath}"), true);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Logitech\{layoutPath}.xml"), layout, true);
         }
 
         #endregion

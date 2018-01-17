@@ -21,7 +21,7 @@ namespace RGB.NET.Devices.Asus
         public string Model { get; }
 
         /// <inheritdoc />
-        public Uri Image { get; protected set; }
+        public Uri Image { get; set; }
 
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;

@@ -57,8 +57,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-                $@"Layouts\CoolerMaster\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                DeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\CoolerMaster\Keyboards"));
+                $@"Layouts\CoolerMaster\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"), DeviceInfo.LogicalLayout.ToString());
         }
 
         /// <inheritdoc />

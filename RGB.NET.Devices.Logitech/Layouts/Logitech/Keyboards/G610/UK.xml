@@ -9,6 +9,8 @@
   <Model>G610</Model>
   <Width>442</Width>
   <Height>152</Height>
+  <ImageBasePath>Images\Logitech\Keyboards</ImageBasePath>
+  <DeviceImage></DeviceImage>
   <Leds>
     <!-- Esc -> Pause -->
     <Led Id="Keyboard_Escape">

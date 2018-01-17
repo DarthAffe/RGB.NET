@@ -100,10 +100,10 @@ namespace RGB.NET.Devices.Logitech
                 {
                     if (DeviceChecker.IsPerKeyDeviceConnected)
                     {
-                        (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
+                        (string model, RGBDeviceType deviceType, int _, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
-                            ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageBasePath, imageLayout, layoutPath));
+                            ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageLayout, layoutPath));
                             device.Initialize();
                             devices.Add(device);
                         }
@@ -115,10 +115,10 @@ namespace RGB.NET.Devices.Logitech
                 {
                     if (DeviceChecker.IsPerDeviceDeviceConnected)
                     {
-                        (string model, RGBDeviceType deviceType, int _, string imageBasePath, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
+                        (string model, RGBDeviceType deviceType, int _, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
-                            ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageBasePath, imageLayout, layoutPath));
+                            ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageLayout, layoutPath));
                             device.Initialize();
                             devices.Add(device);
                         }

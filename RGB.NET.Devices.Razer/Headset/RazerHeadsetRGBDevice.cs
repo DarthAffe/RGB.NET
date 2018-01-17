@@ -34,8 +34,7 @@ namespace RGB.NET.Devices.Razer
         protected override void InitializeLayout()
         {
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-                $@"Layouts\Razer\Headset\{model}.xml"), null, PathHelper.GetAbsolutePath(@"Images\Razer\Headset"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Razer\Headset\{model}.xml"), null);
 
             if (LedMapping.Count == 0)
                 for (int i = 0; i < _Defines.HEADSET_MAX_LEDS; i++)

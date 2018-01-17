@@ -11,6 +11,8 @@
   <Height>240</Height>
   <LedUnitWidth>20</LedUnitWidth>
   <LedUnitHeight>20</LedUnitHeight>
+  <ImageBasePath>Images\Novation\Launchpads</ImageBasePath>
+  <DeviceImage>LaunchpadS.png</DeviceImage>
   <Leds>
     <!-- Custom-buttons -->
     <Led Id="Custom1">

@@ -26,9 +26,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         internal AsusMainboardRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle)
             : base(deviceType, handle, WMIHelper.GetMainboardInfo()?.model ?? "Generic Asus-Device")
-        {
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Asus\Mainboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
-        }
+        { }
 
         #endregion
     }

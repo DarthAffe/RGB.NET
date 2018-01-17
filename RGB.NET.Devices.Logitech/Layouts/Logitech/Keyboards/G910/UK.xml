@@ -9,6 +9,8 @@
   <Model>G910</Model>
   <Width>491</Width>
   <Height>238</Height>
+  <ImageBasePath>Images\Logitech\Keyboards</ImageBasePath>
+  <DeviceImage>G910.png</DeviceImage>
   <Leds>
     <!-- Esc -> Pause -->
     <Led Id="Keyboard_Escape">
@@ -367,7 +369,7 @@
         <LedImage Id="Keyboard_RightGui" Image="Raptor_Keys\Windows.png" />
         <LedImage Id="Keyboard_Application" Image="Raptor_Keys\Menu.png" />
         <LedImage Id="Keyboard_RightCtrl" Image="Raptor_Keys\Strg.png" />
-        <LedImage Id="Keyboard_ArrowLef" Image="Raptor_Keys\CaretLeft.png" />
+        <LedImage Id="Keyboard_ArrowLeft" Image="Raptor_Keys\CaretLeft.png" />
         <LedImage Id="Keyboard_ArrowDown" Image="Raptor_Keys\CaretDown.png" />
         <LedImage Id="Keyboard_ArrowRight" Image="Raptor_Keys\CaretRight.png" />
         <LedImage Id="Keyboard_Num0" Image="Raptor_Keys\Num0_Einfg.png" />

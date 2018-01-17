@@ -16,7 +16,7 @@ namespace RGB.NET.Core
     /// Represents a generic RGB-device
     /// </summary>
     public abstract class AbstractRGBDevice<TDeviceInfo> : AbstractBindable, IRGBDevice<TDeviceInfo>
-        where TDeviceInfo : IRGBDeviceInfo
+        where TDeviceInfo : class, IRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -130,13 +130,16 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="layoutPath">The file containing the layout.</param>
         /// <param name="imageLayout">The name of the layout used to get the images of the leds.</param>
-        /// <param name="imageBasePath">The path images for this device are collected in.</param>
         /// <param name="createMissingLeds">If set to true a new led is initialized for every id in the layout if it doesn't already exist.</param>
-        protected virtual void ApplyLayoutFromFile(string layoutPath, string imageLayout, string imageBasePath, bool createMissingLeds = false)
+        protected virtual DeviceLayout ApplyLayoutFromFile(string layoutPath, string imageLayout, bool createMissingLeds = false)
         {
             DeviceLayout layout = DeviceLayout.Load(layoutPath);
             if (layout != null)
             {
+                string imageBasePath = string.IsNullOrWhiteSpace(layout.ImageBasePath) ? null : PathHelper.GetAbsolutePath(layout.ImageBasePath);
+                if ((imageBasePath != null) && !string.IsNullOrWhiteSpace(layout.DeviceImage) && (DeviceInfo != null))
+                    DeviceInfo.Image = new Uri(Path.Combine(imageBasePath, layout.DeviceImage), UriKind.Absolute);
+
                 LedImageLayout ledImageLayout = layout.LedImageLayouts.FirstOrDefault(x => string.Equals(x.Layout, imageLayout, StringComparison.OrdinalIgnoreCase));
 
                 Size = new Size(layout.Width, layout.Height);
@@ -158,13 +161,14 @@ namespace RGB.NET.Core
                                 led.ShapeData = layoutLed.ShapeData;
 
                                 LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
-                                led.Image = (!string.IsNullOrEmpty(image?.Image))
-                                    ? new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute)
-                                    : new Uri(Path.Combine(imageBasePath, "Missing.png"), UriKind.Absolute);
+                                if ((imageBasePath != null) && !string.IsNullOrEmpty(image?.Image))
+                                    led.Image = new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute);
                             }
                         }
                     }
             }
+
+            return layout;
         }
 
         /// <summary>

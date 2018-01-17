@@ -9,6 +9,8 @@
   <Model>K95 RGB</Model>
   <Width>500</Width>
   <Height>165</Height>
+  <ImageBasePath>Images\Corsair\Keyboards</ImageBasePath>
+  <DeviceImage>K95RGB.png</DeviceImage>
   <Leds>
     <!-- Extra-Keys: MR -> Mute -->
     <Led Id="Keyboard_MacroRecording">

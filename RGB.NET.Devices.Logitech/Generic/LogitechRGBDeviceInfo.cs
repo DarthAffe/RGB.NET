@@ -21,7 +21,7 @@ namespace RGB.NET.Devices.Logitech
         public string Model { get; }
 
         /// <inheritdoc />
-        public Uri Image { get; protected set; }
+        public Uri Image { get; set; }
 
         /// <inheritdoc />
         public RGBDeviceLighting Lighting
@@ -47,11 +47,6 @@ namespace RGB.NET.Devices.Logitech
         public LogitechDeviceCaps DeviceCaps { get; }
 
         /// <summary>
-        /// Gets the base of the image path used to load device-images.
-        /// </summary>
-        internal string ImageBasePath { get; }
-
-        /// <summary>
         /// Gets the layout used to decide which images to load.
         /// </summary>
         internal string ImageLayout { get; }
@@ -74,17 +69,14 @@ namespace RGB.NET.Devices.Logitech
         /// <param name="imageBasePath">The base of the image path used to load device-images.</param>
         /// <param name="imageLayout">The layout used to decide which images to load.</param>
         /// <param name="layoutPath">The path/name of the layout-file.</param>
-        internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps, 
-            string imageBasePath, string imageLayout, string layoutPath)
+        internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps,
+             string imageLayout, string layoutPath)
         {
             this.DeviceType = deviceType;
             this.Model = model;
             this.DeviceCaps = deviceCaps;
-            this.ImageBasePath = imageBasePath;
             this.ImageLayout = imageLayout;
             this.LayoutPath = layoutPath;
-
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Logitech\{LayoutPath}.png"), UriKind.Absolute);
         }
 
         #endregion

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.CoolerMaster
@@ -39,8 +38,6 @@ namespace RGB.NET.Devices.CoolerMaster
             this.PhysicalLayout = physicalKeyboardLayout;
 
             SetLayouts(culture.KeyboardLayoutId);
-
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\CoolerMaster\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"), UriKind.Absolute);
         }
 
         private void SetLayouts(int keyboardLayoutId)

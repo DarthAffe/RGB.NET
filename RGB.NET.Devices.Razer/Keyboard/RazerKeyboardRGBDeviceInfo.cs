@@ -40,9 +40,6 @@ namespace RGB.NET.Devices.Razer
             : base(deviceId, RGBDeviceType.Keyboard, model)
         {
             SetLayouts(culture.KeyboardLayoutId);
-
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Razer\Keyboards\{Model.Replace(" ", string.Empty).ToUpper()}.png"),
-                            UriKind.Absolute);
         }
 
         #endregion

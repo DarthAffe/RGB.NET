@@ -1,7 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
-
-using System;
+﻿using System;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
@@ -22,10 +19,7 @@ namespace RGB.NET.Devices.Razer
         /// <param name="model">The model of the <see cref="IRGBDevice"/>.</param>
         internal RazerMouseRGBDeviceInfo(Guid deviceId, string model)
             : base(deviceId, RGBDeviceType.Mouse, model)
-        {
-            string modelName = Model.Replace(" ", string.Empty).ToUpper();
-            Image = new Uri(PathHelper.GetAbsolutePath($@"Images\Razer\Mice\{modelName}.png"), UriKind.Absolute);
-        }
+        { }
 
         #endregion
     }

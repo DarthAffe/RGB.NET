@@ -26,7 +26,7 @@ namespace RGB.NET.Devices.Razer
         public string Model { get; }
 
         /// <inheritdoc />
-        public Uri Image { get; protected set; }
+        public Uri Image { get; set; }
 
         /// <inheritdoc />
         public bool SupportsSyncBack => false;

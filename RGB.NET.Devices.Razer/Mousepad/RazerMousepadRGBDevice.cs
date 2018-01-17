@@ -34,8 +34,7 @@ namespace RGB.NET.Devices.Razer
         protected override void InitializeLayout()
         {
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-                $@"Layouts\Razer\Mousepad\{model}.xml"), null, PathHelper.GetAbsolutePath(@"Images\Razer\Mousepad"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Razer\Mousepad\{model}.xml"), null);
 
             if (LedMapping.Count == 0)
                 for (int i = 0; i < _Defines.MOUSEPAD_MAX_LEDS; i++)

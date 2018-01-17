@@ -9,6 +9,8 @@
   <Model>K70 RGB</Model>
   <Width>436</Width>
   <Height>165</Height>
+  <ImageBasePath>Images\Corsair\Keyboards</ImageBasePath>
+  <DeviceImage>K70RGB.png</DeviceImage>
   <Leds>
     <!-- Extra-Keys: Brightness -> Mute -->
     <Led Id="Keyboard_Brightness">

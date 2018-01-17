@@ -33,7 +33,7 @@ namespace RGB.NET.Devices.Corsair
         public string Model { get; }
 
         /// <inheritdoc />
-        public Uri Image { get; protected set; }
+        public Uri Image { get; set; }
 
         /// <inheritdoc />
         public bool SupportsSyncBack => true;

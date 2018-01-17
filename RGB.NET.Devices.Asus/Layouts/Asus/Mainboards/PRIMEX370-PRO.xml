@@ -9,6 +9,8 @@
   <Model>Prime X370-PRO</Model>
   <Width>252</Width>
   <Height>305</Height>
+  <ImageBasePath>Images\Asus\Mainboards</ImageBasePath>
+  <DeviceImage>PRIMEX370-PRO.png</DeviceImage>
   <Leds>
     <Led Id="Mainboard1">
       <X>0</X>

@@ -47,8 +47,7 @@ namespace RGB.NET.Devices.Novation
             }
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-                $@"Layouts\Novation\Launchpads\{model.ToUpper()}.xml"), "Default", PathHelper.GetAbsolutePath(@"Images\Novation\Launchpads"));
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Novation\Launchpads\{model.ToUpper()}.xml"), "Default");
         }
 
         /// <inheritdoc />

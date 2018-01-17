@@ -121,11 +121,11 @@ namespace RGB.NET.Devices.Asus.Native
         private static SetRogMouseModePointer _setRogMouseModePointer;
         private static SetRogMouseColorPointer _setRogMouseColorPointer;
 
-        private static EnumerateDramPointer _enumerateDramPointer;
-        private static SetDramModePointer _setDramModePointer;
-        private static GetDramLedCountPointer _getDramLedCountPointer;
-        private static SetDramColorPointer _setDramColorPointer;
-        private static GetDramColorPointer _getDramColorPointer;
+        //private static EnumerateDramPointer _enumerateDramPointer;
+        //private static SetDramModePointer _setDramModePointer;
+        //private static GetDramLedCountPointer _getDramLedCountPointer;
+        //private static SetDramColorPointer _setDramColorPointer;
+        //private static GetDramColorPointer _getDramColorPointer;
 
         #endregion
 
@@ -169,16 +169,16 @@ namespace RGB.NET.Devices.Asus.Native
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate void SetRogMouseColorPointer(IntPtr handle, byte[] colors, int size);
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate int EnumerateDramPointer(IntPtr handles, int size);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate int GetDramLedCountPointer(IntPtr handle);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate void SetDramModePointer(IntPtr handle, int mode);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate void SetDramColorPointer(IntPtr handle, byte[] colors, int size);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate int GetDramColorPointer(IntPtr handle, IntPtr colors, int size);
+        //[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        //private delegate int EnumerateDramPointer(IntPtr handles, int size);
+        //[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        //private delegate int GetDramLedCountPointer(IntPtr handle);
+        //[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        //private delegate void SetDramModePointer(IntPtr handle, int mode);
+        //[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        //private delegate void SetDramColorPointer(IntPtr handle, byte[] colors, int size);
+        //[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        //private delegate int GetDramColorPointer(IntPtr handle, IntPtr colors, int size);
 
         #endregion
 

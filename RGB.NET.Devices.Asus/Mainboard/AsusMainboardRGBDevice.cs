@@ -32,9 +32,8 @@ namespace RGB.NET.Devices.Asus
             for (int i = 0; i < ledCount; i++)
                 InitializeLed(LedId.Mainboard1 + i, new Rectangle(i * 40, 0, 40, 8));
 
-            //TODO DarthAffe 07.10.2017: We don'T know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Mainboards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"),
-                null, PathHelper.GetAbsolutePath(@"Images\Asus\Mainboards"));
+            //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Mainboards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />
