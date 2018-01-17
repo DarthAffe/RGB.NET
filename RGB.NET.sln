@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{06416566
 		NuGet\RGB.NET.Devices.Asus.nuspec = NuGet\RGB.NET.Devices.Asus.nuspec
 		NuGet\RGB.NET.Devices.CoolerMaster.nuspec = NuGet\RGB.NET.Devices.CoolerMaster.nuspec
 		NuGet\RGB.NET.Devices.Corsair.nuspec = NuGet\RGB.NET.Devices.Corsair.nuspec
+		NuGet\RGB.NET.Devices.Debug.nuspec = NuGet\RGB.NET.Devices.Debug.nuspec
 		NuGet\RGB.NET.Devices.Logitech.nuspec = NuGet\RGB.NET.Devices.Logitech.nuspec
 		NuGet\RGB.NET.Devices.Msi.nuspec = NuGet\RGB.NET.Devices.Msi.nuspec
 		NuGet\RGB.NET.Devices.Novation.nuspec = NuGet\RGB.NET.Devices.Novation.nuspec
@@ -64,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metapackages", "Metapackage
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Razer", "RGB.NET.Devices.Razer\RGB.NET.Devices.Razer.csproj", "{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Devices.Debug", "RGB.NET.Devices.Debug\RGB.NET.Devices.Debug.csproj", "{D013040E-1931-4F0D-9CCA-0F4AE74A507E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +126,10 @@ Global
 		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D013040E-1931-4F0D-9CCA-0F4AE74A507E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D013040E-1931-4F0D-9CCA-0F4AE74A507E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D013040E-1931-4F0D-9CCA-0F4AE74A507E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D013040E-1931-4F0D-9CCA-0F4AE74A507E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +148,7 @@ Global
 		{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 		{C191D5BE-E1B2-47E4-AB39-D954B277188C} = {06416566-481F-4571-80EE-7BB05B1E0299}
 		{24FF4ACB-D679-4B2D-86D4-50AB6C02D816} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
+		{D013040E-1931-4F0D-9CCA-0F4AE74A507E} = {33D5E279-1C4E-4AB6-9D1E-6D18109A6C25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDECA6C7-8D18-4AF3-94F7-C70A69B8571B}
