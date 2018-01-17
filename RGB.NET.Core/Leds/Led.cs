@@ -50,6 +50,11 @@ namespace RGB.NET.Core
         public Rectangle LedRectangle { get; }
 
         /// <summary>
+        /// Gets a rectangle representing the physical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
+        /// </summary>
+        public Rectangle AbsoluteLedRectangle => (LedRectangle.Location + Device.Location) + new Size(LedRectangle.Size.Width, LedRectangle.Size.Height);
+
+        /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
         /// </summary>
         public bool IsDirty => RequestedColor != _color;

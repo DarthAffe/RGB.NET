@@ -117,7 +117,7 @@ namespace RGB.NET.Groups
         /// Gets a list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.
         /// </summary>
         /// <returns>The list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.</returns>
-        public override IEnumerable<Led> GetLeds() => _ledCache ?? (_ledCache = RGBSurface.Instance.Leds.Where(x => x.LedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList());
+        public override IEnumerable<Led> GetLeds() => _ledCache ?? (_ledCache = RGBSurface.Instance.Leds.Where(x => x.AbsoluteLedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList());
 
         private void InvalidateCache() => _ledCache = null;
 

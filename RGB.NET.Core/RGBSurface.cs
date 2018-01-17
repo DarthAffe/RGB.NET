@@ -131,14 +131,14 @@ namespace RGB.NET.Core
             switch (brush.BrushCalculationMode)
             {
                 case BrushCalculationMode.Relative:
-                    Rectangle brushRectangle = new Rectangle(leds.Select(GetDeviceLedLocation));
+                    Rectangle brushRectangle = new Rectangle(leds.Select(led => led.AbsoluteLedRectangle));
                     Point offset = new Point(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                     brushRectangle.Location = new Point(0, 0);
                     brush.PerformRender(brushRectangle,
                                         leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x, offset))));
                     break;
                 case BrushCalculationMode.Absolute:
-                    brush.PerformRender(SurfaceRectangle, leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x))));
+                    brush.PerformRender(SurfaceRectangle, leds.Select(x => new BrushRenderTarget(x, x.AbsoluteLedRectangle)));
                     break;
                 default:
                     throw new ArgumentException();
@@ -151,9 +151,11 @@ namespace RGB.NET.Core
                 renders.Key.Led.Color = renders.Value;
         }
 
-        private Rectangle GetDeviceLedLocation(Led led) => (led.LedRectangle.Location + led.Device.Location) + new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height);
-
-        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset) => (led.LedRectangle.Location + led.Device.Location + extraOffset) + new Size(led.LedRectangle.Size.Width, led.LedRectangle.Size.Height);
+        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset)
+        {
+            Rectangle absoluteRectangle = led.AbsoluteLedRectangle;
+            return (absoluteRectangle.Location + extraOffset) + absoluteRectangle.Size;
+        }
 
         /// <summary>
         /// Attaches the given <see cref="ILedGroup"/>.
