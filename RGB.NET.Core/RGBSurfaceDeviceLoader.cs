@@ -46,7 +46,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Automatically aligns all devices to prevent overlaps.
         /// </summary>
-        public void AlignDevies()
+        public void AlignDevices()
         {
             double posX = 0;
             foreach (IRGBDevice device in Devices)
