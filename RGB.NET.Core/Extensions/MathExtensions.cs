@@ -60,7 +60,7 @@ namespace RGB.NET.Core
         {
             double range = max - min;
 
-            while (value > max)
+            while (value >= max)
                 value -= range;
 
             while (value < min)
