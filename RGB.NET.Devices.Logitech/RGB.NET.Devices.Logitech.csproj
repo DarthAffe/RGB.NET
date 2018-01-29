@@ -56,6 +56,7 @@
     <Compile Include="Generic\ILogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
+    <Compile Include="LogitechDeviceProviderLoader.cs" />
     <Compile Include="PerKey\BitmapMapping.cs" />
     <Compile Include="HID\DeviceChecker.cs" />
     <Compile Include="LogitechDeviceProvider.cs" />

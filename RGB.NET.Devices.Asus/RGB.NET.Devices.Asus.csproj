@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsusDeviceProvider.cs" />
+    <Compile Include="AsusDeviceProviderLoader.cs" />
     <Compile Include="Dram\AsusDramRGBDevice.cs" />
     <Compile Include="Dram\AsusDramRGBDeviceInfo.cs" />
     <Compile Include="Enum\AsusLogicalKeyboardLayout.cs" />

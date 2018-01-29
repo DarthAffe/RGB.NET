@@ -59,6 +59,7 @@
     <Compile Include="Decorators\ILedGroupDecorator.cs" />
     <Compile Include="Devices\AbstractRGBDevice.cs" />
     <Compile Include="Devices\DeviceUpdateMode.cs" />
+    <Compile Include="Devices\IRGBDeviceProviderLoader.cs" />
     <Compile Include="Devices\IRGBDeviceSpecialPart.cs" />
     <Compile Include="Devices\Layout\LedImage.cs" />
     <Compile Include="Devices\Layout\LedImageLayout.cs" />

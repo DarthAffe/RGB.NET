@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Attributes\DeviceTypeAttribute.cs" />
     <Compile Include="CoolerMasterDeviceProvider.cs" />
+    <Compile Include="CoolerMasterDeviceProviderLoader.cs" />
     <Compile Include="Enum\CoolerMasterPhysicalKeyboardLayout.cs" />
     <Compile Include="Enum\CoolerMasterDevicesIndexes.cs" />
     <Compile Include="Enum\CoolerMasterEffects.cs" />

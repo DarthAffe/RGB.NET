@@ -50,6 +50,7 @@
     <Compile Include="Generic\MsiRGBDevice.cs" />
     <Compile Include="Generic\MsiRGBDeviceInfo.cs" />
     <Compile Include="MsiDeviceProvider.cs" />
+    <Compile Include="MsiDeviceProviderLoader.cs" />
     <Compile Include="Native\_MsiSDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

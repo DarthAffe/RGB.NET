@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CorsairDeviceProvider.cs" />
+    <Compile Include="CorsairDeviceProviderLoader.cs" />
     <Compile Include="Enum\CorsairAccessMode.cs" />
     <Compile Include="Enum\CorsairDeviceCaps.cs" />
     <Compile Include="Enum\CorsairDeviceType.cs" />

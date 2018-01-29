@@ -78,6 +78,7 @@
     <Compile Include="Enum\RazerError.cs" />
     <Compile Include="Native\_RazerSDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RazerDeviceProviderLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">

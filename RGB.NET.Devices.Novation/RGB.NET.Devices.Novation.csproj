@@ -64,6 +64,7 @@
     <Compile Include="Launchpad\NovationLaunchpadRGBDevice.cs" />
     <Compile Include="Launchpad\NovationLaunchpadRGBDeviceInfo.cs" />
     <Compile Include="NovationDeviceProvider.cs" />
+    <Compile Include="NovationDeviceProviderLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
