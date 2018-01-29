@@ -144,19 +144,32 @@ namespace RGB.NET.Devices.CoolerMaster
         public void ResetDevices()
         {
             if (IsInitialized)
-                try
+                foreach (IRGBDevice device in Devices)
                 {
-                    foreach (IRGBDevice device in Devices)
+                    try
                     {
                         CoolerMasterRGBDeviceInfo deviceInfo = (CoolerMasterRGBDeviceInfo)device.DeviceInfo;
                         _CoolerMasterSDK.SetControlDevice(deviceInfo.DeviceIndex);
                         _CoolerMasterSDK.EnableLedControl(false);
                         _CoolerMasterSDK.EnableLedControl(true);
                     }
+                    catch {/* shit happens */}
                 }
-                catch
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (IsInitialized)
+                foreach (IRGBDevice device in Devices)
                 {
-                    // shit happens ...
+                    try
+                    {
+                        CoolerMasterRGBDeviceInfo deviceInfo = (CoolerMasterRGBDeviceInfo)device.DeviceInfo;
+                        _CoolerMasterSDK.SetControlDevice(deviceInfo.DeviceIndex);
+                        _CoolerMasterSDK.EnableLedControl(false);
+                    }
+                    catch {/* shit happens */}
                 }
         }
 

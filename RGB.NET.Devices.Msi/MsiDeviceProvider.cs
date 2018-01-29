@@ -128,6 +128,10 @@ namespace RGB.NET.Devices.Msi
             //TODO DarthAffe 11.11.2017: Implement
         }
 
+        /// <inheritdoc />
+        public void Dispose()
+        { }
+
         #endregion
     }
 }

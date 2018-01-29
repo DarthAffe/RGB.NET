@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Debug
@@ -73,7 +74,6 @@ namespace RGB.NET.Devices.Debug
             try
             {
                 HasExclusiveAccess = exclusiveAccessIfPossible;
-                IsInitialized = true;
 
                 List<IRGBDevice> devices = new List<IRGBDevice>();
                 foreach ((string layout, string imageLayout, Func<Dictionary<LedId, Color>> syncBackFunc, Action<IEnumerable<Led>> updateLedsAction) in _fakeDeviceDefinitions)
@@ -83,7 +83,8 @@ namespace RGB.NET.Devices.Debug
                     devices.Add(device);
                 }
 
-                Devices = devices;
+                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
+                IsInitialized = true;
 
                 return true;
             }
@@ -97,6 +98,12 @@ namespace RGB.NET.Devices.Debug
         /// <inheritdoc />
         public void ResetDevices()
         { }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            _fakeDeviceDefinitions.Clear();
+        }
 
         #endregion
     }

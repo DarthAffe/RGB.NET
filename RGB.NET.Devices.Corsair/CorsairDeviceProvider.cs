@@ -195,10 +195,7 @@ namespace RGB.NET.Devices.Corsair
                 {
                     _CUESDK.Reload();
                 }
-                catch
-                {
-                    // shit happens ...
-                }
+                catch {/* shit happens */}
         }
 
         private void Reset()
@@ -208,6 +205,10 @@ namespace RGB.NET.Devices.Corsair
             Devices = null;
             IsInitialized = false;
         }
+
+        /// <inheritdoc />
+        public void Dispose()
+        { }
 
         #endregion
     }

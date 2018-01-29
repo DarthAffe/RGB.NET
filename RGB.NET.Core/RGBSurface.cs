@@ -112,6 +112,10 @@ namespace RGB.NET.Core
                 try { device.Dispose(); }
                 catch { /* We do what we can */ }
 
+            foreach (IRGBDeviceProvider deviceProvider in _deviceProvider)
+                try { deviceProvider.Dispose(); }
+                catch { /* We do what we can */ }
+
             _ledGroups.Clear();
             _devices = null;
             _deviceProvider = null;

@@ -140,10 +140,10 @@ namespace RGB.NET.Devices.Logitech
         }
 
         /// <inheritdoc />
-        public void ResetDevices()
-        {
-            _LogitechGSDK.LogiLedRestoreLighting();
-        }
+        public void ResetDevices() => _LogitechGSDK.LogiLedRestoreLighting();
+
+        /// <inheritdoc />
+        public void Dispose() => _LogitechGSDK.LogiLedRestoreLighting();
 
         #endregion
     }

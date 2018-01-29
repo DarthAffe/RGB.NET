@@ -110,6 +110,10 @@ namespace RGB.NET.Devices.Novation
             }
         }
 
+        /// <inheritdoc />
+        public void Dispose()
+        { }
+
         #endregion
     }
 }

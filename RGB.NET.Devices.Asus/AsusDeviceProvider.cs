@@ -253,6 +253,10 @@ namespace RGB.NET.Devices.Asus
             }
         }
 
+        /// <inheritdoc />
+        public void Dispose()
+        { }
+
         #endregion
     }
 }

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a generic device provider.
     /// </summary>
-    public interface IRGBDeviceProvider
+    public interface IRGBDeviceProvider : IDisposable
     {
         #region Properties & Fields
 
