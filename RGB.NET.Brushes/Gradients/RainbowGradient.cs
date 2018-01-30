@@ -15,15 +15,25 @@ namespace RGB.NET.Brushes.Gradients
     {
         #region Properties & Fields
 
+        private double _startHue;
         /// <summary>
         /// Gets or sets the hue (in degrees) to start from.
         /// </summary>
-        public double StartHue { get; set; }
+        public double StartHue
+        {
+            get => _startHue;
+            set => SetProperty(ref _startHue, value);
+        }
 
+        private double _endHue;
         /// <summary>
         /// Gets or sets the hue (in degrees) to end the with.
         /// </summary>
-        public double EndHue { get; set; }
+        public double EndHue
+        {
+            get => _endHue;
+            set => SetProperty(ref _endHue, value);
+        }
 
         #endregion
 

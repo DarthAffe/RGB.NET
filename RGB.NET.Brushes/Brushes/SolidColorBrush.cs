@@ -13,10 +13,15 @@ namespace RGB.NET.Brushes
     {
         #region Properties & Fields
 
+        private Color _color;
         /// <summary>
         /// Gets or sets the <see cref="Color"/> drawn by this <see cref="SolidColorBrush"/>.
         /// </summary>
-        public Color Color { get; set; }
+        public Color Color
+        {
+            get => _color;
+            set => SetProperty(ref _color, value);
+        }
 
         #endregion
 

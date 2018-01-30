@@ -20,18 +20,33 @@ namespace RGB.NET.Brushes
     {
         #region Properties & Fields
 
+        private Point _startPoint = new Point(0, 0.5);
         /// <summary>
         /// Gets or sets the start <see cref="Point"/> (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="LinearGradientBrush"/>. (default: 0.0, 0.5)
         /// </summary>
-        public Point StartPoint { get; set; } = new Point(0, 0.5);
+        public Point StartPoint
+        {
+            get => _startPoint;
+            set => SetProperty(ref _startPoint, value);
+        }
 
+        private Point _endPoint = new Point(1, 0.5);
         /// <summary>
         /// Gets or sets the end <see cref="Point"/>  (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="LinearGradientBrush"/>. (default: 1.0, 0.5)
         /// </summary>
-        public Point EndPoint { get; set; } = new Point(1, 0.5);
+        public Point EndPoint
+        {
+            get => _endPoint;
+            set => SetProperty(ref _endPoint, value);
+        }
 
+        private IGradient _gradient;
         /// <inheritdoc />
-        public IGradient Gradient { get; set; }
+        public IGradient Gradient
+        {
+            get => _gradient;
+            set => SetProperty(ref _gradient, value);
+        }
 
         #endregion
 

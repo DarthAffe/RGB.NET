@@ -19,21 +19,36 @@ namespace RGB.NET.Brushes
     {
         #region Properties & Fields
 
+        private float _origin = (float)Math.Atan2(-1, 0);
         /// <summary>
         /// Gets or sets the origin (radian-angle) this <see cref="ConicalGradientBrush"/> is drawn to. (default: -π/2)
         /// </summary>
-        public float Origin { get; set; } = (float)Math.Atan2(-1, 0);
+        public float Origin
+        {
+            get => _origin;
+            set => SetProperty(ref _origin, value);
+        }
 
+        private Point _center = new Point(0.5, 0.5);
         /// <summary>
         /// Gets or sets the center <see cref="Point"/> (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="ConicalGradientBrush"/>. (default: 0.5, 0.5)
         /// </summary>
-        public Point Center { get; set; } = new Point(0.5, 0.5);
+        public Point Center
+        {
+            get => _center;
+            set => SetProperty(ref _center, value);
+        }
 
+        private IGradient _gradient;
         /// <inheritdoc />
         /// <summary>
         /// Gets or sets the gradient drawn by the brush. If null it will default to full transparent.
         /// </summary>
-        public IGradient Gradient { get; set; }
+        public IGradient Gradient
+        {
+            get => _gradient;
+            set => SetProperty(ref _gradient, value);
+        }
 
         #endregion
 

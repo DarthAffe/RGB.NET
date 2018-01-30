@@ -2,7 +2,7 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using RGB.NET.Core;
 
@@ -20,14 +20,19 @@ namespace RGB.NET.Brushes.Gradients
         /// <summary>
         /// Gets a list of the stops used by this <see cref="AbstractGradient"/>.
         /// </summary>
-        public IList<GradientStop> GradientStops { get; } = new List<GradientStop>();
+        public ObservableCollection<GradientStop> GradientStops { get; } = new ObservableCollection<GradientStop>();
 
+        private bool _wrapGradient;
         /// <summary>
         /// Gets or sets if the Gradient wraps around if there isn't a second stop to take.
         /// Example: There is a stop at offset 0.0, 0.5 and 0.75. 
         /// Without wrapping offset 1.0 will be calculated the same as 0.75; with wrapping it would be the same as 0.0.
         /// </summary>
-        public bool WrapGradient { get; set; }
+        public bool WrapGradient
+        {
+            get => _wrapGradient;
+            set => SetProperty(ref _wrapGradient, value);
+        }
 
         #endregion
 

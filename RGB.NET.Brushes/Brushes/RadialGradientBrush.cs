@@ -18,13 +18,23 @@ namespace RGB.NET.Brushes
     {
         #region Properties & Fields
 
+        private Point _center = new Point(0.5, 0.5);
         /// <summary>
         /// Gets or sets the center <see cref="Point"/> (as percentage in the range [0..1]) around which the <see cref="RadialGradientBrush"/> should be drawn. (default: 0.5, 0.5)
         /// </summary>
-        public Point Center { get; set; } = new Point(0.5, 0.5);
+        public Point Center
+        {
+            get => _center;
+            set => SetProperty(ref _center, value);
+        }
 
+        private IGradient _gradient;
         /// <inheritdoc />
-        public IGradient Gradient { get; set; }
+        public IGradient Gradient
+        {
+            get => _gradient;
+            set => SetProperty(ref _gradient, value);
+        }
 
         #endregion
 

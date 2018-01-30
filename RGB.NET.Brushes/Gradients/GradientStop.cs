@@ -8,19 +8,29 @@ namespace RGB.NET.Brushes.Gradients
     /// <summary>
     /// Represents a stop on a gradient.
     /// </summary>
-    public class GradientStop
+    public class GradientStop : AbstractBindable
     {
         #region Properties & Fields
 
+        private double _offset;
         /// <summary>
         /// Gets or sets the percentage offset to place this <see cref="GradientStop"/>. This should be inside the range of [0..1] but it's not necessary.
         /// </summary>
-        public double Offset { get; set; }
+        public double Offset
+        {
+            get => _offset;
+            set => SetProperty(ref _offset, value);
+        }
 
+        private Color _color;
         /// <summary>
         /// Gets or sets the <see cref="Color"/> of this <see cref="GradientStop"/>.
         /// </summary>
-        public Color Color { get; set; }
+        public Color Color
+        {
+            get => _color;
+            set => SetProperty(ref _color, value);
+        }
 
         #endregion
 
