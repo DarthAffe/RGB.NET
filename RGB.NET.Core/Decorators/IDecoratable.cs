@@ -1,9 +1,11 @@
-﻿namespace RGB.NET.Core
+﻿using System.ComponentModel;
+
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a basic decoratable.
     /// </summary>
-    public interface IDecoratable
+    public interface IDecoratable : INotifyPropertyChanged
     { }
 
     /// <inheritdoc />
