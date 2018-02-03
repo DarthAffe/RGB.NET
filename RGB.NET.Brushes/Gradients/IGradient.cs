@@ -1,4 +1,5 @@
-﻿using RGB.NET.Core;
+﻿using System;
+using RGB.NET.Core;
 
 namespace RGB.NET.Brushes.Gradients
 {
@@ -8,6 +9,11 @@ namespace RGB.NET.Brushes.Gradients
     /// </summary>
     public interface IGradient : IDecoratable<IGradientDecorator>
     {
+        /// <summary>
+        /// Occurs if the <see cref="IGradient"/> is changed.
+        /// </summary>
+        event EventHandler GradientChanged;
+
         /// <summary>
         /// Gets the <see cref="Color"/> of the <see cref="IGradient"/> on the specified offset.
         /// </summary>

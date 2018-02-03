@@ -2,7 +2,10 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using RGB.NET.Core;
 
@@ -36,13 +39,23 @@ namespace RGB.NET.Brushes.Gradients
 
         #endregion
 
+        #region Events
+
+        /// <inheritdoc />
+        public event EventHandler GradientChanged;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractGradient"/> class.
         /// </summary>
         protected AbstractGradient()
-        { }
+        {
+            GradientStops.CollectionChanged += GradientCollectionChanged;
+            PropertyChanged += (sender, args) => OnGradientChanged();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractGradient"/> class.
@@ -50,6 +63,9 @@ namespace RGB.NET.Brushes.Gradients
         /// <param name="gradientStops">The stops with which the gradient should be initialized.</param>
         protected AbstractGradient(params GradientStop[] gradientStops)
         {
+            GradientStops.CollectionChanged += GradientCollectionChanged;
+            PropertyChanged += (sender, args) => OnGradientChanged();
+
             foreach (GradientStop gradientStop in gradientStops)
                 GradientStops.Add(gradientStop);
         }
@@ -62,6 +78,9 @@ namespace RGB.NET.Brushes.Gradients
         protected AbstractGradient(bool wrapGradient, params GradientStop[] gradientStops)
         {
             this.WrapGradient = wrapGradient;
+
+            GradientStops.CollectionChanged += GradientCollectionChanged;
+            PropertyChanged += (sender, args) => OnGradientChanged();
 
             foreach (GradientStop gradientStop in gradientStops)
                 GradientStops.Add(gradientStop);
@@ -105,6 +124,26 @@ namespace RGB.NET.Brushes.Gradients
                 foreach (GradientStop gradientStop in GradientStops)
                     gradientStop.Offset += 1;
         }
+
+        /// <summary>
+        /// Should be called to indicate that the gradient was changed.
+        /// </summary>
+        protected void OnGradientChanged() => GradientChanged?.Invoke(this, null);
+
+        private void GradientCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+                foreach (GradientStop gradientStop in e.OldItems)
+                    gradientStop.PropertyChanged -= GradientStopChanged;
+
+            if (e.NewItems != null)
+                foreach (GradientStop gradientStop in e.NewItems)
+                    gradientStop.PropertyChanged += GradientStopChanged;
+
+            OnGradientChanged();
+        }
+
+        private void GradientStopChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) => OnGradientChanged();
 
         #endregion
     }

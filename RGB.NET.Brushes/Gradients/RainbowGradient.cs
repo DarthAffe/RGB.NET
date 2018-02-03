@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System;
 using RGB.NET.Core;
 
 namespace RGB.NET.Brushes.Gradients
@@ -37,6 +38,13 @@ namespace RGB.NET.Brushes.Gradients
 
         #endregion
 
+        #region Events
+
+        /// <inheritdoc />
+        public event EventHandler GradientChanged;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -48,6 +56,8 @@ namespace RGB.NET.Brushes.Gradients
         {
             this.StartHue = startHue;
             this.EndHue = endHue;
+
+            PropertyChanged += (sender, args) => OnGradientChanged();
         }
 
         #endregion
@@ -89,6 +99,11 @@ namespace RGB.NET.Brushes.Gradients
                 EndHue += 360;
             }
         }
+
+        /// <summary>
+        /// Should be called to indicate that the gradient was changed.
+        /// </summary>
+        protected void OnGradientChanged() => GradientChanged?.Invoke(this, null);
 
         #endregion
     }
