@@ -8,6 +8,7 @@ namespace RGB.NET.Devices.Corsair
         internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new Dictionary<LedId, CorsairLedId>
         {
             { LedId.Invalid, CorsairLedId.Invalid },
+            { LedId.Logo, CorsairLedId.Logo },
             { LedId.Keyboard_Escape, CorsairLedId.Escape },
             { LedId.Keyboard_F1, CorsairLedId.F1 },
             { LedId.Keyboard_F2, CorsairLedId.F2 },
@@ -153,6 +154,27 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Keyboard_Programmable18, CorsairLedId.G18 },
             { LedId.Keyboard_International5, CorsairLedId.International5 },
             { LedId.Keyboard_International4, CorsairLedId.International4 },
+            { LedId.Keyboard_Custom1, CorsairLedId.Lightbar1 },
+            { LedId.Keyboard_Custom2, CorsairLedId.Lightbar2 },
+            { LedId.Keyboard_Custom3, CorsairLedId.Lightbar3 },
+            { LedId.Keyboard_Custom4, CorsairLedId.Lightbar4 },
+            { LedId.Keyboard_Custom5, CorsairLedId.Lightbar5 },
+            { LedId.Keyboard_Custom6, CorsairLedId.Lightbar6 },
+            { LedId.Keyboard_Custom7, CorsairLedId.Lightbar7 },
+            { LedId.Keyboard_Custom8, CorsairLedId.Lightbar8 },
+            { LedId.Keyboard_Custom9, CorsairLedId.Lightbar9 },
+            { LedId.Keyboard_Custom10, CorsairLedId.Lightbar10 },
+            { LedId.Keyboard_Custom11, CorsairLedId.Lightbar11 },
+            { LedId.Keyboard_Custom12, CorsairLedId.Lightbar12 },
+            { LedId.Keyboard_Custom13, CorsairLedId.Lightbar13 },
+            { LedId.Keyboard_Custom14, CorsairLedId.Lightbar14 },
+            { LedId.Keyboard_Custom15, CorsairLedId.Lightbar15 },
+            { LedId.Keyboard_Custom16, CorsairLedId.Lightbar16 },
+            { LedId.Keyboard_Custom17, CorsairLedId.Lightbar17 },
+            { LedId.Keyboard_Custom18, CorsairLedId.Lightbar18 },
+            { LedId.Keyboard_Custom19, CorsairLedId.Lightbar19 },
+            { LedId.Keyboard_Custom20, CorsairLedId.LedProgramming },
+            { LedId.Keyboard_Custom21, CorsairLedId.Fn }
         };
     }
 }
