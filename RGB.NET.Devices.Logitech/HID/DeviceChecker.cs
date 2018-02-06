@@ -17,12 +17,14 @@ namespace RGB.NET.Devices.Logitech.HID
                 = new List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)>
                   {
                       ("G910", RGBDeviceType.Keyboard, 0xC32B, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
+                      ("G810", RGBDeviceType.Keyboard, 0xC337, "DE", @"Keyboards\G810\UK"),
                       ("G610", RGBDeviceType.Keyboard, 0xC333, "DE", @"Keyboards\G610\UK"),
                   };
 
         private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
             = new List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)>
               {
+                  ("G903", RGBDeviceType.Mouse, 0xC086, "default", @"Mice\G903"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, "default", @"Mice\G403"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, "default", @"Mice\G502"),
               };
