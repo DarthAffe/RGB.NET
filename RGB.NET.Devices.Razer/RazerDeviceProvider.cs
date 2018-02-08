@@ -99,7 +99,8 @@ namespace RGB.NET.Devices.Razer
                 _RazerSDK.Reload();
 
                 RazerError error;
-                if ((error = _RazerSDK.Init()) != RazerError.Success)
+                if (((error = _RazerSDK.Init()) != RazerError.Success) 
+                    && Enum.IsDefined(typeof(RazerError), error)) //HACK DarthAffe 08.02.2018: The x86-SDK seems to have a problem here ...
                     ThrowRazerError(error);
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
