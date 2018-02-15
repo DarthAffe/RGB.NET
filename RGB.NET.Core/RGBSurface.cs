@@ -60,6 +60,8 @@ namespace RGB.NET.Core
         private RGBSurface()
         {
             _lastUpdate = DateTime.Now;
+
+            CheckUpdateLoop();
         }
 
         #endregion

@@ -29,7 +29,7 @@ namespace RGB.NET.Core
         /// </summary>
         public double LastUpdateTime { get; private set; }
 
-        private UpdateMode _updateMode = UpdateMode.Manual;
+        private UpdateMode _updateMode = UpdateMode.Continuous;
         /// <summary>
         /// Gets or sets the update-mode.
         /// </summary>
