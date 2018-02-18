@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>RGB.NET.Devices.DMX</id>
+    <title>RGB.NET.Devices.DMX</title>
+    <version>0.0.1</version>
+    <authors>Darth Affe</authors>
+    <owners>Darth Affe</owners>
+    <projectUrl>https://github.com/DarthAffe/RGB.NET</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>DMX-Device-Implementations of RGB.NET</description>
+    <releaseNotes></releaseNotes>
+    <summary>DMX-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</summary>
+    <copyright>Copyright © Wyrez 2018</copyright>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="RGB.NET.Core" version="0.0.1" />
+      <dependency id="System.ValueTuple" version="4.4.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\bin\RGB.NET.Devices.DMX.dll" target="lib\net45\RGB.NET.Devices.DMX.dll" />
+    <file src="..\bin\RGB.NET.Devices.DMX.pdb" target="lib\net45\RGB.NET.Devices.DMX.pdb" />
+    <file src="..\bin\RGB.NET.Devices.DMX.xml" target="lib\net45\RGB.NET.Devices.DMX.xml" />
+    <file src="..\RGB.NET.Devices.DMX\**\*.cs" target="src" exclude="..\RGB.NET.Devices.DMX\obj\**\*.*" />
+  </files>
+</package>
