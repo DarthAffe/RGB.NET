@@ -14,3 +14,7 @@ This is the easiest and therefore preferred way to include RGB.NET in your proje
 Since there aren't stable packages on nuget right now you need to use the CI-build.    
 You can get them from the [RGB.NET MyGet gallery](https://www.myget.org/gallery/rgb_net) by adding the feed as a package source to your Visual Studio.  
 _You need to check "Include prerelease" to see the package in Visual Studio._
+
+
+### Example usage of RGB.NET
+[![Example video](https://img.youtube.com/vi/JLRa0Wv4qso/0.jpg)](http://www.youtube.com/watch?v=JLRa0Wv4qso)
