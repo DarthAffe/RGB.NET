@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Debug
         #region Properties & Fields
 
         /// <inheritdoc />
-        public bool RequiresInitialization => false;
+        public bool RequiresInitialization => true;
 
         #endregion
 

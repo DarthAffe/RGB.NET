@@ -327,6 +327,18 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Gets the current color as a RGB-HEX-string.
+        /// </summary>
+        /// <returns>The RGB-HEX-string.</returns>
+        public string AsRGBHexString() => ConversionHelper.ToHex(R, G, B);
+
+        /// <summary>
+        /// Gets the current color as a ARGB-HEX-string.
+        /// </summary>
+        /// <returns>The ARGB-HEX-string.</returns>
+        public string AsARGBHexString() => ConversionHelper.ToHex(A, R, G, B);
+
         #region Deconstruction
 
         /// <summary>
