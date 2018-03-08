@@ -65,11 +65,9 @@ namespace RGB.NET.Core
 
         /// <summary>
         /// Perform an update for all dirty <see cref="Led"/>, or all <see cref="Led"/> if flushLeds is set to true.
-        /// Only physically syncs the colors to the device if <paramref name="sync"/> is set to true.
         /// </summary>
-        /// <param name="sync">Specifies whether the colors should be synced to the device or not.</param>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/> (including clean ones) should be updated.</param>
-        void Update(bool sync = true, bool flushLeds = false);
+        void Update(bool flushLeds = false);
 
         /// <summary>
         /// Synchronizes the internal state of the device to the real (physical) state.

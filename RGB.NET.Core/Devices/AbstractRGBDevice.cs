@@ -1,5 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 using System;
 using System.Collections;
@@ -42,6 +43,11 @@ namespace RGB.NET.Core
             set => SetProperty(ref _location, value);
         }
 
+        /// <summary>
+        /// Gets or sets if the device needs to be flushed on every update.
+        /// </summary>
+        protected bool RequiresFlush { get; set; } = false;
+
         /// <inheritdoc />
         public DeviceUpdateMode UpdateMode { get; set; } = DeviceUpdateMode.Sync;
 
@@ -74,13 +80,13 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <inheritdoc />
-        public virtual void Update(bool render = true, bool flushLeds = false)
+        public virtual void Update(bool flushLeds = false)
         {
             // Device-specific updates
             DeviceUpdate();
 
             // Send LEDs to SDK
-            IEnumerable<Led> ledsToUpdate = (flushLeds ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).ToList();
+            IEnumerable<Led> ledsToUpdate = ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).ToList();
             foreach (Led ledToUpdate in ledsToUpdate)
                 ledToUpdate.Update();
 
