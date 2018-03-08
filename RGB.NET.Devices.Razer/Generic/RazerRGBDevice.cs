@@ -35,6 +35,8 @@ namespace RGB.NET.Devices.Razer
         protected RazerRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
+
+            RequiresFlush = true;
         }
 
         #endregion
