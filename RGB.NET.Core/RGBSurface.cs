@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RGB.NET.Core
@@ -22,7 +23,7 @@ namespace RGB.NET.Core
         /// </summary>
         public static RGBSurface Instance { get; } = new RGBSurface();
 
-        private DateTime _lastUpdate;
+        private long _lastUpdateTicks;
 
         private IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
         private IList<IRGBDevice> _devices = new List<IRGBDevice>();
@@ -59,7 +60,7 @@ namespace RGB.NET.Core
         /// </summary>
         private RGBSurface()
         {
-            _lastUpdate = DateTime.Now;
+            _lastUpdateTicks = Stopwatch.GetTimestamp();
 
             CheckUpdateLoop();
         }

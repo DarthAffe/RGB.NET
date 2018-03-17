@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -86,11 +87,11 @@ namespace RGB.NET.Core
         {
             while (!_updateToken.IsCancellationRequested)
             {
-                long preUpdateTicks = DateTime.Now.Ticks;
+                long preUpdateTicks = Stopwatch.GetTimestamp();
 
                 Update();
 
-                LastUpdateTime = ((DateTime.Now.Ticks - preUpdateTicks) / 10000.0);
+                LastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
                 int sleep = (int)((UpdateFrequency * 1000.0) - LastUpdateTime);
                 if (sleep > 0)
                     Thread.Sleep(sleep);

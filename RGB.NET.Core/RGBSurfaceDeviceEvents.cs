@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace RGB.NET.Core
 {
@@ -82,9 +83,9 @@ namespace RGB.NET.Core
         {
             try
             {
-                long lastUpdateTicks = _lastUpdate.Ticks;
-                _lastUpdate = DateTime.Now;
-                Updating?.Invoke(new UpdatingEventArgs((DateTime.Now.Ticks - lastUpdateTicks) / 10000000.0));
+                long lastUpdateTicks = _lastUpdateTicks;
+                _lastUpdateTicks = Stopwatch.GetTimestamp();
+                Updating?.Invoke(new UpdatingEventArgs((_lastUpdateTicks - lastUpdateTicks) / 10000000.0));
             }
             catch { /* Well ... that's not my fault */ }
         }
