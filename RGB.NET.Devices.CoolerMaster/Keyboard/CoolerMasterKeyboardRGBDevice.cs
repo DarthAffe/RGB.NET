@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Devices.CoolerMaster.Native;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
@@ -25,27 +23,6 @@ namespace RGB.NET.Devices.CoolerMaster
         #endregion
 
         #region Methods
-
-        /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
-
-            if (leds.Count > 0)
-            {
-                // 6 by 22 seems hard-coded but it's what the CM SDK expects regardless of keyboard size
-                _CoolerMasterColorMatrix colorMatrix = new _CoolerMasterColorMatrix { KeyColor = new _CoolerMasterKeyColor[_CoolerMasterColorMatrix.ROWS, _CoolerMasterColorMatrix.COLUMNS] };
-                foreach (Led led in leds)
-                {
-                    (int row, int column) = ((int, int))led.CustomData;
-                    colorMatrix.KeyColor[row, column] = new _CoolerMasterKeyColor(led.Color.R, led.Color.G, led.Color.B);
-                }
-
-                _CoolerMasterSDK.SetControlDevice(DeviceInfo.DeviceIndex);
-                _CoolerMasterSDK.SetAllLedColor(colorMatrix);
-                _CoolerMasterSDK.RefreshLed(false);
-            }
-        }
 
         /// <inheritdoc />
         protected override void InitializeLayout()

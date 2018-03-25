@@ -61,6 +61,8 @@
     <Compile Include="Keyboard\CoolerMasterKeyboardRGBDevice.cs" />
     <Compile Include="Keyboard\CoolerMasterKeyboardRGBDeviceInfo.cs" />
     <Compile Include="Keyboard\CoolerMasterKeyboardLedMappings.cs" />
+    <Compile Include="Mouse\CoolerMasterMouseRGBDevice.cs" />
+    <Compile Include="Mouse\CoolerMasterMouseRGBDeviceInfo.cs" />
     <Compile Include="Mouse\CoolerMasterMouseLedMappings.cs" />
     <Compile Include="Native\_CoolerMasterColorMatrix.cs" />
     <Compile Include="Native\_CoolerMasterSDK.cs" />

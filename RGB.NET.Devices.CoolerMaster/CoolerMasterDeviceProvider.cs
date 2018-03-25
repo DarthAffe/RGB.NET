@@ -117,6 +117,11 @@ namespace RGB.NET.Devices.CoolerMaster
                                     CoolerMasterPhysicalKeyboardLayout physicalLayout = _CoolerMasterSDK.GetDeviceLayout();
                                     device = new CoolerMasterKeyboardRGBDevice(new CoolerMasterKeyboardRGBDeviceInfo(index, physicalLayout, GetCulture()));
                                     break;
+
+                                case RGBDeviceType.Mouse:
+                                    device = new CoolerMasterMouseRGBDevice(new CoolerMasterMouseRGBDeviceInfo(index));
+                                    break;
+
                                 default:
                                     if (throwExceptions)
                                         throw new RGBDeviceException("Unknown Device-Type");

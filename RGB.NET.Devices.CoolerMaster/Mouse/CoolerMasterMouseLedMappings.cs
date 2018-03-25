@@ -20,18 +20,16 @@ namespace RGB.NET.Devices.CoolerMaster
                 { CoolerMasterDevicesIndexes.MasterMouse_L, new Dictionary<LedId, (int row, int column)>
                   {
                     { LedId.Mouse1, (0,0) },
-                    { LedId.Mouse2, (1,0) },
-                    { LedId.Mouse3, (2,0) },
-                    { LedId.Mouse4, (3,0) },
+                    { LedId.Mouse2, (0,1) },
+                    { LedId.Mouse3, (0,2) },
+                    { LedId.Mouse4, (0,3) }
                   }
                 },
 
                 { CoolerMasterDevicesIndexes.MasterMouse_S, new Dictionary<LedId, (int row, int column)>
                   {
                     { LedId.Mouse1, (0,0) },
-                    { LedId.Mouse2, (1,0) },
-                    { LedId.Mouse3, (2,0) },
-                    { LedId.Mouse4, (3,0) },
+                    { LedId.Mouse2, (0,1) }
                   }
                 },
             };
