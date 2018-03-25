@@ -19,6 +19,8 @@ namespace RGB.NET.Devices.Logitech
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
 
+        protected UpdateQueue UpdateQueue { get; set; }
+
         #endregion
 
         #region Constructors
@@ -39,7 +41,7 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize()
+        public void Initialize(UpdateQueue updateQueue)
         {
             InitializeLayout();
 
@@ -48,6 +50,8 @@ namespace RGB.NET.Devices.Logitech
                 Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
+
+            UpdateQueue = updateQueue;
         }
 
         /// <summary>

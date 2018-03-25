@@ -55,6 +55,7 @@
     <Compile Include="Enum\CoolerMasterLogicalKeyboardLayout.cs" />
     <Compile Include="Generic\CoolerMasterRGBDevice.cs" />
     <Compile Include="Generic\CoolerMasterRGBDeviceInfo.cs" />
+    <Compile Include="Generic\CoolerMasterUpdateQueue.cs" />
     <Compile Include="Generic\ICoolerMasterRGBDevice.cs" />
     <Compile Include="Helper\EnumExtension.cs" />
     <Compile Include="Keyboard\CoolerMasterKeyboardRGBDevice.cs" />

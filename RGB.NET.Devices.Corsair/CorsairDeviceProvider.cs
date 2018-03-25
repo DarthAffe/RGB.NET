@@ -66,6 +66,9 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; }
 
+        public UpdateTrigger UpdateTrigger { get; private set; }
+        private CorsairUpdateQueue _updateQueue;
+
         #endregion
 
         #region Constructors
@@ -78,6 +81,9 @@ namespace RGB.NET.Devices.Corsair
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CorsairDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new UpdateTrigger();
+            _updateQueue = new CorsairUpdateQueue(UpdateTrigger);
         }
 
         #endregion
@@ -93,6 +99,8 @@ namespace RGB.NET.Devices.Corsair
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 _CUESDK.Reload();
 
                 ProtocolDetails = new CorsairProtocolDetails(_CUESDK.CorsairPerformProtocolHandshake());
@@ -130,7 +138,7 @@ namespace RGB.NET.Devices.Corsair
                         ICorsairRGBDevice device = GetRGBDevice(info, i, nativeDeviceInfo);
                         if ((device == null) || !loadFilter.HasFlag(device.DeviceInfo.DeviceType)) continue;
 
-                        device.Initialize();
+                        device.Initialize(_updateQueue);
                         AddSpecialParts(device);
 
                         error = LastError;
@@ -141,6 +149,8 @@ namespace RGB.NET.Devices.Corsair
                     }
                     catch { if (throwExceptions) throw; }
                 }
+
+                UpdateTrigger?.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

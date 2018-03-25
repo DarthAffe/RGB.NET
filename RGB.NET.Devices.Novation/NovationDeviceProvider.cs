@@ -39,6 +39,8 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; }
 
+        public UpdateTrigger UpdateTrigger { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -51,6 +53,8 @@ namespace RGB.NET.Devices.Novation
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(NovationDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new UpdateTrigger();
         }
 
         #endregion
@@ -64,6 +68,8 @@ namespace RGB.NET.Devices.Novation
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
 
                 if (loadFilter.HasFlag(RGBDeviceType.LedMatrix))
@@ -81,12 +87,13 @@ namespace RGB.NET.Devices.Novation
                             if (deviceId == null) continue;
 
                             INovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, deviceId.GetColorCapability()));
-                            device.Initialize();
+                            device.Initialize(UpdateTrigger);
                             devices.Add(device);
                         }
                         catch { if (throwExceptions) throw; }
                     }
 
+                UpdateTrigger?.Start();
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;
             }

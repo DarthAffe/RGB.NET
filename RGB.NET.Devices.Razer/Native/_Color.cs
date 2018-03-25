@@ -4,6 +4,7 @@
 // ReSharper disable MemberCanBePrivate.Global
 
 using System.Runtime.InteropServices;
+using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer.Native
 {
@@ -18,6 +19,9 @@ namespace RGB.NET.Devices.Razer.Native
         #endregion
 
         #region Constructors
+
+        public _Color(Color color)
+            : this(color.R, color.G, color.B) { }
 
         public _Color(byte red, byte green, byte blue)
             : this()

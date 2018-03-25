@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChromaLink\RazerChromaLinkUpdateQueue.cs" />
     <Compile Include="Enum\RazerLogicalKeyboardLayout.cs" />
     <Compile Include="Enum\RazerPhysicalKeyboardLayout.cs" />
     <Compile Include="Enum\DeviceType.cs" />
@@ -55,12 +56,18 @@
     <Compile Include="Generic\IRazerRGBDevice.cs" />
     <Compile Include="ChromaLink\RazerChromaLinkRGBDevice.cs" />
     <Compile Include="ChromaLink\RazerChromaLinkRGBDeviceInfo.cs" />
+    <Compile Include="Generic\RazerUpdateQueue.cs" />
+    <Compile Include="Headset\RazerHeadsetUpdateQueue.cs" />
+    <Compile Include="Keyboard\RazerKeyboardUpdateQueue.cs" />
+    <Compile Include="Keypad\RazerKeypadUpdateQueue.cs" />
+    <Compile Include="Mousepad\RazerMousepadUpdateQueue.cs" />
     <Compile Include="Mousepad\RazerMousepadRGBDevice.cs" />
     <Compile Include="Mousepad\RazerMousepadRGBDeviceInfo.cs" />
     <Compile Include="Keypad\RazerKeypadRGBDevice.cs" />
     <Compile Include="Keypad\RazerKeypadRGBDeviceInfo.cs" />
     <Compile Include="Headset\RazerHeadsetRGBDevice.cs" />
     <Compile Include="Headset\RazerHeadsetRGBDeviceInfo.cs" />
+    <Compile Include="Mouse\RazerMouseUpdateQueue.cs" />
     <Compile Include="Mouse\RazerMouseRGBDevice.cs" />
     <Compile Include="Mouse\RazerMouseRGBDeviceInfo.cs" />
     <Compile Include="Keyboard\RazerKeyboardRGBDevice.cs" />

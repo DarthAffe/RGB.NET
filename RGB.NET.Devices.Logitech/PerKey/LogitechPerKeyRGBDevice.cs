@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Devices.Logitech.Native;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -28,37 +26,10 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => PerKeyIdMapping.DEFAULT.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : LogitechLedId.Invalid;
+        protected override object CreateLedCustomData(LedId ledId) => (ledId, PerKeyIdMapping.DEFAULT.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : LogitechLedId.Invalid);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
-            if (leds.Count <= 0) return;
-
-            _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.PerKeyRGB);
-
-            byte[] bitmap = null;
-            foreach (Led led in leds)
-            {
-                // DarthAffe 26.03.2017: This is only needed since update by name doesn't work as expected for all keys ...
-                if (BitmapMapping.BitmapOffset.TryGetValue(led.Id, out int bitmapOffset))
-                {
-                    if (bitmap == null)
-                        bitmap = BitmapMapping.CreateBitmap();
-
-                    BitmapMapping.SetColor(ref bitmap, bitmapOffset, led.Color);
-                }
-                else
-                    _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)led.CustomData,
-                                                                      (int)Math.Round(led.Color.RPercent * 100),
-                                                                      (int)Math.Round(led.Color.GPercent * 100),
-                                                                      (int)Math.Round(led.Color.BPercent * 100));
-            }
-
-            if (bitmap != null)
-                _LogitechGSDK.LogiLedSetLightingFromBitmap(bitmap);
-        }
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         #endregion
     }

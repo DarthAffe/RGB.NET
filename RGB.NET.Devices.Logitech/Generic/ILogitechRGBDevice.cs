@@ -7,6 +7,6 @@ namespace RGB.NET.Devices.Logitech
     /// </summary>
     internal interface ILogitechRGBDevice : IRGBDevice
     {
-        void Initialize();
+        void Initialize(UpdateQueue updateQueue);
     }
 }

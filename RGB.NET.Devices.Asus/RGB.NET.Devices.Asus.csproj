@@ -54,6 +54,7 @@
     <Compile Include="Enum\AsusPhysicalKeyboardLayout.cs" />
     <Compile Include="Generic\AsusRGBDevice.cs" />
     <Compile Include="Generic\AsusRGBDeviceInfo.cs" />
+    <Compile Include="Generic\AsusUpdateQueue.cs" />
     <Compile Include="Generic\IAsusRGBDevice.cs" />
     <Compile Include="GraphicsCard\AsusGraphicsCardRGBDevice.cs" />
     <Compile Include="GraphicsCard\AsusGraphicsCardRGBDeviceInfo.cs" />

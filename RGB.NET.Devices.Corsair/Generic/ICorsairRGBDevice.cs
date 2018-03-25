@@ -7,6 +7,6 @@ namespace RGB.NET.Devices.Corsair
     /// </summary>
     internal interface ICorsairRGBDevice : IRGBDevice
     {
-        void Initialize();
+        void Initialize(CorsairUpdateQueue updateQueue);
     }
 }

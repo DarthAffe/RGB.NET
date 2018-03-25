@@ -15,11 +15,14 @@ namespace RGB.NET.Devices.CoolerMaster
         where TDeviceInfo : CoolerMasterRGBDeviceInfo
     {
         #region Properties & Fields
+
         /// <inheritdoc />
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterRGBDevice" />.
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
+
+        protected CoolerMasterUpdateQueue UpdateQueue { get; set; }
 
         #endregion
 
@@ -42,7 +45,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize()
+        public void Initialize(IUpdateTrigger updateTrigger)
         {
             InitializeLayout();
 
@@ -51,6 +54,8 @@ namespace RGB.NET.Devices.CoolerMaster
                 Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
+
+            UpdateQueue = new CoolerMasterUpdateQueue(updateTrigger, DeviceInfo.DeviceIndex);
         }
 
         /// <summary>
@@ -59,23 +64,7 @@ namespace RGB.NET.Devices.CoolerMaster
         protected abstract void InitializeLayout();
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
-
-            if (leds.Count > 0)
-            {
-                _CoolerMasterSDK.SetControlDevice(DeviceInfo.DeviceIndex);
-
-                foreach (Led led in leds)
-                {
-                    (int row, int column) = ((int, int))led.CustomData;
-                    _CoolerMasterSDK.SetLedColor(row, column, led.Color.R, led.Color.G, led.Color.B);
-                }
-
-                _CoolerMasterSDK.RefreshLed(false);
-            }
-        }
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <inheritdoc cref="IDisposable.Dispose" />
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />

@@ -57,11 +57,13 @@
     <Compile Include="Generic\LogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
     <Compile Include="LogitechDeviceProviderLoader.cs" />
+    <Compile Include="PerDevice\LogitechPerDeviceUpdateQueue.cs" />
     <Compile Include="PerKey\BitmapMapping.cs" />
     <Compile Include="HID\DeviceChecker.cs" />
     <Compile Include="LogitechDeviceProvider.cs" />
     <Compile Include="Native\_LogitechGSDK.cs" />
     <Compile Include="PerDevice\LogitechPerDeviceRGBDevice.cs" />
+    <Compile Include="PerKey\LogitechPerKeyUpdateQueue.cs" />
     <Compile Include="PerKey\PerKeyIdMapping.cs" />
     <Compile Include="PerKey\LogitechPerKeyRGBDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,6 +7,6 @@ namespace RGB.NET.Devices.Asus
     /// </summary>
     internal interface IAsusRGBDevice : IRGBDevice
     {
-        void Initialize();
+        void Initialize(IUpdateTrigger updateTrigger);
     }
 }

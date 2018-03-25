@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Asus.Generic;
 
 namespace RGB.NET.Devices.Asus
 {
@@ -16,16 +17,13 @@ namespace RGB.NET.Devices.Asus
     {
         #region Properties & Fields
 
-        /// <summary>
-        /// Gets or sets the internal color-data cache.
-        /// </summary>
-        protected byte[] ColorData { get; private set; }
-
         /// <inheritdoc />
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Asus.AsusRGBDevice" />.
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
+
+        protected AsusUpdateQueue UpdateQueue { get; set; }
 
         #endregion
 
@@ -47,7 +45,7 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize()
+        public void Initialize(IUpdateTrigger updateTrigger)
         {
             InitializeLayout();
 
@@ -57,7 +55,8 @@ namespace RGB.NET.Devices.Asus
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
-            ColorData = new byte[LedMapping.Count * 3];
+            UpdateQueue = new AsusUpdateQueue(updateTrigger);
+            UpdateQueue.Initialize(GetUpdateColorAction(), DeviceInfo.Handle, LedMapping.Count);
         }
 
         /// <summary>
@@ -66,28 +65,13 @@ namespace RGB.NET.Devices.Asus
         protected abstract void InitializeLayout();
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
-
-            if (leds.Count > 0)
-            {
-                foreach (Led led in leds)
-                {
-                    int index = ((int)led.CustomData) * 3;
-                    ColorData[index] = led.Color.R;
-                    ColorData[index + 1] = led.Color.B;
-                    ColorData[index + 2] = led.Color.G;
-                }
-
-                ApplyColorData();
-            }
-        }
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <summary>
-        /// Sends the color-data-cache to the device.
+        /// Gets a action to update the physical device.
         /// </summary>
-        protected abstract void ApplyColorData();
+        /// <returns></returns>
+        protected abstract Action<IntPtr, byte[]> GetUpdateColorAction();
 
         /// <inheritdoc cref="IDisposable.Dispose" />
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
@@ -95,8 +79,6 @@ namespace RGB.NET.Devices.Asus
         {
             if ((DeviceInfo is AsusRGBDeviceInfo deviceInfo) && (deviceInfo.Handle != IntPtr.Zero))
                 Marshal.FreeHGlobal(deviceInfo.Handle);
-
-            ColorData = null;
 
             base.Dispose();
         }

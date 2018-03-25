@@ -7,6 +7,6 @@ namespace RGB.NET.Devices.CoolerMaster
     /// </summary>
     internal interface ICoolerMasterRGBDevice : IRGBDevice
     {
-        void Initialize();
+        void Initialize(IUpdateTrigger updateTrigger);
     }
 }

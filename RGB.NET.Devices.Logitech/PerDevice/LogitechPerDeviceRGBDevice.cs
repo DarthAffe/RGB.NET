@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Devices.Logitech.Native;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -37,19 +35,10 @@ namespace RGB.NET.Devices.Logitech
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => LogitechLedId.DEVICE;
+        protected override object CreateLedCustomData(LedId ledId) => (ledId, LogitechLedId.DEVICE);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            Led led = ledsToUpdate.FirstOrDefault(x => x.Color.A > 0);
-            if (led == null) return;
-
-            _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.DeviceRGB);
-            _LogitechGSDK.LogiLedSetLighting((int)Math.Round(led.Color.RPercent * 100),
-                                             (int)Math.Round(led.Color.GPercent * 100),
-                                             (int)Math.Round(led.Color.BPercent * 100));
-        }
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0).Take(1));
 
         #endregion
     }

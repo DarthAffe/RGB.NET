@@ -63,6 +63,8 @@ namespace RGB.NET.Devices.Asus
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
+        public UpdateTrigger UpdateTrigger { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -75,6 +77,8 @@ namespace RGB.NET.Devices.Asus
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(AsusDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new UpdateTrigger();
         }
 
         #endregion
@@ -88,6 +92,8 @@ namespace RGB.NET.Devices.Asus
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 _AsusSDK.Reload();
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
@@ -112,7 +118,7 @@ namespace RGB.NET.Devices.Asus
                                     IntPtr handle = Marshal.ReadIntPtr(mainboardHandles, i);
                                     _AsusSDK.SetMbMode(handle, 1);
                                     AsusMainboardRGBDevice device = new AsusMainboardRGBDevice(new AsusMainboardRGBDeviceInfo(RGBDeviceType.Mainboard, handle));
-                                    device.Initialize();
+                                    device.Initialize(UpdateTrigger);
                                     devices.Add(device);
                                 }
                                 catch { if (throwExceptions) throw; }
@@ -143,7 +149,7 @@ namespace RGB.NET.Devices.Asus
                                     IntPtr handle = Marshal.ReadIntPtr(grapicsCardHandles, i);
                                     _AsusSDK.SetGPUMode(handle, 1);
                                     AsusGraphicsCardRGBDevice device = new AsusGraphicsCardRGBDevice(new AsusGraphicsCardRGBDeviceInfo(RGBDeviceType.GraphicsCard, handle));
-                                    device.Initialize();
+                                    device.Initialize(UpdateTrigger);
                                     devices.Add(device);
                                 }
                                 catch { if (throwExceptions) throw; }
@@ -172,7 +178,7 @@ namespace RGB.NET.Devices.Asus
                 //        IntPtr handle = Marshal.ReadIntPtr(dramHandles, i);
                 //        _AsusSDK.SetDramMode(handle, 1);
                 //        AsusDramRGBDevice device = new AsusDramRGBDevice(new AsusDramRGBDeviceInfo(RGBDeviceType.DRAM, handle));
-                //        device.Initialize();
+                //        device.Initialize(UpdateTrigger);
                 //        devices.Add(device);
                 //    }
                 //catch { if (throwExceptions) throw; }
@@ -193,7 +199,7 @@ namespace RGB.NET.Devices.Asus
                         {
                             _AsusSDK.SetClaymoreKeyboardMode(keyboardHandle, 1);
                             AsusKeyboardRGBDevice device = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(RGBDeviceType.Keyboard, keyboardHandle, GetCulture()));
-                            device.Initialize();
+                            device.Initialize(UpdateTrigger);
                             devices.Add(device);
                         }
                     }
@@ -211,13 +217,15 @@ namespace RGB.NET.Devices.Asus
                         {
                             _AsusSDK.SetRogMouseMode(mouseHandle, 1);
                             AsusMouseRGBDevice device = new AsusMouseRGBDevice(new AsusMouseRGBDeviceInfo(RGBDeviceType.Mouse, mouseHandle));
-                            device.Initialize();
+                            device.Initialize(UpdateTrigger);
                             devices.Add(device);
                         }
                     }
                     catch { if (throwExceptions) throw; }
 
                 #endregion
+                
+                UpdateTrigger?.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

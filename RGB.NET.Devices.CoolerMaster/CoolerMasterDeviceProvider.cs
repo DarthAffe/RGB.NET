@@ -63,6 +63,8 @@ namespace RGB.NET.Devices.CoolerMaster
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
+        public UpdateTrigger UpdateTrigger { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -75,6 +77,8 @@ namespace RGB.NET.Devices.CoolerMaster
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CoolerMasterDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new UpdateTrigger();
         }
 
         #endregion
@@ -88,6 +92,8 @@ namespace RGB.NET.Devices.CoolerMaster
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 _CoolerMasterSDK.Reload();
                 if (_CoolerMasterSDK.GetSDKVersion() <= 0) return false;
 
@@ -120,12 +126,14 @@ namespace RGB.NET.Devices.CoolerMaster
 
                             _CoolerMasterSDK.EnableLedControl(true);
 
-                            device.Initialize();
+                            device.Initialize(UpdateTrigger);
                             devices.Add(device);
                         }
                     }
                     catch { if (throwExceptions) throw; }
                 }
+
+                UpdateTrigger?.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

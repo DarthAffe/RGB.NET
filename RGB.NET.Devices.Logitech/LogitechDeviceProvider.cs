@@ -56,6 +56,10 @@ namespace RGB.NET.Devices.Logitech
         /// </summary>
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
+        public UpdateTrigger UpdateTrigger { get; private set; }
+        private LogitechPerDeviceUpdateQueue _perDeviceUpdateQueue;
+        private LogitechPerKeyUpdateQueue _perKeyUpdateQueue;
+
         #endregion
 
         #region Constructors
@@ -68,6 +72,10 @@ namespace RGB.NET.Devices.Logitech
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(LogitechDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new UpdateTrigger();
+            _perDeviceUpdateQueue = new LogitechPerDeviceUpdateQueue(UpdateTrigger);
+            _perKeyUpdateQueue = new LogitechPerKeyUpdateQueue(UpdateTrigger);
         }
 
         #endregion
@@ -88,6 +96,8 @@ namespace RGB.NET.Devices.Logitech
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 _LogitechGSDK.Reload();
                 if (!_LogitechGSDK.LogiLedInit()) return false;
 
@@ -104,7 +114,7 @@ namespace RGB.NET.Devices.Logitech
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
                             ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageLayout, layoutPath));
-                            device.Initialize();
+                            device.Initialize(_perKeyUpdateQueue);
                             devices.Add(device);
                         }
                     }
@@ -119,12 +129,14 @@ namespace RGB.NET.Devices.Logitech
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
                             ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageLayout, layoutPath));
-                            device.Initialize();
+                            device.Initialize(_perDeviceUpdateQueue);
                             devices.Add(device);
                         }
                     }
                 }
                 catch { if (throwExceptions) throw; }
+
+                UpdateTrigger?.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

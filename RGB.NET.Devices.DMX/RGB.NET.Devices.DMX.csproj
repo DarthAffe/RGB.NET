@@ -51,6 +51,7 @@
     <Compile Include="E131\E131Device.cs" />
     <Compile Include="E131\E131DeviceInfo.cs" />
     <Compile Include="E131\E131DMXDeviceDefinition.cs" />
+    <Compile Include="E131\E131UpdateQueue.cs" />
     <Compile Include="Generic\IDMXDeviceDefinition.cs" />
     <Compile Include="Generic\LedChannelMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

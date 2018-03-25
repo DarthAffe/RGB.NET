@@ -37,6 +37,8 @@ namespace RGB.NET.Devices.DMX
         /// </summary>
         public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new List<IDMXDeviceDefinition>();
 
+        public UpdateTrigger UpdateTrigger { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -49,6 +51,8 @@ namespace RGB.NET.Devices.DMX
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new UpdateTrigger();
         }
 
         #endregion
@@ -68,6 +72,8 @@ namespace RGB.NET.Devices.DMX
 
             try
             {
+                UpdateTrigger.Stop();
+
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
 
                 foreach (IDMXDeviceDefinition dmxDeviceDefinition in DeviceDefinitions)
@@ -79,13 +85,15 @@ namespace RGB.NET.Devices.DMX
                             if (e131DMXDeviceDefinition.Leds.Count > 0)
                             {
                                 E131Device device = new E131Device(new E131DeviceInfo(e131DMXDeviceDefinition), e131DMXDeviceDefinition.Leds);
-                                device.Initialize();
+                                device.Initialize(UpdateTrigger);
                                 devices.Add(device);
                             }
                         }
                     }
                     catch { if (throwExceptions) throw; }
                 }
+
+                UpdateTrigger.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

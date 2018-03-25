@@ -1,4 +1,5 @@
-﻿using RGB.NET.Core;
+﻿using System;
+using RGB.NET.Core;
 using RGB.NET.Devices.Asus.Native;
 
 namespace RGB.NET.Devices.Asus
@@ -40,7 +41,7 @@ namespace RGB.NET.Devices.Asus
         protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.GraphicsCard1;
 
         /// <inheritdoc />
-        protected override void ApplyColorData() => _AsusSDK.SetGPUColor(DeviceInfo.Handle, ColorData);
+        protected override Action<IntPtr, byte[]> GetUpdateColorAction() => _AsusSDK.SetGPUColor;
 
         #endregion
     }

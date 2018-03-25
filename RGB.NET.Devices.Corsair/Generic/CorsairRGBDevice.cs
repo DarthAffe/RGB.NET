@@ -29,6 +29,8 @@ namespace RGB.NET.Devices.Corsair
         // ReSharper disable once MemberCanBePrivate.Global
         protected Dictionary<CorsairLedId, Led> InternalLedMapping { get; } = new Dictionary<CorsairLedId, Led>();
 
+        protected CorsairUpdateQueue UpdateQueue { get; set; }
+
         #endregion
 
         #region Indexer
@@ -61,8 +63,10 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize()
+        public void Initialize(CorsairUpdateQueue updateQueue)
         {
+            UpdateQueue = updateQueue;
+
             InitializeLayout();
 
             foreach (Led led in LedMapping.Values)
@@ -86,31 +90,7 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            List<Led> leds = ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))).ToList();
-
-            if (leds.Count > 0) // CUE seems to crash if 'CorsairSetLedsColors' is called with a zero length array
-            {
-                int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
-                IntPtr ptr = Marshal.AllocHGlobal(structSize * leds.Count);
-                IntPtr addPtr = new IntPtr(ptr.ToInt64());
-                foreach (Led led in leds)
-                {
-                    _CorsairLedColor color = new _CorsairLedColor
-                    {
-                        ledId = (int)led.CustomData,
-                        r = led.Color.R,
-                        g = led.Color.G,
-                        b = led.Color.B
-                    };
-
-                    Marshal.StructureToPtr(color, addPtr, false);
-                    addPtr = new IntPtr(addPtr.ToInt64() + structSize);
-                }
-                _CUESDK.CorsairSetLedsColors(leds.Count, ptr);
-                Marshal.FreeHGlobal(ptr);
-            }
-        }
+            => UpdateQueue.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))));
 
         /// <inheritdoc cref="IRGBDevice.SyncBack" />
         public override void SyncBack()

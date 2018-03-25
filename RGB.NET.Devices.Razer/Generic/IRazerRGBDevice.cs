@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Razer
     /// </summary>
     internal interface IRazerRGBDevice : IRGBDevice
     {
-        void Initialize();
+        void Initialize(IUpdateTrigger updateTrigger);
         void Reset();
     }
 }
