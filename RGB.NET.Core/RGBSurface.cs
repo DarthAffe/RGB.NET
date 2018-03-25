@@ -23,7 +23,7 @@ namespace RGB.NET.Core
         /// </summary>
         public static RGBSurface Instance { get; } = new RGBSurface();
 
-        private long _lastUpdateTicks;
+        private Stopwatch _deltaTimeCounter;
 
         private IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
         private IList<IRGBDevice> _devices = new List<IRGBDevice>();
@@ -60,7 +60,8 @@ namespace RGB.NET.Core
         /// </summary>
         private RGBSurface()
         {
-            _lastUpdateTicks = Stopwatch.GetTimestamp();
+            _deltaTimeCounter = Stopwatch.StartNew();
+            _sleepCounter = new Stopwatch();
 
             CheckUpdateLoop();
         }

@@ -12,6 +12,7 @@ namespace RGB.NET.Core
         private CancellationTokenSource _updateTokenSource;
         private CancellationToken _updateToken;
         private Task _updateTask;
+        private Stopwatch _sleepCounter;
 
         // ReSharper disable MemberCanBePrivate.Global
 
@@ -87,12 +88,13 @@ namespace RGB.NET.Core
         {
             while (!_updateToken.IsCancellationRequested)
             {
-                long preUpdateTicks = Stopwatch.GetTimestamp();
+                _sleepCounter.Restart();
 
                 Update();
 
-                LastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
-                int sleep = (int)((UpdateFrequency * 1000.0) - LastUpdateTime);
+                _sleepCounter.Stop();
+                LastUpdateTime = _sleepCounter.Elapsed.TotalSeconds;
+                int sleep = (int)((UpdateFrequency * 1000.0) - _sleepCounter.ElapsedMilliseconds);
                 if (sleep > 0)
                     Thread.Sleep(sleep);
             }
