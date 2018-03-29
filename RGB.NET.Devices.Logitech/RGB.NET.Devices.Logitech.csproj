@@ -202,6 +202,9 @@
     <Content Include="Layouts\Logitech\Keyboards\G610\UK.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Layouts\Logitech\Keyboards\Pro\UK.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Layouts\Logitech\Keyboards\G910\UK.xml">
       <SubType>Designer</SubType>
     </Content>

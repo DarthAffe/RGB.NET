@@ -156,7 +156,7 @@ namespace RGB.NET.Devices.Logitech
         internal static byte[] CreateBitmap() => new byte[BITMAP_SIZE];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void SetColor(ref byte[] bitmap, int offset, Color color)
+        internal static void SetColor(byte[] bitmap, int offset, Color color)
         {
             bitmap[offset] = color.B;
             bitmap[offset + 1] = color.G;

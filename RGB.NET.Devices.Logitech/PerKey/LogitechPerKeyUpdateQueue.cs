@@ -7,11 +7,19 @@ namespace RGB.NET.Devices.Logitech
 {
     public class LogitechPerKeyUpdateQueue : UpdateQueue
     {
+        #region Properties & Fields
+
+        private readonly byte[] _bitmap;
+
+        #endregion
+
         #region Constructors
 
         public LogitechPerKeyUpdateQueue(IUpdateTrigger updateTrigger)
             : base(updateTrigger)
-        { }
+        {
+            _bitmap = BitmapMapping.CreateBitmap();
+        }
 
         #endregion
 
@@ -22,28 +30,27 @@ namespace RGB.NET.Devices.Logitech
         {
             _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.PerKeyRGB);
 
-            byte[] bitmap = null;
+            Array.Clear(_bitmap, 0, _bitmap.Length);
+            bool usesBitmap = false;
             foreach (KeyValuePair<object, Color> data in dataSet)
             {
-                (LedId id, int customData) = ((LedId, int))data.Key;
+                (LedId id, LogitechLedId customData) = ((LedId, LogitechLedId))data.Key;
 
                 // DarthAffe 26.03.2017: This is only needed since update by name doesn't work as expected for all keys ...
                 if (BitmapMapping.BitmapOffset.TryGetValue(id, out int bitmapOffset))
                 {
-                    if (bitmap == null)
-                        bitmap = BitmapMapping.CreateBitmap();
-
-                    BitmapMapping.SetColor(ref bitmap, bitmapOffset, data.Value);
+                    BitmapMapping.SetColor(_bitmap, bitmapOffset, data.Value);
+                    usesBitmap = true;
                 }
                 else
-                    _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName(customData,
+                    _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)customData,
                                                                       (int)Math.Round(data.Value.RPercent * 100),
                                                                       (int)Math.Round(data.Value.GPercent * 100),
                                                                       (int)Math.Round(data.Value.BPercent * 100));
             }
 
-            if (bitmap != null)
-                _LogitechGSDK.LogiLedSetLightingFromBitmap(bitmap);
+            if (usesBitmap)
+                _LogitechGSDK.LogiLedSetLightingFromBitmap(_bitmap);
         }
 
         #endregion
