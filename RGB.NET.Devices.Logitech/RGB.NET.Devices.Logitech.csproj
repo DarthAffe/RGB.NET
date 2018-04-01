@@ -1,224 +1,69 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E7B2F174-FCC6-4FC7-9970-3138B5F4C921}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RGB.NET.Devices.Logitech</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+
+    <Authors>Darth Affe</Authors>
+    <Company>Wyrez</Company>
+    <Language>en-US</Language>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>RGB.NET.Devices.Logitech</Title>
     <AssemblyName>RGB.NET.Devices.Logitech</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <AssemblyTitle>RGB.NET.Devices.Logitech</AssemblyTitle>
+    <PackageId>RGB.NET.Devices.Logitech</PackageId>
+    <RootNamespace>RGB.NET.Devices.Logitech</RootNamespace>
+    <Description>Logitech-Device-Implementations of RGB.NET</Description>
+    <Summary>Logitech-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
+    <Copyright>Copyright © Wyrez 2017</Copyright>
+    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Github</RepositoryType>
+    <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>TRACE;NETCORE;NETSTANDARD;NETSTANDARD2_0;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
+    <DefineConstants>NET45;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Logitech.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Logitech.XML</DocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="HidSharp, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HidSharp.1.5\lib\net35\HidSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
+    <PackageReference Include="HidSharp" Version="1.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Enum\LogitechLogicalKeyboardLayout.cs" />
-    <Compile Include="Enum\LogitechPhysicalKeyboardLayout.cs" />
-    <Compile Include="Enum\LogitechDeviceCaps.cs" />
-    <Compile Include="Enum\LogitechLedId.cs" />
-    <Compile Include="Generic\ILogitechRGBDevice.cs" />
-    <Compile Include="Generic\LogitechRGBDevice.cs" />
-    <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
-    <Compile Include="LogitechDeviceProviderLoader.cs" />
-    <Compile Include="PerDevice\LogitechPerDeviceUpdateQueue.cs" />
-    <Compile Include="PerKey\BitmapMapping.cs" />
-    <Compile Include="HID\DeviceChecker.cs" />
-    <Compile Include="LogitechDeviceProvider.cs" />
-    <Compile Include="Native\_LogitechGSDK.cs" />
-    <Compile Include="PerDevice\LogitechPerDeviceRGBDevice.cs" />
-    <Compile Include="PerKey\LogitechPerKeyUpdateQueue.cs" />
-    <Compile Include="PerKey\PerKeyIdMapping.cs" />
-    <Compile Include="PerKey\LogitechPerKeyRGBDevice.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Layouts\DeviceLayout.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-    <None Include="targets\RGB.NET.Devices.Logitech.targets" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
-      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
-      <Name>RGB.NET.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\Logitech\Keyboards\G910.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\0_Equals_CurlyBracketRight.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\1_ExclamationMark.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\2_QuotationMark_Exponent2.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\3_SectionSign_Exponent3.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\4_Dollar.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\5_Percent.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\6_Ampersand.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\7_Slash_CurlyBracketLeft.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\8_BracketLeft_SquareBracketLeft.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\9_BracketRight_SquareBracketRight.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\A.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\AccentGrave_AccentAcute.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\AE.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Alt.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\AltGr.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Asterisk.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\B.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Backspace.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\BildDown.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\BildUp.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\C.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CapsLockA.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretDown.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretLeft.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretRight.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\CaretUp.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Circumflex_Degree.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Comma_Entf.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Comma_Semicolon.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\D.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Dot_Colon.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Drucken.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Einfg.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Ende.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Enter.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Entf.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Escape.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\E_Euro.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F1.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F10.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F11.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F12.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F2.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F3.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F4.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F5.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F6.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F7.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F8.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\F9.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G1.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G2.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G3.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G4.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G5.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G6.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G7.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G8.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\G9.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\H.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Hash_Apostrophe.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Hyphen_Underscore.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\I.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\J.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\K.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\L.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\LessThan_GreaterThan_Pipe.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Menu.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Minus.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\M_Mu.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\N.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num0_Einfg.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num1_Ende.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num2_ArrowDown.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num3_BildDown.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num4_ArrowLeft.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num5.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num6_ArrowRight.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num7_Pos1.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num8_ArrowUp.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Num9_BildUp.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\NumEnter.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\NumPlus.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\O.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\OE.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\P.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\PauseUntbr.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Plus_Asterisk_Tilde.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Pos1.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\QuestionMark_SharpS_Backslash.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Q_At.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\R.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Rollen.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\S.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Shift.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\ShiftBig.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Slash.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Space.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Strg.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\T.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Tab.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\U.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\UE.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\V.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\W.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Windows.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\X.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Y.png" />
-    <Content Include="Images\Logitech\Keyboards\Raptor_Keys\Z.png" />
-    <Content Include="Images\Logitech\Mice\G403.png" />
-    <Content Include="Layouts\Logitech\Keyboards\G810\UK.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Layouts\Logitech\Keyboards\G610\UK.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Layouts\Logitech\Keyboards\Pro\UK.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Layouts\Logitech\Keyboards\G910\UK.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Layouts\Logitech\Mice\G403.xml" />
-    <Content Include="libs\x64\LogitechLedEnginesWrapper.dll" />
-    <Content Include="libs\x86\LogitechLedEnginesWrapper.dll" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

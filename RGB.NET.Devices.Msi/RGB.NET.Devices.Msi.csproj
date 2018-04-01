@@ -1,79 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4EFD77C7-FDB4-4C6B-970C-0EF66D24BE09}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RGB.NET.Devices.Msi</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+
+    <Authors>Darth Affe</Authors>
+    <Company>Wyrez</Company>
+    <Language>en-US</Language>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>RGB.NET.Devices.Msi</Title>
     <AssemblyName>RGB.NET.Devices.Msi</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <AssemblyTitle>RGB.NET.Devices.Msi</AssemblyTitle>
+    <PackageId>RGB.NET.Devices.Msi</PackageId>
+    <RootNamespace>RGB.NET.Devices.Msi</RootNamespace>
+    <Description>Msi-Device-Implementations of RGB.NET</Description>
+    <Summary>Msi-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
+    <Copyright>Copyright © Wyrez 2017</Copyright>
+    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Github</RepositoryType>
+    <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>TRACE;NETCORE;NETSTANDARD;NETSTANDARD2_0;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
+    <DefineConstants>NET45;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Msi.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Msi.xml</DocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Exceptions\MysticLightException.cs" />
-    <Compile Include="Generic\IMsiRGBDevice.cs" />
-    <Compile Include="Generic\MsiRGBDevice.cs" />
-    <Compile Include="Generic\MsiRGBDeviceInfo.cs" />
-    <Compile Include="MsiDeviceProvider.cs" />
-    <Compile Include="MsiDeviceProviderLoader.cs" />
-    <Compile Include="Native\_MsiSDK.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Layouts\DeviceLayout.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-    <None Include="targets\RGB.NET.Devices.Msi.targets" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
-      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
-      <Name>RGB.NET.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Msi\" />
-    <Folder Include="Layouts\Msi\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="libs\x64\MysticLight_SDK.dll" />
-    <Content Include="libs\x86\MysticLight_SDK.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

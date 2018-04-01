@@ -1,103 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4F2F3FBD-A1E4-4968-A2AD-0514959E5E59}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RGB.NET.Devices.Asus</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+
+    <Authors>Darth Affe</Authors>
+    <Company>Wyrez</Company>
+    <Language>en-US</Language>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>RGB.NET.Devices.Asus</Title>
     <AssemblyName>RGB.NET.Devices.Asus</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <AssemblyTitle>RGB.NET.Devices.Asus</AssemblyTitle>
+    <PackageId>RGB.NET.Devices.Asus</PackageId>
+    <RootNamespace>RGB.NET.Devices.Asus</RootNamespace>
+    <Description>Asus-Device-Implementations of RGB.NET</Description>
+    <Summary>Asus-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
+    <Copyright>Copyright © Wyrez 2017</Copyright>
+    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Github</RepositoryType>
+    <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>TRACE;NETCORE;NETSTANDARD;NETSTANDARD2_0;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
+    <DefineConstants>NET45;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Asus.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Asus.xml</DocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AsusDeviceProvider.cs" />
-    <Compile Include="AsusDeviceProviderLoader.cs" />
-    <Compile Include="Dram\AsusDramRGBDevice.cs" />
-    <Compile Include="Dram\AsusDramRGBDeviceInfo.cs" />
-    <Compile Include="Enum\AsusLogicalKeyboardLayout.cs" />
-    <Compile Include="Enum\AsusPhysicalKeyboardLayout.cs" />
-    <Compile Include="Generic\AsusRGBDevice.cs" />
-    <Compile Include="Generic\AsusRGBDeviceInfo.cs" />
-    <Compile Include="Generic\AsusUpdateQueue.cs" />
-    <Compile Include="Generic\IAsusRGBDevice.cs" />
-    <Compile Include="GraphicsCard\AsusGraphicsCardRGBDevice.cs" />
-    <Compile Include="GraphicsCard\AsusGraphicsCardRGBDeviceInfo.cs" />
-    <Compile Include="Helper\WMIHelper.cs" />
-    <Compile Include="Keyboard\AsusKeyboardRGBDevice.cs" />
-    <Compile Include="Keyboard\AsusKeyboardRGBDeviceInfo.cs" />
-    <Compile Include="Mainboard\AsusMainboardRGBDevice.cs" />
-    <Compile Include="Mainboard\AsusMainboardRGBDeviceInfo.cs" />
-    <Compile Include="Mouse\AsusMouseRGBDevice.cs" />
-    <Compile Include="Mouse\AsusMouseRGBDeviceInfo.cs" />
-    <Compile Include="Native\_AsusSDK.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Layouts\DeviceLayout.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-    <None Include="targets\RGB.NET.Devices.Asus.targets" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Images\Asus\Mainboards\PRIMEX370-PRO.png" />
-    <Content Include="Layouts\Asus\Mainboards\PRIMEX370-PRO.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="libs\x86\AURA_SDK.dll" />
-    <Content Include="libs\x86\ClaymoreProtocol.dll" />
-    <Content Include="libs\x86\EVOLVE SYNC Dll.dll" />
-    <Content Include="libs\x86\LED_DLL_forMB.dll" />
-    <Content Include="libs\x86\RogNewmouseProtocol.dll" />
-    <Content Include="libs\x86\SPATHA HID Library C++.dll" />
-    <Content Include="libs\x86\SPATHA SYNC Dll.dll" />
-    <Content Include="libs\x86\Vender.dll" />
-    <Content Include="libs\x86\VGA_Extra.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="libs\x64\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
-      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
-      <Name>RGB.NET.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

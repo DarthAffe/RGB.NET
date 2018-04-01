@@ -1,96 +1,69 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DB2911F6-404C-4BC8-B35F-232A7450755F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RGB.NET.Devices.Novation</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+
+    <Authors>Darth Affe</Authors>
+    <Company>Wyrez</Company>
+    <Language>en-US</Language>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>RGB.NET.Devices.Novation</Title>
     <AssemblyName>RGB.NET.Devices.Novation</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <AssemblyTitle>RGB.NET.Devices.Novation</AssemblyTitle>
+    <PackageId>RGB.NET.Devices.Novation</PackageId>
+    <RootNamespace>RGB.NET.Devices.Novation</RootNamespace>
+    <Description>Novation-Device-Implementations of RGB.NET</Description>
+    <Summary>Novation-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
+    <Copyright>Copyright © Wyrez 2017</Copyright>
+    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Github</RepositoryType>
+    <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>TRACE;NETCORE;NETSTANDARD;NETSTANDARD2_0;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
+    <DefineConstants>NET45;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Novation.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Devices.Novation.XML</DocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Sanford.Multimedia.Midi, Version=6.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sanford.Multimedia.Midi.6.4.1\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
+    <PackageReference Include="Sanford.Multimedia.Midi" Version="6.6.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Attributes\ColorCapabilityAttribute.cs" />
-    <Compile Include="Attributes\DeviceIdAttribute.cs" />
-    <Compile Include="Enum\NovationColorCapabilities.cs" />
-    <Compile Include="Enum\NovationDevices.cs" />
-    <Compile Include="Enum\NovationLedId.cs" />
-    <Compile Include="Generic\LimitedColorUpdateQueue.cs" />
-    <Compile Include="Generic\MidiUpdateQueue.cs" />
-    <Compile Include="Generic\NovationRGBDevice.cs" />
-    <Compile Include="Generic\NovationRGBDeviceInfo.cs" />
-    <Compile Include="Helper\DictionaryExtension.cs" />
-    <Compile Include="Helper\EnumExtension.cs" />
-    <Compile Include="Helper\NovationLedIdExtension.cs" />
-    <Compile Include="Generic\INovationRGBDevice.cs" />
-    <Compile Include="Launchpad\LaunchpadIdMapping.cs" />
-    <Compile Include="Launchpad\NovationLaunchpadRGBDevice.cs" />
-    <Compile Include="Launchpad\NovationLaunchpadRGBDeviceInfo.cs" />
-    <Compile Include="NovationDeviceProvider.cs" />
-    <Compile Include="NovationDeviceProviderLoader.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj">
-      <Project>{5a4f9a75-75fe-47cd-90e5-914d5b20d232}</Project>
-      <Name>RGB.NET.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Layouts\DeviceLayout.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\Novation\Launchpads\Buttons\Grid.png" />
-    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter1.png" />
-    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter2.png" />
-    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter3.png" />
-    <Content Include="Images\Novation\Launchpads\Buttons\GridCenter4.png" />
-    <Content Include="Images\Novation\Launchpads\Buttons\Round.png" />
-    <Content Include="Images\Novation\Launchpads\LaunchpadS.png" />
-    <Content Include="Layouts\Novation\Launchpads\LaunchpadS.xml" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

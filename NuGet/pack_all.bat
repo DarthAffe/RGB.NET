@@ -1,1 +1,0 @@
-for /r %%i in (*.nuspec) do nuget.exe pack "%%i" -symbols

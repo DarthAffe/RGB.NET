@@ -1,114 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A4F9A75-75FE-47CD-90E5-914D5B20D232}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RGB.NET.Core</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+
+    <Authors>Darth Affe</Authors>
+    <Company>Wyrez</Company>
+    <Language>en-US</Language>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>RGB.NET.Core</Title>
     <AssemblyName>RGB.NET.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <AssemblyTitle>RGB.NET.Core</AssemblyTitle>
+    <PackageId>RGB.NET.Core</PackageId>
+    <RootNamespace>RGB.NET.Core</RootNamespace>
+    <Description>Core-Module of RGB.NET</Description>
+    <Summary>Core-Module of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
+    <Copyright>Copyright © Wyrez 2017</Copyright>
+    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Github</RepositoryType>
+    <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>TRACE;NETCORE;NETSTANDARD;NETSTANDARD2_0;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
+    <DefineConstants>NET45;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Core.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\RGB.NET.Core.XML</DocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Brushes\AbstractBrush.cs" />
-    <Compile Include="Brushes\BrushCalculationMode.cs" />
-    <Compile Include="Brushes\BrushRenderTarget.cs" />
-    <Compile Include="Brushes\IBrush.cs" />
-    <Compile Include="ColorCorrection\IColorCorrection.cs" />
-    <Compile Include="Decorators\AbstractDecorateable.cs" />
-    <Compile Include="Decorators\AbstractDecorator.cs" />
-    <Compile Include="Decorators\AbstractUpdateAwareDecorator.cs" />
-    <Compile Include="Decorators\IBrushDecorator.cs" />
-    <Compile Include="Decorators\IDecoratable.cs" />
-    <Compile Include="Decorators\IDecorator.cs" />
-    <Compile Include="Decorators\ILedGroupDecorator.cs" />
-    <Compile Include="Devices\AbstractRGBDevice.cs" />
-    <Compile Include="Devices\DeviceUpdateMode.cs" />
-    <Compile Include="Devices\IRGBDeviceProviderLoader.cs" />
-    <Compile Include="Devices\IRGBDeviceSpecialPart.cs" />
-    <Compile Include="Devices\Layout\LedImage.cs" />
-    <Compile Include="Devices\Layout\LedImageLayout.cs" />
-    <Compile Include="Devices\RGBDeviceLighting.cs" />
-    <Compile Include="Devices\Update\IUpdateTrigger.cs" />
-    <Compile Include="Devices\Update\UpdateQueue.cs" />
-    <Compile Include="Devices\Update\UpdateTrigger.cs" />
-    <Compile Include="Helper\ConversionHelper.cs" />
-    <Compile Include="Helper\CultureHelper.cs" />
-    <Compile Include="Helper\PathHelper.cs" />
-    <Compile Include="Leds\LedId.cs" />
-    <Compile Include="Positioning\Shape.cs" />
-    <Compile Include="Devices\Layout\LedLayout.cs" />
-    <Compile Include="Devices\Layout\DeviceLayout.cs" />
-    <Compile Include="Devices\RGBDeviceType.cs" />
-    <Compile Include="Devices\IRGBDeviceProvider.cs" />
-    <Compile Include="Devices\IRGBDeviceInfo.cs" />
-    <Compile Include="Events\ExceptionEventArgs.cs" />
-    <Compile Include="Events\SurfaceLayoutChangedEventArgs.cs" />
-    <Compile Include="Events\UpdatedEventArgs.cs" />
-    <Compile Include="Events\UpdatingEventArgs.cs" />
-    <Compile Include="Exceptions\RGBDeviceException.cs" />
-    <Compile Include="Groups\AbstractLedGroup.cs" />
-    <Compile Include="Groups\ILedGroup.cs" />
-    <Compile Include="MVVM\AbstractBindable.cs" />
-    <Compile Include="Leds\Color.cs" />
-    <Compile Include="Extensions\MathExtensions.cs" />
-    <Compile Include="Devices\IRGBDevice.cs" />
-    <Compile Include="Leds\Led.cs" />
-    <Compile Include="MVVM\IBindable.cs" />
-    <Compile Include="Positioning\Point.cs" />
-    <Compile Include="Positioning\Size.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Positioning\Rectangle.cs" />
-    <Compile Include="RGBSurface.cs" />
-    <Compile Include="RGBSurfaceDeviceEvents.cs" />
-    <Compile Include="RGBSurfaceDeviceLoader.cs" />
-    <Compile Include="RGBSurfaceUpdater.cs" />
-    <Compile Include="UpdateMode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

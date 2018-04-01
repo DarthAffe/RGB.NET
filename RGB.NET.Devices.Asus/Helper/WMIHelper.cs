@@ -1,4 +1,5 @@
-﻿using System.Management;
+﻿#if NETFULL
+using System.Management;
 
 namespace RGB.NET.Devices.Asus
 {
@@ -29,3 +30,17 @@ namespace RGB.NET.Devices.Asus
         #endregion
     }
 }
+#else
+namespace RGB.NET.Devices.Asus
+{
+    // ReSharper disable once InconsistentNaming
+    internal static class WMIHelper
+    {
+        #region Methods
+
+        internal static (string manufacturer, string model)? GetMainboardInfo() => null;
+
+        #endregion
+    }
+}
+#endif
