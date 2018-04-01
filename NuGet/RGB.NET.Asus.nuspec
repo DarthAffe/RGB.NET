@@ -17,7 +17,7 @@
     <language>en-US</language>
     <dependencies>
       <dependency id="RGB.NET.Devices.Asus" version="0.0.1" />
-      <dependency id="RGB.NET.Resources.Asus" version="0.0.1" />
+      <dependency id="RGB.NET.Resources.Asus" version="0.1.0" />
     </dependencies>
   </metadata>
 </package>

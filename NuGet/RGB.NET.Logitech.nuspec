@@ -17,7 +17,7 @@
     <language>en-US</language>
     <dependencies>
       <dependency id="RGB.NET.Devices.Logitech" version="0.0.1" />
-      <dependency id="RGB.NET.Resources.Logitech" version="0.0.1" />
+      <dependency id="RGB.NET.Resources.Logitech" version="0.1.0" />
     </dependencies>
   </metadata>
 </package>
