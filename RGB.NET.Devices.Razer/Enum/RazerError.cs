@@ -3,7 +3,7 @@
     /// <summary>
     /// Razer-SDK: Error codes for Chroma SDK. If the error is not defined here, refer to WinError.h from the Windows SDK.
     /// </summary>
-    public enum RazerError : long
+    public enum RazerError : int
     {
         /// <summary>
         /// Razer-SDK: Invalid.
@@ -88,6 +88,6 @@
         /// <summary>
         /// Razer-SDK: General failure.
         /// </summary>
-        Failed = 2147500037
+        Failed = unchecked(-2147467259)
     }
 }

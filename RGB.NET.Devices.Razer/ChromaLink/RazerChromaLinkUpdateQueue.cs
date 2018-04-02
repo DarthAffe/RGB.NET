@@ -34,6 +34,9 @@ namespace RGB.NET.Devices.Razer
             return ptr;
         }
 
+        /// <inheritdoc />
+        protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateChromaLinkEffect(_Defines.CHROMALINK_EFFECT_ID, effectParams, ref effectId);
+
         #endregion
     }
 }

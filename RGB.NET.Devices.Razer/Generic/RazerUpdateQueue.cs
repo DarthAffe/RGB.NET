@@ -31,7 +31,7 @@ namespace RGB.NET.Devices.Razer
         {
             IntPtr effectParams = CreateEffectParams(dataSet);
             Guid effectId = Guid.NewGuid();
-            _RazerSDK.CreateEffect(_deviceId, _Defines.EFFECT_ID, effectParams, ref effectId);
+            CreateEffect(effectParams, ref effectId);
 
             _RazerSDK.SetEffect(effectId);
 
@@ -40,6 +40,8 @@ namespace RGB.NET.Devices.Razer
 
             _lastEffect = effectId;
         }
+
+        protected virtual void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateEffect(_deviceId, _Defines.EFFECT_ID, effectParams, ref effectId);
 
         /// <inheritdoc />
         public override void Reset()

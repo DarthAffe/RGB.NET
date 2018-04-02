@@ -3,6 +3,8 @@
     internal static class _Defines
     {
         internal const int EFFECT_ID = 7;
+        internal const int HEADSET_EFFECT_ID = 4;
+        internal const int CHROMALINK_EFFECT_ID = 1;
 
         internal const int KEYBOARD_MAX_ROW = 6;
         internal const int KEYBOARD_MAX_COLUMN = 22;

@@ -27,12 +27,15 @@ namespace RGB.NET.Devices.Razer
                 colors[(int)data.Key] = new _Color(data.Value);
 
             _HeadsetCustomEffect effectParams = new _HeadsetCustomEffect { Color = colors };
-
+          
             IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
             Marshal.StructureToPtr(effectParams, ptr, false);
 
             return ptr;
         }
+
+        /// <inheritdoc />
+        protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateHeadsetEffect(_Defines.HEADSET_EFFECT_ID, effectParams, ref effectId);
 
         #endregion
     }
