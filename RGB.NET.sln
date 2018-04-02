@@ -35,21 +35,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Razer", "RG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Roccat", "RGB.NET.Devices.Roccat\RGB.NET.Devices.Roccat.csproj", "{DF4A0267-24FA-4D32-8841-3E91F31E51ED}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{5EAAFE56-ADAB-4EB9-9309-4F6CC73769AC}"
-	ProjectSection(SolutionItems) = preProject
-		NuGet\RGB.NET.Asus.nuspec = NuGet\RGB.NET.Asus.nuspec
-		NuGet\RGB.NET.CoolerMaster.nuspec = NuGet\RGB.NET.CoolerMaster.nuspec
-		NuGet\RGB.NET.Corsair.nuspec = NuGet\RGB.NET.Corsair.nuspec
-		NuGet\RGB.NET.Debug.nuspec = NuGet\RGB.NET.Debug.nuspec
-		NuGet\RGB.NET.Devices.nuspec = NuGet\RGB.NET.Devices.nuspec
-		NuGet\RGB.NET.DMX.nuspec = NuGet\RGB.NET.DMX.nuspec
-		NuGet\RGB.NET.Logitech.nuspec = NuGet\RGB.NET.Logitech.nuspec
-		NuGet\RGB.NET.Novation.nuspec = NuGet\RGB.NET.Novation.nuspec
-		NuGet\RGB.NET.nuspec = NuGet\RGB.NET.nuspec
-		NuGet\RGB.NET.Presets.nuspec = NuGet\RGB.NET.Presets.nuspec
-		NuGet\RGB.NET.Razer.nuspec = NuGet\RGB.NET.Razer.nuspec
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
