@@ -8,7 +8,19 @@ namespace RGB.NET.Core
     {
         #region Methods
 
-        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
+        /// <summary>
+        /// Loads all devices the given by the <see cref="IRGBDeviceProvider"/> provided by the give <see cref="IRGBDeviceProviderLoader{T}"/>.
+        /// </summary>
+        /// <param name="deviceProviderLoader">The <see cref="IRGBDeviceProviderLoader{T}"/> which provides the <see cref="IRGBDeviceProvider"/> to load the devices from.</param>
+        /// <param name="loadFilter">Specifies which types of devices to load.</param>
+        /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
+        /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
+        public void LoadDevices<T>(IRGBDeviceProviderLoader<T> deviceProviderLoader, RGBDeviceType loadFilter = RGBDeviceType.All,
+                                  bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+            where T : class, IRGBDeviceProviderLoader<T>, new()
+            => LoadDevices(deviceProviderLoader.GetDeviceProvider(), loadFilter, exclusiveAccessIfPossible, throwExceptions);
+
         /// <summary>
         /// Loads all devices the given <see cref="IRGBDeviceProvider"/> is able to provide.
         /// </summary>
@@ -55,6 +67,8 @@ namespace RGB.NET.Core
                 posX += device.Size.Width + 1;
             }
         }
+
+        // ReSharper restore UnusedMember.Global
 
         private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
