@@ -7,6 +7,6 @@ namespace RGB.NET.Devices.Novation
     /// </summary>
     internal interface INovationRGBDevice : IRGBDevice
     {
-        void Initialize(IUpdateTrigger updateTrigger);
+        void Initialize(IDeviceUpdateTrigger updateTrigger);
     }
 }

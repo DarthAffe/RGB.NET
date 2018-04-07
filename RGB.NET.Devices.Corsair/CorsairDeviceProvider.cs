@@ -66,7 +66,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; }
 
-        public UpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
         private CorsairUpdateQueue _updateQueue;
 
         #endregion
@@ -82,7 +82,7 @@ namespace RGB.NET.Devices.Corsair
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CorsairDeviceProvider)}");
             _instance = this;
 
-            UpdateTrigger = new UpdateTrigger();
+            UpdateTrigger = new DeviceUpdateTrigger();
             _updateQueue = new CorsairUpdateQueue(UpdateTrigger);
         }
 

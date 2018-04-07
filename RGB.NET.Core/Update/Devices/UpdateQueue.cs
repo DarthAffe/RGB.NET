@@ -9,14 +9,14 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         private readonly object _dataLock = new object();
-        private readonly IUpdateTrigger _updateTrigger;
+        private readonly IDeviceUpdateTrigger _updateTrigger;
         private Dictionary<TIdentifier, TData> _currentDataSet;
 
         #endregion
 
         #region Constructors
 
-        public UpdateQueue(IUpdateTrigger updateTrigger)
+        public UpdateQueue(IDeviceUpdateTrigger updateTrigger)
         {
             this._updateTrigger = updateTrigger;
 
@@ -28,7 +28,7 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        protected virtual void OnUpdate(object sender, EventArgs e)
+        protected virtual void OnUpdate(object sender, CustomUpdateData customData)
         {
             Dictionary<TIdentifier, TData> dataSet;
             lock (_dataLock)
@@ -77,7 +77,7 @@ namespace RGB.NET.Core
         #region Constructors
 
         /// <inheritdoc />
-        protected UpdateQueue(IUpdateTrigger updateTrigger)
+        protected UpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         { }
 

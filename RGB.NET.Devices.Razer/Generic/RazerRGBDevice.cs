@@ -44,7 +44,7 @@ namespace RGB.NET.Devices.Razer
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize(IUpdateTrigger updateTrigger)
+        public void Initialize(IDeviceUpdateTrigger updateTrigger)
         {
             InitializeLayout();
 
@@ -57,7 +57,7 @@ namespace RGB.NET.Devices.Razer
             UpdateQueue = CreateUpdateQueue(updateTrigger);
         }
 
-        protected abstract RazerUpdateQueue CreateUpdateQueue(IUpdateTrigger updateTrigger);
+        protected abstract RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger);
 
         /// <summary>
         /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.

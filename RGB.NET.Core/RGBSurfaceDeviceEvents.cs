@@ -78,13 +78,13 @@ namespace RGB.NET.Core
         /// <summary>
         /// Handles the needed event-calls before updating.
         /// </summary>
-        private void OnUpdating()
+        private void OnUpdating(IUpdateTrigger trigger, CustomUpdateData customData)
         {
             try
             {
                 double deltaTime = _deltaTimeCounter.Elapsed.TotalSeconds;
                 _deltaTimeCounter.Restart();
-                Updating?.Invoke(new UpdatingEventArgs(deltaTime));
+                Updating?.Invoke(new UpdatingEventArgs(deltaTime, trigger, customData));
             }
             catch { /* Well ... that's not my fault */ }
         }

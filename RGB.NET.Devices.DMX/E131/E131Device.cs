@@ -34,7 +34,7 @@ namespace RGB.NET.Devices.DMX.E131
 
         #region Methods
 
-        internal void Initialize(IUpdateTrigger updateTrigger)
+        internal void Initialize(IDeviceUpdateTrigger updateTrigger)
         {
             int count = 0;
             foreach (LedId id in _ledMappings.Keys)

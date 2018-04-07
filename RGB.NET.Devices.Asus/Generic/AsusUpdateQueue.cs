@@ -20,7 +20,7 @@ namespace RGB.NET.Devices.Asus.Generic
 
         #region Constructors
 
-        public AsusUpdateQueue(IUpdateTrigger updateTrigger)
+        public AsusUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         { }
 

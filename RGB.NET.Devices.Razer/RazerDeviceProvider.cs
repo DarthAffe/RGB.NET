@@ -68,7 +68,7 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         public bool LoadEmulatorDevices { get; set; } = false;
 
-        public UpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
 
         #endregion
 
@@ -83,7 +83,7 @@ namespace RGB.NET.Devices.Razer
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(RazerDeviceProvider)}");
             _instance = this;
 
-            UpdateTrigger = new UpdateTrigger();
+            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion

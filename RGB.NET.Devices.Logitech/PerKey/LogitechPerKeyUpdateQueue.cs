@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Logitech
 
         #region Constructors
 
-        public LogitechPerKeyUpdateQueue(IUpdateTrigger updateTrigger)
+        public LogitechPerKeyUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         {
             _bitmap = BitmapMapping.CreateBitmap();

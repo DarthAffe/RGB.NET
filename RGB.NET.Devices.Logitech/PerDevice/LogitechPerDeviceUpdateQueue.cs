@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Logitech
     {
         #region Constructors
 
-        public LogitechPerDeviceUpdateQueue(IUpdateTrigger updateTrigger)
+        public LogitechPerDeviceUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         { }
 

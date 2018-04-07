@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RGB.NET.Core
 {
-    public partial class RGBSurface
+    public class TimerUpdateTrigger : AbstractUpdateTrigger
     {
         #region Properties & Fields
 
@@ -13,8 +12,6 @@ namespace RGB.NET.Core
         private CancellationToken _updateToken;
         private Task _updateTask;
         private Stopwatch _sleepCounter;
-
-        // ReSharper disable MemberCanBePrivate.Global
 
         private double _updateFrequency = 1.0 / 30.0;
         /// <summary>
@@ -31,51 +28,35 @@ namespace RGB.NET.Core
         /// </summary>
         public double LastUpdateTime { get; private set; }
 
-        private UpdateMode _updateMode = UpdateMode.Continuous;
-        /// <summary>
-        /// Gets or sets the update-mode.
-        /// </summary>
-        public UpdateMode UpdateMode
+        #endregion
+
+        #region Constructors
+
+        public TimerUpdateTrigger(bool autostart = true)
         {
-            get => _updateMode;
-            set
-            {
-                if (SetProperty(ref _updateMode, value))
-                    CheckUpdateLoop();
-            }
+            _sleepCounter = new Stopwatch();
+
+            if (autostart)
+                Start();
         }
 
-        // ReSharper restore MemberCanBePrivate.Global
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Checks if automatic updates should occur and starts/stops the update-loop if needed.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if the requested update-mode is not available.</exception>
-        private async void CheckUpdateLoop()
+        public void Start()
         {
-            bool shouldRun;
-            switch (UpdateMode)
-            {
-                case UpdateMode.Manual:
-                    shouldRun = false;
-                    break;
-                case UpdateMode.Continuous:
-                    shouldRun = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            if (shouldRun && (_updateTask == null)) // Start task
+            if (_updateTask == null)
             {
                 _updateTokenSource?.Dispose();
                 _updateTokenSource = new CancellationTokenSource();
                 _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
             }
-            else if (!shouldRun && (_updateTask != null)) // Stop task
+        }
+
+        public async void Stop()
+        {
+            if (_updateTask != null)
             {
                 _updateTokenSource.Cancel();
                 await _updateTask;
@@ -90,7 +71,7 @@ namespace RGB.NET.Core
             {
                 _sleepCounter.Restart();
 
-                Update();
+                OnUpdate();
 
                 _sleepCounter.Stop();
                 LastUpdateTime = _sleepCounter.Elapsed.TotalSeconds;

@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Razer
     {
         #region Constructors
 
-        public RazerKeypadUpdateQueue(IUpdateTrigger updateTrigger, Guid deviceId)
+        public RazerKeypadUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
             : base(updateTrigger, deviceId)
         { }
 

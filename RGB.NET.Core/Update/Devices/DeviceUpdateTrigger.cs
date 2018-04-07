@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RGB.NET.Core
 {
-    public class UpdateTrigger : IUpdateTrigger
+    public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
     {
         #region Properties & Fields
 
@@ -44,21 +43,12 @@ namespace RGB.NET.Core
 
         #endregion
 
-        #region Events
-
-        /// <inheritdoc />
-        public event EventHandler Starting;
-        /// <inheritdoc />
-        public event EventHandler Update;
-
-        #endregion
-
         #region Constructors
 
-        public UpdateTrigger()
+        public DeviceUpdateTrigger()
         { }
 
-        public UpdateTrigger(double updateRateHardLimit)
+        public DeviceUpdateTrigger(double updateRateHardLimit)
         {
             this._updateRateHardLimit = updateRateHardLimit;
         }
@@ -76,7 +66,6 @@ namespace RGB.NET.Core
             _updateTokenSource?.Dispose();
             _updateTokenSource = new CancellationTokenSource();
             _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
-
         }
 
         public async void Stop()
@@ -93,14 +82,14 @@ namespace RGB.NET.Core
 
         private void UpdateLoop()
         {
-            Starting?.Invoke(this, null);
+            OnStartup();
             while (!_updateToken.IsCancellationRequested)
             {
                 if (_hasDataEvent.WaitOne(Timeout))
                 {
                     long preUpdateTicks = Stopwatch.GetTimestamp();
 
-                    Update?.Invoke(this, null);
+                    OnUpdate();
 
                     if (UpdateFrequency > 0)
                     {

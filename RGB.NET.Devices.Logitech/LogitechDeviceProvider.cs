@@ -56,7 +56,7 @@ namespace RGB.NET.Devices.Logitech
         /// </summary>
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
-        public UpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
         private LogitechPerDeviceUpdateQueue _perDeviceUpdateQueue;
         private LogitechPerKeyUpdateQueue _perKeyUpdateQueue;
 
@@ -73,7 +73,7 @@ namespace RGB.NET.Devices.Logitech
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(LogitechDeviceProvider)}");
             _instance = this;
 
-            UpdateTrigger = new UpdateTrigger();
+            UpdateTrigger = new DeviceUpdateTrigger();
             _perDeviceUpdateQueue = new LogitechPerDeviceUpdateQueue(UpdateTrigger);
             _perKeyUpdateQueue = new LogitechPerKeyUpdateQueue(UpdateTrigger);
         }

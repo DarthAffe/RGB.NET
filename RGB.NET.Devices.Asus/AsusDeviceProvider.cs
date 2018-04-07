@@ -63,7 +63,7 @@ namespace RGB.NET.Devices.Asus
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
-        public UpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
 
         #endregion
 
@@ -78,7 +78,7 @@ namespace RGB.NET.Devices.Asus
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(AsusDeviceProvider)}");
             _instance = this;
 
-            UpdateTrigger = new UpdateTrigger();
+            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion

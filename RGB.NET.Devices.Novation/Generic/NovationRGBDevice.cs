@@ -43,7 +43,7 @@ namespace RGB.NET.Devices.Novation
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize(IUpdateTrigger updateTrigger)
+        public void Initialize(IDeviceUpdateTrigger updateTrigger)
         {
             InitializeLayout();
 

@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Razer
     {
         #region Constructors
 
-        public RazerChromaLinkUpdateQueue(IUpdateTrigger updateTrigger, Guid deviceId)
+        public RazerChromaLinkUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
             : base(updateTrigger, deviceId)
         { }
 

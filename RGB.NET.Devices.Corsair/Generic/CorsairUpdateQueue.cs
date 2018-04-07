@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair
     {
         #region Constructors
 
-        public CorsairUpdateQueue(IUpdateTrigger updateTrigger)
+        public CorsairUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         { }
 

@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.Novation
     {
         #region Constructors
 
-        public LimitedColorUpdateQueue(IUpdateTrigger updateTrigger, int deviceId)
+        public LimitedColorUpdateQueue(IDeviceUpdateTrigger updateTrigger, int deviceId)
             : base(updateTrigger, deviceId)
         { }
 

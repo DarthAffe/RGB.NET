@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region Constructors
 
-        public CoolerMasterUpdateQueue(IUpdateTrigger updateTrigger, CoolerMasterDevicesIndexes deviceIndex)
+        public CoolerMasterUpdateQueue(IDeviceUpdateTrigger updateTrigger, CoolerMasterDevicesIndexes deviceIndex)
             : base(updateTrigger)
         {
             this._deviceIndex = deviceIndex;

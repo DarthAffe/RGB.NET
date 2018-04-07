@@ -29,7 +29,7 @@ namespace RGB.NET.Devices.DMX.E131
 
         #region Constructors
 
-        public E131UpdateQueue(IUpdateTrigger updateTrigger, string hostname, int port)
+        public E131UpdateQueue(IDeviceUpdateTrigger updateTrigger, string hostname, int port)
             : base(updateTrigger)
         {
             _socket = new UdpClient();

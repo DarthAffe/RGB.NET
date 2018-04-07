@@ -16,7 +16,7 @@ namespace RGB.NET.Devices.Razer
 
         #region Constructors
 
-        protected RazerUpdateQueue(IUpdateTrigger updateTrigger, Guid deviceId)
+        protected RazerUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
             : base(updateTrigger)
         {
             this._deviceId = deviceId;

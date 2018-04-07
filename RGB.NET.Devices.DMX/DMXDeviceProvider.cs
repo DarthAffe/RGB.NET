@@ -37,7 +37,7 @@ namespace RGB.NET.Devices.DMX
         /// </summary>
         public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new List<IDMXDeviceDefinition>();
 
-        public UpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.DMX
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
             _instance = this;
 
-            UpdateTrigger = new UpdateTrigger();
+            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion

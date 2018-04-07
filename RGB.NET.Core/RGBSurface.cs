@@ -27,6 +27,7 @@ namespace RGB.NET.Core
 
         private IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
         private IList<IRGBDevice> _devices = new List<IRGBDevice>();
+        private IList<IUpdateTrigger> _updateTriggers = new List<IUpdateTrigger>();
 
         // ReSharper disable InconsistentNaming
 
@@ -40,6 +41,8 @@ namespace RGB.NET.Core
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
         /// </summary>
         public IEnumerable<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(_devices);
+
+        public IEnumerable<IUpdateTrigger> UpdateTriggers => new ReadOnlyCollection<IUpdateTrigger>(_updateTriggers);
 
         /// <summary>
         /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.
@@ -61,9 +64,6 @@ namespace RGB.NET.Core
         private RGBSurface()
         {
             _deltaTimeCounter = Stopwatch.StartNew();
-            _sleepCounter = new Stopwatch();
-
-            CheckUpdateLoop();
         }
 
         #endregion
@@ -74,31 +74,49 @@ namespace RGB.NET.Core
         /// Perform a full update for all devices. Updates only dirty <see cref="Led"/> by default, or all <see cref="Led"/>, if flushLeds is set to true.
         /// </summary>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
-        public void Update(bool flushLeds = false)
+        public void Update(bool flushLeds = false) => Update(null, new CustomUpdateData(("flushLeds", flushLeds)));
+
+        private void Update(object updateTrigger, CustomUpdateData customData) => Update(updateTrigger as IUpdateTrigger, customData);
+
+        private void Update(IUpdateTrigger updateTrigger, CustomUpdateData customData)
         {
+            if (customData == null)
+                customData = new CustomUpdateData();
+
             try
             {
-                OnUpdating();
+                bool flushLeds = customData["flushLeds"] as bool? ?? false;
+                bool syncBack = customData["syncBack"] as bool? ?? true;
+                bool render = customData["render"] as bool? ?? true;
+                bool updateDevices = customData["updateDevices"] as bool? ?? true;
 
-                foreach (IRGBDevice device in Devices)
-                    if (device.UpdateMode.HasFlag(DeviceUpdateMode.SyncBack) && device.DeviceInfo.SupportsSyncBack)
-                        try { device.SyncBack(); }
-                        catch (Exception ex) { OnException(ex); }
-
-                lock (_ledGroups)
+                lock (_updateTriggers)
                 {
-                    // Render brushes
-                    foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
-                        try { Render(ledGroup); }
-                        catch (Exception ex) { OnException(ex); }
+                    OnUpdating(updateTrigger, customData);
+
+                    if (syncBack)
+                        foreach (IRGBDevice device in Devices)
+                            if (device.UpdateMode.HasFlag(DeviceUpdateMode.SyncBack) && device.DeviceInfo.SupportsSyncBack)
+                                try { device.SyncBack(); }
+                                catch (Exception ex) { OnException(ex); }
+
+                    if (render)
+                        lock (_ledGroups)
+                        {
+                            // Render brushes
+                            foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
+                                try { Render(ledGroup); }
+                                catch (Exception ex) { OnException(ex); }
+                        }
+
+                    if (updateDevices)
+                        foreach (IRGBDevice device in Devices)
+                            if (!device.UpdateMode.HasFlag(DeviceUpdateMode.NoUpdate))
+                                try { device.Update(flushLeds); }
+                                catch (Exception ex) { OnException(ex); }
+
+                    OnUpdated();
                 }
-
-                foreach (IRGBDevice device in Devices)
-                    if (!device.UpdateMode.HasFlag(DeviceUpdateMode.NoUpdate))
-                        try { device.Update(flushLeds); }
-                        catch (Exception ex) { OnException(ex); }
-
-                OnUpdated();
             }
             catch (Exception ex)
             {
@@ -109,8 +127,8 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public void Dispose()
         {
-            if (_updateTokenSource?.IsCancellationRequested == false)
-                _updateTokenSource.Cancel();
+            //if (_updateTokenSource?.IsCancellationRequested == false)
+            //    _updateTokenSource.Cancel();
 
             foreach (IRGBDevice device in _devices)
                 try { device.Dispose(); }
@@ -230,6 +248,21 @@ namespace RGB.NET.Core
         /// <returns>a list of devices matching the specified <see cref="RGBDeviceType"/>.</returns>
         public IList<IRGBDevice> GetDevices(RGBDeviceType deviceType)
             => new ReadOnlyCollection<IRGBDevice>(_devices.Where(x => x.DeviceInfo.DeviceType == deviceType).ToList());
+
+        public void RegisterUpdateTrigger(IUpdateTrigger updateTrigger)
+        {
+            if (!_updateTriggers.Contains(updateTrigger))
+            {
+                _updateTriggers.Add(updateTrigger);
+                updateTrigger.Update += Update;
+            }
+        }
+
+        public void UnregisterUpdateTrigger(IUpdateTrigger updateTrigger)
+        {
+            if (_updateTriggers.Remove(updateTrigger))
+                updateTrigger.Update -= Update;
+        }
 
         #endregion
     }

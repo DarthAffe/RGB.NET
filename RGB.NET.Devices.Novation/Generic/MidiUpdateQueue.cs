@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Novation
 
         #region Constructors
 
-        public MidiUpdateQueue(IUpdateTrigger updateTrigger, int deviceId)
+        public MidiUpdateQueue(IDeviceUpdateTrigger updateTrigger, int deviceId)
             : base(updateTrigger)
         {
             _outputDevice = new OutputDevice(deviceId);
