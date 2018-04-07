@@ -60,7 +60,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
-    <PackageReference Include="HidSharp" Version="1.5.0" />
+    <PackageReference Include="HidSharp.Standard" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
