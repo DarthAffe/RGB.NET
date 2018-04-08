@@ -1,9 +1,15 @@
-﻿using System.Diagnostics;
+﻿// ReSharper disable MemberCanBePrivate.Global
+
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RGB.NET.Core
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents an <see cref="T:RGB.NET.Core.IUpdateTrigger" />
+    /// </summary>
     public class TimerUpdateTrigger : AbstractUpdateTrigger
     {
         #region Properties & Fields
@@ -12,7 +18,7 @@ namespace RGB.NET.Core
         private CancellationToken _updateToken;
         private Task _updateTask;
         private Stopwatch _sleepCounter;
-
+        
         private double _updateFrequency = 1.0 / 30.0;
         /// <summary>
         /// Gets or sets the update-frequency in seconds. (Calculate by using '1.0 / updates per second')
@@ -27,11 +33,15 @@ namespace RGB.NET.Core
         /// Gets the time it took the last update-loop cycle to run.
         /// </summary>
         public double LastUpdateTime { get; private set; }
-
+        
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimerUpdateTrigger"/> class.
+        /// </summary>
+        /// <param name="autostart">A value indicating if the trigger should automatically <see cref="Start"/> right after construction.</param>
         public TimerUpdateTrigger(bool autostart = true)
         {
             _sleepCounter = new Stopwatch();
@@ -44,6 +54,9 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <summary>
+        /// Starts the trigger if needed, causing it to performing updates.
+        /// </summary>
         public void Start()
         {
             if (_updateTask == null)
@@ -54,6 +67,9 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Stops the trigger if running, causing it to stop performing updates.
+        /// </summary>
         public async void Stop()
         {
             if (_updateTask != null)

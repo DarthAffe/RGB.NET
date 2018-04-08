@@ -37,6 +37,9 @@ namespace RGB.NET.Devices.DMX
         /// </summary>
         public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new List<IDMXDeviceDefinition>();
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for dmx devices. 
+        /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
 
         #endregion

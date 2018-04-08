@@ -6,10 +6,18 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents the update-queue performing updates for corsair devices.
+    /// </summary>
     public class CorsairUpdateQueue : UpdateQueue
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CorsairUpdateQueue"/> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
         public CorsairUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         { }

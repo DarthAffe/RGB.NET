@@ -21,6 +21,10 @@ namespace RGB.NET.Devices.Novation
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
 
+        /// <summary>
+        /// The <see cref="MidiUpdateQueue"/> used to update this <see cref="NovationRGBDevice{TDeviceInfo}"/>.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         protected MidiUpdateQueue UpdateQueue { get; set; }
 
         #endregion

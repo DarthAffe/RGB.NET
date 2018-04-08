@@ -6,10 +6,18 @@ using RGB.NET.Devices.Logitech.Native;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents the update-queue performing updates for logitech per-device devices.
+    /// </summary>
     public class LogitechPerDeviceUpdateQueue : UpdateQueue
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogitechPerDeviceUpdateQueue"/> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
         public LogitechPerDeviceUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         { }

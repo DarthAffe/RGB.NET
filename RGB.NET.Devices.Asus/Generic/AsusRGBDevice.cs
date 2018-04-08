@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
-using RGB.NET.Devices.Asus.Generic;
 
 namespace RGB.NET.Devices.Asus
 {
@@ -23,6 +22,10 @@ namespace RGB.NET.Devices.Asus
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
 
+        /// <summary>
+        /// Gets or sets the update queue performing updates for this device.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         protected AsusUpdateQueue UpdateQueue { get; set; }
 
         #endregion

@@ -68,6 +68,9 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         public bool LoadEmulatorDevices { get; set; } = false;
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for razer devices. 
+        /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
 
         #endregion

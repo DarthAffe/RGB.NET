@@ -1,18 +1,33 @@
-﻿using System.Diagnostics;
+﻿// ReSharper disable MemberCanBePrivate.Global
+
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Represents an update-trigger used to update devices with a maximum update-rate.
+    /// </summary>
     public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
     {
         #region Properties & Fields
 
+        /// <summary>
+        /// Gets or sets the timeout used by the blocking wait for data availability.
+        /// </summary>
         public int Timeout { get; set; } = 100;
 
+        /// <summary>
+        /// Gets the update frequency used by the trigger if not limited by data shortage.
+        /// </summary>
         public double UpdateFrequency { get; private set; }
 
         private double _maxUpdateRate;
+        /// <summary>
+        /// Gets or sets the maximum update rate of this trigger (is overwriten if the <see cref="UpdateRateHardLimit"/> is smaller).
+        /// &lt;= 0 removes the limit.
+        /// </summary>
         public double MaxUpdateRate
         {
             get => _maxUpdateRate;
@@ -24,6 +39,10 @@ namespace RGB.NET.Core
         }
 
         private double _updateRateHardLimit;
+        /// <summary>
+        /// Gets the hard limit of the update rate of this trigger. Updates will never perform faster then then this value if it's set.
+        /// &lt;= 0 removes the limit.
+        /// </summary>
         public double UpdateRateHardLimit
         {
             get => _updateRateHardLimit;
@@ -45,9 +64,16 @@ namespace RGB.NET.Core
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeviceUpdateTrigger"/> class.
+        /// </summary>
         public DeviceUpdateTrigger()
         { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeviceUpdateTrigger"/> class.
+        /// </summary>
+        /// <param name="updateRateHardLimit">The hard limit of the update rate of this trigger.</param>
         public DeviceUpdateTrigger(double updateRateHardLimit)
         {
             this._updateRateHardLimit = updateRateHardLimit;
@@ -57,6 +83,9 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <summary>
+        /// Starts the trigger.
+        /// </summary>
         public void Start()
         {
             if (_isRunning) return;
@@ -68,6 +97,9 @@ namespace RGB.NET.Core
             _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
+        /// <summary>
+        /// Stops the trigger.
+        /// </summary>
         public async void Stop()
         {
             if (!_isRunning) return;

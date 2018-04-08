@@ -4,6 +4,10 @@ using RGB.NET.Devices.CoolerMaster.Native;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents the update-queue performing updates for cooler master devices.
+    /// </summary>
     public class CoolerMasterUpdateQueue : UpdateQueue
     {
         #region Properties & Fields
@@ -14,6 +18,11 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CoolerMasterUpdateQueue"/> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
+        /// <param name="deviceIndex">The <see cref="CoolerMasterDevicesIndexes"/> of the device this queue performs updates for.</param>
         public CoolerMasterUpdateQueue(IDeviceUpdateTrigger updateTrigger, CoolerMasterDevicesIndexes deviceIndex)
             : base(updateTrigger)
         {

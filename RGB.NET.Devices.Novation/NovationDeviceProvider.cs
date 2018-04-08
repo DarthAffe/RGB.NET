@@ -39,6 +39,9 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; }
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for novation devices. 
+        /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
 
         #endregion

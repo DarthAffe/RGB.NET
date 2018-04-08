@@ -18,7 +18,11 @@ namespace RGB.NET.Devices.Logitech
         /// Gets information about the <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDevice" />.
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
-
+        
+        /// <summary>
+        /// Gets or sets the update queue performing updates for this device.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         protected UpdateQueue UpdateQueue { get; set; }
 
         #endregion

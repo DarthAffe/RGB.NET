@@ -5,10 +5,18 @@ using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
+    /// <summary>
+    /// Represents the update-queue performing updates for a limited-color novation device.
+    /// </summary>
     public class LimitedColorUpdateQueue : MidiUpdateQueue
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LimitedColorUpdateQueue"/> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
+        /// <param name="deviceId">The device-id of the device this queue is performing updates for.</param>
         public LimitedColorUpdateQueue(IDeviceUpdateTrigger updateTrigger, int deviceId)
             : base(updateTrigger, deviceId)
         { }

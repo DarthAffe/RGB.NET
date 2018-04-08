@@ -22,6 +22,10 @@ namespace RGB.NET.Devices.CoolerMaster
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
 
+        /// <summary>
+        /// Gets or sets the update queue performing updates for this device.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         protected CoolerMasterUpdateQueue UpdateQueue { get; set; }
 
         #endregion

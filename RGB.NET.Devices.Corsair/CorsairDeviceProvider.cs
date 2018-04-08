@@ -66,6 +66,9 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; }
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
+        /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
         private CorsairUpdateQueue _updateQueue;
 

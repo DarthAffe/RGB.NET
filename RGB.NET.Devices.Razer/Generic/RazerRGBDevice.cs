@@ -20,6 +20,10 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
 
+        /// <summary>
+        /// Gets or sets the update queue performing updates for this device.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         protected RazerUpdateQueue UpdateQueue { get; set; }
 
         #endregion
@@ -57,6 +61,11 @@ namespace RGB.NET.Devices.Razer
             UpdateQueue = CreateUpdateQueue(updateTrigger);
         }
 
+        /// <summary>
+        /// Creates a specific <see cref="RazerUpdateQueue"/> for this device.
+        /// </summary>
+        /// <param name="updateTrigger">The trigger used to update the queue.</param>
+        /// <returns>The <see cref="RazerUpdateQueue"/> for this device.</returns>
         protected abstract RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger);
 
         /// <summary>

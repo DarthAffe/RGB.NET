@@ -56,6 +56,9 @@ namespace RGB.NET.Devices.Logitech
         /// </summary>
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for logitech devices. 
+        /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
         private LogitechPerDeviceUpdateQueue _perDeviceUpdateQueue;
         private LogitechPerKeyUpdateQueue _perKeyUpdateQueue;

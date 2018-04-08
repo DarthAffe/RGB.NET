@@ -5,6 +5,9 @@ using RGB.NET.Devices.Logitech.Native;
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <summary>
+    /// Represents the update-queue performing updates for logitech per-key devices.
+    /// </summary>
     public class LogitechPerKeyUpdateQueue : UpdateQueue
     {
         #region Properties & Fields
@@ -15,6 +18,10 @@ namespace RGB.NET.Devices.Logitech
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogitechPerKeyUpdateQueue"/> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
         public LogitechPerKeyUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         {

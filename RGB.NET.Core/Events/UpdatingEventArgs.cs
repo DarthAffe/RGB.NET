@@ -18,8 +18,14 @@ namespace RGB.NET.Core
         /// </summary>
         public double DeltaTime { get; }
 
+        /// <summary>
+        /// Gets the trigger causing this update.
+        /// </summary>
         public IUpdateTrigger Trigger { get; }
-
+        
+        /// <summary>
+        /// Gets the custom-data provided by the trigger for this update.
+        /// </summary>
         public CustomUpdateData CustomData { get; }
 
         #endregion
@@ -31,6 +37,8 @@ namespace RGB.NET.Core
         /// Initializes a new instance of the <see cref="T:RGB.NET.Core.UpdatingEventArgs" /> class.
         /// </summary>
         /// <param name="deltaTime">The elapsed time (in seconds) since the last update.</param>
+        /// <param name="trigger">The trigger causing this update.</param>
+        /// <param name="customData">The custom-data provided by the trigger for this update.</param>
         public UpdatingEventArgs(double deltaTime, IUpdateTrigger trigger, CustomUpdateData customData)
         {
             this.DeltaTime = deltaTime;

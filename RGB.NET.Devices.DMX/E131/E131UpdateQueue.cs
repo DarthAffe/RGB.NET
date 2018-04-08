@@ -5,6 +5,10 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.DMX.E131
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents the update-queue performing updates for E131-DMX devices.
+    /// </summary>
     public class E131UpdateQueue : UpdateQueue
     {
         #region Properties & Fields
@@ -29,6 +33,13 @@ namespace RGB.NET.Devices.DMX.E131
 
         #region Constructors
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.DMX.E131.E131UpdateQueue" /> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
+        /// <param name="hostname">The hostname of the device this queue is performing updates for.</param>
+        /// <param name="port">The port to connect to the device this queue is performing updates for.</param>
         public E131UpdateQueue(IDeviceUpdateTrigger updateTrigger, string hostname, int port)
             : base(updateTrigger)
         {
@@ -40,6 +51,7 @@ namespace RGB.NET.Devices.DMX.E131
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void Update(Dictionary<object, Color> dataSet)
         {
             DataPacket.SetSequenceNumber(GetNextSequenceNumber());

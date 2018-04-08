@@ -42,6 +42,9 @@ namespace RGB.NET.Core
         /// </summary>
         public IEnumerable<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(_devices);
 
+        /// <summary>
+        /// Gets a readonly list containing all registered <see cref="IUpdateTrigger"/>.
+        /// </summary>
         public IEnumerable<IUpdateTrigger> UpdateTriggers => new ReadOnlyCollection<IUpdateTrigger>(_updateTriggers);
 
         /// <summary>
@@ -249,6 +252,10 @@ namespace RGB.NET.Core
         public IList<IRGBDevice> GetDevices(RGBDeviceType deviceType)
             => new ReadOnlyCollection<IRGBDevice>(_devices.Where(x => x.DeviceInfo.DeviceType == deviceType).ToList());
 
+        /// <summary>
+        /// Registers the provided <see cref="IUpdateTrigger"/>.
+        /// </summary>
+        /// <param name="updateTrigger">The <see cref="IUpdateTrigger"/> to register.</param>
         public void RegisterUpdateTrigger(IUpdateTrigger updateTrigger)
         {
             if (!_updateTriggers.Contains(updateTrigger))
@@ -258,6 +265,10 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Unregisters the provided <see cref="IUpdateTrigger"/>.
+        /// </summary>
+        /// <param name="updateTrigger">The <see cref="IUpdateTrigger"/> to unregister.</param>
         public void UnregisterUpdateTrigger(IUpdateTrigger updateTrigger)
         {
             if (_updateTriggers.Remove(updateTrigger))

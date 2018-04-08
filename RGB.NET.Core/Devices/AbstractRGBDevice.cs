@@ -14,7 +14,7 @@ namespace RGB.NET.Core
     /// <inheritdoc cref="AbstractBindable" />
     /// <inheritdoc cref="IRGBDevice{TDeviceInfo}" />
     /// <summary>
-    /// Represents a generic RGB-device
+    /// Represents a generic RGB-device.
     /// </summary>
     public abstract class AbstractRGBDevice<TDeviceInfo> : AbstractBindable, IRGBDevice<TDeviceInfo>
         where TDeviceInfo : class, IRGBDeviceInfo

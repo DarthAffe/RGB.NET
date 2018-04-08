@@ -66,7 +66,6 @@ namespace RGB.NET.Devices.Logitech
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The represented device model.</param>
         /// <param name="deviceCaps">The lighting-capabilities of the device.</param>
-        /// <param name="imageBasePath">The base of the image path used to load device-images.</param>
         /// <param name="imageLayout">The layout used to decide which images to load.</param>
         /// <param name="layoutPath">The path/name of the layout-file.</param>
         internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps,

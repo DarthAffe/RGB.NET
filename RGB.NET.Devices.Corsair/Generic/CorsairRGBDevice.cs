@@ -29,6 +29,10 @@ namespace RGB.NET.Devices.Corsair
         // ReSharper disable once MemberCanBePrivate.Global
         protected Dictionary<CorsairLedId, Led> InternalLedMapping { get; } = new Dictionary<CorsairLedId, Led>();
 
+        /// <summary>
+        /// Gets or sets the update queue performing updates for this device.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         protected CorsairUpdateQueue UpdateQueue { get; set; }
 
         #endregion

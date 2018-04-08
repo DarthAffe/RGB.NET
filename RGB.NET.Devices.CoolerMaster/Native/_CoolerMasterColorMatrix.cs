@@ -7,8 +7,12 @@ namespace RGB.NET.Devices.CoolerMaster.Native
     {
         #region Constants
 
+        // ReSharper disable MemberCanBePrivate.Global
+
         internal const int ROWS = 6;
         internal const int COLUMNS = 22;
+
+        // ReSharper restore MemberCanBePrivate.Global
 
         #endregion
 

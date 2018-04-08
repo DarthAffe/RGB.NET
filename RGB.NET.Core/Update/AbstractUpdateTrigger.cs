@@ -2,6 +2,9 @@
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Represents a generic update trigger. 
+    /// </summary>
     public class AbstractUpdateTrigger : AbstractBindable, IUpdateTrigger
     {
         #region Events
@@ -15,8 +18,16 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <summary>
+        /// Invokes the <see cref="Starting"/>-event.
+        /// </summary>
+        /// <param name="updateData">Optional custom-data passed to the subscribers of the <see cref="Starting"/>.event.</param>
         protected virtual void OnStartup(CustomUpdateData updateData = null) => Starting?.Invoke(this, updateData);
 
+        /// <summary>
+        /// Invokes the <see cref="Update"/>-event.
+        /// </summary>
+        /// <param name="updateData">Optional custom-data passed to the subscribers of the <see cref="Update"/>.event.</param>
         protected virtual void OnUpdate(CustomUpdateData updateData = null) => Update?.Invoke(this, updateData);
 
         /// <inheritdoc />

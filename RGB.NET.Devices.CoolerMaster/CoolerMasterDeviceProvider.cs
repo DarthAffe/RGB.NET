@@ -63,6 +63,9 @@ namespace RGB.NET.Devices.CoolerMaster
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for cooler master devices. 
+        /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
 
         #endregion

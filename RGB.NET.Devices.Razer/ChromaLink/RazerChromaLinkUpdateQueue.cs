@@ -6,10 +6,18 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
+    /// <summary>
+    /// Represents the update-queue performing updates for razer chroma-link devices.
+    /// </summary>
     public class RazerChromaLinkUpdateQueue : RazerUpdateQueue
     {
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RazerChromaLinkUpdateQueue" /> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used to update this queue.</param>
+        /// <param name="deviceId">The id of the device updated by this queue.</param>
         public RazerChromaLinkUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
             : base(updateTrigger, deviceId)
         { }
