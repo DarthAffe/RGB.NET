@@ -11,7 +11,7 @@ namespace RGB.NET.Devices.Logitech.HID
         #region Constants
 
         private const int VENDOR_ID = 0x046D;
-        
+
         //TODO DarthAffe 14.11.2017: Add devices
         private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)> PER_KEY_DEVICES
                 = new List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)>
@@ -47,8 +47,7 @@ namespace RGB.NET.Devices.Logitech.HID
 
         internal static void LoadDeviceList()
         {
-            HidDeviceLoader loader = new HidDeviceLoader();
-            List<int> ids = loader.GetDevices(VENDOR_ID).Select(x => x.ProductID).Distinct().ToList();
+            List<int> ids = DeviceList.Local.GetHidDevices(VENDOR_ID).Select(x => x.ProductID).Distinct().ToList();
 
             foreach ((string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath) deviceData in PER_KEY_DEVICES)
                 if (ids.Contains(deviceData.id))
