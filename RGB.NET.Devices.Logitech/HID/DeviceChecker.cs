@@ -25,9 +25,11 @@ namespace RGB.NET.Devices.Logitech.HID
         private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
             = new List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)>
               {
+                  ("G19", RGBDeviceType.Keyboard, 0xC228, "DE", @"Keyboards\G19\UK"),
                   ("G903", RGBDeviceType.Mouse, 0xC086, "default", @"Mice\G903"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, "default", @"Mice\G403"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, "default", @"Mice\G502"),
+                  ("G600", RGBDeviceType.Mouse, 0xC24A, "default", @"Mice\G600"),
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, "default", @"Mice\GPro"),
               };
 
