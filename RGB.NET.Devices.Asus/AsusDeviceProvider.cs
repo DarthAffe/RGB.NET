@@ -108,7 +108,7 @@ namespace RGB.NET.Devices.Asus
                     {
                         //TODO DarthAffe 26.11.2017: This is not a fix! There might really be a second controller on the mainboard, but for now this should prevent the random crash for some guys.
                         // DarthAffe 26.11.2017: https://rog.asus.com/forum/showthread.php?97754-Access-Violation-Wrong-EnumerateMB-Result&p=688901#post688901
-                        int mainboardCount = Math.Max(1, _AsusSDK.EnumerateMbController(IntPtr.Zero, 0));
+                        int mainboardCount = Math.Min(1, _AsusSDK.EnumerateMbController(IntPtr.Zero, 0));
                         if (mainboardCount > 0)
                         {
                             IntPtr mainboardHandles = Marshal.AllocHGlobal(mainboardCount * IntPtr.Size);
