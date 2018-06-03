@@ -16,9 +16,8 @@ namespace RGB.NET.Core
         /// <param name="loadFilter">Specifies which types of devices to load.</param>
         /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
         /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
-        public void LoadDevices<T>(IRGBDeviceProviderLoader deviceProviderLoader, RGBDeviceType loadFilter = RGBDeviceType.All,
+        public void LoadDevices(IRGBDeviceProviderLoader deviceProviderLoader, RGBDeviceType loadFilter = RGBDeviceType.All,
                                   bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
-            where T : class, IRGBDeviceProviderLoader, new()
             => LoadDevices(deviceProviderLoader.GetDeviceProvider(), loadFilter, exclusiveAccessIfPossible, throwExceptions);
 
         /// <summary>
