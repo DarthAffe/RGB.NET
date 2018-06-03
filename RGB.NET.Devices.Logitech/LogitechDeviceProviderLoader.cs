@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.Logitech
     /// <summary>
     /// Represents a device provider loaded used to dynamically load logitech devices into an application.
     /// </summary>
-    public class LogitechDeviceProviderLoader : IRGBDeviceProviderLoader<LogitechDeviceProviderLoader>
+    public class LogitechDeviceProviderLoader : IRGBDeviceProviderLoader
     {
         #region Properties & Fields
 

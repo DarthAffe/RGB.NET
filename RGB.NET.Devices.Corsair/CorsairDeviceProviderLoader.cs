@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a device provider loaded used to dynamically load corsair devices into an application.
     /// </summary>
-    public class CorsairDeviceProviderLoader : IRGBDeviceProviderLoader<CorsairDeviceProviderLoader>
+    public class CorsairDeviceProviderLoader : IRGBDeviceProviderLoader
     {
         #region Properties & Fields
 

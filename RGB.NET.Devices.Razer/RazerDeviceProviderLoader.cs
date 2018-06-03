@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.Razer
     /// <summary>
     /// Represents a device provider loaded used to dynamically load razer devices into an application.
     /// </summary>
-    public class RazerDeviceProviderLoader : IRGBDeviceProviderLoader<RazerDeviceProviderLoader>
+    public class RazerDeviceProviderLoader : IRGBDeviceProviderLoader
     {
         #region Properties & Fields
 

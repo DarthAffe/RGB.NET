@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.Novation
     /// <summary>
     /// Represents a device provider loaded used to dynamically load novation devices into an application.
     /// </summary>
-    public class NovationDeviceProviderLoader : IRGBDeviceProviderLoader<NovationDeviceProviderLoader>
+    public class NovationDeviceProviderLoader : IRGBDeviceProviderLoader
     {
         #region Properties & Fields
 

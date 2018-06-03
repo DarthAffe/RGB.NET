@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.CoolerMaster
     /// <summary>
     /// Represents a device provider loaded used to dynamically load cooler-master devices into an application.
     /// </summary>
-    public class CoolerMasterDeviceProviderLoader : IRGBDeviceProviderLoader<CoolerMasterDeviceProviderLoader>
+    public class CoolerMasterDeviceProviderLoader : IRGBDeviceProviderLoader
     {
         #region Properties & Fields
 

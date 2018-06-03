@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.Debug
     /// <summary>
     /// Represents a device provider loaded used to dynamically load debug devices into an application.
     /// </summary>
-    public class DebugDeviceProviderLoader : IRGBDeviceProviderLoader<DebugDeviceProviderLoader>
+    public class DebugDeviceProviderLoader : IRGBDeviceProviderLoader
     {
         #region Properties & Fields
 

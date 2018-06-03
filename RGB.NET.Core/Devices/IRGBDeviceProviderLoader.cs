@@ -2,10 +2,9 @@
 {
     /// <summary>
     /// Represents a generic device provider loaded used to dynamically load devices into an application.
+    /// This class should always provide an empty public constructor!
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IRGBDeviceProviderLoader<T>
-        where T : class, IRGBDeviceProviderLoader<T>, new()
+    public interface IRGBDeviceProviderLoader
     {
         /// <summary>
         /// Indicates if the returned device-provider needs some specific initialization before use.

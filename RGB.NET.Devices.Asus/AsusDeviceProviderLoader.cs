@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a device provider loaded used to dynamically load asus devices into an application.
     /// </summary>
-    public class AsusDeviceProviderLoader : IRGBDeviceProviderLoader<AsusDeviceProviderLoader>
+    public class AsusDeviceProviderLoader : IRGBDeviceProviderLoader
     {
         #region Properties & Fields
 

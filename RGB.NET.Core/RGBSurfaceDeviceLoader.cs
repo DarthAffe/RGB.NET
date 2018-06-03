@@ -10,15 +10,15 @@ namespace RGB.NET.Core
 
         // ReSharper disable UnusedMember.Global
         /// <summary>
-        /// Loads all devices the given by the <see cref="IRGBDeviceProvider"/> provided by the give <see cref="IRGBDeviceProviderLoader{T}"/>.
+        /// Loads all devices the given by the <see cref="IRGBDeviceProvider"/> provided by the give <see cref="IRGBDeviceProviderLoader"/>.
         /// </summary>
-        /// <param name="deviceProviderLoader">The <see cref="IRGBDeviceProviderLoader{T}"/> which provides the <see cref="IRGBDeviceProvider"/> to load the devices from.</param>
+        /// <param name="deviceProviderLoader">The <see cref="IRGBDeviceProviderLoader"/> which provides the <see cref="IRGBDeviceProvider"/> to load the devices from.</param>
         /// <param name="loadFilter">Specifies which types of devices to load.</param>
         /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
         /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
-        public void LoadDevices<T>(IRGBDeviceProviderLoader<T> deviceProviderLoader, RGBDeviceType loadFilter = RGBDeviceType.All,
+        public void LoadDevices<T>(IRGBDeviceProviderLoader deviceProviderLoader, RGBDeviceType loadFilter = RGBDeviceType.All,
                                   bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
-            where T : class, IRGBDeviceProviderLoader<T>, new()
+            where T : class, IRGBDeviceProviderLoader, new()
             => LoadDevices(deviceProviderLoader.GetDeviceProvider(), loadFilter, exclusiveAccessIfPossible, throwExceptions);
 
         /// <summary>
