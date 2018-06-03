@@ -76,7 +76,7 @@ namespace RGB.NET.Core
         /// <param name="updateRateHardLimit">The hard limit of the update rate of this trigger.</param>
         public DeviceUpdateTrigger(double updateRateHardLimit)
         {
-            this._updateRateHardLimit = updateRateHardLimit;
+            this.UpdateRateHardLimit = updateRateHardLimit;
         }
 
         #endregion
