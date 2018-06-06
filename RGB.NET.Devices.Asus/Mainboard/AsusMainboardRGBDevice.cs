@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.Asus
         {
             byte[] colorData = _AsusSDK.GetMbColor(DeviceInfo.Handle);
             for (int i = 0; i < LedMapping.Count; i++)
-                LedMapping[LedId.Mainboard1 + i].Color = new Color(colorData[(i * 3)], colorData[(i * 3) + 2], colorData[(i * 3) + 1]);
+                SetLedColorWithoutRequest(LedMapping[LedId.Mainboard1 + i], new Color(colorData[(i * 3)], colorData[(i * 3) + 2], colorData[(i * 3) + 1]));
         }
 
         /// <inheritdoc />

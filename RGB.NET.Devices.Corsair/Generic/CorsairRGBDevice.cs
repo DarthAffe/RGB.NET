@@ -114,7 +114,7 @@ namespace RGB.NET.Devices.Corsair
             for (int i = 0; i < LedMapping.Count; i++)
             {
                 _CorsairLedColor ledColor = (_CorsairLedColor)Marshal.PtrToStructure(readPtr, typeof(_CorsairLedColor));
-                this[(CorsairLedId)ledColor.ledId].Color = new Color(ledColor.r, ledColor.g, ledColor.b);
+                SetLedColorWithoutRequest(this[(CorsairLedId)ledColor.ledId], new Color(ledColor.r, ledColor.g, ledColor.b));
 
                 readPtr = new IntPtr(readPtr.ToInt64() + structSize);
             }

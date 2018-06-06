@@ -57,13 +57,14 @@ namespace RGB.NET.Core
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
         /// </summary>
-        public bool IsDirty => RequestedColor != _color;
+        public bool IsDirty => RequestedColor.HasValue;
 
-        private Color _requestedColor = Color.Transparent;
+        private Color? _requestedColor;
         /// <summary>
         /// Gets a copy of the <see cref="Core.Color"/> the LED should be set to on the next update.
+        /// Null if there is no update-request for the next update.
         /// </summary>
-        public Color RequestedColor
+        public Color? RequestedColor
         {
             get => _requestedColor;
             private set
@@ -85,8 +86,23 @@ namespace RGB.NET.Core
             set
             {
                 if (!IsLocked)
-                    RequestedColor += value;
+                {
+                    if (RequestedColor.HasValue)
+                        RequestedColor += value;
+                    else
+                        RequestedColor = value;
+                }
+
             }
+        }
+
+        /// <summary>
+        /// Gets or set the <see cref="Color"/> ignoring all workflows regarding locks and update-requests. />
+        /// </summary>
+        internal Color InternalColor
+        {
+            get => _color;
+            set => SetProperty(ref _color, value);
         }
 
         private bool _isLocked;
@@ -143,7 +159,11 @@ namespace RGB.NET.Core
         /// </summary>
         internal void Update()
         {
-            _color = RequestedColor;
+            if (!RequestedColor.HasValue) return;
+
+            _color = RequestedColor.Value;
+            RequestedColor = null;
+
             // ReSharper disable once ExplicitCallerInfoArgument
             OnPropertyChanged(nameof(Color));
         }
@@ -154,7 +174,7 @@ namespace RGB.NET.Core
         internal void Reset()
         {
             _color = Color.Transparent;
-            RequestedColor = Color.Transparent;
+            RequestedColor = null;
             IsLocked = false;
 
             // ReSharper disable once ExplicitCallerInfoArgument

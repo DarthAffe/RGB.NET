@@ -132,6 +132,19 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
+        /// Applies the give <see cref="Color"/> to the <see cref="Led"/> ignoring internal workflows regarding locks and update-requests.
+        /// This should be only used for syncbacks!
+        /// </summary>
+        /// <param name="led">The <see cref="Led"/> the <see cref="Color"/> should be aplied to.</param>
+        /// <param name="color">The <see cref="Color"/> to apply.</param>
+        protected virtual void SetLedColorWithoutRequest(Led led, Color color)
+        {
+            if (led == null) return;
+
+            led.InternalColor = color;
+        }
+
+        /// <summary>
         /// Applies the given layout.
         /// </summary>
         /// <param name="layoutPath">The file containing the layout.</param>

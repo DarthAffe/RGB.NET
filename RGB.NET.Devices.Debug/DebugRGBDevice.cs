@@ -51,11 +51,10 @@ namespace RGB.NET.Devices.Debug
                 foreach (KeyValuePair<LedId, Color> value in syncBackValues)
                 {
                     Led led = ((IRGBDevice)this)[value.Key];
-                    if (led != null)
-                        led.Color = value.Value;
+                    SetLedColorWithoutRequest(led, value.Value);
                 }
             }
-            catch {/* ics that's not my fault ... */}
+            catch {/* idc that's not my fault ... */}
         }
 
         /// <inheritdoc />
