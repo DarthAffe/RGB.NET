@@ -215,6 +215,28 @@ namespace RGB.NET.Core
             return new Color(a, r, g, b);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="T:RGB.NET.Core.Color" /> struct using a HEX-string. 
+        /// </summary>
+        /// <param name="hexString">The HEX-representation of the color.</param>
+        /// <returns>The color created from the HEX-string.</returns>
+        public static Color FromHexString(string hexString)
+        {
+            if ((hexString == null) || (hexString.Length < 6))
+                throw new ArgumentException("Invalid hex string", nameof(hexString));
+
+            if (hexString[0] == '#')
+                hexString = hexString.Substring(1);
+
+            byte[] data = ConversionHelper.HexToBytes(hexString);
+            if (data.Length == 3)
+                return new Color(data[0], data[1], data[2]);
+            if (data.Length == 4)
+                return new Color(data[0], data[1], data[2], data[3]);
+
+            throw new ArgumentException("Invalid hex string", nameof(hexString));
+        }
+
         #endregion
 
         private static (double h, double s, double v) CaclulateHSVFromRGB(byte r, byte g, byte b)

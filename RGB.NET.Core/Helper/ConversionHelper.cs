@@ -29,6 +29,32 @@
             return new string(c);
         }
 
+        // Source: https://web.archive.org/web/20180224104425/https://stackoverflow.com/questions/623104/byte-to-hex-string/3974535
+        /// <summary>
+        /// Converts the HEX-representation of a byte array to that array.
+        /// </summary>
+        /// <param name="hexString">The HEX-string to convert.</param>
+        /// <returns>The correspondending byte array.</returns>
+        public static byte[] HexToBytes(string hexString)
+        {
+            if ((hexString.Length == 0) || ((hexString.Length % 2) != 0))
+                return new byte[0];
+
+            byte[] buffer = new byte[hexString.Length / 2];
+            for (int bx = 0, sx = 0; bx < buffer.Length; ++bx, ++sx)
+            {
+                // Convert first half of byte
+                char c = hexString[sx];
+                buffer[bx] = (byte)((c > '9' ? (c > 'Z' ? ((c - 'a') + 10) : ((c - 'A') + 10)) : (c - '0')) << 4);
+
+                // Convert second half of byte
+                c = hexString[++sx];
+                buffer[bx] |= (byte)(c > '9' ? (c > 'Z' ? ((c - 'a') + 10) : ((c - 'A') + 10)) : (c - '0'));
+            }
+
+            return buffer;
+        }
+
         #endregion
     }
 }
