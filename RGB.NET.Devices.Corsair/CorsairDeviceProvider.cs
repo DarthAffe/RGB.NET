@@ -69,8 +69,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
-        private CorsairUpdateQueue _updateQueue;
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -86,7 +85,6 @@ namespace RGB.NET.Devices.Corsair
             _instance = this;
 
             UpdateTrigger = new DeviceUpdateTrigger();
-            _updateQueue = new CorsairUpdateQueue(UpdateTrigger);
         }
 
         #endregion
@@ -127,6 +125,10 @@ namespace RGB.NET.Devices.Corsair
                 else
                     HasExclusiveAccess = false;
 
+                // DarthAffe 07.07.2018: 127 is CUE, we want to directly compete with it as in older versions.
+                if (!_CUESDK.CorsairSetLayerPriority(127))
+                    throw new CUEException(LastError);
+
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
                 int deviceCount = _CUESDK.CorsairGetDeviceCount();
                 for (int i = 0; i < deviceCount; i++)
@@ -138,17 +140,23 @@ namespace RGB.NET.Devices.Corsair
                         if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
                             continue; // Everything that doesn't support lighting control is useless
 
-                        ICorsairRGBDevice device = GetRGBDevice(info, i, nativeDeviceInfo);
-                        if ((device == null) || !loadFilter.HasFlag(device.DeviceInfo.DeviceType)) continue;
+                        CorsairDeviceUpdateQueue deviceUpdateQueue = null;
+                        foreach (ICorsairRGBDevice device in GetRGBDevice(info, i, nativeDeviceInfo))
+                        {
+                            if ((device == null) || !loadFilter.HasFlag(device.DeviceInfo.DeviceType)) continue;
 
-                        device.Initialize(_updateQueue);
-                        AddSpecialParts(device);
+                            if (deviceUpdateQueue == null)
+                                deviceUpdateQueue = new CorsairDeviceUpdateQueue(UpdateTrigger, info.CorsairDeviceIndex);
 
-                        error = LastError;
-                        if (error != CorsairError.Success)
-                            throw new CUEException(error);
+                            device.Initialize(deviceUpdateQueue);
+                            AddSpecialParts(device);
 
-                        devices.Add(device);
+                            error = LastError;
+                            if (error != CorsairError.Success)
+                                throw new CUEException(error);
+
+                            devices.Add(device);
+                        }
                     }
                     catch { if (throwExceptions) throw; }
                 }
@@ -168,24 +176,63 @@ namespace RGB.NET.Devices.Corsair
             return true;
         }
 
-        private static ICorsairRGBDevice GetRGBDevice(CorsairRGBDeviceInfo info, int i, _CorsairDeviceInfo nativeDeviceInfo)
+        private static IEnumerable<ICorsairRGBDevice> GetRGBDevice(CorsairRGBDeviceInfo info, int i, _CorsairDeviceInfo nativeDeviceInfo)
         {
             switch (info.CorsairDeviceType)
             {
                 case CorsairDeviceType.Keyboard:
-                    return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
+                    break;
 
                 case CorsairDeviceType.Mouse:
-                    return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
+                    break;
 
                 case CorsairDeviceType.Headset:
-                    return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo));
+                    break;
 
                 case CorsairDeviceType.Mousepad:
-                    return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
+                    break;
 
                 case CorsairDeviceType.HeadsetStand:
-                    return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo));
+                    break;
+
+                case CorsairDeviceType.CommanderPro:
+                case CorsairDeviceType.LightningNodePro:
+                    _CorsairChannelsInfo channelsInfo = nativeDeviceInfo.channels;
+                    if (channelsInfo != null)
+                    {
+                        IntPtr channelInfoPtr = channelsInfo.channels;
+
+                        for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
+                        {
+                            CorsairLedId referenceLed = channel == 0 ? CorsairLedId.CustomDeviceChannel1Led1 : CorsairLedId.CustomDeviceChannel2Led1;
+
+                            _CorsairChannelInfo channelInfo = (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo));
+
+                            int channelDeviceInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelDeviceInfo));
+                            IntPtr channelDeviceInfoPtr = channelInfo.devices;
+
+                            for (int device = 0; device < channelInfo.devicesCount; device++)
+                            {
+                                _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo));
+
+                                yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info.CorsairDeviceIndex, nativeDeviceInfo, channelDeviceInfo, referenceLed));
+                                referenceLed += channelDeviceInfo.deviceLedCount;
+
+                                channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
+                            }
+
+                            int channelInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelInfo));
+                            channelInfoPtr = new IntPtr(channelInfoPtr.ToInt64() + channelInfoStructSize);
+                        }
+                    }
+
+                    break;
+
 
                 // ReSharper disable once RedundantCaseLabel
                 case CorsairDeviceType.Unknown:

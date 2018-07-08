@@ -33,7 +33,7 @@ namespace RGB.NET.Devices.Corsair
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected CorsairUpdateQueue UpdateQueue { get; set; }
+        protected CorsairDeviceUpdateQueue DeviceUpdateQueue { get; set; }
 
         #endregion
 
@@ -67,9 +67,9 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize(CorsairUpdateQueue updateQueue)
+        public void Initialize(CorsairDeviceUpdateQueue deviceUpdateQueue)
         {
-            UpdateQueue = updateQueue;
+            DeviceUpdateQueue = deviceUpdateQueue;
 
             InitializeLayout();
 
@@ -94,7 +94,7 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-            => UpdateQueue.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))));
+            => DeviceUpdateQueue.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))));
 
         /// <inheritdoc cref="IRGBDevice.SyncBack" />
         public override void SyncBack()
@@ -108,7 +108,7 @@ namespace RGB.NET.Devices.Corsair
                 Marshal.StructureToPtr(color, addPtr, false);
                 addPtr = new IntPtr(addPtr.ToInt64() + structSize);
             }
-            _CUESDK.CorsairGetLedsColors(LedMapping.Count, ptr);
+            _CUESDK.CorsairGetLedsColorsByDeviceIndex(DeviceInfo.CorsairDeviceIndex, LedMapping.Count, ptr);
 
             IntPtr readPtr = ptr;
             for (int i = 0; i < LedMapping.Count; i++)

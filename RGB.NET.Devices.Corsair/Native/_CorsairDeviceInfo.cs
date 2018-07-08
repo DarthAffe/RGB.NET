@@ -43,5 +43,10 @@ namespace RGB.NET.Devices.Corsair.Native
         /// CUE-SDK: number of controllable LEDs on the device
         /// </summary>
         internal int ledsCount;
+
+        /// <summary>
+        /// CUE-SDK: structure that describes channels of the DIY-devices
+        /// </summary>
+        internal _CorsairChannelsInfo channels;
     }
 }

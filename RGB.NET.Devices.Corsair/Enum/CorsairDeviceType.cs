@@ -16,6 +16,8 @@ namespace RGB.NET.Devices.Corsair
         Keyboard = 2,
         Headset = 3,
         Mousepad = 4,
-        HeadsetStand = 5
+        HeadsetStand = 5,
+        CommanderPro = 6,
+        LightningNodePro = 7
     };
 }

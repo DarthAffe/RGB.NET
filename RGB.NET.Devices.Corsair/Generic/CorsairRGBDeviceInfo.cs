@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
@@ -61,7 +62,23 @@ namespace RGB.NET.Devices.Corsair
             this.CorsairDeviceIndex = deviceIndex;
             this.DeviceType = deviceType;
             this.CorsairDeviceType = nativeInfo.type;
-            this.Model = nativeInfo.model == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeInfo.model);
+            this.Model = nativeInfo.model == IntPtr.Zero ? null : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
+            this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
+        }
+
+        /// <summary>
+        /// Internal constructor of managed <see cref="CorsairRGBDeviceInfo"/>.
+        /// </summary>
+        /// <param name="deviceIndex">The index of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.</param>
+        /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
+        /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
+        /// <param name="modelName">The name of the device-model (overwrites the one provided with the device info).</param>
+        internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, string modelName)
+        {
+            this.CorsairDeviceIndex = deviceIndex;
+            this.DeviceType = deviceType;
+            this.CorsairDeviceType = nativeInfo.type;
+            this.Model = modelName;
             this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
         }
 

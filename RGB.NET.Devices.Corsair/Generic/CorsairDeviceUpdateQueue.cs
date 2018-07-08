@@ -10,17 +10,26 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents the update-queue performing updates for corsair devices.
     /// </summary>
-    public class CorsairUpdateQueue : UpdateQueue
+    public class CorsairDeviceUpdateQueue : UpdateQueue
     {
+        #region Properties & Fields
+
+        private int _deviceIndex;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CorsairUpdateQueue"/> class.
+        /// Initializes a new instance of the <see cref="CorsairDeviceUpdateQueue"/> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
-        public CorsairUpdateQueue(IDeviceUpdateTrigger updateTrigger)
+        /// <param name="deviceIndex">The index used to identify the device.</param>
+        public CorsairDeviceUpdateQueue(IDeviceUpdateTrigger updateTrigger, int deviceIndex)
             : base(updateTrigger)
-        { }
+        {
+            this._deviceIndex = deviceIndex;
+        }
 
         #endregion
 
@@ -45,7 +54,9 @@ namespace RGB.NET.Devices.Corsair
                 Marshal.StructureToPtr(color, addPtr, false);
                 addPtr = new IntPtr(addPtr.ToInt64() + structSize);
             }
-            _CUESDK.CorsairSetLedsColors(dataSet.Count, ptr);
+
+            _CUESDK.CorsairSetLedsColorsBufferByDeviceIndex(_deviceIndex, dataSet.Count, ptr);
+            _CUESDK.CorsairSetLedsColorsFlushBuffer();
             Marshal.FreeHGlobal(ptr);
         }
 

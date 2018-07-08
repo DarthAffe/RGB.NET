@@ -22,8 +22,8 @@ namespace RGB.NET.Core
         /// <returns>The value represented by the given key.</returns>
         public object this[string key]
         {
-            get => _data.TryGetValue(key?.ToUpperInvariant(), out object data) ? data : default;
-            set => _data[key?.ToUpperInvariant()] = value;
+            get => _data.TryGetValue(key?.ToUpperInvariant() ?? string.Empty, out object data) ? data : default;
+            set => _data[key?.ToUpperInvariant() ?? string.Empty] = value;
         }
 
         #endregion

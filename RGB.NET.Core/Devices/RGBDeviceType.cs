@@ -74,6 +74,11 @@ namespace RGB.NET.Core
         Keypad = 1 << 10,
 
         /// <summary>
+        /// Represents a fan.
+        /// </summary>
+        Fan = 1 << 1,
+
+        /// <summary>
         /// Represents all devices.
         /// </summary>
         All = ~None

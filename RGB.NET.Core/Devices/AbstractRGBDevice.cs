@@ -204,7 +204,7 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public T GetSpecialDevicePart<T>()
             where T : class, IRGBDeviceSpecialPart
-            => SpecialDeviceParts.TryGetValue(typeof(T), out IRGBDeviceSpecialPart devicePart) ? (T)devicePart : default(T);
+            => SpecialDeviceParts.TryGetValue(typeof(T), out IRGBDeviceSpecialPart devicePart) ? (T)devicePart : default;
 
         #region Enumerator
 

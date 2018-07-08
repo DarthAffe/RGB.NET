@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Gets the physical layout of the mouse.
         /// </summary>
-        public CorsairPhysicalMouseLayout PhysicalLayout { get; private set; }
+        public CorsairPhysicalMouseLayout PhysicalLayout { get; }
 
         #endregion
 

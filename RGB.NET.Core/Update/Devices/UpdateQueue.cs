@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RGB.NET.Core
@@ -8,7 +9,7 @@ namespace RGB.NET.Core
     /// </summary>
     /// <typeparam name="TIdentifier">The type of the key used to identify some data.</typeparam>
     /// <typeparam name="TData">The type of the data.</typeparam>
-    public abstract class UpdateQueue<TIdentifier, TData>
+    public abstract class UpdateQueue<TIdentifier, TData> : IDisposable
     {
         #region Properties & Fields
 
@@ -24,7 +25,7 @@ namespace RGB.NET.Core
         /// Initializes a new instance of the <see cref="UpdateQueue{TIdentifier,TData}"/> class.
         /// </summary>
         /// <param name="updateTrigger">The <see cref="IDeviceUpdateTrigger"/> causing this queue to update.</param>
-        public UpdateQueue(IDeviceUpdateTrigger updateTrigger)
+        protected UpdateQueue(IDeviceUpdateTrigger updateTrigger)
         {
             this._updateTrigger = updateTrigger;
 
@@ -97,6 +98,14 @@ namespace RGB.NET.Core
         {
             lock (_dataLock)
                 _currentDataSet = null;
+        }
+
+        public void Dispose()
+        {
+            _updateTrigger.Starting -= OnStartup;
+            _updateTrigger.Update -= OnUpdate;
+
+            Reset();
         }
 
         #endregion

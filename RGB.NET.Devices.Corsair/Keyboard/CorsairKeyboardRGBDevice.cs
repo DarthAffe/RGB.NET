@@ -33,8 +33,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            _CorsairLedPositions nativeLedPositions =
-                (_CorsairLedPositions)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositions(), typeof(_CorsairLedPositions));
+            _CorsairLedPositions nativeLedPositions = (_CorsairLedPositions)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));
 
             int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
             IntPtr ptr = nativeLedPositions.pLedPosition;
@@ -43,7 +42,7 @@ namespace RGB.NET.Devices.Corsair
             for (int i = 0; i < nativeLedPositions.numberOfLed; i++)
             {
                 _CorsairLedPosition ledPosition = (_CorsairLedPosition)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
-                InitializeLed(mapping.TryGetValue(ledPosition.LedId, out LedId ledId) ? ledId : LedId.Invalid, new Rectangle(ledPosition.left, ledPosition.top, ledPosition.width, ledPosition.height));
+                InitializeLed(mapping.TryGetValue(ledPosition.LedId, out LedId ledId) ? ledId : LedId.Invalid, ledPosition.ToRectangle());
 
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
             }
