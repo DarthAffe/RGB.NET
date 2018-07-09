@@ -76,7 +76,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Represents a fan.
         /// </summary>
-        Fan = 1 << 1,
+        Fan = 1 << 11,
 
         /// <summary>
         /// Represents all devices.
