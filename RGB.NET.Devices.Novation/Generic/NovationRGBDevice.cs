@@ -58,7 +58,7 @@ namespace RGB.NET.Devices.Novation
             }
 
             if (DeviceInfo.ColorCapabilities == NovationColorCapabilities.LimitedRG)
-                UpdateQueue = new LimitedColorUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
+                UpdateQueue = new LimitedColorUpdateQueue(updateTrigger, DeviceInfo.MidiDeviceId);
         }
 
         /// <summary>

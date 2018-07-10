@@ -42,7 +42,7 @@ namespace RGB.NET.Devices.Razer
         protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mousepad1;
 
         /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMousepadUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
+        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMousepadUpdateQueue(updateTrigger, DeviceInfo.RazerDeviceId);
 
         #endregion
     }

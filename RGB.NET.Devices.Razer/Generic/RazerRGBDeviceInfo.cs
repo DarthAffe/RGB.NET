@@ -11,10 +11,13 @@ namespace RGB.NET.Devices.Razer
     {
         #region Properties & Fields
 
+        /// <inheritdoc />
+        public object DeviceId => RazerDeviceId;
+
         /// <summary>
         /// Gets the Id of the <see cref="RazerRGBDevice{TDeviceInfo}"/>.
         /// </summary>
-        public Guid DeviceId { get; }
+        public Guid RazerDeviceId { get; }
 
         /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
@@ -46,7 +49,7 @@ namespace RGB.NET.Devices.Razer
         /// <param name="model">The model of the <see cref="IRGBDevice"/>.</param>
         internal RazerRGBDeviceInfo(Guid deviceId, RGBDeviceType deviceType, string model)
         {
-            this.DeviceId = deviceId;
+            this.RazerDeviceId = deviceId;
             this.DeviceType = deviceType;
             this.Model = model;
         }

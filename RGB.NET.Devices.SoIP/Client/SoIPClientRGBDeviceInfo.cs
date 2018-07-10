@@ -12,6 +12,9 @@ namespace RGB.NET.Devices.SoIP.Client
         #region Properties & Fields
 
         /// <inheritdoc />
+        public object DeviceId => $"{Hostname}:{Port}";
+
+        /// <inheritdoc />
         public RGBDeviceType DeviceType => RGBDeviceType.Unknown;
 
         /// <inheritdoc />
