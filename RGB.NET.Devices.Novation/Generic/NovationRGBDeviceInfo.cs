@@ -15,6 +15,9 @@ namespace RGB.NET.Devices.Novation
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer => "Novation";
 
         /// <inheritdoc />
@@ -56,6 +59,8 @@ namespace RGB.NET.Devices.Novation
             this.Model = model;
             this.DeviceId = deviceId;
             this.ColorCapabilities = colorCapabilities;
+
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

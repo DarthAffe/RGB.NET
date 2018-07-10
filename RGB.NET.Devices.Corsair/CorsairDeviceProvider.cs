@@ -129,6 +129,7 @@ namespace RGB.NET.Devices.Corsair
                 if (!_CUESDK.CorsairSetLayerPriority(127))
                     throw new CUEException(LastError);
 
+                Dictionary<string, int> modelCounter = new Dictionary<string, int>();
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
                 int deviceCount = _CUESDK.CorsairGetDeviceCount();
                 for (int i = 0; i < deviceCount; i++)
@@ -136,12 +137,12 @@ namespace RGB.NET.Devices.Corsair
                     try
                     {
                         _CorsairDeviceInfo nativeDeviceInfo = (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo));
-                        CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, RGBDeviceType.Unknown, nativeDeviceInfo);
+                        CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, RGBDeviceType.Unknown, nativeDeviceInfo, modelCounter);
                         if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
                             continue; // Everything that doesn't support lighting control is useless
 
                         CorsairDeviceUpdateQueue deviceUpdateQueue = null;
-                        foreach (ICorsairRGBDevice device in GetRGBDevice(info, i, nativeDeviceInfo))
+                        foreach (ICorsairRGBDevice device in GetRGBDevice(info, i, nativeDeviceInfo, modelCounter))
                         {
                             if ((device == null) || !loadFilter.HasFlag(device.DeviceInfo.DeviceType)) continue;
 
@@ -176,28 +177,28 @@ namespace RGB.NET.Devices.Corsair
             return true;
         }
 
-        private static IEnumerable<ICorsairRGBDevice> GetRGBDevice(CorsairRGBDeviceInfo info, int i, _CorsairDeviceInfo nativeDeviceInfo)
+        private static IEnumerable<ICorsairRGBDevice> GetRGBDevice(CorsairRGBDeviceInfo info, int i, _CorsairDeviceInfo nativeDeviceInfo, Dictionary<string, int> modelCounter)
         {
             switch (info.CorsairDeviceType)
             {
                 case CorsairDeviceType.Keyboard:
-                    yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
                     break;
 
                 case CorsairDeviceType.Mouse:
-                    yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
                     break;
 
                 case CorsairDeviceType.Headset:
-                    yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
                     break;
 
                 case CorsairDeviceType.Mousepad:
-                    yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
                     break;
 
                 case CorsairDeviceType.HeadsetStand:
-                    yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo));
+                    yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
                     break;
 
                 case CorsairDeviceType.CommanderPro:
@@ -220,7 +221,7 @@ namespace RGB.NET.Devices.Corsair
                             {
                                 _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo));
 
-                                yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info.CorsairDeviceIndex, nativeDeviceInfo, channelDeviceInfo, referenceLed));
+                                yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info.CorsairDeviceIndex, nativeDeviceInfo, channelDeviceInfo, referenceLed, modelCounter));
                                 referenceLed += channelDeviceInfo.deviceLedCount;
 
                                 channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);

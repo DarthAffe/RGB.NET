@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using RGB.NET.Core;
@@ -26,6 +27,9 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
+
+        /// <inheritdoc />
+        public string DeviceName { get; }
 
         /// <inheritdoc />
         public string Manufacturer => "Corsair";
@@ -57,13 +61,16 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceIndex">The index of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.</param>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
-        internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo)
+        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
+        internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, Dictionary<string, int> modelCounter)
         {
             this.CorsairDeviceIndex = deviceIndex;
             this.DeviceType = deviceType;
             this.CorsairDeviceType = nativeInfo.type;
             this.Model = nativeInfo.model == IntPtr.Zero ? null : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
             this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
+
+            DeviceName = GetUniqueModelName(modelCounter);
         }
 
         /// <summary>
@@ -73,13 +80,34 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
         /// <param name="modelName">The name of the device-model (overwrites the one provided with the device info).</param>
-        internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, string modelName)
+        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
+        internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, string modelName, Dictionary<string, int> modelCounter)
         {
             this.CorsairDeviceIndex = deviceIndex;
             this.DeviceType = deviceType;
             this.CorsairDeviceType = nativeInfo.type;
             this.Model = modelName;
             this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
+
+            DeviceName = GetUniqueModelName(modelCounter);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private string GetUniqueModelName(Dictionary<string, int> modelCounter)
+        {
+            if (modelCounter.TryGetValue(Model, out int counter))
+            {
+                counter = ++modelCounter[Model];
+                return $"{Manufacturer} {Model} {counter}";
+            }
+            else
+            {
+                modelCounter.Add(Model, 1);
+                return $"{Manufacturer} {Model}";
+            }
         }
 
         #endregion

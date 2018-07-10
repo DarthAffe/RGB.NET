@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
@@ -31,8 +32,10 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
         /// <param name="channelDeviceInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairChannelDeviceInfo"/> representing this device.</param>
         /// <param name="referenceCorsairLed">The id of the first led of this device.</param>
-        internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, CorsairLedId referenceCorsairLed)
-            : base(deviceIndex, channelDeviceInfo.type == CorsairChannelDeviceType.Strip ? RGBDeviceType.LedStripe : RGBDeviceType.Fan, nativeInfo, GetModelName(channelDeviceInfo.type))
+        internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo,
+                                            CorsairLedId referenceCorsairLed, Dictionary<string, int> modelCounter)
+            : base(deviceIndex, channelDeviceInfo.type == CorsairChannelDeviceType.Strip ? RGBDeviceType.LedStripe : RGBDeviceType.Fan, nativeInfo, 
+                   GetModelName(channelDeviceInfo.type), modelCounter)
         {
             this.ReferenceCorsairLed = referenceCorsairLed;
 

@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
@@ -34,8 +35,9 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" />.</param>
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
-        internal CorsairKeyboardRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
-            : base(deviceIndex, RGBDeviceType.Keyboard, nativeInfo)
+        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
+        internal CorsairKeyboardRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, Dictionary<string, int> modelCounter)
+            : base(deviceIndex, RGBDeviceType.Keyboard, nativeInfo, modelCounter)
         {
             this.PhysicalLayout = (CorsairPhysicalKeyboardLayout)nativeInfo.physicalLayout;
             this.LogicalLayout = (CorsairLogicalKeyboardLayout)nativeInfo.logicalLayout;

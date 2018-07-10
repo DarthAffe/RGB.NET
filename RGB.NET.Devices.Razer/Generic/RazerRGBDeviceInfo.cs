@@ -20,6 +20,9 @@ namespace RGB.NET.Devices.Razer
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer => "Razer";
 
         /// <inheritdoc />
@@ -49,6 +52,8 @@ namespace RGB.NET.Devices.Razer
             this.DeviceId = deviceId;
             this.DeviceType = deviceType;
             this.Model = model;
+
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

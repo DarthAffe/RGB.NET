@@ -20,6 +20,9 @@ namespace RGB.NET.Devices.Msi
         public string MsiDeviceType { get; }
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer { get; }
 
         /// <inheritdoc />
@@ -51,6 +54,8 @@ namespace RGB.NET.Devices.Msi
             this.MsiDeviceType = msiDeviceType;
             this.Manufacturer = manufacturer;
             this.Model = model;
+
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

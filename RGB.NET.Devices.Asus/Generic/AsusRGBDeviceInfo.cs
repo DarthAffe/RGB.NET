@@ -15,6 +15,9 @@ namespace RGB.NET.Devices.Asus
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer { get; }
 
         /// <inheritdoc />
@@ -51,6 +54,8 @@ namespace RGB.NET.Devices.Asus
             this.Handle = handle;
             this.Model = model;
             this.Manufacturer = manufacturer;
+
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

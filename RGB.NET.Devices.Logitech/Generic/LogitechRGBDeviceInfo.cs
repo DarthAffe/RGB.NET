@@ -15,6 +15,9 @@ namespace RGB.NET.Devices.Logitech
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer => "Logitech";
 
         /// <inheritdoc />
@@ -76,6 +79,8 @@ namespace RGB.NET.Devices.Logitech
             this.DeviceCaps = deviceCaps;
             this.ImageLayout = imageLayout;
             this.LayoutPath = layoutPath;
+
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

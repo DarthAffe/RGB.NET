@@ -25,6 +25,9 @@ namespace RGB.NET.Devices.DMX.E131
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer { get; }
 
         /// <inheritdoc />
@@ -78,6 +81,8 @@ namespace RGB.NET.Devices.DMX.E131
                 CID = new byte[CID_LENGTH];
                 new Random().NextBytes(CID);
             }
+
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

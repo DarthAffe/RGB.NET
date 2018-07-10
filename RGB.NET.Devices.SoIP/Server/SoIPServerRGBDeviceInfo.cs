@@ -15,6 +15,9 @@ namespace RGB.NET.Devices.SoIP.Server
         public RGBDeviceType DeviceType => RGBDeviceType.Unknown;
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer { get; }
 
         /// <inheritdoc />
@@ -43,6 +46,8 @@ namespace RGB.NET.Devices.SoIP.Server
             this.Manufacturer = deviceDefinition.Manufacturer;
             this.Model = deviceDefinition.Model;
             this.Port = deviceDefinition.Port;
+
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

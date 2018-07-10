@@ -1,4 +1,5 @@
-﻿using RGB.NET.Core;
+﻿using System.Collections.Generic;
+using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
@@ -17,8 +18,9 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice" />.</param>
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
-        internal CorsairHeadsetStandRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
-            : base(deviceIndex, RGBDeviceType.HeadsetStand, nativeInfo)
+        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
+        internal CorsairHeadsetStandRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, Dictionary<string, int> modelCounter)
+            : base(deviceIndex, RGBDeviceType.HeadsetStand, nativeInfo, modelCounter)
         { }
 
         #endregion

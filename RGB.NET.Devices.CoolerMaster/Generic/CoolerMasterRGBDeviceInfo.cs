@@ -16,6 +16,9 @@ namespace RGB.NET.Devices.CoolerMaster
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
+        public string DeviceName { get; }
+
+        /// <inheritdoc />
         public string Manufacturer => "Cooler Master";
 
         /// <inheritdoc />
@@ -50,6 +53,7 @@ namespace RGB.NET.Devices.CoolerMaster
             this.DeviceIndex = deviceIndex;
 
             Model = deviceIndex.GetDescription();
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

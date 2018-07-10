@@ -15,6 +15,11 @@ namespace RGB.NET.Core
         RGBDeviceType DeviceType { get; }
 
         /// <summary>
+        /// Unique name of the <see cref="IRGBDevice"/>.
+        /// </summary>
+        string DeviceName { get; }
+
+        /// <summary>
         /// Gets the manufacturer-name of the <see cref="IRGBDevice"/>.
         /// </summary>
         string Manufacturer { get; }
