@@ -14,9 +14,6 @@ namespace RGB.NET.Devices.Corsair
     {
         #region Properties & Fields
 
-        /// <inheritdoc />
-        public object DeviceId => CorsairDeviceIndex;
-
         /// <summary>
         /// Gets the corsair specific device type.
         /// </summary>

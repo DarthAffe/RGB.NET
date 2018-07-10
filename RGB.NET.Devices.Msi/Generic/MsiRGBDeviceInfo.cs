@@ -12,9 +12,6 @@ namespace RGB.NET.Devices.Msi
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId => MsiDeviceType;
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
         /// <summary>

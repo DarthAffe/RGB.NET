@@ -22,9 +22,6 @@ namespace RGB.NET.Devices.DMX.E131
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId => CID;
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />

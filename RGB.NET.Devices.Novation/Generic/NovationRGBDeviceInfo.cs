@@ -12,9 +12,6 @@ namespace RGB.NET.Devices.Novation
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId => MidiDeviceId;
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
@@ -40,7 +37,7 @@ namespace RGB.NET.Devices.Novation
         /// <summary>
         /// Gets the (midi)-id of the <see cref="IRGBDevice"/>..
         /// </summary>
-        public int MidiDeviceId { get; }
+        public int DeviceId { get; }
 
         #endregion
 
@@ -57,7 +54,7 @@ namespace RGB.NET.Devices.Novation
         {
             this.DeviceType = deviceType;
             this.Model = model;
-            this.MidiDeviceId = deviceId;
+            this.DeviceId = deviceId;
             this.ColorCapabilities = colorCapabilities;
         }
 

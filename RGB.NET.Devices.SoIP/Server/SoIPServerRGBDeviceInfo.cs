@@ -12,9 +12,6 @@ namespace RGB.NET.Devices.SoIP.Server
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId => Port;
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType => RGBDeviceType.Unknown;
 
         /// <inheritdoc />

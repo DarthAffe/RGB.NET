@@ -12,9 +12,6 @@ namespace RGB.NET.Devices.Logitech
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId => Lighting;
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />

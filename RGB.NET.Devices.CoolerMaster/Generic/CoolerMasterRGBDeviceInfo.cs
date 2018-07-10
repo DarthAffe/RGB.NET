@@ -13,9 +13,6 @@ namespace RGB.NET.Devices.CoolerMaster
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId => DeviceIndex;
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />

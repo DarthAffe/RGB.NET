@@ -10,11 +10,6 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         /// <summary>
-        /// Gets an unique identifier of the <see cref="IRGBDevice"/> this info belongs to.
-        /// </summary>
-        object DeviceId { get; }
-
-        /// <summary>
         /// Gets the <see cref="RGBDeviceType"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
         RGBDeviceType DeviceType { get; }

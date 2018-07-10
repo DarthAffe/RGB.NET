@@ -12,9 +12,6 @@ namespace RGB.NET.Devices.Debug
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId { get; }
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
@@ -44,15 +41,13 @@ namespace RGB.NET.Devices.Debug
         /// <param name="model">The model of the device.</param>
         /// <param name="lighting">The <see cref="RGBDeviceLighting"/> of the device.</param>
         /// <param name="supportsSyncBack">True if the device supports syncback; false if not.</param>
-        /// <param name="deviceId">The unique identifier of this device.</param>
-        internal DebugRGBDeviceInfo(RGBDeviceType deviceType, string manufacturer, string model, RGBDeviceLighting lighting, bool supportsSyncBack, object deviceId = null)
+        internal DebugRGBDeviceInfo(RGBDeviceType deviceType, string manufacturer, string model, RGBDeviceLighting lighting, bool supportsSyncBack)
         {
             this.DeviceType = deviceType;
             this.Manufacturer = manufacturer;
             this.Model = model;
             this.Lighting = lighting;
             this.SupportsSyncBack = supportsSyncBack;
-            this.DeviceId = deviceId;
         }
 
         #endregion

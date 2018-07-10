@@ -12,9 +12,6 @@ namespace RGB.NET.Devices.Asus
         #region Properties & Fields
 
         /// <inheritdoc />
-        public object DeviceId => Handle.ToInt32();
-
-        /// <inheritdoc />
         public RGBDeviceType DeviceType { get; }
 
         /// <inheritdoc />
