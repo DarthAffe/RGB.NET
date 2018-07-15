@@ -79,6 +79,11 @@ namespace RGB.NET.Core
         Fan = 1 << 11,
 
         /// <summary>
+        /// Represents a speaker
+        /// </summary>
+        Speaker = 1 << 12,
+
+        /// <summary>
         /// Represents all devices.
         /// </summary>
         All = ~None
