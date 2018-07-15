@@ -18,7 +18,7 @@ namespace RGB.NET.Devices.Logitech
         /// Gets information about the <see cref="T:RGB.NET.Devices.Logitech.LogitechRGBDevice" />.
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
-        
+
         /// <summary>
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
@@ -64,6 +64,7 @@ namespace RGB.NET.Devices.Logitech
         protected virtual void InitializeLayout()
         {
             if (!(DeviceInfo is LogitechRGBDeviceInfo info)) return;
+
             string layout = info.ImageLayout;
             string layoutPath = info.LayoutPath;
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Logitech\{layoutPath}.xml"), layout, true);

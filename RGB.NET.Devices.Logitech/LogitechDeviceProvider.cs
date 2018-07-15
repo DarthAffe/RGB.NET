@@ -60,6 +60,9 @@ namespace RGB.NET.Devices.Logitech
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for logitech devices. 
         /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+
+        // ReSharper disable once CollectionNeverQueried.Local - for now this is just to make sure they're never collected
+        private readonly Dictionary<RGBDeviceType, LogitechZoneUpdateQueue> _zoneUpdateQueues = new Dictionary<RGBDeviceType, LogitechZoneUpdateQueue>();
         private LogitechPerDeviceUpdateQueue _perDeviceUpdateQueue;
         private LogitechPerKeyUpdateQueue _perKeyUpdateQueue;
 
@@ -111,12 +114,12 @@ namespace RGB.NET.Devices.Logitech
 
                 try
                 {
-                    if (DeviceChecker.IsPerKeyDeviceConnected)
+                    if (DeviceChecker.IsZoneDeviceConnected)
                     {
-                        (string model, RGBDeviceType deviceType, int _, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
+                        (string model, RGBDeviceType deviceType, int _, int _, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
-                            ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, imageLayout, layoutPath));
+                            ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, 0, imageLayout, layoutPath));
                             device.Initialize(_perKeyUpdateQueue);
                             devices.Add(device);
                         }
@@ -128,13 +131,34 @@ namespace RGB.NET.Devices.Logitech
                 {
                     if (DeviceChecker.IsPerDeviceDeviceConnected)
                     {
-                        (string model, RGBDeviceType deviceType, int _, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
+                        (string model, RGBDeviceType deviceType, int _, int _, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
-                            ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, imageLayout, layoutPath));
+                            ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, 0, imageLayout, layoutPath));
                             device.Initialize(_perDeviceUpdateQueue);
                             devices.Add(device);
                         }
+                    }
+                }
+                catch { if (throwExceptions) throw; }
+
+                try
+                {
+                    if (DeviceChecker.IsZoneDeviceConnected)
+                    {
+                        foreach ((string model, RGBDeviceType deviceType, int _, int zones, string imageLayout, string layoutPath) in DeviceChecker.ZoneDeviceData)
+                            try
+                            {
+                                if (loadFilter.HasFlag(deviceType))
+                                {
+                                    LogitechZoneUpdateQueue updateQueue = new LogitechZoneUpdateQueue(UpdateTrigger, deviceType);
+                                    ILogitechRGBDevice device = new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, zones, imageLayout, layoutPath));
+                                    device.Initialize(updateQueue);
+                                    devices.Add(device);
+                                    _zoneUpdateQueues.Add(deviceType, updateQueue);
+                                }
+                            }
+                            catch { if (throwExceptions) throw; }
                     }
                 }
                 catch { if (throwExceptions) throw; }

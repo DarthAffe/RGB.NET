@@ -13,24 +13,29 @@ namespace RGB.NET.Devices.Logitech.HID
         private const int VENDOR_ID = 0x046D;
 
         //TODO DarthAffe 14.11.2017: Add devices
-        private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)> PER_KEY_DEVICES
-                = new List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)>
-                  {
-                      ("G910", RGBDeviceType.Keyboard, 0xC32B, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
-                      ("G810", RGBDeviceType.Keyboard, 0xC337, "DE", @"Keyboards\G810\UK"),
-                      ("G610", RGBDeviceType.Keyboard, 0xC333, "DE", @"Keyboards\G610\UK"),
-                      ("Pro", RGBDeviceType.Keyboard, 0xC339, "DE", @"Keyboards\Pro\UK"),
-                  };
-
-        private static readonly List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
-            = new List<(string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath)>
+        private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> PER_KEY_DEVICES
+            = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
               {
-                  ("G19", RGBDeviceType.Keyboard, 0xC228, "DE", @"Keyboards\G19\UK"),
-                  ("G903", RGBDeviceType.Mouse, 0xC086, "default", @"Mice\G903"),
-                  ("G403", RGBDeviceType.Mouse, 0xC083, "default", @"Mice\G403"),
-                  ("G502", RGBDeviceType.Mouse, 0xC332, "default", @"Mice\G502"),
-                  ("G600", RGBDeviceType.Mouse, 0xC24A, "default", @"Mice\G600"),
-                  ("G Pro", RGBDeviceType.Mouse, 0xC085, "default", @"Mice\GPro"),
+                  ("G910", RGBDeviceType.Keyboard, 0xC32B, 0, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
+                  ("G810", RGBDeviceType.Keyboard, 0xC337, 0, "DE", @"Keyboards\G810\UK"),
+                  ("G610", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
+                  ("Pro", RGBDeviceType.Keyboard, 0xC339, 0, "DE", @"Keyboards\Pro\UK"),
+              };
+
+        private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
+            = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
+              {
+                  ("G19", RGBDeviceType.Keyboard, 0xC228, 0, "DE", @"Keyboards\G19\UK"),
+                  ("G502", RGBDeviceType.Mouse, 0xC332, 0, "default", @"Mice\G502"),
+                  ("G600", RGBDeviceType.Mouse, 0xC24A, 0, "default", @"Mice\G600"),
+              };
+
+        private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> ZONE_DEVICES
+            = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
+              {
+                  ("G903", RGBDeviceType.Mouse, 0xC086, 2, "default", @"Mice\G903"),
+                  ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
+                  ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
               };
 
         #endregion
@@ -38,10 +43,13 @@ namespace RGB.NET.Devices.Logitech.HID
         #region Properties & Fields
 
         public static bool IsPerKeyDeviceConnected { get; private set; }
-        public static (string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath) PerKeyDeviceData { get; private set; }
+        public static (string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath) PerKeyDeviceData { get; private set; }
 
         public static bool IsPerDeviceDeviceConnected { get; private set; }
-        public static (string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath) PerDeviceDeviceData { get; private set; }
+        public static (string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath) PerDeviceDeviceData { get; private set; }
+
+        public static bool IsZoneDeviceConnected { get; private set; }
+        public static IEnumerable<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> ZoneDeviceData { get; private set; }
 
         #endregion
 
@@ -51,7 +59,7 @@ namespace RGB.NET.Devices.Logitech.HID
         {
             List<int> ids = DeviceList.Local.GetHidDevices(VENDOR_ID).Select(x => x.ProductID).Distinct().ToList();
 
-            foreach ((string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath) deviceData in PER_KEY_DEVICES)
+            foreach ((string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath) deviceData in PER_KEY_DEVICES)
                 if (ids.Contains(deviceData.id))
                 {
                     IsPerKeyDeviceConnected = true;
@@ -59,13 +67,35 @@ namespace RGB.NET.Devices.Logitech.HID
                     break;
                 }
 
-            foreach ((string model, RGBDeviceType deviceType, int id, string imageLayout, string layoutPath) deviceData in PER_DEVICE_DEVICES)
+            foreach ((string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath) deviceData in PER_DEVICE_DEVICES)
                 if (ids.Contains(deviceData.id))
                 {
                     IsPerDeviceDeviceConnected = true;
                     PerDeviceDeviceData = deviceData;
                     break;
                 }
+
+            Dictionary<RGBDeviceType, List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>> connectedZoneDevices
+                = new Dictionary<RGBDeviceType, List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>>();
+            foreach ((string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath) deviceData in ZONE_DEVICES)
+            {
+                if (ids.Contains(deviceData.id))
+                {
+                    IsZoneDeviceConnected = true;
+                    if (!connectedZoneDevices.TryGetValue(deviceData.deviceType, out List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> deviceList))
+                        connectedZoneDevices.Add(deviceData.deviceType, deviceList = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>());
+                    deviceList.Add(deviceData);
+                }
+            }
+            List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> zoneDeviceData
+                = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>();
+            foreach (KeyValuePair<RGBDeviceType, List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>> connectedZoneDevice in connectedZoneDevices)
+            {
+                int maxZones = connectedZoneDevice.Value.Max(x => x.zones);
+                zoneDeviceData.Add(connectedZoneDevice.Value.First(x => x.zones == maxZones));
+            }
+
+            ZoneDeviceData = zoneDeviceData;
         }
 
         #endregion

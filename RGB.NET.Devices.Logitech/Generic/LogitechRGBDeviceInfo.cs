@@ -50,6 +50,11 @@ namespace RGB.NET.Devices.Logitech
         public LogitechDeviceCaps DeviceCaps { get; }
 
         /// <summary>
+        /// Gets the amount of zones the <see cref="LogitechRGBDevice{TDeviceInfo}"/> is able to control (0 for single-color and per-key devices)
+        /// </summary>
+        public int Zones { get; }
+
+        /// <summary>
         /// Gets the layout used to decide which images to load.
         /// </summary>
         internal string ImageLayout { get; }
@@ -69,14 +74,16 @@ namespace RGB.NET.Devices.Logitech
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The represented device model.</param>
         /// <param name="deviceCaps">The lighting-capabilities of the device.</param>
+        /// <param name="zones">The amount of zones the device is able to control.</param>
         /// <param name="imageLayout">The layout used to decide which images to load.</param>
         /// <param name="layoutPath">The path/name of the layout-file.</param>
         internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps,
-             string imageLayout, string layoutPath)
+                                       int zones, string imageLayout, string layoutPath)
         {
             this.DeviceType = deviceType;
             this.Model = model;
             this.DeviceCaps = deviceCaps;
+            this.Zones = zones;
             this.ImageLayout = imageLayout;
             this.LayoutPath = layoutPath;
 

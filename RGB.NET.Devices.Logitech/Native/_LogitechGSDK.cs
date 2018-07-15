@@ -52,6 +52,7 @@ namespace RGB.NET.Devices.Logitech.Native
             _logiLedSetLightingPointer = (LogiLedSetLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLighting"), typeof(LogiLedSetLightingPointer));
             _logiLedSetLightingForKeyWithKeyNamePointer = (LogiLedSetLightingForKeyWithKeyNamePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingForKeyWithKeyName"), typeof(LogiLedSetLightingForKeyWithKeyNamePointer));
             _logiLedSetLightingFromBitmapPointer = (LogiLedSetLightingFromBitmapPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingFromBitmap"), typeof(LogiLedSetLightingFromBitmapPointer));
+            _logiLedSetLightingForTargetZonePointer = (LogiLedSetLightingForTargetZonePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingForTargetZone"), typeof(LogiLedSetLightingForTargetZonePointer));
         }
 
         private static void UnloadLogitechGSDK()
@@ -89,6 +90,7 @@ namespace RGB.NET.Devices.Logitech.Native
         private static LogiLedSetLightingPointer _logiLedSetLightingPointer;
         private static LogiLedSetLightingForKeyWithKeyNamePointer _logiLedSetLightingForKeyWithKeyNamePointer;
         private static LogiLedSetLightingFromBitmapPointer _logiLedSetLightingFromBitmapPointer;
+        private static LogiLedSetLightingForTargetZonePointer _logiLedSetLightingForTargetZonePointer;
 
         #endregion
 
@@ -121,6 +123,9 @@ namespace RGB.NET.Devices.Logitech.Native
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool LogiLedSetLightingFromBitmapPointer(byte[] bitmap);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool LogiLedSetLightingForTargetZonePointer(LogitechDeviceType deviceType, int zone, int redPercentage, int greenPercentage, int bluePercentage);
+
         #endregion
 
         // ReSharper disable EventExceptionNotDocumented
@@ -149,10 +154,13 @@ namespace RGB.NET.Devices.Logitech.Native
 
         internal static bool LogiLedSetLighting(int redPercentage, int greenPercentage, int bluePercentage) => _logiLedSetLightingPointer(redPercentage, greenPercentage, bluePercentage);
 
-        internal static bool LogiLedSetLightingForKeyWithKeyName(int keyCode,
-            int redPercentage, int greenPercentage, int bluePercentage) => _logiLedSetLightingForKeyWithKeyNamePointer(keyCode, redPercentage, greenPercentage, bluePercentage);
+        internal static bool LogiLedSetLightingForKeyWithKeyName(int keyCode, int redPercentage, int greenPercentage, int bluePercentage)
+            => _logiLedSetLightingForKeyWithKeyNamePointer(keyCode, redPercentage, greenPercentage, bluePercentage);
 
         internal static bool LogiLedSetLightingFromBitmap(byte[] bitmap) => _logiLedSetLightingFromBitmapPointer(bitmap);
+
+        internal static bool LogiLedSetLightingForTargetZone(LogitechDeviceType deviceType, int zone, int redPercentage, int greenPercentage, int bluePercentage)
+            => _logiLedSetLightingForTargetZonePointer(deviceType, zone, redPercentage, greenPercentage, bluePercentage);
 
         // ReSharper restore EventExceptionNotDocumented
 
