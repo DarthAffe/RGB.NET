@@ -33,8 +33,9 @@ namespace RGB.NET.Devices.Logitech.HID
         private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> ZONE_DEVICES
             = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
               {
-                  ("G903", RGBDeviceType.Mouse, 0xC086, 2, "default", @"Mice\G903"),
+                  ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
+                  ("G903", RGBDeviceType.Mouse, 0xC086, 2, "default", @"Mice\G903"),
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
               };
 
