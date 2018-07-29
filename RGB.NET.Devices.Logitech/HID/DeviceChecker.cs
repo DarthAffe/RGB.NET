@@ -19,6 +19,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G910", RGBDeviceType.Keyboard, 0xC32B, 0, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
                   ("G810", RGBDeviceType.Keyboard, 0xC337, 0, "DE", @"Keyboards\G810\UK"),
                   ("G610", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
+                  ("G410", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
                   ("Pro", RGBDeviceType.Keyboard, 0xC339, 0, "DE", @"Keyboards\Pro\UK"),
               };
 
@@ -26,17 +27,29 @@ namespace RGB.NET.Devices.Logitech.HID
             = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
               {
                   ("G19", RGBDeviceType.Keyboard, 0xC228, 0, "DE", @"Keyboards\G19\UK"),
+                  ("G19s", RGBDeviceType.Keyboard, 0xC229, 0, "DE", @"Keyboards\G19s\UK"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, 0, "default", @"Mice\G502"),
                   ("G600", RGBDeviceType.Mouse, 0xC24A, 0, "default", @"Mice\G600"),
+                  ("G510", RGBDeviceType.Keyboard, 0xC22D, 0, "DE", @"Keyboards\G510\UK"),
+                  ("G510s", RGBDeviceType.Keyboard, 0xC22E, 0, "DE", @"Keyboards\G510s\UK"),
+                  ("G13", RGBDeviceType.Keypad, 0xC21C, 0, "DE", @"Keypads\G13\UK"),
+                  ("G110", RGBDeviceType.Keyboard, 0xC22B, 0, "DE", @"Keyboards\G110\UK"),
+                  ("G710+", RGBDeviceType.Keyboard, 0xC24D, 0, "DE", @"Keyboards\G710+\UK"),
+                  ("G105", RGBDeviceType.Keyboard, 0xC248, 0, "DE", @"Keyboards\G105\UK"),
+                  ("G15", RGBDeviceType.Keyboard, 0xC222, 0, "DE", @"Keyboards\G15\UK"),
+                  ("G11", RGBDeviceType.Keyboard, 0xC225, 0, "DE", @"Keyboards\G11\UK"),
               };
 
         private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> ZONE_DEVICES
             = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
               {
-                  ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
-                  ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
                   ("G903", RGBDeviceType.Mouse, 0xC086, 2, "default", @"Mice\G903"),
+                  ("G900", RGBDeviceType.Mouse, 0xC539, 2, "default", @"Mice\G900"),
+                  ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
+                  ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
+                  ("G633", RGBDeviceType.Headset, 0x0A5C, 2, "default", @"Headsets\G633"),
+                  ("G933", RGBDeviceType.Headset, 0x0A5B, 2, "default", @"Headsets\G933"),
               };
 
         #endregion
