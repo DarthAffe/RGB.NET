@@ -18,6 +18,8 @@ namespace RGB.NET.Devices.Corsair
         Mousepad = 4,
         HeadsetStand = 5,
         CommanderPro = 6,
-        LightningNodePro = 7
+        LightningNodePro = 7,
+        MemoryModule = 8,
+        Cooler = 9
     };
 }

@@ -19,6 +19,11 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// For devices that has controlled lighting.
         /// </summary>
-        Lighting = 1
+        Lighting = 1,
+
+        /// <summary>
+        /// For devices that provide current state through set of properties.
+        /// </summary>
+        PropertyLookup = 2
     };
 }

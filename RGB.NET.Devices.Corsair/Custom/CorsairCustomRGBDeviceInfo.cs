@@ -34,7 +34,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="referenceCorsairLed">The id of the first led of this device.</param>
         internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo,
                                             CorsairLedId referenceCorsairLed, Dictionary<string, int> modelCounter)
-            : base(deviceIndex, channelDeviceInfo.type == CorsairChannelDeviceType.Strip ? RGBDeviceType.LedStripe : RGBDeviceType.Fan, nativeInfo, 
+            : base(deviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo,
                    GetModelName(channelDeviceInfo.type), modelCounter)
         {
             this.ReferenceCorsairLed = referenceCorsairLed;
@@ -45,6 +45,31 @@ namespace RGB.NET.Devices.Corsair
         #endregion
 
         #region Methods
+
+        private static RGBDeviceType GetDeviceType(CorsairChannelDeviceType deviceType)
+        {
+            switch (deviceType)
+            {
+                case CorsairChannelDeviceType.Invalid:
+                    return RGBDeviceType.Unknown;
+
+                case CorsairChannelDeviceType.FanHD:
+                case CorsairChannelDeviceType.FanSP:
+                case CorsairChannelDeviceType.FanLL:
+                case CorsairChannelDeviceType.FanML:
+                case CorsairChannelDeviceType.DAP:
+                    return RGBDeviceType.Fan;
+
+                case CorsairChannelDeviceType.Strip:
+                    return RGBDeviceType.LedStripe;
+
+                case CorsairChannelDeviceType.Pump:
+                    return RGBDeviceType.Cooler;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(deviceType), deviceType, null);
+            }
+        }
 
         private static string GetModelName(CorsairChannelDeviceType deviceType)
         {
@@ -70,6 +95,9 @@ namespace RGB.NET.Devices.Corsair
 
                 case CorsairChannelDeviceType.DAP:
                     return "DAP Fan";
+
+                case CorsairChannelDeviceType.Pump:
+                    return "Pump";
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(deviceType), deviceType, null);

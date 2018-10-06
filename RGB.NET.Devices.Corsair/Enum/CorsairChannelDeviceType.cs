@@ -18,5 +18,6 @@ namespace RGB.NET.Devices.Corsair
         FanML = 4,
         Strip = 5,
         DAP = 6,
+        Pump = 7
     };
 }

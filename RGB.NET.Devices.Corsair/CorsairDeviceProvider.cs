@@ -201,6 +201,11 @@ namespace RGB.NET.Devices.Corsair
                     yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
                     break;
 
+                case CorsairDeviceType.MemoryModule:
+                    yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
+                    break;
+
+                case CorsairDeviceType.Cooler:
                 case CorsairDeviceType.CommanderPro:
                 case CorsairDeviceType.LightningNodePro:
                     _CorsairChannelsInfo channelsInfo = nativeDeviceInfo.channels;
