@@ -32,6 +32,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
         /// <param name="channelDeviceInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairChannelDeviceInfo"/> representing this device.</param>
         /// <param name="referenceCorsairLed">The id of the first led of this device.</param>
+        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
         internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo,
                                             CorsairLedId referenceCorsairLed, Dictionary<string, int> modelCounter)
             : base(deviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo,

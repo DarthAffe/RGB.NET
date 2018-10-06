@@ -84,6 +84,11 @@ namespace RGB.NET.Core
         Speaker = 1 << 12,
 
         /// <summary>
+        /// Represents a cooler.
+        /// </summary>
+        Cooler = 1 << 13,
+
+        /// <summary>
         /// Represents all devices.
         /// </summary>
         All = ~None
