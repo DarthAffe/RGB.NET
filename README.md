@@ -5,8 +5,6 @@ This project aims to unify the use of various RGB-devices.
    
 If you want to help with layouting/testing devices or if you need support using the library feel free to join the [RGB.NET discord-channel](https://discord.gg/9kytURv).
 
-For a quick-start-guide you can check out [this issue](https://github.com/DarthAffe/RGB.NET/issues/2).
-
 
 ## Adding prerelease packages using NuGet ##
 This is the easiest and therefore preferred way to include RGB.NET in your project right now.  
