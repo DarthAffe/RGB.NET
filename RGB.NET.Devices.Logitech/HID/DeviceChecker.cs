@@ -19,7 +19,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G910", RGBDeviceType.Keyboard, 0xC32B, 0, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
                   ("G810", RGBDeviceType.Keyboard, 0xC337, 0, "DE", @"Keyboards\G810\UK"),
                   ("G610", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
-                  ("G410", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
+                  ("G213", RGBDeviceType.Keyboard, 0xC336, 0, "DE", @"Keyboards\G213\UK"),
                   ("Pro", RGBDeviceType.Keyboard, 0xC339, 0, "DE", @"Keyboards\Pro\UK"),
               };
 
