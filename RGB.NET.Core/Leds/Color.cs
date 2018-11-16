@@ -350,6 +350,19 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
+        /// Returns the current color values in an integer array.
+        /// </summary>
+        /// <returns>An integer array</returns>
+        public int[] ARGBAsIntArray() => new int[4] { Convert.ToInt32(A), Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B) };
+        
+
+        /// <summary>
+        /// Returns the current color values in an integer array.
+        /// </summary>
+        /// <returns>An integer array.</returns>
+        public int[] RGBAsIntArray() => new int[3] { Convert.ToInt32(R), Convert.ToInt32(G), Convert.ToInt32(B) };
+
+        /// <summary>
         /// Gets the current color as a RGB-HEX-string.
         /// </summary>
         /// <returns>The RGB-HEX-string.</returns>
