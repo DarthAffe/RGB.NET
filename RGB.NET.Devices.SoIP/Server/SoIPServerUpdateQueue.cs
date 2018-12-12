@@ -43,7 +43,6 @@ namespace RGB.NET.Devices.SoIP.Server
             {
                 string m = GetLedString(dataSet);
                 _tcpServer.BroadcastLine(m);
-                Console.WriteLine("send " + m);
             }
         }
 
