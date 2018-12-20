@@ -25,7 +25,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         internal AsusGraphicsCardRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle)
-            : base(deviceType, handle)
+            : base(deviceType, handle, WMIHelper.GetGraphicsCardsInfo() ?? "Generic Asus-Device")
         { }
 
         #endregion

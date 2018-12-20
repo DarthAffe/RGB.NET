@@ -8,8 +8,11 @@ namespace RGB.NET.Devices.Asus
     {
         #region Properties & Fields
 
-        private static ManagementObjectSearcher _mainboardSearcher = new ManagementObjectSearcher(@"root\CIMV2", "SELECT * FROM Win32_BaseBoard");
+        private static ManagementObjectSearcher _mainboardSearcher = new ManagementObjectSearcher(@"root\CIMV2", "SELECT Manufacturer,Product FROM Win32_BaseBoard");
+        private static ManagementObjectSearcher _graphicsCardSearcher = new ManagementObjectSearcher(@"root\CIMV2", "SELECT Name FROM Win32_VideoController");
+
         private static (string manufacturer, string model)? _mainboardInfo;
+        private static string _graphicsCardInfo;
 
         #endregion
 
@@ -27,6 +30,18 @@ namespace RGB.NET.Devices.Asus
             return _mainboardInfo;
         }
 
+        internal static string GetGraphicsCardsInfo()
+        {
+            if (_graphicsCardInfo == null)
+                foreach (ManagementBaseObject managementBaseObject in _graphicsCardSearcher.Get())
+                {
+                    _graphicsCardInfo = managementBaseObject["Name"]?.ToString();
+                    break;
+                }
+
+            return _graphicsCardInfo;
+        }
+
         #endregion
     }
 }
@@ -39,6 +54,8 @@ namespace RGB.NET.Devices.Asus
         #region Methods
 
         internal static (string manufacturer, string model)? GetMainboardInfo() => null;
+
+        internal static string GetGraphicsCardsInfo() => null;
 
         #endregion
     }
