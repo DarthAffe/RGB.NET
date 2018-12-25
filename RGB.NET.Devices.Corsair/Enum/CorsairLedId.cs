@@ -783,7 +783,7 @@ namespace RGB.NET.Devices.Corsair
         CustomDeviceChannel3Led149 = 760,
         CustomDeviceChannel3Led150 = 761,
 
-        CustomLiquidCoolerChannel1Led1 = 7262,
+        CustomLiquidCoolerChannel1Led1 = 762,
         CustomLiquidCoolerChannel1Led2 = 763,
         CustomLiquidCoolerChannel1Led3 = 764,
         CustomLiquidCoolerChannel1Led4 = 765,
