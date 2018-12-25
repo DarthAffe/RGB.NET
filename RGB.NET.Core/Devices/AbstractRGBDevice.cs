@@ -86,13 +86,15 @@ namespace RGB.NET.Core
             DeviceUpdate();
 
             // Send LEDs to SDK
-            IEnumerable<Led> ledsToUpdate = ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).ToList();
+            List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds)?.ToList() ?? new List<Led>();
             foreach (Led ledToUpdate in ledsToUpdate)
                 ledToUpdate.Update();
 
             if (UpdateMode.HasFlag(DeviceUpdateMode.Sync))
                 UpdateLeds(ledsToUpdate);
         }
+
+        protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty));
 
         /// <inheritdoc />
         public virtual void SyncBack()
