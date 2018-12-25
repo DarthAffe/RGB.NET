@@ -57,7 +57,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
         /// </summary>
-        public bool IsDirty => RequestedColor.HasValue;
+        public bool IsDirty => RequestedColor.HasValue && (RequestedColor != InternalColor);
 
         private Color? _requestedColor;
         /// <summary>
