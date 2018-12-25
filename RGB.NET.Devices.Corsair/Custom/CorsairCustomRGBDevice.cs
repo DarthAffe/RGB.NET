@@ -36,7 +36,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            LedId referenceId = (DeviceInfo.DeviceType == RGBDeviceType.LedStripe ? LedId.LedStripe1 : (DeviceInfo.DeviceType == RGBDeviceType.Fan ? LedId.Fan1 : LedId.Custom1));
+            LedId referenceId = GetReferenceLed(DeviceInfo.DeviceType);
 
             for (int i = 0; i < DeviceInfo.LedCount; i++)
             {
@@ -51,6 +51,24 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         protected override object CreateLedCustomData(LedId ledId) => _idMapping.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
+
+        protected virtual LedId GetReferenceLed(RGBDeviceType deviceType)
+        {
+            switch (deviceType)
+            {
+                case RGBDeviceType.LedStripe:
+                    return LedId.LedStripe1;
+
+                case RGBDeviceType.Fan:
+                    return LedId.Fan1;
+
+                case RGBDeviceType.Cooler:
+                    return LedId.Cooler1;
+
+                default:
+                    return LedId.Custom1;
+            }
+        }
 
         #endregion
     }
