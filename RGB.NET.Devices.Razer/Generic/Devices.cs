@@ -55,7 +55,14 @@ namespace RGB.NET.Devices.Razer
         {
             (new Guid("0201203B-62F3-4C50-83DD-598BABD208E0"), "Core Chroma"),
             (new Guid("35F6F18D-1AE5-436C-A575-AB44A127903A"), "Lenovo Y900"),
-            (new Guid("47DB1FA7-6B9B-4EE6-B6F4-4071A3B2053B"), "Lenovo Y27")
+            (new Guid("47DB1FA7-6B9B-4EE6-B6F4-4071A3B2053B"), "Lenovo Y27"),
+            (new Guid("BB2E9C9B-B0D2-461A-BA52-230B5D6C3609"), "Chroma Box")
+        };
+
+        public static readonly List<(Guid guid, string model)> SPEAKERS = new List<(Guid guid, string model)>
+        {
+            (new Guid("45B308F2-CD44-4594-8375-4D5945AD880E"), "Nommo Chroma"),
+            (new Guid("3017280B-D7F9-4D7B-930E-7B47181B46B5"), "Nommo Chroma Pro")
         };
     }
 }
