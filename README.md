@@ -1,18 +1,21 @@
 # RGB.NET
 
 This project aims to unify the use of various RGB-devices.   
-**It is currently under heavy development and will have breaking changes in the future!** Right now a lot of devices aren't working as expected and there are bugs/unfinished features. Please think about that when you consider using the library in this early stage.   
+**It is currently under heavy development and will have breaking changes in the future!** Right now a lot of devices aren't working as expected and there are bugs/unfinished features. Please think about that when you consider using the library in this early stage.    
    
 If you want to help with layouting/testing devices or if you need support using the library feel free to join the [RGB.NET discord-channel](https://discord.gg/9kytURv).
 
 
 ## Adding prerelease packages using NuGet ##
-This is the easiest and therefore preferred way to include RGB.NET in your project right now.  
+This is the easiest and therefore preferred way to include RGB.NET in your project.  
 
-Since there aren't stable packages on nuget right now you need to use the CI-build.    
-You can get them from the [RGB.NET MyGet gallery](https://www.myget.org/gallery/rgb_net) by adding the feed as a package source to your Visual Studio.  
-_You need to check "Include prerelease" to see the package in Visual Studio._
+Since there aren't any release-packages right now you'll have to use the CI-feed from [http://nuget.arge.be](http://nuget.arge.be).   
+You can include it either by adding ```http://nuget.arge.be/v3/index.json``` to your Visual Studio package sources or by adding this [https://github.com/DarthAffe/RGB.NET/tree/master/Documentation/NuGet.Config](NuGet.Config) to your project (at the same level as your solution). 
 
 
 ### Example usage of RGB.NET
 [![Example video](https://img.youtube.com/vi/JLRa0Wv4qso/0.jpg)](http://www.youtube.com/watch?v=JLRa0Wv4qso)
+
+#### Example Projects
+[https://github.com/DarthAffe/KeyboardAudioVisualizer](https://github.com/DarthAffe/KeyboardAudioVisualizer)   
+[https://github.com/DarthAffe/RGBSyncPlus](https://github.com/DarthAffe/RGBSyncPlus)
