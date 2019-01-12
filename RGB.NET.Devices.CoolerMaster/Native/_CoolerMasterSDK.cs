@@ -97,26 +97,26 @@ namespace RGB.NET.Devices.CoolerMaster.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private delegate bool IsDevicePlugPointer();
+        private delegate bool IsDevicePlugPointer(CoolerMasterDevicesIndexes devIndex);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate CoolerMasterPhysicalKeyboardLayout GetDeviceLayoutPointer();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private delegate bool EnableLedControlPointer(bool value);
+        private delegate CoolerMasterPhysicalKeyboardLayout GetDeviceLayoutPointer(CoolerMasterDevicesIndexes devIndex);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private delegate bool RefreshLedPointer(bool autoRefresh);
+        private delegate bool EnableLedControlPointer(bool value, CoolerMasterDevicesIndexes devIndex);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private delegate bool SetLedColorPointer(int row, int column, byte r, byte g, byte b);
+        private delegate bool RefreshLedPointer(bool autoRefresh, CoolerMasterDevicesIndexes devIndex);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private delegate bool SetAllLedColorPointer(_CoolerMasterColorMatrix colorMatrix);
+        private delegate bool SetLedColorPointer(int row, int column, byte r, byte g, byte b, CoolerMasterDevicesIndexes devIndex);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private delegate bool SetAllLedColorPointer(_CoolerMasterColorMatrix colorMatrix, CoolerMasterDevicesIndexes devIndex);
 
         #endregion
 
@@ -130,37 +130,44 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         /// <summary>
         /// CM-SDK: set operating device
         /// </summary>
-        internal static void SetControlDevice(CoolerMasterDevicesIndexes devicesIndexes) => _setControlDevicenPointer(devicesIndexes);
+        internal static void SetControlDevice(CoolerMasterDevicesIndexes devicesIndexes)
+            => _setControlDevicenPointer(devicesIndexes);
 
         /// <summary>
         /// CM-SDK: verify if the deviced is plugged in
         /// </summary>
-        internal static bool IsDevicePlugged() => _isDevicePlugPointer();
+        internal static bool IsDevicePlugged(CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
+            => _isDevicePlugPointer(devIndex);
 
         /// <summary>
         /// CM-SDK: Obtain current device layout
         /// </summary>
-        internal static CoolerMasterPhysicalKeyboardLayout GetDeviceLayout() => _getDeviceLayoutPointer();
+        internal static CoolerMasterPhysicalKeyboardLayout GetDeviceLayout(CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
+            => _getDeviceLayoutPointer(devIndex);
 
         /// <summary>
         /// CM-SDK: set control over device’s LED
         /// </summary>
-        internal static bool EnableLedControl(bool value) => _enableLedControlPointer(value);
+        internal static bool EnableLedControl(bool value, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
+            => _enableLedControlPointer(value, devIndex);
 
         /// <summary>
         /// CM-SDK: Print out the lights setting from Buffer to LED
         /// </summary>
-        internal static bool RefreshLed(bool autoRefresh) => _refreshLedPointer(autoRefresh);
+        internal static bool RefreshLed(bool autoRefresh, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
+            => _refreshLedPointer(autoRefresh, devIndex);
 
         /// <summary>
         /// CM-SDK: Set single Key LED color
         /// </summary>
-        internal static bool SetLedColor(int row, int column, byte r, byte g, byte b) => _setLedColorPointer(row, column, r, g, b);
+        internal static bool SetLedColor(int row, int column, byte r, byte g, byte b, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
+            => _setLedColorPointer(row, column, r, g, b, devIndex);
 
         /// <summary>
         /// CM-SDK: Set Keyboard "every LED" color
         /// </summary>
-        internal static bool SetAllLedColor(_CoolerMasterColorMatrix colorMatrix) => _setAllLedColorPointer(colorMatrix);
+        internal static bool SetAllLedColor(_CoolerMasterColorMatrix colorMatrix, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
+            => _setAllLedColorPointer(colorMatrix, devIndex);
 
         // ReSharper restore EventExceptionNotDocumented
 

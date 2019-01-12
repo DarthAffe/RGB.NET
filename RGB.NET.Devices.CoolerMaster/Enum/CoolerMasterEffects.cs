@@ -25,6 +25,12 @@ namespace RGB.NET.Devices.CoolerMaster
         Spectrum = 11,
         RapidFire = 12,
         Indicator = 13, //mouse Effect
+        FireBall = 14,
+        WaterRipple = 15,
+        ReactivePunch = 16,
+        Snowing = 17,
+        HeartBeat = 18,
+        ReactiveTornade = 19,
 
         Multi1 = 0xE0,
         Multi2 = 0xE1,

@@ -12,6 +12,7 @@ namespace RGB.NET.Devices.CoolerMaster
     {
         UNINIT = 0,
         US = 1,
-        EU = 2
+        EU = 2,
+        JP = 3
     }
 }

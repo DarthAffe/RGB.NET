@@ -32,6 +32,22 @@ namespace RGB.NET.Devices.CoolerMaster
                     { LedId.Mouse2, (0,1) }
                   }
                 },
+
+                { CoolerMasterDevicesIndexes.MM530, new Dictionary<LedId, (int row, int column)>
+                  {
+                      { LedId.Mouse1, (0,0) },
+                      { LedId.Mouse2, (0,1) },
+                      { LedId.Mouse3, (0,2) }
+                  }
+                },
+
+                { CoolerMasterDevicesIndexes.MM520, new Dictionary<LedId, (int row, int column)>
+                  {
+                      { LedId.Mouse1, (0,0) },
+                      { LedId.Mouse2, (0,1) },
+                      { LedId.Mouse3, (0,2) }
+                  }
+                },
             };
 
         #endregion
