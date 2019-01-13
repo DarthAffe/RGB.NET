@@ -74,8 +74,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
-            _CoolerMasterSDK.SetControlDevice(DeviceInfo.DeviceIndex);
-            _CoolerMasterSDK.EnableLedControl(false);
+            _CoolerMasterSDK.EnableLedControl(false, DeviceInfo.DeviceIndex);
 
             base.Dispose();
         }

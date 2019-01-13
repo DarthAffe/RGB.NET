@@ -104,20 +104,20 @@ namespace RGB.NET.Devices.CoolerMaster
 
                 foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))
                 {
-
                     try
                     {
-                        _CoolerMasterSDK.SetControlDevice(index);
-                        if (_CoolerMasterSDK.IsDevicePlugged())
+                        RGBDeviceType deviceType = index.GetDeviceType();
+                        if (deviceType == RGBDeviceType.None) continue;
+                        
+                        if (_CoolerMasterSDK.IsDevicePlugged(index))
                         {
-                            RGBDeviceType deviceType = index.GetDeviceType();
                             if (!loadFilter.HasFlag(deviceType)) continue;
 
                             ICoolerMasterRGBDevice device;
                             switch (deviceType)
                             {
                                 case RGBDeviceType.Keyboard:
-                                    CoolerMasterPhysicalKeyboardLayout physicalLayout = _CoolerMasterSDK.GetDeviceLayout();
+                                    CoolerMasterPhysicalKeyboardLayout physicalLayout = _CoolerMasterSDK.GetDeviceLayout(index);
                                     device = new CoolerMasterKeyboardRGBDevice(new CoolerMasterKeyboardRGBDeviceInfo(index, physicalLayout, GetCulture()));
                                     break;
 
@@ -132,7 +132,7 @@ namespace RGB.NET.Devices.CoolerMaster
                                         continue;
                             }
 
-                            _CoolerMasterSDK.EnableLedControl(true);
+                            _CoolerMasterSDK.EnableLedControl(true, index);
 
                             device.Initialize(UpdateTrigger);
                             devices.Add(device);
@@ -165,9 +165,8 @@ namespace RGB.NET.Devices.CoolerMaster
                     try
                     {
                         CoolerMasterRGBDeviceInfo deviceInfo = (CoolerMasterRGBDeviceInfo)device.DeviceInfo;
-                        _CoolerMasterSDK.SetControlDevice(deviceInfo.DeviceIndex);
-                        _CoolerMasterSDK.EnableLedControl(false);
-                        _CoolerMasterSDK.EnableLedControl(true);
+                        _CoolerMasterSDK.EnableLedControl(false, deviceInfo.DeviceIndex);
+                        _CoolerMasterSDK.EnableLedControl(true, deviceInfo.DeviceIndex);
                     }
                     catch {/* shit happens */}
                 }
@@ -182,8 +181,7 @@ namespace RGB.NET.Devices.CoolerMaster
                     try
                     {
                         CoolerMasterRGBDeviceInfo deviceInfo = (CoolerMasterRGBDeviceInfo)device.DeviceInfo;
-                        _CoolerMasterSDK.SetControlDevice(deviceInfo.DeviceIndex);
-                        _CoolerMasterSDK.EnableLedControl(false);
+                        _CoolerMasterSDK.EnableLedControl(false, deviceInfo.DeviceIndex);
                     }
                     catch {/* shit happens */}
                 }

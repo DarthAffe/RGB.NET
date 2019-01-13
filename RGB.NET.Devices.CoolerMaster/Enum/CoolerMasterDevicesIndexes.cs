@@ -43,6 +43,33 @@ namespace RGB.NET.Devices.CoolerMaster
 
         [Description("MasterKeys Pro S White")]
         [DeviceType(RGBDeviceType.Keyboard)]
-        MasterKeys_S_White = 7
+        MasterKeys_S_White = 7,
+
+        [Description("MM520")]
+        [DeviceType(RGBDeviceType.Mouse)]
+        MM520 = 8,
+
+        [Description("MM530")]
+        [DeviceType(RGBDeviceType.Mouse)]
+        MM530 = 9,
+
+        [Description("MasterKeys MK750")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        MasterKeys_MK750 = 10,
+
+        [Description("CK372")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        CK372 = 11,
+
+        [Description("CK550")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        CK550 = 12,
+
+        [Description("CK551")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        CK551 = 13,
+
+        [DeviceType(RGBDeviceType.None)]
+        Default = 0xFFFF
     }
 }

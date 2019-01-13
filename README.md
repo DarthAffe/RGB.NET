@@ -10,7 +10,7 @@ If you want to help with layouting/testing devices or if you need support using 
 This is the easiest and therefore preferred way to include RGB.NET in your project.  
 
 Since there aren't any release-packages right now you'll have to use the CI-feed from [http://nuget.arge.be](http://nuget.arge.be).   
-You can include it either by adding ```http://nuget.arge.be/v3/index.json``` to your Visual Studio package sources or by adding this [https://github.com/DarthAffe/RGB.NET/tree/master/Documentation/NuGet.Config](NuGet.Config) to your project (at the same level as your solution). 
+You can include it either by adding ```http://nuget.arge.be/v3/index.json``` to your Visual Studio package sources or by adding this [NuGet.Config](https://github.com/DarthAffe/RGB.NET/tree/master/Documentation/NuGet.Config) to your project (at the same level as your solution). 
 
 
 ### Example usage of RGB.NET
