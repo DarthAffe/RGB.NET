@@ -50,7 +50,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
                   ("G633", RGBDeviceType.Headset, 0x0A5C, 2, "default", @"Headsets\G633"),
                   ("G933", RGBDeviceType.Headset, 0x0A5B, 2, "default", @"Headsets\G933"),
-                  ("G560", RGBDeviceType.Speaker, 0x0A78, 2, "default", @"Speakers\G560"),
+                  ("G560", RGBDeviceType.Speaker, 0x0A78, 4, "default", @"Speakers\G560"),
               };
 
         #endregion
