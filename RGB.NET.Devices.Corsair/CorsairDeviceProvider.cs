@@ -215,7 +215,8 @@ namespace RGB.NET.Devices.Corsair
 
                         for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
                         {
-                            CorsairLedId referenceLed = channel == 0 ? CorsairLedId.CustomDeviceChannel1Led1 : CorsairLedId.CustomDeviceChannel2Led1;
+                            CorsairLedId referenceLed = GetChannelReferenceId(info.CorsairDeviceType, channel);
+                            if (referenceLed == CorsairLedId.Invalid) continue;
 
                             _CorsairChannelInfo channelInfo = (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo));
 
@@ -245,6 +246,23 @@ namespace RGB.NET.Devices.Corsair
                 default:
                     throw new RGBDeviceException("Unknown Device-Type");
             }
+        }
+
+        private static CorsairLedId GetChannelReferenceId(CorsairDeviceType deviceType, int channel)
+        {
+            if (deviceType == CorsairDeviceType.Cooler)
+                return CorsairLedId.CustomLiquidCoolerChannel1Led1;
+            else
+            {
+                switch (channel)
+                {
+                    case 0: return CorsairLedId.CustomDeviceChannel1Led1;
+                    case 1: return CorsairLedId.CustomDeviceChannel2Led1;
+                    case 2: return CorsairLedId.CustomDeviceChannel3Led1;
+                }
+            }
+
+            return CorsairLedId.Invalid;
         }
 
         private void AddSpecialParts(ICorsairRGBDevice device)
