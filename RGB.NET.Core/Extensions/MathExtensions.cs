@@ -68,16 +68,16 @@ namespace RGB.NET.Core
 
             return value;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte GetByteValueFromPercentage(this double percentage)
         {
             if (double.IsNaN(percentage)) return 0;
 
             percentage = percentage.Clamp(0, 1.0);
-            return (byte)(percentage.Equals(1.0) ? 255 : percentage * 256.0);
+            return (byte)(percentage >= 1.0 ? 255 : percentage * 256.0);
         }
-        
+
         #endregion
     }
 }
