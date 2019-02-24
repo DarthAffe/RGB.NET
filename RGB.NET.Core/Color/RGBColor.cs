@@ -6,8 +6,13 @@ namespace RGB.NET.Core
     {
         #region Getter
 
-        public static (double r, double g, double b) GetRGBPercent(this Color color)
-            => (color.RPercent, color.GPercent, color.BPercent);
+        /// <summary>
+        /// Gets the A, R, G and B component value of this <see cref="Color"/> as percentage in the range [0..1].
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static (double a, double r, double g, double b) GetRGBPercent(this Color color)
+            => (color.APercent, color.RPercent, color.GPercent, color.BPercent);
 
         #endregion
 

@@ -6,12 +6,35 @@ namespace RGB.NET.Core
     {
         #region Getter
 
+        /// <summary>
+        /// Gets the hue component value (HSV-color space) of this <see cref="Color"/> as degree in the range [0..360].
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static double GetHue(this Color color) => color.GetHSV().hue;
 
+        /// <summary>
+        /// Gets the saturation component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static double GetSaturation(this Color color) => color.GetHSV().saturation;
 
+        /// <summary>
+        /// Gets the value component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static double GetValue(this Color color) => color.GetHSV().value;
 
+        /// <summary>
+        /// Gets the hue, saturation and value component values (HSV-color space) of this <see cref="Color"/>.
+        /// Hue as degree in the range [0..1].
+        /// Saturation in the range [0..1].
+        /// Value in the range [0..1].
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static (double hue, double saturation, double value) GetHSV(this Color color)
             => CaclulateHSVFromRGB(color.RPercent, color.GPercent, color.BPercent);
 
