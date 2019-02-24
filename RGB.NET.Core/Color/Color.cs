@@ -320,14 +320,42 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((byte a, byte r, byte g, byte b) components) => new Color(components.a, components.r, components.g, components.b);
+        public static implicit operator Color((byte r, byte g, byte b) components) => new Color(components.r, components.g, components.b);
 
         /// <summary>
-        /// Converts a <see cref="ValueTuple"/> of HSV-components to a <see cref="Color"/>.
+        /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((double hue, double saturation, double value) components) => new Color(components.hue, components.saturation, components.value);
+        public static implicit operator Color((byte a, byte r, byte g, byte b) components) => new Color(components.a, components.r, components.g, components.b);
+
+        /// <summary>
+        /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
+        /// </summary>
+        /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
+        /// <returns>The color.</returns>
+        public static implicit operator Color((int r, int g, int b) components) => new Color(components.r, components.g, components.b);
+
+        /// <summary>
+        /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
+        /// </summary>
+        /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
+        /// <returns>The color.</returns>
+        public static implicit operator Color((int a, int r, int g, int b) components) => new Color(components.a, components.r, components.g, components.b);
+
+        /// <summary>
+        /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
+        /// </summary>
+        /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
+        /// <returns>The color.</returns>
+        public static implicit operator Color((double r, double g, double b) components) => new Color(components.r, components.g, components.b);
+
+        /// <summary>
+        /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
+        /// </summary>
+        /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
+        /// <returns>The color.</returns>
+        public static implicit operator Color((double a, double r, double g, double b) components) => new Color(components.a, components.r, components.g, components.b);
 
         #endregion
     }
