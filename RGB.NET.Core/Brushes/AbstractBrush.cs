@@ -115,7 +115,7 @@ namespace RGB.NET.Core
             // Since we use HSV to calculate there is no way to make a color 'brighter' than 100%
             // Be carefull with the naming: Since we use HSV the correct term is 'value' but outside we call it 'brightness'
             // THIS IS NOT A HSB CALCULATION!!!
-            return color.MultiplyValue(Brightness.Clamp(0, 1))
+            return color.MultiplyHSV(value: Brightness.Clamp(0, 1))
                         .MultiplyA(Opacity.Clamp(0, 1));
         }
 
