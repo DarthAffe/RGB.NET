@@ -57,9 +57,9 @@ namespace RGB.NET.Devices.Asus
             foreach (KeyValuePair<object, Color> data in dataSet)
             {
                 int index = ((int)data.Key) * 3;
-                ColorData[index] = data.Value.R;
-                ColorData[index + 1] = data.Value.B;
-                ColorData[index + 2] = data.Value.G;
+                ColorData[index] = data.Value.GetR();
+                ColorData[index + 1] = data.Value.GetB();
+                ColorData[index + 2] = data.Value.GetG();
             }
 
             _updateAction(_handle, ColorData);

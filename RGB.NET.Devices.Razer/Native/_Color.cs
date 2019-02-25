@@ -21,7 +21,7 @@ namespace RGB.NET.Devices.Razer.Native
         #region Constructors
 
         public _Color(Color color)
-            : this(color.R, color.G, color.B) { }
+            : this(color.GetR(), color.GetG(), color.GetB()) { }
 
         public _Color(byte red, byte green, byte blue)
             : this()

@@ -26,44 +26,24 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         /// <summary>
-        /// Gets the alpha component value of this <see cref="Color"/> as byte in the range [0..255].
-        /// </summary>
-        public byte A { get; }
-
-        /// <summary>
         /// Gets the alpha component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double APercent { get; }
-
-        /// <summary>
-        /// Gets the red component value of this <see cref="Color"/> as byte in the range [0..255].
-        /// </summary>
-        public byte R { get; }
+        public double A { get; }
 
         /// <summary>
         /// Gets the red component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double RPercent { get; }
-
-        /// <summary>
-        /// Gets the green component value of this <see cref="Color"/> as byte in the range [0..255].
-        /// </summary>
-        public byte G { get; }
+        public double R { get; }
 
         /// <summary>
         /// Gets the green component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double GPercent { get; }
-
-        /// <summary>
-        /// Gets the blue component value of this <see cref="Color"/> as byte in the range [0..255].
-        /// </summary>
-        public byte B { get; }
+        public double G { get; }
 
         /// <summary>
         /// Gets the blue component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double BPercent { get; }
+        public double B { get; }
 
         #endregion
 
@@ -101,7 +81,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
         public Color(byte a, byte r, byte g, byte b)
-            : this(a, r, g, b, a.GetPercentageFromByteValue(), r.GetPercentageFromByteValue(), g.GetPercentageFromByteValue(), b.GetPercentageFromByteValue())
+            : this(a.GetPercentageFromByteValue(), r.GetPercentageFromByteValue(), g.GetPercentageFromByteValue(), b.GetPercentageFromByteValue())
         { }
 
         /// <summary>
@@ -134,8 +114,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
         public Color(double a, byte r, byte g, byte b)
-            : this(a.GetByteValueFromPercentage(), r, g, b,
-                   a.Clamp(0, 1), r.GetPercentageFromByteValue(), g.GetPercentageFromByteValue(), b.GetPercentageFromByteValue())
+            : this(a, r.GetPercentageFromByteValue(), g.GetPercentageFromByteValue(), b.GetPercentageFromByteValue())
         { }
 
         /// <summary>
@@ -168,8 +147,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
         public Color(byte a, double r, double g, double b)
-            : this(a, r.GetByteValueFromPercentage(), g.GetByteValueFromPercentage(), b.GetByteValueFromPercentage(),
-                   a.GetPercentageFromByteValue(), r.Clamp(0, 1), g.Clamp(0, 1), b.Clamp(0, 1))
+            : this(a.GetPercentageFromByteValue(), r, g, b)
         { }
 
         /// <summary>
@@ -180,9 +158,12 @@ namespace RGB.NET.Core
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
         public Color(double a, double r, double g, double b)
-            : this(a.GetByteValueFromPercentage(), r.GetByteValueFromPercentage(), g.GetByteValueFromPercentage(), b.GetByteValueFromPercentage(),
-                  a.Clamp(0, 1), r.Clamp(0, 1), g.Clamp(0, 1), b.Clamp(0, 1))
-        { }
+        {
+            A = a.Clamp(0, 1);
+            R = r.Clamp(0, 1);
+            G = g.Clamp(0, 1);
+            B = b.Clamp(0, 1);
+        }
 
         /// <inheritdoc />
         /// <summary>
@@ -190,21 +171,8 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="color">The <see cref="T:RGB.NET.Core.Color" /> the values are copied from.</param>
         public Color(Color color)
-            : this(color.APercent, color.RPercent, color.GPercent, color.BPercent)
+            : this(color.A, color.R, color.G, color.B)
         { }
-
-        private Color(byte a, byte r, byte g, byte b, double aP, double rP, double gP, double bP)
-        {
-            this.A = a;
-            this.R = r;
-            this.G = g;
-            this.B = b;
-
-            this.APercent = aP;
-            this.RPercent = rP;
-            this.GPercent = gP;
-            this.BPercent = bP;
-        }
 
         #endregion
 
@@ -214,7 +182,7 @@ namespace RGB.NET.Core
         /// Converts the individual byte values of this <see cref="Color"/> to a human-readable string.
         /// </summary>
         /// <returns>A string that contains the individual byte values of this <see cref="Color"/>. For example "[A: 255, R: 255, G: 0, B: 0]".</returns>
-        public override string ToString() => $"[A: {A}, R: {R}, G: {G}, B: {B}]";
+        public override string ToString() => $"[A: {this.GetA()}, R: {this.GetR()}, G: {this.GetG()}, B: {this.GetB()}]";
 
         /// <summary>
         /// Tests whether the specified object is a <see cref="Color" /> and is equivalent to this <see cref="Color" />.
@@ -225,8 +193,8 @@ namespace RGB.NET.Core
         {
             if (!(obj is Color)) return false;
 
-            (byte a, byte r, byte g, byte b) = (Color)obj;
-            return (a == A) && (r == R) && (g == G) && (b == B);
+            (double a, double r, double g, double b) = ((Color)obj).GetRGB();
+            return A.EqualsInTolerance(a) && R.EqualsInTolerance(r) && G.EqualsInTolerance(g) && B.EqualsInTolerance(b);
         }
 
         /// <summary>
@@ -237,32 +205,13 @@ namespace RGB.NET.Core
         {
             unchecked
             {
-                int hashCode = APercent.GetHashCode();
-                hashCode = (hashCode * 397) ^ RPercent.GetHashCode();
-                hashCode = (hashCode * 397) ^ GPercent.GetHashCode();
-                hashCode = (hashCode * 397) ^ BPercent.GetHashCode();
+                int hashCode = A.GetHashCode();
+                hashCode = (hashCode * 397) ^ R.GetHashCode();
+                hashCode = (hashCode * 397) ^ G.GetHashCode();
+                hashCode = (hashCode * 397) ^ B.GetHashCode();
                 return hashCode;
             }
         }
-
-        #region Deconstruction
-
-        /// <summary>
-        /// Deconstructs the Color into it's ARGB-components.
-        /// </summary>
-        /// <param name="a">The alpha component of this color.</param>
-        /// <param name="r">The red component of this color.</param>
-        /// <param name="g">The green component of this color.</param>
-        /// <param name="b">The blue component of this color.</param>
-        public void Deconstruct(out byte a, out byte r, out byte g, out byte b)
-        {
-            a = A;
-            r = R;
-            g = G;
-            b = B;
-        }
-
-        #endregion
 
         #region Manipulation
 
@@ -272,15 +221,15 @@ namespace RGB.NET.Core
         /// <param name="color">The <see cref="Color"/> to blend.</param>
         public Color Blend(Color color)
         {
-            if (color.A == 0) return this;
+            if (color.A.EqualsInTolerance(0)) return this;
 
-            if (color.A == 255)
+            if (color.A.EqualsInTolerance(1))
                 return color;
 
-            double resultA = (1.0 - ((1.0 - color.APercent) * (1.0 - APercent)));
-            double resultR = (((color.RPercent * color.APercent) / resultA) + ((RPercent * APercent * (1.0 - color.APercent)) / resultA));
-            double resultG = (((color.GPercent * color.APercent) / resultA) + ((GPercent * APercent * (1.0 - color.APercent)) / resultA));
-            double resultB = (((color.BPercent * color.APercent) / resultA) + ((BPercent * APercent * (1.0 - color.APercent)) / resultA));
+            double resultA = (1.0 - ((1.0 - color.A) * (1.0 - A)));
+            double resultR = (((color.R * color.A) / resultA) + ((R * A * (1.0 - color.A)) / resultA));
+            double resultG = (((color.G * color.A) / resultA) + ((G * A * (1.0 - color.A)) / resultA));
+            double resultB = (((color.B * color.A) / resultA) + ((B * A * (1.0 - color.A)) / resultA));
 
             return new Color(resultA, resultR, resultG, resultB);
         }

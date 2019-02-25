@@ -39,7 +39,7 @@ namespace RGB.NET.Devices.CoolerMaster
             foreach (KeyValuePair<object, Color> data in dataSet)
             {
                 (int row, int column) = ((int, int))data.Key;
-                _CoolerMasterSDK.SetLedColor(row, column, data.Value.R, data.Value.G, data.Value.B, _deviceIndex);
+                _CoolerMasterSDK.SetLedColor(row, column, data.Value.GetR(), data.Value.GetG(), data.Value.GetB(), _deviceIndex);
             }
 
             _CoolerMasterSDK.RefreshLed(false, _deviceIndex);

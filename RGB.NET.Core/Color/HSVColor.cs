@@ -36,7 +36,7 @@ namespace RGB.NET.Core
         /// <param name="color"></param>
         /// <returns></returns>
         public static (double hue, double saturation, double value) GetHSV(this Color color)
-            => CaclulateHSVFromRGB(color.RPercent, color.GPercent, color.BPercent);
+            => CaclulateHSVFromRGB(color.R, color.G, color.B);
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace RGB.NET.Core
         public static Color AddHSV(this Color color, double hue = 0, double saturation = 0, double value = 0)
         {
             (double cHue, double cSaturation, double cValue) = color.GetHSV();
-            return Create(color.APercent, cHue + hue, cSaturation + saturation, cValue + value);
+            return Create(color.A, cHue + hue, cSaturation + saturation, cValue + value);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace RGB.NET.Core
         public static Color SubtractHSV(this Color color, double hue = 0, double saturation = 0, double value = 0)
         {
             (double cHue, double cSaturation, double cValue) = color.GetHSV();
-            return Create(color.APercent, cHue - hue, cSaturation - saturation, cValue - value);
+            return Create(color.A, cHue - hue, cSaturation - saturation, cValue - value);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace RGB.NET.Core
         public static Color MultiplyHSV(this Color color, double hue = 1, double saturation = 1, double value = 1)
         {
             (double cHue, double cSaturation, double cValue) = color.GetHSV();
-            return Create(color.APercent, cHue * hue, cSaturation * saturation, cValue * value);
+            return Create(color.A, cHue * hue, cSaturation * saturation, cValue * value);
         }
 
 
@@ -92,7 +92,7 @@ namespace RGB.NET.Core
         public static Color DivideHSV(this Color color, double hue = 1, double saturation = 1, double value = 1)
         {
             (double cHue, double cSaturation, double cValue) = color.GetHSV();
-            return Create(color.APercent, cHue / hue, cSaturation / saturation, cValue / value);
+            return Create(color.A, cHue / hue, cSaturation / saturation, cValue / value);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace RGB.NET.Core
         public static Color SetHSV(this Color color, double? hue = null, double? saturation = null, double? value = null)
         {
             (double cHue, double cSaturation, double cValue) = color.GetHSV();
-            return Create(color.APercent, hue ?? cHue, saturation ?? cSaturation, value ?? cValue);
+            return Create(color.A, hue ?? cHue, saturation ?? cSaturation, value ?? cValue);
         }
 
         #endregion
@@ -164,17 +164,17 @@ namespace RGB.NET.Core
 
         private static (double h, double s, double v) CaclulateHSVFromRGB(double r, double g, double b)
         {
-            if ((r == g) && (g == b)) return (0, 0, r);
+            if (r.EqualsInTolerance(g) && g.EqualsInTolerance(b)) return (0, 0, r);
 
             double min = Math.Min(Math.Min(r, g), b);
             double max = Math.Max(Math.Max(r, g), b);
 
             double hue;
-            if (max == min)
+            if (max.EqualsInTolerance(min))
                 hue = 0;
-            else if (max == r) // r is max
+            else if (max.EqualsInTolerance(r)) // r is max
                 hue = (g - b) / (max - min);
-            else if (max == g) // g is max
+            else if (max.EqualsInTolerance(g)) // g is max
                 hue = 2.0 + ((b - r) / (max - min));
             else // b is max
                 hue = 4.0 + ((r - g) / (max - min));
@@ -182,7 +182,7 @@ namespace RGB.NET.Core
             hue = hue * 60.0;
             hue = hue.Wrap(0, 360);
 
-            double saturation = (max == 0) ? 0 : 1.0 - (min / max);
+            double saturation = max.EqualsInTolerance(0) ? 0 : 1.0 - (min / max);
             double value = Math.Max(r, Math.Max(g, b));
 
             return (hue, saturation, value);
