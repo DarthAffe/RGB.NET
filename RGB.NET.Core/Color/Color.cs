@@ -25,6 +25,16 @@ namespace RGB.NET.Core
 
         #region Properties & Fields
 
+        private static IColorBehavior _behavior = DefaultColorBehavior.Instance;
+        /// <summary>
+        /// Gets or sets the <see cref="IColorBehavior"/> used to perform operations on colors.
+        /// </summary>
+        public static IColorBehavior Behavior
+        {
+            get => _behavior;
+            set => _behavior = value ?? DefaultColorBehavior.Instance;
+        }
+
         /// <summary>
         /// Gets the alpha component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
@@ -179,62 +189,29 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <summary>
-        /// Converts the individual byte values of this <see cref="Color"/> to a human-readable string.
+        /// Gets a human-readable string, as defined by the current <see cref="Behavior"/>.
         /// </summary>
-        /// <returns>A string that contains the individual byte values of this <see cref="Color"/>. For example "[A: 255, R: 255, G: 0, B: 0]".</returns>
-        public override string ToString() => $"[A: {this.GetA()}, R: {this.GetR()}, G: {this.GetG()}, B: {this.GetB()}]";
+        /// <returns>A string that contains the individual byte values of this <see cref="Color"/>. Default format: "[A: 255, R: 255, G: 0, B: 0]".</returns>
+        public override string ToString() => Behavior.ToString(this);
 
         /// <summary>
-        /// Tests whether the specified object is a <see cref="Color" /> and is equivalent to this <see cref="Color" />.
+        /// Tests whether the specified object is a <see cref="Color" /> and is equivalent to this <see cref="Color" />, as defined by the current <see cref="Behavior"/>.
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Color" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-        {
-            if (!(obj is Color)) return false;
-
-            (double a, double r, double g, double b) = ((Color)obj).GetRGB();
-            return A.EqualsInTolerance(a) && R.EqualsInTolerance(r) && G.EqualsInTolerance(g) && B.EqualsInTolerance(b);
-        }
+        public override bool Equals(object obj) => Behavior.Equals(this, obj);
 
         /// <summary>
-        /// Returns a hash code for this <see cref="Color" />.
+        /// Returns a hash code for this <see cref="Color" />, as defined by the current <see cref="Behavior"/>.
         /// </summary>
         /// <returns>An integer value that specifies the hash code for this <see cref="Color" />.</returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hashCode = A.GetHashCode();
-                hashCode = (hashCode * 397) ^ R.GetHashCode();
-                hashCode = (hashCode * 397) ^ G.GetHashCode();
-                hashCode = (hashCode * 397) ^ B.GetHashCode();
-                return hashCode;
-            }
-        }
-
-        #region Manipulation
+        public override int GetHashCode() => Behavior.GetHashCode(this);
 
         /// <summary>
-        /// Blends a <see cref="Color"/> over this color.
+        /// Blends a <see cref="Color"/> over this color, as defined by the current <see cref="Behavior"/>.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to blend.</param>
-        public Color Blend(Color color)
-        {
-            if (color.A.EqualsInTolerance(0)) return this;
-
-            if (color.A.EqualsInTolerance(1))
-                return color;
-
-            double resultA = (1.0 - ((1.0 - color.A) * (1.0 - A)));
-            double resultR = (((color.R * color.A) / resultA) + ((R * A * (1.0 - color.A)) / resultA));
-            double resultG = (((color.G * color.A) / resultA) + ((G * A * (1.0 - color.A)) / resultA));
-            double resultB = (((color.B * color.A) / resultA) + ((B * A * (1.0 - color.A)) / resultA));
-
-            return new Color(resultA, resultR, resultG, resultB);
-        }
-
-        #endregion
+        public Color Blend(Color color) => Behavior.Blend(this, color);
 
         #endregion
 
