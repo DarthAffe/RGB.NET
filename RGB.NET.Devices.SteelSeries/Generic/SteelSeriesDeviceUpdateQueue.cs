@@ -2,6 +2,7 @@
 using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.SteelSeries.API;
+using RGB.NET.Devices.SteelSeries.Helper;
 
 namespace RGB.NET.Devices.SteelSeries
 {
@@ -37,7 +38,7 @@ namespace RGB.NET.Devices.SteelSeries
         /// <inheritdoc />
         protected override void Update(Dictionary<object, Color> dataSet)
         {
-            SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToDictionary(x => ((SteelSeriesLedId)x.Key).GetAPIName(), x => new int[] { x.Value.R, x.Value.G, x.Value.B }));
+            SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToDictionary(x => ((SteelSeriesLedId)x.Key).GetAPIName(), x => x.Value.ToIntArray()));
         }
 
         #endregion
