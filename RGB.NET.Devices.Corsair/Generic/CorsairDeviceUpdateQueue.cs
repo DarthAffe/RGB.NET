@@ -46,9 +46,9 @@ namespace RGB.NET.Devices.Corsair
                 _CorsairLedColor color = new _CorsairLedColor
                 {
                     ledId = (int)data.Key,
-                    r = data.Value.R,
-                    g = data.Value.G,
-                    b = data.Value.B
+                    r = data.Value.GetR(),
+                    g = data.Value.GetG(),
+                    b = data.Value.GetB()
                 };
 
                 Marshal.StructureToPtr(color, addPtr, false);

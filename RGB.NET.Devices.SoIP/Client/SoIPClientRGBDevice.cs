@@ -66,7 +66,7 @@ namespace RGB.NET.Devices.SoIP.Client
             List<(LedId, Color)> leds = message.MessageString.Split(';').Select(x =>
                                                                                 {
                                                                                     string[] led = x.Split('|');
-                                                                                    return ((LedId)Enum.Parse(typeof(LedId), led[0]), Color.FromHexString(led[1]));
+                                                                                    return ((LedId)Enum.Parse(typeof(LedId), led[0]), RGBColor.FromHexString(led[1]));
                                                                                 }).ToList();
             lock (_syncbackCache)
                 foreach ((LedId ledId, Color color) in leds)

@@ -158,10 +158,10 @@ namespace RGB.NET.Devices.Logitech
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void SetColor(byte[] bitmap, int offset, Color color)
         {
-            bitmap[offset] = color.B;
-            bitmap[offset + 1] = color.G;
-            bitmap[offset + 2] = color.R;
-            bitmap[offset + 3] = color.A;
+            bitmap[offset] = color.GetB();
+            bitmap[offset + 1] = color.GetG();
+            bitmap[offset + 2] = color.GetR();
+            bitmap[offset + 3] = color.GetA();
         }
 
         #endregion

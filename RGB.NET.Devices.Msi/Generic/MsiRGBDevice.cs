@@ -66,7 +66,7 @@ namespace RGB.NET.Devices.Msi
             {
                 string deviceType = DeviceInfo.MsiDeviceType;
                 foreach (Led led in leds)
-                    _MsiSDK.SetLedColor(deviceType, (int)led.CustomData, led.Color.R, led.Color.G, led.Color.B);
+                    _MsiSDK.SetLedColor(deviceType, (int)led.CustomData, led.Color.GetR(), led.Color.GetG(), led.Color.GetB());
             }
         }
 

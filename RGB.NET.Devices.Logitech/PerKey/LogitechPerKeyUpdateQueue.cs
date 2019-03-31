@@ -51,9 +51,9 @@ namespace RGB.NET.Devices.Logitech
                 }
                 else
                     _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)customData,
-                                                                      (int)Math.Round(data.Value.RPercent * 100),
-                                                                      (int)Math.Round(data.Value.GPercent * 100),
-                                                                      (int)Math.Round(data.Value.BPercent * 100));
+                                                                      (int)Math.Round(data.Value.R * 100),
+                                                                      (int)Math.Round(data.Value.G * 100),
+                                                                      (int)Math.Round(data.Value.B * 100));
             }
 
             if (usesBitmap)
