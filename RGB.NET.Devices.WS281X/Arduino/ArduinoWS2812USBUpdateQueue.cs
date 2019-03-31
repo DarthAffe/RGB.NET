@@ -62,7 +62,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
                 dataBuffer[0] = (byte)((channel << 4) | UPDATE_COMMAND[0]);
                 int i = 1;
                 foreach ((byte _, byte r, byte g, byte b) in channelData.OrderBy(x => x.Item1.key)
-                                                                        .Select(x => x.Value))
+                                                                        .Select(x => x.Value.GetRGBBytes()))
                 {
                     dataBuffer[i++] = r;
                     dataBuffer[i++] = g;

@@ -32,9 +32,9 @@ namespace RGB.NET.Devices.Logitech
             Color color = dataSet.Values.First();
 
             _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.DeviceRGB);
-            _LogitechGSDK.LogiLedSetLighting((int)Math.Round(color.RPercent * 100),
-                                             (int)Math.Round(color.GPercent * 100),
-                                             (int)Math.Round(color.BPercent * 100));
+            _LogitechGSDK.LogiLedSetLighting((int)Math.Round(color.R * 100),
+                                             (int)Math.Round(color.G * 100),
+                                             (int)Math.Round(color.B * 100));
         }
 
         #endregion

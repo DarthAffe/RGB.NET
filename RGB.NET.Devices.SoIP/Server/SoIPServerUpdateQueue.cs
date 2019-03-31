@@ -46,7 +46,7 @@ namespace RGB.NET.Devices.SoIP.Server
             }
         }
 
-        private string GetLedString(Dictionary<object, Color> dataSet) => string.Join(";", dataSet.Select(x => x.Key.ToString() + "|" + x.Value.AsARGBHexString()));
+        private string GetLedString(Dictionary<object, Color> dataSet) => string.Join(";", dataSet.Select(x => x.Key.ToString() + "|" + x.Value.AsARGBHexString(false)));
 
         #endregion
     }
