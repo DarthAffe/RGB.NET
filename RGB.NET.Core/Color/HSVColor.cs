@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+using System;
 
 namespace RGB.NET.Core
 {
@@ -80,8 +82,7 @@ namespace RGB.NET.Core
             (double cHue, double cSaturation, double cValue) = color.GetHSV();
             return Create(color.A, cHue * hue, cSaturation * saturation, cValue * value);
         }
-
-
+        
         /// <summary>
         /// Divides the given HSV values to this color.
         /// </summary>
