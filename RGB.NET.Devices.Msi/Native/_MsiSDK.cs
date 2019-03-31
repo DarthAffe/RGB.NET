@@ -110,51 +110,104 @@ namespace RGB.NET.Devices.Msi.Native
         private delegate int InitializePointer();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetDeviceInfoPointer(out string[] pDevType, out int[] pLedCount);
+        private delegate int GetDeviceInfoPointer(
+            [Out, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_BSTR)] out string[] pDevType,
+            [Out, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_BSTR)] out string[] pLedCount);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetLedInfoPointer(string type, int index, out string pName, out string[] pLedStyles);
+        private delegate int GetLedInfoPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [Out, MarshalAs(UnmanagedType.BStr)] out string pName,
+            [Out, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_BSTR)] out string[] pLedStyles);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetLedColorPointer(string type, int index, out int r, out int g, out int b);
+        private delegate int GetLedColorPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [Out, MarshalAs(UnmanagedType.I4)] out int r,
+            [Out, MarshalAs(UnmanagedType.I4)] out int g,
+            [Out, MarshalAs(UnmanagedType.I4)] out int b);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetLedStylePointer(string type, int index, out int style);
+        private delegate int GetLedStylePointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [Out, MarshalAs(UnmanagedType.BStr)] out string style);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetLedMaxBrightPointer(string type, int index, out int maxLevel);
+        private delegate int GetLedMaxBrightPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [Out, MarshalAs(UnmanagedType.I4)] out int maxLevel);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetLedBrightPointer(string type, int index, out int currentLevel);
+        private delegate int GetLedBrightPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [Out, MarshalAs(UnmanagedType.I4)] out int currentLevel);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetLedMaxSpeedPointer(string type, int index, out int maxSpeed);
+        private delegate int GetLedMaxSpeedPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [Out, MarshalAs(UnmanagedType.I4)] out int maxSpeed);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetLedSpeedPointer(string type, int index, out int currentSpeed);
+        private delegate int GetLedSpeedPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [Out, MarshalAs(UnmanagedType.I4)] out int currentSpeed);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int SetLedColorPointer(string type, int index, int r, int g, int b);
+        private delegate int SetLedColorPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [In, MarshalAs(UnmanagedType.I4)] int r,
+            [In, MarshalAs(UnmanagedType.I4)] int g,
+            [In, MarshalAs(UnmanagedType.I4)] int b);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int SetLedStylePointer(string type, int index, string style);
+        private delegate int SetLedStylePointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [In, MarshalAs(UnmanagedType.BStr)] string style);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int SetLedBrightPointer(string type, int index, int level);
+        private delegate int SetLedBrightPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [In, MarshalAs(UnmanagedType.I4)] int level);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int SetLedSpeedPointer(string type, int index, int speed);
+        private delegate int SetLedSpeedPointer(
+            [In, MarshalAs(UnmanagedType.BStr)] string type,
+            [In, MarshalAs(UnmanagedType.I4)] int index,
+            [In, MarshalAs(UnmanagedType.I4)] int speed);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int GetErrorMessagePointer(int errorCode, out string pDesc);
+        private delegate int GetErrorMessagePointer(
+            [In, MarshalAs(UnmanagedType.I4)] int errorCode,
+            [Out, MarshalAs(UnmanagedType.BStr)] out string pDesc);
 
         #endregion
 
         internal static int Initialize() => _initializePointer();
-        internal static int GetDeviceInfo(out string[] pDevType, out int[] pLedCount) => _getDeviceInfoPointer(out pDevType, out pLedCount);
+        internal static int GetDeviceInfo(out string[] pDevType, out int[] pLedCount)
+        {
+            // HACK - SDK GetDeviceInfo returns a string[] for ledCount, so we'll parse that to int.
+            int result = _getDeviceInfoPointer(out pDevType, out string[] ledCount);
+            pLedCount = new int[ledCount.Length];
+
+            for (int i = 0; i < ledCount.Length; i++)
+                pLedCount[i] = int.Parse(ledCount[i]);
+
+            return result;
+        }
+
         internal static int GetLedInfo(string type, int index, out string pName, out string[] pLedStyles) => _getLedInfoPointer(type, index, out pName, out pLedStyles);
         internal static int GetLedColor(string type, int index, out int r, out int g, out int b) => _getLedColorPointer(type, index, out r, out g, out b);
-        internal static int GetLedStyle(string type, int index, out int style) => _getLedStylePointer(type, index, out style);
+        internal static int GetLedStyle(string type, int index, out string style) => _getLedStylePointer(type, index, out style);
         internal static int GetLedMaxBright(string type, int index, out int maxLevel) => _getLedMaxBrightPointer(type, index, out maxLevel);
         internal static int GetLedBright(string type, int index, out int currentLevel) => _getLedBrightPointer(type, index, out currentLevel);
         internal static int GetLedMaxSpeed(string type, int index, out int maxSpeed) => _getLedMaxSpeedPointer(type, index, out maxSpeed);
