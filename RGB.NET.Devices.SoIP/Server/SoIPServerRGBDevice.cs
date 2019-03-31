@@ -61,7 +61,7 @@ namespace RGB.NET.Devices.SoIP.Server
             tcpClient.GetStream().WriteAsync(messageData, 0, messageData.Length);
         }
 
-        private string GetLedString(IEnumerable<Led> leds) => string.Join(";", leds.Select(x => x.Id.ToString() + "|" + x.Color.AsARGBHexString()));
+        private string GetLedString(IEnumerable<Led> leds) => string.Join(";", leds.Select(x => x.Id.ToString() + "|" + x.Color.AsARGBHexString(false)));
 
         /// <inheritdoc />
         public override void Dispose()

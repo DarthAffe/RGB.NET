@@ -56,9 +56,9 @@ namespace RGB.NET.Devices.Logitech
             {
                 int zone = (int)data.Key;
                 _LogitechGSDK.LogiLedSetLightingForTargetZone(_deviceType, zone,
-                                                              (int)Math.Round(data.Value.RPercent * 100),
-                                                              (int)Math.Round(data.Value.GPercent * 100),
-                                                              (int)Math.Round(data.Value.BPercent * 100));
+                                                              (int)Math.Round(data.Value.R * 100),
+                                                              (int)Math.Round(data.Value.G * 100),
+                                                              (int)Math.Round(data.Value.B * 100));
             }
         }
 

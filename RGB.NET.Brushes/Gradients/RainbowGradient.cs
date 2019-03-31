@@ -73,10 +73,8 @@ namespace RGB.NET.Brushes.Gradients
         public Color GetColor(double offset)
         {
             double range = EndHue - StartHue;
-            double hue = (StartHue + (range * offset)) % 360f;
-            if (hue < 0)
-                hue += 360;
-            return Color.FromHSV(hue, 1, 1);
+            double hue = StartHue + (range * offset);
+            return HSVColor.Create(hue, 1, 1);
         }
 
         /// <inheritdoc />
@@ -87,7 +85,7 @@ namespace RGB.NET.Brushes.Gradients
 
             StartHue += offset;
             EndHue += offset;
-
+            
             while ((StartHue > 360) && (EndHue > 360))
             {
                 StartHue -= 360;

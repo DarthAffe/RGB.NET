@@ -36,7 +36,14 @@ namespace RGB.NET.Core
         /// <param name="max">The higher value of the range the value is clamped to.</param>
         /// <returns>The clamped value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Clamp(this double value, double min, double max) => Math.Max(min, Math.Min(max, value));
+        public static double Clamp(this double value, double min, double max)
+        {
+            // ReSharper disable ConvertIfStatementToReturnStatement - I'm not sure why, but inlining this statement reduces performance by ~10%
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+            // ReSharper restore ConvertIfStatementToReturnStatement
+        }
 
         /// <summary>
         /// Clamps the provided value to be bigger or equal min and smaller or equal max.
@@ -46,7 +53,14 @@ namespace RGB.NET.Core
         /// <param name="max">The higher value of the range the value is clamped to.</param>
         /// <returns>The clamped value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Clamp(this int value, int min, int max) => Math.Max(min, Math.Min(max, value));
+        public static int Clamp(this int value, int min, int max)
+        {
+            // ReSharper disable ConvertIfStatementToReturnStatement - I'm not sure why, but inlining this statement reduces performance by ~10%
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+            // ReSharper restore ConvertIfStatementToReturnStatement
+        }
 
         /// <summary>
         /// Enforces the provided value to be in the specified range by wrapping it around the edges if it exceeds them.
@@ -68,16 +82,20 @@ namespace RGB.NET.Core
 
             return value;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte GetByteValueFromPercentage(this double percentage)
         {
             if (double.IsNaN(percentage)) return 0;
 
             percentage = percentage.Clamp(0, 1.0);
-            return (byte)(percentage.Equals(1.0) ? 255 : percentage * 256.0);
+            return (byte)(percentage >= 1.0 ? 255 : percentage * 256.0);
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double GetPercentageFromByteValue(this byte value)
+            => ((double)value) / byte.MaxValue;
+
         #endregion
     }
 }

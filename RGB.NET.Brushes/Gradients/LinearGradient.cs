@@ -97,10 +97,10 @@ namespace RGB.NET.Brushes.Gradients
             if (!gsBefore.Offset.Equals(gsAfter.Offset))
                 blendFactor = ((offset - gsBefore.Offset) / (gsAfter.Offset - gsBefore.Offset));
 
-            byte colA = (byte)(((gsAfter.Color.A - gsBefore.Color.A) * blendFactor) + gsBefore.Color.A);
-            byte colR = (byte)(((gsAfter.Color.R - gsBefore.Color.R) * blendFactor) + gsBefore.Color.R);
-            byte colG = (byte)(((gsAfter.Color.G - gsBefore.Color.G) * blendFactor) + gsBefore.Color.G);
-            byte colB = (byte)(((gsAfter.Color.B - gsBefore.Color.B) * blendFactor) + gsBefore.Color.B);
+            double colA = ((gsAfter.Color.A - gsBefore.Color.A) * blendFactor) + gsBefore.Color.A;
+            double colR = ((gsAfter.Color.R - gsBefore.Color.R) * blendFactor) + gsBefore.Color.R;
+            double colG = ((gsAfter.Color.G - gsBefore.Color.G) * blendFactor) + gsBefore.Color.G;
+            double colB = ((gsAfter.Color.B - gsBefore.Color.B) * blendFactor) + gsBefore.Color.B;
 
             return new Color(colA, colR, colG, colB);
         }

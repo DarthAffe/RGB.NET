@@ -39,7 +39,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         protected override IEnumerable<string> GetCommands(Dictionary<object, Color> dataSet)
         {
             foreach (KeyValuePair<object, Color> data in dataSet)
-                yield return $"pix {(int)data.Key} {data.Value.AsRGBHexString()}";
+                yield return $"pix {(int)data.Key} {data.Value.AsRGBHexString(false)}";
         }
 
         #endregion

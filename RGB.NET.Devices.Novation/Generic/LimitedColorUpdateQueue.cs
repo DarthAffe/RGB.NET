@@ -40,14 +40,16 @@ namespace RGB.NET.Devices.Novation
         /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
         protected virtual int ConvertColor(Color color)
         {
-            if ((color.Hue >= 330) || (color.Hue < 30))
-                return (int)Math.Ceiling(color.Value * 3); // red with brightness 1, 2 or 3
+            (double hue, double saturation, double value) = color.GetHSV();
 
-            if ((color.Hue >= 30) && (color.Hue < 90)) // yellow with brightness 17, 34 or 51
-                return (int)Math.Ceiling(color.Value * 3) * 17;
+            if ((hue >= 330) || (hue < 30))
+                return (int)Math.Ceiling(value * 3); // red with brightness 1, 2 or 3
 
-            if ((color.Hue >= 90) && (color.Hue < 150)) // green with brightness 16, 32 or 48
-                return (int)Math.Ceiling(color.Value * 3) * 16;
+            if ((hue >= 30) && (hue < 90)) // yellow with brightness 17, 34 or 51
+                return (int)Math.Ceiling(value * 3) * 17;
+
+            if ((hue >= 90) && (hue < 150)) // green with brightness 16, 32 or 48
+                return (int)Math.Ceiling(value * 3) * 16;
 
             return 0;
         }

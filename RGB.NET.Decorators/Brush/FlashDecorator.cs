@@ -77,7 +77,7 @@ namespace RGB.NET.Decorators.Brush
         #region Methods
 
         /// <inheritdoc />
-        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color) => color.SetAPercent(_currentValue);
+        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color) => color.SetA(_currentValue);
 
         /// <inheritdoc />
         protected override void Update(double deltaTime)
