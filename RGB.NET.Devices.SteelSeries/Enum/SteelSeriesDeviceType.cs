@@ -18,6 +18,15 @@
         FourZone,
 
         [APIName("rgb-5-zone")]
-        FiveZone
+        FiveZone,
+
+        [APIName("rgb-6-zone")]
+        SixZone,
+
+        [APIName("rgb-7-zone")]
+        SevenZone,
+
+        [APIName("rgb-8-zone")]
+        EightZone
     }
 }
