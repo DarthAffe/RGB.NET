@@ -12,6 +12,16 @@
         ZoneFour,
         [APIName("five")]
         ZoneFive,
+        [APIName("six")]
+        ZoneSix,
+        [APIName("seven")]
+        ZoneSeven,
+        [APIName("eight")]
+        ZoneEight,
+        [APIName("nine")]
+        ZoneNine,
+        [APIName("ten")]
+        ZoneTen,
 
         [APIName("logo")]
         Logo,
