@@ -49,6 +49,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G703", RGBDeviceType.Mouse, 0xC087, 2, "default", @"Mice\G703"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
                   ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
+                  ("G203", RGBDeviceType.Mouse, 0xC084, 1, "default", @"Mice\G203"),
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
                   ("G633", RGBDeviceType.Headset, 0x0A5C, 2, "default", @"Headsets\G633"),
                   ("G933", RGBDeviceType.Headset, 0x0A5B, 2, "default", @"Headsets\G933"),
