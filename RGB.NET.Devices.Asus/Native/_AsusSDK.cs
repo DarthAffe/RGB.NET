@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using System.Security;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Asus.Native
@@ -184,11 +186,40 @@ namespace RGB.NET.Devices.Asus.Native
 
         // ReSharper disable EventExceptionNotDocumented
 
-        internal static int EnumerateMbController(IntPtr handles, int size) => _enumerateMbControllerPointer(handles, size);
-        internal static int GetMbLedCount(IntPtr handle) => _getMbLedCountPointer(handle);
-        internal static void SetMbMode(IntPtr handle, int mode) => _setMbModePointer(handle, mode);
-        internal static void SetMbColor(IntPtr handle, byte[] colors) => _setMbColorPointer(handle, colors, colors.Length);
+        //HACK DarthAffe 12.05.2019: Using HandleProcessCorruptedStateExceptions and SecurityCritical allows to capture AccessViolationExceptions
+        //                           which is used here to prevent hard crashes on wrong pointers.
+        //                           Since this might cause isntabilities in the running application it's only a workaround and should be fixed in depth.
 
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static int EnumerateMbController(IntPtr handles, int size)
+        {
+            try { return _enumerateMbControllerPointer(handles, size); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static int GetMbLedCount(IntPtr handle)
+        {
+            try { return _getMbLedCountPointer(handle); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetMbMode(IntPtr handle, int mode)
+        {
+            try { _setMbModePointer(handle, mode); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetMbColor(IntPtr handle, byte[] colors)
+        {
+            try { _setMbColorPointer(handle, colors, colors.Length); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
         internal static byte[] GetMbColor(IntPtr handle)
         {
             int count = _getMbColorPointer(handle, IntPtr.Zero, 0);
@@ -200,20 +231,92 @@ namespace RGB.NET.Devices.Asus.Native
             return colors;
         }
 
-        internal static int EnumerateGPU(IntPtr handles, int size) => _enumerateGPUPointer(handles, size);
-        internal static int GetGPULedCount(IntPtr handle) => _getGPULedCountPointer(handle);
-        internal static void SetGPUMode(IntPtr handle, int mode) => _setGPUModePointer(handle, mode);
-        internal static void SetGPUColor(IntPtr handle, byte[] colors) => _setGPUColorPointer(handle, colors, colors.Length);
 
-        internal static bool CreateClaymoreKeyboard(IntPtr handle) => _createClaymoreKeyboardPointer(handle);
-        internal static int GetClaymoreKeyboardLedCount(IntPtr handle) => _getClaymoreKeyboardLedCountPointer(handle);
-        internal static void SetClaymoreKeyboardMode(IntPtr handle, int mode) => _setClaymoreKeyboardModePointer(handle, mode);
-        internal static void SetClaymoreKeyboardColor(IntPtr handle, byte[] colors) => _setClaymoreKeyboardColorPointer(handle, colors, colors.Length);
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static int EnumerateGPU(IntPtr handles, int size)
+        {
+            try { return _enumerateGPUPointer(handles, size); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
 
-        internal static bool CreateRogMouse(IntPtr handle) => _enumerateRogMousePointer(handle);
-        internal static int GetRogMouseLedCount(IntPtr handle) => _getRogMouseLedCountPointer(handle);
-        internal static void SetRogMouseMode(IntPtr handle, int mode) => _setRogMouseModePointer(handle, mode);
-        internal static void SetRogMouseColor(IntPtr handle, byte[] colors) => _setRogMouseColorPointer(handle, colors, colors.Length);
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static int GetGPULedCount(IntPtr handle)
+        {
+            try { return _getGPULedCountPointer(handle); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetGPUMode(IntPtr handle, int mode)
+        {
+            try { _setGPUModePointer(handle, mode); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetGPUColor(IntPtr handle, byte[] colors)
+        {
+            try { _setGPUColorPointer(handle, colors, colors.Length); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static bool CreateClaymoreKeyboard(IntPtr handle)
+        {
+            try { return _createClaymoreKeyboardPointer(handle); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static int GetClaymoreKeyboardLedCount(IntPtr handle)
+        {
+            try { return _getClaymoreKeyboardLedCountPointer(handle); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetClaymoreKeyboardMode(IntPtr handle, int mode)
+        {
+            try { _setClaymoreKeyboardModePointer(handle, mode); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetClaymoreKeyboardColor(IntPtr handle, byte[] colors)
+        {
+            try { _setClaymoreKeyboardColorPointer(handle, colors, colors.Length); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static bool CreateRogMouse(IntPtr handle)
+        {
+            try { return _enumerateRogMousePointer(handle); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static int GetRogMouseLedCount(IntPtr handle)
+        {
+            try { return _getRogMouseLedCountPointer(handle); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetRogMouseMode(IntPtr handle, int mode)
+        {
+            try { _setRogMouseModePointer(handle, mode); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
+
+        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]
+        internal static void SetRogMouseColor(IntPtr handle, byte[] colors)
+        {
+            try { _setRogMouseColorPointer(handle, colors, colors.Length); } catch (Exception ex) { throw new RGBDeviceException(ex.Message); };
+        }
 
         //internal static int EnumerateDram(IntPtr handles, int size) => _enumerateDramPointer(handles, size);
         //internal static int GetDramLedCount(IntPtr handle) => _getDramLedCountPointer(handle);
