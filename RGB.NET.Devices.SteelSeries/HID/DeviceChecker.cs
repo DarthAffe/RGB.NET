@@ -148,7 +148,7 @@ namespace RGB.NET.Devices.SteelSeries.HID
             ("Rival 500", RGBDeviceType.Mouse, 0x170E, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival500", MOUSE_TWO_ZONE),
             ("Rival 310", RGBDeviceType.Mouse, 0x1720, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival310", MOUSE_TWO_ZONE),
 
-            ("Apex M750", RGBDeviceType.Keyboard, 0x1724, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\M750", KEYBOARD_MAPPING_UK),
+            ("Apex M750", RGBDeviceType.Keyboard, 0x1724, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\M750\UK", KEYBOARD_MAPPING_UK),
         };
 
         #endregion
