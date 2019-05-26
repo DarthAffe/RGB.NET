@@ -19,6 +19,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G910", RGBDeviceType.Keyboard, 0xC32B, 0, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
                   ("G810", RGBDeviceType.Keyboard, 0xC337, 0, "DE", @"Keyboards\G810\UK"),
                   ("G610", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
+                  ("G410", RGBDeviceType.Keyboard, 0xC330, 0, "DE", @"Keyboards\G410\UK"),
                   ("G213", RGBDeviceType.Keyboard, 0xC336, 0, "DE", @"Keyboards\G213\UK"),
                   ("Pro", RGBDeviceType.Keyboard, 0xC339, 0, "DE", @"Keyboards\Pro\UK"),
               };
@@ -30,6 +31,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G19s", RGBDeviceType.Keyboard, 0xC229, 0, "DE", @"Keyboards\G19s\UK"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, 0, "default", @"Mice\G502"),
                   ("G600", RGBDeviceType.Mouse, 0xC24A, 0, "default", @"Mice\G600"),
+                  ("G300s", RGBDeviceType.Mouse, 0xC246, 0, "default", @"Mice\G300s"),
                   ("G510", RGBDeviceType.Keyboard, 0xC22D, 0, "DE", @"Keyboards\G510\UK"),
                   ("G510s", RGBDeviceType.Keyboard, 0xC22E, 0, "DE", @"Keyboards\G510s\UK"),
                   ("G13", RGBDeviceType.Keypad, 0xC21C, 0, "DE", @"Keypads\G13\UK"),
@@ -48,6 +50,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G703", RGBDeviceType.Mouse, 0xC087, 2, "default", @"Mice\G703"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
                   ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
+                  ("G203", RGBDeviceType.Mouse, 0xC084, 1, "default", @"Mice\G203"),
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
                   ("G633", RGBDeviceType.Headset, 0x0A5C, 2, "default", @"Headsets\G633"),
                   ("G933", RGBDeviceType.Headset, 0x0A5B, 2, "default", @"Headsets\G933"),
