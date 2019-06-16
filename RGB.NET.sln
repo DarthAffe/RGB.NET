@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presets", "Presets", "{EBC3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Core", "RGB.NET.Core\RGB.NET.Core.csproj", "{F3ED5768-7251-4347-8D8F-2866313DA658}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Asus", "RGB.NET.Devices.Asus\RGB.NET.Devices.Asus.csproj", "{105FD573-D165-49D1-B8EC-937570616F29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Asus_Legacy", "RGB.NET.Devices.Asus_Legacy\RGB.NET.Devices.Asus_Legacy.csproj", "{105FD573-D165-49D1-B8EC-937570616F29}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.CoolerMaster", "RGB.NET.Devices.CoolerMaster\RGB.NET.Devices.CoolerMaster.csproj", "{E8F927F5-E7CF-464A-B9AE-824C2B29A7D1}"
 EndProject
@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.SteelSeries
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{92D7C263-D4C9-4D26-93E2-93C1F9C2CD16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Core.Tests", "Tests\RGB.NET.Core.Tests\RGB.NET.Core.Tests.csproj", "{A3FD5AD7-040A-47CA-A278-53493A25FF8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Core.Tests", "Tests\RGB.NET.Core.Tests\RGB.NET.Core.Tests.csproj", "{A3FD5AD7-040A-47CA-A278-53493A25FF8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

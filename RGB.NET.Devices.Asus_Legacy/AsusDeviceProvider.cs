@@ -15,6 +15,7 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a device provider responsible for Cooler Master devices.
     /// </summary>
+    [Obsolete("Use this only if you need syncback-capability")]
     public class AsusDeviceProvider : IRGBDeviceProvider
     {
         #region Properties & Fields

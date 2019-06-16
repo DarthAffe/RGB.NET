@@ -8,11 +8,11 @@
     <Language>en-US</Language>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Title>RGB.NET.Devices.Asus</Title>
-    <AssemblyName>RGB.NET.Devices.Asus</AssemblyName>
+    <AssemblyName>RGB.NET.Devices.Asus_Legacy</AssemblyName>
     <AssemblyTitle>RGB.NET.Devices.Asus</AssemblyTitle>
-    <PackageId>RGB.NET.Devices.Asus</PackageId>
+    <PackageId>RGB.NET.Devices.Asus_Legacy</PackageId>
     <RootNamespace>RGB.NET.Devices.Asus</RootNamespace>
-    <Description>Asus-Device-Implementations of RGB.NET</Description>
+    <Description>Asus-Device-Implementations of RGB.NET based on the v2-SDK</Description>
     <Summary>Asus-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
     <Copyright>Copyright © Wyrez 2017</Copyright>
     <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
