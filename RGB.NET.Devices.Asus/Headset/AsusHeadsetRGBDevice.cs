@@ -4,18 +4,18 @@ namespace RGB.NET.Devices.Asus
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a Asus mainboard.
+    /// Represents a Asus headset.
     /// </summary>
-    public class AsusMainboardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
+    public class AsusHeadsetRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
     {
         #region Constructors
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusMainboardRGBDevice" /> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusHeadsetRGBDevice" /> class.
         /// </summary>
-        /// <param name="info">The specific information provided by Asus for the mainboard.</param>
-        internal AsusMainboardRGBDevice(AsusRGBDeviceInfo info)
+        /// <param name="info">The specific information provided by Asus for the headset.</param>
+        internal AsusHeadsetRGBDevice(AsusRGBDeviceInfo info)
             : base(info)
         { }
 
@@ -29,14 +29,14 @@ namespace RGB.NET.Devices.Asus
             //TODO DarthAffe 07.10.2017: Look for a good default layout
             int ledCount = DeviceInfo.Device.Lights.Count;
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(LedId.Mainboard1 + i, new Rectangle(i * 40, 0, 40, 8));
+                InitializeLed(LedId.Headset1 + i, new Rectangle(i * 40, 0, 40, 8));
 
             //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Mainboards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Headsets\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mainboard1;
+        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Headset1;
 
         #endregion
     }

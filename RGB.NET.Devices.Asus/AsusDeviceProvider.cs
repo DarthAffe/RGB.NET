@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Runtime.InteropServices;
+using AuraServiceLib;
 using RGB.NET.Core;
-using RGB.NET.Devices.Asus.Native;
 
 namespace RGB.NET.Devices.Asus
 {
@@ -25,28 +24,11 @@ namespace RGB.NET.Devices.Asus
         /// </summary>
         public static AsusDeviceProvider Instance => _instance ?? new AsusDeviceProvider();
 
-        /// <summary>
-        /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
-        /// The first match will be used.
-        /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/AURA_SDK.dll" };
-
-        /// <summary>
-        /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
-        /// The first match will be used.
-        /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> { };
-
         /// <inheritdoc />
         /// <summary>
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
         public bool IsInitialized { get; private set; }
-
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        public string LoadedArchitecture => _AsusSDK.LoadedArchitecture;
 
         /// <inheritdoc />
         /// <summary>
@@ -67,6 +49,8 @@ namespace RGB.NET.Devices.Asus
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for asus devices. 
         /// </summary>
         public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+
+        private IAuraSdk2 _sdk;
 
         #endregion
 
@@ -97,137 +81,73 @@ namespace RGB.NET.Devices.Asus
             {
                 UpdateTrigger?.Stop();
 
-                _AsusSDK.Reload();
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                _sdk = (IAuraSdk2)new AuraSdk();
+                _sdk.SwitchMode();
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
-
-                #region Mainboard
-
-                if (loadFilter.HasFlag(RGBDeviceType.Mainboard))
+                foreach (IAuraSyncDevice device in _sdk.Enumerate(0))
+                {
                     try
                     {
-                        //TODO DarthAffe 26.11.2017: This is not a fix! There might really be a second controller on the mainboard, but for now this should prevent the random crash for some guys.
-                        // DarthAffe 26.11.2017: https://rog.asus.com/forum/showthread.php?97754-Access-Violation-Wrong-EnumerateMB-Result&p=688901#post688901
-                        int mainboardCount = Math.Min(1, _AsusSDK.EnumerateMbController(IntPtr.Zero, 0));
-                        if (mainboardCount > 0)
+                        IAsusRGBDevice rgbDevice = null;
+                        switch (device.Type)
                         {
-                            IntPtr mainboardHandles = Marshal.AllocHGlobal(mainboardCount * IntPtr.Size);
-                            _AsusSDK.EnumerateMbController(mainboardHandles, mainboardCount);
+                            case 0x00010000: //Motherboard
+                                rgbDevice = new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, WMIHelper.GetMainboardInfo()?.model ?? device.Name));
+                                break;
 
-                            for (int i = 0; i < mainboardCount; i++)
-                            {
-                                try
-                                {
-                                    IntPtr handle = Marshal.ReadIntPtr(mainboardHandles, i);
-                                    _AsusSDK.SetMbMode(handle, 1);
-                                    AsusMainboardRGBDevice device = new AsusMainboardRGBDevice(new AsusMainboardRGBDeviceInfo(RGBDeviceType.Mainboard, handle));
-                                    device.Initialize(UpdateTrigger);
-                                    devices.Add(device);
-                                }
-                                catch { if (throwExceptions) throw; }
-                            }
+                            case 0x00011000: //Motherboard LED Strip
+                                rgbDevice = new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.LedStripe, device), LedId.LedStripe1);
+                                break;
+
+                            case 0x00020000: //VGA
+                                rgbDevice = new AsusGraphicsCardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.GraphicsCard, device));
+                                break;
+
+                            case 0x00040000: //Headset
+                                rgbDevice = new AsusHeadsetRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Headset, device));
+                                break;
+
+                            case 0x00070000: //DRAM
+                                rgbDevice = new AsusDramRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.DRAM, device));
+                                break;
+
+                            case 0x00080000: //Keyboard
+                            case 0x00081000: //Notebook Keyboard
+                            case 0x00081001: //Notebook Keyboard(4 - zone type)
+                                rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device, CultureInfo.CurrentCulture));
+                                break;
+
+                            case 0x00090000: //Mouse
+                                rgbDevice = new AsusMouseRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mouse, device));
+                                break;
+
+                            case 0x00000000: //All
+                            case 0x00012000: //All - In - One PC
+                            case 0x00030000: //Display
+                            case 0x00050000: //Microphone
+                            case 0x00060000: //External HDD
+                            case 0x00061000: //External BD Drive
+                            case 0x000B0000: //Chassis
+                            case 0x000C0000: //Projector
+                                rgbDevice = new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Unknown, device), LedId.Custom1);
+                                break;
+                        }
+
+                        if ((rgbDevice != null) && loadFilter.HasFlag(rgbDevice.DeviceInfo.DeviceType))
+                        {
+                            rgbDevice.Initialize(UpdateTrigger);
+                            devices.Add(rgbDevice);
                         }
                     }
-                    catch { if (throwExceptions) throw; }
-
-                #endregion
-
-                #region Graphics cards
-
-                //TODO DarthAffe 21.10.2017: This somehow returns non-existant gpus (at least for me) which cause huge lags (if a real asus-ready gpu is connected this doesn't happen)
-
-                if (loadFilter.HasFlag(RGBDeviceType.GraphicsCard))
-                    try
+                    catch
                     {
-                        int graphicCardCount = _AsusSDK.EnumerateGPU(IntPtr.Zero, 0);
-                        if (graphicCardCount > 0)
-                        {
-                            IntPtr grapicsCardHandles = Marshal.AllocHGlobal(graphicCardCount * IntPtr.Size);
-                            _AsusSDK.EnumerateGPU(grapicsCardHandles, graphicCardCount);
-
-                            for (int i = 0; i < graphicCardCount; i++)
-                            {
-                                try
-                                {
-                                    IntPtr handle = Marshal.ReadIntPtr(grapicsCardHandles, i);
-                                    _AsusSDK.SetGPUMode(handle, 1);
-                                    AsusGraphicsCardRGBDevice device = new AsusGraphicsCardRGBDevice(new AsusGraphicsCardRGBDeviceInfo(RGBDeviceType.GraphicsCard, handle));
-                                    device.Initialize(UpdateTrigger);
-                                    devices.Add(device);
-                                }
-                                catch { if (throwExceptions) throw; }
-                            }
-                        }
+                        if (throwExceptions)
+                            throw;
                     }
-                    catch { if (throwExceptions) throw; }
+                }
 
-                #endregion
-
-                #region DRAM
-
-                //TODO DarthAffe 29.10.2017: I don't know why they are even documented, but the asus guy said they aren't in the SDK right now.
-                //try
-                //{
-                //int dramCount = _AsusSDK.EnumerateDram(IntPtr.Zero, 0);
-                //if (dramCount > 0)
-                //{
-                //    IntPtr dramHandles = Marshal.AllocHGlobal(dramCount * IntPtr.Size);
-                //    _AsusSDK.EnumerateDram(dramHandles, dramCount);
-
-                //    for (int i = 0; i < dramCount; i++)
-                //    {
-                //try
-                //{
-                //        IntPtr handle = Marshal.ReadIntPtr(dramHandles, i);
-                //        _AsusSDK.SetDramMode(handle, 1);
-                //        AsusDramRGBDevice device = new AsusDramRGBDevice(new AsusDramRGBDeviceInfo(RGBDeviceType.DRAM, handle));
-                //        device.Initialize(UpdateTrigger);
-                //        devices.Add(device);
-                //    }
-                //catch { if (throwExceptions) throw; }
-                //    }
-                //}
-                //}
-                //    catch { if (throwExceptions) throw; }
-
-                #endregion
-
-                #region Keyboard
-
-                if (loadFilter.HasFlag(RGBDeviceType.Keyboard))
-                    try
-                    {
-                        IntPtr keyboardHandle = Marshal.AllocHGlobal(IntPtr.Size);
-                        if (_AsusSDK.CreateClaymoreKeyboard(keyboardHandle))
-                        {
-                            _AsusSDK.SetClaymoreKeyboardMode(keyboardHandle, 1);
-                            AsusKeyboardRGBDevice device = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(RGBDeviceType.Keyboard, keyboardHandle, GetCulture()));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                    }
-                    catch { if (throwExceptions) throw; }
-
-                #endregion
-
-                #region Mouse
-
-                if (loadFilter.HasFlag(RGBDeviceType.Mouse))
-                    try
-                    {
-                        IntPtr mouseHandle = Marshal.AllocHGlobal(IntPtr.Size);
-                        if (_AsusSDK.CreateRogMouse(mouseHandle))
-                        {
-                            _AsusSDK.SetRogMouseMode(mouseHandle, 1);
-                            AsusMouseRGBDevice device = new AsusMouseRGBDevice(new AsusMouseRGBDeviceInfo(RGBDeviceType.Mouse, mouseHandle));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                    }
-                    catch { if (throwExceptions) throw; }
-
-                #endregion
-                
                 UpdateTrigger?.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
@@ -239,34 +159,22 @@ namespace RGB.NET.Devices.Asus
                     throw;
                 return false;
             }
-
             return true;
         }
 
         /// <inheritdoc />
         public void ResetDevices()
         {
-            foreach (IRGBDevice device in Devices)
-            {
-                AsusRGBDeviceInfo deviceInfo = (AsusRGBDeviceInfo)device.DeviceInfo;
-                switch (deviceInfo.DeviceType)
-                {
-                    case RGBDeviceType.Mainboard:
-                        _AsusSDK.SetMbMode(deviceInfo.Handle, 0);
-                        break;
-                    case RGBDeviceType.GraphicsCard:
-                        _AsusSDK.SetGPUMode(deviceInfo.Handle, 0);
-                        break;
-                        //case RGBDeviceType.DRAM:
-                        //    _AsusSDK.SetDramMode(deviceInfo.Handle, 0);
-                        //    break;
-                }
-            }
+            _sdk?.ReleaseControl(0);
+            _sdk?.SwitchMode();
         }
 
         /// <inheritdoc />
         public void Dispose()
-        { }
+        {
+            _sdk?.ReleaseControl(0);
+            _sdk = null;
+        }
 
         #endregion
     }

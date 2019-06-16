@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AuraServiceLib;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Asus
@@ -13,13 +14,9 @@ namespace RGB.NET.Devices.Asus
         #region Properties & Fields
 
         /// <summary>
-        /// Gets or sets the internal color-data cache.
+        /// The device to be updated.
         /// </summary>
-        // ReSharper disable once MemberCanBePrivate.Global
-        protected byte[] ColorData { get; private set; }
-
-        private Action<IntPtr, byte[]> _updateAction;
-        private IntPtr _handle;
+        protected IAuraSyncDevice Device { get; private set; }
 
         #endregion
 
@@ -40,29 +37,31 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// Initializes the queue.
         /// </summary>
-        /// <param name="updateAction">The update-action called by the queue to perform updates.</param>
-        /// <param name="handle">The handle of the device this queue performs updates for.</param>
-        /// <param name="ledCount">The amount of leds of the device this queue performs updates for.</param>
-        public void Initialize(Action<IntPtr, byte[]> updateAction, IntPtr handle, int ledCount)
+        /// <param name="device">The device to be updated.</param>
+        public void Initialize(IAuraSyncDevice device)
         {
-            _updateAction = updateAction;
-            _handle = handle;
-
-            ColorData = new byte[ledCount * 3];
+            Device = device;
         }
 
         /// <inheritdoc />
         protected override void Update(Dictionary<object, Color> dataSet)
         {
-            foreach (KeyValuePair<object, Color> data in dataSet)
+            try
             {
-                int index = ((int)data.Key) * 3;
-                ColorData[index] = data.Value.GetR();
-                ColorData[index + 1] = data.Value.GetB();
-                ColorData[index + 2] = data.Value.GetG();
-            }
+                foreach (KeyValuePair<object, Color> data in dataSet)
+                {
+                    int index = (int)data.Key;
+                    IAuraRgbLight light = Device.Lights[index];
+                    (_, byte r, byte g, byte b) = data.Value.GetRGBBytes();
+                    light.Red = r;
+                    light.Green = g;
+                    light.Blue = b;
+                }
 
-            _updateAction(_handle, ColorData);
+                Device.Apply();
+            }
+            catch (Exception ex)
+            { /* "The server threw an exception." seems to be a thing here ... */ }
         }
 
         #endregion

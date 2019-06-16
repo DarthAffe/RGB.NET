@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Asus
@@ -57,7 +59,7 @@ namespace RGB.NET.Devices.Asus
             }
 
             UpdateQueue = new AsusUpdateQueue(updateTrigger);
-            UpdateQueue.Initialize(DeviceInfo.Device);
+            UpdateQueue.Initialize(GetUpdateColorAction(), DeviceInfo.Handle, LedMapping.Count);
         }
 
         /// <summary>
@@ -68,16 +70,20 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
-        /// <inheritdoc />
-        public override void SyncBack()
+        /// <summary>
+        /// Gets a action to update the physical device.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Action<IntPtr, byte[]> GetUpdateColorAction();
+
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
+        public override void Dispose()
         {
-            // DarthAffe 16.06.2019: This doesn't work since the SDK only returns the colors we set.
-            //foreach (Led led in LedMapping.Values)
-            //{
-            //    int index = (int)led.CustomData;
-            //    IAuraRgbLight light = DeviceInfo.Device.Lights[index];
-            //    SetLedColorWithoutRequest(led, new Color(light.Red, light.Green, light.Blue));
-            //}
+            if ((DeviceInfo is AsusRGBDeviceInfo deviceInfo) && (deviceInfo.Handle != IntPtr.Zero))
+                Marshal.FreeHGlobal(deviceInfo.Handle);
+
+            base.Dispose();
         }
 
         #endregion
