@@ -70,6 +70,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_PackageFiles Include="$(OutputPath)\net45\Interop.AuraServiceLib.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\net45\</PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_PackageFiles Include="$(OutputPath)\netstandard2.0\Interop.AuraServiceLib.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\netstandard2.0\</PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
   </ItemGroup>
 
