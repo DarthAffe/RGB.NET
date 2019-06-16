@@ -14,11 +14,6 @@ namespace RGB.NET.Core
         None = 0,
 
         /// <summary>
-        /// Represents a device where the type is not known or not present in the list.
-        /// </summary>
-        Unknown = -1,
-
-        /// <summary>
         /// Represents a keyboard.
         /// </summary>
         Keyboard = 1 << 0,
@@ -87,6 +82,11 @@ namespace RGB.NET.Core
         /// Represents a cooler.
         /// </summary>
         Cooler = 1 << 13,
+
+        /// <summary>
+        /// Represents a device where the type is not known or not present in the list.
+        /// </summary>
+        Unknown = 1 << 31,
 
         /// <summary>
         /// Represents all devices.
