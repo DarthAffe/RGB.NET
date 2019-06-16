@@ -59,17 +59,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <COMReference Include="AuraServiceLib.dll">
-      <Guid>f1aa5209-5217-4b82-ba7e-a68198999afa</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-    </COMReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <_PackageFiles Include="$(OutputPath)\net45\Interop.AuraServiceLib.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>lib\net45\</PackagePath>
@@ -90,5 +79,11 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="System.Management" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Interop.AuraServiceLib">
+      <HintPath>lib\Interop.AuraServiceLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
