@@ -8,11 +8,11 @@
     <Language>en-US</Language>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Title>RGB.NET.Devices.Asus</Title>
-    <AssemblyName>RGB.NET.Devices.Asus</AssemblyName>
+    <AssemblyName>RGB.NET.Devices.Asus_Legacy</AssemblyName>
     <AssemblyTitle>RGB.NET.Devices.Asus</AssemblyTitle>
-    <PackageId>RGB.NET.Devices.Asus</PackageId>
+    <PackageId>RGB.NET.Devices.Asus_Legacy</PackageId>
     <RootNamespace>RGB.NET.Devices.Asus</RootNamespace>
-    <Description>Asus-Device-Implementations of RGB.NET</Description>
+    <Description>Asus-Device-Implementations of RGB.NET based on the v2-SDK</Description>
     <Summary>Asus-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
     <Copyright>Copyright © Wyrez 2017</Copyright>
     <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
@@ -57,31 +57,6 @@
     <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
   </PropertyGroup>
-
-  <ItemGroup>
-    <COMReference Include="AuraServiceLib.dll">
-      <Guid>f1aa5209-5217-4b82-ba7e-a68198999afa</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-    </COMReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <_PackageFiles Include="$(OutputPath)\net45\Interop.AuraServiceLib.dll">
-      <BuildAction>None</BuildAction>
-      <PackagePath>lib\net45\</PackagePath>
-    </_PackageFiles>
-  </ItemGroup>
-
-  <ItemGroup>
-    <_PackageFiles Include="$(OutputPath)\netstandard2.0\Interop.AuraServiceLib.dll">
-      <BuildAction>None</BuildAction>
-      <PackagePath>lib\netstandard2.0\</PackagePath>
-    </_PackageFiles>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />

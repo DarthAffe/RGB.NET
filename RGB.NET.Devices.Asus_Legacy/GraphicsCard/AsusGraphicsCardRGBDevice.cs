@@ -1,4 +1,6 @@
-﻿using RGB.NET.Core;
+﻿using System;
+using RGB.NET.Core;
+using RGB.NET.Devices.Asus.Native;
 
 namespace RGB.NET.Devices.Asus
 {
@@ -6,7 +8,7 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a Asus graphicsCard.
     /// </summary>
-    public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
+    public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusGraphicsCardRGBDeviceInfo>
     {
         #region Constructors
 
@@ -15,7 +17,7 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusGraphicsCardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Asus for the graphics card.</param>
-        internal AsusGraphicsCardRGBDevice(AsusRGBDeviceInfo info)
+        internal AsusGraphicsCardRGBDevice(AsusGraphicsCardRGBDeviceInfo info)
             : base(info)
         { }
 
@@ -27,7 +29,7 @@ namespace RGB.NET.Devices.Asus
         protected override void InitializeLayout()
         {
             //TODO DarthAffe 07.10.2017: Look for a good default layout
-            int ledCount = DeviceInfo.Device.Lights.Count;
+            int ledCount = _AsusSDK.GetGPULedCount(DeviceInfo.Handle);
             for (int i = 0; i < ledCount; i++)
                 InitializeLed(LedId.GraphicsCard1 + i, new Rectangle(i * 10, 0, 10, 10));
 
@@ -37,6 +39,9 @@ namespace RGB.NET.Devices.Asus
 
         /// <inheritdoc />
         protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.GraphicsCard1;
+
+        /// <inheritdoc />
+        protected override Action<IntPtr, byte[]> GetUpdateColorAction() => _AsusSDK.SetGPUColor;
 
         #endregion
     }

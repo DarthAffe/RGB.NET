@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using AuraServiceLib;
+﻿using System;
+using System.Globalization;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Asus
@@ -11,6 +11,9 @@ namespace RGB.NET.Devices.Asus
     public class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo
     {
         #region Properties & Fields
+
+        /// <inheritdoc />
+        public override bool SupportsSyncBack => false;
 
         /// <summary>
         /// Gets the physical layout of the keyboard.
@@ -30,10 +33,11 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDeviceInfo" />.
         /// </summary>
-        /// <param name="device">The <see cref="IAuraSyncDevice"/> backing this RGB.NET device.</param>
+        /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
+        /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using.</param>
-        internal AsusKeyboardRGBDeviceInfo(IAuraSyncDevice device, CultureInfo culture)
-            : base(RGBDeviceType.Keyboard, device, "Claymore")
+        internal AsusKeyboardRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, CultureInfo culture)
+            : base(deviceType, handle, "Claymore")
         {
             SetLayouts(culture.KeyboardLayoutId);
         }

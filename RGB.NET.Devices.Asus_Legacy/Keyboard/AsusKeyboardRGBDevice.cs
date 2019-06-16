@@ -1,4 +1,6 @@
-﻿using RGB.NET.Core;
+﻿using System;
+using RGB.NET.Core;
+using RGB.NET.Devices.Asus.Native;
 
 namespace RGB.NET.Devices.Asus
 {
@@ -27,7 +29,7 @@ namespace RGB.NET.Devices.Asus
         protected override void InitializeLayout()
         {
             //TODO DarthAffe 07.10.2017: This doesn't make sense at all ... Find someone with such a keyboard!
-            int ledCount = DeviceInfo.Device.Lights.Count;
+            int ledCount = _AsusSDK.GetClaymoreKeyboardLedCount(DeviceInfo.Handle);
             for (int i = 0; i < ledCount; i++)
                 InitializeLed(LedId.Keyboard_Escape + i, new Rectangle(i * 19, 0, 19, 19));
 
@@ -38,6 +40,9 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keyboard_Escape;
         
+        /// <inheritdoc />
+        protected override Action<IntPtr, byte[]> GetUpdateColorAction() => _AsusSDK.SetClaymoreKeyboardColor;
+
         #endregion
     }
 }

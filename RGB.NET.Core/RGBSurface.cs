@@ -250,7 +250,7 @@ namespace RGB.NET.Core
         /// <param name="deviceType">The <see cref="RGBDeviceType"/> of the devices to get.</param>
         /// <returns>a list of devices matching the specified <see cref="RGBDeviceType"/>.</returns>
         public IList<IRGBDevice> GetDevices(RGBDeviceType deviceType)
-            => new ReadOnlyCollection<IRGBDevice>(_devices.Where(x => x.DeviceInfo.DeviceType == deviceType).ToList());
+            => new ReadOnlyCollection<IRGBDevice>(_devices.Where(d => deviceType.HasFlag(d.DeviceInfo.DeviceType)).ToList());
 
         /// <summary>
         /// Registers the provided <see cref="IUpdateTrigger"/>.

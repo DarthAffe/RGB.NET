@@ -1,5 +1,4 @@
 ﻿using System;
-using AuraServiceLib;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Asus
@@ -8,7 +7,7 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a generic information for a Corsair-<see cref="T:RGB.NET.Core.IRGBDevice" />.
     /// </summary>
-    public class AsusRGBDeviceInfo : IRGBDeviceInfo
+    public abstract class AsusRGBDeviceInfo : IRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -31,9 +30,12 @@ namespace RGB.NET.Devices.Asus
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
         /// <inheritdoc />
-        public bool SupportsSyncBack => false;
+        public abstract bool SupportsSyncBack { get; }
 
-        public IAuraSyncDevice Device { get; }
+        /// <summary>
+        /// Gets the index of the <see cref="AsusRGBDevice{TDeviceInfo}"/>.
+        /// </summary>
+        internal IntPtr Handle { get; }
 
         #endregion
 
@@ -43,14 +45,14 @@ namespace RGB.NET.Devices.Asus
         /// Internal constructor of managed <see cref="AsusRGBDeviceInfo"/>.
         /// </summary>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
-        /// <param name="device">The <see cref="IAuraSyncDevice"/> backing this RGB.NET device.</param>
+        /// <param name="handle">The handle of the <see cref="IRGBDevice"/>.</param>
         /// <param name="manufacturer">The manufacturer-name of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The model-name of the <see cref="IRGBDevice"/>.</param>
-        internal AsusRGBDeviceInfo(RGBDeviceType deviceType, IAuraSyncDevice device, string model = null, string manufacturer = "Asus")
+        internal AsusRGBDeviceInfo(RGBDeviceType deviceType, IntPtr handle, string model = "Generic Asus-Device", string manufacturer = "Asus")
         {
             this.DeviceType = deviceType;
-            this.Device = device;
-            this.Model = model ?? device.Name;
+            this.Handle = handle;
+            this.Model = model;
             this.Manufacturer = manufacturer;
 
             DeviceName = $"{Manufacturer} {Model}";
