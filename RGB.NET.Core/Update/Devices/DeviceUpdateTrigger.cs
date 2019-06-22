@@ -53,12 +53,12 @@ namespace RGB.NET.Core
             }
         }
 
-        private AutoResetEvent _hasDataEvent = new AutoResetEvent(false);
+        protected AutoResetEvent HasDataEvent = new AutoResetEvent(false);
 
-        private bool _isRunning;
-        private Task _updateTask;
-        private CancellationTokenSource _updateTokenSource;
-        private CancellationToken _updateToken;
+        protected bool IsRunning;
+        protected Task UpdateTask;
+        protected CancellationTokenSource UpdateTokenSource;
+        protected CancellationToken UpdateToken;
 
         #endregion
 
@@ -88,13 +88,13 @@ namespace RGB.NET.Core
         /// </summary>
         public void Start()
         {
-            if (_isRunning) return;
+            if (IsRunning) return;
 
-            _isRunning = true;
+            IsRunning = true;
 
-            _updateTokenSource?.Dispose();
-            _updateTokenSource = new CancellationTokenSource();
-            _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            UpdateTokenSource?.Dispose();
+            UpdateTokenSource = new CancellationTokenSource();
+            UpdateTask = Task.Factory.StartNew(UpdateLoop, (UpdateToken = UpdateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
         /// <summary>
@@ -102,22 +102,22 @@ namespace RGB.NET.Core
         /// </summary>
         public async void Stop()
         {
-            if (!_isRunning) return;
+            if (!IsRunning) return;
 
-            _isRunning = false;
+            IsRunning = false;
 
-            _updateTokenSource.Cancel();
-            await _updateTask;
-            _updateTask.Dispose();
-            _updateTask = null;
+            UpdateTokenSource.Cancel();
+            await UpdateTask;
+            UpdateTask.Dispose();
+            UpdateTask = null;
         }
 
-        private void UpdateLoop()
+        protected virtual void UpdateLoop()
         {
             OnStartup();
-            while (!_updateToken.IsCancellationRequested)
+            while (!UpdateToken.IsCancellationRequested)
             {
-                if (_hasDataEvent.WaitOne(Timeout))
+                if (HasDataEvent.WaitOne(Timeout))
                 {
                     long preUpdateTicks = Stopwatch.GetTimestamp();
 
@@ -135,7 +135,7 @@ namespace RGB.NET.Core
         }
 
         /// <inheritdoc />
-        public void TriggerHasData() => _hasDataEvent.Set();
+        public void TriggerHasData() => HasDataEvent.Set();
 
         private void UpdateUpdateFrequency()
         {
