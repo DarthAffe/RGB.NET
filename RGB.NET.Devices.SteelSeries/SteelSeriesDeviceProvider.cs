@@ -37,9 +37,9 @@ namespace RGB.NET.Devices.SteelSeries
         public IEnumerable<IRGBDevice> Devices { get; private set; }
 
         /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for SteelSeries devices. 
+        /// The <see cref="SteelSeriesDeviceUpdateTrigger"/> used to trigger the updates for SteelSeries devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; }
+        public SteelSeriesDeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace RGB.NET.Devices.SteelSeries
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
             _instance = this;
 
-            UpdateTrigger = new DeviceUpdateTrigger();
+            UpdateTrigger = new SteelSeriesDeviceUpdateTrigger();
         }
 
         #endregion
