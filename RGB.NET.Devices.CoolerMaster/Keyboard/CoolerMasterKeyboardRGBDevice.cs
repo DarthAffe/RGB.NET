@@ -33,8 +33,8 @@ namespace RGB.NET.Devices.CoolerMaster
                 InitializeLed(led.Key, new Rectangle(led.Value.column * 19, led.Value.row * 19, 19, 19));
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-                $@"Layouts\CoolerMaster\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"), DeviceInfo.LogicalLayout.ToString());
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\CoolerMaster\Keyboards\{model}", $"{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
+                                DeviceInfo.LogicalLayout.ToString());
         }
 
         /// <inheritdoc />
