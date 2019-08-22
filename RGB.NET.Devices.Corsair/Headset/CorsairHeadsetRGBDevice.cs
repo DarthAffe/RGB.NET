@@ -32,7 +32,7 @@ namespace RGB.NET.Devices.Corsair
             InitializeLed(LedId.Headset1, new Rectangle(0, 0, 10, 10));
             InitializeLed(LedId.Headset2, new Rectangle(10, 0, 10, 10));
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Headsets\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Corsair\Headsets", $"{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />

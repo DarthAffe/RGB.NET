@@ -51,9 +51,9 @@ namespace RGB.NET.Devices.Corsair
             foreach (_CorsairLedPosition ledPosition in positions.OrderBy(p => p.LedId))
                 InitializeLed(mapping.TryGetValue(ledPosition.LedId, out LedId ledId) ? ledId : LedId.Invalid, ledPosition.ToRectangle());
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\HeadsetStands\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Corsair\HeadsetStands", $"{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
-        
+
         /// <inheritdoc />
         protected override object CreateLedCustomData(LedId ledId) => HeadsetStandIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
 

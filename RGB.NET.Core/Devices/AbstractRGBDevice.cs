@@ -157,7 +157,7 @@ namespace RGB.NET.Core
             DeviceLayout layout = DeviceLayout.Load(layoutPath);
             if (layout != null)
             {
-                string imageBasePath = string.IsNullOrWhiteSpace(layout.ImageBasePath) ? null : PathHelper.GetAbsolutePath(layout.ImageBasePath);
+                string imageBasePath = string.IsNullOrWhiteSpace(layout.ImageBasePath) ? null : PathHelper.GetAbsolutePath(this, layout.ImageBasePath);
                 if ((imageBasePath != null) && !string.IsNullOrWhiteSpace(layout.DeviceImage) && (DeviceInfo != null))
                     DeviceInfo.Image = new Uri(Path.Combine(imageBasePath, layout.DeviceImage), UriKind.Absolute);
 

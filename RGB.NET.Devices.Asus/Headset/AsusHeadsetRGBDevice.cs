@@ -32,7 +32,7 @@ namespace RGB.NET.Devices.Asus
                 InitializeLed(LedId.Headset1 + i, new Rectangle(i * 40, 0, 40, 8));
 
             //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Headsets\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Asus\Headsets", $"{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />

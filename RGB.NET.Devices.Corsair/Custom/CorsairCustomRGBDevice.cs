@@ -46,7 +46,7 @@ namespace RGB.NET.Devices.Corsair
             }
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Customs\{model}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Corsair\Customs", $"{model}.xml"), null);
         }
 
         /// <inheritdoc />

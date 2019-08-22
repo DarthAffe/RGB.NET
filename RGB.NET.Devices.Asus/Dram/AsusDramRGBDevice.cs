@@ -33,7 +33,7 @@ namespace RGB.NET.Devices.Asus
 
             //TODO DarthAffe 21.10.2017: We don't know the model, how to save layouts and images?
             //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Drams\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Asus\Drams", $"{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />

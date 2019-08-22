@@ -80,7 +80,7 @@ namespace RGB.NET.Devices.SteelSeries
 
             string layout = info.ImageLayout;
             string layoutPath = info.LayoutPath;
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\SteelSeries\{layoutPath}.xml"), layout, true);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\SteelSeries", $"{layoutPath}.xml"), layout, true);
         }
 
         #endregion

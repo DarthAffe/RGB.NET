@@ -32,12 +32,12 @@ namespace RGB.NET.Devices.Asus
                 InitializeLed(LedId.Keyboard_Escape + i, new Rectangle(i * 19, 0, 19, 19));
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Asus\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"), DeviceInfo.LogicalLayout.ToString());
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\Asus\Keyboards\{model}", $"{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"), DeviceInfo.LogicalLayout.ToString());
         }
 
         /// <inheritdoc />
         protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keyboard_Escape;
-        
+
         #endregion
     }
 }
