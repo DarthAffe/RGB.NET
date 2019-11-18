@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RGB.NET.Core
@@ -54,14 +55,19 @@ namespace RGB.NET.Core
             set
             {
                 if (SetProperty(ref _ledRectangle, value))
+                {
+                    OnPropertyChanged(nameof(ActualLedRectangle));
                     OnPropertyChanged(nameof(AbsoluteLedRectangle));
+                }
             }
         }
+
+        public Rectangle ActualLedRectangle => new Rectangle(LedRectangle.Location * Device.Scale, LedRectangle.Size * Device.Scale);
 
         /// <summary>
         /// Gets a rectangle representing the physical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
         /// </summary>
-        public Rectangle AbsoluteLedRectangle => (LedRectangle.Location + Device.Location) + new Size(LedRectangle.Size.Width, LedRectangle.Size.Height);
+        public Rectangle AbsoluteLedRectangle => new Rectangle(ActualLedRectangle.Location + Device.Location, ActualLedRectangle.Size);
 
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
@@ -152,16 +158,25 @@ namespace RGB.NET.Core
             this.LedRectangle = ledRectangle;
             this.CustomData = customData;
 
-            device.PropertyChanged += (sender, args) =>
-                                      {
-                                          OnPropertyChanged(nameof(LedRectangle));
-                                          OnPropertyChanged(nameof(AbsoluteLedRectangle));
-                                      };
+            device.PropertyChanged += DevicePropertyChanged;
         }
 
         #endregion
 
         #region Methods
+
+        private void DevicePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ((e.PropertyName == nameof(IRGBDevice.Location)))
+            {
+                OnPropertyChanged(nameof(AbsoluteLedRectangle));
+            }
+            else if ((e.PropertyName == nameof(IRGBDevice.Scale)))
+            {
+                OnPropertyChanged(nameof(ActualLedRectangle));
+                OnPropertyChanged(nameof(AbsoluteLedRectangle));
+            }
+        }
 
         /// <summary>
         /// Converts the <see cref="Id"/> and the <see cref="Color"/> of this <see cref="Led"/> to a human-readable string.
@@ -210,7 +225,7 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led) => led?.LedRectangle ?? new Rectangle();
+        public static implicit operator Rectangle(Led led) => led?.ActualLedRectangle ?? new Rectangle();
 
         #endregion
     }

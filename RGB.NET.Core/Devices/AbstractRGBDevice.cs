@@ -31,8 +31,8 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public Size Size
         {
-            get => _size;
-            set => SetProperty(ref _size, value);
+            get => _size * Scale;
+            protected set => SetProperty(ref _size, value);
         }
 
         private Point _location = new Point(0, 0);
@@ -41,6 +41,18 @@ namespace RGB.NET.Core
         {
             get => _location;
             set => SetProperty(ref _location, value);
+        }
+
+        private Scale _scale = new Scale(1);
+        /// <inheritdoc />
+        public Scale Scale
+        {
+            get => _scale;
+            set
+            {
+                if (SetProperty(ref _scale, value))
+                    OnPropertyChanged(nameof(Size));
+            }
         }
 
         /// <summary>
@@ -67,11 +79,11 @@ namespace RGB.NET.Core
         Led IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led led) ? led : null;
 
         /// <inheritdoc />
-        Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
+        Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.ActualLedRectangle.Contains(location));
 
         /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
-            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.LedRectangle) >= minOverlayPercentage);
+            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.ActualLedRectangle) >= minOverlayPercentage);
 
         #endregion
 

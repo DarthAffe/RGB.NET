@@ -94,6 +94,12 @@ namespace RGB.NET.Core
             }
         }
 
+        public void Deconstruct(out double width, out double height)
+        {
+            width = Width;
+            height = Height;
+        }
+
         #endregion
 
         #region Operators
@@ -171,6 +177,8 @@ namespace RGB.NET.Core
         /// <param name="factor">The factor by which the <see cref="Size"/> should be divided.</param>
         /// <returns>A new <see cref="Size"/> representing the division of the <see cref="Size"/> and the provided factor.</returns>
         public static Size operator /(Size size, double factor) => factor.EqualsInTolerance(0) ? Invalid : new Size(size.Width / factor, size.Height / factor);
+
+        public static Size operator *(Size size, Scale scale) => new Size(size.Width * scale.Horizontal, size.Height * scale.Vertical);
 
         #endregion
     }

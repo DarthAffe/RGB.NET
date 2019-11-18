@@ -149,6 +149,8 @@ namespace RGB.NET.Core
             return new Point(point1.X / point2.X, point1.Y / point2.Y);
         }
 
+        public static Point operator *(Point point, Scale scale) => new Point(point.X * scale.Horizontal, point.Y * scale.Vertical);
+
         #endregion
     }
 }

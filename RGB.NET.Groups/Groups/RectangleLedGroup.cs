@@ -59,7 +59,7 @@ namespace RGB.NET.Groups
         /// <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
         /// <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
         public RectangleLedGroup(Led fromLed, Led toLed, double minOverlayPercentage = 0.5, bool autoAttach = true)
-            : this(new Rectangle(fromLed.LedRectangle, toLed.LedRectangle), minOverlayPercentage, autoAttach)
+            : this(new Rectangle(fromLed.ActualLedRectangle, toLed.ActualLedRectangle), minOverlayPercentage, autoAttach)
         { }
 
         /// <inheritdoc />

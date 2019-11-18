@@ -27,6 +27,8 @@ namespace RGB.NET.Core
         /// Gets a copy of the <see cref="Size"/> of the whole <see cref="IRGBDevice"/>.
         /// </summary>
         Size Size { get; }
+        
+        Scale Scale { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DeviceUpdateMode"/> of the <see cref="IRGBDevice"/>.
