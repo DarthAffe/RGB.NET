@@ -44,10 +44,19 @@ namespace RGB.NET.Core
             set => SetProperty(ref _shapeData, value);
         }
 
+        private Rectangle _ledRectangle;
         /// <summary>
         /// Gets a rectangle representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
         /// </summary>
-        public Rectangle LedRectangle { get; }
+        public Rectangle LedRectangle
+        {
+            get => _ledRectangle;
+            set
+            {
+                if (SetProperty(ref _ledRectangle, value))
+                    OnPropertyChanged(nameof(AbsoluteLedRectangle));
+            }
+        }
 
         /// <summary>
         /// Gets a rectangle representing the physical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
@@ -142,6 +151,12 @@ namespace RGB.NET.Core
             this.Id = id;
             this.LedRectangle = ledRectangle;
             this.CustomData = customData;
+
+            device.PropertyChanged += (sender, args) =>
+                                      {
+                                          OnPropertyChanged(nameof(LedRectangle));
+                                          OnPropertyChanged(nameof(AbsoluteLedRectangle));
+                                      };
         }
 
         #endregion
@@ -195,7 +210,7 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led) => led?.LedRectangle;
+        public static implicit operator Rectangle(Led led) => led?.LedRectangle ?? new Rectangle();
 
         #endregion
     }

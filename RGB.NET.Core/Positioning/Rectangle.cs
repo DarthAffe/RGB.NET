@@ -8,134 +8,34 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents a rectangle defined by it's position and it's size.
     /// </summary>
     [DebuggerDisplay("[Location: {Location}, Size: {Size}]")]
-    public class Rectangle : AbstractBindable
+    public struct Rectangle
     {
         #region Properties & Fields
 
-        private double _x;
         /// <summary>
-        /// Gets or sets the X-position of this <see cref="Rectangle"/>.
+        /// Gets the <see cref="Point"/> representing the top-left corner of the <see cref="Rectangle"/>.
         /// </summary>
-        public double X
-        {
-            get => _x;
-            set
-            {
-                if (SetProperty(ref _x, value))
-                {
-                    OnPropertyChanged(nameof(Location));
-                    OnPropertyChanged(nameof(Center));
-                }
-            }
-        }
-
-        private double _y;
-        /// <summary>
-        /// Gets or sets the Y-position of this <see cref="Rectangle"/>.
-        /// </summary>
-        public double Y
-        {
-            get => _y;
-            set
-            {
-                if (SetProperty(ref _y, value))
-                {
-                    OnPropertyChanged(nameof(Location));
-                    OnPropertyChanged(nameof(Center));
-                }
-            }
-        }
-
-        private double _width;
-        /// <summary>
-        /// Gets or sets the width of this <see cref="Rectangle"/>.
-        /// </summary>
-        public double Width
-        {
-            get => _width;
-            set
-            {
-                if (SetProperty(ref _width, Math.Max(0, value)))
-                {
-                    OnPropertyChanged(nameof(Size));
-                    OnPropertyChanged(nameof(Center));
-                    OnPropertyChanged(nameof(IsEmpty));
-                }
-            }
-        }
-
-        private double _height;
-        /// <summary>
-        /// Gets or sets the height of this <see cref="Rectangle"/>.
-        /// </summary>
-        public double Height
-        {
-            get => _height;
-            set
-            {
-                if (SetProperty(ref _height, Math.Max(0, value)))
-                {
-                    OnPropertyChanged(nameof(Size));
-                    OnPropertyChanged(nameof(Center));
-                    OnPropertyChanged(nameof(IsEmpty));
-                }
-            }
-        }
+        public Point Location { get; }
 
         /// <summary>
-        /// Gets or sets the <see cref="Point"/> representing the top-left corner of the <see cref="Rectangle"/>.
+        /// Gets the <see cref="Size"/> of the <see cref="Rectangle"/>.
         /// </summary>
-        public Point Location
-        {
-            get => new Point(X, Y);
-            set
-            {
-                if (Location != value)
-                {
-                    _x = value.X;
-                    _y = value.Y;
-
-                    OnPropertyChanged(nameof(Location));
-                    OnPropertyChanged(nameof(Center));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Size"/> of the <see cref="Rectangle"/>.
-        /// </summary>
-        public Size Size
-        {
-            get => new Size(Width, Height);
-            set
-            {
-                if (Size != value)
-                {
-                    _width = value.Width;
-                    _height = value.Height;
-
-                    OnPropertyChanged(nameof(Size));
-                    OnPropertyChanged(nameof(Center));
-                    OnPropertyChanged(nameof(IsEmpty));
-                }
-            }
-        }
+        public Size Size { get; }
 
         /// <summary>
         /// Gets a new <see cref="Point"/> representing the center-point of the <see cref="Rectangle"/>.
         /// </summary>
-        public Point Center => new Point(X + (Width / 2.0), Y + (Height / 2.0));
+        public Point Center { get; }
 
         /// <summary>
         /// Gets a bool indicating if both, the width and the height of the rectangle is greater than zero.
         /// <c>True</c> if the rectangle has a width or a height of zero; otherwise, <c>false</c>.
         /// </summary>
-        public bool IsEmpty => (Width <= DoubleExtensions.TOLERANCE) || (Height <= DoubleExtensions.TOLERANCE);
+        public bool IsEmpty => (Size.Width <= DoubleExtensions.TOLERANCE) || (Size.Height <= DoubleExtensions.TOLERANCE);
 
         #endregion
 
@@ -143,20 +43,12 @@ namespace RGB.NET.Core
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class.
-        /// </summary>
-        public Rectangle()
-            : this(new Point(), new Size())
-        { }
-
-        /// <inheritdoc />
-        /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the provided values for <see cref="P:RGB.NET.Core.Rectangle.Location" /> ans <see cref="P:RGB.NET.Core.Rectangle.Size" />.
         /// </summary>
-        /// <param name="x">The <see cref="P:RGB.NET.Core.Point.X" />-position of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
-        /// <param name="y">The <see cref="P:RGB.NET.Core.Point.Y" />-position of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
-        /// <param name="width">The <see cref="P:RGB.NET.Core.Size.Width" /> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
-        /// <param name="height">The <see cref="P:RGB.NET.Core.Size.Height" /> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="x">The x-value of the <see cref="T:RGB.NET.Core.Location" /> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="y">The y-value of the <see cref="T:RGB.NET.Core.Location" />-position of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="width">The width of the <see cref="T:RGB.NET.Core.Size"/> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="height">The height of the <see cref="T:RGB.NET.Core.Size"/> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
         public Rectangle(double x, double y, double width, double height)
             : this(new Point(x, y), new Size(width, height))
         { }
@@ -170,6 +62,7 @@ namespace RGB.NET.Core
         {
             this.Location = location;
             this.Size = size;
+            Center = new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
         }
 
         /// <inheritdoc />
@@ -205,10 +98,10 @@ namespace RGB.NET.Core
                     posY2 = Math.Max(posY2, rectangle.Location.Y + rectangle.Size.Height);
                 }
 
-            if (hasPoint)
-                InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2));
-            else
-                InitializeFromPoints(new Point(0, 0), new Point(0, 0));
+            (Point location, Size size) = hasPoint ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2)) : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
+            Location = location;
+            Size = size;
+            Center = new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
         }
 
         /// <inheritdoc />
@@ -246,81 +139,26 @@ namespace RGB.NET.Core
                     posY2 = Math.Max(posY2, point.Y);
                 }
 
-            if (hasPoint)
-                InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2));
-            else
-                InitializeFromPoints(new Point(0, 0), new Point(0, 0));
+            (Point location, Size size) = hasPoint ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2)) : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
+
+            Location = location;
+            Size = size;
+            Center = new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
         }
 
         #endregion
 
         #region Methods
 
-        private void InitializeFromPoints(Point point1, Point point2)
+        private static (Point location, Size size) InitializeFromPoints(Point point1, Point point2)
         {
             double posX = Math.Min(point1.X, point2.X);
             double posY = Math.Min(point1.Y, point2.Y);
             double width = Math.Max(point1.X, point2.X) - posX;
             double height = Math.Max(point1.Y, point2.Y) - posY;
 
-            Location = new Point(posX, posY);
-            Size = new Size(width, height);
+            return (new Point(posX, posY), new Size(width, height));
         }
-
-        /// <summary>
-        /// Calculates the percentage of intersection of a rectangle.
-        /// </summary>
-        /// <param name="intersectingRect">The intersecting rectangle.</param>
-        /// <returns>The percentage of intersection.</returns>
-        public double CalculateIntersectPercentage(Rectangle intersectingRect)
-        {
-            if (IsEmpty || intersectingRect.IsEmpty) return 0;
-
-            Rectangle intersection = CalculateIntersection(intersectingRect);
-            return (intersection.Size.Width * intersection.Size.Height) / (Size.Width * Size.Height);
-        }
-
-        /// <summary>
-        /// Calculates the <see cref="Rectangle"/> representing the intersection of this <see cref="Rectangle"/> and the one provided as parameter.
-        /// </summary>
-        /// <param name="intersectingRectangle">The intersecting <see cref="Rectangle"/></param>
-        /// <returns>A new <see cref="Rectangle"/> representing the intersection this <see cref="Rectangle"/> and the one provided as parameter.</returns>
-        public Rectangle CalculateIntersection(Rectangle intersectingRectangle)
-        {
-            double x1 = Math.Max(Location.X, intersectingRectangle.Location.X);
-            double x2 = Math.Min(Location.X + Size.Width, intersectingRectangle.Location.X + intersectingRectangle.Size.Width);
-
-            double y1 = Math.Max(Location.Y, intersectingRectangle.Location.Y);
-            double y2 = Math.Min(Location.Y + Size.Height, intersectingRectangle.Location.Y + intersectingRectangle.Size.Height);
-
-            if ((x2 >= x1) && (y2 >= y1))
-                return new Rectangle(x1, y1, x2 - x1, y2 - y1);
-
-            return new Rectangle();
-        }
-
-        /// <summary>
-        /// Determines if the specified <see cref="Point"/> is contained within this <see cref="Rectangle"/>.
-        /// </summary>
-        /// <param name="point">The <see cref="Point"/> to test.</param>
-        /// <returns></returns>
-        public bool Contains(Point point) => Contains(point.X, point.Y);
-
-        /// <summary>
-        /// Determines if the specified location is contained within this <see cref="Rectangle"/>.
-        /// </summary>
-        /// <param name="x">The X-location to test.</param>
-        /// <param name="y">The Y-location to test.</param>
-        /// <returns></returns>
-        public bool Contains(double x, double y) => (Location.X <= x) && (x < (Location.X + Size.Width)) && (Location.Y <= y) && (y < (Location.Y + Size.Height));
-
-        /// <summary>
-        /// Determines if the specified <see cref="Rectangle"/> is contained within this <see cref="Rectangle"/>.
-        /// </summary>
-        /// <param name="rect">The <see cref="Rectangle"/> to test.</param>
-        /// <returns></returns>
-        public bool Contains(Rectangle rect) => (Location.X <= rect.Location.X) && ((rect.Location.X + rect.Size.Width) <= (Location.X + Size.Width))
-                                                && (Location.Y <= rect.Location.Y) && ((rect.Location.Y + rect.Size.Height) <= (Location.Y + Size.Height));
 
         /// <summary>
         /// Converts the <see cref="Location"/>- and <see cref="Size"/>-position of this <see cref="Rectangle"/> to a human-readable string.
@@ -337,9 +175,6 @@ namespace RGB.NET.Core
         {
             if (!(obj is Rectangle compareRect))
                 return false;
-
-            if (ReferenceEquals(this, compareRect))
-                return true;
 
             if (GetType() != compareRect.GetType())
                 return false;
@@ -371,7 +206,7 @@ namespace RGB.NET.Core
         /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
         /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2) => rectangle1?.Equals(rectangle2) ?? ReferenceEquals(rectangle2, null);
+        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2) => rectangle1.Equals(rectangle2);
 
         /// <summary>
         /// Returns a value that indicates whether two specified <see cref="Rectangle" /> are equal.

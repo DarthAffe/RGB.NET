@@ -175,9 +175,7 @@ namespace RGB.NET.Core
 
                             if (led != null)
                             {
-                                led.LedRectangle.Location = new Point(layoutLed.X, layoutLed.Y);
-                                led.LedRectangle.Size = new Size(layoutLed.Width, layoutLed.Height);
-
+                                led.LedRectangle = new Rectangle(new Point(layoutLed.X, layoutLed.Y), new Size(layoutLed.Width, layoutLed.Height));
                                 led.Shape = layoutLed.Shape;
                                 led.ShapeData = layoutLed.ShapeData;
 
