@@ -226,7 +226,7 @@ namespace RGB.NET.Core
 
         private void UpdateSurfaceRectangle()
         {
-            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => new Rectangle(d.Location, d.Size)));
+            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => new Rectangle(d.Location, d.ActualSize)));
             SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
         }
 

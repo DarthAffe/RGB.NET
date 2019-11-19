@@ -31,9 +31,16 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public Size Size
         {
-            get => _size * Scale;
-            protected set => SetProperty(ref _size, value);
+            get => _size;
+            protected set
+            {
+                if (SetProperty(ref _size, value))
+                    OnPropertyChanged(nameof(ActualSize));
+            }
         }
+
+        /// <inheritdoc />
+        public Size ActualSize => Size * Scale;
 
         private Point _location = new Point(0, 0);
         /// <inheritdoc />
@@ -51,7 +58,7 @@ namespace RGB.NET.Core
             set
             {
                 if (SetProperty(ref _scale, value))
-                    OnPropertyChanged(nameof(Size));
+                    OnPropertyChanged(nameof(ActualSize));
             }
         }
 

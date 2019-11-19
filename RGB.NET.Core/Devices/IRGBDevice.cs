@@ -24,10 +24,18 @@ namespace RGB.NET.Core
         Point Location { get; set; }
 
         /// <summary>
-        /// Gets a copy of the <see cref="Size"/> of the whole <see cref="IRGBDevice"/>.
+        /// Gets the <see cref="Size"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
         Size Size { get; }
-        
+
+        /// <summary>
+        /// Gets the actual <see cref="Size"/> (scaled and rotated) of the <see cref="IRGBDevice"/>.
+        /// </summary>
+        Size ActualSize { get; }
+
+        /// <summary>
+        /// Gets or sets the scale of the <see cref="IRGBDevice"/>.
+        /// </summary>
         Scale Scale { get; set; }
 
         /// <summary>
