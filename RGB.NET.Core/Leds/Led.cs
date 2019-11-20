@@ -46,6 +46,9 @@ namespace RGB.NET.Core
         }
 
         private Point _location;
+        /// <summary>
+        /// Gets or sets the relative location of the <see cref="Led"/>.
+        /// </summary>
         public Point Location
         {
             get => _location;
@@ -60,6 +63,9 @@ namespace RGB.NET.Core
         }
 
         private Size _size;
+        /// <summary>
+        /// Gets or sets the size of the <see cref="Led"/>.
+        /// </summary>
         public Size Size
         {
             get => _size;
@@ -74,6 +80,10 @@ namespace RGB.NET.Core
         }
 
         private Point _actualLocation;
+        /// <summary>
+        /// Gets the actual location of the <see cref="Led"/>.
+        /// This includes device-scaling and rotation.
+        /// </summary>
         public Point ActualLocation
         {
             get => _actualLocation;
@@ -81,6 +91,10 @@ namespace RGB.NET.Core
         }
 
         private Size _actualSize;
+        /// <summary>
+        /// Gets the actual location of the <see cref="Led"/>.
+        /// This includes device-scaling.
+        /// </summary>
         public Size ActualSize
         {
             get => _actualSize;

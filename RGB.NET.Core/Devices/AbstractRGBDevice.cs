@@ -56,6 +56,7 @@ namespace RGB.NET.Core
         }
 
         private Rectangle _deviceRectangle;
+        /// <inheritdoc />
         public Rectangle DeviceRectangle
         {
             get => _deviceRectangle;

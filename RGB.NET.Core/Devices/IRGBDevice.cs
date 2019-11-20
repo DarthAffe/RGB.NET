@@ -29,10 +29,14 @@ namespace RGB.NET.Core
         Size Size { get; }
 
         /// <summary>
-        /// Gets the actual <see cref="Size"/> (scaled and rotated) of the <see cref="IRGBDevice"/>.
+        /// Gets the actual <see cref="Size"/> of the <see cref="IRGBDevice"/>.
+        /// This includes the <see cref="Scale"/>.
         /// </summary>
         Size ActualSize { get; }
-        
+
+        /// <summary>
+        /// Gets a <see cref="Rectangle"/> representing the logical location of the <see cref="DeviceRectangle"/> relative to the <see cref="RGBSurface"/>.
+        /// </summary>
         Rectangle DeviceRectangle { get; }
 
         /// <summary>

@@ -90,7 +90,7 @@ namespace RGB.NET.Core
         /// Determines if the specified <see cref="Point"/> is contained within this <see cref="Rectangle"/>.
         /// </summary>
         /// <param name="point">The <see cref="Point"/> to test.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the rectangle contains the given point; otherwise <c>false</c>.</returns>
         public static bool Contains(this Rectangle rect, Point point) => rect.Contains(point.X, point.Y);
 
         /// <summary>
@@ -98,33 +98,49 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="x">The X-location to test.</param>
         /// <param name="y">The Y-location to test.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the rectangle contains the given coordinates; otherwise <c>false</c>.</returns>
         public static bool Contains(this Rectangle rect, double x, double y) => (rect.Location.X <= x) && (x < (rect.Location.X + rect.Size.Width))
-                                                                                && (rect.Location.Y <= y) && (y < (rect.Location.Y + rect.Size.Height));
+                                                                             && (rect.Location.Y <= y) && (y < (rect.Location.Y + rect.Size.Height));
 
         /// <summary>
         /// Determines if the specified <see cref="Rectangle"/> is contained within this <see cref="Rectangle"/>.
         /// </summary>
         /// <param name="rect">The <see cref="Rectangle"/> to test.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the rectangle contains the given rect; otherwise <c>false</c>.</returns>
         public static bool Contains(this Rectangle rect, Rectangle rect2) => (rect.Location.X <= rect2.Location.X) && ((rect2.Location.X + rect2.Size.Width) <= (rect.Location.X + rect.Size.Width))
-                                                                            && (rect.Location.Y <= rect2.Location.Y) && ((rect2.Location.Y + rect2.Size.Height) <= (rect.Location.Y + rect.Size.Height));
+                                                                          && (rect.Location.Y <= rect2.Location.Y) && ((rect2.Location.Y + rect2.Size.Height) <= (rect.Location.Y + rect.Size.Height));
 
-        public static Point Translate(this Point point, double x = 0, double y = 0) => new Point(point.X + x, point.Y + y);
-
-        public static Point Rotate(this Point point, Rotation rotation, Point origin = new Point())
-        {
-            double sin = Math.Sin(rotation.Radians);
-            double cos = Math.Cos(rotation.Radians);
-
-            point = new Point(point.X - origin.X, point.Y - origin.Y);
-            point = new Point((point.X * cos) - (point.Y * sin), (point.X * sin) + (point.Y * cos));
-            return new Point(point.X + origin.X, point.Y + origin.Y); ;
-        }
-
+        /// <summary>
+        /// Moves the specified <see cref="Rectangle"/> by the given amount.
+        /// </summary>
+        /// <param name="rect">The <see cref="Rectangle"/> to move.</param>
+        /// <param name="point">The amount to move.</param>
+        /// <returns>The moved rectangle.</returns>
         public static Rectangle Translate(this Rectangle rect, Point point) => rect.Translate(point.X, point.Y);
+
+        /// <summary>
+        /// Moves the specified <see cref="Rectangle"/> by the given amount.
+        /// </summary>
+        /// <param name="rect">The <see cref="Rectangle"/> to move.</param>
+        /// <param name="x">The x-ammount to move.</param>
+        /// <param name="y">The y-ammount to move.</param>
+        /// <returns>The moved rectangle.</returns>
         public static Rectangle Translate(this Rectangle rect, double x = 0, double y = 0) => new Rectangle(rect.Location.Translate(x, y), rect.Size);
 
+        /// <summary>
+        /// Rotates the specified <see cref="Rectangle"/> by the given amuont around the given origin.
+        /// </summary>
+        /// <remarks>
+        /// The returned array of <see cref="Point"/> is filled with the new locations of the rectangle clockwise starting from the top left:
+        /// [0] = top left
+        /// [1] = top right
+        /// [2] = bottom right
+        /// [3] = bottom left
+        /// </remarks>
+        /// <param name="rect">The <see cref="Rectangle"/> to rotate.</param>
+        /// <param name="rotation">The rotation.</param>
+        /// <param name="origin">The origin to rotate around. [0,0] if not set.</param>
+        /// <returns>A array of <see cref="Point"/> containing the new locations of the corners of the original rectangle.</returns>
         public static Point[] Rotate(this Rectangle rect, Rotation rotation, Point origin = new Point())
         {
             Point[] points = {
