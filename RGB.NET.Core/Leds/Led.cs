@@ -240,7 +240,7 @@ namespace RGB.NET.Core
             if (Device.Rotation.IsRotated)
             {
                 Point deviceCenter = new Rectangle(Device.ActualSize).Center;
-                Point actualDeviceCenter = Device.DeviceRectangle.Center;
+                Point actualDeviceCenter = new Rectangle(Device.DeviceRectangle.Size).Center;
                 Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
 
                 actualLocation = actualLocation.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center) + centerOffset;
