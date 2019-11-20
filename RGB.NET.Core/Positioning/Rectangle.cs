@@ -54,10 +54,17 @@ namespace RGB.NET.Core
         { }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Rectangle"/> class using the <see cref="Location"/>(0,0) and the given <see cref="Core.Size"/>.
+        /// </summary>
+        /// <param name="size">The size of of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        public Rectangle(Size size) : this(new Point(), size)
+        { }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Rectangle"/> class using the given <see cref="Point"/> and <see cref="Core.Size"/>.
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="size"></param>
+        /// <param name="location">The location of this of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
+        /// <param name="size">The size of of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
         public Rectangle(Point location, Size size)
         {
             this.Location = location;

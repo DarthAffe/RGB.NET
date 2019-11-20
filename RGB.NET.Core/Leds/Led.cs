@@ -45,29 +45,53 @@ namespace RGB.NET.Core
             set => SetProperty(ref _shapeData, value);
         }
 
-        private Rectangle _ledRectangle;
-        /// <summary>
-        /// Gets a rectangle representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
-        /// </summary>
-        public Rectangle LedRectangle
+        public Point Location { get; set; }
+
+        public Size Size { get; set; }
+
+        public Point ActualLocation
         {
-            get => _ledRectangle;
-            set
+            get
             {
-                if (SetProperty(ref _ledRectangle, value))
+                Point point = (Location * Device.Scale);
+                if (!Device.Rotation.Radians.EqualsInTolerance(0))
                 {
-                    OnPropertyChanged(nameof(ActualLedRectangle));
-                    OnPropertyChanged(nameof(AbsoluteLedRectangle));
+                    Point deviceCenter = new Rectangle(Device.ActualSize).Center;
+                    Point actualDeviceCenter = Device.DeviceRectangle.Center;
+                    Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
+                    point = point.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center) + centerOffset;
                 }
+
+                return point;
             }
         }
 
-        public Rectangle ActualLedRectangle => new Rectangle(LedRectangle.Location * Device.Scale, LedRectangle.Size * Device.Scale);
+        public Size ActualSize => Size * Device.Scale;
 
         /// <summary>
-        /// Gets a rectangle representing the physical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
+        /// Gets a rectangle representing the logical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
         /// </summary>
-        public Rectangle AbsoluteLedRectangle => new Rectangle(ActualLedRectangle.Location + Device.Location, ActualLedRectangle.Size);
+        public Rectangle LedRectangle
+        {
+            get
+            {
+                Rectangle rect = new Rectangle(Location * Device.Scale, Size * Device.Scale);
+                if (!Device.Rotation.Radians.EqualsInTolerance(0))
+                {
+                    Point deviceCenter = new Rectangle(Device.ActualSize).Center;
+                    Point actualDeviceCenter = Device.DeviceRectangle.Center;
+                    Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
+                    rect = new Rectangle(rect.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center)).Translate(centerOffset);
+                }
+
+                return rect;
+            }
+        }
+
+        /// <summary>
+        /// Gets a rectangle representing the logical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
+        /// </summary>
+        public Rectangle AbsoluteLedRectangle => LedRectangle.Translate(Device.Location);
 
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
@@ -149,13 +173,15 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="device">The <see cref="IRGBDevice"/> the <see cref="Led"/> is associated with.</param>
         /// <param name="id">The <see cref="LedId"/> of the <see cref="Led"/>.</param>
-        /// <param name="ledRectangle">The <see cref="Rectangle"/> representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.</param>
+        /// <param name="location">The physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.</param>
+        /// <param name="size">The size of the <see cref="Led"/>.</param>
         /// <param name="customData">The provider-specific data associated with this led.</param>
-        internal Led(IRGBDevice device, LedId id, Rectangle ledRectangle, object customData = null)
+        internal Led(IRGBDevice device, LedId id, Point location, Size size, object customData = null)
         {
             this.Device = device;
             this.Id = id;
-            this.LedRectangle = ledRectangle;
+            this.Location = location;
+            this.Size = size;
             this.CustomData = customData;
 
             device.PropertyChanged += DevicePropertyChanged;
@@ -171,10 +197,12 @@ namespace RGB.NET.Core
             {
                 OnPropertyChanged(nameof(AbsoluteLedRectangle));
             }
-            else if ((e.PropertyName == nameof(IRGBDevice.Scale)))
+            else if ((e.PropertyName == nameof(IRGBDevice.Scale)) || (e.PropertyName == nameof(IRGBDevice.Rotation)))
             {
-                OnPropertyChanged(nameof(ActualLedRectangle));
+                OnPropertyChanged(nameof(LedRectangle));
                 OnPropertyChanged(nameof(AbsoluteLedRectangle));
+                OnPropertyChanged(nameof(ActualLocation));
+                OnPropertyChanged(nameof(ActualSize));
             }
         }
 
@@ -185,7 +213,7 @@ namespace RGB.NET.Core
         public override string ToString() => $"{Id} {Color}";
 
         /// <summary>
-        /// Updates the <see cref="LedRectangle"/> to the requested <see cref="Core.Color"/>.
+        /// Updates the <see cref="Led"/> to the requested <see cref="Core.Color"/>.
         /// </summary>
         internal void Update()
         {
@@ -199,7 +227,7 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Resets the <see cref="LedRectangle"/> back to default.
+        /// Resets the <see cref="Led"/> back to default.
         /// </summary>
         internal void Reset()
         {
@@ -225,7 +253,7 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led) => led?.ActualLedRectangle ?? new Rectangle();
+        public static implicit operator Rectangle(Led led) => led?.LedRectangle ?? new Rectangle();
 
         #endregion
     }

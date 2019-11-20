@@ -161,10 +161,10 @@ namespace RGB.NET.Core
                     Rectangle brushRectangle = new Rectangle(leds.Select(led => led.AbsoluteLedRectangle));
                     Point offset = new Point(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                     brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
-                    brush.PerformRender(brushRectangle, leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x, offset))));
+                    brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteLedRectangle.Translate(offset))));
                     break;
                 case BrushCalculationMode.Absolute:
-                    brush.PerformRender(SurfaceRectangle, leds.Select(x => new BrushRenderTarget(x, x.AbsoluteLedRectangle)));
+                    brush.PerformRender(SurfaceRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteLedRectangle)));
                     break;
                 default:
                     throw new ArgumentException();
@@ -175,12 +175,6 @@ namespace RGB.NET.Core
 
             foreach (KeyValuePair<BrushRenderTarget, Color> renders in brush.RenderedTargets)
                 renders.Key.Led.Color = renders.Value;
-        }
-
-        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset)
-        {
-            Rectangle absoluteRectangle = led.AbsoluteLedRectangle;
-            return (absoluteRectangle.Location + extraOffset) + absoluteRectangle.Size;
         }
 
         /// <summary>
@@ -226,7 +220,7 @@ namespace RGB.NET.Core
 
         private void UpdateSurfaceRectangle()
         {
-            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => new Rectangle(d.Location, d.ActualSize)));
+            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => d.DeviceRectangle));
             SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
         }
 

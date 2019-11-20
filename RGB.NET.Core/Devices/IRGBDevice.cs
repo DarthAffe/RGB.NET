@@ -32,11 +32,18 @@ namespace RGB.NET.Core
         /// Gets the actual <see cref="Size"/> (scaled and rotated) of the <see cref="IRGBDevice"/>.
         /// </summary>
         Size ActualSize { get; }
+        
+        Rectangle DeviceRectangle { get; }
 
         /// <summary>
         /// Gets or sets the scale of the <see cref="IRGBDevice"/>.
         /// </summary>
         Scale Scale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rotation of the <see cref="IRGBDevice"/>.
+        /// </summary>
+        Rotation Rotation { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DeviceUpdateMode"/> of the <see cref="IRGBDevice"/>.

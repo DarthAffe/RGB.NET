@@ -110,6 +110,44 @@ namespace RGB.NET.Core
         public static bool Contains(this Rectangle rect, Rectangle rect2) => (rect.Location.X <= rect2.Location.X) && ((rect2.Location.X + rect2.Size.Width) <= (rect.Location.X + rect.Size.Width))
                                                                             && (rect.Location.Y <= rect2.Location.Y) && ((rect2.Location.Y + rect2.Size.Height) <= (rect.Location.Y + rect.Size.Height));
 
+        public static Point Translate(this Point point, double x = 0, double y = 0) => new Point(point.X + x, point.Y + y);
+
+        public static Point Rotate(this Point point, Rotation rotation, Point origin = new Point())
+        {
+            double sin = Math.Sin(rotation.Radians);
+            double cos = Math.Cos(rotation.Radians);
+
+            point = new Point(point.X - origin.X, point.Y - origin.Y);
+            point = new Point((point.X * cos) - (point.Y * sin), (point.X * sin) + (point.Y * cos));
+            return new Point(point.X + origin.X, point.Y + origin.Y); ;
+        }
+
+        public static Rectangle Translate(this Rectangle rect, Point point) => rect.Translate(point.X, point.Y);
+        public static Rectangle Translate(this Rectangle rect, double x = 0, double y = 0) => new Rectangle(rect.Location.Translate(x, y), rect.Size);
+
+        public static Point[] Rotate(this Rectangle rect, Rotation rotation, Point origin = new Point())
+        {
+            Point[] points = {
+                                 rect.Location, // top left
+                                 new Point(rect.Location.X + rect.Size.Width, rect.Location.Y), // top right
+                                 new Point(rect.Location.X + rect.Size.Width, rect.Location.Y + rect.Size.Height), // bottom right
+                                 new Point(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
+                             };
+
+            double sin = Math.Sin(rotation.Radians);
+            double cos = Math.Cos(rotation.Radians);
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                Point point = points[i];
+                point = new Point(point.X - origin.X, point.Y - origin.Y);
+                point = new Point((point.X * cos) - (point.Y * sin), (point.X * sin) + (point.Y * cos));
+                points[i] = new Point(point.X + origin.X, point.Y + origin.Y);
+            }
+
+            return points;
+        }
+
         #endregion
     }
 }

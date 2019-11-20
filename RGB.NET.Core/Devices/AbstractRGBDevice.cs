@@ -27,6 +27,14 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
+        private Point _location = new Point(0, 0);
+        /// <inheritdoc />
+        public Point Location
+        {
+            get => _location;
+            set => SetProperty(ref _location, value);
+        }
+
         private Size _size = Size.Invalid;
         /// <inheritdoc />
         public Size Size
@@ -35,19 +43,22 @@ namespace RGB.NET.Core
             protected set
             {
                 if (SetProperty(ref _size, value))
+                {
                     OnPropertyChanged(nameof(ActualSize));
+                    OnPropertyChanged(nameof(DeviceRectangle));
+                }
             }
         }
 
         /// <inheritdoc />
         public Size ActualSize => Size * Scale;
 
-        private Point _location = new Point(0, 0);
-        /// <inheritdoc />
-        public Point Location
+        public Rectangle DeviceRectangle
         {
-            get => _location;
-            set => SetProperty(ref _location, value);
+            get
+            {
+                return new Rectangle(Location, new Rectangle(new Rectangle(Location, ActualSize).Rotate(Rotation)).Size);
+            }
         }
 
         private Scale _scale = new Scale(1);
@@ -58,7 +69,24 @@ namespace RGB.NET.Core
             set
             {
                 if (SetProperty(ref _scale, value))
+                {
                     OnPropertyChanged(nameof(ActualSize));
+                    OnPropertyChanged(nameof(DeviceRectangle));
+                }
+            }
+        }
+
+        private Rotation _rotation = new Rotation(0);
+        /// <inheritdoc />
+        public Rotation Rotation
+        {
+            get => _rotation;
+            set
+            {
+                if (SetProperty(ref _rotation, value))
+                {
+                    OnPropertyChanged(nameof(DeviceRectangle));
+                }
             }
         }
 
@@ -86,11 +114,11 @@ namespace RGB.NET.Core
         Led IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led led) ? led : null;
 
         /// <inheritdoc />
-        Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.ActualLedRectangle.Contains(location));
+        Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
 
         /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
-            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.ActualLedRectangle) >= minOverlayPercentage);
+            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.LedRectangle) >= minOverlayPercentage);
 
         #endregion
 
@@ -143,11 +171,21 @@ namespace RGB.NET.Core
         /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
         /// <param name="ledRectangle">The <see cref="Rectangle"/> representing the position of the <see cref="Led"/> to initialize.</param>
         /// <returns></returns>
-        protected virtual Led InitializeLed(LedId ledId, Rectangle ledRectangle)
+        [Obsolete("Use InitializeLed(LedId ledId, Point location, Size size) instead.")]
+        protected virtual Led InitializeLed(LedId ledId, Rectangle rectangle) => InitializeLed(ledId, rectangle.Location, rectangle.Size);
+
+        /// <summary>
+        /// Initializes the <see cref="Led"/> with the specified id.
+        /// </summary>
+        /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
+        /// <param name="location">The location of the <see cref="Led"/> to initialize.</param>
+        /// <param name="size">The size of the <see cref="Led"/> to initialize.</param>
+        /// <returns>The initialized led.</returns>
+        protected virtual Led InitializeLed(LedId ledId, Point location, Size size)
         {
             if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 
-            Led led = new Led(this, ledId, ledRectangle, CreateLedCustomData(ledId));
+            Led led = new Led(this, ledId, location, size, CreateLedCustomData(ledId));
             LedMapping.Add(ledId, led);
             return led;
         }
@@ -190,11 +228,12 @@ namespace RGB.NET.Core
                         if (Enum.TryParse(layoutLed.Id, true, out LedId ledId))
                         {
                             if (!LedMapping.TryGetValue(ledId, out Led led) && createMissingLeds)
-                                led = InitializeLed(ledId, new Rectangle());
+                                led = InitializeLed(ledId, new Point(), new Size());
 
                             if (led != null)
                             {
-                                led.LedRectangle = new Rectangle(new Point(layoutLed.X, layoutLed.Y), new Size(layoutLed.Width, layoutLed.Height));
+                                led.Location = new Point(layoutLed.X, layoutLed.Y);
+                                led.Size = new Size(layoutLed.Width, layoutLed.Height);
                                 led.Shape = layoutLed.Shape;
                                 led.ShapeData = layoutLed.ShapeData;
 
