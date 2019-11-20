@@ -43,22 +43,23 @@ namespace RGB.NET.Core
             protected set
             {
                 if (SetProperty(ref _size, value))
-                {
-                    OnPropertyChanged(nameof(ActualSize));
-                    OnPropertyChanged(nameof(DeviceRectangle));
-                }
+                    UpdateActualData();
             }
         }
 
+        private Size _actualSize;
         /// <inheritdoc />
-        public Size ActualSize => Size * Scale;
+        public Size ActualSize
+        {
+            get => _actualSize;
+            private set => SetProperty(ref _actualSize, value);
+        }
 
+        private Rectangle _deviceRectangle;
         public Rectangle DeviceRectangle
         {
-            get
-            {
-                return new Rectangle(Location, new Rectangle(new Rectangle(Location, ActualSize).Rotate(Rotation)).Size);
-            }
+            get => _deviceRectangle;
+            private set => SetProperty(ref _deviceRectangle, value);
         }
 
         private Scale _scale = new Scale(1);
@@ -69,10 +70,7 @@ namespace RGB.NET.Core
             set
             {
                 if (SetProperty(ref _scale, value))
-                {
-                    OnPropertyChanged(nameof(ActualSize));
-                    OnPropertyChanged(nameof(DeviceRectangle));
-                }
+                    UpdateActualData();
             }
         }
 
@@ -84,9 +82,7 @@ namespace RGB.NET.Core
             set
             {
                 if (SetProperty(ref _rotation, value))
-                {
-                    OnPropertyChanged(nameof(DeviceRectangle));
-                }
+                    UpdateActualData();
             }
         }
 
@@ -125,6 +121,12 @@ namespace RGB.NET.Core
         #endregion
 
         #region Methods
+
+        private void UpdateActualData()
+        {
+            ActualSize = Size * Scale;
+            DeviceRectangle = new Rectangle(Location, new Rectangle(new Rectangle(Location, ActualSize).Rotate(Rotation)).Size);
+        }
 
         /// <inheritdoc />
         public virtual void Update(bool flushLeds = false)

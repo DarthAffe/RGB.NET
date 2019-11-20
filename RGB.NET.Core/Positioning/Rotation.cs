@@ -17,6 +17,8 @@ namespace RGB.NET.Core
         public double Degrees { get; }
         public double Radians { get; }
 
+        public bool IsRotated => !Degrees.EqualsInTolerance(0);
+
         #endregion
 
         #region Constructors

@@ -45,53 +45,67 @@ namespace RGB.NET.Core
             set => SetProperty(ref _shapeData, value);
         }
 
-        public Point Location { get; set; }
-
-        public Size Size { get; set; }
-
-        public Point ActualLocation
+        private Point _location;
+        public Point Location
         {
-            get
+            get => _location;
+            set
             {
-                Point point = (Location * Device.Scale);
-                if (!Device.Rotation.Radians.EqualsInTolerance(0))
+                if (SetProperty(ref _location, value))
                 {
-                    Point deviceCenter = new Rectangle(Device.ActualSize).Center;
-                    Point actualDeviceCenter = Device.DeviceRectangle.Center;
-                    Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
-                    point = point.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center) + centerOffset;
+                    UpdateActualData();
+                    UpdateAbsoluteData();
                 }
-
-                return point;
             }
         }
 
-        public Size ActualSize => Size * Device.Scale;
+        private Size _size;
+        public Size Size
+        {
+            get => _size;
+            set
+            {
+                if (SetProperty(ref _size, value))
+                {
+                    UpdateActualData();
+                    UpdateAbsoluteData();
+                }
+            }
+        }
 
+        private Point _actualLocation;
+        public Point ActualLocation
+        {
+            get => _actualLocation;
+            private set => SetProperty(ref _actualLocation, value);
+        }
+
+        private Size _actualSize;
+        public Size ActualSize
+        {
+            get => _actualSize;
+            private set => SetProperty(ref _actualSize, value);
+        }
+
+        private Rectangle _ledRectangle;
         /// <summary>
         /// Gets a rectangle representing the logical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
         /// </summary>
         public Rectangle LedRectangle
         {
-            get
-            {
-                Rectangle rect = new Rectangle(Location * Device.Scale, Size * Device.Scale);
-                if (!Device.Rotation.Radians.EqualsInTolerance(0))
-                {
-                    Point deviceCenter = new Rectangle(Device.ActualSize).Center;
-                    Point actualDeviceCenter = Device.DeviceRectangle.Center;
-                    Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
-                    rect = new Rectangle(rect.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center)).Translate(centerOffset);
-                }
-
-                return rect;
-            }
+            get => _ledRectangle;
+            private set => SetProperty(ref _ledRectangle, value);
         }
 
+        private Rectangle _absoluteLedRectangle;
         /// <summary>
         /// Gets a rectangle representing the logical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
         /// </summary>
-        public Rectangle AbsoluteLedRectangle => LedRectangle.Translate(Device.Location);
+        public Rectangle AbsoluteLedRectangle
+        {
+            get => _absoluteLedRectangle;
+            private set => SetProperty(ref _absoluteLedRectangle, value);
+        }
 
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
@@ -194,16 +208,38 @@ namespace RGB.NET.Core
         private void DevicePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if ((e.PropertyName == nameof(IRGBDevice.Location)))
-            {
-                OnPropertyChanged(nameof(AbsoluteLedRectangle));
-            }
+                UpdateAbsoluteData();
             else if ((e.PropertyName == nameof(IRGBDevice.Scale)) || (e.PropertyName == nameof(IRGBDevice.Rotation)))
             {
-                OnPropertyChanged(nameof(LedRectangle));
-                OnPropertyChanged(nameof(AbsoluteLedRectangle));
-                OnPropertyChanged(nameof(ActualLocation));
-                OnPropertyChanged(nameof(ActualSize));
+                UpdateActualData();
+                UpdateAbsoluteData();
             }
+        }
+
+        private void UpdateActualData()
+        {
+            ActualSize = Size * Device.Scale;
+
+            Point actualLocation = (Location * Device.Scale);
+            Rectangle ledRectangle = new Rectangle(Location * Device.Scale, Size * Device.Scale);
+
+            if (Device.Rotation.IsRotated)
+            {
+                Point deviceCenter = new Rectangle(Device.ActualSize).Center;
+                Point actualDeviceCenter = Device.DeviceRectangle.Center;
+                Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
+
+                actualLocation = actualLocation.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center) + centerOffset;
+                ledRectangle = new Rectangle(ledRectangle.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center)).Translate(centerOffset);
+            }
+
+            ActualLocation = actualLocation;
+            LedRectangle = ledRectangle;
+        }
+
+        private void UpdateAbsoluteData()
+        {
+            AbsoluteLedRectangle = LedRectangle.Translate(Device.Location);
         }
 
         /// <summary>
