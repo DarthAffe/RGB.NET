@@ -209,7 +209,7 @@ namespace RGB.NET.Core
         {
             if ((e.PropertyName == nameof(IRGBDevice.Location)))
                 UpdateAbsoluteData();
-            else if ((e.PropertyName == nameof(IRGBDevice.Scale)) || (e.PropertyName == nameof(IRGBDevice.Rotation)))
+            else if (e.PropertyName == nameof(IRGBDevice.DeviceRectangle))
             {
                 UpdateActualData();
                 UpdateAbsoluteData();
