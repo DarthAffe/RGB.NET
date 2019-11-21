@@ -30,6 +30,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G19", RGBDeviceType.Keyboard, 0xC228, 0, "DE", @"Keyboards\G19\UK"),
                   ("G19s", RGBDeviceType.Keyboard, 0xC229, 0, "DE", @"Keyboards\G19s\UK"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, 0, "default", @"Mice\G502"),
+                  ("G502 HERO", RGBDeviceType.Mouse, 0xC08B, 0, "default", @"Mice\G502"),
                   ("G600", RGBDeviceType.Mouse, 0xC24A, 0, "default", @"Mice\G600"),
                   ("G300s", RGBDeviceType.Mouse, 0xC246, 0, "default", @"Mice\G300s"),
                   ("G510", RGBDeviceType.Keyboard, 0xC22D, 0, "DE", @"Keyboards\G510\UK"),
