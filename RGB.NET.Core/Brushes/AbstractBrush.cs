@@ -78,9 +78,10 @@ namespace RGB.NET.Core
         /// <param name="color">The <see cref="Color"/> to be modified.</param>
         protected virtual Color ApplyDecorators(Rectangle rectangle, BrushRenderTarget renderTarget, Color color)
         {
-            foreach (IBrushDecorator decorator in Decorators)
-                if (decorator.IsEnabled)
-                    color = decorator.ManipulateColor(rectangle, renderTarget, color);
+            lock (Decorators)
+                foreach (IBrushDecorator decorator in Decorators)
+                    if (decorator.IsEnabled)
+                        color = decorator.ManipulateColor(rectangle, renderTarget, color);
 
             return color;
         }
