@@ -11,11 +11,20 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private List<T> _decorators = new List<T>();
+        private readonly List<T> _decorators = new List<T>();
         /// <summary>
         /// Gets a readonly-list of all <see cref="IDecorator"/> attached to this <see cref="IDecoratable{T}"/>.
         /// </summary>
-        protected IReadOnlyCollection<T> Decorators => new ReadOnlyCollection<T>(_decorators);
+        protected IReadOnlyCollection<T> Decorators { get; }
+
+        #endregion
+
+        #region Constructors
+
+        protected AbstractDecoratable()
+        {
+            Decorators = new ReadOnlyCollection<T>(_decorators);
+        }
 
         #endregion
 
@@ -24,8 +33,11 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public void AddDecorator(T decorator)
         {
-            _decorators.Add(decorator);
-            _decorators = _decorators.OrderByDescending(x => x.Order).ToList();
+            lock (Decorators)
+            {
+                _decorators.Add(decorator);
+                _decorators.Sort((d1, d2) => d1.Order.CompareTo(d2.Order));
+            }
 
             decorator.OnAttached(this);
         }
@@ -33,7 +45,8 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public void RemoveDecorator(T decorator)
         {
-            _decorators.Remove(decorator);
+            lock (Decorators)
+                _decorators.Remove(decorator);
 
             decorator.OnDetached(this);
         }
@@ -41,7 +54,12 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public void RemoveAllDecorators()
         {
-            foreach (T decorator in Decorators.ToList())
+            IEnumerable<T> decorators;
+
+            lock (Decorators)
+                decorators = Decorators.ToList();
+
+            foreach (T decorator in decorators)
                 RemoveDecorator(decorator);
         }
 
