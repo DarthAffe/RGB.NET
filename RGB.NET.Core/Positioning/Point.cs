@@ -149,6 +149,14 @@ namespace RGB.NET.Core
             return new Point(point1.X / point2.X, point1.Y / point2.Y);
         }
 
+        /// <summary>
+        /// Returns a new <see cref="Point"/> representing the multiplication of the <see cref="Point"/> and the provided <see cref="Scale"/>.
+        /// </summary>
+        /// <param name="point">The <see cref="Point"/>.</param>
+        /// <param name="scale">The <see cref="Scale"/>.</param>
+        /// <returns>A new <see cref="Point"/> representing the multiplication of the <see cref="Point"/> and the provided <see cref="Scale"/>.</returns>
+        public static Point operator *(Point point, Scale scale) => new Point(point.X * scale.Horizontal, point.Y * scale.Vertical);
+
         #endregion
     }
 }

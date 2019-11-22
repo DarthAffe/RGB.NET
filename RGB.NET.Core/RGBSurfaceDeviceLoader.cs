@@ -63,7 +63,7 @@ namespace RGB.NET.Core
             foreach (IRGBDevice device in Devices)
             {
                 device.Location += new Point(posX, 0);
-                posX += device.Size.Width + 1;
+                posX += device.ActualSize.Width + 1;
             }
         }
 

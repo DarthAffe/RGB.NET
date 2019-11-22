@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RGB.NET.Core
@@ -44,15 +45,81 @@ namespace RGB.NET.Core
             set => SetProperty(ref _shapeData, value);
         }
 
+        private Point _location;
         /// <summary>
-        /// Gets a rectangle representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
+        /// Gets or sets the relative location of the <see cref="Led"/>.
         /// </summary>
-        public Rectangle LedRectangle { get; }
+        public Point Location
+        {
+            get => _location;
+            set
+            {
+                if (SetProperty(ref _location, value))
+                {
+                    UpdateActualData();
+                    UpdateAbsoluteData();
+                }
+            }
+        }
 
+        private Size _size;
         /// <summary>
-        /// Gets a rectangle representing the physical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
+        /// Gets or sets the size of the <see cref="Led"/>.
         /// </summary>
-        public Rectangle AbsoluteLedRectangle => (LedRectangle.Location + Device.Location) + new Size(LedRectangle.Size.Width, LedRectangle.Size.Height);
+        public Size Size
+        {
+            get => _size;
+            set
+            {
+                if (SetProperty(ref _size, value))
+                {
+                    UpdateActualData();
+                    UpdateAbsoluteData();
+                }
+            }
+        }
+
+        private Point _actualLocation;
+        /// <summary>
+        /// Gets the actual location of the <see cref="Led"/>.
+        /// This includes device-scaling and rotation.
+        /// </summary>
+        public Point ActualLocation
+        {
+            get => _actualLocation;
+            private set => SetProperty(ref _actualLocation, value);
+        }
+
+        private Size _actualSize;
+        /// <summary>
+        /// Gets the actual size of the <see cref="Led"/>.
+        /// This includes device-scaling.
+        /// </summary>
+        public Size ActualSize
+        {
+            get => _actualSize;
+            private set => SetProperty(ref _actualSize, value);
+        }
+
+        private Rectangle _ledRectangle;
+        /// <summary>
+        /// Gets a rectangle representing the logical location of the <see cref="Led"/> relative to the <see cref="Device"/>.
+        /// </summary>
+        public Rectangle LedRectangle
+        {
+            get => _ledRectangle;
+            private set => SetProperty(ref _ledRectangle, value);
+        }
+
+        private Rectangle _absoluteLedRectangle;
+        /// <summary>
+        /// Gets a rectangle representing the logical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
+        /// </summary>
+        public Rectangle AbsoluteLedRectangle
+        {
+            get => _absoluteLedRectangle;
+            private set => SetProperty(ref _absoluteLedRectangle, value);
+        }
 
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
@@ -134,19 +201,60 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="device">The <see cref="IRGBDevice"/> the <see cref="Led"/> is associated with.</param>
         /// <param name="id">The <see cref="LedId"/> of the <see cref="Led"/>.</param>
-        /// <param name="ledRectangle">The <see cref="Rectangle"/> representing the physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.</param>
+        /// <param name="location">The physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.</param>
+        /// <param name="size">The size of the <see cref="Led"/>.</param>
         /// <param name="customData">The provider-specific data associated with this led.</param>
-        internal Led(IRGBDevice device, LedId id, Rectangle ledRectangle, object customData = null)
+        internal Led(IRGBDevice device, LedId id, Point location, Size size, object customData = null)
         {
             this.Device = device;
             this.Id = id;
-            this.LedRectangle = ledRectangle;
+            this.Location = location;
+            this.Size = size;
             this.CustomData = customData;
+
+            device.PropertyChanged += DevicePropertyChanged;
         }
 
         #endregion
 
         #region Methods
+
+        private void DevicePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ((e.PropertyName == nameof(IRGBDevice.Location)))
+                UpdateAbsoluteData();
+            else if (e.PropertyName == nameof(IRGBDevice.DeviceRectangle))
+            {
+                UpdateActualData();
+                UpdateAbsoluteData();
+            }
+        }
+
+        private void UpdateActualData()
+        {
+            ActualSize = Size * Device.Scale;
+
+            Point actualLocation = (Location * Device.Scale);
+            Rectangle ledRectangle = new Rectangle(Location * Device.Scale, Size * Device.Scale);
+
+            if (Device.Rotation.IsRotated)
+            {
+                Point deviceCenter = new Rectangle(Device.ActualSize).Center;
+                Point actualDeviceCenter = new Rectangle(Device.DeviceRectangle.Size).Center;
+                Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
+
+                actualLocation = actualLocation.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center) + centerOffset;
+                ledRectangle = new Rectangle(ledRectangle.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center)).Translate(centerOffset);
+            }
+
+            ActualLocation = actualLocation;
+            LedRectangle = ledRectangle;
+        }
+
+        private void UpdateAbsoluteData()
+        {
+            AbsoluteLedRectangle = LedRectangle.Translate(Device.Location);
+        }
 
         /// <summary>
         /// Converts the <see cref="Id"/> and the <see cref="Color"/> of this <see cref="Led"/> to a human-readable string.
@@ -155,7 +263,7 @@ namespace RGB.NET.Core
         public override string ToString() => $"{Id} {Color}";
 
         /// <summary>
-        /// Updates the <see cref="LedRectangle"/> to the requested <see cref="Core.Color"/>.
+        /// Updates the <see cref="Led"/> to the requested <see cref="Core.Color"/>.
         /// </summary>
         internal void Update()
         {
@@ -169,7 +277,7 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Resets the <see cref="LedRectangle"/> back to default.
+        /// Resets the <see cref="Led"/> back to default.
         /// </summary>
         internal void Reset()
         {
@@ -195,7 +303,7 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led) => led?.LedRectangle;
+        public static implicit operator Rectangle(Led led) => led?.LedRectangle ?? new Rectangle();
 
         #endregion
     }
