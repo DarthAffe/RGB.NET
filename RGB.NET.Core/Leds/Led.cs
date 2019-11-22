@@ -92,7 +92,7 @@ namespace RGB.NET.Core
 
         private Size _actualSize;
         /// <summary>
-        /// Gets the actual location of the <see cref="Led"/>.
+        /// Gets the actual size of the <see cref="Led"/>.
         /// This includes device-scaling.
         /// </summary>
         public Size ActualSize
