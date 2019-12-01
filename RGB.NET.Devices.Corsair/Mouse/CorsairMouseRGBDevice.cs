@@ -54,7 +54,7 @@ namespace RGB.NET.Devices.Corsair
                     throw new RGBDeviceException($"Can't initialize mouse with layout '{DeviceInfo.PhysicalLayout}'");
             }
 
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Corsair\Mice\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Corsair\Mice", $"{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />

@@ -2,7 +2,6 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable UnusedMember.Global
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using RGB.NET.Core;
@@ -28,17 +27,8 @@ namespace RGB.NET.Groups
             get => _rectangle;
             set
             {
-                Rectangle oldValue = _rectangle;
                 if (SetProperty(ref _rectangle, value))
-                {
-                    if (oldValue != null)
-                        oldValue.PropertyChanged -= RectangleChanged;
-
-                    if (_rectangle != null)
-                        _rectangle.PropertyChanged += RectangleChanged;
-
                     InvalidateCache();
-                }
             }
         }
 
@@ -110,14 +100,12 @@ namespace RGB.NET.Groups
 
         private void RGBSurfaceOnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args) => InvalidateCache();
 
-        private void RectangleChanged(object sender, EventArgs eventArgs) => InvalidateCache();
-
         /// <inheritdoc />
         /// <summary>
         /// Gets a list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.
         /// </summary>
         /// <returns>The list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.</returns>
-        public override IEnumerable<Led> GetLeds() => _ledCache ?? (_ledCache = RGBSurface.Instance.Leds.Where(x => x.AbsoluteLedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList());
+        public override IEnumerable<Led> GetLeds() => _ledCache ??= RGBSurface.Instance.Leds.Where(led => led.AbsoluteLedRectangle.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList();
 
         private void InvalidateCache() => _ledCache = null;
 

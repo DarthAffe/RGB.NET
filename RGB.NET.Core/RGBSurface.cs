@@ -33,8 +33,6 @@ namespace RGB.NET.Core
 
         private readonly LinkedList<ILedGroup> _ledGroups = new LinkedList<ILedGroup>();
 
-        private readonly Rectangle _surfaceRectangle = new Rectangle();
-
         // ReSharper restore InconsistentNaming
 
         /// <summary>
@@ -50,7 +48,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.
         /// </summary>
-        public Rectangle SurfaceRectangle => new Rectangle(_surfaceRectangle);
+        public Rectangle SurfaceRectangle { get; private set; }
 
         /// <summary>
         /// Gets a list of all <see cref="Led"/> on this <see cref="RGBSurface"/>.
@@ -162,12 +160,11 @@ namespace RGB.NET.Core
                 case BrushCalculationMode.Relative:
                     Rectangle brushRectangle = new Rectangle(leds.Select(led => led.AbsoluteLedRectangle));
                     Point offset = new Point(-brushRectangle.Location.X, -brushRectangle.Location.Y);
-                    brushRectangle.Location = new Point(0, 0);
-                    brush.PerformRender(brushRectangle,
-                                        leds.Select(x => new BrushRenderTarget(x, GetDeviceLedLocation(x, offset))));
+                    brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
+                    brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteLedRectangle.Translate(offset))));
                     break;
                 case BrushCalculationMode.Absolute:
-                    brush.PerformRender(SurfaceRectangle, leds.Select(x => new BrushRenderTarget(x, x.AbsoluteLedRectangle)));
+                    brush.PerformRender(SurfaceRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteLedRectangle)));
                     break;
                 default:
                     throw new ArgumentException();
@@ -178,12 +175,6 @@ namespace RGB.NET.Core
 
             foreach (KeyValuePair<BrushRenderTarget, Color> renders in brush.RenderedTargets)
                 renders.Key.Led.Color = renders.Value;
-        }
-
-        private Rectangle GetDeviceLedLocation(Led led, Point extraOffset)
-        {
-            Rectangle absoluteRectangle = led.AbsoluteLedRectangle;
-            return (absoluteRectangle.Location + extraOffset) + absoluteRectangle.Size;
         }
 
         /// <summary>
@@ -229,10 +220,8 @@ namespace RGB.NET.Core
 
         private void UpdateSurfaceRectangle()
         {
-            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => new Rectangle(d.Location, d.Size)));
-
-            _surfaceRectangle.Width = devicesRectangle.Location.X + devicesRectangle.Size.Width;
-            _surfaceRectangle.Height = devicesRectangle.Location.Y + devicesRectangle.Size.Height;
+            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => d.DeviceRectangle));
+            SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
         }
 
         /// <summary>

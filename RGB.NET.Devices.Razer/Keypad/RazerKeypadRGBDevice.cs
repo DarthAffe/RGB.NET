@@ -31,7 +31,7 @@ namespace RGB.NET.Devices.Razer
         protected override void InitializeLayout()
         {
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\Razer\Keypad\{model}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\Keypad", $"{model}.xml"), null);
 
             if (LedMapping.Count == 0)
             {

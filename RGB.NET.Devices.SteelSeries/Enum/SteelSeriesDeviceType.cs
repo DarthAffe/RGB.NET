@@ -27,6 +27,18 @@
         SevenZone,
 
         [APIName("rgb-8-zone")]
-        EightZone
+        EightZone,
+
+        [APIName("rgb-12-zone")]
+        TwelveZone,
+
+        [APIName("rgb-17-zone")]
+        SeventeenZone,
+
+        [APIName("rgb-24-zone")]
+        TwentyfourZone,
+
+        [APIName("rgb-103-zone")]
+        OneHundredAndThreeZone
     }
 }

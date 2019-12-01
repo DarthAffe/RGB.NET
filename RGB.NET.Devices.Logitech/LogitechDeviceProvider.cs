@@ -114,7 +114,7 @@ namespace RGB.NET.Devices.Logitech
 
                 try
                 {
-                    if (DeviceChecker.IsPerDeviceDeviceConnected)
+                    if (DeviceChecker.IsPerKeyDeviceConnected)
                     {
                         (string model, RGBDeviceType deviceType, int _, int _, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
