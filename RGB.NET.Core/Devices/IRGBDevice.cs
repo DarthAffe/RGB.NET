@@ -24,9 +24,30 @@ namespace RGB.NET.Core
         Point Location { get; set; }
 
         /// <summary>
-        /// Gets a copy of the <see cref="Size"/> of the whole <see cref="IRGBDevice"/>.
+        /// Gets the <see cref="Size"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
         Size Size { get; }
+
+        /// <summary>
+        /// Gets the actual <see cref="Size"/> of the <see cref="IRGBDevice"/>.
+        /// This includes the <see cref="Scale"/>.
+        /// </summary>
+        Size ActualSize { get; }
+
+        /// <summary>
+        /// Gets a <see cref="Rectangle"/> representing the logical location of the <see cref="DeviceRectangle"/> relative to the <see cref="RGBSurface"/>.
+        /// </summary>
+        Rectangle DeviceRectangle { get; }
+
+        /// <summary>
+        /// Gets or sets the scale of the <see cref="IRGBDevice"/>.
+        /// </summary>
+        Scale Scale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rotation of the <see cref="IRGBDevice"/>.
+        /// </summary>
+        Rotation Rotation { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DeviceUpdateMode"/> of the <see cref="IRGBDevice"/>.
