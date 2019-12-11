@@ -32,7 +32,11 @@ namespace RGB.NET.Core
         public Point Location
         {
             get => _location;
-            set => SetProperty(ref _location, value);
+            set
+            {
+                if (SetProperty(ref _location, value))
+                    UpdateActualData();
+            }
         }
 
         private Size _size = Size.Invalid;
