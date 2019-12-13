@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Generic
 {
@@ -44,11 +41,11 @@ namespace RGB.NET.Devices.Wooting.Generic
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize(UpdateQueue updateQueue)
+        public void Initialize(IDeviceUpdateTrigger updateTrigger)
         {
             InitializeLayout();
 
@@ -58,7 +55,7 @@ namespace RGB.NET.Devices.Wooting.Generic
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
-            UpdateQueue = updateQueue;
+            UpdateQueue = new WootingUpdateQueue(updateTrigger);
         }
 
         /// <summary>

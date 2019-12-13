@@ -11,6 +11,6 @@ namespace RGB.NET.Devices.Wooting.Enum
     public enum WootingPhysicalKeyboardLayout
     {
         US = 0,
-        EU = 1
+        UK = 1
     }
 }

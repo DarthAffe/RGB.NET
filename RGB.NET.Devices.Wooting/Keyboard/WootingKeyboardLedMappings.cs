@@ -245,14 +245,14 @@ namespace RGB.NET.Devices.Wooting.Keyboard
                 { WootingDevicesIndexes.WootingOne, new Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
                   {
                     { WootingPhysicalKeyboardLayout.US, WootingOne_US },
-                    { WootingPhysicalKeyboardLayout.EU, WootingOne_US }
+                    { WootingPhysicalKeyboardLayout.UK, WootingOne_US }
                   }
                 },
 
                 { WootingDevicesIndexes.WootingTwo, new Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
                   {
                     { WootingPhysicalKeyboardLayout.US, WootingTwo_US },
-                    { WootingPhysicalKeyboardLayout.EU, WootingTwo_US }
+                    { WootingPhysicalKeyboardLayout.UK, WootingTwo_US }
                   }
                 }
             };

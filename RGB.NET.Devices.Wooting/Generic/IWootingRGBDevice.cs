@@ -7,6 +7,6 @@ namespace RGB.NET.Devices.Wooting.Generic
     /// </summary>
     internal interface IWootingRGBDevice : IRGBDevice
     {
-        void Initialize(UpdateQueue updateQueue);
+        void Initialize(IDeviceUpdateTrigger updateTrigger);
     }
 }

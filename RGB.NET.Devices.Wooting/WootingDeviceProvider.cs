@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using RGB.NET.Core;
+using RGB.NET.Devices.Wooting.Enum;
+using RGB.NET.Devices.Wooting.Generic;
+using RGB.NET.Devices.Wooting.Keyboard;
 using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting
@@ -24,13 +27,13 @@ namespace RGB.NET.Devices.Wooting
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/wooting-rgb-sdk.dll" };
+        public static List<string> PossibleX86NativePaths { get; } = new List<string> {"x86/wooting-rgb-sdk.dll"};
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/wooting-rgb-sdk64.dll" };
+        public static List<string> PossibleX64NativePaths { get; } = new List<string> {"x64/wooting-rgb-sdk64.dll"};
 
         /// <inheritdoc />
         /// <summary>
@@ -52,6 +55,11 @@ namespace RGB.NET.Devices.Wooting
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; }
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for cooler master devices. 
+        /// </summary>
+        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -62,8 +70,11 @@ namespace RGB.NET.Devices.Wooting
         /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
         public WootingDeviceProvider()
         {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WootingDeviceProvider)}");
+            if (_instance != null)
+                throw new InvalidOperationException($"There can be only one instance of type {nameof(WootingDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion
@@ -72,26 +83,45 @@ namespace RGB.NET.Devices.Wooting
 
         /// <inheritdoc />
         /// <exception cref="RGBDeviceException">Thrown if the SDK failed to initialize</exception>
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false,
+                               bool throwExceptions = false)
         {
             IsInitialized = false;
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 _WootingSDK.Reload();
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
                 if (_WootingSDK.KeyboardConnected())
                 {
-                    if (_WootingSDK.IsWootingOne())
+                    IWootingRGBDevice device;
+                    // TODO: Find an accurate way to determine physical and logical layouts
+                    if (_WootingSDK.IsWootingTwo())
                     {
-                        
-                    } 
-                    else if (_WootingSDK.IsWootingTwo())
-                    {
-
+                        device = new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo,
+                                                                                               WootingPhysicalKeyboardLayout.US,
+                                                                                               CultureHelper.GetCurrentCulture()));
                     }
+                    else if (_WootingSDK.IsWootingOne())
+                    {
+                        device = new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne,
+                                                                                               WootingPhysicalKeyboardLayout.US,
+                                                                                               CultureHelper.GetCurrentCulture()));
+                    }
+                    else
+                    {
+                        throw new RGBDeviceException("No supported Wooting keyboard connected");
+                    }
+
+                    device.Initialize(UpdateTrigger);
+                    devices.Add(device);
                 }
+
+                UpdateTrigger?.Start();
+
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;
             }
@@ -112,7 +142,9 @@ namespace RGB.NET.Devices.Wooting
         public void Dispose()
         {
             try { _WootingSDK.Reset(); }
-            catch { /* Unlucky.. */}
+            catch
+            { /* Unlucky.. */
+            }
         }
 
         #endregion

@@ -40,14 +40,13 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         {
             this.PhysicalLayout = physicalKeyboardLayout;
 
-            // For now just go for this
             switch (physicalKeyboardLayout)
             {
                 case WootingPhysicalKeyboardLayout.US:
                     this.LogicalLayout = WootingLogicalKeyboardLayout.US;
                     break;
-                case WootingPhysicalKeyboardLayout.EU:
-                    this.LogicalLayout = WootingLogicalKeyboardLayout.EU;
+                case WootingPhysicalKeyboardLayout.UK:
+                    this.LogicalLayout = WootingLogicalKeyboardLayout.UK;
                     break;
             }
         }
