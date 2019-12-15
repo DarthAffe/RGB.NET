@@ -8,6 +8,9 @@ namespace RGB.NET.Devices.Wooting.Enum
     /// <summary>
     /// Contains list of available physical layouts for Wooting keyboards.
     /// </summary>
+    /// <remarks>
+    /// Shop states ANSI (US) and ISO (UK/German/Nodics) - https://wooting.store/collections/wooting-keyboards/products/wooting-two
+    /// </remarks>
     public enum WootingPhysicalKeyboardLayout
     {
         US = 0,

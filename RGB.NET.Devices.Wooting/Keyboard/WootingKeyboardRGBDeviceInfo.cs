@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Generic;
@@ -35,22 +34,30 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
         /// <param name="physicalKeyboardLayout">The <see cref="T:RGB.NET.Devices.Wooting.WootingPhysicalKeyboardLayout" /> of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
         /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using</param>
-        internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex, WootingPhysicalKeyboardLayout physicalKeyboardLayout, CultureInfo culture)
-                : base(RGBDeviceType.Keyboard, deviceIndex)
+        internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex, WootingPhysicalKeyboardLayout physicalKeyboardLayout,
+                                              CultureInfo culture)
+            : base(RGBDeviceType.Keyboard, deviceIndex)
         {
             this.PhysicalLayout = physicalKeyboardLayout;
 
-            switch (physicalKeyboardLayout)
+            DetermineLogicalLayout(culture.KeyboardLayoutId);
+        }
+
+        private void DetermineLogicalLayout(int keyboardLayoutId)
+        {
+            switch (keyboardLayoutId)
             {
-                case WootingPhysicalKeyboardLayout.US:
-                    this.LogicalLayout = WootingLogicalKeyboardLayout.US;
-                    break;
-                case WootingPhysicalKeyboardLayout.UK:
-                    this.LogicalLayout = WootingLogicalKeyboardLayout.UK;
+                // TODO SpoinkyNL 15-12-2019: There doesn't seem to be an accurate way to determine this, perhaps it should be a configurable thing..
+                // I'm using US International and it's reporting nl-NL's 1043. Also you can after all just swap your keycaps
+                default:
+                    if (PhysicalLayout == WootingPhysicalKeyboardLayout.US)
+                        LogicalLayout = WootingLogicalKeyboardLayout.US;
+                    else
+                        LogicalLayout = WootingLogicalKeyboardLayout.UK;
                     break;
             }
         }
-        
+
         #endregion
     }
 }
