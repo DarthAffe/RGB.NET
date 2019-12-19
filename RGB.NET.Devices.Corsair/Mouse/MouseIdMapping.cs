@@ -21,5 +21,11 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Mouse2, CorsairLedId.B2 },
             { LedId.Mouse3, CorsairLedId.B5 },
         };
+
+        internal static readonly Dictionary<LedId, CorsairLedId> M65_RGB_ELITE = new Dictionary<LedId, CorsairLedId>
+        {
+            { LedId.Mouse1, CorsairLedId.B1 },
+            { LedId.Mouse2, CorsairLedId.B3 },
+        };
     }
 }
