@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devices", "Devices", "{D13032C6-432E-4F43-8A32-071133C22B16}"
 EndProject
@@ -46,6 +46,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Core.Tests", "Tests\RGB.NET.Core.Tests\RGB.NET.Core.Tests.csproj", "{A3FD5AD7-040A-47CA-A278-53493A25FF8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Asus", "RGB.NET.Devices.Asus\RGB.NET.Devices.Asus.csproj", "{E0732B34-3F96-4DD9-AFD5-0E34B833AD6D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Wooting", "RGB.NET.Devices.Wooting\RGB.NET.Devices.Wooting.csproj", "{DD46DB2D-85BE-4962-86AE-E38C9053A548}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{E0732B34-3F96-4DD9-AFD5-0E34B833AD6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0732B34-3F96-4DD9-AFD5-0E34B833AD6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0732B34-3F96-4DD9-AFD5-0E34B833AD6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD46DB2D-85BE-4962-86AE-E38C9053A548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD46DB2D-85BE-4962-86AE-E38C9053A548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD46DB2D-85BE-4962-86AE-E38C9053A548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD46DB2D-85BE-4962-86AE-E38C9053A548}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{FFDE4387-60F2-47B6-9704-3A57D02B8C64} = {D13032C6-432E-4F43-8A32-071133C22B16}
 		{A3FD5AD7-040A-47CA-A278-53493A25FF8A} = {92D7C263-D4C9-4D26-93E2-93C1F9C2CD16}
 		{E0732B34-3F96-4DD9-AFD5-0E34B833AD6D} = {D13032C6-432E-4F43-8A32-071133C22B16}
+		{DD46DB2D-85BE-4962-86AE-E38C9053A548} = {D13032C6-432E-4F43-8A32-071133C22B16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7F222AD4-1F9E-4AAB-9D69-D62372D4C1BA}
