@@ -17,6 +17,7 @@ namespace RGB.NET.Devices.Logitech.HID
             = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
               {
                   ("G910", RGBDeviceType.Keyboard, 0xC32B, 0, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
+                  ("G910v2", RGBDeviceType.Keyboard, 0xC335, 0, "DE", @"Keyboards\G910\UK"),
                   ("G810", RGBDeviceType.Keyboard, 0xC337, 0, "DE", @"Keyboards\G810\UK"),
                   ("G610", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
                   ("G410", RGBDeviceType.Keyboard, 0xC330, 0, "DE", @"Keyboards\G410\UK"),
