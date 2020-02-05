@@ -45,8 +45,7 @@ namespace RGB.NET.Devices.Wooting.Native
 
             _dllHandle = LoadLibrary(dllPath);
 
-            _isWootingOnePointer = (IsWootingOnePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_kbd_is_wooting_one"), typeof(IsWootingOnePointer));
-            _isWootingTwoPointer = (IsWootingTwoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_kbd_is_wooting_two"), typeof(IsWootingTwoPointer));
+            _getDeviceInfoPointer = (GetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_device_info"), typeof(GetDeviceInfoPointer));
             _keyboardConnectedPointer = (KeyboardConnectedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_kbd_connected"), typeof(KeyboardConnectedPointer));
             _resetPointer = (ResetPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_reset"), typeof(ResetPointer));
             _arrayUpdateKeyboardPointer = (ArrayUpdateKeyboardPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_array_update_keyboard"), typeof(ArrayUpdateKeyboardPointer));
@@ -80,8 +79,7 @@ namespace RGB.NET.Devices.Wooting.Native
 
         #region Pointers
 
-        private static IsWootingOnePointer _isWootingOnePointer;
-        private static IsWootingTwoPointer _isWootingTwoPointer;
+        private static GetDeviceInfoPointer _getDeviceInfoPointer;
         private static KeyboardConnectedPointer _keyboardConnectedPointer;
         private static ResetPointer _resetPointer;
         private static ArrayUpdateKeyboardPointer _arrayUpdateKeyboardPointer;
@@ -92,11 +90,8 @@ namespace RGB.NET.Devices.Wooting.Native
         #region Delegates
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool IsWootingOnePointer();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool IsWootingTwoPointer();
-
+        private delegate IntPtr GetDeviceInfoPointer();
+        
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool KeyboardConnectedPointer();
 
@@ -108,11 +103,10 @@ namespace RGB.NET.Devices.Wooting.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool ArraySetSinglePointer(byte row, byte column, byte red, byte green, byte blue);
-        
+
         #endregion
 
-        internal static bool IsWootingOne() => _isWootingOnePointer();
-        internal static bool IsWootingTwo() => _isWootingTwoPointer();
+        internal static IntPtr GetDeviceInfo() => _getDeviceInfoPointer();
         internal static bool KeyboardConnected() => _keyboardConnectedPointer();
         internal static bool Reset() => _resetPointer();
         internal static bool ArrayUpdateKeyboard() => _arrayUpdateKeyboardPointer();

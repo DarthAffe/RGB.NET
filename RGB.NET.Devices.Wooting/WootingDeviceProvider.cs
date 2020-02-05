@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Generic;
@@ -97,15 +98,16 @@ namespace RGB.NET.Devices.Wooting
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
                 if (_WootingSDK.KeyboardConnected())
                 {
+                    _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo));
                     IWootingRGBDevice device;
                     // TODO: Find an accurate way to determine physical and logical layouts
-                    if (_WootingSDK.IsWootingTwo())
+                    if (nativeDeviceInfo.Model == "Wooting two")
                     {
                         device = new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo,
                                                                                                WootingPhysicalKeyboardLayout.US,
                                                                                                CultureHelper.GetCurrentCulture()));
                     }
-                    else if (_WootingSDK.IsWootingOne())
+                    else if (nativeDeviceInfo.Model == "Wooting one")
                     {
                         device = new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne,
                                                                                                WootingPhysicalKeyboardLayout.US,
