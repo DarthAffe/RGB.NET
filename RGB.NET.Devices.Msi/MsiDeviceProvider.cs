@@ -121,7 +121,7 @@ namespace RGB.NET.Devices.Msi
                         }
 
 
-                        if (deviceTypes.Equals("MSI_VGA"))
+                        if (deviceType.Equals("MSI_VGA"))
                         {
                             //Hex3l: Every led under MSI_VGA should be a different graphics card. Handling all the cards together seems a good way to avoid overlapping of leds
                             //Hex3l: The led name is the name of the card (e.g. NVIDIA GeForce RTX 2080 Ti) we could provide it in device info.
