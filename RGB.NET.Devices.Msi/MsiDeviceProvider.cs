@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Msi
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a device provider responsible for Cooler Master devices.
+    /// Represents a device provider responsible for MSI devices.
     /// </summary>
     public class MsiDeviceProvider : IRGBDeviceProvider
     {
@@ -62,6 +62,11 @@ namespace RGB.NET.Devices.Msi
         /// </summary>
         public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
+        /// </summary>
+        public DeviceUpdateTrigger UpdateTrigger { get; }
+
         #endregion
 
         #region Constructors
@@ -74,6 +79,8 @@ namespace RGB.NET.Devices.Msi
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(MsiDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion
@@ -87,6 +94,8 @@ namespace RGB.NET.Devices.Msi
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 _MsiSDK.Reload();
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
@@ -95,27 +104,28 @@ namespace RGB.NET.Devices.Msi
                 if ((errorCode = _MsiSDK.Initialize()) != 0)
                     ThrowMsiError(errorCode);
 
-                if ((errorCode = _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] ledCounts)) != 0)
+                if ((errorCode = _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] _)) != 0)
                     ThrowMsiError(errorCode);
 
-                for (int i = 0; i < deviceTypes.Length; i++)
+                foreach (string deviceType in deviceTypes)
                 {
                     try
                     {
-                        //TODO DarthAffe 11.11.2017: What is this deviceType? Find someone to try that out
-
-                        // MSI_MB provide access to the motherboard "leds" where a led must be intended as a led header (JRGB, JRAINBOW etc..) (Tested on MSI X570 Unify)
-                        if (deviceTypes[i].Equals("MSI_MB"))
+                        //Hex3l: MSI_MB provide access to the motherboard "leds" where a led must be intended as a led header (JRGB, JRAINBOW etc..) (Tested on MSI X570 Unify)
+                        if (deviceType.Equals("MSI_MB"))
                         {
-                            IMsiRGBDevice motherboard = new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceTypes[i], "Msi", "Motherboard"));
-                            motherboard.Initialize();
+                            MsiDeviceUpdateQueue updateQueue = new MsiDeviceUpdateQueue(UpdateTrigger, deviceType);
+                            IMsiRGBDevice motherboard = new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceType, "Msi", "Motherboard"));
+                            motherboard.Initialize(updateQueue);
                             devices.Add(motherboard);
                         }
 
-                        // Other devices?
+                        //TODO DarthAffe 22.02.2020: Add other devices
                     }
                     catch { if (throwExceptions) throw; }
                 }
+
+                UpdateTrigger?.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

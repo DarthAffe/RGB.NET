@@ -3,7 +3,7 @@
 namespace RGB.NET.Devices.Msi
 {
     /// <summary>
-    /// Represents a device provider loaded used to dynamically load msi devices into an application.
+    /// Represents a device provider loaded used to dynamically load MSI devices into an application.
     /// </summary>
     public class MsiDeviceProviderLoader : IRGBDeviceProviderLoader
     {

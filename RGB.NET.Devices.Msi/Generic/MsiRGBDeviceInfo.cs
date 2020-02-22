@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.Msi
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a Corsair-<see cref="T:RGB.NET.Core.IRGBDevice" />.
+    /// Represents a generic information for a MSI-<see cref="T:RGB.NET.Core.IRGBDevice" />.
     /// </summary>
     public class MsiRGBDeviceInfo : IRGBDeviceInfo
     {
