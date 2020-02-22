@@ -59,7 +59,6 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         protected override object CreateLedCustomData(LedId ledId) => asusCode;
 
-        /// <inheritdoc />
         private LedId AsusLedIdMapper(ushort asusKey)
         {
             switch (asusKey)

@@ -48,7 +48,7 @@ namespace RGB.NET.Devices.Asus
         {
             try
             {
-                if (Device.Type == 0x00080000 || Device.Type == 0x00081000)//Keyboard
+                if ((Device.Type == 0x00080000) || (Device.Type == 0x00081000)) //Keyboard
                 {
                     foreach (KeyValuePair<object, Color> data in dataSet)
                     {
