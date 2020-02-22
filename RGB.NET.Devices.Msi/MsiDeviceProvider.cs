@@ -103,6 +103,16 @@ namespace RGB.NET.Devices.Msi
                     try
                     {
                         //TODO DarthAffe 11.11.2017: What is this deviceType? Find someone to try that out
+
+                        // MSI_MB provide access to the motherboard "leds" where a led must be intended as a led header (JRGB, JRAINBOW etc..) (Tested on MSI X570 Unify)
+                        if (deviceTypes[i].Equals("MSI_MB"))
+                        {
+                            IMsiRGBDevice motherboard = new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceTypes[i], "Msi", "Motherboard"));
+                            motherboard.Initialize();
+                            devices.Add(motherboard);
+                        }
+
+                        // Other devices?
                     }
                     catch { if (throwExceptions) throw; }
                 }
