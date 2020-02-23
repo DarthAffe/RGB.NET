@@ -34,6 +34,7 @@ namespace RGB.NET.Devices.Msi.Exceptions
         /// <param name="errorCode">The raw error code provided by the SDK.</param>
         /// <param name="description">The text-description of the error.</param>
         public MysticLightException(int errorCode, string description)
+            : base($"MSI error code {errorCode} ({description})")
         {
             this.ErrorCode = errorCode;
             this.Description = description;

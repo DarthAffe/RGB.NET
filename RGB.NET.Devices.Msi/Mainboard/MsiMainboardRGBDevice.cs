@@ -25,27 +25,17 @@ namespace RGB.NET.Devices.Msi
         #region Methods
 
         /// <inheritdoc />
-        protected override void InitializeLayout()
+        protected override void InitializeLayout(int ledCount)
         {
-            // Should errors be handled?
-            _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] ledCounts);
-
-            for (int i = 0; i < deviceTypes.Length; i++)
+            for (int i = 0; i < ledCount; i++)
             {
-                // DeviceInfo.MsiDeviceType = "MSI_MB"
-                if (deviceTypes[i].Equals(DeviceInfo.MsiDeviceType))
-                {
-                    for (int j = 0; j < ledCounts[i]; j++)
-                    {
-                        //Hex3l: Should it be configurable in order to provide style access?
-                        //Hex3l: Sets led style to "Steady" in order to have a solid color output therefore a controllable led color
-                        //Hex3l: This is a string defined by the output of _MsiSDK.GetLedStyle, "Steady" should be always present
-                        const string LED_STYLE = "Steady";
+                //Hex3l: Should it be configurable in order to provide style access?
+                //Hex3l: Sets led style to "Steady" in order to have a solid color output therefore a controllable led color
+                //Hex3l: This is a string defined by the output of _MsiSDK.GetLedStyle, "Steady" should be always present
+                const string LED_STYLE = "Steady";
 
-                        _MsiSDK.SetLedStyle(DeviceInfo.MsiDeviceType, j, LED_STYLE);
-                        InitializeLed(LedId.Mainboard1 + j, new Rectangle(j * 40, 0, 40, 8));
-                    }
-                }
+                _MsiSDK.SetLedStyle(DeviceInfo.MsiDeviceType, i, LED_STYLE);
+                InitializeLed(LedId.Mainboard1 + i, new Rectangle(i * 40, 0, 40, 8));
             }
 
             //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?

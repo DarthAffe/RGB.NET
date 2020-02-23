@@ -7,6 +7,6 @@ namespace RGB.NET.Devices.Msi
     /// </summary>
     internal interface IMsiRGBDevice : IRGBDevice
     {
-        void Initialize(MsiDeviceUpdateQueue updateQueue);
+        void Initialize(MsiDeviceUpdateQueue updateQueue, int ledCount);
     }
 }

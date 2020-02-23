@@ -104,31 +104,32 @@ namespace RGB.NET.Devices.Msi
                 if ((errorCode = _MsiSDK.Initialize()) != 0)
                     ThrowMsiError(errorCode);
 
-                if ((errorCode = _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] _)) != 0)
+                if ((errorCode = _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] ledCounts)) != 0)
                     ThrowMsiError(errorCode);
 
-                foreach (string deviceType in deviceTypes)
+                for (int i = 0; i < deviceTypes.Length; i++)
                 {
                     try
                     {
+                        string deviceType = deviceTypes[i];
+                        int ledCount = ledCounts[i];
+
                         //Hex3l: MSI_MB provide access to the motherboard "leds" where a led must be intended as a led header (JRGB, JRAINBOW etc..) (Tested on MSI X570 Unify)
                         if (deviceType.Equals("MSI_MB"))
                         {
                             MsiDeviceUpdateQueue updateQueue = new MsiDeviceUpdateQueue(UpdateTrigger, deviceType);
                             IMsiRGBDevice motherboard = new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceType, "Msi", "Motherboard"));
-                            motherboard.Initialize(updateQueue);
+                            motherboard.Initialize(updateQueue, ledCount);
                             devices.Add(motherboard);
                         }
-
-
-                        if (deviceType.Equals("MSI_VGA"))
+                        else if (deviceType.Equals("MSI_VGA"))
                         {
                             //Hex3l: Every led under MSI_VGA should be a different graphics card. Handling all the cards together seems a good way to avoid overlapping of leds
                             //Hex3l: The led name is the name of the card (e.g. NVIDIA GeForce RTX 2080 Ti) we could provide it in device info.
 
                             MsiDeviceUpdateQueue updateQueue = new MsiDeviceUpdateQueue(UpdateTrigger, deviceType);
                             IMsiRGBDevice graphicscard = new MsiGraphicsCardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.GraphicsCard, deviceType, "Msi", "GraphicsCard"));
-                            graphicscard.Initialize(updateQueue);
+                            graphicscard.Initialize(updateQueue, ledCount);
                             devices.Add(graphicscard);
                         }
 

@@ -46,11 +46,11 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize(MsiDeviceUpdateQueue updateQueue)
+        public void Initialize(MsiDeviceUpdateQueue updateQueue, int ledCount)
         {
             DeviceUpdateQueue = updateQueue;
 
-            InitializeLayout();
+            InitializeLayout(ledCount);
 
             if (Size == Size.Invalid)
             {
@@ -62,7 +62,7 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
         /// </summary>
-        protected abstract void InitializeLayout();
+        protected abstract void InitializeLayout(int ledCount);
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
