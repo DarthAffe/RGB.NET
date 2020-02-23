@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Devices.Msi.Native;
 
 namespace RGB.NET.Devices.Msi
 {
     /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
     /// <inheritdoc cref="IMsiRGBDevice" />
     /// <summary>
-    /// Represents a generic Msi-device. (keyboard, mouse, headset, mousepad).
+    /// Represents a generic MSI-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
     public abstract class MsiRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IMsiRGBDevice
         where TDeviceInfo : MsiRGBDeviceInfo
@@ -21,6 +20,12 @@ namespace RGB.NET.Devices.Msi
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
 
+        /// <summary>
+        /// Gets or sets the update queue performing updates for this device.
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        protected MsiDeviceUpdateQueue DeviceUpdateQueue { get; set; }
+
         #endregion
 
         #region Constructors
@@ -28,7 +33,7 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Initializes a new instance of the <see cref="MsiRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
-        /// <param name="info">The generic information provided by Msi for the device.</param>
+        /// <param name="info">The generic information provided by MSI for the device.</param>
         protected MsiRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
@@ -41,9 +46,11 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize()
+        public void Initialize(MsiDeviceUpdateQueue updateQueue, int ledCount)
         {
-            InitializeLayout();
+            DeviceUpdateQueue = updateQueue;
+
+            InitializeLayout(ledCount);
 
             if (Size == Size.Invalid)
             {
@@ -55,20 +62,11 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
         /// </summary>
-        protected abstract void InitializeLayout();
+        protected abstract void InitializeLayout(int ledCount);
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-        {
-            List<Led> leds = ledsToUpdate.Where(x => x.Color.A > 0).ToList();
-
-            if (leds.Count > 0)
-            {
-                string deviceType = DeviceInfo.MsiDeviceType;
-                foreach (Led led in leds)
-                    _MsiSDK.SetLedColor(deviceType, (int)led.CustomData, led.Color.GetR(), led.Color.GetG(), led.Color.GetB());
-            }
-        }
+            => DeviceUpdateQueue.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is int)));
 
         #endregion
     }

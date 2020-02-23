@@ -3,10 +3,10 @@
 namespace RGB.NET.Devices.Msi
 {
     /// <summary>
-    /// Represents a msi RGB-device.
+    /// Represents a MSI RGB-device.
     /// </summary>
     internal interface IMsiRGBDevice : IRGBDevice
     {
-        void Initialize();
+        void Initialize(MsiDeviceUpdateQueue updateQueue, int ledCount);
     }
 }
