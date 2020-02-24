@@ -62,6 +62,8 @@ namespace RGB.NET.Devices.Corsair
         {
             if (string.Equals(DeviceInfo.Model, "GLAIVE RGB", StringComparison.OrdinalIgnoreCase))
                 return MouseIdMapping.GLAIVE.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
+            else if (string.Equals(DeviceInfo.Model, "M65 RGB ELITE", StringComparison.OrdinalIgnoreCase))
+                return MouseIdMapping.M65_RGB_ELITE.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
             else
                 return MouseIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
         }

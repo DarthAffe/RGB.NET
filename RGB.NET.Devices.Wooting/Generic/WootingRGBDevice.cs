@@ -1,22 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Msi
+namespace RGB.NET.Devices.Wooting.Generic
 {
     /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
-    /// <inheritdoc cref="IMsiRGBDevice" />
+    /// <inheritdoc cref="IWootingRGBDevice" />
     /// <summary>
-    /// Represents a generic MSI-device. (keyboard, mouse, headset, mousepad).
+    /// Represents a Wooting-device
     /// </summary>
-    public abstract class MsiRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IMsiRGBDevice
-        where TDeviceInfo : MsiRGBDeviceInfo
+    public abstract class WootingRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IWootingRGBDevice
+        where TDeviceInfo : WootingRGBDeviceInfo
     {
         #region Properties & Fields
 
         /// <inheritdoc />
         /// <summary>
-        /// Gets information about the <see cref="T:RGB.NET.Devices.Msi.MsiRGBDevice" />.
+        /// Gets information about the <see cref="T:RGB.NET.Devices.Wooting.WootingRGBDevice" />.
         /// </summary>
         public override TDeviceInfo DeviceInfo { get; }
 
@@ -24,17 +23,17 @@ namespace RGB.NET.Devices.Msi
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected MsiDeviceUpdateQueue DeviceUpdateQueue { get; set; }
+        protected UpdateQueue UpdateQueue { get; set; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MsiRGBDevice{TDeviceInfo}"/> class.
+        /// Initializes a new instance of the <see cref="WootingRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
-        /// <param name="info">The generic information provided by MSI for the device.</param>
-        protected MsiRGBDevice(TDeviceInfo info)
+        /// <param name="info">The generic information provided by Wooting for the device.</param>
+        protected WootingRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
         }
@@ -46,27 +45,23 @@ namespace RGB.NET.Devices.Msi
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize(MsiDeviceUpdateQueue updateQueue, int ledCount)
+        public void Initialize(IDeviceUpdateTrigger updateTrigger)
         {
-            DeviceUpdateQueue = updateQueue;
-
-            InitializeLayout(ledCount);
+            InitializeLayout();
 
             if (Size == Size.Invalid)
             {
                 Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
+
+            UpdateQueue = new WootingUpdateQueue(updateTrigger);
         }
 
         /// <summary>
         /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
         /// </summary>
-        protected abstract void InitializeLayout(int ledCount);
-
-        /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-            => DeviceUpdateQueue.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is int)));
+        protected abstract void InitializeLayout();
 
         #endregion
     }

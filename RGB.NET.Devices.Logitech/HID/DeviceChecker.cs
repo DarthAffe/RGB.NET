@@ -17,8 +17,10 @@ namespace RGB.NET.Devices.Logitech.HID
             = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
               {
                   ("G910", RGBDeviceType.Keyboard, 0xC32B, 0, "DE", @"Keyboards\G910\UK"), //TODO DarthAffe 15.11.2017: Somehow detect the current layout
+                  ("G910v2", RGBDeviceType.Keyboard, 0xC335, 0, "DE", @"Keyboards\G910\UK"),
                   ("G810", RGBDeviceType.Keyboard, 0xC337, 0, "DE", @"Keyboards\G810\UK"),
                   ("G610", RGBDeviceType.Keyboard, 0xC333, 0, "DE", @"Keyboards\G610\UK"),
+                  ("G512", RGBDeviceType.Keyboard, 0xC33C, 0, "DE", @"Keyboards\G512\UK"),
                   ("G410", RGBDeviceType.Keyboard, 0xC330, 0, "DE", @"Keyboards\G410\UK"),
                   ("G213", RGBDeviceType.Keyboard, 0xC336, 0, "DE", @"Keyboards\G213\UK"),
                   ("Pro", RGBDeviceType.Keyboard, 0xC339, 0, "DE", @"Keyboards\Pro\UK"),
@@ -29,8 +31,6 @@ namespace RGB.NET.Devices.Logitech.HID
               {
                   ("G19", RGBDeviceType.Keyboard, 0xC228, 0, "DE", @"Keyboards\G19\UK"),
                   ("G19s", RGBDeviceType.Keyboard, 0xC229, 0, "DE", @"Keyboards\G19s\UK"),
-                  ("G502", RGBDeviceType.Mouse, 0xC332, 0, "default", @"Mice\G502"),
-                  ("G502 HERO", RGBDeviceType.Mouse, 0xC08B, 0, "default", @"Mice\G502"),
                   ("G600", RGBDeviceType.Mouse, 0xC24A, 0, "default", @"Mice\G600"),
                   ("G300s", RGBDeviceType.Mouse, 0xC246, 0, "default", @"Mice\G300s"),
                   ("G510", RGBDeviceType.Keyboard, 0xC22D, 0, "DE", @"Keyboards\G510\UK"),
@@ -46,15 +46,19 @@ namespace RGB.NET.Devices.Logitech.HID
         private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> ZONE_DEVICES
             = new List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)>
               {
+                  ("G213", RGBDeviceType.Keyboard, 0xC336, 5, "default", @"Keyboards\G213"),
                   ("G903", RGBDeviceType.Mouse, 0xC086, 2, "default", @"Mice\G903"),
                   ("G900", RGBDeviceType.Mouse, 0xC539, 2, "default", @"Mice\G900"),
                   ("G703", RGBDeviceType.Mouse, 0xC087, 2, "default", @"Mice\G703"),
+                  ("G502 HERO", RGBDeviceType.Mouse, 0xC08B, 2, "default", @"Mice\G502"),
+                  ("G502", RGBDeviceType.Mouse, 0xC332, 2, "default", @"Mice\G502"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
                   ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
                   ("G203", RGBDeviceType.Mouse, 0xC084, 1, "default", @"Mice\G203"),
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
                   ("G633", RGBDeviceType.Headset, 0x0A5C, 2, "default", @"Headsets\G633"),
                   ("G933", RGBDeviceType.Headset, 0x0A5B, 2, "default", @"Headsets\G933"),
+                  ("G935", RGBDeviceType.Headset, 0x0A87, 2, "default", @"Headsets\G935"),
                   ("G560", RGBDeviceType.Speaker, 0x0A78, 4, "default", @"Speakers\G560"),
               };
 

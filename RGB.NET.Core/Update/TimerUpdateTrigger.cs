@@ -14,11 +14,13 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
+        private object _lock = new object();
+
         private CancellationTokenSource _updateTokenSource;
         private CancellationToken _updateToken;
         private Task _updateTask;
         private Stopwatch _sleepCounter;
-        
+
         private double _updateFrequency = 1.0 / 30.0;
         /// <summary>
         /// Gets or sets the update-frequency in seconds. (Calculate by using '1.0 / updates per second')
@@ -33,7 +35,7 @@ namespace RGB.NET.Core
         /// Gets the time it took the last update-loop cycle to run.
         /// </summary>
         public double LastUpdateTime { get; private set; }
-        
+
         #endregion
 
         #region Constructors
@@ -59,25 +61,32 @@ namespace RGB.NET.Core
         /// </summary>
         public void Start()
         {
-            if (_updateTask == null)
+            lock (_lock)
             {
-                _updateTokenSource?.Dispose();
-                _updateTokenSource = new CancellationTokenSource();
-                _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                if (_updateTask == null)
+                {
+                    _updateTokenSource?.Dispose();
+                    _updateTokenSource = new CancellationTokenSource();
+                    _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                }
             }
         }
 
         /// <summary>
         /// Stops the trigger if running, causing it to stop performing updates.
         /// </summary>
-        public async void Stop()
+        public void Stop()
         {
-            if (_updateTask != null)
+            lock (_lock)
             {
-                _updateTokenSource.Cancel();
-                await _updateTask;
-                _updateTask.Dispose();
-                _updateTask = null;
+                if (_updateTask != null)
+                {
+                    _updateTokenSource.Cancel();
+                    // ReSharper disable once MethodSupportsCancellation
+                    _updateTask.Wait();
+                    _updateTask.Dispose();
+                    _updateTask = null;
+                }
             }
         }
 
