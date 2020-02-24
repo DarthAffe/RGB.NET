@@ -21,7 +21,7 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>Github</RepositoryType>
     <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
     <PackageReleaseNotes></PackageReleaseNotes>
 
