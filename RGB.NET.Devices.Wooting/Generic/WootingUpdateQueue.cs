@@ -36,7 +36,7 @@ namespace RGB.NET.Devices.Wooting.Generic
 
             _WootingSDK.ArrayUpdateKeyboard();
         }
-
+        
         #endregion
     }
 }

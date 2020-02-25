@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Wooting.Native
 {
     // ReSharper disable once InconsistentNaming
-    public class _WootingSDK
+    internal static class _WootingSDK
     {
         #region Library management
 
