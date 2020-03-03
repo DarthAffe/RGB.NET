@@ -83,6 +83,15 @@ namespace RGB.NET.Devices.SteelSeries
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\SteelSeries", $"{layoutPath}.xml"), layout, true);
         }
 
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
+
         #endregion
     }
 }

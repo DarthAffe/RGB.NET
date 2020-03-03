@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X
@@ -37,6 +38,11 @@ namespace RGB.NET.Devices.WS281X
         // ReSharper disable once ReturnTypeCanBeEnumerable.Global
         public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = new List<IWS281XDeviceDefinition>();
 
+        /// <summary>
+        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
+        /// </summary>
+        public DeviceUpdateTrigger UpdateTrigger { get; }
+
         #endregion
 
         #region Constructors
@@ -49,6 +55,8 @@ namespace RGB.NET.Devices.WS281X
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WS281XDeviceProvider)}");
             _instance = this;
+
+            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion
@@ -69,17 +77,20 @@ namespace RGB.NET.Devices.WS281X
 
             try
             {
+                UpdateTrigger?.Stop();
+
                 List<IRGBDevice> devices = new List<IRGBDevice>();
                 foreach (IWS281XDeviceDefinition deviceDefinition in DeviceDefinitions)
                 {
                     try
                     {
-                        devices.AddRange(deviceDefinition.CreateDevices());
+                        devices.AddRange(deviceDefinition.CreateDevices(UpdateTrigger));
                     }
                     catch { if (throwExceptions) throw; }
                 }
-                Devices = devices;
+                UpdateTrigger?.Start();
 
+                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;
             }
             catch
@@ -99,10 +110,10 @@ namespace RGB.NET.Devices.WS281X
         /// <inheritdoc />
         public void Dispose()
         {
-            if (IsInitialized)
-                foreach (IRGBDevice device in Devices)
-                    if (device is IDisposable disposable)
-                        disposable.Dispose();
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */}
+
+            DeviceDefinitions.Clear();
         }
 
         #endregion

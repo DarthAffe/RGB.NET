@@ -80,6 +80,9 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
             if ((DeviceInfo is AsusRGBDeviceInfo deviceInfo) && (deviceInfo.Handle != IntPtr.Zero))
                 Marshal.FreeHGlobal(deviceInfo.Handle);
 

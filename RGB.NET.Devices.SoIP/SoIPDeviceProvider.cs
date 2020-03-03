@@ -56,7 +56,7 @@ namespace RGB.NET.Devices.SoIP
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SoIPDeviceProvider)}");
             _instance = this;
-            
+
             UpdateTrigger = new DeviceUpdateTrigger();
         }
 
@@ -130,8 +130,8 @@ namespace RGB.NET.Devices.SoIP
         /// <inheritdoc />
         public void Dispose()
         {
-            foreach (IRGBDevice device in Devices)
-                device.Dispose();
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
         }
 
         #endregion

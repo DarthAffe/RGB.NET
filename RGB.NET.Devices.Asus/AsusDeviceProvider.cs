@@ -172,7 +172,12 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         public void Dispose()
         {
-            _sdk?.ReleaseControl(0);
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            try { _sdk?.ReleaseControl(0); }
+            catch { /* at least we tried */ }
+
             _sdk = null;
         }
 

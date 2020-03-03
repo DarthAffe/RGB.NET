@@ -157,8 +157,12 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public virtual void Dispose()
         {
-            SpecialDeviceParts.Clear();
-            LedMapping.Clear();
+            try
+            {
+                SpecialDeviceParts.Clear();
+                LedMapping.Clear();
+            }
+            catch { /* this really shouldn't happen */ }
         }
 
         /// <summary>

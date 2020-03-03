@@ -66,6 +66,9 @@ namespace RGB.NET.Devices.SoIP.Server
         /// <inheritdoc />
         public override void Dispose()
         {
+            try { _updateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
             base.Dispose();
 
             _tcpServer.Stop();

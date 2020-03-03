@@ -175,6 +175,9 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <inheritdoc />
         public void Dispose()
         {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
             if (IsInitialized)
                 foreach (IRGBDevice device in Devices)
                 {

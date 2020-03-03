@@ -43,7 +43,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <summary>
         /// Initializes a new instance of the <see cref="BitwizardWS281XDeviceDefinition"/> class.
         /// </summary>
-        /// <param name="portName">The name of the serial-port to connect to.</param>
+        /// <param name="port">The name of the serial-port to connect to.</param>
         public BitwizardWS281XDeviceDefinition(string port)
         {
             this.Port = port;
@@ -54,17 +54,13 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         #region Methods
 
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> CreateDevices()
+        public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            DeviceUpdateTrigger updateTrigger = new DeviceUpdateTrigger();
-
             BitwizardWS2812USBUpdateQueue queue = new BitwizardWS2812USBUpdateQueue(updateTrigger, Port, BaudRate);
             string name = Name ?? $"Bitwizard WS2812 USB ({Port})";
             BitwizardWS2812USBDevice device = new BitwizardWS2812USBDevice(new BitwizardWS2812USBDeviceInfo(name), queue);
             device.Initialize(StripLength);
             yield return device;
-
-            updateTrigger.Start();
         }
 
         #endregion

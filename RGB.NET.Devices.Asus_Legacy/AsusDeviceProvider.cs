@@ -268,6 +268,9 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         public void Dispose()
         {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
             try { _AsusSDK.UnloadAsusSDK(); }
             catch { /* at least we tried */ }
         }

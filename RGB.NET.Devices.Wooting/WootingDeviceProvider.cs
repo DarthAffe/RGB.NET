@@ -143,6 +143,9 @@ namespace RGB.NET.Devices.Wooting
         /// <inheritdoc />
         public void Dispose()
         {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
             try { _WootingSDK.Reset(); }
             catch { /* Unlucky.. */ }
 

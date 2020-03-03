@@ -116,7 +116,10 @@ namespace RGB.NET.Devices.DMX
 
         /// <inheritdoc />
         public void Dispose()
-        { }
+        {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+        }
 
         #endregion
     }

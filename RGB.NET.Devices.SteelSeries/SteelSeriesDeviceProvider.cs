@@ -117,11 +117,11 @@ namespace RGB.NET.Devices.SteelSeries
         /// <inheritdoc />
         public void Dispose()
         {
-            try
-            {
-                SteelSeriesSDK.Dispose();
-            }
-            catch {/* shit happens */}
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            try { SteelSeriesSDK.Dispose(); }
+            catch { /* shit happens */ }
         }
 
         #endregion

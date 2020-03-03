@@ -59,6 +59,15 @@ namespace RGB.NET.Devices.DMX.E131
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => _updateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { _updateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
+
         #endregion
     }
 }

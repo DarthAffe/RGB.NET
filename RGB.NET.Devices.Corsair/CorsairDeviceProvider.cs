@@ -293,6 +293,9 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public void Dispose()
         {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
             try { _CUESDK.UnloadCUESDK(); }
             catch { /* at least we tried */ }
         }

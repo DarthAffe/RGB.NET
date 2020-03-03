@@ -184,6 +184,9 @@ namespace RGB.NET.Devices.Logitech
         /// <inheritdoc />
         public void Dispose()
         {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
             try { _LogitechGSDK.LogiLedRestoreLighting(); }
             catch { /* at least we tried */ }
 

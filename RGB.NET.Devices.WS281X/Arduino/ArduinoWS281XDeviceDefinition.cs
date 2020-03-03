@@ -39,7 +39,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <summary>
         /// Initializes a new instance of the <see cref="ArduinoWS281XDeviceDefinition"/> class.
         /// </summary>
-        /// <param name="portName">The name of the serial-port to connect to.</param>
+        /// <param name="port">The name of the serial-port to connect to.</param>
         public ArduinoWS281XDeviceDefinition(string port)
         {
             this.Port = port;
@@ -50,10 +50,8 @@ namespace RGB.NET.Devices.WS281X.Arduino
         #region Methods
 
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> CreateDevices()
+        public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            DeviceUpdateTrigger updateTrigger = new DeviceUpdateTrigger();
-
             ArduinoWS2812USBUpdateQueue queue = new ArduinoWS2812USBUpdateQueue(updateTrigger, Port, BaudRate);
             IEnumerable<(int channel, int ledCount)> channels = queue.GetChannels();
             int counter = 0;
@@ -64,8 +62,6 @@ namespace RGB.NET.Devices.WS281X.Arduino
                 device.Initialize(ledCount);
                 yield return device;
             }
-
-            updateTrigger.Start();
         }
 
         #endregion

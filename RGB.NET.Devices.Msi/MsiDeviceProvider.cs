@@ -164,6 +164,9 @@ namespace RGB.NET.Devices.Msi
         /// <inheritdoc />
         public void Dispose()
         {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
             try { _MsiSDK.UnloadMsiSDK(); }
             catch { /* at least we tried */ }
         }
