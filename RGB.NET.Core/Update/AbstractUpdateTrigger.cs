@@ -5,7 +5,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic update trigger. 
     /// </summary>
-    public class AbstractUpdateTrigger : AbstractBindable, IUpdateTrigger
+    public abstract class AbstractUpdateTrigger : AbstractBindable, IUpdateTrigger
     {
         #region Events
 
@@ -31,8 +31,7 @@ namespace RGB.NET.Core
         protected virtual void OnUpdate(CustomUpdateData updateData = null) => Update?.Invoke(this, updateData);
 
         /// <inheritdoc />
-        public virtual void Dispose()
-        { }
+        public abstract void Dispose();
 
         #endregion
     }
