@@ -25,7 +25,7 @@ namespace RGB.NET.Core
         /// Gets a list containing all <see cref="Led"/> of this <see cref="ILedGroup"/>.
         /// </summary>
         /// <returns>The list containing all <see cref="Led"/> of this <see cref="ILedGroup"/>.</returns>
-        IEnumerable<Led> GetLeds();
+        IList<Led> GetLeds();
 
         /// <summary>
         /// Called when the <see cref="ILedGroup"/> is attached to the <see cref="RGBSurface"/>.
