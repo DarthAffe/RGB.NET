@@ -228,7 +228,7 @@ namespace RGB.NET.Devices.Asus
                     catch { if (throwExceptions) throw; }
 
                 #endregion
-                
+
                 UpdateTrigger?.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
@@ -267,7 +267,10 @@ namespace RGB.NET.Devices.Asus
 
         /// <inheritdoc />
         public void Dispose()
-        { }
+        {
+            try { _AsusSDK.UnloadAsusSDK(); }
+            catch { /* at least we tried */ }
+        }
 
         #endregion
     }

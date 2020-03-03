@@ -222,7 +222,13 @@ namespace RGB.NET.Devices.Razer
         }
 
         /// <inheritdoc />
-        public void Dispose() => TryUnInit();
+        public void Dispose()
+        {
+            TryUnInit();
+
+            try { _RazerSDK.UnloadRazerSDK(); }
+            catch { /* at least we tried */ }
+        }
 
         #endregion
     }

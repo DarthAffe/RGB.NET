@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.Wooting.Native
             _arraySetSinglePointer = (ArraySetSinglePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_array_set_single"), typeof(ArraySetSinglePointer));
         }
 
-        private static void UnloadWootingSDK()
+        internal static void UnloadWootingSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 
@@ -91,13 +91,13 @@ namespace RGB.NET.Devices.Wooting.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate IntPtr GetDeviceInfoPointer();
-        
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool KeyboardConnectedPointer();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool ResetPointer();
-        
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool ArrayUpdateKeyboardPointer();
 

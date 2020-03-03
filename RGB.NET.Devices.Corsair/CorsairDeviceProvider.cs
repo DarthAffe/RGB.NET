@@ -292,7 +292,10 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         public void Dispose()
-        { }
+        {
+            try { _CUESDK.UnloadCUESDK(); }
+            catch { /* at least we tried */ }
+        }
 
         #endregion
     }

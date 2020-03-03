@@ -108,7 +108,7 @@ namespace RGB.NET.Devices.CoolerMaster
                     {
                         RGBDeviceType deviceType = index.GetDeviceType();
                         if (deviceType == RGBDeviceType.None) continue;
-                        
+
                         if (_CoolerMasterSDK.IsDevicePlugged(index))
                         {
                             if (!loadFilter.HasFlag(deviceType)) continue;
@@ -185,6 +185,9 @@ namespace RGB.NET.Devices.CoolerMaster
                     }
                     catch {/* shit happens */}
                 }
+
+            try { _CoolerMasterSDK.UnloadCMSDK(); }
+            catch { /* at least we tried */ }
         }
 
         #endregion

@@ -114,6 +114,9 @@ namespace RGB.NET.Devices.Roccat
                 try { _RoccatSDK.UnloadSDK(_sdkHandle); }
                 catch { /* We tried our best */}
             }
+
+            try { _RoccatSDK.UnloadRoccatSDK(); }
+            catch { /* at least we tried */ }
         }
 
         #endregion

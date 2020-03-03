@@ -85,7 +85,9 @@ namespace RGB.NET.Devices.SteelSeries.API
 
         internal static void Dispose()
         {
-            ResetLeds();
+            if (IsInitialized)
+                ResetLeds();
+
             _client.Dispose();
         }
 

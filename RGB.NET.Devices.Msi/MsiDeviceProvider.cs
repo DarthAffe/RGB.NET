@@ -163,7 +163,10 @@ namespace RGB.NET.Devices.Msi
 
         /// <inheritdoc />
         public void Dispose()
-        { }
+        {
+            try { _MsiSDK.UnloadMsiSDK(); }
+            catch { /* at least we tried */ }
+        }
 
         #endregion
     }

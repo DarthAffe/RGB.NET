@@ -28,13 +28,13 @@ namespace RGB.NET.Devices.Wooting
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> {"x86/wooting-rgb-sdk.dll"};
+        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/wooting-rgb-sdk.dll" };
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> {"x64/wooting-rgb-sdk64.dll"};
+        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/wooting-rgb-sdk64.dll" };
 
         /// <inheritdoc />
         /// <summary>
@@ -144,9 +144,10 @@ namespace RGB.NET.Devices.Wooting
         public void Dispose()
         {
             try { _WootingSDK.Reset(); }
-            catch
-            { /* Unlucky.. */
-            }
+            catch { /* Unlucky.. */ }
+
+            try { _WootingSDK.UnloadWootingSDK(); }
+            catch { /* at least we tried */ }
         }
 
         #endregion
