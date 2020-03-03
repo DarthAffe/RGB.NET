@@ -227,7 +227,7 @@ namespace RGB.NET.Devices.Corsair
                             {
                                 _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo));
 
-                                yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info.CorsairDeviceIndex, nativeDeviceInfo, channelDeviceInfo, referenceLed, modelCounter));
+                                yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info, nativeDeviceInfo, channelDeviceInfo, referenceLed, modelCounter));
                                 referenceLed += channelDeviceInfo.deviceLedCount;
 
                                 channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
