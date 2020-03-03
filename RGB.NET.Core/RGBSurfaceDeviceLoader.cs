@@ -29,28 +29,31 @@ namespace RGB.NET.Core
         /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
         public void LoadDevices(IRGBDeviceProvider deviceProvider, RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
-            if (_deviceProvider.Contains(deviceProvider) || _deviceProvider.Any(x => x.GetType() == deviceProvider.GetType())) return;
-
-            List<IRGBDevice> addedDevices = new List<IRGBDevice>();
-            if (deviceProvider.IsInitialized || deviceProvider.Initialize(loadFilter, exclusiveAccessIfPossible, throwExceptions))
+            lock (_deviceProvider)
             {
-                _deviceProvider.Add(deviceProvider);
+                if (_deviceProvider.Contains(deviceProvider) || _deviceProvider.Any(x => x.GetType() == deviceProvider.GetType())) return;
 
-                foreach (IRGBDevice device in deviceProvider.Devices)
+                List<IRGBDevice> addedDevices = new List<IRGBDevice>();
+                if (deviceProvider.IsInitialized || deviceProvider.Initialize(loadFilter, exclusiveAccessIfPossible, throwExceptions))
                 {
-                    if (_devices.Contains(device)) continue;
+                    _deviceProvider.Add(deviceProvider);
+                    lock (_devices)
+                        foreach (IRGBDevice device in deviceProvider.Devices)
+                        {
+                            if (_devices.Contains(device)) continue;
 
-                    addedDevices.Add(device);
+                            addedDevices.Add(device);
 
-                    device.PropertyChanged += DeviceOnPropertyChanged;
-                    _devices.Add(device);
+                            device.PropertyChanged += DeviceOnPropertyChanged;
+                            _devices.Add(device);
+                        }
                 }
-            }
 
-            if (addedDevices.Any())
-            {
-                UpdateSurfaceRectangle();
-                SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(addedDevices, true, false));
+                if (addedDevices.Any())
+                {
+                    UpdateSurfaceRectangle();
+                    SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(addedDevices, true, false));
+                }
             }
         }
 
