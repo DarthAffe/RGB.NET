@@ -78,11 +78,11 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
-            try { UpdateQueue?.Dispose(); }
-            catch { /* at least we tried */ }
-
             Reset();
 
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+            
             base.Dispose();
         }
 
