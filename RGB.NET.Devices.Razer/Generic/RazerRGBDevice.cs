@@ -81,6 +81,15 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         public void Reset() => UpdateQueue.Reset();
 
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
+
         #endregion
     }
 }

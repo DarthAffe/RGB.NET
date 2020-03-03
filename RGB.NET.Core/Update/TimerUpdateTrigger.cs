@@ -106,6 +106,9 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <inheritdoc />
+        public override void Dispose() => Stop();
+
         #endregion
     }
 }

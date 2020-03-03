@@ -139,6 +139,10 @@ namespace RGB.NET.Core
                 try { deviceProvider.Dispose(); }
                 catch { /* We do what we can */ }
 
+            foreach (IUpdateTrigger updateTrigger in _updateTriggers)
+                try { updateTrigger.Dispose(); }
+                catch { /* We do what we can */ }
+
             _ledGroups.Clear();
             _devices = null;
             _deviceProvider = null;

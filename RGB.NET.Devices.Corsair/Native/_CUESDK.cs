@@ -56,7 +56,7 @@ namespace RGB.NET.Devices.Corsair.Native
             _corsairGetLastErrorPointer = (CorsairGetLastErrorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairGetLastError"), typeof(CorsairGetLastErrorPointer));
         }
 
-        private static void UnloadCUESDK()
+        internal static void UnloadCUESDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 
@@ -136,7 +136,7 @@ namespace RGB.NET.Devices.Corsair.Native
         #endregion
 
         // ReSharper disable EventExceptionNotDocumented
-        
+
         /// <summary>
         /// CUE-SDK: set specified LEDs to some colors.
         /// This function set LEDs colors in the buffer which is written to the devices via CorsairSetLedsColorsFlushBuffer or CorsairSetLedsColorsFlushBufferAsync.
@@ -151,7 +151,7 @@ namespace RGB.NET.Devices.Corsair.Native
         /// This function executes synchronously, if you are concerned about delays consider using CorsairSetLedsColorsFlushBufferAsync
         /// </summary>
         internal static bool CorsairSetLedsColorsFlushBuffer() => _corsairSetLedsColorsFlushBufferPointer();
-        
+
         /// <summary>
         /// CUE-SDK: get current color for the list of requested LEDs.
         /// The color should represent the actual state of the hardware LED, which could be a combination of SDK and/or CUE input.
@@ -175,7 +175,7 @@ namespace RGB.NET.Devices.Corsair.Native
         /// CUE-SDK: returns information about device at provided index.
         /// </summary>
         internal static IntPtr CorsairGetDeviceInfo(int deviceIndex) => _corsairGetDeviceInfoPointer(deviceIndex);
-        
+
         /// <summary>
         /// CUE-SDK: provides list of keyboard or mousepad LEDs with their physical positions.
         /// </summary>

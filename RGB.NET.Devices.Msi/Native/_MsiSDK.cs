@@ -60,7 +60,7 @@ namespace RGB.NET.Devices.Msi.Native
             _getErrorMessagePointer = (GetErrorMessagePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetErrorMessage"), typeof(GetErrorMessagePointer));
         }
 
-        private static void UnloadMsiSDK()
+        internal static void UnloadMsiSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 
