@@ -13,6 +13,9 @@ namespace RGB.NET.Devices.Novation
     {
         [DeviceId("Launchpad S")]
         [ColorCapability(NovationColorCapabilities.LimitedRG)]
-        LaunchpadS
+        LaunchpadS,
+        [DeviceId("Launchpad Mini")]
+        [ColorCapability(NovationColorCapabilities.LimitedRG)]
+        LaunchpadMini
     }
 }
