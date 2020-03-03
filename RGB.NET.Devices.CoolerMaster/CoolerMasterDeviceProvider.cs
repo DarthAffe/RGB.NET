@@ -189,8 +189,9 @@ namespace RGB.NET.Devices.CoolerMaster
                     catch {/* shit happens */}
                 }
 
-            try { _CoolerMasterSDK.UnloadCMSDK(); }
-            catch { /* at least we tried */ }
+            // DarthAffe 03.03.2020: Should be done but isn't possible due to an weird winodws-hook inside the sdk which corrupts the stack when unloading the dll
+            //try { _CoolerMasterSDK.UnloadCMSDK(); }
+            //catch { /* at least we tried */ }
         }
 
         #endregion

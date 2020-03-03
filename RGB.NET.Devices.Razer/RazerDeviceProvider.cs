@@ -229,8 +229,9 @@ namespace RGB.NET.Devices.Razer
 
             TryUnInit();
 
-            try { _RazerSDK.UnloadRazerSDK(); }
-            catch { /* at least we tried */ }
+            // DarthAffe 03.03.2020: Fails with an access-violation - verify if an unload is already triggered by uninit
+            //try { _RazerSDK.UnloadRazerSDK(); }
+            //catch { /* at least we tried */ }
         }
 
         #endregion
