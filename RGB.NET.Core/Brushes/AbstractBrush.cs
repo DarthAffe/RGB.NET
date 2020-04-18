@@ -110,14 +110,20 @@ namespace RGB.NET.Core
         /// <returns>The finalized color.</returns>
         protected virtual Color FinalizeColor(Color color)
         {
-            foreach (IColorCorrection colorCorrection in ColorCorrections)
-                color = colorCorrection.ApplyTo(color);
+            if (ColorCorrections.Count > 0)
+                foreach (IColorCorrection colorCorrection in ColorCorrections)
+                    color = colorCorrection.ApplyTo(color);
 
             // Since we use HSV to calculate there is no way to make a color 'brighter' than 100%
             // Be carefull with the naming: Since we use HSV the correct term is 'value' but outside we call it 'brightness'
             // THIS IS NOT A HSB CALCULATION!!!
-            return color.MultiplyHSV(value: Brightness.Clamp(0, 1))
-                        .MultiplyA(Opacity.Clamp(0, 1));
+            if (Brightness < 1)
+                color = color.MultiplyHSV(value: Brightness.Clamp(0, 1));
+
+            if (Opacity < 1)
+                color = color.MultiplyA(Opacity.Clamp(0, 1));
+
+            return color;
         }
 
         #endregion
