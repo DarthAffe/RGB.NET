@@ -10,11 +10,11 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a corsair mousepad.
     /// </summary>
-    public class CorsairMousepadRGBDevice : CorsairRGBDevice<CorsairMousepadRGBDeviceInfo>
+    public class CorsairMousepadRGBDevice : CorsairRGBDevice<CorsairMousepadRGBDeviceInfo>, IMousepad
     {
         #region Constructors
 

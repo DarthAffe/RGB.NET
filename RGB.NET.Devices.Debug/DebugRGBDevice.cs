@@ -5,11 +5,11 @@ using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Devices.Debug
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a debug device.
     /// </summary>
-    public class DebugRGBDevice : AbstractRGBDevice<DebugRGBDeviceInfo>
+    public class DebugRGBDevice : AbstractRGBDevice<DebugRGBDeviceInfo>, IUnknownDevice
     {
         #region Properties & Fields
 

@@ -3,11 +3,11 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="CoolerMasterRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a CoolerMaster keyboard.
     /// </summary>
-    public class CoolerMasterKeyboardRGBDevice : CoolerMasterRGBDevice<CoolerMasterKeyboardRGBDeviceInfo>
+    public class CoolerMasterKeyboardRGBDevice : CoolerMasterRGBDevice<CoolerMasterKeyboardRGBDeviceInfo>, IKeyboard
     {
         #region Constructors
 

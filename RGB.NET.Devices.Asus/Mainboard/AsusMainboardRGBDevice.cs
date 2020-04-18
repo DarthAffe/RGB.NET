@@ -2,11 +2,11 @@
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Asus mainboard.
     /// </summary>
-    public class AsusMainboardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
+    public class AsusMainboardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IKeyboard
     {
         #region Constructors
 

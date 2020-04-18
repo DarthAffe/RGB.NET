@@ -6,11 +6,11 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Corsair
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a corsair mouse.
     /// </summary>
-    public class CorsairMouseRGBDevice : CorsairRGBDevice<CorsairMouseRGBDeviceInfo>
+    public class CorsairMouseRGBDevice : CorsairRGBDevice<CorsairMouseRGBDeviceInfo>, IMouse
     {
         #region Constructors
 

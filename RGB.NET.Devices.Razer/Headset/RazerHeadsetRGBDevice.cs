@@ -6,11 +6,11 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a razer headset.
     /// </summary>
-    public class RazerHeadsetRGBDevice : RazerRGBDevice<RazerHeadsetRGBDeviceInfo>
+    public class RazerHeadsetRGBDevice : RazerRGBDevice<RazerHeadsetRGBDeviceInfo>, IHeadset
     {
         #region Constructors
 

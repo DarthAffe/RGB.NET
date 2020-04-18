@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.SteelSeries
     /// <summary>
     /// Represents a SteelSeries-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>, ISteelSeriesRGBDevice
+    public class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>, ISteelSeriesRGBDevice, IUnknownDevice//TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
     {
         #region Properties & Fields
 

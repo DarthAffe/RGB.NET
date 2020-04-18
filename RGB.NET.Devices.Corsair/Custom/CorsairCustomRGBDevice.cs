@@ -6,11 +6,11 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Corsair
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a corsair custom.
     /// </summary>
-    public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInfo>
+    public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInfo>, IUnknownDevice
     {
         #region Properties & Fields
 

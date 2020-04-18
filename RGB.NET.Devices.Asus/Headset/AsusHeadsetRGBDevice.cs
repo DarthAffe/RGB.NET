@@ -2,11 +2,11 @@
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Asus headset.
     /// </summary>
-    public class AsusHeadsetRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
+    public class AsusHeadsetRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IHeadset
     {
         #region Constructors
 
