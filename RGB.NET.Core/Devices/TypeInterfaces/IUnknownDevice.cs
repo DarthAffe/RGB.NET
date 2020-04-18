@@ -3,6 +3,6 @@
     /// <summary>
     /// Represents a device with unkown or not specified type.
     /// </summary>
-    public interface IInknownDevice : IRGBDevice
+    public interface IUnknownDevice : IRGBDevice
     { }
 }
