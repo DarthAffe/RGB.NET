@@ -3,11 +3,11 @@ using RGB.NET.Devices.Msi.Native;
 
 namespace RGB.NET.Devices.Msi
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="MsiRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a MSI mainboard.
     /// </summary>
-    public class MsiMainboardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>
+    public class MsiMainboardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IMainboard
     {
         #region Constructors
 

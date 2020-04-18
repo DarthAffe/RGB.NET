@@ -4,11 +4,11 @@ using RGB.NET.Devices.Asus.Native;
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Asus graphicsCard.
     /// </summary>
-    public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusGraphicsCardRGBDeviceInfo>
+    public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusGraphicsCardRGBDeviceInfo>, IGraphicsCard
     {
         #region Constructors
 

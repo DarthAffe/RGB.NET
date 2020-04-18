@@ -7,7 +7,7 @@ using SimpleTCP;
 
 namespace RGB.NET.Devices.SoIP.Client
 {
-    public class SoIPClientRGBDevice : AbstractRGBDevice<SoIPClientRGBDeviceInfo>, ISoIPRGBDevice
+    public class SoIPClientRGBDevice : AbstractRGBDevice<SoIPClientRGBDeviceInfo>, ISoIPRGBDevice, IUnknownDevice
     {
         #region Properties & Fields
 

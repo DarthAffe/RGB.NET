@@ -5,11 +5,11 @@ using RGB.NET.Devices.Wooting.Generic;
 
 namespace RGB.NET.Devices.Wooting.Keyboard
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="WootingRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Wooting keyboard.
     /// </summary>
-    public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>
+    public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
     {
         #region Constructors
 

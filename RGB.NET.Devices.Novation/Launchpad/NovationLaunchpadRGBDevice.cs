@@ -4,11 +4,11 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Novation
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="NovationRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Novation launchpad.
     /// </summary>
-    public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGBDeviceInfo>
+    public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGBDeviceInfo>, ILedMatrix
     {
         #region Constructors
 

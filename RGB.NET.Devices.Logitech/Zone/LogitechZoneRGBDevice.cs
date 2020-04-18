@@ -4,11 +4,11 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="LogitechRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a logitech zone-lightable device.
     /// </summary>
-    public class LogitechZoneRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>
+    public class LogitechZoneRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
     {
         #region Constants
 

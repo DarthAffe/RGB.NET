@@ -3,11 +3,11 @@ using RGB.NET.Devices.Msi.Native;
 
 namespace RGB.NET.Devices.Msi
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="MsiRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents MSI VGA adapters.
     /// </summary>
-    public class MsiGraphicsCardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>
+    public class MsiGraphicsCardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IGraphicsCard
     {
         #region Constructors
 

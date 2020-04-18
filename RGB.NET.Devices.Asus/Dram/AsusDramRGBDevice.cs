@@ -2,11 +2,11 @@
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Asus dram.
     /// </summary>
-    public class AsusDramRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
+    public class AsusDramRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IDRAM
     {
         #region Constructors
 
