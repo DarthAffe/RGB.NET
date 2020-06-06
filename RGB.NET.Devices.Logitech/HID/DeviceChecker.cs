@@ -44,6 +44,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G105", RGBDeviceType.Keyboard, 0xC248, 0, "DE", @"Keyboards\G105\UK"),
                   ("G15", RGBDeviceType.Keyboard, 0xC222, 0, "DE", @"Keyboards\G15\UK"),
                   ("G11", RGBDeviceType.Keyboard, 0xC225, 0, "DE", @"Keyboards\G11\UK"),
+                  ("Powerplay", RGBDeviceType.Mousepad, 0xC53A, 0, "default", @"Mouspads\Powerplay"),
               };
 
         private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> ZONE_DEVICES
@@ -53,6 +54,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G903", RGBDeviceType.Mouse, 0xC086, 2, "default", @"Mice\G903"),
                   ("G900", RGBDeviceType.Mouse, 0xC539, 2, "default", @"Mice\G900"),
                   ("G703", RGBDeviceType.Mouse, 0xC087, 2, "default", @"Mice\G703"),
+                  ("G502 Lightspeed", RGBDeviceType.Mouse, 0xC231, 2, "default", @"Mice\G502"),
                   ("G502 HERO", RGBDeviceType.Mouse, 0xC08B, 2, "default", @"Mice\G502"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, 2, "default", @"Mice\G502"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
