@@ -132,7 +132,8 @@ namespace RGB.NET.Devices.CoolerMaster
                                         continue;
                             }
 
-                            _CoolerMasterSDK.EnableLedControl(true, index);
+                            if (!_CoolerMasterSDK.EnableLedControl(true, index))
+                                throw new RGBDeviceException("Failed to enable LED control for device " + index);
 
                             device.Initialize(UpdateTrigger);
                             devices.Add(device);

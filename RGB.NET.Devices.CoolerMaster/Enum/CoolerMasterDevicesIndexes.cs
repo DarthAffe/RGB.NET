@@ -69,6 +69,18 @@ namespace RGB.NET.Devices.CoolerMaster
         [DeviceType(RGBDeviceType.Keyboard)]
         CK551 = 13,
 
+        [Description("MM830")]
+        [DeviceType(RGBDeviceType.Mouse)]
+        MM830 = 14,
+
+        [Description("CK530")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        CK530 = 15,
+
+        [Description("MK850")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        MK850 = 16,
+
         [DeviceType(RGBDeviceType.None)]
         Default = 0xFFFF
     }
