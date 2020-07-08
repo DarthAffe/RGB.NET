@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace RGB.NET.Core
 {
@@ -13,9 +14,14 @@ namespace RGB.NET.Core
     /// Represents a basic decoratable for a specific type of <see cref="T:RGB.NET.Core.IDecorator" />
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IDecoratable<in T> : IDecoratable
+    public interface IDecoratable<T> : IDecoratable
         where T : IDecorator
     {
+        /// <summary>
+        /// Gets a readonly-list of all <see cref="IDecorator"/> attached to this <see cref="IDecoratable{T}"/>.
+        /// </summary>
+        IReadOnlyCollection<T> Decorators { get; }
+
         /// <summary>
         /// Adds an <see cref="IDecorator"/> to the <see cref="IDecoratable"/>.
         /// </summary>
