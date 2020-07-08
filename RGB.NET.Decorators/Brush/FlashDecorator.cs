@@ -129,7 +129,7 @@ namespace RGB.NET.Decorators.Brush
                 else
                 {
                     if ((++_repetitionCount >= Repetitions) && (Repetitions > 0))
-                        Detach<IBrush, FlashDecorator>();
+                        Detach();
                     _currentPhaseValue = Attack;
                     _currentPhase = ADSRPhase.Attack;
                 }
