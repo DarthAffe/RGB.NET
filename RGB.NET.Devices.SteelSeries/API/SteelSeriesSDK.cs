@@ -25,7 +25,8 @@ namespace RGB.NET.Devices.SteelSeries.API
           ((nil? zoneDo))
           (let* ((zone (car zoneDo))
                  (color (get-slot zoneData zone)))
-            (on-device device show-on-zone: color zone))))))";
+            (on-device device show-on-zone: color zone))))))
+(add-event-per-key-zone-use """ + EVENT_NAME + @""" ""all"")";
 
         private const string CORE_PROPS_WINDOWS = "%PROGRAMDATA%/SteelSeries/SteelSeries Engine 3/coreProps.json";
         private const string CORE_PROPS_OSX = "/Library/Application Support/SteelSeries Engine 3/coreProps.json";
