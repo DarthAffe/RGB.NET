@@ -16,7 +16,7 @@ namespace RGB.NET.Devices.SteelSeries.API
         private const string GAME_NAME = "RGBNET";
         private const string GAME_DISPLAYNAME = "RGB.NET";
         private const string EVENT_NAME = "UPDATELEDS";
-        private const string HANDLER = @"(handler """ + EVENT_NAME + @"""
+        private static readonly string HANDLER = $@"(handler ""{EVENT_NAME}""
   (lambda (data)
     (let* ((device (value: data))
            (zoneData (frame: data))
@@ -25,8 +25,21 @@ namespace RGB.NET.Devices.SteelSeries.API
           ((nil? zoneDo))
           (let* ((zone (car zoneDo))
                  (color (get-slot zoneData zone)))
-            (on-device device show-on-zone: color zone))))))";
-
+            (on-device device show-on-zone: color zone))))))
+(add-event-per-key-zone-use ""{EVENT_NAME}"" ""all"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-1-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-2-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-3-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-4-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-5-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-6-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-7-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-8-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-12-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-17-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-24-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-103-zone"")";
+        
         private const string CORE_PROPS_WINDOWS = "%PROGRAMDATA%/SteelSeries/SteelSeries Engine 3/coreProps.json";
         private const string CORE_PROPS_OSX = "/Library/Application Support/SteelSeries Engine 3/coreProps.json";
 
