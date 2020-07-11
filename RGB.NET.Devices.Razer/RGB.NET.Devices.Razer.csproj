@@ -14,8 +14,8 @@
     <RootNamespace>RGB.NET.Devices.Razer</RootNamespace>
     <Description>Razer-Device-Implementations of RGB.NET</Description>
     <Summary>Razer-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Wyrez 2017</Copyright>
-    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <Copyright>Copyright © Darth Affe 2020</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2020</PackageCopyright>
     <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
