@@ -2,7 +2,7 @@
 
 namespace RGB.NET.Devices.Asus
 {
-    internal enum AsusDeviceTypes
+    internal enum AsusDeviceType : uint
     {
         ALL = 0,
         MB_RGB = 0x10000,
