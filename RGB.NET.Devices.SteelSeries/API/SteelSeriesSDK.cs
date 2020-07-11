@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -16,16 +17,21 @@ namespace RGB.NET.Devices.SteelSeries.API
         private const string GAME_NAME = "RGBNET";
         private const string GAME_DISPLAYNAME = "RGB.NET";
         private const string EVENT_NAME = "UPDATELEDS";
-        private static readonly string HANDLER = $@"(handler ""{EVENT_NAME}""
+        private static readonly string HANDLER = $@"(define (getZone x)
+  (case x
+    {string.Join(Environment.NewLine, Enum.GetValues(typeof(SteelSeriesLedId))
+                                          .Cast<SteelSeriesLedId>()
+                                          .Select(x => x.GetAPIName())
+                                          .Select(ledId => $"    ((\"{ledId}\") {ledId}:)"))}
+  ))
+
+(handler ""{EVENT_NAME}""
   (lambda (data)
     (let* ((device (value: data))
-           (zoneData (frame: data))
-           (zones (frame-keys zoneData)))
-      (do ((zoneDo zones (cdr zoneDo)))
-          ((nil? zoneDo))
-          (let* ((zone (car zoneDo))
-                 (color (get-slot zoneData zone)))
-            (on-device device show-on-zone: color zone))))))
+           (zones (zones: data))
+           (colors (colors: data)))
+      (on-device device show-on-zones: colors (map (lambda (x) (getZone x)) zones)))))
+
 (add-event-per-key-zone-use ""{EVENT_NAME}"" ""all"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-1-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-2-zone"")
@@ -87,7 +93,8 @@ namespace RGB.NET.Devices.SteelSeries.API
         {
             _event.Data.Clear();
             _event.Data.Add("value", device);
-            _event.Data.Add("frame", data);
+            _event.Data.Add("colors", data.Values.ToList());
+            _event.Data.Add("zones", data.Keys.ToList());
 
             TriggerEvent(_event);
         }
