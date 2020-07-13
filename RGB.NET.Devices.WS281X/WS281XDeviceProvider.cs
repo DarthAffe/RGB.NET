@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using RGB.NET.Core;
+using RGB.NET.Devices.WS281X.NodeMCU;
 
 namespace RGB.NET.Devices.WS281X
 {
@@ -105,7 +106,11 @@ namespace RGB.NET.Devices.WS281X
 
         /// <inheritdoc />
         public void ResetDevices()
-        { }
+        {
+            foreach (IRGBDevice device in Devices)
+                if (device is NodeMCUWS2812USBDevice nodemcuDevice)
+                    nodemcuDevice.UpdateQueue.ResetDevice();
+        }
 
         /// <inheritdoc />
         public void Dispose()

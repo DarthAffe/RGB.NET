@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Net.Sockets;
+using System.Text;
+using System.Text.RegularExpressions;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X.NodeMCU
@@ -13,19 +16,17 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
     /// </summary>
     public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
     {
-        #region Constants
-
-        private static readonly byte UPDATE_COMMAND = 0x02;
-
-        #endregion
-
         #region Properties & Fields
 
         private readonly string _hostname;
 
-        private readonly UdpClient _udpClient;
+        private HttpClient _httpClient = new HttpClient();
+        private UdpClient _udpClient;
+
         private readonly Dictionary<int, byte[]> _dataBuffer = new Dictionary<int, byte[]>();
         private readonly Dictionary<int, byte> _sequenceNumbers = new Dictionary<int, byte>();
+
+        private readonly Action<byte[]> _sendDataAction;
 
         #endregion
 
@@ -33,17 +34,34 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeMCUWS2812USBUpdateQueue"/> class.
+        /// If this constructor is used UDP updates are disabled.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
         /// <param name="hostname">The hostname to connect to.</param>
-        /// <param name="port">The port used by the web-connection.</param>
-        public NodeMCUWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, string hostname, int port)
+        public NodeMCUWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, string hostname)
             : base(updateTrigger)
         {
             this._hostname = hostname;
 
-            _udpClient = new UdpClient(_hostname, port);
-            _udpClient.Connect(_hostname, port);
+            _sendDataAction = SendHttp;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NodeMCUWS2812USBUpdateQueue"/> class.
+        /// If this constructor is used UDP updates are enabled.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
+        /// <param name="hostname">The hostname to connect to.</param>
+        /// <param name="udpPort">The port used by the UDP-connection.</param>
+        public NodeMCUWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, string hostname, int udpPort)
+            : base(updateTrigger)
+        {
+            this._hostname = hostname;
+
+            _udpClient = new UdpClient();
+            EnableUdp(udpPort);
+
+            _sendDataAction = SendUdp;
         }
 
         #endregion
@@ -51,55 +69,115 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         #region Methods
 
         /// <inheritdoc />
+        protected override void OnStartup(object sender, CustomUpdateData customData)
+        {
+            base.OnStartup(sender, customData);
+
+            ResetDevice();
+        }
+
+        /// <inheritdoc />
         protected override void Update(Dictionary<object, Color> dataSet)
         {
             foreach (IGrouping<int, ((int channel, int key), Color Value)> channelData in dataSet.Select(x => (((int channel, int key))x.Key, x.Value))
                                                                                                  .GroupBy(x => x.Item1.channel))
             {
-                int channel = channelData.Key;
-                byte[] buffer = _dataBuffer[channel];
-
-                buffer[0] = GetSequenceNumber(channel);
-                buffer[1] = (byte)((channel << 4) | UPDATE_COMMAND);
-                int i = 2;
-                foreach ((byte _, byte r, byte g, byte b) in channelData.OrderBy(x => x.Item1.key)
-                                                                        .Select(x => x.Value.GetRGBBytes()))
-                {
-                    buffer[i++] = r;
-                    buffer[i++] = g;
-                    buffer[i++] = b;
-                }
-
-                Send(buffer);
+                byte[] buffer = GetBuffer(channelData);
+                _sendDataAction(buffer);
             }
+        }
+
+        private void SendHttp(byte[] buffer)
+        {
+            string data = Convert.ToBase64String(buffer);
+            lock (_httpClient) _httpClient?.PostAsync(GetUrl("update"), new StringContent(data, Encoding.ASCII)).Wait();
+        }
+
+        private void SendUdp(byte[] buffer)
+        {
+            _udpClient?.Send(buffer, buffer.Length);
+        }
+
+        private byte[] GetBuffer(IGrouping<int, ((int channel, int key), Color Value)> data)
+        {
+            int channel = data.Key;
+            byte[] buffer = _dataBuffer[channel];
+
+            buffer[0] = GetSequenceNumber(channel);
+            buffer[1] = (byte)channel;
+            int i = 2;
+            foreach ((byte _, byte r, byte g, byte b) in data.OrderBy(x => x.Item1.key)
+                                                             .Select(x => x.Value.GetRGBBytes()))
+            {
+                buffer[i++] = r;
+                buffer[i++] = g;
+                buffer[i++] = b;
+            }
+
+            return buffer;
         }
 
         internal IEnumerable<(int channel, int ledCount)> GetChannels()
         {
-            WebClient webClient = new WebClient();
-            webClient.DownloadString($"http://{_hostname}/reset");
+            string configString;
+            lock (_httpClient) configString = _httpClient.GetStringAsync(GetUrl("config")).Result;
 
-            int channelCount = int.Parse(webClient.DownloadString($"http://{_hostname}/channels"));
-            for (int channel = 1; channel <= channelCount; channel++)
+            configString = configString.Replace(" ", "")
+                                       .Replace("\r", "")
+                                       .Replace("\n", "");
+
+            //HACK DarthAffe 13.07.2020: Adding a JSON-Parser dependency just for this is not really worth it right now ...
+            MatchCollection channelMatches = Regex.Matches(configString, "\\{\"channel\":(?<channel>\\d+),\"leds\":(?<leds>\\d+)\\}");
+            foreach (Match channelMatch in channelMatches)
             {
-                int ledCount = int.Parse(webClient.DownloadString($"http://{_hostname}/channel/{channel}"));
-                if (ledCount > 0)
+                int channel = int.Parse(channelMatch.Groups["channel"].Value);
+                int leds = int.Parse(channelMatch.Groups["leds"].Value);
+                if (leds > 0)
                 {
-                    _dataBuffer[channel] = new byte[(ledCount * 3) + 2];
+                    _dataBuffer[channel] = new byte[(leds * 3) + 2];
                     _sequenceNumbers[channel] = 0;
-                    yield return (channel, ledCount);
+                    yield return (channel, leds);
                 }
             }
         }
 
-        private void Send(byte[] data) => _udpClient.Send(data, data.Length);
+        internal void ResetDevice()
+        {
+            lock (_httpClient) _httpClient.GetStringAsync(GetUrl("reset")).Wait();
+        }
+
+        private void EnableUdp(int port)
+        {
+            _httpClient.PostAsync(GetUrl("enableUDP"), new StringContent(port.ToString(), Encoding.UTF8, "application/json")).Result.Content.ReadAsStringAsync().Wait();
+            _udpClient.Connect(_hostname, port);
+        }
 
         private byte GetSequenceNumber(int channel)
         {
-            byte sequenceNumber = (byte)((_sequenceNumbers[channel] + 1) % byte.MaxValue);
+            byte sequenceNumber = (byte)Math.Max(1, (_sequenceNumbers[channel] + 1) % byte.MaxValue);
             _sequenceNumbers[channel] = sequenceNumber;
             return sequenceNumber;
         }
+
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            lock (_httpClient)
+            {
+                base.Dispose();
+
+#if NETSTANDARD
+                _udpClient?.Dispose();
+#endif
+                _udpClient = null;
+
+                ResetDevice();
+                _httpClient.Dispose();
+                _httpClient = null;
+            }
+        }
+
+        private string GetUrl(string path) => $"http://{_hostname}/{path}";
 
         #endregion
     }

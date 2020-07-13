@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System;
 using System.Collections.Generic;
 using RGB.NET.Core;
 
@@ -22,9 +23,14 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         public string Hostname { get; }
 
         /// <summary>
-        /// Gets the port of the UDP connection.
+        /// Gets or sets the port of the UDP connection.
         /// </summary>
-        public int Port { get; }
+        public int Port { get; set; } = 1872;
+
+        /// <summary>
+        /// Gets or sets the update-mode of the device.
+        /// </summary>
+        public NodeMCUUpdateMode UpdateMode { get; set; }
 
         /// <summary>
         /// Gets or sets the name used by this device.
@@ -40,11 +46,11 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         /// Initializes a new instance of the <see cref="NodeMCUWS281XDeviceDefinition"/> class.
         /// </summary>
         /// <param name="hostname">The hostname to connect to.</param>
-        /// <param name="port">The port of the UDP connection.</param>
-        public NodeMCUWS281XDeviceDefinition(string hostname, int port = 1872)
+        /// <param name="updateMode">The update mode of the device.</param>
+        public NodeMCUWS281XDeviceDefinition(string hostname, NodeMCUUpdateMode updateMode = NodeMCUUpdateMode.Udp)
         {
             this.Hostname = hostname;
-            this.Port = port;
+            this.UpdateMode = updateMode;
         }
 
         #endregion
@@ -54,7 +60,13 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            NodeMCUWS2812USBUpdateQueue queue = new NodeMCUWS2812USBUpdateQueue(updateTrigger, Hostname, Port);
+            NodeMCUWS2812USBUpdateQueue queue = UpdateMode switch
+            {
+                NodeMCUUpdateMode.Http => new NodeMCUWS2812USBUpdateQueue(updateTrigger, Hostname),
+                NodeMCUUpdateMode.Udp => new NodeMCUWS2812USBUpdateQueue(updateTrigger, Hostname, Port),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
             IEnumerable<(int channel, int ledCount)> channels = queue.GetChannels();
             int counter = 0;
             foreach ((int channel, int ledCount) in channels)
