@@ -35,7 +35,7 @@ CRGB leds_channel_2[LEDS_CHANNEL_2];
 CRGB leds_channel_3[LEDS_CHANNEL_3];
 CRGB leds_channel_4[LEDS_CHANNEL_4];
 
-ESP8266WebServer server(80);
+ESP8266WebServer server(WEBSERVER_PORT);
 WiFiUDP Udp;
 
 bool isUDPEnabled;
