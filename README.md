@@ -12,6 +12,10 @@ This is the easiest and therefore preferred way to include RGB.NET in your proje
 Since there aren't any release-packages right now you'll have to use the CI-feed from [http://nuget.arge.be](http://nuget.arge.be).   
 You can include it either by adding ```http://nuget.arge.be/v3/index.json``` to your Visual Studio package sources or by adding this [NuGet.Config](https://github.com/DarthAffe/RGB.NET/tree/master/Documentation/NuGet.Config) to your project (at the same level as your solution). 
 
+### .NET 4.5 Support ###
+At the end of the year with the release of .NET 5 the support for old .NET-Framwork versions will be droppped!   
+It's not recommended to use RGB.NET in projects targeting .NET 4.x that aren't planned to be moved to Core/.NET 5 in the future.
+
 
 ### Device-Layouts
 To be able to have devices with correct LED-locations and sizes they need to be layouted. Pre-created layouts can be found at https://github.com/DarthAffe/RGB.NET-Resources.   
