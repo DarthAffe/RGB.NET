@@ -59,6 +59,7 @@ namespace RGB.NET.Devices.Corsair
                 case CorsairChannelDeviceType.FanLL:
                 case CorsairChannelDeviceType.FanML:
                 case CorsairChannelDeviceType.DAP:
+                case CorsairChannelDeviceType.FanQL:
                     return RGBDeviceType.Fan;
 
                 case CorsairChannelDeviceType.Strip:
@@ -99,6 +100,9 @@ namespace RGB.NET.Devices.Corsair
 
                 case CorsairChannelDeviceType.Pump:
                     return "Pump";
+
+                case CorsairChannelDeviceType.FanQL:
+                    return "QL Fan";
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(deviceType), deviceType, null);
