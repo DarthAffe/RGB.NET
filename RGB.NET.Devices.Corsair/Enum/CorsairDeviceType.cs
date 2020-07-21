@@ -20,6 +20,8 @@ namespace RGB.NET.Devices.Corsair
         CommanderPro = 6,
         LightningNodePro = 7,
         MemoryModule = 8,
-        Cooler = 9
+        Cooler = 9,
+        Mainboard = 10,
+        GraphicsCard = 11
     };
 }

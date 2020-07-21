@@ -93,13 +93,13 @@ namespace RGB.NET.Devices.Corsair
                     return "ML Fan";
 
                 case CorsairChannelDeviceType.Strip:
-                    return "Led Strip";
+                    return "LED Strip";
 
                 case CorsairChannelDeviceType.DAP:
                     return "DAP Fan";
 
                 case CorsairChannelDeviceType.Pump:
-                    return "Pump";
+                    return "AIO Pump";
 
                 case CorsairChannelDeviceType.FanQL:
                     return "QL Fan";
