@@ -16,6 +16,11 @@ namespace RGB.NET.Devices.Debug
         /// <inheritdoc />
         public override DebugRGBDeviceInfo DeviceInfo { get; }
 
+        /// <summary>
+        /// Gets the path used to mock this <see cref="DebugRGBDevice"/>
+        /// </summary>
+        public string LayoutPath { get; }
+
         private Func<Dictionary<LedId, Color>> _syncBackFunc;
         private Action<IEnumerable<Led>> _updateLedsAction;
 
@@ -32,6 +37,7 @@ namespace RGB.NET.Devices.Debug
 
             DeviceLayout layout = DeviceLayout.Load(layoutPath);
             DeviceInfo = new DebugRGBDeviceInfo(layout.Type, layout.Vendor, layout.Model, layout.Lighting, syncBackFunc != null);
+            LayoutPath = layoutPath;
         }
 
         #endregion
