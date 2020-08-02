@@ -17,7 +17,7 @@ namespace RGB.NET.Devices.Debug
         public override DebugRGBDeviceInfo DeviceInfo { get; }
 
         /// <summary>
-        /// Gets the path used to mock this <see cref="DebugRGBDevice"/>
+        /// Gets the path of the layout used to mock this <see cref="DebugRGBDevice"/>
         /// </summary>
         public string LayoutPath { get; }
 
@@ -32,12 +32,12 @@ namespace RGB.NET.Devices.Debug
         /// </summary>
         internal DebugRGBDevice(string layoutPath, Func<Dictionary<LedId, Color>> syncBackFunc = null, Action<IEnumerable<Led>> updateLedsAction = null)
         {
+            this.LayoutPath = layoutPath;
             this._syncBackFunc = syncBackFunc;
             this._updateLedsAction = updateLedsAction;
 
             DeviceLayout layout = DeviceLayout.Load(layoutPath);
             DeviceInfo = new DebugRGBDeviceInfo(layout.Type, layout.Vendor, layout.Model, layout.Lighting, syncBackFunc != null);
-            LayoutPath = layoutPath;
         }
 
         #endregion
