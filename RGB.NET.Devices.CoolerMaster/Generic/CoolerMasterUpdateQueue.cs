@@ -13,6 +13,7 @@ namespace RGB.NET.Devices.CoolerMaster
         #region Properties & Fields
 
         private CoolerMasterDevicesIndexes _deviceIndex;
+        private _CoolerMasterColorMatrix _deviceMatrix;
 
         #endregion
 
@@ -27,6 +28,9 @@ namespace RGB.NET.Devices.CoolerMaster
             : base(updateTrigger)
         {
             this._deviceIndex = deviceIndex;
+            this._deviceMatrix = new _CoolerMasterColorMatrix();
+
+            _deviceMatrix.KeyColor = new _CoolerMasterKeyColor[_CoolerMasterColorMatrix.ROWS, _CoolerMasterColorMatrix.COLUMNS];
         }
 
         #endregion
@@ -39,10 +43,10 @@ namespace RGB.NET.Devices.CoolerMaster
             foreach (KeyValuePair<object, Color> data in dataSet)
             {
                 (int row, int column) = ((int, int))data.Key;
-                _CoolerMasterSDK.SetLedColor(row, column, data.Value.GetR(), data.Value.GetG(), data.Value.GetB(), _deviceIndex);
+                _deviceMatrix.KeyColor[row, column] = new _CoolerMasterKeyColor(data.Value.GetR(), data.Value.GetG(), data.Value.GetB());
             }
 
-            _CoolerMasterSDK.RefreshLed(false, _deviceIndex);
+            _CoolerMasterSDK.SetAllLedColor(_deviceMatrix, _deviceIndex);
         }
 
         #endregion
