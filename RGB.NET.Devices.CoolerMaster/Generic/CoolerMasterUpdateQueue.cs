@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.CoolerMaster
         #region Properties & Fields
 
         private CoolerMasterDevicesIndexes _deviceIndex;
-        private _CoolerMasterColorMatrix _deviceMatrix;
+        private readonly _CoolerMasterColorMatrix _deviceMatrix;
 
         #endregion
 
@@ -28,8 +28,8 @@ namespace RGB.NET.Devices.CoolerMaster
             : base(updateTrigger)
         {
             this._deviceIndex = deviceIndex;
-            this._deviceMatrix = new _CoolerMasterColorMatrix();
-
+            
+            _deviceMatrix = new _CoolerMasterColorMatrix();
             _deviceMatrix.KeyColor = new _CoolerMasterKeyColor[_CoolerMasterColorMatrix.ROWS, _CoolerMasterColorMatrix.COLUMNS];
         }
 
