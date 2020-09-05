@@ -57,8 +57,12 @@ namespace RGB.NET.Devices.Novation
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
-            if (DeviceInfo.ColorCapabilities == NovationColorCapabilities.LimitedRG)
-                UpdateQueue = new LimitedColorUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
+            UpdateQueue = DeviceInfo.ColorCapabilities switch
+            {
+                NovationColorCapabilities.LimitedRG => new LimitedColorUpdateQueue(updateTrigger, DeviceInfo.DeviceId),
+                NovationColorCapabilities.RGB => new RGBColorUpdateQueue(updateTrigger, DeviceInfo.DeviceId),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         /// <summary>
@@ -82,7 +86,7 @@ namespace RGB.NET.Devices.Novation
 
             try { UpdateQueue?.Dispose(); }
             catch { /* at least we tried */ }
-            
+
             base.Dispose();
         }
 

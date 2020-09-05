@@ -85,11 +85,14 @@ namespace RGB.NET.Devices.Novation
 
                             NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
                                                                               .Cast<Enum>()
-                                                                              .FirstOrDefault(x => string.Equals(x.GetDeviceId(), outCaps.name, StringComparison.OrdinalIgnoreCase));
+                                                                              .FirstOrDefault(x => x.GetDeviceId().ToUpperInvariant().Contains(outCaps.name.ToUpperInvariant()));
 
                             if (deviceId == null) continue;
 
-                            INovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, deviceId.GetColorCapability()));
+                            NovationColorCapabilities colorCapability = deviceId.GetColorCapability();
+                            if (colorCapability == NovationColorCapabilities.None) continue;
+
+                            INovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, colorCapability, deviceId.GetLedIdMapping()));
                             device.Initialize(UpdateTrigger);
                             devices.Add(device);
                         }
