@@ -146,7 +146,7 @@ namespace RGB.NET.Devices.Wooting
             try { UpdateTrigger?.Dispose(); }
             catch { /* at least we tried */ }
 
-            try { _WootingSDK.Reset(); }
+            try { _WootingSDK.Close(); }
             catch { /* Unlucky.. */ }
 
             try { _WootingSDK.UnloadWootingSDK(); }
