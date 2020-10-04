@@ -60,6 +60,7 @@ namespace RGB.NET.Devices.Corsair
                 case CorsairChannelDeviceType.FanLL:
                 case CorsairChannelDeviceType.FanML:
                 case CorsairChannelDeviceType.DAP:
+                case CorsairChannelDeviceType.FanQL:
                     return RGBDeviceType.Fan;
 
                 case CorsairChannelDeviceType.Strip:
@@ -95,23 +96,26 @@ namespace RGB.NET.Devices.Corsair
                 case CorsairChannelDeviceType.Strip:
                     // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single
                     if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 138))
-                        return "LS100 Led Strip (dual monitor)";
+                        return "LS100 LED Strip (dual monitor)";
                     else if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 84))
-                        return "LS100 Led Strip (single monitor)";
+                        return "LS100 LED Strip (single monitor)";
                     // Any other value means an "External LED Strip" in iCUE, these are reported per-strip, 15 for short strips, 27 for long
                     else if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 15))
-                        return "LS100 Led Strip (short)";
+                        return "LS100 LED Strip (short)";
                     else if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 27))
-                        return "LS100 Led Strip (long)";
+                        return "LS100 LED Strip (long)";
                     // Device model is "Commander Pro" for regular LED strips
                     else
-                        return "Led Strip";
+                        return "LED Strip";
 
                 case CorsairChannelDeviceType.DAP:
                     return "DAP Fan";
 
                 case CorsairChannelDeviceType.Pump:
-                    return "Pump";
+                    return "AIO Pump";
+
+                case CorsairChannelDeviceType.FanQL:
+                    return "QL Fan";
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(channelDeviceInfo.type), channelDeviceInfo.type, null);
