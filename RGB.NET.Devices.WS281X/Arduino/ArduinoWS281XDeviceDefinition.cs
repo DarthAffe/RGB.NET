@@ -17,14 +17,19 @@ namespace RGB.NET.Devices.WS281X.Arduino
         #region Properties & Fields
 
         /// <summary>
+        /// Gets the serial-connection used for the device.
+        /// </summary>
+        public ISerialConnection SerialConnection { get; }
+
+        /// <summary>
         /// Gets the name of the serial-port to connect to.
         /// </summary>
-        public string Port { get; }
+        public string Port => SerialConnection?.Port;
 
         /// <summary>
         /// Gets the baud-rate used by the serial-connection.
         /// </summary>
-        public int BaudRate { get; set; } = 115200;
+        public int BaudRate => SerialConnection?.BaudRate ?? 0;
 
         /// <summary>
         /// Gets or sets the name used by this device.
@@ -39,10 +44,20 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <summary>
         /// Initializes a new instance of the <see cref="ArduinoWS281XDeviceDefinition"/> class.
         /// </summary>
-        /// <param name="port">The name of the serial-port to connect to.</param>
-        public ArduinoWS281XDeviceDefinition(string port)
+        /// <param name="serialConnection">The serial connection used for the device.</param>
+        public ArduinoWS281XDeviceDefinition(ISerialConnection serialConnection)
         {
-            this.Port = port;
+            this.SerialConnection = serialConnection;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArduinoWS281XDeviceDefinition"/> class.
+        /// </summary>
+        /// <param name="port">The name of the serial-port to connect to.</param>
+        /// <param name="baudRate">The baud-rate of the serial-connection.</param>
+        public ArduinoWS281XDeviceDefinition(string port, int baudRate = 115200)
+        {
+            SerialConnection = new SerialPortConnection(port, baudRate);
         }
 
         #endregion
@@ -52,7 +67,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            ArduinoWS2812USBUpdateQueue queue = new ArduinoWS2812USBUpdateQueue(updateTrigger, Port, BaudRate);
+            ArduinoWS2812USBUpdateQueue queue = new ArduinoWS2812USBUpdateQueue(updateTrigger, SerialConnection);
             IEnumerable<(int channel, int ledCount)> channels = queue.GetChannels();
             int counter = 0;
             foreach ((int channel, int ledCount) in channels)
