@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
     /// <summary>
     /// Represents an bitwizard WS2812 USB device.
     /// </summary>
-    public class BitwizardWS2812USBDevice : AbstractRGBDevice<BitwizardWS2812USBDeviceInfo>
+    public class BitwizardWS2812USBDevice : AbstractRGBDevice<BitwizardWS2812USBDeviceInfo>, ILedStripe
     {
         #region Properties & Fields
 
@@ -62,6 +62,15 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
 
         #endregion
     }

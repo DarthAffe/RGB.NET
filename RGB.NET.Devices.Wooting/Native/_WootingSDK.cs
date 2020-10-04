@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Wooting.Native
 {
     // ReSharper disable once InconsistentNaming
-    public class _WootingSDK
+    internal static class _WootingSDK
     {
         #region Library management
 
@@ -47,12 +46,13 @@ namespace RGB.NET.Devices.Wooting.Native
 
             _getDeviceInfoPointer = (GetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_device_info"), typeof(GetDeviceInfoPointer));
             _keyboardConnectedPointer = (KeyboardConnectedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_kbd_connected"), typeof(KeyboardConnectedPointer));
-            _resetPointer = (ResetPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_reset"), typeof(ResetPointer));
+            _resetPointer = (ResetPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_reset_rgb"), typeof(ResetPointer));
+            _closePointer = (ClosePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_close"), typeof(ClosePointer));
             _arrayUpdateKeyboardPointer = (ArrayUpdateKeyboardPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_array_update_keyboard"), typeof(ArrayUpdateKeyboardPointer));
             _arraySetSinglePointer = (ArraySetSinglePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_array_set_single"), typeof(ArraySetSinglePointer));
         }
 
-        private static void UnloadWootingSDK()
+        internal static void UnloadWootingSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 
@@ -82,6 +82,7 @@ namespace RGB.NET.Devices.Wooting.Native
         private static GetDeviceInfoPointer _getDeviceInfoPointer;
         private static KeyboardConnectedPointer _keyboardConnectedPointer;
         private static ResetPointer _resetPointer;
+        private static ClosePointer _closePointer;
         private static ArrayUpdateKeyboardPointer _arrayUpdateKeyboardPointer;
         private static ArraySetSinglePointer _arraySetSinglePointer;
 
@@ -91,13 +92,16 @@ namespace RGB.NET.Devices.Wooting.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate IntPtr GetDeviceInfoPointer();
-        
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool KeyboardConnectedPointer();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool ResetPointer();
-        
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool ClosePointer();
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool ArrayUpdateKeyboardPointer();
 
@@ -109,6 +113,7 @@ namespace RGB.NET.Devices.Wooting.Native
         internal static IntPtr GetDeviceInfo() => _getDeviceInfoPointer();
         internal static bool KeyboardConnected() => _keyboardConnectedPointer();
         internal static bool Reset() => _resetPointer();
+        internal static bool Close() => _closePointer();
         internal static bool ArrayUpdateKeyboard() => _arrayUpdateKeyboardPointer();
         internal static bool ArraySetSingle(byte row, byte column, byte red, byte green, byte blue) => _arraySetSinglePointer(row, column, red, green, blue);
 

@@ -13,6 +13,6 @@ namespace RGB.NET.Devices.WS281X
         /// Gets the devices defined by this definition.
         /// </summary>
         /// <returns>The initialized devices defined by this definition.</returns>
-        IEnumerable<IRGBDevice> CreateDevices();
+        IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger);
     }
 }

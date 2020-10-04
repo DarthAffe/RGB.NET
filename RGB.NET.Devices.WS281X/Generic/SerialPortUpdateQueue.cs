@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.WS281X
     /// Represents a update queue for serial devices.
     /// </summary>
     /// <typeparam name="TData">The type of data sent through the serial connection.</typeparam>
-    public abstract class SerialPortUpdateQueue<TData> : UpdateQueue
+    public abstract class SerialConnectionUpdateQueue<TData> : UpdateQueue
     {
         #region Properties & Fields
 
@@ -17,12 +17,12 @@ namespace RGB.NET.Devices.WS281X
         /// Gets or sets the prompt to wait for between sending commands.
         /// </summary>
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        protected string Prompt { get; set; } = ">";
+        protected char Prompt { get; set; } = '>';
 
         /// <summary>
         /// Gets the serial port used by this queue.
         /// </summary>
-        protected SerialPort SerialPort { get; }
+        protected ISerialConnection SerialConnection { get; }
 
         #endregion
 
@@ -30,15 +30,15 @@ namespace RGB.NET.Devices.WS281X
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerialPortUpdateQueue{TData}"/> class.
+        /// Initializes a new instance of the <see cref="SerialConnectionUpdateQueue{TData}"/> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
         /// <param name="portName">The name of the serial-port to connect to.</param>
         /// <param name="baudRate">The baud-rate used by the serial-connection.</param>
-        internal SerialPortUpdateQueue(IDeviceUpdateTrigger updateTrigger, string portName, int baudRate = 115200)
+        internal SerialConnectionUpdateQueue(IDeviceUpdateTrigger updateTrigger, ISerialConnection serialConnection)
             : base(updateTrigger)
         {
-            SerialPort = new SerialPort(portName, baudRate);
+            SerialConnection = serialConnection;
         }
 
         #endregion
@@ -50,10 +50,10 @@ namespace RGB.NET.Devices.WS281X
         {
             base.OnStartup(sender, customData);
 
-            if (!SerialPort.IsOpen)
-                SerialPort.Open();
+            if (!SerialConnection.IsOpen)
+                SerialConnection.Open();
 
-            SerialPort.DiscardInBuffer();
+            SerialConnection.DiscardInBuffer();
         }
 
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace RGB.NET.Devices.WS281X
         {
             foreach (TData command in GetCommands(dataSet))
             {
-                SerialPort.ReadTo(Prompt);
+                SerialConnection.ReadTo(Prompt);
                 SendCommand(command);
             }
         }
@@ -78,7 +78,7 @@ namespace RGB.NET.Devices.WS281X
         /// This most likely needs to be overwritten if the data-type isn't string.  
         /// </summary>
         /// <param name="command">The command to be sent.</param>
-        protected virtual void SendCommand(TData command) => SerialPort.WriteLine((command as string) ?? string.Empty);
+        protected virtual void SendCommand(TData command) => SerialConnection.WriteLine((command as string) ?? string.Empty);
 
         #endregion
     }

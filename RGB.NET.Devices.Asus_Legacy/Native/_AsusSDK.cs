@@ -75,7 +75,7 @@ namespace RGB.NET.Devices.Asus.Native
             //_getDramColorPointer = (GetDramColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDramColor"), typeof(GetDramColorPointer));
         }
 
-        private static void UnloadAsusSDK()
+        internal static void UnloadAsusSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 

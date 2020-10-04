@@ -55,7 +55,7 @@ namespace RGB.NET.Devices.Logitech.Native
             _logiLedSetLightingForTargetZonePointer = (LogiLedSetLightingForTargetZonePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingForTargetZone"), typeof(LogiLedSetLightingForTargetZonePointer));
         }
 
-        private static void UnloadLogitechGSDK()
+        internal static void UnloadLogitechGSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 

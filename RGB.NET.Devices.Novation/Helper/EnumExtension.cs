@@ -24,6 +24,13 @@ namespace RGB.NET.Devices.Novation
         internal static NovationColorCapabilities GetColorCapability(this Enum source) => source.GetAttribute<ColorCapabilityAttribute>()?.Capability ?? NovationColorCapabilities.None;
 
         /// <summary>
+        /// Gets the value of the <see cref="LedIdMappingAttribute"/>.
+        /// </summary>
+        /// <param name="source">The enum value to get the description from.</param>
+        /// <returns>The value of the <see cref="LedIdMappingAttribute"/> of the source.</returns>
+        internal static LedIdMappings GetLedIdMapping(this Enum source) => source.GetAttribute<LedIdMappingAttribute>()?.LedIdMapping ?? LedIdMappings.Current;
+
+        /// <summary>
         /// Gets the attribute of type T.
         /// </summary>
         /// <param name="source">The enum value to get the attribute from</param>

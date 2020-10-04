@@ -12,18 +12,15 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         private readonly List<T> _decorators = new List<T>();
-        /// <summary>
-        /// Gets a readonly-list of all <see cref="IDecorator"/> attached to this <see cref="IDecoratable{T}"/>.
-        /// </summary>
-        protected IReadOnlyCollection<T> Decorators { get; }
 
-        #endregion
-
-        #region Constructors
-
-        protected AbstractDecoratable()
+        /// <inheritdoc />
+        public IReadOnlyCollection<T> Decorators
         {
-            Decorators = new ReadOnlyCollection<T>(_decorators);
+            get
+            {
+                lock (_decorators)
+                    return new ReadOnlyCollection<T>(_decorators);
+            }
         }
 
         #endregion

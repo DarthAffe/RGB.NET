@@ -36,7 +36,7 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <inheritdoc />
-        public abstract IEnumerable<Led> GetLeds();
+        public abstract IList<Led> GetLeds();
 
         /// <inheritdoc />
         public virtual void OnAttach()

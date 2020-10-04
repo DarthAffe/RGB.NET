@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.Razer.Native
             _deleteEffectPointer = (DeleteEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "DeleteEffect"), typeof(DeleteEffectPointer));
         }
 
-        private static void UnloadRazerSDK()
+        internal static void UnloadRazerSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 

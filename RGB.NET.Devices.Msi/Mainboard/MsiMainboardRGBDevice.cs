@@ -3,11 +3,11 @@ using RGB.NET.Devices.Msi.Native;
 
 namespace RGB.NET.Devices.Msi
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="MsiRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a MSI mainboard.
     /// </summary>
-    public class MsiMainboardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>
+    public class MsiMainboardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IMainboard
     {
         #region Constructors
 
@@ -39,7 +39,7 @@ namespace RGB.NET.Devices.Msi
             }
 
             //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\MSI\Mainboards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\MSI\Mainboards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />

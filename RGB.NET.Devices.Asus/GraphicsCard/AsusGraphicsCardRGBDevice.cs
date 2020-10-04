@@ -2,11 +2,11 @@
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Asus graphicsCard.
     /// </summary>
-    public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
+    public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IGraphicsCard
     {
         #region Constructors
 

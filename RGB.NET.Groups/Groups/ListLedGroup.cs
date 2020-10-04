@@ -92,9 +92,10 @@ namespace RGB.NET.Groups
         {
             if (leds == null) return;
 
-            foreach (Led led in leds)
-                if ((led != null) && !ContainsLed(led))
-                    GroupLeds.Add(led);
+            lock (GroupLeds)
+                foreach (Led led in leds)
+                    if ((led != null) && !ContainsLed(led))
+                        GroupLeds.Add(led);
         }
 
         /// <summary>
@@ -111,9 +112,10 @@ namespace RGB.NET.Groups
         {
             if (leds == null) return;
 
-            foreach (Led led in leds)
-                if (led != null)
-                    GroupLeds.Remove(led);
+            lock (GroupLeds)
+                foreach (Led led in leds)
+                    if (led != null)
+                        GroupLeds.Remove(led);
         }
 
         /// <summary>
@@ -121,7 +123,11 @@ namespace RGB.NET.Groups
         /// </summary>
         /// <param name="led">The LED which should be checked.</param>
         /// <returns><c>true</c> if the LED is contained by this ledgroup; otherwise, <c>false</c>.</returns>
-        public bool ContainsLed(Led led) => (led != null) && GroupLeds.Contains(led);
+        public bool ContainsLed(Led led)
+        {
+            lock (GroupLeds)
+                return (led != null) && GroupLeds.Contains(led);
+        }
 
         /// <summary>
         /// Merges the <see cref="Led"/> from the given ledgroup in this ledgroup. 
@@ -129,9 +135,10 @@ namespace RGB.NET.Groups
         /// <param name="groupToMerge">The ledgroup to merge.</param>
         public void MergeLeds(ILedGroup groupToMerge)
         {
-            foreach (Led led in groupToMerge.GetLeds())
-                if (!GroupLeds.Contains(led))
-                    GroupLeds.Add(led);
+            lock (GroupLeds)
+                foreach (Led led in groupToMerge.GetLeds())
+                    if (!GroupLeds.Contains(led))
+                        GroupLeds.Add(led);
         }
 
         /// <inheritdoc />
@@ -139,7 +146,11 @@ namespace RGB.NET.Groups
         /// Gets a list containing the <see cref="T:RGB.NET.Core.Led" /> from this group.
         /// </summary>
         /// <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
-        public override IEnumerable<Led> GetLeds() => GroupLeds;
+        public override IList<Led> GetLeds()
+        {
+            lock (GroupLeds)
+                return new List<Led>(GroupLeds);
+        }
 
         #endregion
     }

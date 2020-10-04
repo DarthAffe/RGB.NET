@@ -14,14 +14,14 @@
     <RootNamespace>RGB.NET.Devices.Wooting</RootNamespace>
     <Description>Wooting-Device-Implementations of RGB.NET</Description>
     <Summary>Wooting-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Wyrez 2017</Copyright>
-    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <Copyright>Copyright © Darth Affe 2020</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2020</PackageCopyright>
     <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>Github</RepositoryType>
     <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
     <PackageReleaseNotes></PackageReleaseNotes>
 
@@ -63,6 +63,6 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 </Project>

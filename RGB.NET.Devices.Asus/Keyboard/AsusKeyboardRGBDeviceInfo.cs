@@ -33,7 +33,7 @@ namespace RGB.NET.Devices.Asus
         /// <param name="device">The <see cref="IAuraSyncDevice"/> backing this RGB.NET device.</param>
         /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using.</param>
         internal AsusKeyboardRGBDeviceInfo(IAuraSyncDevice device, CultureInfo culture)
-            : base(RGBDeviceType.Keyboard, device, "Claymore")
+            : base(RGBDeviceType.Keyboard, device, device.Name)
         {
             SetLayouts(culture.KeyboardLayoutId);
         }

@@ -17,7 +17,9 @@ namespace RGB.NET.Devices.Razer
             (new Guid("C83BDFE8-E7FC-40E0-99DB-872E23F19891"), "Razer Blade Stealth"),
             (new Guid("F2BEDFAF-A0FE-4651-9D41-B6CE603A3DDD"), "Razer Blade"),
             (new Guid("A73AC338-F0E5-4BF7-91AE-DD1F7E1737A5"), "Razer Blade Pro"),
-            (new Guid("608E743F-B402-44BD-A7A6-7AA9F574ECF4"), "Razer Blackwidow Chroma v2")
+            (new Guid("608E743F-B402-44BD-A7A6-7AA9F574ECF4"), "Razer Blackwidow Chroma v2"),
+            (new Guid("F85E7473-8F03-45B6-A16E-CE26CB8D2441"), "Razer Huntsman"),
+            (new Guid("16BB5ABD-C1CD-4CB3-BDF7-62438748BD98"), "Razer Blackwidow Elite")
         };
 
         public static readonly List<(Guid guid, string model)> MICE = new List<(Guid guid, string model)>
@@ -37,7 +39,8 @@ namespace RGB.NET.Devices.Razer
         {
             (new Guid("DF3164D7-5408-4A0E-8A7F-A7412F26BEBF"), "Razer ManO'War"),
             (new Guid("CD1E09A5-D5E6-4A6C-A93B-E6D9BF1D2092"), "Razer Kraken 7.1 Chroma"),
-            (new Guid("7FB8A36E-9E74-4BB3-8C86-CAC7F7891EBD"), "Razer Kraken 7.1 Chroma Refresh")
+            (new Guid("7FB8A36E-9E74-4BB3-8C86-CAC7F7891EBD"), "Razer Kraken 7.1 Chroma Refresh"),
+            (new Guid("FB357780-4617-43A7-960F-D1190ED54806"), "Razer Kraken Kitty")
         };
 
         public static readonly List<(Guid guid, string model)> MOUSEMATS = new List<(Guid guid, string model)>

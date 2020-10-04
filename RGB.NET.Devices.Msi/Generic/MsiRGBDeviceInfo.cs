@@ -48,7 +48,7 @@ namespace RGB.NET.Devices.Msi
         /// <param name="msiDeviceType">The internal type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="manufacturer">The manufacturer-name of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The model-name of the <see cref="IRGBDevice"/>.</param>
-        internal MsiRGBDeviceInfo(RGBDeviceType deviceType, string msiDeviceType, string manufacturer = "Msi", string model = "Generic Msi-Device")
+        internal MsiRGBDeviceInfo(RGBDeviceType deviceType, string msiDeviceType, string manufacturer = "MSI", string model = "Generic Msi-Device")
         {
             this.DeviceType = deviceType;
             this.MsiDeviceType = msiDeviceType;

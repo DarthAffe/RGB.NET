@@ -6,11 +6,11 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a razer chroma link.
     /// </summary>
-    public class RazerChromaLinkRGBDevice : RazerRGBDevice<RazerChromaLinkRGBDeviceInfo>
+    public class RazerChromaLinkRGBDevice : RazerRGBDevice<RazerChromaLinkRGBDeviceInfo>, ILedStripe
     {
         #region Constructors
 

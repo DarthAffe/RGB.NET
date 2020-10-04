@@ -70,6 +70,15 @@ namespace RGB.NET.Devices.Logitech
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Logitech", $"{layoutPath}.xml"), layout, true);
         }
 
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
+
         #endregion
     }
 }

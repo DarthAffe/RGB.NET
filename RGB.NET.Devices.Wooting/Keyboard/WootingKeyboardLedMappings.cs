@@ -32,7 +32,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
             { LedId.Keyboard_F12, (0,13) },
             { LedId.Keyboard_PrintScreen, (0,14) },
             { LedId.Keyboard_PauseBreak, (0,15) },
-            { LedId.Keyboard_Custom1, (0,20) },
+            { LedId.Keyboard_Custom1, (0,16) },
 
             { LedId.Keyboard_GraveAccentAndTilde, (1,0) },
             { LedId.Keyboard_1, (1,1) },
@@ -128,7 +128,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
             { LedId.Keyboard_F12, (0,13) },
             { LedId.Keyboard_PrintScreen, (0,14) },
             { LedId.Keyboard_PauseBreak, (0,15) },
-            { LedId.Keyboard_Custom1, (0,20) },
+            { LedId.Keyboard_Custom1, (0,16) },
 
             { LedId.Keyboard_GraveAccentAndTilde, (1,0) },
             { LedId.Keyboard_1, (1,1) },
