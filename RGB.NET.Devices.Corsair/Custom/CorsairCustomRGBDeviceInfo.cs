@@ -112,7 +112,7 @@ namespace RGB.NET.Devices.Corsair
                     return "DAP Fan";
 
                 case CorsairChannelDeviceType.Pump:
-                    return "AIO Pump";
+                    return "Pump";
 
                 case CorsairChannelDeviceType.FanQL:
                     return "QL Fan";
