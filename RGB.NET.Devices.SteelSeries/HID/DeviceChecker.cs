@@ -253,7 +253,8 @@ namespace RGB.NET.Devices.SteelSeries.HID
             ("Rival 600", RGBDeviceType.Mouse, 0x1724, SteelSeriesDeviceType.EightZone, "default", @"Mice\Rival600", MOUSE_EIGHT_ZONE),
             ("Rival 500", RGBDeviceType.Mouse, 0x170E, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival500", MOUSE_TWO_ZONE),
             ("Rival 310", RGBDeviceType.Mouse, 0x1720, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival310", MOUSE_TWO_ZONE),
-            ("Rival 3", RGBDeviceType.Mouse, 0x1824, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Rival3", MOUSE_THREE_ZONE),
+            ("Rival 3 (Old Firmware)", RGBDeviceType.Mouse, 0x1824, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Rival3", MOUSE_THREE_ZONE),
+            ("Rival 3", RGBDeviceType.Mouse, 0x184C, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Rival3", MOUSE_THREE_ZONE),
 
             ("Apex 5", RGBDeviceType.Keyboard, 0x161C, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\5\UK", KEYBOARD_MAPPING_UK),
             ("Apex 7", RGBDeviceType.Keyboard, 0x1612, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\7\UK", KEYBOARD_MAPPING_UK),
