@@ -108,7 +108,7 @@ namespace RGB.NET.Devices.CoolerMaster
                     {
                         RGBDeviceType deviceType = index.GetDeviceType();
                         if (deviceType == RGBDeviceType.None) continue;
-                        
+
                         if (_CoolerMasterSDK.IsDevicePlugged(index))
                         {
                             if (!loadFilter.HasFlag(deviceType)) continue;
@@ -132,7 +132,8 @@ namespace RGB.NET.Devices.CoolerMaster
                                         continue;
                             }
 
-                            _CoolerMasterSDK.EnableLedControl(true, index);
+                            if (!_CoolerMasterSDK.EnableLedControl(true, index))
+                                throw new RGBDeviceException("Failed to enable LED control for device " + index);
 
                             device.Initialize(UpdateTrigger);
                             devices.Add(device);
@@ -175,6 +176,9 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <inheritdoc />
         public void Dispose()
         {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
             if (IsInitialized)
                 foreach (IRGBDevice device in Devices)
                 {
@@ -185,6 +189,10 @@ namespace RGB.NET.Devices.CoolerMaster
                     }
                     catch {/* shit happens */}
                 }
+
+            // DarthAffe 03.03.2020: Should be done but isn't possible due to an weird winodws-hook inside the sdk which corrupts the stack when unloading the dll
+            //try { _CoolerMasterSDK.UnloadCMSDK(); }
+            //catch { /* at least we tried */ }
         }
 
         #endregion

@@ -15,7 +15,6 @@ namespace RGB.NET.Devices.SteelSeries
         #region Properties & Fields
 
         private string _deviceType;
-        private Dictionary<object, Color> _lastDataSet;
 
         #endregion
 
@@ -39,20 +38,14 @@ namespace RGB.NET.Devices.SteelSeries
         protected override void OnUpdate(object sender, CustomUpdateData customData)
         {
             if ((customData != null) && (customData["refresh"] as bool? ?? false))
-            {
-                if ((_lastDataSet != null) && (_lastDataSet.Count != 0))
-                    Update(_lastDataSet);
-            }
+                SteelSeriesSDK.SendHeartbeat();
             else
                 base.OnUpdate(sender, customData);
         }
 
         /// <inheritdoc />
         protected override void Update(Dictionary<object, Color> dataSet)
-        {
-            _lastDataSet = dataSet;
-            SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToDictionary(x => ((SteelSeriesLedId)x.Key).GetAPIName(), x => x.Value.ToIntArray()));
-        }
+            => SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToDictionary(x => ((SteelSeriesLedId)x.Key).GetAPIName(), x => x.Value.ToIntArray()));
 
         #endregion
     }

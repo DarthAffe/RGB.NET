@@ -6,11 +6,11 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a razer mousepad.
     /// </summary>
-    public class RazerMousepadRGBDevice : RazerRGBDevice<RazerMousepadRGBDeviceInfo>
+    public class RazerMousepadRGBDevice : RazerRGBDevice<RazerMousepadRGBDeviceInfo>, IMousepad
     {
         #region Constructors
 

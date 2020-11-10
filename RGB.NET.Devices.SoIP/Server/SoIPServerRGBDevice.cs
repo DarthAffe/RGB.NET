@@ -7,7 +7,7 @@ using SimpleTCP;
 
 namespace RGB.NET.Devices.SoIP.Server
 {
-    public class SoIPServerRGBDevice : AbstractRGBDevice<SoIPServerRGBDeviceInfo>, ISoIPRGBDevice
+    public class SoIPServerRGBDevice : AbstractRGBDevice<SoIPServerRGBDeviceInfo>, ISoIPRGBDevice, IUnknownDevice
     {
         #region Properties & Fields
 
@@ -66,6 +66,9 @@ namespace RGB.NET.Devices.SoIP.Server
         /// <inheritdoc />
         public override void Dispose()
         {
+            try { _updateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
             base.Dispose();
 
             _tcpServer.Stop();

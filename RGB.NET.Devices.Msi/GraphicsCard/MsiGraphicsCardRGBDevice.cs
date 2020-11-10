@@ -3,11 +3,11 @@ using RGB.NET.Devices.Msi.Native;
 
 namespace RGB.NET.Devices.Msi
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="MsiRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents MSI VGA adapters.
     /// </summary>
-    public class MsiGraphicsCardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>
+    public class MsiGraphicsCardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IGraphicsCard
     {
         #region Constructors
 
@@ -41,7 +41,7 @@ namespace RGB.NET.Devices.Msi
             }
 
             //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath($@"Layouts\MSI\GraphicsCard\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\MSI\GraphicsCard\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />

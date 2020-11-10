@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
     /// <summary>
     /// Represents the update-queue performing updates for arduino WS2812 devices.
     /// </summary>
-    public class ArduinoWS2812USBUpdateQueue : SerialPortUpdateQueue<byte[]>
+    public class ArduinoWS2812USBUpdateQueue : SerialConnectionUpdateQueue<byte[]>
     {
         #region Constants
 
@@ -33,8 +33,8 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
         /// <param name="portName">The name of the serial-port to connect to.</param>
         /// <param name="baudRate">The baud-rate used by the serial-connection.</param>
-        public ArduinoWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, string portName, int baudRate = 115200)
-            : base(updateTrigger, portName, baudRate)
+        public ArduinoWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, ISerialConnection serialConnection)
+            : base(updateTrigger, serialConnection)
         { }
 
         #endregion
@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         protected override void OnStartup(object sender, CustomUpdateData customData)
         {
             base.OnStartup(sender, customData);
-            
+
             SendCommand(ASK_PROMPT_COMMAND); // Get initial prompt
         }
 
@@ -75,26 +75,26 @@ namespace RGB.NET.Devices.WS281X.Arduino
         }
 
         /// <inheritdoc />
-        protected override void SendCommand(byte[] command) => SerialPort.Write(command, 0, command.Length);
+        protected override void SendCommand(byte[] command) => SerialConnection.Write(command, 0, command.Length);
 
         internal IEnumerable<(int channel, int ledCount)> GetChannels()
         {
-            if (!SerialPort.IsOpen)
-                SerialPort.Open();
+            if (!SerialConnection.IsOpen)
+                SerialConnection.Open();
 
-            SerialPort.DiscardInBuffer();
+            SerialConnection.DiscardInBuffer();
             SendCommand(ASK_PROMPT_COMMAND);
 
-            SerialPort.ReadTo(Prompt);
+            SerialConnection.ReadTo(Prompt);
             SendCommand(COUNT_COMMAND);
-            int channelCount = SerialPort.ReadByte();
+            int channelCount = SerialConnection.ReadByte();
 
             for (int i = 1; i <= channelCount; i++)
             {
-                SerialPort.ReadTo(Prompt);
+                SerialConnection.ReadTo(Prompt);
                 byte[] channelLedCountCommand = { (byte)((i << 4) | COUNT_COMMAND[0]) };
                 SendCommand(channelLedCountCommand);
-                int ledCount = SerialPort.ReadByte();
+                int ledCount = SerialConnection.ReadByte();
                 if (ledCount > 0)
                     yield return (i, ledCount);
             }

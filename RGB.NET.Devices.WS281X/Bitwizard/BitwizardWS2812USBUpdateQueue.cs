@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
     /// <summary>
     /// Represents the update-queue performing updates for a bitwizard WS2812 device.
     /// </summary>
-    public class BitwizardWS2812USBUpdateQueue : SerialPortUpdateQueue<string>
+    public class BitwizardWS2812USBUpdateQueue : SerialConnectionUpdateQueue<string>
     {
         #region Constructors
 
@@ -19,8 +19,8 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
         /// <param name="portName">The name of the serial-port to connect to.</param>
         /// <param name="baudRate">The baud-rate used by the serial-connection.</param>
-        public BitwizardWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, string portName, int baudRate = 115200)
-            : base(updateTrigger, portName, baudRate)
+        public BitwizardWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, ISerialConnection serialConnection)
+            : base(updateTrigger, serialConnection)
         { }
 
         #endregion

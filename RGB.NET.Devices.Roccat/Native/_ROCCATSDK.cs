@@ -27,11 +27,11 @@ namespace RGB.NET.Devices.Roccat.Native
         /// </summary>
         internal static void Reload()
         {
-            UnloadCUESDK();
-            LoadCUESDK();
+            UnloadRoccatSDK();
+            LoadRoccatSDK();
         }
 
-        private static void LoadCUESDK()
+        private static void LoadRoccatSDK()
         {
             if (_dllHandle != IntPtr.Zero) return;
 
@@ -57,7 +57,7 @@ namespace RGB.NET.Devices.Roccat.Native
             _setAllLedSfxPointer = (SetAllLedSfxPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "Set_all_LEDSFX"), typeof(SetAllLedSfxPointer));
         }
 
-        private static void UnloadCUESDK()
+        internal static void UnloadRoccatSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 

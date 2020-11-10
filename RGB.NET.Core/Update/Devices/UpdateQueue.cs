@@ -100,7 +100,8 @@ namespace RGB.NET.Core
                 _currentDataSet = null;
         }
 
-        public void Dispose()
+        /// <inheritdoc />
+        public virtual void Dispose()
         {
             _updateTrigger.Starting -= OnStartup;
             _updateTrigger.Update -= OnUpdate;

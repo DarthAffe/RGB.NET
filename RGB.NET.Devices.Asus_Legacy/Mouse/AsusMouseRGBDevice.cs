@@ -4,11 +4,11 @@ using RGB.NET.Devices.Asus.Native;
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Asus mouse.
     /// </summary>
-    public class AsusMouseRGBDevice : AsusRGBDevice<AsusMouseRGBDeviceInfo>
+    public class AsusMouseRGBDevice : AsusRGBDevice<AsusMouseRGBDeviceInfo>, IMouse
     {
         #region Constructors
 

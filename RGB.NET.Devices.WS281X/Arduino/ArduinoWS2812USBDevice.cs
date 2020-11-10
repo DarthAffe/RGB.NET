@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
     /// <summary>
     /// Represents an arduino WS2812 device.
     /// </summary>
-    public class ArduinoWS2812USBDevice : AbstractRGBDevice<ArduinoWS2812USBDeviceInfo>
+    public class ArduinoWS2812USBDevice : AbstractRGBDevice<ArduinoWS2812USBDeviceInfo>, ILedStripe
     {
         #region Properties & Fields
 
@@ -72,6 +72,15 @@ namespace RGB.NET.Devices.WS281X.Arduino
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
 
         #endregion
     }

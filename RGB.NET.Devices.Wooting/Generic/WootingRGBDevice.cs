@@ -63,6 +63,15 @@ namespace RGB.NET.Devices.Wooting.Generic
         /// </summary>
         protected abstract void InitializeLayout();
 
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
+
         #endregion
     }
 }

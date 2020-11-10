@@ -10,11 +10,11 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a corsair headset stand.
     /// </summary>
-    public class CorsairHeadsetStandRGBDevice : CorsairRGBDevice<CorsairHeadsetStandRGBDeviceInfo>
+    public class CorsairHeadsetStandRGBDevice : CorsairRGBDevice<CorsairHeadsetStandRGBDeviceInfo>, IHeadsetStand
     {
         #region Constructors
 

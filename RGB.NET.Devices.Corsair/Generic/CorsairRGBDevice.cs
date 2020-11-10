@@ -122,6 +122,15 @@ namespace RGB.NET.Devices.Corsair
             Marshal.FreeHGlobal(ptr);
         }
 
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { DeviceUpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
+        }
+
         #endregion
     }
 }

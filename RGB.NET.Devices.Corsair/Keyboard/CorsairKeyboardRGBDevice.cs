@@ -9,11 +9,11 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a corsair keyboard.
     /// </summary>
-    public class CorsairKeyboardRGBDevice : CorsairRGBDevice<CorsairKeyboardRGBDeviceInfo>
+    public class CorsairKeyboardRGBDevice : CorsairRGBDevice<CorsairKeyboardRGBDeviceInfo>, IKeyboard
     {
         #region Constructors
 

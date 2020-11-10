@@ -14,8 +14,8 @@
     <RootNamespace>RGB.NET.Devices.WS281X</RootNamespace>
     <Description>WS281X-Device-Implementations of RGB.NET</Description>
     <Summary>WS281X-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Wyrez 2018</Copyright>
-    <PackageCopyright>Copyright © Wyrez 2018</PackageCopyright>
+    <Copyright>Copyright © Darth Affe 2020</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2020</PackageCopyright>
     <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
@@ -63,10 +63,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="System.IO.Ports" Version="4.4.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.7.0" />
   </ItemGroup>
 </Project>

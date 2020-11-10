@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
             _setAllLedColorPointer = (SetAllLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetAllLedColor"), typeof(SetAllLedColorPointer));
         }
 
-        private static void UnloadCMSDK()
+        internal static void UnloadCMSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
 

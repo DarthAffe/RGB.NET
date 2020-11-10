@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RGB.NET.Core
 {
@@ -42,16 +44,17 @@ namespace RGB.NET.Core
         /// <summary>
         /// Detaches the decorator from all <see cref="IDecoratable"/> it is currently attached to.
         /// </summary>
-        /// <typeparam name="TDecoratable">The type of the <see cref="IDecoratable"/> this decorator is attached to.</typeparam>
-        /// <typeparam name="TDecorator">The type of this <see cref="IDecorator"/>.</typeparam>
-        protected virtual void Detach<TDecoratable, TDecorator>()
-            where TDecoratable : IDecoratable<TDecorator>
-            where TDecorator : AbstractDecorator
+        protected virtual void Detach()
         {
             List<IDecoratable> decoratables = new List<IDecoratable>(DecoratedObjects);
             foreach (IDecoratable decoratable in decoratables)
-                if (decoratable is TDecoratable typedDecoratable)
-                    typedDecoratable.RemoveDecorator((TDecorator)this);
+            {
+                IEnumerable<Type> types = decoratable.GetType().GetInterfaces().Where(t => t.IsGenericType
+                                                                                        && (t.Name == typeof(IDecoratable<>).Name)
+                                                                                        && t.GenericTypeArguments[0].IsInstanceOfType(this));
+                foreach (Type decoratableType in types)
+                    decoratableType.GetMethod(nameof(IDecoratable<IDecorator>.RemoveDecorator))?.Invoke(decoratable, new object[] { this });
+            }
         }
 
         #endregion

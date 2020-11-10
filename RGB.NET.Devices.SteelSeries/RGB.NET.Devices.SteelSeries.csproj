@@ -14,8 +14,8 @@
     <RootNamespace>RGB.NET.Devices.SteelSeries</RootNamespace>
     <Description>SteelSeries-Device-Implementations of RGB.NET</Description>
     <Summary>SteelSeries-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Wyrez 2017</Copyright>
-    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <Copyright>Copyright © Darth Affe 2020</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2020</PackageCopyright>
     <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
@@ -56,7 +56,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="HidSharp" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="HidSharp" Version="2.1.0" />
   </ItemGroup>
 </Project>

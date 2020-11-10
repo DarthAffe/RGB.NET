@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.SteelSeries
     /// <summary>
     /// Represents a SteelSeries-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>, ISteelSeriesRGBDevice
+    public class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>, ISteelSeriesRGBDevice, IUnknownDevice//TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
     {
         #region Properties & Fields
 
@@ -81,6 +81,15 @@ namespace RGB.NET.Devices.SteelSeries
             string layout = info.ImageLayout;
             string layoutPath = info.LayoutPath;
             ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\SteelSeries", $"{layoutPath}.xml"), layout, true);
+        }
+
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            try { UpdateQueue?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            base.Dispose();
         }
 
         #endregion

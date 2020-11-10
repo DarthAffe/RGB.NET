@@ -2,11 +2,11 @@
 
 namespace RGB.NET.Devices.Asus
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Asus mouse.
     /// </summary>
-    public class AsusMouseRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>
+    public class AsusMouseRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IMouse
     {
         #region Constructors
 

@@ -17,14 +17,19 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         #region Properties & Fields
 
         /// <summary>
+        /// Gets the serial-connection used for the device.
+        /// </summary>
+        public ISerialConnection SerialConnection { get; }
+
+        /// <summary>
         /// Gets the name of the serial-port to connect to.
         /// </summary>
-        public string Port { get; }
+        public string Port => SerialConnection?.Port;
 
         /// <summary>
         /// Gets the baud-rate used by the serial-connection.
         /// </summary>
-        public int BaudRate { get; set; } = 115200;
+        public int BaudRate => SerialConnection?.BaudRate ?? 0;
 
         /// <summary>
         /// Gets or sets the name used by this device.
@@ -43,10 +48,20 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <summary>
         /// Initializes a new instance of the <see cref="BitwizardWS281XDeviceDefinition"/> class.
         /// </summary>
-        /// <param name="portName">The name of the serial-port to connect to.</param>
-        public BitwizardWS281XDeviceDefinition(string port)
+        /// <param name="serialConnection">The serial connection used for the device.</param>
+        public BitwizardWS281XDeviceDefinition(ISerialConnection serialConnection)
         {
-            this.Port = port;
+            this.SerialConnection = serialConnection;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BitwizardWS281XDeviceDefinition"/> class.
+        /// </summary>
+        /// <param name="port">The name of the serial-port to connect to.</param>
+        /// <param name="baudRate">The baud-rate of the serial-connection.</param>
+        public BitwizardWS281XDeviceDefinition(string port, int baudRate = 115200)
+        {
+            SerialConnection = new SerialPortConnection(port, baudRate);
         }
 
         #endregion
@@ -54,17 +69,13 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         #region Methods
 
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> CreateDevices()
+        public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            DeviceUpdateTrigger updateTrigger = new DeviceUpdateTrigger();
-
-            BitwizardWS2812USBUpdateQueue queue = new BitwizardWS2812USBUpdateQueue(updateTrigger, Port, BaudRate);
+            BitwizardWS2812USBUpdateQueue queue = new BitwizardWS2812USBUpdateQueue(updateTrigger, SerialConnection);
             string name = Name ?? $"Bitwizard WS2812 USB ({Port})";
             BitwizardWS2812USBDevice device = new BitwizardWS2812USBDevice(new BitwizardWS2812USBDeviceInfo(name), queue);
             device.Initialize(StripLength);
             yield return device;
-
-            updateTrigger.Start();
         }
 
         #endregion

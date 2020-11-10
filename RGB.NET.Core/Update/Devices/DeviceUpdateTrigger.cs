@@ -144,6 +144,9 @@ namespace RGB.NET.Core
                 UpdateFrequency = UpdateRateHardLimit;
         }
 
+        /// <inheritdoc />
+        public override void Dispose() => Stop();
+
         #endregion
     }
 }

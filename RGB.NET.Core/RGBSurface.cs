@@ -38,7 +38,14 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
         /// </summary>
-        public IEnumerable<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(_devices);
+        public IEnumerable<IRGBDevice> Devices
+        {
+            get
+            {
+                lock (_devices)
+                    return new ReadOnlyCollection<IRGBDevice>(_devices);
+            }
+        }
 
         /// <summary>
         /// Gets a readonly list containing all registered <see cref="IUpdateTrigger"/>.
@@ -53,7 +60,14 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a list of all <see cref="Led"/> on this <see cref="RGBSurface"/>.
         /// </summary>
-        public IEnumerable<Led> Leds => _devices.SelectMany(x => x);
+        public IEnumerable<Led> Leds
+        {
+            get
+            {
+                lock (_devices)
+                    return _devices.SelectMany(x => x);
+            }
+        }
 
         #endregion
 
@@ -92,32 +106,33 @@ namespace RGB.NET.Core
                 bool updateDevices = customData["updateDevices"] as bool? ?? true;
 
                 lock (_updateTriggers)
-                {
-                    OnUpdating(updateTrigger, customData);
+                    lock (_devices)
+                    {
+                        OnUpdating(updateTrigger, customData);
 
-                    if (syncBack)
-                        foreach (IRGBDevice device in Devices)
-                            if (device.UpdateMode.HasFlag(DeviceUpdateMode.SyncBack) && device.DeviceInfo.SupportsSyncBack)
-                                try { device.SyncBack(); }
-                                catch (Exception ex) { OnException(ex); }
+                        if (syncBack)
+                            foreach (IRGBDevice device in _devices)
+                                if (device.UpdateMode.HasFlag(DeviceUpdateMode.SyncBack) && device.DeviceInfo.SupportsSyncBack)
+                                    try { device.SyncBack(); }
+                                    catch (Exception ex) { OnException(ex); }
 
-                    if (render)
-                        lock (_ledGroups)
-                        {
-                            // Render brushes
-                            foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
-                                try { Render(ledGroup); }
-                                catch (Exception ex) { OnException(ex); }
-                        }
+                        if (render)
+                            lock (_ledGroups)
+                            {
+                                // Render brushes
+                                foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
+                                    try { Render(ledGroup); }
+                                    catch (Exception ex) { OnException(ex); }
+                            }
 
-                    if (updateDevices)
-                        foreach (IRGBDevice device in Devices)
-                            if (!device.UpdateMode.HasFlag(DeviceUpdateMode.NoUpdate))
-                                try { device.Update(flushLeds); }
-                                catch (Exception ex) { OnException(ex); }
+                        if (updateDevices)
+                            foreach (IRGBDevice device in _devices)
+                                if (!device.UpdateMode.HasFlag(DeviceUpdateMode.NoUpdate))
+                                    try { device.Update(flushLeds); }
+                                    catch (Exception ex) { OnException(ex); }
 
-                    OnUpdated();
-                }
+                        OnUpdated();
+                    }
             }
             catch (Exception ex)
             {
@@ -128,16 +143,19 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public void Dispose()
         {
-            //if (_updateTokenSource?.IsCancellationRequested == false)
-            //    _updateTokenSource.Cancel();
+            lock (_devices)
+                foreach (IRGBDevice device in _devices)
+                    try { device.Dispose(); }
+                    catch { /* We do what we can */}
 
-            foreach (IRGBDevice device in _devices)
-                try { device.Dispose(); }
-                catch { /* We do what we can */ }
+            lock (_deviceProvider)
+                foreach (IRGBDeviceProvider deviceProvider in _deviceProvider)
+                    try { deviceProvider.Dispose(); }
+                    catch { /* We do what we can */}
 
-            foreach (IRGBDeviceProvider deviceProvider in _deviceProvider)
-                try { deviceProvider.Dispose(); }
-                catch { /* We do what we can */ }
+            foreach (IUpdateTrigger updateTrigger in _updateTriggers)
+                try { updateTrigger.Dispose(); }
+                catch { /* We do what we can */}
 
             _ledGroups.Clear();
             _devices = null;
@@ -220,8 +238,11 @@ namespace RGB.NET.Core
 
         private void UpdateSurfaceRectangle()
         {
-            Rectangle devicesRectangle = new Rectangle(_devices.Select(d => d.DeviceRectangle));
-            SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
+            lock (_devices)
+            {
+                Rectangle devicesRectangle = new Rectangle(_devices.Select(d => d.DeviceRectangle));
+                SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
+            }
         }
 
         /// <summary>
@@ -231,7 +252,10 @@ namespace RGB.NET.Core
         /// <returns>A list of devices with the specified type.</returns>
         public IList<T> GetDevices<T>()
             where T : class
-            => new ReadOnlyCollection<T>(_devices.Select(x => x as T).Where(x => x != null).ToList());
+        {
+            lock (_devices)
+                return new ReadOnlyCollection<T>(_devices.Select(x => x as T).Where(x => x != null).ToList());
+        }
 
         /// <summary>
         /// Gets all devices of the specified <see cref="RGBDeviceType"/>.
@@ -239,7 +263,10 @@ namespace RGB.NET.Core
         /// <param name="deviceType">The <see cref="RGBDeviceType"/> of the devices to get.</param>
         /// <returns>a list of devices matching the specified <see cref="RGBDeviceType"/>.</returns>
         public IList<IRGBDevice> GetDevices(RGBDeviceType deviceType)
-            => new ReadOnlyCollection<IRGBDevice>(_devices.Where(d => deviceType.HasFlag(d.DeviceInfo.DeviceType)).ToList());
+        {
+            lock (_devices)
+                return new ReadOnlyCollection<IRGBDevice>(_devices.Where(d => deviceType.HasFlag(d.DeviceInfo.DeviceType)).ToList());
+        }
 
         /// <summary>
         /// Registers the provided <see cref="IUpdateTrigger"/>.

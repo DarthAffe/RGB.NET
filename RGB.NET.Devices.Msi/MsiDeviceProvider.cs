@@ -118,7 +118,7 @@ namespace RGB.NET.Devices.Msi
                         if (deviceType.Equals("MSI_MB"))
                         {
                             MsiDeviceUpdateQueue updateQueue = new MsiDeviceUpdateQueue(UpdateTrigger, deviceType);
-                            IMsiRGBDevice motherboard = new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceType, "Msi", "Motherboard"));
+                            IMsiRGBDevice motherboard = new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceType, "MSI", "Motherboard"));
                             motherboard.Initialize(updateQueue, ledCount);
                             devices.Add(motherboard);
                         }
@@ -128,9 +128,19 @@ namespace RGB.NET.Devices.Msi
                             //Hex3l: The led name is the name of the card (e.g. NVIDIA GeForce RTX 2080 Ti) we could provide it in device info.
 
                             MsiDeviceUpdateQueue updateQueue = new MsiDeviceUpdateQueue(UpdateTrigger, deviceType);
-                            IMsiRGBDevice graphicscard = new MsiGraphicsCardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.GraphicsCard, deviceType, "Msi", "GraphicsCard"));
+                            IMsiRGBDevice graphicscard = new MsiGraphicsCardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.GraphicsCard, deviceType, "MSI", "GraphicsCard"));
                             graphicscard.Initialize(updateQueue, ledCount);
                             devices.Add(graphicscard);
+                        }
+                        else if (deviceType.Equals("MSI_MOUSE"))
+                        {
+                            //Hex3l: Every led under MSI_MOUSE should be a different mouse. Handling all the mouses together seems a good way to avoid overlapping of leds
+                            //Hex3l: The led name is the name of the mouse (e.g. msi CLUTCH GM11) we could provide it in device info.
+
+                            MsiDeviceUpdateQueue updateQueue = new MsiDeviceUpdateQueue(UpdateTrigger, deviceType);
+                            IMsiRGBDevice mouses = new MsiMouseRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mouse, deviceType, "MSI", "Mouse"));
+                            mouses.Initialize(updateQueue, ledCount);
+                            devices.Add(mouses);
                         }
 
                         //TODO DarthAffe 22.02.2020: Add other devices
@@ -163,7 +173,13 @@ namespace RGB.NET.Devices.Msi
 
         /// <inheritdoc />
         public void Dispose()
-        { }
+        {
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            try { _MsiSDK.UnloadMsiSDK(); }
+            catch { /* at least we tried */ }
+        }
 
         #endregion
     }

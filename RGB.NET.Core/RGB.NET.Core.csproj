@@ -14,8 +14,8 @@
     <RootNamespace>RGB.NET.Core</RootNamespace>
     <Description>Core-Module of RGB.NET</Description>
     <Summary>Core-Module of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Wyrez 2017</Copyright>
-    <PackageCopyright>Copyright © Wyrez 2017</PackageCopyright>
+    <Copyright>Copyright © Darth Affe 2020</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2020</PackageCopyright>
     <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
@@ -59,6 +59,6 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 </Project>

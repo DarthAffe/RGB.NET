@@ -4,11 +4,11 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Novation
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="NovationRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a Novation launchpad.
     /// </summary>
-    public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGBDeviceInfo>
+    public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGBDeviceInfo>, ILedMatrix
     {
         #region Constructors
 
@@ -28,22 +28,13 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            Dictionary<NovationLedId, LedId> mapping = LaunchpadIdMapping.DEFAULT.SwapKeyValue();
+            Dictionary<LedId, (byte mode, byte id, int x, int y)> mapping = GetDeviceMapping();
 
-            //TODO DarthAffe 15.08.2017: Check if all launchpads are using the same basic layout
             const int BUTTON_SIZE = 20;
-            foreach (NovationLedId ledId in Enum.GetValues(typeof(NovationLedId)))
+            foreach (LedId ledId in mapping.Keys)
             {
-                Rectangle rectangle;
-                if (ledId.IsCustom())
-                    rectangle = new Rectangle(BUTTON_SIZE * (ledId.GetId() - 0x68), 0, BUTTON_SIZE, BUTTON_SIZE);
-                else if (ledId.IsScene())
-                    rectangle = new Rectangle(8 * BUTTON_SIZE, BUTTON_SIZE * (((int)ledId.GetId() / 0x10) + 1), BUTTON_SIZE, BUTTON_SIZE);
-                else if (ledId.IsGrid())
-                    rectangle = new Rectangle(BUTTON_SIZE * ((int)ledId.GetId() % 0x10), BUTTON_SIZE * (((int)ledId.GetId() / 0x10) + 1), BUTTON_SIZE, BUTTON_SIZE);
-                else continue;
-
-                InitializeLed(mapping[ledId], rectangle);
+                (_, _, int x, int y) = mapping[ledId];
+                InitializeLed(ledId, new Point(BUTTON_SIZE * x, BUTTON_SIZE * y), new Size(BUTTON_SIZE));
             }
 
             string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
@@ -51,7 +42,15 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => LaunchpadIdMapping.DEFAULT.TryGetValue(ledId, out NovationLedId novationLedId) ? novationLedId : NovationLedId.Invalid;
+        protected override object CreateLedCustomData(LedId ledId) => GetDeviceMapping().TryGetValue(ledId, out (byte mode, byte id, int _, int __) data) ? (data.mode, data.id) : ((byte)0x00, (byte)0x00);
+
+        protected virtual Dictionary<LedId, (byte mode, byte id, int x, int y)> GetDeviceMapping()
+            => DeviceInfo.LedIdMapping switch
+            {
+                LedIdMappings.Current => LaunchpadIdMapping.CURRENT,
+                LedIdMappings.Legacy => LaunchpadIdMapping.LEGACY,
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
         #endregion
     }

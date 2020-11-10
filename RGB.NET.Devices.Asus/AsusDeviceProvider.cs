@@ -90,52 +90,45 @@ namespace RGB.NET.Devices.Asus
                 {
                     try
                     {
-                        IAsusRGBDevice rgbDevice = null;
-                        switch (device.Type)
+                        IAsusRGBDevice rgbDevice;
+                        switch ((AsusDeviceType)device.Type)
                         {
-                            case 0x00010000: //Motherboard
+                            case AsusDeviceType.MB_RGB:
                                 rgbDevice = new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, WMIHelper.GetMainboardInfo()?.model ?? device.Name));
                                 break;
 
-                            case 0x00011000: //Motherboard LED Strip
+                            case AsusDeviceType.MB_ADDRESABLE:
                                 rgbDevice = new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.LedStripe, device), LedId.LedStripe1);
                                 break;
 
-                            case 0x00020000: //VGA
+                            case AsusDeviceType.VGA_RGB:
                                 rgbDevice = new AsusGraphicsCardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.GraphicsCard, device));
                                 break;
 
-                            case 0x00040000: //Headset
+                            case AsusDeviceType.HEADSET_RGB:
                                 rgbDevice = new AsusHeadsetRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Headset, device));
                                 break;
 
-                            case 0x00070000: //DRAM
+                            case AsusDeviceType.DRAM_RGB:
                                 rgbDevice = new AsusDramRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.DRAM, device));
                                 break;
 
-                            case 0x00080000: //Keyboard
-                            case 0x00081000: //Notebook Keyboard
-                            case 0x00081001: //Notebook Keyboard(4 - zone type)
+                            case AsusDeviceType.KEYBOARD_RGB:
+                            case AsusDeviceType.NB_KB_RGB:
+                            case AsusDeviceType.NB_KB_4ZONE_RGB:
                                 rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device, CultureInfo.CurrentCulture));
                                 break;
 
-                            case 0x00090000: //Mouse
+                            case AsusDeviceType.MOUSE_RGB:
                                 rgbDevice = new AsusMouseRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mouse, device));
                                 break;
 
-                            case 0x00000000: //All
-                            case 0x00012000: //All - In - One PC
-                            case 0x00030000: //Display
-                            case 0x00050000: //Microphone
-                            case 0x00060000: //External HDD
-                            case 0x00061000: //External BD Drive
-                            case 0x000B0000: //Chassis
-                            case 0x000C0000: //Projector
+                            default:
                                 rgbDevice = new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Unknown, device), LedId.Custom1);
                                 break;
                         }
 
-                        if ((rgbDevice != null) && loadFilter.HasFlag(rgbDevice.DeviceInfo.DeviceType))
+                        if (loadFilter.HasFlag(rgbDevice.DeviceInfo.DeviceType))
                         {
                             rgbDevice.Initialize(UpdateTrigger);
                             devices.Add(rgbDevice);
@@ -172,7 +165,12 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         public void Dispose()
         {
-            _sdk?.ReleaseControl(0);
+            try { UpdateTrigger?.Dispose(); }
+            catch { /* at least we tried */ }
+
+            try { _sdk?.ReleaseControl(0); }
+            catch { /* at least we tried */ }
+
             _sdk = null;
         }
 

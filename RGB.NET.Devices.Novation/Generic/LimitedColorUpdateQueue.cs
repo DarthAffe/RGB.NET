@@ -28,8 +28,8 @@ namespace RGB.NET.Devices.Novation
         /// <inheritdoc />
         protected override ShortMessage CreateMessage(KeyValuePair<object, Color> data)
         {
-            NovationLedId ledId = (NovationLedId)data.Key;
-            return new ShortMessage(Convert.ToByte(ledId.GetStatus()), Convert.ToByte(ledId.GetId()), Convert.ToByte(ConvertColor(data.Value)));
+            (byte mode, byte id) = ((byte, byte))data.Key;
+            return new ShortMessage(mode, id, Convert.ToByte(ConvertColor(data.Value)));
         }
 
         /// <summary>

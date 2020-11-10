@@ -3,11 +3,11 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="CoolerMasterRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a CoolerMaster mouse.
     /// </summary>
-    public class CoolerMasterMouseRGBDevice : CoolerMasterRGBDevice<CoolerMasterMouseRGBDeviceInfo>
+    public class CoolerMasterMouseRGBDevice : CoolerMasterRGBDevice<CoolerMasterMouseRGBDeviceInfo>, IMouse
     {
         #region Constructors
 
