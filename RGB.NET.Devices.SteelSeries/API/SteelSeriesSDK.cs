@@ -5,7 +5,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using RGB.NET.Devices.SteelSeries.API.Model;
 
 namespace RGB.NET.Devices.SteelSeries.API
@@ -73,13 +74,16 @@ namespace RGB.NET.Devices.SteelSeries.API
                 string corePropsPath = GetCorePropsPath();
                 if (!string.IsNullOrWhiteSpace(corePropsPath) && File.Exists(corePropsPath))
                 {
-                    CoreProps coreProps = JsonConvert.DeserializeObject<CoreProps>(File.ReadAllText(corePropsPath));
-                    _baseUrl = coreProps.Address;
-                    if (!_baseUrl.StartsWith("http://", StringComparison.Ordinal))
-                        _baseUrl = "http://" + _baseUrl;
+                    CoreProps coreProps = JsonSerializer.Deserialize<CoreProps>(File.ReadAllText(corePropsPath));
+                    _baseUrl = coreProps?.Address;
+                    if (_baseUrl != null)
+                    {
+                        if (!_baseUrl.StartsWith("http://", StringComparison.Ordinal))
+                            _baseUrl = "http://" + _baseUrl;
 
-                    RegisterGame(_game);
-                    RegisterGoLispHandler(new GoLispHandler(_game, HANDLER));
+                        RegisterGame(_game);
+                        RegisterGoLispHandler(new GoLispHandler(_game, HANDLER));
+                    }
                 }
             }
             catch
@@ -122,7 +126,7 @@ namespace RGB.NET.Devices.SteelSeries.API
 
         private static string PostJson(string urlSuffix, object o)
         {
-            string payload = JsonConvert.SerializeObject(o);
+            string payload = JsonSerializer.Serialize(o);
             return _client.PostAsync(_baseUrl + urlSuffix, new StringContent(payload, Encoding.UTF8, "application/json")).Result.Content.ReadAsStringAsync().Result;
         }
 

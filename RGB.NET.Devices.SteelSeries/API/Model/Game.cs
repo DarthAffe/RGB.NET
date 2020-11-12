@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace RGB.NET.Devices.SteelSeries.API.Model
 {
@@ -6,10 +6,10 @@ namespace RGB.NET.Devices.SteelSeries.API.Model
     {
         #region Properties & Fields
 
-        [JsonProperty("game")]
+        [JsonPropertyName("game")]
         public string Name { get; set; }
 
-        [JsonProperty("game_display_name")]
+        [JsonPropertyName("game_display_name")]
         public string DisplayName { get; set; }
 
         #endregion
