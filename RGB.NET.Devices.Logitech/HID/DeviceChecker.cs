@@ -27,6 +27,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G410", RGBDeviceType.Keyboard, 0xC330, 0, "DE", @"Keyboards\G410\UK"),
                   ("G213", RGBDeviceType.Keyboard, 0xC336, 0, "DE", @"Keyboards\G213\UK"),
                   ("Pro", RGBDeviceType.Keyboard, 0xC339, 0, "DE", @"Keyboards\Pro\UK"),
+                  ("G915 TKL", RGBDeviceType.Keyboard, 0xC343, 0, "DE", @"Keyboards\G915TKL\UK"),
               };
 
         private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
