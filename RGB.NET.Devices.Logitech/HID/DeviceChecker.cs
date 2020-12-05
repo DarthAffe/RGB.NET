@@ -28,6 +28,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G213", RGBDeviceType.Keyboard, 0xC336, 0, "DE", @"Keyboards\G213\UK"),
                   ("Pro", RGBDeviceType.Keyboard, 0xC339, 0, "DE", @"Keyboards\Pro\UK"),
                   ("G915 TKL", RGBDeviceType.Keyboard, 0xC343, 0, "DE", @"Keyboards\G915TKL\UK"),
+                  ("Lightspeed Keyboard Dongle", RGBDeviceType.Keyboard, 0xC545, 0, "DE", @"Keyboards\G915\UK"),
               };
 
         private static readonly List<(string model, RGBDeviceType deviceType, int id, int zones, string imageLayout, string layoutPath)> PER_DEVICE_DEVICES
@@ -52,7 +53,7 @@ namespace RGB.NET.Devices.Logitech.HID
               {
                   ("G213", RGBDeviceType.Keyboard, 0xC336, 5, "default", @"Keyboards\G213"),
                   ("G903", RGBDeviceType.Mouse, 0xC086, 2, "default", @"Mice\G903"),
-                  ("G900", RGBDeviceType.Mouse, 0xC539, 2, "default", @"Mice\G900"),
+                  ("Lightspeed Mouse Dongle", RGBDeviceType.Mouse, 0xC539, 2, "default", @"Mice\G900"),
                   ("G703", RGBDeviceType.Mouse, 0xC087, 2, "default", @"Mice\G703"),
                   ("G502 HERO", RGBDeviceType.Mouse, 0xC08B, 2, "default", @"Mice\G502"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, 2, "default", @"Mice\G502"),
@@ -60,7 +61,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
                   ("G203", RGBDeviceType.Mouse, 0xC084, 1, "default", @"Mice\G203"),
                   ("G Pro", RGBDeviceType.Mouse, 0xC085, 1, "default", @"Mice\GPro"),
-                  ("G Pro Wireless", RGBDeviceType.Mouse, 0xC088, 1, "default", @"Mice\GPro"),
+                  ("G Pro Wireless", RGBDeviceType.Mouse, 0xC088, 2, "default", @"Mice\GProWireless"),
                   ("G Pro Hero", RGBDeviceType.Mouse, 0xC08C, 1, "default", @"Mice\GProHero"),
                   ("G633", RGBDeviceType.Headset, 0x0A5C, 2, "default", @"Headsets\G633"),
                   ("G933", RGBDeviceType.Headset, 0x0A5B, 2, "default", @"Headsets\G933"),
