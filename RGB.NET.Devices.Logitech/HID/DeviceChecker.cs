@@ -56,6 +56,7 @@ namespace RGB.NET.Devices.Logitech.HID
                   ("Lightspeed Mouse Dongle", RGBDeviceType.Mouse, 0xC539, 2, "default", @"Mice\G900"),
                   ("G703", RGBDeviceType.Mouse, 0xC087, 2, "default", @"Mice\G703"),
                   ("G502 HERO", RGBDeviceType.Mouse, 0xC08B, 2, "default", @"Mice\G502"),
+                  ("G502 Lightspeed", RGBDeviceType.Mouse, 0xC08D, 2, "default", @"Mice\G502"),
                   ("G502", RGBDeviceType.Mouse, 0xC332, 2, "default", @"Mice\G502"),
                   ("G403", RGBDeviceType.Mouse, 0xC083, 2, "default", @"Mice\G403"),
                   ("G303", RGBDeviceType.Mouse, 0xC080, 2, "default", @"Mice\G303"),
