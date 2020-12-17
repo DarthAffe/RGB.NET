@@ -51,6 +51,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Management" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_PackageFiles Include="$(OutputPath)\net5.0\Interop.AuraServiceLib.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>lib\net5.0\</PackagePath>
