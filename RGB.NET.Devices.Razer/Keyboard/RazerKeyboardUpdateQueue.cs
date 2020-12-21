@@ -42,6 +42,9 @@ namespace RGB.NET.Devices.Razer
             return ptr;
         }
 
+        /// <inheritdoc />
+        protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateKeyboardEffect(_Defines.KEYBOARD_EFFECT_ID, effectParams, ref effectId);
+
         #endregion
     }
 }
