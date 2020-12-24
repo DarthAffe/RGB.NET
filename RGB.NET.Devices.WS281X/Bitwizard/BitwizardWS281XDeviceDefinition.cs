@@ -37,9 +37,20 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the pin sed to control the leds.
+        /// </summary>
+        public int Pin { get; set; } = 0;
+
+        /// <summary>
         /// Gets or sets the amount of leds of this device.
         /// </summary>
         public int StripLength { get; set; } = 384;
+
+        /// <summary>
+        /// Gets or sets the amount of leds controlled by one pin.
+        /// This only needs to be changed if the firmware on the controller is updated.
+        /// </summary>
+        public int MaxStripLength { get; set; } = 384;
 
         #endregion
 
@@ -73,7 +84,8 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         {
             BitwizardWS2812USBUpdateQueue queue = new BitwizardWS2812USBUpdateQueue(updateTrigger, SerialConnection);
             string name = Name ?? $"Bitwizard WS2812 USB ({Port})";
-            BitwizardWS2812USBDevice device = new BitwizardWS2812USBDevice(new BitwizardWS2812USBDeviceInfo(name), queue);
+            int ledOffset = Pin * MaxStripLength;
+            BitwizardWS2812USBDevice device = new BitwizardWS2812USBDevice(new BitwizardWS2812USBDeviceInfo(name), queue, ledOffset);
             device.Initialize(StripLength);
             yield return device;
         }
