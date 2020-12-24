@@ -61,12 +61,14 @@ namespace RGB.NET.Devices.Corsair
                 case CorsairChannelDeviceType.FanML:
                 case CorsairChannelDeviceType.DAP:
                 case CorsairChannelDeviceType.FanQL:
+                case CorsairChannelDeviceType.FanSPPRO:
                     return RGBDeviceType.Fan;
 
                 case CorsairChannelDeviceType.Strip:
                     return RGBDeviceType.LedStripe;
 
                 case CorsairChannelDeviceType.Pump:
+                case CorsairChannelDeviceType.WaterBlock:
                     return RGBDeviceType.Cooler;
 
                 default:
@@ -93,6 +95,12 @@ namespace RGB.NET.Devices.Corsair
                 case CorsairChannelDeviceType.FanML:
                     return "ML Fan";
 
+                case CorsairChannelDeviceType.FanQL:
+                    return "QL Fan";
+
+                case CorsairChannelDeviceType.FanSPPRO:
+                    return "SP-PRO Fan";
+
                 case CorsairChannelDeviceType.Strip:
                     // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single
                     if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 138))
@@ -111,11 +119,11 @@ namespace RGB.NET.Devices.Corsair
                 case CorsairChannelDeviceType.DAP:
                     return "DAP Fan";
 
+                case CorsairChannelDeviceType.WaterBlock:
+                    return "Water Block";
+
                 case CorsairChannelDeviceType.Pump:
                     return "AIO Pump";
-
-                case CorsairChannelDeviceType.FanQL:
-                    return "QL Fan";
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(channelDeviceInfo.type), channelDeviceInfo.type, null);

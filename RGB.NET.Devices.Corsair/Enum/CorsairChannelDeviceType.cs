@@ -19,6 +19,8 @@ namespace RGB.NET.Devices.Corsair
         Strip = 5,
         DAP = 6,
         Pump = 7,
-        FanQL = 8
+        FanQL = 8,
+        WaterBlock = 9,
+        FanSPPRO = 10
     };
 }
