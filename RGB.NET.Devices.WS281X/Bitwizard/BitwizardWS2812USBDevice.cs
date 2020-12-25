@@ -16,6 +16,8 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
     {
         #region Properties & Fields
 
+        private readonly int _ledOffset;
+
         /// <summary>
         /// Gets the update queue performing updates for this device.
         /// </summary>
@@ -33,10 +35,12 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// </summary>
         /// <param name="deviceInfo">The update trigger used by this queue.</param>
         /// <param name="updateQueue">The update queue performing updates for this device.</param>
-        public BitwizardWS2812USBDevice(BitwizardWS2812USBDeviceInfo deviceInfo, BitwizardWS2812USBUpdateQueue updateQueue)
+        public BitwizardWS2812USBDevice(BitwizardWS2812USBDeviceInfo deviceInfo, BitwizardWS2812USBUpdateQueue updateQueue, int ledOffset)
         {
             this.DeviceInfo = deviceInfo;
             this.UpdateQueue = updateQueue;
+
+            this._ledOffset = ledOffset;
         }
 
         #endregion
@@ -58,7 +62,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.LedStripe1;
+        protected override object CreateLedCustomData(LedId ledId) => _ledOffset + ((int)ledId - (int)LedId.LedStripe1);
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
