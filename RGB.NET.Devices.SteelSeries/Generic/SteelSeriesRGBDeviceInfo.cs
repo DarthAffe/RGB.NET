@@ -28,10 +28,7 @@ namespace RGB.NET.Devices.SteelSeries
 
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-
-        /// <inheritdoc />
-        public bool SupportsSyncBack => false;
-
+        
         public SteelSeriesDeviceType SteelSeriesDeviceType { get; }
 
         /// <summary>

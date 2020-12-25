@@ -30,10 +30,7 @@ namespace RGB.NET.Devices.Msi
 
         /// <inheritdoc />
         public Uri Image { get; set; }
-
-        /// <inheritdoc />
-        public bool SupportsSyncBack => false;
-
+        
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 

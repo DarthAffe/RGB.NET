@@ -96,32 +96,6 @@ namespace RGB.NET.Devices.Corsair
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
             => DeviceUpdateQueue.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))));
 
-        /// <inheritdoc cref="IRGBDevice.SyncBack" />
-        public override void SyncBack()
-        {
-            int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
-            IntPtr ptr = Marshal.AllocHGlobal(structSize * LedMapping.Count);
-            IntPtr addPtr = new IntPtr(ptr.ToInt64());
-            foreach (Led led in this)
-            {
-                _CorsairLedColor color = new _CorsairLedColor { ledId = (int)led.CustomData };
-                Marshal.StructureToPtr(color, addPtr, false);
-                addPtr = new IntPtr(addPtr.ToInt64() + structSize);
-            }
-            _CUESDK.CorsairGetLedsColorsByDeviceIndex(DeviceInfo.CorsairDeviceIndex, LedMapping.Count, ptr);
-
-            IntPtr readPtr = ptr;
-            for (int i = 0; i < LedMapping.Count; i++)
-            {
-                _CorsairLedColor ledColor = (_CorsairLedColor)Marshal.PtrToStructure(readPtr, typeof(_CorsairLedColor));
-                SetLedColorWithoutRequest(this[(CorsairLedId)ledColor.ledId], new Color(ledColor.r, ledColor.g, ledColor.b));
-
-                readPtr = new IntPtr(readPtr.ToInt64() + structSize);
-            }
-
-            Marshal.FreeHGlobal(ptr);
-        }
-
         /// <inheritdoc />
         public override void Dispose()
         {

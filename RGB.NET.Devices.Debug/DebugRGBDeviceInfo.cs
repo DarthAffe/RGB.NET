@@ -25,10 +25,7 @@ namespace RGB.NET.Devices.Debug
 
         /// <inheritdoc />
         public RGBDeviceLighting Lighting { get; }
-
-        /// <inheritdoc />
-        public bool SupportsSyncBack { get; }
-
+        
         /// <inheritdoc />
         public Uri Image { get; set; }
 
@@ -43,14 +40,12 @@ namespace RGB.NET.Devices.Debug
         /// <param name="manufacturer">The manufacturer of the device.</param>
         /// <param name="model">The model of the device.</param>
         /// <param name="lighting">The <see cref="RGBDeviceLighting"/> of the device.</param>
-        /// <param name="supportsSyncBack">True if the device supports syncback; false if not.</param>
-        internal DebugRGBDeviceInfo(RGBDeviceType deviceType, string manufacturer, string model, RGBDeviceLighting lighting, bool supportsSyncBack, string deviceName = null)
+        internal DebugRGBDeviceInfo(RGBDeviceType deviceType, string manufacturer, string model, RGBDeviceLighting lighting, string deviceName = null)
         {
             this.DeviceType = deviceType;
             this.Manufacturer = manufacturer;
             this.Model = model;
             this.Lighting = lighting;
-            this.SupportsSyncBack = supportsSyncBack;
 
             DeviceName = deviceName ?? $"{Manufacturer} {Model}";
         }

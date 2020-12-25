@@ -39,10 +39,7 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         public Uri Image { get; set; }
-
-        /// <inheritdoc />
-        public bool SupportsSyncBack => true;
-
+        
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
 
