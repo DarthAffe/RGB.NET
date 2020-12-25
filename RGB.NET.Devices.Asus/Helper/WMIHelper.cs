@@ -1,4 +1,4 @@
-﻿#if NETFULL
+﻿using System;
 using System.Management;
 
 namespace RGB.NET.Devices.Asus
@@ -8,11 +8,26 @@ namespace RGB.NET.Devices.Asus
     {
         #region Properties & Fields
 
-        private static ManagementObjectSearcher _mainboardSearcher = new ManagementObjectSearcher(@"root\CIMV2", "SELECT Manufacturer,Product FROM Win32_BaseBoard");
-        private static ManagementObjectSearcher _graphicsCardSearcher = new ManagementObjectSearcher(@"root\CIMV2", "SELECT Name FROM Win32_VideoController");
+        // ReSharper disable InconsistentNaming
+        private static readonly ManagementObjectSearcher? _mainboardSearcher;
+        private static readonly ManagementObjectSearcher? _graphicsCardSearcher;
+        // ReSharper restore InconsistentNaming
 
         private static (string manufacturer, string model)? _mainboardInfo;
-        private static string _graphicsCardInfo;
+        private static string? _graphicsCardInfo;
+
+        #endregion
+
+        #region Constructors
+
+        static WMIHelper()
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                _mainboardSearcher = new ManagementObjectSearcher(@"root\CIMV2", "SELECT Manufacturer,Product FROM Win32_BaseBoard");
+                _graphicsCardSearcher = new ManagementObjectSearcher(@"root\CIMV2", "SELECT Name FROM Win32_VideoController");
+            }
+        }
 
         #endregion
 
@@ -20,19 +35,23 @@ namespace RGB.NET.Devices.Asus
 
         internal static (string manufacturer, string model)? GetMainboardInfo()
         {
-            if (!_mainboardInfo.HasValue)
+            if (!OperatingSystem.IsWindows()) return null;
+
+            if (!_mainboardInfo.HasValue && (_mainboardSearcher != null))
                 foreach (ManagementBaseObject managementBaseObject in _mainboardSearcher.Get())
                 {
-                    _mainboardInfo = (managementBaseObject["Manufacturer"]?.ToString(), managementBaseObject["Product"]?.ToString());
+                    _mainboardInfo = (managementBaseObject["Manufacturer"]?.ToString() ?? string.Empty, managementBaseObject["Product"]?.ToString() ?? string.Empty);
                     break;
                 }
 
             return _mainboardInfo;
         }
 
-        internal static string GetGraphicsCardsInfo()
+        internal static string? GetGraphicsCardsInfo()
         {
-            if (_graphicsCardInfo == null)
+            if (!OperatingSystem.IsWindows()) return null;
+
+            if ((_graphicsCardInfo == null) && (_graphicsCardSearcher != null))
                 foreach (ManagementBaseObject managementBaseObject in _graphicsCardSearcher.Get())
                 {
                     _graphicsCardInfo = managementBaseObject["Name"]?.ToString();
@@ -45,19 +64,3 @@ namespace RGB.NET.Devices.Asus
         #endregion
     }
 }
-#else
-namespace RGB.NET.Devices.Asus
-{
-    // ReSharper disable once InconsistentNaming
-    internal static class WMIHelper
-    {
-        #region Methods
-
-        internal static (string manufacturer, string model)? GetMainboardInfo() => null;
-
-        internal static string GetGraphicsCardsInfo() => null;
-
-        #endregion
-    }
-}
-#endif

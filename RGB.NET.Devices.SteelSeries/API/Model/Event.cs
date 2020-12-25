@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace RGB.NET.Devices.SteelSeries.API.Model
 {
@@ -7,13 +7,13 @@ namespace RGB.NET.Devices.SteelSeries.API.Model
     {
         #region Properties & Fields
 
-        [JsonProperty("game")]
+        [JsonPropertyName("game")]
         public string Game { get; set; }
 
-        [JsonProperty("event")]
+        [JsonPropertyName("event")]
         public string Name { get; set; }
 
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public Dictionary<string, object> Data { get; } = new Dictionary<string, object>();
 
         #endregion

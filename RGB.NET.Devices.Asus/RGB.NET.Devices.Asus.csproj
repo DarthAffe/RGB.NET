@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-    <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+    <TargetFrameworks>net5.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
 
     <Authors>Darth Affe</Authors>
     <Company>Wyrez</Company>
@@ -33,15 +34,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeSource>True</IncludeSource>
     <IncludeSymbols>True</IncludeSymbols>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net45'">
-    <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -59,26 +51,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <_PackageFiles Include="$(OutputPath)\net45\Interop.AuraServiceLib.dll">
-      <BuildAction>None</BuildAction>
-      <PackagePath>lib\net45\</PackagePath>
-    </_PackageFiles>
+    <PackageReference Include="System.Management" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <_PackageFiles Include="$(OutputPath)\netstandard2.0\Interop.AuraServiceLib.dll">
+    <_PackageFiles Include="$(OutputPath)\net5.0\Interop.AuraServiceLib.dll">
       <BuildAction>None</BuildAction>
-      <PackagePath>lib\netstandard2.0\</PackagePath>
+      <PackagePath>lib\net5.0\</PackagePath>
     </_PackageFiles>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="System.Management" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
