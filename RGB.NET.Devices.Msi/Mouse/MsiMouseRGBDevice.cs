@@ -44,11 +44,7 @@ namespace RGB.NET.Devices.Msi
 
         /// <inheritdoc />
         protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
-
-        /// <inheritdoc />
-        public override void SyncBack()
-        { }
-
+        
         #endregion
     }
 }

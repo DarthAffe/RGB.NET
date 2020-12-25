@@ -89,13 +89,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/> (including clean ones) should be updated.</param>
         void Update(bool flushLeds = false);
-
-        /// <summary>
-        /// Synchronizes the internal state of the device to the real (physical) state.
-        /// This isn't supported by all devices! Check <see cref="IRGBDeviceInfo.SupportsSyncBack"/> to see if it's supported or not.
-        /// </summary>
-        void SyncBack();
-
+        
         /// <summary>
         /// Adds the given <see cref="IRGBDeviceSpecialPart"/> to the device.
         /// This will override existing <see cref="IRGBDeviceSpecialPart"/> of the same type.

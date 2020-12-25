@@ -40,10 +40,7 @@ namespace RGB.NET.Devices.Logitech
                 return RGBDeviceLighting.None;
             }
         }
-
-        /// <inheritdoc />
-        public bool SupportsSyncBack => false;
-
+        
         /// <summary>
         /// Gets a flag that describes device capabilities. (<see cref="LogitechDeviceCaps" />)
         /// </summary>

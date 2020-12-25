@@ -31,8 +31,8 @@ namespace RGB.NET.Devices.Debug
         /// <inheritdoc />
         public bool HasExclusiveAccess { get; private set; }
 
-        private List<(string layout, string imageLayout, Func<Dictionary<LedId, Color>> syncBackFunc, Action<IEnumerable<Led>> updateLedsAction)> _fakeDeviceDefinitions
-            = new List<(string layout, string imageLayout, Func<Dictionary<LedId, Color>> syncBackFunc, Action<IEnumerable<Led>> updateLedsAction)>();
+        private List<(string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction)> _fakeDeviceDefinitions
+            = new List<(string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction)>();
 
         #endregion
 
@@ -57,10 +57,9 @@ namespace RGB.NET.Devices.Debug
         /// </summary>
         /// <param name="layout">The path of the layout file to be used.</param>
         /// <param name="imageLayout">The image-layout to load.</param>
-        /// <param name="syncBackFunc">A function emulating device syncback.</param>
         /// <param name="updateLedsAction">A action emulating led-updates.</param>
-        public void AddFakeDeviceDefinition(string layout, string imageLayout, Func<Dictionary<LedId, Color>> syncBackFunc = null, Action<IEnumerable<Led>> updateLedsAction = null)
-            => _fakeDeviceDefinitions.Add((layout, imageLayout, syncBackFunc, updateLedsAction));
+        public void AddFakeDeviceDefinition(string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction = null)
+            => _fakeDeviceDefinitions.Add((layout, imageLayout, updateLedsAction));
 
         /// <summary>
         /// Removes all previously added fake device definitions.
@@ -76,9 +75,9 @@ namespace RGB.NET.Devices.Debug
                 HasExclusiveAccess = exclusiveAccessIfPossible;
 
                 List<IRGBDevice> devices = new List<IRGBDevice>();
-                foreach ((string layout, string imageLayout, Func<Dictionary<LedId, Color>> syncBackFunc, Action<IEnumerable<Led>> updateLedsAction) in _fakeDeviceDefinitions)
+                foreach ((string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction) in _fakeDeviceDefinitions)
                 {
-                    DebugRGBDevice device = new DebugRGBDevice(layout, syncBackFunc, updateLedsAction);
+                    DebugRGBDevice device = new DebugRGBDevice(layout, updateLedsAction);
                     device.Initialize(layout, imageLayout);
                     devices.Add(device);
                 }

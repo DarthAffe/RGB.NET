@@ -101,7 +101,6 @@ namespace RGB.NET.Core
             try
             {
                 bool flushLeds = customData["flushLeds"] as bool? ?? false;
-                bool syncBack = customData["syncBack"] as bool? ?? true;
                 bool render = customData["render"] as bool? ?? true;
                 bool updateDevices = customData["updateDevices"] as bool? ?? true;
 
@@ -109,13 +108,7 @@ namespace RGB.NET.Core
                     lock (_devices)
                     {
                         OnUpdating(updateTrigger, customData);
-
-                        if (syncBack)
-                            foreach (IRGBDevice device in _devices)
-                                if (device.UpdateMode.HasFlag(DeviceUpdateMode.SyncBack) && device.DeviceInfo.SupportsSyncBack)
-                                    try { device.SyncBack(); }
-                                    catch (Exception ex) { OnException(ex); }
-
+                        
                         if (render)
                             lock (_ledGroups)
                             {

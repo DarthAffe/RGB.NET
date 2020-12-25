@@ -67,19 +67,7 @@ namespace RGB.NET.Devices.Asus
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
-
-        /// <inheritdoc />
-        public override void SyncBack()
-        {
-            // DarthAffe 16.06.2019: This doesn't work since the SDK only returns the colors we set.
-            //foreach (Led led in LedMapping.Values)
-            //{
-            //    int index = (int)led.CustomData;
-            //    IAuraRgbLight light = DeviceInfo.Device.Lights[index];
-            //    SetLedColorWithoutRequest(led, new Color(light.Red, light.Green, light.Blue));
-            //}
-        }
-
+        
         /// <inheritdoc />
         public override void Dispose()
         {

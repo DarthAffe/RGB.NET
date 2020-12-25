@@ -35,10 +35,7 @@ namespace RGB.NET.Devices.DMX.E131
 
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-
-        /// <inheritdoc />
-        public bool SupportsSyncBack => false;
-
+        
         /// <inheritdoc />
         public Uri Image { get; set; }
 

@@ -17,13 +17,7 @@ namespace RGB.NET.Core
         /// Represents a mode which updates the leds of the device.
         /// </summary>
         Sync = 1 << 0,
-
-        /// <summary>
-        /// Represents a mode which reads the color of the leds of the device.
-        /// This isn't supported by all devices!
-        /// </summary>
-        SyncBack = 1 << 1,
-
+        
         /// <summary>
         /// Represents all update modes.
         /// </summary>

@@ -29,10 +29,7 @@ namespace RGB.NET.Devices.Asus
 
         /// <inheritdoc />
         public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-
-        /// <inheritdoc />
-        public bool SupportsSyncBack => false;
-
+        
         public IAuraSyncDevice Device { get; }
 
         #endregion
