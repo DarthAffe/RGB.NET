@@ -48,6 +48,8 @@ namespace RGB.NET.Devices.Razer.Native
             _createEffectPointer = (CreateEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CreateEffect"), typeof(CreateEffectPointer));
             _createHeadsetEffectPointer = (CreateHeadsetEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CreateHeadsetEffect"), typeof(CreateHeadsetEffectPointer));
             _createChromaLinkEffectPointer = (CreateChromaLinkEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CreateChromaLinkEffect"), typeof(CreateChromaLinkEffectPointer));
+            _createKeyboardEffectPointer = (CreateKeyboardEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CreateKeyboardEffect"), typeof(CreateKeyboardEffectPointer));
+            _createMousepadEffectPointer = (CreateMousepadEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CreateMousepadEffect"), typeof(CreateMousepadEffectPointer));
             _setEffectPointer = (SetEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetEffect"), typeof(SetEffectPointer));
             _deleteEffectPointer = (DeleteEffectPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "DeleteEffect"), typeof(DeleteEffectPointer));
         }
@@ -82,6 +84,8 @@ namespace RGB.NET.Devices.Razer.Native
         private static CreateEffectPointer _createEffectPointer;
         private static CreateHeadsetEffectPointer _createHeadsetEffectPointer;
         private static CreateChromaLinkEffectPointer _createChromaLinkEffectPointer;
+        private static CreateKeyboardEffectPointer _createKeyboardEffectPointer;
+        private static CreateMousepadEffectPointer _createMousepadEffectPointer;
         private static SetEffectPointer _setEffectPointer;
         private static DeleteEffectPointer _deleteEffectPointer;
 
@@ -106,6 +110,12 @@ namespace RGB.NET.Devices.Razer.Native
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate RazerError CreateChromaLinkEffectPointer(int effectType, IntPtr param, ref Guid effectId);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate RazerError CreateKeyboardEffectPointer(int effectType, IntPtr param, ref Guid effectId);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate RazerError CreateMousepadEffectPointer(int effectType, IntPtr param, ref Guid effectId);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate RazerError SetEffectPointer(Guid effectId);
@@ -148,6 +158,10 @@ namespace RGB.NET.Devices.Razer.Native
         internal static RazerError CreateHeadsetEffect(int effectType, IntPtr param, ref Guid effectId) => _createHeadsetEffectPointer(effectType, param, ref effectId);
 
         internal static RazerError CreateChromaLinkEffect(int effectType, IntPtr param, ref Guid effectId) => _createChromaLinkEffectPointer(effectType, param, ref effectId);
+
+        internal static RazerError CreateKeyboardEffect(int effectType, IntPtr param, ref Guid effectId) => _createKeyboardEffectPointer(effectType, param, ref effectId);
+
+        internal static RazerError CreateMousepadEffect(int effectType, IntPtr param, ref Guid effectId) => _createMousepadEffectPointer(effectType, param, ref effectId);
 
         internal static RazerError SetEffect(Guid effectId) => _setEffectPointer(effectId);
 
