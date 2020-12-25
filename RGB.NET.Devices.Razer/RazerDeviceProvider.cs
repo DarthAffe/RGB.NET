@@ -30,13 +30,13 @@ namespace RGB.NET.Devices.Razer
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/RzChromaSDK.dll" };
+        public static List<string> PossibleX86NativePaths { get; } = new List<string> { @"C:\Windows\SysWOW64\RzChromaSDK.dll" };
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/RzChromaSDK.dll", "x64/RzChromaSDK64.dll" };
+        public static List<string> PossibleX64NativePaths { get; } = new List<string> { @"C:\Windows\System32\RzChromaSDK64.dll" };
 
         /// <inheritdoc />
         /// <summary>
