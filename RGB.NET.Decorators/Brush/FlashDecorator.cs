@@ -74,6 +74,14 @@ namespace RGB.NET.Decorators.Brush
 
         #endregion
 
+        #region Constructors
+
+        public FlashDecorator(RGBSurface surface, bool updateIfDisabled = false)
+            : base(surface, updateIfDisabled)
+        { }
+
+        #endregion
+
         #region Methods
 
         /// <inheritdoc />

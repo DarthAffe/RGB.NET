@@ -28,36 +28,18 @@ namespace RGB.NET.Groups
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
         /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
-        public ListLedGroup(bool autoAttach = true)
-            : base(autoAttach)
+        public ListLedGroup(RGBSurface? surface)
+            : base(surface)
         { }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
-        /// </summary>
-        /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(params Led[] leds)
-            : this(true, leds)
-        { }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
-        /// </summary>
-        /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(IEnumerable<Led> leds)
-            : this(true, leds)
-        { }
-
+        
         /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
         /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
         /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(bool autoAttach, IEnumerable<Led> leds)
-            : base(autoAttach)
+        public ListLedGroup(RGBSurface? surface, IEnumerable<Led> leds)
+            : base(surface)
         {
             AddLeds(leds);
         }
@@ -68,8 +50,8 @@ namespace RGB.NET.Groups
         /// </summary>
         /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
         /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
-        public ListLedGroup(bool autoAttach, params Led[] leds)
-            : base(autoAttach)
+        public ListLedGroup(RGBSurface? surface, params Led[] leds)
+            : base(surface)
         {
             AddLeds(leds);
         }

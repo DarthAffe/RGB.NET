@@ -104,11 +104,6 @@ namespace RGB.NET.Core
         /// </summary>
         protected Dictionary<LedId, Led> LedMapping { get; } = new Dictionary<LedId, Led>();
 
-        /// <summary>
-        /// Gets a dictionary containing all <see cref="IRGBDeviceSpecialPart"/> associated with this <see cref="IRGBDevice"/>.
-        /// </summary>
-        protected Dictionary<Type, IRGBDeviceSpecialPart> SpecialDeviceParts { get; } = new Dictionary<Type, IRGBDeviceSpecialPart>();
-
         #region Indexer
 
         /// <inheritdoc />
@@ -149,13 +144,12 @@ namespace RGB.NET.Core
         }
 
         protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty));
-        
+
         /// <inheritdoc />
         public virtual void Dispose()
         {
             try
             {
-                SpecialDeviceParts.Clear();
                 LedMapping.Clear();
             }
             catch { /* this really shouldn't happen */ }
@@ -196,7 +190,7 @@ namespace RGB.NET.Core
             LedMapping.Add(ledId, led);
             return led;
         }
-        
+
         /// <summary>
         /// Applies the given layout.
         /// </summary>
@@ -247,16 +241,6 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledId">The <see cref="LedId"/>.</param>
         protected virtual object CreateLedCustomData(LedId ledId) => null;
-
-        /// <inheritdoc />
-        public void AddSpecialDevicePart<T>(T specialDevicePart)
-            where T : class, IRGBDeviceSpecialPart
-            => SpecialDeviceParts[typeof(T)] = specialDevicePart;
-
-        /// <inheritdoc />
-        public T GetSpecialDevicePart<T>()
-            where T : class, IRGBDeviceSpecialPart
-            => SpecialDeviceParts.TryGetValue(typeof(T), out IRGBDeviceSpecialPart devicePart) ? (T)devicePart : default;
 
         #region Enumerator
 

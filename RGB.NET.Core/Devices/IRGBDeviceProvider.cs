@@ -39,7 +39,7 @@ namespace RGB.NET.Core
         bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false);
 
         /// <summary>
-        /// Resets all handled <see cref="IRGBDevice"/> back top default.
+        /// Resets all handled <see cref="IRGBDevice"/> back to default.
         /// </summary>
         void ResetDevices();
 

@@ -89,21 +89,6 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/> (including clean ones) should be updated.</param>
         void Update(bool flushLeds = false);
-        
-        /// <summary>
-        /// Adds the given <see cref="IRGBDeviceSpecialPart"/> to the device.
-        /// This will override existing <see cref="IRGBDeviceSpecialPart"/> of the same type.
-        /// </summary>
-        /// <param name="specialDevicePart">The <see cref="IRGBDeviceSpecialPart"/> to add.</param>
-        /// <typeparam name="T">The generic typeof of the <see cref="IRGBDeviceSpecialPart"/> to add.</typeparam>
-        void AddSpecialDevicePart<T>(T specialDevicePart) where T : class, IRGBDeviceSpecialPart;
-
-        /// <summary>
-        /// Gets the requested <see cref="IRGBDeviceSpecialPart"/> if available on this <see cref="IRGBDevice"/>.
-        /// </summary>
-        /// <typeparam name="T">The generic type of the requested <see cref="IRGBDeviceSpecialPart"/>.</typeparam>
-        /// <returns>The requested <see cref="IRGBDeviceSpecialPart"/> or null if not available in this <see cref="IRGBDevice"/>.</returns>
-        T GetSpecialDevicePart<T>() where T : class, IRGBDeviceSpecialPart;
 
         #endregion
     }

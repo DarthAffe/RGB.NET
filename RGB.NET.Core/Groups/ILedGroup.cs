@@ -11,6 +11,8 @@ namespace RGB.NET.Core
     /// </summary>
     public interface ILedGroup : IDecoratable<ILedGroupDecorator>
     {
+        public RGBSurface? Surface { get; }
+
         /// <summary>
         /// Gets or sets the <see cref="IBrush"/> which should be drawn over this <see cref="ILedGroup"/>.
         /// </summary>
@@ -30,11 +32,11 @@ namespace RGB.NET.Core
         /// <summary>
         /// Called when the <see cref="ILedGroup"/> is attached to the <see cref="RGBSurface"/>.
         /// </summary>
-        void OnAttach();
+        void OnAttach(RGBSurface surface);
 
         /// <summary>
         /// Called when the <see cref="ILedGroup"/> is detached from the <see cref="RGBSurface"/>.
         /// </summary>
-        void OnDetach();
+        void OnDetach(RGBSurface surface);
     }
 }

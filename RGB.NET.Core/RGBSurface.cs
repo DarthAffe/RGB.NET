@@ -18,7 +18,7 @@ namespace RGB.NET.Core
     public class RGBSurface : AbstractBindable, IDisposable
     {
         #region Properties & Fields
-        
+
         private Stopwatch _deltaTimeCounter;
 
         private IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
@@ -66,7 +66,7 @@ namespace RGB.NET.Core
         }
 
         #endregion
-        
+
         #region EventHandler
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace RGB.NET.Core
                 if (_ledGroups.Contains(ledGroup)) return false;
 
                 _ledGroups.AddLast(ledGroup);
-                ledGroup.OnAttach();
+                ledGroup.OnAttach(this);
 
                 return true;
             }
@@ -275,7 +275,7 @@ namespace RGB.NET.Core
                 if (node == null) return false;
 
                 _ledGroups.Remove(node);
-                node.Value.OnDetach();
+                node.Value.OnDetach(this);
 
                 return true;
             }
@@ -443,7 +443,7 @@ namespace RGB.NET.Core
             }
             catch { /* Well ... that's not my fault */ }
         }
-        
+
         #endregion
     }
 }

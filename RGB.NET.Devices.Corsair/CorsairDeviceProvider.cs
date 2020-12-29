@@ -150,7 +150,6 @@ namespace RGB.NET.Devices.Corsair
                                 deviceUpdateQueue = new CorsairDeviceUpdateQueue(UpdateTrigger, info.CorsairDeviceIndex);
 
                             device.Initialize(deviceUpdateQueue);
-                            AddSpecialParts(device);
 
                             error = LastError;
                             if (error != CorsairError.Success)
@@ -263,12 +262,6 @@ namespace RGB.NET.Devices.Corsair
             }
 
             return CorsairLedId.Invalid;
-        }
-
-        private void AddSpecialParts(ICorsairRGBDevice device)
-        {
-            if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
-                device.AddSpecialDevicePart(new LightbarSpecialPart(device));
         }
 
         /// <inheritdoc />
