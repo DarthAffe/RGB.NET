@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -14,15 +15,10 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a RGB-surface containing multiple devices.
     /// </summary>
-    public partial class RGBSurface : AbstractBindable, IDisposable
+    public class RGBSurface : AbstractBindable, IDisposable
     {
         #region Properties & Fields
-
-        /// <summary>
-        /// Gets the singelot-instance of the <see cref="RGBSurface"/> class.
-        /// </summary>
-        public static RGBSurface Instance { get; } = new RGBSurface();
-
+        
         private Stopwatch _deltaTimeCounter;
 
         private IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
@@ -70,13 +66,69 @@ namespace RGB.NET.Core
         }
 
         #endregion
+        
+        #region EventHandler
+
+        /// <summary>
+        /// Represents the event-handler of the <see cref="Exception"/>-event.
+        /// </summary>
+        /// <param name="args">The arguments provided by the event.</param>
+        public delegate void ExceptionEventHandler(ExceptionEventArgs args);
+
+        /// <summary>
+        /// Represents the event-handler of the <see cref="Updating"/>-event.
+        /// </summary>
+        /// <param name="args">The arguments provided by the event.</param>
+        public delegate void UpdatingEventHandler(UpdatingEventArgs args);
+
+        /// <summary>
+        /// Represents the event-handler of the <see cref="Updated"/>-event.
+        /// </summary>
+        /// <param name="args">The arguments provided by the event.</param>
+        public delegate void UpdatedEventHandler(UpdatedEventArgs args);
+
+        /// <summary>
+        /// Represents the event-handler of the <see cref="SurfaceLayoutChanged"/>-event.
+        /// </summary>
+        /// <param name="args"></param>
+        public delegate void SurfaceLayoutChangedEventHandler(SurfaceLayoutChangedEventArgs args);
+
+        #endregion
+
+        #region Events
+
+        // ReSharper disable EventNeverSubscribedTo.Global
+
+        /// <summary>
+        /// Occurs when a catched exception is thrown inside the <see cref="RGBSurface"/>.
+        /// </summary>
+        public event ExceptionEventHandler Exception;
+
+        /// <summary>
+        /// Occurs when the <see cref="RGBSurface"/> starts updating.
+        /// </summary>
+        public event UpdatingEventHandler Updating;
+
+        /// <summary>
+        /// Occurs when the <see cref="RGBSurface"/> update is done.
+        /// </summary>
+        public event UpdatedEventHandler Updated;
+
+        /// <summary>
+        /// Occurs when the layout of this <see cref="RGBSurface"/> changed.
+        /// </summary>
+        public event SurfaceLayoutChangedEventHandler SurfaceLayoutChanged;
+
+        // ReSharper restore EventNeverSubscribedTo.Global
+
+        #endregion
 
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RGBSurface"/> class.
         /// </summary>
-        private RGBSurface()
+        public RGBSurface()
         {
             _deltaTimeCounter = Stopwatch.StartNew();
         }
@@ -108,7 +160,7 @@ namespace RGB.NET.Core
                     lock (_devices)
                     {
                         OnUpdating(updateTrigger, customData);
-                        
+
                         if (render)
                             lock (_ledGroups)
                             {
@@ -228,6 +280,75 @@ namespace RGB.NET.Core
                 return true;
             }
         }
+        // ReSharper disable UnusedMember.Global
+        /// <summary>
+        /// Loads all devices the given by the <see cref="IRGBDeviceProvider"/> provided by the give <see cref="IRGBDeviceProviderLoader"/>.
+        /// </summary>
+        /// <param name="deviceProviderLoader">The <see cref="IRGBDeviceProviderLoader"/> which provides the <see cref="IRGBDeviceProvider"/> to load the devices from.</param>
+        /// <param name="loadFilter">Specifies which types of devices to load.</param>
+        /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
+        /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
+        public void LoadDevices(IRGBDeviceProviderLoader deviceProviderLoader, RGBDeviceType loadFilter = RGBDeviceType.All,
+                                  bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+            => LoadDevices(deviceProviderLoader.GetDeviceProvider(), loadFilter, exclusiveAccessIfPossible, throwExceptions);
+
+        /// <summary>
+        /// Loads all devices the given <see cref="IRGBDeviceProvider"/> is able to provide.
+        /// </summary>
+        /// <param name="deviceProvider">The <see cref="IRGBDeviceProvider"/> to load the devices from.</param>
+        /// <param name="loadFilter">Specifies which types of devices to load.</param>
+        /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
+        /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
+        public void LoadDevices(IRGBDeviceProvider deviceProvider, RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        {
+            lock (_deviceProvider)
+            {
+                if (_deviceProvider.Contains(deviceProvider) || _deviceProvider.Any(x => x.GetType() == deviceProvider.GetType())) return;
+
+                List<IRGBDevice> addedDevices = new List<IRGBDevice>();
+                if (deviceProvider.IsInitialized || deviceProvider.Initialize(loadFilter, exclusiveAccessIfPossible, throwExceptions))
+                {
+                    _deviceProvider.Add(deviceProvider);
+                    lock (_devices)
+                        foreach (IRGBDevice device in deviceProvider.Devices)
+                        {
+                            if (_devices.Contains(device)) continue;
+
+                            addedDevices.Add(device);
+
+                            device.PropertyChanged += DeviceOnPropertyChanged;
+                            _devices.Add(device);
+                        }
+                }
+
+                if (addedDevices.Any())
+                {
+                    UpdateSurfaceRectangle();
+                    SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(addedDevices, true, false));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Automatically aligns all devices to prevent overlaps.
+        /// </summary>
+        public void AlignDevices()
+        {
+            double posX = 0;
+            foreach (IRGBDevice device in Devices)
+            {
+                device.Location += new Point(posX, 0);
+                posX += device.ActualSize.Width + 1;
+            }
+        }
+
+        // ReSharper restore UnusedMember.Global
+
+        private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            UpdateSurfaceRectangle();
+            SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(new[] { sender as IRGBDevice }, false, true));
+        }
 
         private void UpdateSurfaceRectangle()
         {
@@ -284,6 +405,45 @@ namespace RGB.NET.Core
                 updateTrigger.Update -= Update;
         }
 
+        /// <summary>
+        /// Handles the needed event-calls for an exception.
+        /// </summary>
+        /// <param name="ex">The exception previously thrown.</param>
+        private void OnException(Exception ex)
+        {
+            try
+            {
+                Exception?.Invoke(new ExceptionEventArgs(ex));
+            }
+            catch { /* Well ... that's not my fault */ }
+        }
+
+        /// <summary>
+        /// Handles the needed event-calls before updating.
+        /// </summary>
+        private void OnUpdating(IUpdateTrigger trigger, CustomUpdateData customData)
+        {
+            try
+            {
+                double deltaTime = _deltaTimeCounter.Elapsed.TotalSeconds;
+                _deltaTimeCounter.Restart();
+                Updating?.Invoke(new UpdatingEventArgs(deltaTime, trigger, customData));
+            }
+            catch { /* Well ... that's not my fault */ }
+        }
+
+        /// <summary>
+        /// Handles the needed event-calls after an update.
+        /// </summary>
+        private void OnUpdated()
+        {
+            try
+            {
+                Updated?.Invoke(new UpdatedEventArgs());
+            }
+            catch { /* Well ... that's not my fault */ }
+        }
+        
         #endregion
     }
 }
