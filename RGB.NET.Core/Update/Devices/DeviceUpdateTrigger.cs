@@ -53,12 +53,12 @@ namespace RGB.NET.Core
             }
         }
 
-        protected AutoResetEvent HasDataEvent = new AutoResetEvent(false);
+        protected AutoResetEvent HasDataEvent { get; set; } = new(false);
 
-        protected bool IsRunning;
-        protected Task UpdateTask;
-        protected CancellationTokenSource UpdateTokenSource;
-        protected CancellationToken UpdateToken;
+        protected bool IsRunning { get; set; }
+        protected Task? UpdateTask { get; set; }
+        protected CancellationTokenSource? UpdateTokenSource { get; set; }
+        protected CancellationToken UpdateToken { get; set; }
 
         #endregion
 
@@ -106,15 +106,18 @@ namespace RGB.NET.Core
 
             IsRunning = false;
 
-            UpdateTokenSource.Cancel();
-            await UpdateTask;
-            UpdateTask.Dispose();
+            UpdateTokenSource?.Cancel();
+            if (UpdateTask != null)
+                await UpdateTask;
+
+            UpdateTask?.Dispose();
             UpdateTask = null;
         }
 
         protected virtual void UpdateLoop()
         {
             OnStartup();
+
             while (!UpdateToken.IsCancellationRequested)
             {
                 if (HasDataEvent.WaitOne(Timeout))

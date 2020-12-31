@@ -7,33 +7,27 @@ using System.Diagnostics;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents an ARGB (alpha, red, green, blue) color.
     /// </summary>
     [DebuggerDisplay("[A: {A}, R: {R}, G: {G}, B: {B}]")]
-    public struct Color
+    public readonly struct Color
     {
         #region Constants
 
         /// <summary>
         /// Gets an transparent color [A: 0, R: 0, G: 0, B: 0]
         /// </summary>
-        public static Color Transparent => new Color(0, 0, 0, 0);
+        public static Color Transparent => new(0, 0, 0, 0);
 
         #endregion
 
         #region Properties & Fields
 
-        private static IColorBehavior _behavior = DefaultColorBehavior.Instance;
         /// <summary>
         /// Gets or sets the <see cref="IColorBehavior"/> used to perform operations on colors.
         /// </summary>
-        public static IColorBehavior Behavior
-        {
-            get => _behavior;
-            set => _behavior = value ?? DefaultColorBehavior.Instance;
-        }
+        public static IColorBehavior Behavior { get; set; } = new DefaultColorBehavior();
 
         /// <summary>
         /// Gets the alpha component value of this <see cref="Color"/> as percentage in the range [0..1].
@@ -199,12 +193,13 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Color" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj) => Behavior.Equals(this, obj);
+        public override bool Equals(object? obj) => Behavior.Equals(this, obj);
 
         /// <summary>
         /// Returns a hash code for this <see cref="Color" />, as defined by the current <see cref="Behavior"/>.
         /// </summary>
         /// <returns>An integer value that specifies the hash code for this <see cref="Color" />.</returns>
+        // ReSharper disable once NonReadonlyMemberInGetHashCode
         public override int GetHashCode() => Behavior.GetHashCode(this);
 
         /// <summary>
@@ -246,42 +241,42 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((byte r, byte g, byte b) components) => new Color(components.r, components.g, components.b);
+        public static implicit operator Color((byte r, byte g, byte b) components) => new(components.r, components.g, components.b);
 
         /// <summary>
         /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((byte a, byte r, byte g, byte b) components) => new Color(components.a, components.r, components.g, components.b);
+        public static implicit operator Color((byte a, byte r, byte g, byte b) components) => new(components.a, components.r, components.g, components.b);
 
         /// <summary>
         /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((int r, int g, int b) components) => new Color(components.r, components.g, components.b);
+        public static implicit operator Color((int r, int g, int b) components) => new(components.r, components.g, components.b);
 
         /// <summary>
         /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((int a, int r, int g, int b) components) => new Color(components.a, components.r, components.g, components.b);
+        public static implicit operator Color((int a, int r, int g, int b) components) => new(components.a, components.r, components.g, components.b);
 
         /// <summary>
         /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((double r, double g, double b) components) => new Color(components.r, components.g, components.b);
+        public static implicit operator Color((double r, double g, double b) components) => new(components.r, components.g, components.b);
 
         /// <summary>
         /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((double a, double r, double g, double b) components) => new Color(components.a, components.r, components.g, components.b);
+        public static implicit operator Color((double a, double r, double g, double b) components) => new(components.a, components.r, components.g, components.b);
 
         #endregion
     }

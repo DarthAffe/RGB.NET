@@ -10,7 +10,7 @@ namespace RGB.NET.Core
     /// Represents an angular rotation.
     /// </summary>
     [DebuggerDisplay("[{Degrees}°]")]
-    public struct Rotation
+    public readonly struct Rotation
     {
         #region Constants
 
@@ -64,14 +64,14 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="degrees">The angle in degrees.</param>
         /// <returns>The new rotation.</returns>
-        public static Rotation FromDegrees(double degrees) => new Rotation(degrees);
+        public static Rotation FromDegrees(double degrees) => new(degrees);
 
         /// <summary>
         /// Creates a new Rotation out of the given radian-angle.
         /// </summary>
         /// <param name="degrees">The angle in radians.</param>
         /// <returns>The new rotation.</returns>
-        public static Rotation FromRadians(double radians) => new Rotation(radians * RADIANS_DEGREES_CONVERSION, radians);
+        public static Rotation FromRadians(double radians) => new(radians * RADIANS_DEGREES_CONVERSION, radians);
 
         /// <summary>
         /// Tests whether the specified <see cref="Rotation" /> is equivalent to this <see cref="Rotation" />.
@@ -85,7 +85,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rotation" /> equivalent to this <see cref="Rotation" />; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj) => obj is Rotation other && Equals(other);
+        public override bool Equals(object? obj) => obj is Rotation other && Equals(other);
 
         /// <summary>
         /// Returns a hash code for this <see cref="Rotation" />.
@@ -119,7 +119,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The <see cref="Rotation"/>.</param>
         /// <param name="value">The value to add.</param>
         /// <returns>A new <see cref="Rotation"/> representing the addition of the <see cref="Rotation"/> and the provided value.</returns>
-        public static Rotation operator +(Rotation rotation, double value) => new Rotation(rotation.Degrees + value);
+        public static Rotation operator +(Rotation rotation, double value) => new(rotation.Degrees + value);
 
         /// <summary>
         /// Returns a new <see cref="Rotation"/> representing the subtraction of the <see cref="Rotation"/> and the provided value.
@@ -127,7 +127,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The <see cref="Rotation"/>.</param>
         /// <param name="value">The value to substract.</param>
         /// <returns>A new <see cref="Rotation"/> representing the subtraction of the <see cref="Rotation"/> and the provided value.</returns>
-        public static Rotation operator -(Rotation rotation, double value) => new Rotation(rotation.Degrees - value);
+        public static Rotation operator -(Rotation rotation, double value) => new(rotation.Degrees - value);
 
         /// <summary>
         /// Returns a new <see cref="Rotation"/> representing the multiplication of the <see cref="Rotation"/> and the provided value.
@@ -135,7 +135,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The <see cref="Rotation"/>.</param>
         /// <param name="value">The value to multiply with.</param>
         /// <returns>A new <see cref="Rotation"/> representing the multiplication of the <see cref="Rotation"/> and the provided value.</returns>
-        public static Rotation operator *(Rotation rotation, double value) => new Rotation(rotation.Degrees * value);
+        public static Rotation operator *(Rotation rotation, double value) => new(rotation.Degrees * value);
 
         /// <summary>
         /// Returns a new <see cref="Rotation"/> representing the division of the <see cref="Rotation"/> and the provided value.
@@ -149,7 +149,7 @@ namespace RGB.NET.Core
         /// Converts a double to a <see cref="Rotation" />.
         /// </summary>
         /// <param name="rotation">The rotation in degrees to convert.</param>
-        public static implicit operator Rotation(double rotation) => new Rotation(rotation);
+        public static implicit operator Rotation(double rotation) => new(rotation);
 
         /// <summary>
         /// Converts <see cref="Rotation" /> to a double representing the rotation in degrees.

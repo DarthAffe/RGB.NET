@@ -14,7 +14,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Occurs when a path is resolving.
         /// </summary>
-        public static event EventHandler<ResolvePathEventArgs> ResolvingAbsolutePath;
+        public static event EventHandler<ResolvePathEventArgs>? ResolvingAbsolutePath;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="relativePath">The relative part of the path to convert.</param>
         /// <returns>The absolute path.</returns>
-        public static string GetAbsolutePath(string relativePath) => GetAbsolutePath((object)null, relativePath);
+        public static string GetAbsolutePath(string relativePath) => GetAbsolutePath((object?)null, relativePath);
 
         /// <summary>
         /// Returns an absolute path created from an relative path relatvie to the location of the executung assembly.
@@ -42,17 +42,17 @@ namespace RGB.NET.Core
         /// <param name="relativePath">The relative path to convert.</param>
         /// <param name="fileName">The file name of the path to convert.</param>
         /// <returns>The absolute path.</returns>
-        public static string GetAbsolutePath(object sender, string relativePath, string fileName)
+        public static string GetAbsolutePath(object? sender, string relativePath, string fileName)
         {
             string relativePart = Path.Combine(relativePath, fileName);
 
-            string assemblyLocation = Assembly.GetEntryAssembly()?.Location;
+            string? assemblyLocation = Assembly.GetEntryAssembly()?.Location;
             if (assemblyLocation == null) return relativePart;
 
-            string directoryName = Path.GetDirectoryName(assemblyLocation);
-            string path = directoryName == null ? null : Path.Combine(directoryName, relativePart);
+            string? directoryName = Path.GetDirectoryName(assemblyLocation);
+            string path = directoryName == null ? string.Empty : Path.Combine(directoryName, relativePart);
 
-            ResolvePathEventArgs args = new ResolvePathEventArgs(relativePath, fileName, path);
+            ResolvePathEventArgs args = new(relativePath, fileName, path);
             ResolvingAbsolutePath?.Invoke(sender, args);
 
             return args.FinalPath;
@@ -64,15 +64,15 @@ namespace RGB.NET.Core
         /// <param name="sender">The requester of this path. (Used for better control when using the event to override this behavior.)</param>
         /// <param name="relativePath">The relative path to convert.</param>
         /// <returns>The absolute path.</returns>
-        public static string GetAbsolutePath(object sender, string relativePath)
+        public static string GetAbsolutePath(object? sender, string relativePath)
         {
-            string assemblyLocation = Assembly.GetEntryAssembly()?.Location;
+            string? assemblyLocation = Assembly.GetEntryAssembly()?.Location;
             if (assemblyLocation == null) return relativePath;
 
-            string directoryName = Path.GetDirectoryName(assemblyLocation);
-            string path = directoryName == null ? null : Path.Combine(directoryName, relativePath);
+            string? directoryName = Path.GetDirectoryName(assemblyLocation);
+            string path = directoryName == null ? string.Empty : Path.Combine(directoryName, relativePath);
 
-            ResolvePathEventArgs args = new ResolvePathEventArgs(relativePath, path);
+            ResolvePathEventArgs args = new(relativePath, path);
             ResolvingAbsolutePath?.Invoke(sender, args);
 
             return args.FinalPath;

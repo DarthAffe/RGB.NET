@@ -9,14 +9,14 @@ namespace RGB.NET.Core
     /// Represents a point consisting of a X- and a Y-position.
     /// </summary>
     [DebuggerDisplay("[X: {X}, Y: {Y}]")]
-    public struct Point
+    public readonly struct Point
     {
         #region Constants
 
         /// <summary>
         /// Gets a [NaN,NaN]-Point.
         /// </summary>
-        public static Point Invalid => new Point(double.NaN, double.NaN);
+        public static Point Invalid => new(double.NaN, double.NaN);
 
         #endregion
 
@@ -62,13 +62,13 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Point" /> equivalent to this <see cref="Point" />; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is Point)) return false;
 
             Point comparePoint = (Point)obj;
             return ((double.IsNaN(X) && double.IsNaN(comparePoint.X)) || X.EqualsInTolerance(comparePoint.X))
-                   && ((double.IsNaN(Y) && double.IsNaN(comparePoint.Y)) || Y.EqualsInTolerance(comparePoint.Y));
+                && ((double.IsNaN(Y) && double.IsNaN(comparePoint.Y)) || Y.EqualsInTolerance(comparePoint.Y));
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>A new <see cref="Point"/> representing the addition of the two provided <see cref="Point"/>.</returns>
-        public static Point operator +(Point point1, Point point2) => new Point(point1.X + point2.X, point1.Y + point2.Y);
+        public static Point operator +(Point point1, Point point2) => new(point1.X + point2.X, point1.Y + point2.Y);
 
         /// <summary>
         /// Returns a new <see cref="Rectangle"/> created from the provided <see cref="Point"/> and <see cref="Size"/>.
@@ -119,7 +119,7 @@ namespace RGB.NET.Core
         /// <param name="point">The <see cref="Point"/> of the rectangle.</param>
         /// <param name="size">The <see cref="Size"/> of the rectangle.</param>
         /// <returns>The rectangle created from the provided <see cref="Point"/> and <see cref="Size"/>.</returns>
-        public static Rectangle operator +(Point point, Size size) => new Rectangle(point, size);
+        public static Rectangle operator +(Point point, Size size) => new(point, size);
 
         /// <summary>
         /// Returns a new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.
@@ -127,7 +127,7 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>A new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.</returns>
-        public static Point operator -(Point point1, Point point2) => new Point(point1.X - point2.X, point1.Y - point2.Y);
+        public static Point operator -(Point point1, Point point2) => new(point1.X - point2.X, point1.Y - point2.Y);
 
         /// <summary>
         /// Returns a new <see cref="Point"/> representing the multiplication of the two provided <see cref="Point"/>.
@@ -135,7 +135,7 @@ namespace RGB.NET.Core
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>A new <see cref="Point"/> representing the multiplication of the two provided <see cref="Point"/>.</returns>
-        public static Point operator *(Point point1, Point point2) => new Point(point1.X * point2.X, point1.Y * point2.Y);
+        public static Point operator *(Point point1, Point point2) => new(point1.X * point2.X, point1.Y * point2.Y);
 
         /// <summary>
         /// Returns a new <see cref="Point"/> representing the division of the two provided <see cref="Point"/>.
@@ -155,7 +155,7 @@ namespace RGB.NET.Core
         /// <param name="point">The <see cref="Point"/>.</param>
         /// <param name="scale">The <see cref="Scale"/>.</param>
         /// <returns>A new <see cref="Point"/> representing the multiplication of the <see cref="Point"/> and the provided <see cref="Scale"/>.</returns>
-        public static Point operator *(Point point, Scale scale) => new Point(point.X * scale.Horizontal, point.Y * scale.Vertical);
+        public static Point operator *(Point point, Scale scale) => new(point.X * scale.Horizontal, point.Y * scale.Vertical);
 
         #endregion
     }

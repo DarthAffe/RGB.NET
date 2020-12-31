@@ -35,11 +35,11 @@ namespace RGB.NET.Core
             set => SetProperty(ref _shape, value);
         }
 
-        private string _shapeData;
+        private string? _shapeData;
         /// <summary>
         /// Gets or sets the data used for by the <see cref="Core.Shape.Custom"/>-<see cref="Core.Shape"/>.
         /// </summary>
-        public string ShapeData
+        public string? ShapeData
         {
             get => _shapeData;
             set => SetProperty(ref _shapeData, value);
@@ -155,7 +155,7 @@ namespace RGB.NET.Core
                 if (!IsLocked)
                 {
                     if (RequestedColor.HasValue)
-                        RequestedColor += value;
+                        RequestedColor = RequestedColor.Value + value;
                     else
                         RequestedColor = value;
                 }
@@ -185,12 +185,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the URI of an image of the <see cref="Led"/> or null if there is no image.
         /// </summary>
-        public Uri Image { get; set; }
+        public Uri? Image { get; set; }
 
         /// <summary>
         /// Gets the provider-specific data associated with this led.
         /// </summary>
-        public object CustomData { get; }
+        public object? CustomData { get; }
 
         #endregion
 
@@ -204,7 +204,7 @@ namespace RGB.NET.Core
         /// <param name="location">The physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.</param>
         /// <param name="size">The size of the <see cref="Led"/>.</param>
         /// <param name="customData">The provider-specific data associated with this led.</param>
-        internal Led(IRGBDevice device, LedId id, Point location, Size size, object customData = null)
+        internal Led(IRGBDevice device, LedId id, Point location, Size size, object? customData = null)
         {
             this.Device = device;
             this.Id = id;
@@ -219,14 +219,18 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        private void DevicePropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void DevicePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == nameof(IRGBDevice.Location)))
-                UpdateAbsoluteData();
-            else if (e.PropertyName == nameof(IRGBDevice.DeviceRectangle))
+            switch (e.PropertyName)
             {
-                UpdateActualData();
-                UpdateAbsoluteData();
+                case nameof(IRGBDevice.Location):
+                    UpdateAbsoluteData();
+                    break;
+
+                case nameof(IRGBDevice.DeviceRectangle):
+                    UpdateActualData();
+                    UpdateAbsoluteData();
+                    break;
             }
         }
 
@@ -235,13 +239,13 @@ namespace RGB.NET.Core
             ActualSize = Size * Device.Scale;
 
             Point actualLocation = (Location * Device.Scale);
-            Rectangle ledRectangle = new Rectangle(Location * Device.Scale, Size * Device.Scale);
+            Rectangle ledRectangle = new(Location * Device.Scale, Size * Device.Scale);
 
             if (Device.Rotation.IsRotated)
             {
                 Point deviceCenter = new Rectangle(Device.ActualSize).Center;
                 Point actualDeviceCenter = new Rectangle(Device.DeviceRectangle.Size).Center;
-                Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
+                Point centerOffset = new(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
 
                 actualLocation = actualLocation.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center) + centerOffset;
                 ledRectangle = new Rectangle(ledRectangle.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center)).Translate(centerOffset);

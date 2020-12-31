@@ -21,13 +21,12 @@ namespace RGB.NET.Core
 
         private Stopwatch _deltaTimeCounter;
 
-        private IList<IRGBDeviceProvider> _deviceProvider = new List<IRGBDeviceProvider>();
         private IList<IRGBDevice> _devices = new List<IRGBDevice>();
         private IList<IUpdateTrigger> _updateTriggers = new List<IUpdateTrigger>();
 
         // ReSharper disable InconsistentNaming
 
-        private readonly LinkedList<ILedGroup> _ledGroups = new LinkedList<ILedGroup>();
+        private readonly LinkedList<ILedGroup> _ledGroups = new();
 
         // ReSharper restore InconsistentNaming
 
@@ -102,22 +101,22 @@ namespace RGB.NET.Core
         /// <summary>
         /// Occurs when a catched exception is thrown inside the <see cref="RGBSurface"/>.
         /// </summary>
-        public event ExceptionEventHandler Exception;
+        public event ExceptionEventHandler? Exception;
 
         /// <summary>
         /// Occurs when the <see cref="RGBSurface"/> starts updating.
         /// </summary>
-        public event UpdatingEventHandler Updating;
+        public event UpdatingEventHandler? Updating;
 
         /// <summary>
         /// Occurs when the <see cref="RGBSurface"/> update is done.
         /// </summary>
-        public event UpdatedEventHandler Updated;
+        public event UpdatedEventHandler? Updated;
 
         /// <summary>
         /// Occurs when the layout of this <see cref="RGBSurface"/> changed.
         /// </summary>
-        public event SurfaceLayoutChangedEventHandler SurfaceLayoutChanged;
+        public event SurfaceLayoutChangedEventHandler? SurfaceLayoutChanged;
 
         // ReSharper restore EventNeverSubscribedTo.Global
 
@@ -143,13 +142,10 @@ namespace RGB.NET.Core
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
         public void Update(bool flushLeds = false) => Update(null, new CustomUpdateData(("flushLeds", flushLeds)));
 
-        private void Update(object updateTrigger, CustomUpdateData customData) => Update(updateTrigger as IUpdateTrigger, customData);
+        private void Update(object? updateTrigger, CustomUpdateData customData) => Update(updateTrigger as IUpdateTrigger, customData);
 
-        private void Update(IUpdateTrigger updateTrigger, CustomUpdateData customData)
+        private void Update(IUpdateTrigger? updateTrigger, CustomUpdateData customData)
         {
-            if (customData == null)
-                customData = new CustomUpdateData();
-
             try
             {
                 bool flushLeds = customData["flushLeds"] as bool? ?? false;
@@ -172,9 +168,8 @@ namespace RGB.NET.Core
 
                         if (updateDevices)
                             foreach (IRGBDevice device in _devices)
-                                if (!device.UpdateMode.HasFlag(DeviceUpdateMode.NoUpdate))
-                                    try { device.Update(flushLeds); }
-                                    catch (Exception ex) { OnException(ex); }
+                                try { device.Update(flushLeds); }
+                                catch (Exception ex) { OnException(ex); }
 
                         OnUpdated();
                     }
@@ -188,23 +183,19 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         public void Dispose()
         {
+            List<IRGBDevice> devices;
             lock (_devices)
-                foreach (IRGBDevice device in _devices)
-                    try { device.Dispose(); }
-                    catch { /* We do what we can */}
+                devices = new List<IRGBDevice>(_devices);
 
-            lock (_deviceProvider)
-                foreach (IRGBDeviceProvider deviceProvider in _deviceProvider)
-                    try { deviceProvider.Dispose(); }
-                    catch { /* We do what we can */}
+            foreach (IRGBDevice device in devices)
+                try { Detach(device); }
+                catch { /* We do what we can */}
 
             foreach (IUpdateTrigger updateTrigger in _updateTriggers)
                 try { updateTrigger.Dispose(); }
                 catch { /* We do what we can */}
 
             _ledGroups.Clear();
-            _devices = null;
-            _deviceProvider = null;
         }
 
         /// <summary>
@@ -214,15 +205,15 @@ namespace RGB.NET.Core
         private void Render(ILedGroup ledGroup)
         {
             IList<Led> leds = ledGroup.GetLeds().ToList();
-            IBrush brush = ledGroup.Brush;
+            IBrush? brush = ledGroup.Brush;
 
             if ((brush == null) || !brush.IsEnabled) return;
 
             switch (brush.BrushCalculationMode)
             {
                 case BrushCalculationMode.Relative:
-                    Rectangle brushRectangle = new Rectangle(leds.Select(led => led.AbsoluteLedRectangle));
-                    Point offset = new Point(-brushRectangle.Location.X, -brushRectangle.Location.Y);
+                    Rectangle brushRectangle = new(leds.Select(led => led.AbsoluteLedRectangle));
+                    Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                     brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
                     brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteLedRectangle.Translate(offset))));
                     break;
@@ -247,8 +238,6 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
         public bool AttachLedGroup(ILedGroup ledGroup)
         {
-            if (ledGroup == null) return false;
-
             lock (_ledGroups)
             {
                 if (_ledGroups.Contains(ledGroup)) return false;
@@ -267,11 +256,9 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
         public bool DetachLedGroup(ILedGroup ledGroup)
         {
-            if (ledGroup == null) return false;
-
             lock (_ledGroups)
             {
-                LinkedListNode<ILedGroup> node = _ledGroups.Find(ledGroup);
+                LinkedListNode<ILedGroup>? node = _ledGroups.Find(ledGroup);
                 if (node == null) return false;
 
                 _ledGroups.Remove(node);
@@ -280,52 +267,46 @@ namespace RGB.NET.Core
                 return true;
             }
         }
-        // ReSharper disable UnusedMember.Global
-        /// <summary>
-        /// Loads all devices the given by the <see cref="IRGBDeviceProvider"/> provided by the give <see cref="IRGBDeviceProviderLoader"/>.
-        /// </summary>
-        /// <param name="deviceProviderLoader">The <see cref="IRGBDeviceProviderLoader"/> which provides the <see cref="IRGBDeviceProvider"/> to load the devices from.</param>
-        /// <param name="loadFilter">Specifies which types of devices to load.</param>
-        /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
-        /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
-        public void LoadDevices(IRGBDeviceProviderLoader deviceProviderLoader, RGBDeviceType loadFilter = RGBDeviceType.All,
-                                  bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
-            => LoadDevices(deviceProviderLoader.GetDeviceProvider(), loadFilter, exclusiveAccessIfPossible, throwExceptions);
 
-        /// <summary>
-        /// Loads all devices the given <see cref="IRGBDeviceProvider"/> is able to provide.
-        /// </summary>
-        /// <param name="deviceProvider">The <see cref="IRGBDeviceProvider"/> to load the devices from.</param>
-        /// <param name="loadFilter">Specifies which types of devices to load.</param>
-        /// <param name="exclusiveAccessIfPossible">Specifies whether the application should request exclusive access of possible or not.</param>
-        /// <param name="throwExceptions">Specifies whether exception during the initialization sequence should be thrown or not.</param>
-        public void LoadDevices(IRGBDeviceProvider deviceProvider, RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public void Attach(IEnumerable<IRGBDevice> devices)
         {
-            lock (_deviceProvider)
+            lock (_devices)
             {
-                if (_deviceProvider.Contains(deviceProvider) || _deviceProvider.Any(x => x.GetType() == deviceProvider.GetType())) return;
+                foreach (IRGBDevice device in devices)
+                    Attach(device);
+            }
+        }
 
-                List<IRGBDevice> addedDevices = new List<IRGBDevice>();
-                if (deviceProvider.IsInitialized || deviceProvider.Initialize(loadFilter, exclusiveAccessIfPossible, throwExceptions))
-                {
-                    _deviceProvider.Add(deviceProvider);
-                    lock (_devices)
-                        foreach (IRGBDevice device in deviceProvider.Devices)
-                        {
-                            if (_devices.Contains(device)) continue;
+        public void Attach(IRGBDevice device)
+        {
+            lock (_devices)
+            {
+                if (_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' is already attached.");
 
-                            addedDevices.Add(device);
+                device.Surface = this;
 
-                            device.PropertyChanged += DeviceOnPropertyChanged;
-                            _devices.Add(device);
-                        }
-                }
+                _devices.Add(device);
+            }
+        }
 
-                if (addedDevices.Any())
-                {
-                    UpdateSurfaceRectangle();
-                    SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(addedDevices, true, false));
-                }
+        public void Detach(IEnumerable<IRGBDevice> devices)
+        {
+            lock (_devices)
+            {
+                foreach (IRGBDevice device in devices)
+                    Detach(device);
+            }
+        }
+
+        public void Detach(IRGBDevice device)
+        {
+            lock (_devices)
+            {
+                if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' isn't attached.");
+
+                device.Surface = null;
+
+                _devices.Remove(device);
             }
         }
 
@@ -347,14 +328,14 @@ namespace RGB.NET.Core
         private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             UpdateSurfaceRectangle();
-            SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs(new[] { sender as IRGBDevice }, false, true));
+            SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs((sender is IRGBDevice device) ? new[] { device } : Array.Empty<IRGBDevice>(), false, true));
         }
 
         private void UpdateSurfaceRectangle()
         {
             lock (_devices)
             {
-                Rectangle devicesRectangle = new Rectangle(_devices.Select(d => d.DeviceRectangle));
+                Rectangle devicesRectangle = new(_devices.Select(d => d.DeviceRectangle));
                 SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
             }
         }
@@ -368,7 +349,7 @@ namespace RGB.NET.Core
             where T : class
         {
             lock (_devices)
-                return new ReadOnlyCollection<T>(_devices.Select(x => x as T).Where(x => x != null).ToList());
+                return new ReadOnlyCollection<T>(_devices.Where(x => x is T).Cast<T>().ToList());
         }
 
         /// <summary>
@@ -421,7 +402,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Handles the needed event-calls before updating.
         /// </summary>
-        private void OnUpdating(IUpdateTrigger trigger, CustomUpdateData customData)
+        private void OnUpdating(IUpdateTrigger? trigger, CustomUpdateData customData)
         {
             try
             {

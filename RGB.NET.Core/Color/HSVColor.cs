@@ -82,7 +82,7 @@ namespace RGB.NET.Core
             (double cHue, double cSaturation, double cValue) = color.GetHSV();
             return Create(color.A, cHue * hue, cSaturation * saturation, cValue * value);
         }
-        
+
         /// <summary>
         /// Divides the given HSV values to this color.
         /// </summary>
@@ -180,7 +180,7 @@ namespace RGB.NET.Core
             else // b is max
                 hue = 4.0 + ((r - g) / (max - min));
 
-            hue = hue * 60.0;
+            hue *= 60.0;
             hue = hue.Wrap(0, 360);
 
             double saturation = max.EqualsInTolerance(0) ? 0 : 1.0 - (min / max);
@@ -205,21 +205,15 @@ namespace RGB.NET.Core
             double q = v * (1.0 - (s * ff));
             double t = v * (1.0 - (s * (1.0 - ff)));
 
-            switch (i)
+            return i switch
             {
-                case 0:
-                    return (v, t, p);
-                case 1:
-                    return (q, v, p);
-                case 2:
-                    return (p, v, t);
-                case 3:
-                    return (p, q, v);
-                case 4:
-                    return (t, p, v);
-                default:
-                    return (v, p, q);
-            }
+                0 => (v, t, p),
+                1 => (q, v, p),
+                2 => (p, v, t),
+                3 => (p, q, v),
+                4 => (t, p, v),
+                _ => (v, p, q)
+            };
         }
 
         #endregion

@@ -9,14 +9,14 @@ namespace RGB.NET.Core
     /// Represents a size consisting of a width and a height.
     /// </summary>
     [DebuggerDisplay("[Width: {Width}, Height: {Height}]")]
-    public struct Size
+    public readonly struct Size
     {
         #region Constants
 
         /// <summary>
         /// Gets a [NaN,NaN]-Size.
         /// </summary>
-        public static Size Invalid => new Size(double.NaN, double.NaN);
+        public static Size Invalid => new(double.NaN, double.NaN);
 
         #endregion
 
@@ -71,13 +71,13 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Size" /> equivalent to this <see cref="Size" />; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (!(obj is Size)) return false;
+            if (!(obj is Size size)) return false;
 
-            Size compareSize = (Size)obj;
-            return ((double.IsNaN(Width) && double.IsNaN(compareSize.Width)) || Width.EqualsInTolerance(compareSize.Width))
-                && ((double.IsNaN(Height) && double.IsNaN(compareSize.Height)) || Height.EqualsInTolerance(compareSize.Height));
+            (double width, double height) = size;
+            return ((double.IsNaN(Width) && double.IsNaN(width)) || Width.EqualsInTolerance(width))
+                && ((double.IsNaN(Height) && double.IsNaN(height)) || Height.EqualsInTolerance(height));
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace RGB.NET.Core
         /// <param name="size1">The first <see cref="Size"/>.</param>
         /// <param name="size2">The second <see cref="Size"/>.</param>
         /// <returns>A new <see cref="Size"/> representing the addition of the two provided <see cref="Size"/>.</returns>
-        public static Size operator +(Size size1, Size size2) => new Size(size1.Width + size2.Width, size1.Height + size2.Height);
+        public static Size operator +(Size size1, Size size2) => new(size1.Width + size2.Width, size1.Height + size2.Height);
 
         /// <summary>
         /// Returns a new <see cref="Rectangle"/> created from the provided <see cref="Point"/> and <see cref="Size"/>.
@@ -139,7 +139,7 @@ namespace RGB.NET.Core
         /// <param name="size">The <see cref="Size"/> of the rectangle.</param>
         /// <param name="point">The <see cref="Point"/> of the rectangle.</param>
         /// <returns>The rectangle created from the provided <see cref="Point"/> and <see cref="Size"/>.</returns>
-        public static Rectangle operator +(Size size, Point point) => new Rectangle(point, size);
+        public static Rectangle operator +(Size size, Point point) => new(point, size);
 
         /// <summary>
         /// Returns a new <see cref="Size"/> representing the subtraction of the two provided <see cref="Size"/>.
@@ -147,7 +147,7 @@ namespace RGB.NET.Core
         /// <param name="size1">The first <see cref="Size"/>.</param>
         /// <param name="size2">The second <see cref="Size"/>.</param>
         /// <returns>A new <see cref="Size"/> representing the subtraction of the two provided <see cref="Size"/>.</returns>
-        public static Size operator -(Size size1, Size size2) => new Size(size1.Width - size2.Width, size1.Height - size2.Height);
+        public static Size operator -(Size size1, Size size2) => new(size1.Width - size2.Width, size1.Height - size2.Height);
 
         /// <summary>
         /// Returns a new <see cref="Size"/> representing the multiplication of the two provided <see cref="Size"/>.
@@ -155,7 +155,7 @@ namespace RGB.NET.Core
         /// <param name="size1">The first <see cref="Size"/>.</param>
         /// <param name="size2">The second <see cref="Size"/>.</param>
         /// <returns>A new <see cref="Size"/> representing the multiplication of the two provided <see cref="Size"/>.</returns>
-        public static Size operator *(Size size1, Size size2) => new Size(size1.Width * size2.Width, size1.Height * size2.Height);
+        public static Size operator *(Size size1, Size size2) => new(size1.Width * size2.Width, size1.Height * size2.Height);
 
         /// <summary>
         /// Returns a new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the provided factor.
@@ -163,7 +163,7 @@ namespace RGB.NET.Core
         /// <param name="size">The <see cref="Size"/>.</param>
         /// <param name="factor">The factor by which the <see cref="Size"/> should be multiplied.</param>
         /// <returns>A new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the provided factor.</returns>
-        public static Size operator *(Size size, double factor) => new Size(size.Width * factor, size.Height * factor);
+        public static Size operator *(Size size, double factor) => new(size.Width * factor, size.Height * factor);
 
         /// <summary>
         /// Returns a new <see cref="Size"/> representing the division of the two provided <see cref="Size"/>.
@@ -189,7 +189,7 @@ namespace RGB.NET.Core
         /// <param name="size">The <see cref="Size"/> to scale.</param>
         /// <param name="scale">The scaling factor.</param>
         /// <returns>A new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the given <see cref="Scale"/>.</returns>
-        public static Size operator *(Size size, Scale scale) => new Size(size.Width * scale.Horizontal, size.Height * scale.Vertical);
+        public static Size operator *(Size size, Scale scale) => new(size.Width * scale.Horizontal, size.Height * scale.Vertical);
 
         #endregion
     }

@@ -13,6 +13,8 @@ namespace RGB.NET.Core
     {
         #region Properties
 
+        RGBSurface? Surface { get; internal set; }
+
         /// <summary>
         /// Gets generic information about the <see cref="IRGBDevice"/>.
         /// </summary>
@@ -48,11 +50,6 @@ namespace RGB.NET.Core
         /// Gets or sets the rotation of the <see cref="IRGBDevice"/>.
         /// </summary>
         Rotation Rotation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="DeviceUpdateMode"/> of the <see cref="IRGBDevice"/>.
-        /// </summary>
-        DeviceUpdateMode UpdateMode { get; set; }
 
         #endregion
 

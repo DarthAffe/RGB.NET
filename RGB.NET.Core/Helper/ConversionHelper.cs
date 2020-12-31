@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Core
+﻿using System;
+
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Contains helper methods for converting things.
@@ -20,10 +22,10 @@
             for (int bx = 0, cx = 0; bx < bytes.Length; ++bx, ++cx)
             {
                 byte b = ((byte)(bytes[bx] >> 4));
-                c[cx] = (char)(b > 9 ? b + 0x37: b + 0x30);
+                c[cx] = (char)(b > 9 ? b + 0x37 : b + 0x30);
 
                 b = ((byte)(bytes[bx] & 0x0F));
-                c[++cx] = (char)(b > 9 ? b + 0x37: b + 0x30);
+                c[++cx] = (char)(b > 9 ? b + 0x37 : b + 0x30);
             }
 
             return new string(c);
@@ -38,7 +40,7 @@
         public static byte[] HexToBytes(string hexString)
         {
             if ((hexString.Length == 0) || ((hexString.Length % 2) != 0))
-                return new byte[0];
+                return Array.Empty<byte>();
 
             byte[] buffer = new byte[hexString.Length / 2];
             for (int bx = 0, sx = 0; bx < buffer.Length; ++bx, ++sx)

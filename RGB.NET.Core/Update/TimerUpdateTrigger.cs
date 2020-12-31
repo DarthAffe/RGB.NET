@@ -14,12 +14,11 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private object _lock = new object();
+        private object _lock = new();
 
-        private CancellationTokenSource _updateTokenSource;
-        private CancellationToken _updateToken;
-        private Task _updateTask;
-        private Stopwatch _sleepCounter;
+        protected Task? UpdateTask { get; set; }
+        protected CancellationTokenSource? UpdateTokenSource { get; set; }
+        protected CancellationToken UpdateToken { get; set; }
 
         private double _updateFrequency = 1.0 / 30.0;
         /// <summary>
@@ -46,8 +45,6 @@ namespace RGB.NET.Core
         /// <param name="autostart">A value indicating if the trigger should automatically <see cref="Start"/> right after construction.</param>
         public TimerUpdateTrigger(bool autostart = true)
         {
-            _sleepCounter = new Stopwatch();
-
             if (autostart)
                 Start();
         }
@@ -63,11 +60,11 @@ namespace RGB.NET.Core
         {
             lock (_lock)
             {
-                if (_updateTask == null)
+                if (UpdateTask == null)
                 {
-                    _updateTokenSource?.Dispose();
-                    _updateTokenSource = new CancellationTokenSource();
-                    _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                    UpdateTokenSource?.Dispose();
+                    UpdateTokenSource = new CancellationTokenSource();
+                    UpdateTask = Task.Factory.StartNew(UpdateLoop, (UpdateToken = UpdateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
                 }
             }
         }
@@ -79,30 +76,35 @@ namespace RGB.NET.Core
         {
             lock (_lock)
             {
-                if (_updateTask != null)
+                if (UpdateTask != null)
                 {
-                    _updateTokenSource.Cancel();
+                    UpdateTokenSource?.Cancel();
                     // ReSharper disable once MethodSupportsCancellation
-                    _updateTask.Wait();
-                    _updateTask.Dispose();
-                    _updateTask = null;
+                    UpdateTask.Wait();
+                    UpdateTask.Dispose();
+                    UpdateTask = null;
                 }
             }
         }
 
         private void UpdateLoop()
         {
-            while (!_updateToken.IsCancellationRequested)
+            OnStartup();
+
+            while (!UpdateToken.IsCancellationRequested)
             {
-                _sleepCounter.Restart();
+                long preUpdateTicks = Stopwatch.GetTimestamp();
 
                 OnUpdate();
 
-                _sleepCounter.Stop();
-                LastUpdateTime = _sleepCounter.Elapsed.TotalSeconds;
-                int sleep = (int)((UpdateFrequency * 1000.0) - _sleepCounter.ElapsedMilliseconds);
-                if (sleep > 0)
-                    Thread.Sleep(sleep);
+                if (UpdateFrequency > 0)
+                {
+                    double lastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
+                    LastUpdateTime = lastUpdateTime;
+                    int sleep = (int)((UpdateFrequency * 1000.0) - lastUpdateTime);
+                    if (sleep > 0)
+                        Thread.Sleep(sleep);
+                }
             }
         }
 

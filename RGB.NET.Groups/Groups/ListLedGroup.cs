@@ -31,7 +31,7 @@ namespace RGB.NET.Groups
         public ListLedGroup(RGBSurface? surface)
             : base(surface)
         { }
-        
+
         /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
@@ -72,8 +72,6 @@ namespace RGB.NET.Groups
         /// <param name="leds">The <see cref="Led"/> to add.</param>
         public void AddLeds(IEnumerable<Led> leds)
         {
-            if (leds == null) return;
-
             lock (GroupLeds)
                 foreach (Led led in leds)
                     if ((led != null) && !ContainsLed(led))
@@ -92,8 +90,6 @@ namespace RGB.NET.Groups
         /// <param name="leds">The <see cref="Led"/> to remove.</param>
         public void RemoveLeds(IEnumerable<Led> leds)
         {
-            if (leds == null) return;
-
             lock (GroupLeds)
                 foreach (Led led in leds)
                     if (led != null)
@@ -108,7 +104,7 @@ namespace RGB.NET.Groups
         public bool ContainsLed(Led led)
         {
             lock (GroupLeds)
-                return (led != null) && GroupLeds.Contains(led);
+                return GroupLeds.Contains(led);
         }
 
         /// <summary>

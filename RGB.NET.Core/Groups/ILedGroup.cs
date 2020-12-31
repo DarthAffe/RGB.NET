@@ -16,7 +16,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets or sets the <see cref="IBrush"/> which should be drawn over this <see cref="ILedGroup"/>.
         /// </summary>
-        IBrush Brush { get; set; }
+        IBrush? Brush { get; set; }
 
         /// <summary>
         /// Gets or sets the z-index of this <see cref="ILedGroup"/> to allow ordering them before drawing. (lowest first) (default: 0)

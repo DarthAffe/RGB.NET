@@ -2,23 +2,6 @@
 {
     public class DefaultColorBehavior : IColorBehavior
     {
-        #region Properties & Fields
-
-        private static DefaultColorBehavior _instance = new DefaultColorBehavior();
-        /// <summary>
-        /// Gets the singleton instance of <see cref="DefaultColorBehavior"/>.
-        /// </summary>
-        public static DefaultColorBehavior Instance { get; } = _instance;
-
-        #endregion
-
-        #region Constructors
-
-        private DefaultColorBehavior()
-        { }
-
-        #endregion
-
         #region Methods
 
         /// <summary>

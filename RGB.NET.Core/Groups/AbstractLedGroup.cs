@@ -14,7 +14,7 @@ namespace RGB.NET.Core
         public RGBSurface? Surface { get; private set; }
 
         /// <inheritdoc />
-        public IBrush Brush { get; set; }
+        public IBrush? Brush { get; set; }
 
         /// <inheritdoc />
         public int ZIndex { get; set; } = 0;
@@ -39,16 +39,10 @@ namespace RGB.NET.Core
         public abstract IList<Led> GetLeds();
 
         /// <inheritdoc />
-        public virtual void OnAttach(RGBSurface surface)
-        {
-            Surface = surface;
-        }
+        public virtual void OnAttach(RGBSurface surface) => Surface = surface;
 
         /// <inheritdoc />
-        public virtual void OnDetach(RGBSurface surface)
-        {
-            Surface = null;
-        }
+        public virtual void OnDetach(RGBSurface surface) => Surface = null;
 
         #endregion
     }

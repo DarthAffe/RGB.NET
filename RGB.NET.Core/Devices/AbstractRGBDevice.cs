@@ -21,13 +21,15 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
+        RGBSurface? IRGBDevice.Surface { get; set; }
+
         /// <inheritdoc />
         public abstract TDeviceInfo DeviceInfo { get; }
 
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
-        private Point _location = new Point(0, 0);
+        private Point _location = new(0, 0);
         /// <inheritdoc />
         public Point Location
         {
@@ -67,7 +69,7 @@ namespace RGB.NET.Core
             private set => SetProperty(ref _deviceRectangle, value);
         }
 
-        private Scale _scale = new Scale(1);
+        private Scale _scale = new(1);
         /// <inheritdoc />
         public Scale Scale
         {
@@ -79,7 +81,7 @@ namespace RGB.NET.Core
             }
         }
 
-        private Rotation _rotation = new Rotation(0);
+        private Rotation _rotation = new(0);
         /// <inheritdoc />
         public Rotation Rotation
         {
@@ -96,13 +98,10 @@ namespace RGB.NET.Core
         /// </summary>
         protected bool RequiresFlush { get; set; } = false;
 
-        /// <inheritdoc />
-        public DeviceUpdateMode UpdateMode { get; set; } = DeviceUpdateMode.Sync;
-
         /// <summary>
         /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
-        protected Dictionary<LedId, Led> LedMapping { get; } = new Dictionary<LedId, Led>();
+        protected Dictionary<LedId, Led> LedMapping { get; } = new();
 
         #region Indexer
 
@@ -139,8 +138,7 @@ namespace RGB.NET.Core
             foreach (Led ledToUpdate in ledsToUpdate)
                 ledToUpdate.Update();
 
-            if (UpdateMode.HasFlag(DeviceUpdateMode.Sync))
-                UpdateLeds(ledsToUpdate);
+            UpdateLeds(ledsToUpdate);
         }
 
         protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty));
