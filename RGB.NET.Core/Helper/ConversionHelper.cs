@@ -37,7 +37,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="hexString">The HEX-string to convert.</param>
         /// <returns>The correspondending byte array.</returns>
-        public static byte[] HexToBytes(string hexString)
+        public static byte[] HexToBytes(ReadOnlySpan<char> hexString)
         {
             if ((hexString.Length == 0) || ((hexString.Length % 2) != 0))
                 return Array.Empty<byte>();

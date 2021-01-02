@@ -2,12 +2,9 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Core
 {

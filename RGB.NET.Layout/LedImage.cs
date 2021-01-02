@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
+using RGB.NET.Core;
 
-namespace RGB.NET.Core.Layout
+namespace RGB.NET.Layout
 {
     /// <summary>
     /// Represents the serializable image-data of a specific <see cref="Led"/>.
@@ -14,12 +15,12 @@ namespace RGB.NET.Core.Layout
         /// Gets or sets the Id of the <see cref="LedImage"/>.
         /// </summary>
         [XmlAttribute("Id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the image of the <see cref="LedImage"/>.
         /// </summary>
         [XmlAttribute("Image")]
-        public string Image { get; set; }
+        public string? Image { get; set; }
     }
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
+using RGB.NET.Core;
 
-namespace RGB.NET.Core.Layout
+namespace RGB.NET.Layout
 {
     /// <summary>
     /// Represents the serializable layout of a <see cref="IRGBDevice"/>.
@@ -19,13 +20,13 @@ namespace RGB.NET.Core.Layout
         /// Gets or sets the name of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="RGBDeviceType"/> of the <see cref="DeviceLayout"/>.
@@ -34,22 +35,16 @@ namespace RGB.NET.Core.Layout
         public RGBDeviceType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="RGBDeviceLighting"/> of the <see cref="DeviceLayout"/>.
-        /// </summary>
-        [XmlElement("Lighting")]
-        public RGBDeviceLighting Lighting { get; set; }
-
-        /// <summary>
         /// Gets or sets the vendor of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Vendor")]
-        public string Vendor { get; set; }
+        public string? Vendor { get; set; }
 
         /// <summary>
         /// Gets or sets the model of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Model")]
-        public string Model { get; set; }
+        public string? Model { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Core.Shape"/> of the <see cref="DeviceLayout"/>.
@@ -62,13 +57,13 @@ namespace RGB.NET.Core.Layout
         /// Gets or sets the width of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Width")]
-        public double Width { get; set; }
+        public double? Width { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Height")]
-        public double Height { get; set; }
+        public double? Height { get; set; }
 
         /// <summary>
         /// Gets or sets the width of one 'unit' used for the calculation of led positions and sizes.
@@ -88,25 +83,25 @@ namespace RGB.NET.Core.Layout
         /// The path images for this device are collected in.
         /// </summary>
         [XmlElement("ImageBasePath")]
-        public string ImageBasePath { get; set; }
+        public string? ImageBasePath { get; set; }
 
         /// <summary>
         /// The image file for this device.
         /// </summary>
         [XmlElement("DeviceImage")]
-        public string DeviceImage { get; set; }
+        public string? DeviceImage { get; set; }
 
         /// <summary>
         /// Gets or sets a list of <see cref="LedLayout"/> representing all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlArray("Leds")]
-        public List<LedLayout> Leds { get; set; } = new List<LedLayout>();
+        public List<LedLayout> Leds { get; set; } = new();
 
         /// <summary>
         /// Gets or sets a list of <see cref="LedImageLayout"/> representing the layouts for the images of all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlArray("LedImageLayouts")]
-        public List<LedImageLayout> LedImageLayouts { get; set; } = new List<LedImageLayout>();
+        public List<LedImageLayout> LedImageLayouts { get; set; } = new();
 
         #endregion
 
@@ -117,28 +112,27 @@ namespace RGB.NET.Core.Layout
         /// </summary>
         /// <param name="path">The path to the xml file.</param>
         /// <returns>The deserialized <see cref="DeviceLayout"/>.</returns>
-        public static DeviceLayout Load(string path)
+        public static DeviceLayout? Load(string path)
         {
             if (!File.Exists(path)) return null;
 
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(DeviceLayout));
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    DeviceLayout layout = serializer.Deserialize(reader) as DeviceLayout;
-                    if (layout?.Leds != null)
-                    {
-                        LedLayout lastLed = null;
-                        foreach (LedLayout led in layout.Leds)
-                        {
-                            led.CalculateValues(layout, lastLed);
-                            lastLed = led;
-                        }
-                    }
+                XmlSerializer serializer = new(typeof(DeviceLayout));
+                using StreamReader reader = new(path);
 
-                    return layout;
+                DeviceLayout? layout = serializer.Deserialize(reader) as DeviceLayout;
+                if (layout?.Leds != null)
+                {
+                    LedLayout? lastLed = null;
+                    foreach (LedLayout led in layout.Leds)
+                    {
+                        led.CalculateValues(layout, lastLed);
+                        lastLed = led;
+                    }
                 }
+
+                return layout;
             }
             catch
             {

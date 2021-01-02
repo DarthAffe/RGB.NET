@@ -1,10 +1,9 @@
 ﻿using System;
-using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Core
 {
     /// <summary>
-    /// Contains a list of different shapes used by <see cref="DeviceLayout"/>.
+    /// Contains a list of different shapes used to define the layout of a LED.
     /// </summary>
     [Serializable]
     public enum Shape

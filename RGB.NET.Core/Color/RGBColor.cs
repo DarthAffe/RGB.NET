@@ -258,10 +258,11 @@ namespace RGB.NET.Core
             if ((hexString == null) || (hexString.Length < 6))
                 throw new ArgumentException("Invalid hex string", nameof(hexString));
 
-            if (hexString[0] == '#')
-                hexString = hexString.Substring(1);
+            ReadOnlySpan<char> span = hexString.AsSpan();
+            if (span[0] == '#')
+                span = span[1..];
 
-            byte[] data = ConversionHelper.HexToBytes(hexString);
+            byte[] data = ConversionHelper.HexToBytes(span);
             return data.Length switch
             {
                 3 => new Color(data[0], data[1], data[2]),

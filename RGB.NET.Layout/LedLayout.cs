@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Xml.Serialization;
+using RGB.NET.Core;
 
-namespace RGB.NET.Core.Layout
+namespace RGB.NET.Layout
 {
     /// <summary>
     /// Represents the serializable layout of a <see cref="Led"/>.
@@ -18,7 +19,7 @@ namespace RGB.NET.Core.Layout
         /// Gets or sets the Id of the <see cref="LedLayout"/>.
         /// </summary>
         [XmlAttribute("Id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the descriptive <see cref="RGB.NET.Core.Shape"/> of the <see cref="LedLayout"/>.
@@ -70,7 +71,7 @@ namespace RGB.NET.Core.Layout
         /// Gets or sets the vecor-data representing a custom-shape of the <see cref="LedLayout"/>.
         /// </summary>
         [XmlIgnore]
-        public string ShapeData { get; set; }
+        public string? ShapeData { get; set; }
 
         /// <summary>
         /// Gets or sets the x-position of the <see cref="LedLayout"/>.
@@ -105,7 +106,7 @@ namespace RGB.NET.Core.Layout
         /// </summary>
         /// <param name="device">The <see cref="DeviceLayout"/> this <see cref="LedLayout"/> belongs to.</param>
         /// <param name="lastLed">The <see cref="LedLayout"/> previously calculated.</param>
-        public void CalculateValues(DeviceLayout device, LedLayout lastLed)
+        public void CalculateValues(DeviceLayout device, LedLayout? lastLed)
         {
             if (!Enum.TryParse(DescriptiveShape, true, out Shape shape))
             {
@@ -136,19 +137,19 @@ namespace RGB.NET.Core.Layout
                     return lastValue + lastSize;
 
                 if (value.StartsWith("+", StringComparison.Ordinal))
-                    return lastValue + lastSize + double.Parse(value.Substring(1), CultureInfo.InvariantCulture);
+                    return lastValue + lastSize + double.Parse(value[1..], CultureInfo.InvariantCulture);
 
                 if (string.Equals(value, "-", StringComparison.Ordinal))
                     return lastValue - currentSize;
 
                 if (value.StartsWith("-", StringComparison.Ordinal))
-                    return lastValue - currentSize - double.Parse(value.Substring(1), CultureInfo.InvariantCulture);
+                    return lastValue - currentSize - double.Parse(value[1..], CultureInfo.InvariantCulture);
 
                 if (string.Equals(value, "~", StringComparison.Ordinal))
                     return (lastValue + lastSize) - currentSize;
 
                 if (value.StartsWith("~", StringComparison.Ordinal))
-                    return (lastValue + lastSize) - currentSize - double.Parse(value.Substring(1), CultureInfo.InvariantCulture);
+                    return (lastValue + lastSize) - currentSize - double.Parse(value[1..], CultureInfo.InvariantCulture);
 
                 return double.Parse(value, CultureInfo.InvariantCulture);
             }
@@ -167,7 +168,7 @@ namespace RGB.NET.Core.Layout
                 value = value.Replace(" ", string.Empty);
 
                 if (value.EndsWith("mm", StringComparison.OrdinalIgnoreCase))
-                    return double.Parse(value.Substring(0, value.Length - 2), CultureInfo.InvariantCulture);
+                    return double.Parse(value[..^2], CultureInfo.InvariantCulture);
 
                 return unitSize * double.Parse(value, CultureInfo.InvariantCulture);
             }

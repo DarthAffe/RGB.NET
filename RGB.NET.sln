@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Asus", "RGB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Wooting", "RGB.NET.Devices.Wooting\RGB.NET.Devices.Wooting.csproj", "{DD46DB2D-85BE-4962-86AE-E38C9053A548}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Layout", "RGB.NET.Layout\RGB.NET.Layout.csproj", "{8AAB3736-B443-402C-B8AC-63D1A6DAFCCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{DD46DB2D-85BE-4962-86AE-E38C9053A548}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD46DB2D-85BE-4962-86AE-E38C9053A548}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD46DB2D-85BE-4962-86AE-E38C9053A548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AAB3736-B443-402C-B8AC-63D1A6DAFCCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AAB3736-B443-402C-B8AC-63D1A6DAFCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AAB3736-B443-402C-B8AC-63D1A6DAFCCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AAB3736-B443-402C-B8AC-63D1A6DAFCCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
