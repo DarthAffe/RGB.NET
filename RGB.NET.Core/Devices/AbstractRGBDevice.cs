@@ -46,7 +46,7 @@ namespace RGB.NET.Core
         public Size Size
         {
             get => _size;
-            protected set
+            set
             {
                 if (SetProperty(ref _size, value))
                     UpdateActualData();
@@ -106,10 +106,10 @@ namespace RGB.NET.Core
         #region Indexer
 
         /// <inheritdoc />
-        Led IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led led) ? led : null;
+        Led? IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led? led) ? led : null;
 
         /// <inheritdoc />
-        Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
+        Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
 
         /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
@@ -168,77 +168,26 @@ namespace RGB.NET.Core
         /// Initializes the <see cref="Led"/> with the specified id.
         /// </summary>
         /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
-        /// <param name="ledRectangle">The <see cref="Rectangle"/> representing the position of the <see cref="Led"/> to initialize.</param>
-        /// <returns></returns>
-        [Obsolete("Use InitializeLed(LedId ledId, Point location, Size size) instead.")]
-        protected virtual Led InitializeLed(LedId ledId, Rectangle rectangle) => InitializeLed(ledId, rectangle.Location, rectangle.Size);
-
-        /// <summary>
-        /// Initializes the <see cref="Led"/> with the specified id.
-        /// </summary>
-        /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
         /// <param name="location">The location of the <see cref="Led"/> to initialize.</param>
         /// <param name="size">The size of the <see cref="Led"/> to initialize.</param>
         /// <returns>The initialized led.</returns>
-        protected virtual Led InitializeLed(LedId ledId, Point location, Size size)
+        public virtual Led? AddLed(LedId ledId, Point location, Size size, object? customData = null)
         {
             if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 
-            Led led = new Led(this, ledId, location, size, CreateLedCustomData(ledId));
+            Led led = new(this, ledId, location, size, customData);
             LedMapping.Add(ledId, led);
             return led;
         }
 
-        /// <summary>
-        /// Applies the given layout.
-        /// </summary>
-        /// <param name="layoutPath">The file containing the layout.</param>
-        /// <param name="imageLayout">The name of the layout used to get the images of the leds.</param>
-        /// <param name="createMissingLeds">If set to true a new led is initialized for every id in the layout if it doesn't already exist.</param>
-        protected virtual DeviceLayout ApplyLayoutFromFile(string layoutPath, string imageLayout, bool createMissingLeds = false)
+        public virtual Led? RemoveLed(LedId ledId)
         {
-            DeviceLayout layout = DeviceLayout.Load(layoutPath);
-            if (layout != null)
-            {
-                string imageBasePath = string.IsNullOrWhiteSpace(layout.ImageBasePath) ? null : PathHelper.GetAbsolutePath(this, layout.ImageBasePath);
-                if ((imageBasePath != null) && !string.IsNullOrWhiteSpace(layout.DeviceImage) && (DeviceInfo != null))
-                    DeviceInfo.Image = new Uri(Path.Combine(imageBasePath, layout.DeviceImage), UriKind.Absolute);
+            if (ledId == LedId.Invalid) return null;
+            if (!LedMapping.TryGetValue(ledId, out Led? led)) return null;
 
-                LedImageLayout ledImageLayout = layout.LedImageLayouts.FirstOrDefault(x => string.Equals(x.Layout, imageLayout, StringComparison.OrdinalIgnoreCase));
-
-                Size = new Size(layout.Width, layout.Height);
-
-                if (layout.Leds != null)
-                    foreach (LedLayout layoutLed in layout.Leds)
-                    {
-                        if (Enum.TryParse(layoutLed.Id, true, out LedId ledId))
-                        {
-                            if (!LedMapping.TryGetValue(ledId, out Led led) && createMissingLeds)
-                                led = InitializeLed(ledId, new Point(), new Size());
-
-                            if (led != null)
-                            {
-                                led.Location = new Point(layoutLed.X, layoutLed.Y);
-                                led.Size = new Size(layoutLed.Width, layoutLed.Height);
-                                led.Shape = layoutLed.Shape;
-                                led.ShapeData = layoutLed.ShapeData;
-
-                                LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
-                                if ((imageBasePath != null) && !string.IsNullOrEmpty(image?.Image))
-                                    led.Image = new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute);
-                            }
-                        }
-                    }
-            }
-
-            return layout;
+            LedMapping.Remove(ledId);
+            return led;
         }
-
-        /// <summary>
-        /// Creates provider-specific data associated with this <see cref="LedId"/>.
-        /// </summary>
-        /// <param name="ledId">The <see cref="LedId"/>.</param>
-        protected virtual object CreateLedCustomData(LedId ledId) => null;
 
         #region Enumerator
 

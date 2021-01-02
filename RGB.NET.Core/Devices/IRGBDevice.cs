@@ -60,14 +60,14 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledId">The <see cref="LedId"/> of the <see cref="Led"/> to get.</param>
         /// <returns>The <see cref="Led"/> with the specified <see cref="LedId"/> or null if no <see cref="Led"/> is found.</returns>
-        Led this[LedId ledId] { get; }
+        Led? this[LedId ledId] { get; }
 
         /// <summary>
         /// Gets the <see cref="Led" /> at the given physical location.
         /// </summary>
         /// <param name="location">The <see cref="Point"/> to get the location from.</param>
         /// <returns>The <see cref="Led"/> at the given <see cref="Point"/> or null if no location is found.</returns>
-        Led this[Point location] { get; }
+        Led? this[Point location] { get; }
 
         /// <summary>
         /// Gets a list of <see cref="Led" /> inside the given <see cref="Rectangle"/>.

@@ -124,7 +124,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
         /// </summary>
-        public bool IsDirty => RequestedColor.HasValue && (RequestedColor != InternalColor);
+        public bool IsDirty => RequestedColor.HasValue && (RequestedColor != Color);
 
         private Color? _requestedColor;
         /// <summary>
@@ -152,34 +152,11 @@ namespace RGB.NET.Core
             get => _color;
             set
             {
-                if (!IsLocked)
-                {
-                    if (RequestedColor.HasValue)
-                        RequestedColor = RequestedColor.Value + value;
-                    else
-                        RequestedColor = value;
-                }
-
+                if (RequestedColor.HasValue)
+                    RequestedColor = RequestedColor.Value + value;
+                else
+                    RequestedColor = value;
             }
-        }
-
-        /// <summary>
-        /// Gets or set the <see cref="Color"/> ignoring all workflows regarding locks and update-requests. />
-        /// </summary>
-        internal Color InternalColor
-        {
-            get => _color;
-            set => SetProperty(ref _color, value);
-        }
-
-        private bool _isLocked;
-        /// <summary>
-        /// Gets or sets if the color of this LED can be changed.
-        /// </summary>
-        public bool IsLocked
-        {
-            get => _isLocked;
-            set => SetProperty(ref _isLocked, value);
         }
 
         /// <summary>
@@ -287,7 +264,6 @@ namespace RGB.NET.Core
         {
             _color = Color.Transparent;
             RequestedColor = null;
-            IsLocked = false;
 
             // ReSharper disable once ExplicitCallerInfoArgument
             OnPropertyChanged(nameof(Color));
@@ -301,13 +277,13 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Core.Color" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Color(Led led) => led?.Color ?? Color.Transparent;
+        public static implicit operator Color(Led led) => led.Color;
 
         /// <summary>
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led) => led?.LedRectangle ?? new Rectangle();
+        public static implicit operator Rectangle(Led led) => led.LedRectangle;
 
         #endregion
     }
