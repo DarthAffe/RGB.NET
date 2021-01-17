@@ -1510,6 +1510,14 @@ namespace RGB.NET.Devices.CoolerMaster
                   }
                 },
 
+                { CoolerMasterDevicesIndexes.CK530, new Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
+                  {
+                      { CoolerMasterPhysicalKeyboardLayout.US, CKxxx_US},
+                      { CoolerMasterPhysicalKeyboardLayout.EU, CKxxx_EU },
+                      { CoolerMasterPhysicalKeyboardLayout.JP, CKxxx_JP }
+                  }
+                },
+                
                 { CoolerMasterDevicesIndexes.CK550, new Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
                   {
                       { CoolerMasterPhysicalKeyboardLayout.US, CKxxx_US},
