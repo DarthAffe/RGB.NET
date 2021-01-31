@@ -169,6 +169,8 @@ namespace RGB.NET.Core
         /// </summary>
         public object? CustomData { get; }
 
+        public object? LayoutMetadata { get; set; }
+
         #endregion
 
         #region Constructors

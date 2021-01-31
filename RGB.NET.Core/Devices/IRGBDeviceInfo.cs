@@ -28,11 +28,8 @@ namespace RGB.NET.Core
         /// Gets the model-name of the <see cref="IRGBDevice"/>.
         /// </summary>
         string Model { get; }
-        
-        /// <summary>
-        /// Gets the URI of an image of the <see cref="IRGBDevice"/> or null if there is no image.
-        /// </summary>
-        Uri Image { get; set; }
+
+        object? LayoutMetadata { get; set; }
 
         #endregion
     }

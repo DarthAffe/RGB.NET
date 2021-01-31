@@ -28,7 +28,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the <see cref="Size"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
-        Size Size { get; }
+        Size Size { get; set; }
 
         /// <summary>
         /// Gets the actual <see cref="Size"/> of the <see cref="IRGBDevice"/>.
@@ -86,6 +86,10 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/> (including clean ones) should be updated.</param>
         void Update(bool flushLeds = false);
+
+        Led? AddLed(LedId ledId, Point location, Size size, object? customData = null);
+
+        Led? RemoveLed(LedId ledId);
 
         #endregion
     }
