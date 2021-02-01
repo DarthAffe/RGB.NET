@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -23,24 +22,8 @@ namespace RGB.NET.Devices.Logitech
         /// <inheritdoc />
         public string Model { get; }
 
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting
-        {
-            get
-            {
-                if (DeviceCaps.HasFlag(LogitechDeviceCaps.PerKeyRGB))
-                    return RGBDeviceLighting.Key;
-
-                if (DeviceCaps.HasFlag(LogitechDeviceCaps.DeviceRGB))
-                    return RGBDeviceLighting.Device;
-
-                return RGBDeviceLighting.None;
-            }
-        }
-        
         /// <summary>
         /// Gets a flag that describes device capabilities. (<see cref="LogitechDeviceCaps" />)
         /// </summary>

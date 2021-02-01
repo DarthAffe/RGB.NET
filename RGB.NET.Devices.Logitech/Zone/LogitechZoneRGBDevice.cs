@@ -47,16 +47,16 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override void InitializeLayout()
+        public override void Initialize(UpdateQueue updateQueue)
         {
-            for (int i = 0; i < DeviceInfo.Zones; i++)
-                InitializeLed(_baseLedId + i, new Rectangle(i * 10, 0, 10, 10));
+            base.Initialize(updateQueue);
 
-            base.InitializeLayout();
+            for (int i = 0; i < DeviceInfo.Zones; i++)
+                AddLed(_baseLedId + i, new Point(i * 10, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)(ledId - _baseLedId);
+        protected override object? GetLedCustomData(LedId ledId) => (int)(ledId - _baseLedId);
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));

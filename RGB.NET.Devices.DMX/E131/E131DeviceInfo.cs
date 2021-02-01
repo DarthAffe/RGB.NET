@@ -32,12 +32,8 @@ namespace RGB.NET.Devices.DMX.E131
 
         /// <inheritdoc />
         public string Model { get; }
-
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
         
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
         /// <summary>
         /// The hostname of the device.

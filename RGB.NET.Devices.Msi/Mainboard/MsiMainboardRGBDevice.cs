@@ -35,16 +35,13 @@ namespace RGB.NET.Devices.Msi
                 const string LED_STYLE = "Steady";
 
                 _MsiSDK.SetLedStyle(DeviceInfo.MsiDeviceType, i, LED_STYLE);
-                InitializeLed(LedId.Mainboard1 + i, new Rectangle(i * 40, 0, 40, 8));
+                AddLed(LedId.Mainboard1 + i, new Point(i * 40, 0), new Size(40, 8));
             }
-
-            //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\MSI\Mainboards\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mainboard1;
-        
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mainboard1;
+
         #endregion
     }
 }

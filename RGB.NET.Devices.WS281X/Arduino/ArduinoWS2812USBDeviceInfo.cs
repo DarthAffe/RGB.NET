@@ -25,10 +25,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         public string Model => "WS2812 USB";
 
         /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-        
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
         #endregion
 

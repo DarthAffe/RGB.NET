@@ -24,11 +24,8 @@ namespace RGB.NET.Devices.SteelSeries
         public string Model { get; }
 
         /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-        
         public SteelSeriesDeviceType SteelSeriesDeviceType { get; }
 
         /// <summary>

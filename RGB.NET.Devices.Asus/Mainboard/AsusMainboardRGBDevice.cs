@@ -26,18 +26,14 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            //TODO DarthAffe 07.10.2017: Look for a good default layout
             int ledCount = DeviceInfo.Device.Lights.Count;
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(LedId.Mainboard1 + i, new Rectangle(i * 40, 0, 40, 8));
-
-            //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Asus\Mainboards", $"{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+                AddLed(LedId.Mainboard1 + i, new Point(i * 40, 0), new Size(40, 8));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mainboard1;
-
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mainboard1;
+        
         #endregion
     }
 }

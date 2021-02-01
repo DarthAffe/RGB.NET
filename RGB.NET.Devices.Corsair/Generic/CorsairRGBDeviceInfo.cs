@@ -37,11 +37,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public string Model { get; }
 
-        /// <inheritdoc />
-        public Uri Image { get; set; }
-        
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
+        public object? LayoutMetadata { get; set; }
 
         /// <summary>
         /// Gets a flag that describes device capabilities. (<see cref="CorsairDeviceCaps" />)
@@ -64,7 +60,7 @@ namespace RGB.NET.Devices.Corsair
             this.CorsairDeviceIndex = deviceIndex;
             this.DeviceType = deviceType;
             this.CorsairDeviceType = nativeInfo.type;
-            this.Model = nativeInfo.model == IntPtr.Zero ? null : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
+            this.Model = nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
             this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
 
             DeviceName = GetUniqueModelName(modelCounter);
@@ -95,9 +91,9 @@ namespace RGB.NET.Devices.Corsair
 
         private string GetUniqueModelName(Dictionary<string, int> modelCounter)
         {
-            if (modelCounter.TryGetValue(Model, out int counter))
+            if (modelCounter.TryGetValue(Model, out int _))
             {
-                counter = ++modelCounter[Model];
+                int counter = ++modelCounter[Model];
                 return $"{Manufacturer} {Model} {counter}";
             }
             else

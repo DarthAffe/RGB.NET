@@ -1,5 +1,4 @@
-﻿using System;
-using AuraServiceLib;
+﻿using AuraServiceLib;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Asus
@@ -24,12 +23,8 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         public string Model { get; }
 
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-        
         public IAuraSyncDevice Device { get; }
 
         #endregion

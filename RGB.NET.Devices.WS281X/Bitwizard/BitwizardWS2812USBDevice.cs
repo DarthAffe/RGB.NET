@@ -50,9 +50,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         internal void Initialize(int ledCount)
         {
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(LedId.LedStripe1 + i, new Rectangle(i * 10, 0, 10, 10));
-
-            //TODO DarthAffe 23.12.2018: Allow to load a layout.
+                AddLed(LedId.LedStripe1 + i, new Point(i * 10, 0), new Size(10, 10));
 
             if (Size == Size.Invalid)
             {
@@ -62,7 +60,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => _ledOffset + ((int)ledId - (int)LedId.LedStripe1);
+        protected override object GetLedCustomData(LedId ledId) => _ledOffset + ((int)ledId - (int)LedId.LedStripe1);
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));

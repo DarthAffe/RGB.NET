@@ -53,9 +53,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         internal void Initialize(int ledCount)
         {
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(LedId.LedStripe1 + i, new Point(i * 10, 0), new Size(10, 10));
-
-            //TODO DarthAffe 23.12.2018: Allow to load a layout.
+                AddLed(LedId.LedStripe1 + i, new Point(i * 10, 0), new Size(10, 10));
 
             if (Size == Size.Invalid)
             {
@@ -65,7 +63,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (Channel, (int)ledId - (int)LedId.LedStripe1);
+        protected override object GetLedCustomData(LedId ledId) => (Channel, (int)ledId - (int)LedId.LedStripe1);
 
         /// <inheritdoc />
         protected override IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => (flushLeds || LedMapping.Values.Any(x => x.IsDirty)) ? LedMapping.Values : null;

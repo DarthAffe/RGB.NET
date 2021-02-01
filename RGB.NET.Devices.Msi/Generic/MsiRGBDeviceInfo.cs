@@ -29,10 +29,7 @@ namespace RGB.NET.Devices.Msi
         public string Model { get; }
 
         /// <inheritdoc />
-        public Uri Image { get; set; }
-        
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
+        public object? LayoutMetadata { get; set; }
 
         #endregion
 

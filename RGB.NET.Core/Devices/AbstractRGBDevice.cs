@@ -172,7 +172,7 @@ namespace RGB.NET.Core
         {
             if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 
-            Led led = new(this, ledId, location, size, customData);
+            Led led = new(this, ledId, location, size, customData ?? GetLedCustomData(ledId));
             LedMapping.Add(ledId, led);
             return led;
         }
@@ -185,6 +185,8 @@ namespace RGB.NET.Core
             LedMapping.Remove(ledId);
             return led;
         }
+
+        protected virtual object? GetLedCustomData(LedId ledId) => null;
 
         #region Enumerator
 

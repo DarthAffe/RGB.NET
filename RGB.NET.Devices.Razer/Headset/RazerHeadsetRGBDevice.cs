@@ -30,16 +30,12 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\Headset", $"{model}.xml"), null);
-
-            if (LedMapping.Count == 0)
-                for (int i = 0; i < _Defines.HEADSET_MAX_LEDS; i++)
-                    InitializeLed(LedId.Headset1 + i, new Rectangle(i * 11, 0, 10, 10));
+            for (int i = 0; i < _Defines.HEADSET_MAX_LEDS; i++)
+                AddLed(LedId.Headset1 + i, new Point(i * 11, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Headset1;
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Headset1;
 
         /// <inheritdoc />
         protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerHeadsetUpdateQueue(updateTrigger, DeviceInfo.DeviceId);

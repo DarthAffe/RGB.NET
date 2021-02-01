@@ -52,5 +52,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
+    <ProjectReference Include="..\RGB.NET.Layout\RGB.NET.Layout.csproj" />
   </ItemGroup>
 </Project>

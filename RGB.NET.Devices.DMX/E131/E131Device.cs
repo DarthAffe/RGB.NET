@@ -38,9 +38,7 @@ namespace RGB.NET.Devices.DMX.E131
         {
             int count = 0;
             foreach (LedId id in _ledMappings.Keys)
-                InitializeLed(id, new Rectangle((count++) * 10, 0, 10, 10));
-
-            //TODO DarthAffe 18.02.2018: Allow to load a layout.
+                AddLed(id, new Point((count++) * 10, 0), new Size(10, 10));
 
             if (Size == Size.Invalid)
             {
@@ -54,7 +52,8 @@ namespace RGB.NET.Devices.DMX.E131
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => new LedChannelMapping(_ledMappings[ledId]);
+        protected override object? GetLedCustomData(LedId ledId) => new LedChannelMapping(_ledMappings[ledId]);
+
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => _updateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));

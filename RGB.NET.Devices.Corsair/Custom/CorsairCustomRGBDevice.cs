@@ -42,15 +42,11 @@ namespace RGB.NET.Devices.Corsair
             {
                 LedId ledId = referenceId + i;
                 _idMapping.Add(ledId, DeviceInfo.ReferenceCorsairLed + i);
-                InitializeLed(ledId, new Rectangle(i * 10, 0, 10, 10));
+                AddLed(ledId, new Point(i * 10, 0), new Size(10, 10));
             }
-
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Corsair\Customs", $"{model}.xml"), null);
         }
-
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => _idMapping.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
+        
+        protected override object? GetLedCustomData(LedId ledId) => _idMapping.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
 
         protected virtual LedId GetReferenceLed(RGBDeviceType deviceType)
         {

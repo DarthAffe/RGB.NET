@@ -35,16 +35,13 @@ namespace RGB.NET.Devices.Msi
                 const string LED_STYLE = "Steady";
 
                 _MsiSDK.SetLedStyle(DeviceInfo.MsiDeviceType, i, LED_STYLE);
-                InitializeLed(LedId.Mouse1 + i, new Rectangle(i * 10, 0, 10, 10));
+                AddLed(LedId.Mouse1 + i, new Point(i * 10, 0), new Size(10, 10));
             }
-
-            //TODO DarthAffe 07.10.2017: We don't know the model, how to save layouts and images?
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\MSI\Mouses\{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
-        
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
+
         #endregion
     }
 }
