@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.DMX.E131;
 
@@ -17,7 +18,7 @@ namespace RGB.NET.Devices.DMX
     {
         #region Properties & Fields
 
-        private static DMXDeviceProvider _instance;
+        private static DMXDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="DMXDeviceProvider"/> instance.
         /// </summary>
@@ -27,20 +28,17 @@ namespace RGB.NET.Devices.DMX
         public bool IsInitialized { get; private set; }
 
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
-
-        /// <inheritdoc />
-        public bool HasExclusiveAccess => false;
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// Gets a list of all defined device-definitions.
         /// </summary>
-        public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new List<IDMXDeviceDefinition>();
+        public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new();
 
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for dmx devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -87,7 +85,7 @@ namespace RGB.NET.Devices.DMX
                         {
                             if (e131DMXDeviceDefinition.Leds.Count > 0)
                             {
-                                E131Device device = new E131Device(new E131DeviceInfo(e131DMXDeviceDefinition), e131DMXDeviceDefinition.Leds);
+                                E131Device device = new(new E131DeviceInfo(e131DMXDeviceDefinition), e131DMXDeviceDefinition.Leds);
                                 device.Initialize(UpdateTrigger);
                                 devices.Add(device);
                             }

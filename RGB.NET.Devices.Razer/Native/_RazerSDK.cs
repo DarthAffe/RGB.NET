@@ -18,11 +18,6 @@ namespace RGB.NET.Devices.Razer.Native
         private static IntPtr _dllHandle = IntPtr.Zero;
 
         /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        internal static string LoadedArchitecture { get; private set; }
-
-        /// <summary>
         /// Reloads the SDK.
         /// </summary>
         internal static void Reload()
@@ -78,16 +73,16 @@ namespace RGB.NET.Devices.Razer.Native
 
         #region Pointers
 
-        private static InitPointer _initPointer;
-        private static UnInitPointer _unInitPointer;
-        private static QueryDevicePointer _queryDevicePointer;
-        private static CreateEffectPointer _createEffectPointer;
-        private static CreateHeadsetEffectPointer _createHeadsetEffectPointer;
-        private static CreateChromaLinkEffectPointer _createChromaLinkEffectPointer;
-        private static CreateKeyboardEffectPointer _createKeyboardEffectPointer;
-        private static CreateMousepadEffectPointer _createMousepadEffectPointer;
-        private static SetEffectPointer _setEffectPointer;
-        private static DeleteEffectPointer _deleteEffectPointer;
+        private static InitPointer? _initPointer;
+        private static UnInitPointer? _unInitPointer;
+        private static QueryDevicePointer? _queryDevicePointer;
+        private static CreateEffectPointer? _createEffectPointer;
+        private static CreateHeadsetEffectPointer? _createHeadsetEffectPointer;
+        private static CreateChromaLinkEffectPointer? _createChromaLinkEffectPointer;
+        private static CreateKeyboardEffectPointer? _createKeyboardEffectPointer;
+        private static CreateMousepadEffectPointer? _createMousepadEffectPointer;
+        private static SetEffectPointer? _setEffectPointer;
+        private static DeleteEffectPointer? _deleteEffectPointer;
 
         #endregion
 
@@ -130,12 +125,12 @@ namespace RGB.NET.Devices.Razer.Native
         /// <summary>
         /// Razer-SDK: Initialize Chroma SDK.
         /// </summary>
-        internal static RazerError Init() => _initPointer();
+        internal static RazerError Init() => (_initPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke();
 
         /// <summary>
         /// Razer-SDK: UnInitialize Chroma SDK.
         /// </summary>
-        internal static RazerError UnInit() => _unInitPointer();
+        internal static RazerError UnInit() => (_unInitPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke();
 
         /// <summary>
         /// Razer-SDK: Query for device information. 
@@ -145,27 +140,27 @@ namespace RGB.NET.Devices.Razer.Native
             int structSize = Marshal.SizeOf(typeof(_DeviceInfo));
             IntPtr deviceInfoPtr = Marshal.AllocHGlobal(structSize);
 
-            RazerError error = _queryDevicePointer(deviceId, deviceInfoPtr);
+            RazerError error = (_queryDevicePointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(deviceId, deviceInfoPtr);
 
-            deviceInfo = (_DeviceInfo)Marshal.PtrToStructure(deviceInfoPtr, typeof(_DeviceInfo));
+            deviceInfo = (_DeviceInfo)Marshal.PtrToStructure(deviceInfoPtr, typeof(_DeviceInfo))!;
             Marshal.FreeHGlobal(deviceInfoPtr);
 
             return error;
         }
 
-        internal static RazerError CreateEffect(Guid deviceId, int effectType, IntPtr param, ref Guid effectId) => _createEffectPointer(deviceId, effectType, param, ref effectId);
+        internal static RazerError CreateEffect(Guid deviceId, int effectType, IntPtr param, ref Guid effectId) => (_createEffectPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(deviceId, effectType, param, ref effectId);
 
-        internal static RazerError CreateHeadsetEffect(int effectType, IntPtr param, ref Guid effectId) => _createHeadsetEffectPointer(effectType, param, ref effectId);
+        internal static RazerError CreateHeadsetEffect(int effectType, IntPtr param, ref Guid effectId) => (_createHeadsetEffectPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(effectType, param, ref effectId);
 
-        internal static RazerError CreateChromaLinkEffect(int effectType, IntPtr param, ref Guid effectId) => _createChromaLinkEffectPointer(effectType, param, ref effectId);
+        internal static RazerError CreateChromaLinkEffect(int effectType, IntPtr param, ref Guid effectId) => (_createChromaLinkEffectPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(effectType, param, ref effectId);
 
-        internal static RazerError CreateKeyboardEffect(int effectType, IntPtr param, ref Guid effectId) => _createKeyboardEffectPointer(effectType, param, ref effectId);
+        internal static RazerError CreateKeyboardEffect(int effectType, IntPtr param, ref Guid effectId) => (_createKeyboardEffectPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(effectType, param, ref effectId);
 
-        internal static RazerError CreateMousepadEffect(int effectType, IntPtr param, ref Guid effectId) => _createMousepadEffectPointer(effectType, param, ref effectId);
+        internal static RazerError CreateMousepadEffect(int effectType, IntPtr param, ref Guid effectId) => (_createMousepadEffectPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(effectType, param, ref effectId);
 
-        internal static RazerError SetEffect(Guid effectId) => _setEffectPointer(effectId);
+        internal static RazerError SetEffect(Guid effectId) => (_setEffectPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(effectId);
 
-        internal static RazerError DeleteEffect(Guid effectId) => _deleteEffectPointer(effectId);
+        internal static RazerError DeleteEffect(Guid effectId) => (_deleteEffectPointer ?? throw new RGBDeviceException("The Razer-SDK is not initialized.")).Invoke(effectId);
 
         // ReSharper restore EventExceptionNotDocumented
 

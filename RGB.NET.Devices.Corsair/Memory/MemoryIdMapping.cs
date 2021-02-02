@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Corsair
 {
     internal static class MemoryIdMapping
     {
-        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new Dictionary<LedId, CorsairLedId>
-        {
+        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new()
+                                                                           {
             { LedId.Invalid, CorsairLedId.Invalid },
             { LedId.DRAM1, CorsairLedId.DRAM1 },
             { LedId.DRAM2, CorsairLedId.DRAM2 },

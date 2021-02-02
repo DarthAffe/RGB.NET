@@ -152,7 +152,7 @@ namespace RGB.NET.Devices.Novation
         #region Methods
 
         /// <inheritdoc />
-        protected override ShortMessage CreateMessage(KeyValuePair<object, Color> data)
+        protected override ShortMessage? CreateMessage(KeyValuePair<object, Color> data)
         {
             (byte mode, byte id) = ((byte, byte))data.Key;
             if (mode == 0x00) return null;

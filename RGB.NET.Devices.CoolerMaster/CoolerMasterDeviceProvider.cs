@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
+using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.CoolerMaster.Helper;
 using RGB.NET.Devices.CoolerMaster.Native;
@@ -19,7 +19,7 @@ namespace RGB.NET.Devices.CoolerMaster
     {
         #region Properties & Fields
 
-        private static CoolerMasterDeviceProvider _instance;
+        private static CoolerMasterDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="CoolerMasterDeviceProvider"/> instance.
         /// </summary>
@@ -29,44 +29,27 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/CMSDK.dll" };
+        public static List<string> PossibleX86NativePaths { get; } = new() { "x86/CMSDK.dll" };
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/CMSDK.dll" };
+        public static List<string> PossibleX64NativePaths { get; } = new() { "x64/CMSDK.dll" };
 
         /// <inheritdoc />
         /// <summary>
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
         public bool IsInitialized { get; private set; }
-
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        public string LoadedArchitecture => _CoolerMasterSDK.LoadedArchitecture;
-
+        
         /// <inheritdoc />
-        /// <summary>
-        /// Gets whether the application has exclusive access to the SDK or not.
-        /// </summary>
-        public bool HasExclusiveAccess { get; private set; }
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
-
-        /// <summary>
-        /// Gets or sets a function to get the culture for a specific device.
-        /// </summary>
-        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for cooler master devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -95,7 +78,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
             try
             {
-                UpdateTrigger?.Stop();
+                UpdateTrigger.Stop();
 
                 _CoolerMasterSDK.Reload();
                 if (_CoolerMasterSDK.GetSDKVersion() <= 0) return false;
@@ -118,7 +101,7 @@ namespace RGB.NET.Devices.CoolerMaster
                             {
                                 case RGBDeviceType.Keyboard:
                                     CoolerMasterPhysicalKeyboardLayout physicalLayout = _CoolerMasterSDK.GetDeviceLayout(index);
-                                    device = new CoolerMasterKeyboardRGBDevice(new CoolerMasterKeyboardRGBDeviceInfo(index, physicalLayout, GetCulture()));
+                                    device = new CoolerMasterKeyboardRGBDevice(new CoolerMasterKeyboardRGBDeviceInfo(index, physicalLayout));
                                     break;
 
                                 case RGBDeviceType.Mouse:
@@ -142,7 +125,7 @@ namespace RGB.NET.Devices.CoolerMaster
                     catch { if (throwExceptions) throw; }
                 }
 
-                UpdateTrigger?.Start();
+                UpdateTrigger.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

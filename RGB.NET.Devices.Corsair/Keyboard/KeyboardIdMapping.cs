@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Corsair
 {
     internal static class KeyboardIdMapping
     {
-        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new Dictionary<LedId, CorsairLedId>
-        {
+        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new()
+                                                                           {
             { LedId.Invalid, CorsairLedId.Invalid },
             { LedId.Logo, CorsairLedId.Logo },
             { LedId.Keyboard_Escape, CorsairLedId.Escape },

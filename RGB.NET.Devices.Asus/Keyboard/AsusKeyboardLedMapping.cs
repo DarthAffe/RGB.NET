@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Asus
 {
     internal static class AsusKeyboardLedMapping
     {
-        public static readonly Dictionary<LedId, AsusLedId> MAPPING = new Dictionary<LedId, AsusLedId>
-        {
+        public static readonly Dictionary<LedId, AsusLedId> MAPPING = new()
+                                                                      {
             { LedId.Keyboard_Escape, AsusLedId.KEY_ESCAPE },
             { LedId.Keyboard_F1, AsusLedId.KEY_F1 },
             { LedId.Keyboard_F2, AsusLedId.KEY_F2 },

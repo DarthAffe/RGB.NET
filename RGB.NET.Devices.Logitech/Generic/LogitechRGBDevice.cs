@@ -22,7 +22,7 @@ namespace RGB.NET.Devices.Logitech
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected UpdateQueue UpdateQueue { get; set; }
+        protected UpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 

@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using RGB.NET.Devices.SteelSeries.API.Model;
 
 namespace RGB.NET.Devices.SteelSeries.API
@@ -55,10 +54,10 @@ namespace RGB.NET.Devices.SteelSeries.API
         #region Properties & Fields
         // ReSharper disable InconsistentNaming
 
-        private static readonly HttpClient _client = new HttpClient();
-        private static readonly Game _game = new Game(GAME_NAME, GAME_DISPLAYNAME);
-        private static readonly Event _event = new Event(_game, EVENT_NAME);
-        private static string _baseUrl;
+        private static readonly HttpClient _client = new();
+        private static readonly Game _game = new(GAME_NAME, GAME_DISPLAYNAME);
+        private static readonly Event _event = new(_game, EVENT_NAME);
+        private static string? _baseUrl;
 
         internal static bool IsInitialized => !string.IsNullOrWhiteSpace(_baseUrl);
 
@@ -74,7 +73,7 @@ namespace RGB.NET.Devices.SteelSeries.API
                 string corePropsPath = GetCorePropsPath();
                 if (!string.IsNullOrWhiteSpace(corePropsPath) && File.Exists(corePropsPath))
                 {
-                    CoreProps coreProps = JsonSerializer.Deserialize<CoreProps>(File.ReadAllText(corePropsPath));
+                    CoreProps? coreProps = JsonSerializer.Deserialize<CoreProps>(File.ReadAllText(corePropsPath));
                     _baseUrl = coreProps?.Address;
                     if (_baseUrl != null)
                     {
@@ -93,12 +92,12 @@ namespace RGB.NET.Devices.SteelSeries.API
             return IsInitialized;
         }
 
-        internal static void UpdateLeds(string device, Dictionary<string, int[]> data)
+        internal static void UpdateLeds(string device, IList<(string zone, int[] color)> data)
         {
             _event.Data.Clear();
             _event.Data.Add("value", device);
-            _event.Data.Add("colors", data.Values.ToList());
-            _event.Data.Add("zones", data.Keys.ToList());
+            _event.Data.Add("colors", data.Select(x => x.color).ToList());
+            _event.Data.Add("zones", data.Select(x => x.zone).ToList());
 
             TriggerEvent(_event);
         }

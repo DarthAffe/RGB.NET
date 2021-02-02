@@ -14,7 +14,7 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private readonly object _dataLock = new object();
+        private readonly object _dataLock = new();
         private readonly IDeviceUpdateTrigger _updateTrigger;
         private Dictionary<TIdentifier, TData>? _currentDataSet;
 

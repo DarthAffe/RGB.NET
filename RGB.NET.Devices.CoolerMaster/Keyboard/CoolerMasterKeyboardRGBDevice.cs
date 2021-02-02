@@ -27,13 +27,13 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            if (!CoolerMasterKeyboardLedMappings.Mapping.TryGetValue(DeviceInfo.DeviceIndex, out Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>> deviceMappings))
+            if (!CoolerMasterKeyboardLedMappings.Mapping.TryGetValue(DeviceInfo.DeviceIndex, out Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>? deviceMappings))
                 throw new RGBDeviceException($"Failed to find a CoolerMasterKeyboardLedMapping for device index {DeviceInfo.DeviceIndex}");
-            if (!deviceMappings.TryGetValue(DeviceInfo.PhysicalLayout, out Dictionary<LedId, (int row, int column)> mapping))
+            if (!deviceMappings.TryGetValue(DeviceInfo.PhysicalLayout, out Dictionary<LedId, (int row, int column)>? mapping))
                 throw new RGBDeviceException($"Failed to find a CoolerMasterKeyboardLedMapping for device index {DeviceInfo.DeviceIndex} with physical layout {DeviceInfo.PhysicalLayout}");
 
-            foreach (KeyValuePair<LedId, (int row, int column)> led in mapping)
-                AddLed(led.Key, new Point(led.Value.column * 19, led.Value.row * 19), new Size(19, 19));
+            foreach ((LedId ledId, (int row, int column)) in mapping)
+                AddLed(ledId, new Point(column * 19, row * 19), new Size(19, 19));
         }
 
         /// <inheritdoc />

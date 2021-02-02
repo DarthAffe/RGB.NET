@@ -32,7 +32,7 @@ namespace RGB.NET.Devices.DMX.E131
 
         /// <inheritdoc />
         public string Model { get; }
-        
+
         public object? LayoutMetadata { get; set; }
 
         /// <summary>
@@ -66,14 +66,16 @@ namespace RGB.NET.Devices.DMX.E131
             this.Model = deviceDefinition.Model;
             this.Hostname = deviceDefinition.Hostname;
             this.Port = deviceDefinition.Port;
-            this.CID = deviceDefinition.CID;
             this.Universe = deviceDefinition.Universe;
 
+            byte[]? cid = deviceDefinition.CID;
             if ((CID == null) || (CID.Length != CID_LENGTH))
             {
                 CID = new byte[CID_LENGTH];
                 new Random().NextBytes(CID);
             }
+
+            CID = cid!;
 
             DeviceName = $"{Manufacturer} {Model}";
         }

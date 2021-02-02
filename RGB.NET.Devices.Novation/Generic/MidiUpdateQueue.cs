@@ -47,9 +47,9 @@ namespace RGB.NET.Devices.Novation
         /// Sends the specified message to the device this queue is performing updates for.
         /// </summary>
         /// <param name="message">The message to send.</param>
-        protected virtual void SendMessage(ShortMessage message)
+        protected virtual void SendMessage(ShortMessage? message)
         {
-            if (message != null) 
+            if (message != null)
                 _outputDevice.SendShort(message.Message);
         }
 
@@ -59,7 +59,7 @@ namespace RGB.NET.Devices.Novation
         /// </summary>
         /// <param name="data">The data set to create the message from.</param>
         /// <returns>The message created out of the data set.</returns>
-        protected abstract ShortMessage CreateMessage(KeyValuePair<object, Color> data);
+        protected abstract ShortMessage? CreateMessage(KeyValuePair<object, Color> data);
 
         /// <inheritdoc />
         public override void Dispose()

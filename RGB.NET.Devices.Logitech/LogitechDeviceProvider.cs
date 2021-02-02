@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
+using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.HID;
 using RGB.NET.Devices.Logitech.Native;
@@ -19,7 +19,7 @@ namespace RGB.NET.Devices.Logitech
     {
         #region Properties & Fields
 
-        private static LogitechDeviceProvider _instance;
+        private static LogitechDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="LogitechDeviceProvider"/> instance.
         /// </summary>
@@ -29,40 +29,27 @@ namespace RGB.NET.Devices.Logitech
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/LogitechLedEnginesWrapper.dll" };
+        public static List<string> PossibleX86NativePaths { get; } = new() { "x86/LogitechLedEnginesWrapper.dll" };
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/LogitechLedEnginesWrapper.dll" };
+        public static List<string> PossibleX64NativePaths { get; } = new() { "x64/LogitechLedEnginesWrapper.dll" };
 
         /// <inheritdoc />
         public bool IsInitialized { get; private set; }
-
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        public string LoadedArchitecture => _LogitechGSDK.LoadedArchitecture;
-
+        
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
-
-        /// <inheritdoc />
-        public bool HasExclusiveAccess => false; // Exclusive access isn't possible for logitech devices.
-
-        /// <summary>
-        /// Gets or sets a function to get the culture for a specific device.
-        /// </summary>
-        public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for logitech devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         // ReSharper disable once CollectionNeverQueried.Local - for now this is just to make sure they're never collected
-        private readonly Dictionary<RGBDeviceType, LogitechZoneUpdateQueue> _zoneUpdateQueues = new Dictionary<RGBDeviceType, LogitechZoneUpdateQueue>();
+        private readonly Dictionary<RGBDeviceType, LogitechZoneUpdateQueue> _zoneUpdateQueues = new();
         private LogitechPerDeviceUpdateQueue _perDeviceUpdateQueue;
         private LogitechPerKeyUpdateQueue _perKeyUpdateQueue;
 
@@ -102,7 +89,7 @@ namespace RGB.NET.Devices.Logitech
 
             try
             {
-                UpdateTrigger?.Stop();
+                UpdateTrigger.Stop();
 
                 _LogitechGSDK.Reload();
                 if (!_LogitechGSDK.LogiLedInit()) return false;
@@ -116,10 +103,10 @@ namespace RGB.NET.Devices.Logitech
                 {
                     if (DeviceChecker.IsPerKeyDeviceConnected)
                     {
-                        (string model, RGBDeviceType deviceType, int _, int _, string imageLayout, string layoutPath) = DeviceChecker.PerKeyDeviceData;
+                        (string model, RGBDeviceType deviceType, int _, int _) = DeviceChecker.PerKeyDeviceData;
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
-                            ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, 0, imageLayout, layoutPath));
+                            ILogitechRGBDevice device = new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.PerKeyRGB, 0));
                             device.Initialize(_perKeyUpdateQueue);
                             devices.Add(device);
                         }
@@ -131,10 +118,10 @@ namespace RGB.NET.Devices.Logitech
                 {
                     if (DeviceChecker.IsPerDeviceDeviceConnected)
                     {
-                        (string model, RGBDeviceType deviceType, int _, int _, string imageLayout, string layoutPath) = DeviceChecker.PerDeviceDeviceData;
+                        (string model, RGBDeviceType deviceType, int _, int _) = DeviceChecker.PerDeviceDeviceData;
                         if (loadFilter.HasFlag(deviceType)) //TODO DarthAffe 07.12.2017: Check if it's worth to try another device if the one returned doesn't match the filter
                         {
-                            ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, 0, imageLayout, layoutPath));
+                            ILogitechRGBDevice device = new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, 0));
                             device.Initialize(_perDeviceUpdateQueue);
                             devices.Add(device);
                         }
@@ -146,13 +133,13 @@ namespace RGB.NET.Devices.Logitech
                 {
                     if (DeviceChecker.IsZoneDeviceConnected)
                     {
-                        foreach ((string model, RGBDeviceType deviceType, int _, int zones, string imageLayout, string layoutPath) in DeviceChecker.ZoneDeviceData)
+                        foreach ((string model, RGBDeviceType deviceType, int _, int zones) in DeviceChecker.ZoneDeviceData)
                             try
                             {
                                 if (loadFilter.HasFlag(deviceType))
                                 {
-                                    LogitechZoneUpdateQueue updateQueue = new LogitechZoneUpdateQueue(UpdateTrigger, deviceType);
-                                    ILogitechRGBDevice device = new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, zones, imageLayout, layoutPath));
+                                    LogitechZoneUpdateQueue updateQueue = new(UpdateTrigger, deviceType);
+                                    ILogitechRGBDevice device = new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(deviceType, model, LogitechDeviceCaps.DeviceRGB, zones));
                                     device.Initialize(updateQueue);
                                     devices.Add(device);
                                     _zoneUpdateQueues.Add(deviceType, updateQueue);
@@ -163,7 +150,7 @@ namespace RGB.NET.Devices.Logitech
                 }
                 catch { if (throwExceptions) throw; }
 
-                UpdateTrigger?.Start();
+                UpdateTrigger.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

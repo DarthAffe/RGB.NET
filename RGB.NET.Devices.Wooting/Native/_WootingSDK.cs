@@ -18,11 +18,6 @@ namespace RGB.NET.Devices.Wooting.Native
         private static IntPtr _dllHandle = IntPtr.Zero;
 
         /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        internal static string LoadedArchitecture { get; private set; }
-
-        /// <summary>
         /// Reloads the SDK.
         /// </summary>
         internal static void Reload()
@@ -37,10 +32,10 @@ namespace RGB.NET.Devices.Wooting.Native
 
             // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
             List<string> possiblePathList = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths;
-            string dllPath = possiblePathList.FirstOrDefault(File.Exists);
+            string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
             if (dllPath == null) throw new RGBDeviceException($"Can't find the Wooting-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
-            SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath)));
+            SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath))!);
 
             _dllHandle = LoadLibrary(dllPath);
 
@@ -79,12 +74,12 @@ namespace RGB.NET.Devices.Wooting.Native
 
         #region Pointers
 
-        private static GetDeviceInfoPointer _getDeviceInfoPointer;
-        private static KeyboardConnectedPointer _keyboardConnectedPointer;
-        private static ResetPointer _resetPointer;
-        private static ClosePointer _closePointer;
-        private static ArrayUpdateKeyboardPointer _arrayUpdateKeyboardPointer;
-        private static ArraySetSinglePointer _arraySetSinglePointer;
+        private static GetDeviceInfoPointer? _getDeviceInfoPointer;
+        private static KeyboardConnectedPointer? _keyboardConnectedPointer;
+        private static ResetPointer? _resetPointer;
+        private static ClosePointer? _closePointer;
+        private static ArrayUpdateKeyboardPointer? _arrayUpdateKeyboardPointer;
+        private static ArraySetSinglePointer? _arraySetSinglePointer;
 
         #endregion
 
@@ -110,12 +105,12 @@ namespace RGB.NET.Devices.Wooting.Native
 
         #endregion
 
-        internal static IntPtr GetDeviceInfo() => _getDeviceInfoPointer();
-        internal static bool KeyboardConnected() => _keyboardConnectedPointer();
-        internal static bool Reset() => _resetPointer();
-        internal static bool Close() => _closePointer();
-        internal static bool ArrayUpdateKeyboard() => _arrayUpdateKeyboardPointer();
-        internal static bool ArraySetSingle(byte row, byte column, byte red, byte green, byte blue) => _arraySetSinglePointer(row, column, red, green, blue);
+        internal static IntPtr GetDeviceInfo() => (_getDeviceInfoPointer ?? throw new RGBDeviceException("The Wooting-SDK is not initialized.")).Invoke();
+        internal static bool KeyboardConnected() => (_keyboardConnectedPointer ?? throw new RGBDeviceException("The Wooting-SDK is not initialized.")).Invoke();
+        internal static bool Reset() => (_resetPointer ?? throw new RGBDeviceException("The Wooting-SDK is not initialized.")).Invoke();
+        internal static bool Close() => (_closePointer ?? throw new RGBDeviceException("The Wooting-SDK is not initialized.")).Invoke();
+        internal static bool ArrayUpdateKeyboard() => (_arrayUpdateKeyboardPointer ?? throw new RGBDeviceException("The Wooting-SDK is not initialized.")).Invoke();
+        internal static bool ArraySetSingle(byte row, byte column, byte red, byte green, byte blue) => (_arraySetSinglePointer ?? throw new RGBDeviceException("The Wooting-SDK is not initialized.")).Invoke(row, column, red, green, blue);
 
         #endregion
     }

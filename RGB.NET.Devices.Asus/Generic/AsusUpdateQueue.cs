@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// The device to be updated.
         /// </summary>
-        protected IAuraSyncDevice Device { get; private set; }
+        protected IAuraSyncDevice? Device { get; private set; }
 
         #endregion
 
@@ -45,15 +45,16 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         protected override void Update(Dictionary<object, Color> dataSet)
         {
+            if (Device == null) return;
+
             try
             {
                 if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))
                 {
-                    foreach (KeyValuePair<object, Color> data in dataSet)
+                    foreach ((object key, Color value) in dataSet)
                     {
-                        AsusLedId index = (AsusLedId)data.Key;
-                        IAuraSyncKeyboard keyboard = (IAuraSyncKeyboard)Device;
-                        if (keyboard != null)
+                        AsusLedId index = (AsusLedId)key;
+                        if (Device is IAuraSyncKeyboard keyboard)
                         {
                             IAuraRgbLight light = index switch
                             {
@@ -72,7 +73,7 @@ namespace RGB.NET.Devices.Asus
                                     _ => light
                                 };
 
-                            (_, byte r, byte g, byte b) = data.Value.GetRGBBytes();
+                            (_, byte r, byte g, byte b) = value.GetRGBBytes();
                             light.Red = r;
                             light.Green = g;
                             light.Blue = b;
@@ -81,12 +82,12 @@ namespace RGB.NET.Devices.Asus
                 }
                 else
                 {
-                    foreach (KeyValuePair<object, Color> data in dataSet)
+                    foreach ((object key, Color value) in dataSet)
                     {
-                        int index = (int)data.Key;
+                        int index = (int)key;
                         IAuraRgbLight light = Device.Lights[index];
 
-                        (_, byte r, byte g, byte b) = data.Value.GetRGBBytes();
+                        (_, byte r, byte g, byte b) = value.GetRGBBytes();
                         light.Red = r;
                         light.Green = g;
                         light.Blue = b;

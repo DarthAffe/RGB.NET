@@ -131,7 +131,7 @@ namespace RGB.NET.Core
             DeviceUpdate();
 
             // Send LEDs to SDK
-            List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds)?.ToList() ?? new List<Led>();
+            List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds).ToList();
             foreach (Led ledToUpdate in ledsToUpdate)
                 ledToUpdate.Update();
 

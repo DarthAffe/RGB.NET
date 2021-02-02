@@ -34,16 +34,6 @@ namespace RGB.NET.Devices.Logitech
         /// </summary>
         public int Zones { get; }
 
-        /// <summary>
-        /// Gets the layout used to decide which images to load.
-        /// </summary>
-        internal string ImageLayout { get; }
-
-        /// <summary>
-        /// Gets the path/name of the layout-file.
-        /// </summary>
-        internal string LayoutPath { get; }
-
         #endregion
 
         #region Constructors
@@ -57,15 +47,12 @@ namespace RGB.NET.Devices.Logitech
         /// <param name="zones">The amount of zones the device is able to control.</param>
         /// <param name="imageLayout">The layout used to decide which images to load.</param>
         /// <param name="layoutPath">The path/name of the layout-file.</param>
-        internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps,
-                                       int zones, string imageLayout, string layoutPath)
+        internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps, int zones)
         {
             this.DeviceType = deviceType;
             this.Model = model;
             this.DeviceCaps = deviceCaps;
             this.Zones = zones;
-            this.ImageLayout = imageLayout;
-            this.LayoutPath = layoutPath;
 
             DeviceName = $"{Manufacturer} {Model}";
         }

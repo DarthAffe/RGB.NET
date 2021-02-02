@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.SteelSeries
 {
@@ -27,17 +26,7 @@ namespace RGB.NET.Devices.SteelSeries
         public object? LayoutMetadata { get; set; }
 
         public SteelSeriesDeviceType SteelSeriesDeviceType { get; }
-
-        /// <summary>
-        /// Gets the layout used to decide which images to load.
-        /// </summary>
-        internal string ImageLayout { get; }
-
-        /// <summary>
-        /// Gets the path/name of the layout-file.
-        /// </summary>
-        internal string LayoutPath { get; }
-
+        
         #endregion
 
         #region Constructors
@@ -50,13 +39,11 @@ namespace RGB.NET.Devices.SteelSeries
         /// <param name="deviceCaps">The lighting-capabilities of the device.</param>
         /// <param name="imageLayout">The layout used to decide which images to load.</param>
         /// <param name="layoutPath">The path/name of the layout-file.</param>
-        internal SteelSeriesRGBDeviceInfo(RGBDeviceType deviceType, string model, SteelSeriesDeviceType steelSeriesDeviceType, string imageLayout, string layoutPath)
+        internal SteelSeriesRGBDeviceInfo(RGBDeviceType deviceType, string model, SteelSeriesDeviceType steelSeriesDeviceType)
         {
             this.DeviceType = deviceType;
             this.Model = model;
             this.SteelSeriesDeviceType = steelSeriesDeviceType;
-            this.ImageLayout = imageLayout;
-            this.LayoutPath = layoutPath;
 
             DeviceName = $"{Manufacturer} {Model}";
         }

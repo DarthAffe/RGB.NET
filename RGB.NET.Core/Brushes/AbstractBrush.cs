@@ -35,7 +35,7 @@ namespace RGB.NET.Core
         public Rectangle RenderedRectangle { get; protected set; }
 
         /// <inheritdoc />
-        public Dictionary<BrushRenderTarget, Color> RenderedTargets { get; } = new Dictionary<BrushRenderTarget, Color>();
+        public Dictionary<BrushRenderTarget, Color> RenderedTargets { get; } = new();
 
         #endregion
 

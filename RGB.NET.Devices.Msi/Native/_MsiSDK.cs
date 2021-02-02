@@ -18,11 +18,6 @@ namespace RGB.NET.Devices.Msi.Native
         private static IntPtr _dllHandle = IntPtr.Zero;
 
         /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        internal static string LoadedArchitecture { get; private set; }
-
-        /// <summary>
         /// Reloads the SDK.
         /// </summary>
         internal static void Reload()
@@ -37,10 +32,10 @@ namespace RGB.NET.Devices.Msi.Native
 
             // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
             List<string> possiblePathList = Environment.Is64BitProcess ? MsiDeviceProvider.PossibleX64NativePaths : MsiDeviceProvider.PossibleX86NativePaths;
-            string dllPath = possiblePathList.FirstOrDefault(File.Exists);
+            string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
             if (dllPath == null) throw new RGBDeviceException($"Can't find the Msi-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
-            SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath)));
+            SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath))!);
 
             _dllHandle = LoadLibrary(dllPath);
 
@@ -87,20 +82,20 @@ namespace RGB.NET.Devices.Msi.Native
 
         #region Pointers
 
-        private static InitializePointer _initializePointer;
-        private static GetDeviceInfoPointer _getDeviceInfoPointer;
-        private static GetLedInfoPointer _getLedInfoPointer;
-        private static GetLedColorPointer _getLedColorPointer;
-        private static GetLedStylePointer _getLedStylePointer;
-        private static GetLedMaxBrightPointer _getLedMaxBrightPointer;
-        private static GetLedBrightPointer _getLedBrightPointer;
-        private static GetLedMaxSpeedPointer _getLedMaxSpeedPointer;
-        private static GetLedSpeedPointer _getLedSpeedPointer;
-        private static SetLedColorPointer _setLedColorPointer;
-        private static SetLedStylePointer _setLedStylePointer;
-        private static SetLedBrightPointer _setLedBrightPointer;
-        private static SetLedSpeedPointer _setLedSpeedPointer;
-        private static GetErrorMessagePointer _getErrorMessagePointer;
+        private static InitializePointer? _initializePointer;
+        private static GetDeviceInfoPointer? _getDeviceInfoPointer;
+        private static GetLedInfoPointer? _getLedInfoPointer;
+        private static GetLedColorPointer? _getLedColorPointer;
+        private static GetLedStylePointer? _getLedStylePointer;
+        private static GetLedMaxBrightPointer? _getLedMaxBrightPointer;
+        private static GetLedBrightPointer? _getLedBrightPointer;
+        private static GetLedMaxSpeedPointer? _getLedMaxSpeedPointer;
+        private static GetLedSpeedPointer? _getLedSpeedPointer;
+        private static SetLedColorPointer? _setLedColorPointer;
+        private static SetLedStylePointer? _setLedStylePointer;
+        private static SetLedBrightPointer? _setLedBrightPointer;
+        private static SetLedSpeedPointer? _setLedSpeedPointer;
+        private static GetErrorMessagePointer? _getErrorMessagePointer;
 
         #endregion
 
@@ -192,11 +187,11 @@ namespace RGB.NET.Devices.Msi.Native
 
         #endregion
 
-        internal static int Initialize() => _initializePointer();
+        internal static int Initialize() => (_initializePointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke();
         internal static int GetDeviceInfo(out string[] pDevType, out int[] pLedCount)
         {
             // HACK - SDK GetDeviceInfo returns a string[] for ledCount, so we'll parse that to int.
-            int result = _getDeviceInfoPointer(out pDevType, out string[] ledCount);
+            int result = (_getDeviceInfoPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(out pDevType, out string[] ledCount);
             pLedCount = new int[ledCount.Length];
 
             for (int i = 0; i < ledCount.Length; i++)
@@ -205,21 +200,21 @@ namespace RGB.NET.Devices.Msi.Native
             return result;
         }
 
-        internal static int GetLedInfo(string type, int index, out string pName, out string[] pLedStyles) => _getLedInfoPointer(type, index, out pName, out pLedStyles);
-        internal static int GetLedColor(string type, int index, out int r, out int g, out int b) => _getLedColorPointer(type, index, out r, out g, out b);
-        internal static int GetLedStyle(string type, int index, out string style) => _getLedStylePointer(type, index, out style);
-        internal static int GetLedMaxBright(string type, int index, out int maxLevel) => _getLedMaxBrightPointer(type, index, out maxLevel);
-        internal static int GetLedBright(string type, int index, out int currentLevel) => _getLedBrightPointer(type, index, out currentLevel);
-        internal static int GetLedMaxSpeed(string type, int index, out int maxSpeed) => _getLedMaxSpeedPointer(type, index, out maxSpeed);
-        internal static int GetLedSpeed(string type, int index, out int currentSpeed) => _getLedSpeedPointer(type, index, out currentSpeed);
-        internal static int SetLedColor(string type, int index, int r, int g, int b) => _setLedColorPointer(type, index, r, g, b);
-        internal static int SetLedStyle(string type, int index, string style) => _setLedStylePointer(type, index, style);
-        internal static int SetLedBright(string type, int index, int level) => _setLedBrightPointer(type, index, level);
-        internal static int SetLedSpeed(string type, int index, int speed) => _setLedSpeedPointer(type, index, speed);
+        internal static int GetLedInfo(string type, int index, out string pName, out string[] pLedStyles) => (_getLedInfoPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, out pName, out pLedStyles);
+        internal static int GetLedColor(string type, int index, out int r, out int g, out int b) => (_getLedColorPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, out r, out g, out b);
+        internal static int GetLedStyle(string type, int index, out string style) => (_getLedStylePointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, out style);
+        internal static int GetLedMaxBright(string type, int index, out int maxLevel) => (_getLedMaxBrightPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, out maxLevel);
+        internal static int GetLedBright(string type, int index, out int currentLevel) => (_getLedBrightPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, out currentLevel);
+        internal static int GetLedMaxSpeed(string type, int index, out int maxSpeed) => (_getLedMaxSpeedPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, out maxSpeed);
+        internal static int GetLedSpeed(string type, int index, out int currentSpeed) => (_getLedSpeedPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, out currentSpeed);
+        internal static int SetLedColor(string type, int index, int r, int g, int b) => (_setLedColorPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, r, g, b);
+        internal static int SetLedStyle(string type, int index, string style) => (_setLedStylePointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, style);
+        internal static int SetLedBright(string type, int index, int level) => (_setLedBrightPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, level);
+        internal static int SetLedSpeed(string type, int index, int speed) => (_setLedSpeedPointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(type, index, speed);
 
         internal static string GetErrorMessage(int errorCode)
         {
-            _getErrorMessagePointer(errorCode, out string description);
+            (_getErrorMessagePointer ?? throw new RGBDeviceException("The MSI-SDK is not initialized.")).Invoke(errorCode, out string description);
             return description;
         }
 

@@ -18,12 +18,12 @@ namespace RGB.NET.Devices.Corsair
         /// String containing version of SDK(like "1.0.0.1").
         /// Always contains valid value even if there was no CUE found.
         /// </summary>
-        public string SdkVersion { get; }
+        public string? SdkVersion { get; }
 
         /// <summary>
         /// String containing version of CUE(like "1.0.0.1") or NULL if CUE was not found.
         /// </summary>
-        public string ServerVersion { get; }
+        public string? ServerVersion { get; }
 
         /// <summary>
         /// Integer that specifies version of protocol that is implemented by current SDK.

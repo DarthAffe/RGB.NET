@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.Corsair
     {
         #region Properties & Fields
 
-        private readonly Dictionary<LedId, CorsairLedId> _idMapping = new Dictionary<LedId, CorsairLedId>();
+        private readonly Dictionary<LedId, CorsairLedId> _idMapping = new();
 
         #endregion
 

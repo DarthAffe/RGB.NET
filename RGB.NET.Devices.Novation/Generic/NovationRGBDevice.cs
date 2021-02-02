@@ -25,7 +25,7 @@ namespace RGB.NET.Devices.Novation
         /// The <see cref="MidiUpdateQueue"/> used to update this <see cref="NovationRGBDevice{TDeviceInfo}"/>.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected MidiUpdateQueue UpdateQueue { get; set; }
+        protected MidiUpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace RGB.NET.Devices.Novation
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
@@ -71,12 +71,12 @@ namespace RGB.NET.Devices.Novation
         protected abstract void InitializeLayout();
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <summary>
         /// Resets the <see cref="NovationRGBDevice{TDeviceInfo}"/> back to default.
         /// </summary>
-        public virtual void Reset() => UpdateQueue.Reset();
+        public virtual void Reset() => UpdateQueue?.Reset();
 
         /// <inheritdoc cref="IDisposable.Dispose" />
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />

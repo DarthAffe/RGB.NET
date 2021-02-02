@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.SteelSeries.API;
 using RGB.NET.Devices.SteelSeries.HID;
@@ -15,7 +16,7 @@ namespace RGB.NET.Devices.SteelSeries
     {
         #region Properties & Fields
 
-        private static SteelSeriesDeviceProvider _instance;
+        private static SteelSeriesDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="SteelSeriesDeviceProvider"/> instance.
         /// </summary>
@@ -28,13 +29,7 @@ namespace RGB.NET.Devices.SteelSeries
         public bool IsInitialized { get; private set; }
 
         /// <inheritdoc />
-        /// <summary>
-        /// Gets whether the application has exclusive access to the SDK or not.
-        /// </summary>
-        public bool HasExclusiveAccess => false;
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// The <see cref="SteelSeriesDeviceUpdateTrigger"/> used to trigger the updates for SteelSeries devices. 
@@ -68,7 +63,7 @@ namespace RGB.NET.Devices.SteelSeries
             {
                 IsInitialized = false;
 
-                UpdateTrigger?.Stop();
+                UpdateTrigger.Stop();
 
                 if (!SteelSeriesSDK.IsInitialized)
                     SteelSeriesSDK.Initialize();
@@ -78,17 +73,18 @@ namespace RGB.NET.Devices.SteelSeries
 
                 try
                 {
-                    foreach ((string model, RGBDeviceType deviceType, int _, SteelSeriesDeviceType steelSeriesDeviceType, string imageLayout, string layoutPath, Dictionary<LedId, SteelSeriesLedId> ledMapping) in DeviceChecker.ConnectedDevices)
+                    foreach ((string model, RGBDeviceType deviceType, int _, SteelSeriesDeviceType steelSeriesDeviceType, Dictionary<LedId, SteelSeriesLedId> ledMapping) in DeviceChecker.ConnectedDevices)
                     {
-                        ISteelSeriesRGBDevice device = new SteelSeriesRGBDevice(new SteelSeriesRGBDeviceInfo(deviceType, model, steelSeriesDeviceType, imageLayout, layoutPath));
-                        SteelSeriesDeviceUpdateQueue updateQueue = new SteelSeriesDeviceUpdateQueue(UpdateTrigger, steelSeriesDeviceType.GetAPIName());
+                        ISteelSeriesRGBDevice device = new SteelSeriesRGBDevice(new SteelSeriesRGBDeviceInfo(deviceType, model, steelSeriesDeviceType));
+                        string apiName = steelSeriesDeviceType.GetAPIName() ?? throw new RGBDeviceException($"Missing API-name for device {model}");
+                        SteelSeriesDeviceUpdateQueue updateQueue = new(UpdateTrigger, apiName);
                         device.Initialize(updateQueue, ledMapping);
                         devices.Add(device);
                     }
                 }
                 catch { if (throwExceptions) throw; }
 
-                UpdateTrigger?.Start();
+                UpdateTrigger.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;

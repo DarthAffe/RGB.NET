@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Corsair
 {
     internal static class HeadsetIdMapping
     {
-        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new Dictionary<LedId, CorsairLedId>
-        {
+        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new()
+                                                                           {
             { LedId.Headset1, CorsairLedId.LeftLogo },
             { LedId.Headset2, CorsairLedId.RightLogo },
         };

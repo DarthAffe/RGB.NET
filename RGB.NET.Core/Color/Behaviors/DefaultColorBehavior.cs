@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Color" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
-        public virtual bool Equals(Color color, object obj)
+        public virtual bool Equals(Color color, object? obj)
         {
             if (!(obj is Color)) return false;
 

@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.SteelSeries
     {
         #region Properties & Fields
 
-        private Dictionary<LedId, SteelSeriesLedId> _ledMapping;
+        private Dictionary<LedId, SteelSeriesLedId> _ledMapping = new();
 
         /// <inheritdoc />
         /// <summary>
@@ -25,7 +25,7 @@ namespace RGB.NET.Devices.SteelSeries
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected UpdateQueue UpdateQueue { get; set; }
+        protected UpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace RGB.NET.Devices.SteelSeries
         protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <inheritdoc />
         public override void Dispose()

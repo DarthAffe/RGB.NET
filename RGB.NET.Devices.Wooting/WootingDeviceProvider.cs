@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
@@ -18,7 +19,7 @@ namespace RGB.NET.Devices.Wooting
     {
         #region Properties & Fields
 
-        private static WootingDeviceProvider _instance;
+        private static WootingDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="WootingDeviceProvider"/> instance.
         /// </summary>
@@ -28,13 +29,13 @@ namespace RGB.NET.Devices.Wooting
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/wooting-rgb-sdk.dll" };
+        public static List<string> PossibleX86NativePaths { get; } = new() { "x86/wooting-rgb-sdk.dll" };
 
         /// <summary>
         /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
         /// The first match will be used.
         /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/wooting-rgb-sdk64.dll" };
+        public static List<string> PossibleX64NativePaths { get; } = new() { "x64/wooting-rgb-sdk64.dll" };
 
         /// <inheritdoc />
         /// <summary>
@@ -42,24 +43,13 @@ namespace RGB.NET.Devices.Wooting
         /// </summary>
         public bool IsInitialized { get; private set; }
 
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        public string LoadedArchitecture => _WootingSDK.LoadedArchitecture;
-
         /// <inheritdoc />
-        /// <summary>
-        /// Gets whether the application has exclusive access to the SDK or not.
-        /// </summary>
-        public bool HasExclusiveAccess => false;
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for cooler master devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -84,45 +74,33 @@ namespace RGB.NET.Devices.Wooting
 
         /// <inheritdoc />
         /// <exception cref="RGBDeviceException">Thrown if the SDK failed to initialize</exception>
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false,
-                               bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
         {
             IsInitialized = false;
 
             try
             {
-                UpdateTrigger?.Stop();
+                UpdateTrigger.Stop();
 
                 _WootingSDK.Reload();
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
                 if (_WootingSDK.KeyboardConnected())
                 {
-                    _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo));
-                    IWootingRGBDevice device;
-                    // TODO: Find an accurate way to determine physical and logical layouts
-                    if (nativeDeviceInfo.Model == "Wooting two")
+                    _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
+                    IWootingRGBDevice device = nativeDeviceInfo.Model switch
                     {
-                        device = new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo,
-                                                                                               WootingPhysicalKeyboardLayout.US,
-                                                                                               CultureHelper.GetCurrentCulture()));
-                    }
-                    else if (nativeDeviceInfo.Model == "Wooting one")
-                    {
-                        device = new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne,
-                                                                                               WootingPhysicalKeyboardLayout.US,
-                                                                                               CultureHelper.GetCurrentCulture()));
-                    }
-                    else
-                    {
-                        throw new RGBDeviceException("No supported Wooting keyboard connected");
-                    }
+                        // TODO: Find an accurate way to determine physical and logical layouts
+                        "Wooting two" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo, WootingPhysicalKeyboardLayout.US)),
+                        "Wooting one" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne, WootingPhysicalKeyboardLayout.US)),
+                        _ => throw new RGBDeviceException("No supported Wooting keyboard connected")
+                    };
 
                     device.Initialize(UpdateTrigger);
                     devices.Add(device);
                 }
 
-                UpdateTrigger?.Start();
+                UpdateTrigger.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;
@@ -143,7 +121,7 @@ namespace RGB.NET.Devices.Wooting
         /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
 
             try { _WootingSDK.Close(); }

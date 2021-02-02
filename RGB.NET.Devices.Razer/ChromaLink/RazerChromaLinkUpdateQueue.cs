@@ -34,7 +34,8 @@ namespace RGB.NET.Devices.Razer
             foreach (KeyValuePair<object, Color> data in dataSet)
                 colors[(int)data.Key] = new _Color(data.Value);
 
-            _ChromaLinkCustomEffect effectParams = new _ChromaLinkCustomEffect { Color = colors };
+            _ChromaLinkCustomEffect effectParams = new()
+                                                   { Color = colors };
 
             IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
             Marshal.StructureToPtr(effectParams, ptr, false);

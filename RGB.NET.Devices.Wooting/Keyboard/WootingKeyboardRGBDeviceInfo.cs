@@ -18,11 +18,6 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// </summary>
         public WootingPhysicalKeyboardLayout PhysicalLayout { get; }
 
-        /// <summary>
-        /// Gets the <see cref="WootingLogicalKeyboardLayout"/> of the <see cref="WootingKeyboardRGBDevice"/>.
-        /// </summary>
-        public WootingLogicalKeyboardLayout LogicalLayout { get; private set; }
-
         #endregion
 
         #region Constructors
@@ -33,29 +28,10 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// </summary>
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
         /// <param name="physicalKeyboardLayout">The <see cref="T:RGB.NET.Devices.Wooting.WootingPhysicalKeyboardLayout" /> of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
-        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using</param>
-        internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex, WootingPhysicalKeyboardLayout physicalKeyboardLayout,
-                                              CultureInfo culture)
+        internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex, WootingPhysicalKeyboardLayout physicalKeyboardLayout)
             : base(RGBDeviceType.Keyboard, deviceIndex)
         {
             this.PhysicalLayout = physicalKeyboardLayout;
-
-            DetermineLogicalLayout(culture.KeyboardLayoutId);
-        }
-
-        private void DetermineLogicalLayout(int keyboardLayoutId)
-        {
-            switch (keyboardLayoutId)
-            {
-                // TODO SpoinkyNL 15-12-2019: There doesn't seem to be an accurate way to determine this, perhaps it should be a configurable thing..
-                // I'm using US International and it's reporting nl-NL's 1043. Also you can after all just swap your keycaps
-                default:
-                    if (PhysicalLayout == WootingPhysicalKeyboardLayout.US)
-                        LogicalLayout = WootingLogicalKeyboardLayout.US;
-                    else
-                        LogicalLayout = WootingLogicalKeyboardLayout.UK;
-                    break;
-            }
         }
 
         #endregion

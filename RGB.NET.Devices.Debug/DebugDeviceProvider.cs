@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Layout;
 
@@ -17,7 +18,7 @@ namespace RGB.NET.Devices.Debug
     {
         #region Properties & Fields
 
-        private static DebugDeviceProvider _instance;
+        private static DebugDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="DebugDeviceProvider"/> instance.
         /// </summary>
@@ -27,10 +28,9 @@ namespace RGB.NET.Devices.Debug
         public bool IsInitialized { get; private set; }
 
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
-        private List<(IDeviceLayout layout, string imageLayout, Action<IEnumerable<Led>>? updateLedsAction)> _fakeDeviceDefinitions
-            = new List<(IDeviceLayout layout, string imageLayout, Action<IEnumerable<Led>>? updateLedsAction)>();
+        private List<(IDeviceLayout layout, string imageLayout, Action<IEnumerable<Led>>? updateLedsAction)> _fakeDeviceDefinitions = new();
 
         #endregion
 
@@ -70,10 +70,10 @@ namespace RGB.NET.Devices.Debug
             IsInitialized = false;
             try
             {
-                List<IRGBDevice> devices = new List<IRGBDevice>();
+                List<IRGBDevice> devices = new();
                 foreach ((IDeviceLayout layout, string imageLayout, Action<IEnumerable<Led>>? updateLedsAction) in _fakeDeviceDefinitions)
                 {
-                    DebugRGBDevice device = new DebugRGBDevice(layout, updateLedsAction);
+                    DebugRGBDevice device = new(layout, updateLedsAction);
                     devices.Add(device);
                 }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Helper;
 
@@ -47,7 +46,7 @@ namespace RGB.NET.Devices.Wooting.Generic
             this.DeviceType = deviceType;
             this.DeviceIndex = deviceIndex;
 
-            Model = deviceIndex.GetDescription();
+            Model = deviceIndex.GetDescription() ?? "Unknown";
             DeviceName = $"{Manufacturer} {Model}";
         }
 

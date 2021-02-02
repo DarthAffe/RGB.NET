@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using RGB.NET.Core;
-using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
@@ -27,13 +24,13 @@ namespace RGB.NET.Devices.Corsair
         /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected Dictionary<CorsairLedId, Led> InternalLedMapping { get; } = new Dictionary<CorsairLedId, Led>();
+        protected Dictionary<CorsairLedId, Led> InternalLedMapping { get; } = new();
 
         /// <summary>
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected CorsairDeviceUpdateQueue DeviceUpdateQueue { get; set; }
+        protected CorsairDeviceUpdateQueue? DeviceUpdateQueue { get; set; }
 
         #endregion
 
@@ -45,7 +42,7 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="ledId">The <see cref="CorsairLedId"/> of the <see cref="Led"/> to get.</param>
         /// <returns>The <see cref="Led"/> with the specified <see cref="CorsairLedId"/> or null if no <see cref="Led"/> is found.</returns>
         // ReSharper disable once MemberCanBePrivate.Global
-        public Led this[CorsairLedId ledId] => InternalLedMapping.TryGetValue(ledId, out Led led) ? led : null;
+        public Led? this[CorsairLedId ledId] => InternalLedMapping.TryGetValue(ledId, out Led? led) ? led : null;
 
         #endregion
 
@@ -75,14 +72,13 @@ namespace RGB.NET.Devices.Corsair
 
             foreach (Led led in LedMapping.Values)
             {
-                CorsairLedId ledId = (CorsairLedId)led.CustomData;
-                if (ledId != CorsairLedId.Invalid)
+                if (led.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))
                     InternalLedMapping.Add(ledId, led);
             }
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
         }
@@ -94,7 +90,7 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-            => DeviceUpdateQueue.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))));
+            => DeviceUpdateQueue?.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))));
 
         /// <inheritdoc />
         public override void Dispose()

@@ -36,7 +36,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         /// Gets or sets the name used by this device.
         /// This allows to use {0} as a placeholder for a incrementing number if multiple devices are created.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
             foreach ((int channel, int ledCount) in channels)
             {
                 string name = string.Format(Name ?? $"NodeMCU WS2812 WIFI ({Hostname}) [{{0}}]", ++counter);
-                NodeMCUWS2812USBDevice device = new NodeMCUWS2812USBDevice(new NodeMCUWS2812USBDeviceInfo(name), queue, channel);
+                NodeMCUWS2812USBDevice device = new(new NodeMCUWS2812USBDeviceInfo(name), queue, channel);
                 device.Initialize(ledCount);
                 yield return device;
             }

@@ -20,11 +20,11 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
 
         private readonly string _hostname;
 
-        private HttpClient _httpClient = new HttpClient();
-        private UdpClient _udpClient;
+        private HttpClient _httpClient = new();
+        private UdpClient? _udpClient;
 
-        private readonly Dictionary<int, byte[]> _dataBuffer = new Dictionary<int, byte[]>();
-        private readonly Dictionary<int, byte> _sequenceNumbers = new Dictionary<int, byte>();
+        private readonly Dictionary<int, byte[]> _dataBuffer = new();
+        private readonly Dictionary<int, byte> _sequenceNumbers = new();
 
         private readonly Action<byte[]> _sendDataAction;
 
@@ -69,7 +69,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         #region Methods
 
         /// <inheritdoc />
-        protected override void OnStartup(object sender, CustomUpdateData customData)
+        protected override void OnStartup(object? sender, CustomUpdateData customData)
         {
             base.OnStartup(sender, customData);
 
@@ -90,7 +90,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         private void SendHttp(byte[] buffer)
         {
             string data = Convert.ToBase64String(buffer);
-            lock (_httpClient) _httpClient?.PostAsync(GetUrl("update"), new StringContent(data, Encoding.ASCII)).Wait();
+            lock (_httpClient) _httpClient.PostAsync(GetUrl("update"), new StringContent(data, Encoding.ASCII)).Wait();
         }
 
         private void SendUdp(byte[] buffer)
@@ -149,7 +149,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         private void EnableUdp(int port)
         {
             _httpClient.PostAsync(GetUrl("enableUDP"), new StringContent(port.ToString(), Encoding.UTF8, "application/json")).Result.Content.ReadAsStringAsync().Wait();
-            _udpClient.Connect(_hostname, port);
+            _udpClient?.Connect(_hostname, port);
         }
 
         private byte GetSequenceNumber(int channel)
@@ -166,14 +166,11 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
             {
                 base.Dispose();
 
-#if NETSTANDARD
                 _udpClient?.Dispose();
-#endif
                 _udpClient = null;
 
                 ResetDevice();
                 _httpClient.Dispose();
-                _httpClient = null;
             }
         }
 

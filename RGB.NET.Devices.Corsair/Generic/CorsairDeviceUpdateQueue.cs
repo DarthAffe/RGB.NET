@@ -40,11 +40,11 @@ namespace RGB.NET.Devices.Corsair
         {
             int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
             IntPtr ptr = Marshal.AllocHGlobal(structSize * dataSet.Count);
-            IntPtr addPtr = new IntPtr(ptr.ToInt64());
+            IntPtr addPtr = new(ptr.ToInt64());
             foreach (KeyValuePair<object, Color> data in dataSet)
             {
-                _CorsairLedColor color = new _CorsairLedColor
-                {
+                _CorsairLedColor color = new()
+                                         {
                     ledId = (int)data.Key,
                     r = data.Value.GetR(),
                     g = data.Value.GetG(),

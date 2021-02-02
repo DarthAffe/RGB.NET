@@ -24,7 +24,7 @@ namespace RGB.NET.Devices.Asus
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected AsusUpdateQueue UpdateQueue { get; set; }
+        protected AsusUpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.Asus
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
@@ -66,8 +66,8 @@ namespace RGB.NET.Devices.Asus
         protected abstract void InitializeLayout();
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
-        
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+
         /// <inheritdoc />
         public override void Dispose()
         {

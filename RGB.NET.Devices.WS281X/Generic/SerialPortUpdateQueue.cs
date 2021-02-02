@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO.Ports;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X
@@ -46,7 +45,7 @@ namespace RGB.NET.Devices.WS281X
         #region Methods
 
         /// <inheritdoc />
-        protected override void OnStartup(object sender, CustomUpdateData customData)
+        protected override void OnStartup(object? sender, CustomUpdateData customData)
         {
             base.OnStartup(sender, customData);
 

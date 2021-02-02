@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// </summary>
         // ReSharper disable once InconsistentNaming
         public static readonly Dictionary<CoolerMasterDevicesIndexes, Dictionary<LedId, (int row, int column)>> Mapping =
-            new Dictionary<CoolerMasterDevicesIndexes, Dictionary<LedId, (int row, int column)>>
+            new()
             {
                 { CoolerMasterDevicesIndexes.MasterMouse_L, new Dictionary<LedId, (int row, int column)>
                   {

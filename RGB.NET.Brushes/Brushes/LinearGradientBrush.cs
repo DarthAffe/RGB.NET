@@ -20,7 +20,7 @@ namespace RGB.NET.Brushes
     {
         #region Properties & Fields
 
-        private Point _startPoint = new Point(0, 0.5);
+        private Point _startPoint = new(0, 0.5);
         /// <summary>
         /// Gets or sets the start <see cref="Point"/> (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="LinearGradientBrush"/>. (default: 0.0, 0.5)
         /// </summary>
@@ -30,7 +30,7 @@ namespace RGB.NET.Brushes
             set => SetProperty(ref _startPoint, value);
         }
 
-        private Point _endPoint = new Point(1, 0.5);
+        private Point _endPoint = new(1, 0.5);
         /// <summary>
         /// Gets or sets the end <see cref="Point"/>  (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="LinearGradientBrush"/>. (default: 1.0, 0.5)
         /// </summary>
@@ -40,9 +40,9 @@ namespace RGB.NET.Brushes
             set => SetProperty(ref _endPoint, value);
         }
 
-        private IGradient _gradient;
+        private IGradient? _gradient;
         /// <inheritdoc />
-        public IGradient Gradient
+        public IGradient? Gradient
         {
             get => _gradient;
             set => SetProperty(ref _gradient, value);
@@ -97,8 +97,8 @@ namespace RGB.NET.Brushes
         {
             if (Gradient == null) return Color.Transparent;
 
-            Point startPoint = new Point(StartPoint.X * rectangle.Size.Width, StartPoint.Y * rectangle.Size.Height);
-            Point endPoint = new Point(EndPoint.X * rectangle.Size.Width, EndPoint.Y * rectangle.Size.Height);
+            Point startPoint = new(StartPoint.X * rectangle.Size.Width, StartPoint.Y * rectangle.Size.Height);
+            Point endPoint = new(EndPoint.X * rectangle.Size.Width, EndPoint.Y * rectangle.Size.Height);
 
             double offset = GradientHelper.CalculateLinearGradientOffset(startPoint, endPoint, renderTarget.Point);
             return Gradient.GetColor(offset);

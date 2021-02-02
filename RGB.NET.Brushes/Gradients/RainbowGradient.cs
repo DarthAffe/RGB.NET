@@ -41,7 +41,7 @@ namespace RGB.NET.Brushes.Gradients
         #region Events
 
         /// <inheritdoc />
-        public event EventHandler GradientChanged;
+        public event EventHandler? GradientChanged;
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace RGB.NET.Brushes.Gradients
             this.StartHue = startHue;
             this.EndHue = endHue;
 
-            PropertyChanged += (sender, args) => OnGradientChanged();
+            PropertyChanged += (_, _) => OnGradientChanged();
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace RGB.NET.Brushes.Gradients
 
             StartHue += offset;
             EndHue += offset;
-            
+
             while ((StartHue > 360) && (EndHue > 360))
             {
                 StartHue -= 360;
@@ -101,7 +101,7 @@ namespace RGB.NET.Brushes.Gradients
         /// <summary>
         /// Should be called to indicate that the gradient was changed.
         /// </summary>
-        protected void OnGradientChanged() => GradientChanged?.Invoke(this, null);
+        protected void OnGradientChanged() => GradientChanged?.Invoke(this, EventArgs.Empty);
 
         #endregion
     }

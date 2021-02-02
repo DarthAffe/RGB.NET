@@ -17,7 +17,7 @@ namespace RGB.NET.Devices.DMX.E131
 
         private readonly Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>> _ledMappings;
 
-        private E131UpdateQueue _updateQueue;
+        private E131UpdateQueue? _updateQueue;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace RGB.NET.Devices.DMX.E131
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
@@ -56,7 +56,7 @@ namespace RGB.NET.Devices.DMX.E131
 
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => _updateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => _updateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <inheritdoc />
         public override void Dispose()

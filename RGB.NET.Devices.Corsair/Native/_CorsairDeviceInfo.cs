@@ -47,6 +47,6 @@ namespace RGB.NET.Devices.Corsair.Native
         /// <summary>
         /// CUE-SDK: structure that describes channels of the DIY-devices
         /// </summary>
-        internal _CorsairChannelsInfo channels;
+        internal _CorsairChannelsInfo? channels;
     }
 }

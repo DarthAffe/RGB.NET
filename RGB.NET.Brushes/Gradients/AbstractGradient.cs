@@ -23,7 +23,7 @@ namespace RGB.NET.Brushes.Gradients
         /// <summary>
         /// Gets a list of the stops used by this <see cref="AbstractGradient"/>.
         /// </summary>
-        public ObservableCollection<GradientStop> GradientStops { get; } = new ObservableCollection<GradientStop>();
+        public ObservableCollection<GradientStop> GradientStops { get; } = new();
 
         private bool _wrapGradient;
         /// <summary>
@@ -42,7 +42,7 @@ namespace RGB.NET.Brushes.Gradients
         #region Events
 
         /// <inheritdoc />
-        public event EventHandler GradientChanged;
+        public event EventHandler? GradientChanged;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace RGB.NET.Brushes.Gradients
         protected AbstractGradient()
         {
             GradientStops.CollectionChanged += GradientCollectionChanged;
-            PropertyChanged += (sender, args) => OnGradientChanged();
+            PropertyChanged += (_, _) => OnGradientChanged();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace RGB.NET.Brushes.Gradients
         protected AbstractGradient(params GradientStop[] gradientStops)
         {
             GradientStops.CollectionChanged += GradientCollectionChanged;
-            PropertyChanged += (sender, args) => OnGradientChanged();
+            PropertyChanged += (_, _) => OnGradientChanged();
 
             foreach (GradientStop gradientStop in gradientStops)
                 GradientStops.Add(gradientStop);
@@ -80,7 +80,7 @@ namespace RGB.NET.Brushes.Gradients
             this.WrapGradient = wrapGradient;
 
             GradientStops.CollectionChanged += GradientCollectionChanged;
-            PropertyChanged += (sender, args) => OnGradientChanged();
+            PropertyChanged += (_, _) => OnGradientChanged();
 
             foreach (GradientStop gradientStop in gradientStops)
                 GradientStops.Add(gradientStop);
@@ -128,9 +128,9 @@ namespace RGB.NET.Brushes.Gradients
         /// <summary>
         /// Should be called to indicate that the gradient was changed.
         /// </summary>
-        protected void OnGradientChanged() => GradientChanged?.Invoke(this, null);
+        protected void OnGradientChanged() => GradientChanged?.Invoke(this, EventArgs.Empty);
 
-        private void GradientCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void GradientCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems != null)
                 foreach (GradientStop gradientStop in e.OldItems)
@@ -143,7 +143,7 @@ namespace RGB.NET.Brushes.Gradients
             OnGradientChanged();
         }
 
-        private void GradientStopChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs) => OnGradientChanged();
+        private void GradientStopChanged(object? sender, PropertyChangedEventArgs propertyChangedEventArgs) => OnGradientChanged();
 
         #endregion
     }

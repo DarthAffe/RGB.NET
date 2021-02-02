@@ -35,9 +35,9 @@ namespace RGB.NET.Devices.SteelSeries
 
         #region Methods
 
-        protected override void OnUpdate(object sender, CustomUpdateData customData)
+        protected override void OnUpdate(object? sender, CustomUpdateData customData)
         {
-            if ((customData != null) && (customData["refresh"] as bool? ?? false))
+            if (customData["refresh"] as bool? ?? false)
                 SteelSeriesSDK.SendHeartbeat();
             else
                 base.OnUpdate(sender, customData);
@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.SteelSeries
 
         /// <inheritdoc />
         protected override void Update(Dictionary<object, Color> dataSet)
-            => SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToDictionary(x => ((SteelSeriesLedId)x.Key).GetAPIName(), x => x.Value.ToIntArray()));
+            => SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.Select(x => (((SteelSeriesLedId)x.Key).GetAPIName(), x.Value.ToIntArray())).Where(x => x.Item1 != null).ToList()!);
 
         #endregion
     }

@@ -12,13 +12,13 @@ namespace RGB.NET.Devices.Logitech
     {
         #region Constants
 
-        private static readonly Dictionary<RGBDeviceType, LedId> BASE_LED_MAPPING = new Dictionary<RGBDeviceType, LedId>
+        private static readonly Dictionary<RGBDeviceType, LedId> BASE_LED_MAPPING = new()
         {
-            {RGBDeviceType.Keyboard, LedId.Keyboard_Programmable1},
-            {RGBDeviceType.Mouse, LedId.Mouse1},
-            {RGBDeviceType.Headset, LedId.Headset1},
-            {RGBDeviceType.Mousepad, LedId.Mousepad1},
-            {RGBDeviceType.Speaker, LedId.Speaker1}
+            { RGBDeviceType.Keyboard, LedId.Keyboard_Programmable1 },
+            { RGBDeviceType.Mouse, LedId.Mouse1 },
+            { RGBDeviceType.Headset, LedId.Headset1 },
+            { RGBDeviceType.Mousepad, LedId.Mousepad1 },
+            { RGBDeviceType.Speaker, LedId.Speaker1 }
         };
 
         #endregion
@@ -59,7 +59,7 @@ namespace RGB.NET.Devices.Logitech
         protected override object? GetLedCustomData(LedId ledId) => (int)(ledId - _baseLedId);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         #endregion
     }

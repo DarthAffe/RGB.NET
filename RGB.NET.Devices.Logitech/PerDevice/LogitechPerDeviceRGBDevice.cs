@@ -33,10 +33,10 @@ namespace RGB.NET.Devices.Logitech
             AddLed(LedId.Custom1, new Point(0, 0), new Size(10, 10));
         }
         /// <inheritdoc />
-        protected override object? GetLedCustomData(LedId ledId) => (ledId, LogitechLedId.DEVICE);
+        protected override object GetLedCustomData(LedId ledId) => (ledId, LogitechLedId.DEVICE);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0).Take(1));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0).Take(1));
 
         #endregion
     }
