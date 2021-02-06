@@ -57,7 +57,7 @@ namespace RGB.NET.Devices.SteelSeries
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             try
             {
@@ -98,23 +98,17 @@ namespace RGB.NET.Devices.SteelSeries
 
             return true;
         }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            if (IsInitialized)
-                try
-                {
-                    SteelSeriesSDK.ResetLeds();
-                }
-                catch {/* shit happens */}
-        }
-
+        
         /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             try { SteelSeriesSDK.Dispose(); }
             catch { /* shit happens */ }

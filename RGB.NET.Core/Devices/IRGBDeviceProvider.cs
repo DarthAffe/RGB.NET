@@ -21,5 +21,11 @@ namespace RGB.NET.Core
         IEnumerable<IRGBDevice> Devices { get; }
 
         #endregion
+
+        #region Methods
+
+        bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false);
+
+        #endregion
     }
 }

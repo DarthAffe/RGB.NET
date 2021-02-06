@@ -42,7 +42,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
         public bool IsInitialized { get; private set; }
-        
+
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
@@ -72,7 +72,7 @@ namespace RGB.NET.Devices.CoolerMaster
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -141,37 +141,15 @@ namespace RGB.NET.Devices.CoolerMaster
         }
 
         /// <inheritdoc />
-        public void ResetDevices()
-        {
-            if (IsInitialized)
-                foreach (IRGBDevice device in Devices)
-                {
-                    try
-                    {
-                        CoolerMasterRGBDeviceInfo deviceInfo = (CoolerMasterRGBDeviceInfo)device.DeviceInfo;
-                        _CoolerMasterSDK.EnableLedControl(false, deviceInfo.DeviceIndex);
-                        _CoolerMasterSDK.EnableLedControl(true, deviceInfo.DeviceIndex);
-                    }
-                    catch {/* shit happens */}
-                }
-        }
-
-        /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
 
-            if (IsInitialized)
-                foreach (IRGBDevice device in Devices)
-                {
-                    try
-                    {
-                        CoolerMasterRGBDeviceInfo deviceInfo = (CoolerMasterRGBDeviceInfo)device.DeviceInfo;
-                        _CoolerMasterSDK.EnableLedControl(false, deviceInfo.DeviceIndex);
-                    }
-                    catch {/* shit happens */}
-                }
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             // DarthAffe 03.03.2020: Should be done but isn't possible due to an weird winodws-hook inside the sdk which corrupts the stack when unloading the dll
             //try { _CoolerMasterSDK.UnloadCMSDK(); }

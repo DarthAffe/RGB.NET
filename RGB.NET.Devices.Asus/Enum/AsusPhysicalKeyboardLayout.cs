@@ -10,6 +10,6 @@ namespace RGB.NET.Devices.Asus
     /// </summary>
     public enum AsusPhysicalKeyboardLayout
     {
-        TODO
+        Default
     }
 }

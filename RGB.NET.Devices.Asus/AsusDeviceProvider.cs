@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using AuraServiceLib;
 using RGB.NET.Core;
@@ -37,7 +36,7 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for asus devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         private IAuraSdk2? _sdk;
 
@@ -58,11 +57,11 @@ namespace RGB.NET.Devices.Asus
         }
 
         #endregion
-
+        
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -105,7 +104,7 @@ namespace RGB.NET.Devices.Asus
                             case AsusDeviceType.KEYBOARD_RGB:
                             case AsusDeviceType.NB_KB_RGB:
                             case AsusDeviceType.NB_KB_4ZONE_RGB:
-                                rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device, CultureInfo.CurrentCulture));
+                                rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device, AsusPhysicalKeyboardLayout.Default));
                                 break;
 
                             case AsusDeviceType.MOUSE_RGB:
@@ -145,17 +144,15 @@ namespace RGB.NET.Devices.Asus
         }
 
         /// <inheritdoc />
-        public void ResetDevices()
-        {
-            _sdk?.ReleaseControl(0);
-            _sdk?.SwitchMode();
-        }
-
-        /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             try { _sdk?.ReleaseControl(0); }
             catch { /* at least we tried */ }

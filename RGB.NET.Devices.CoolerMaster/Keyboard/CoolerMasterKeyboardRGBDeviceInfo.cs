@@ -25,7 +25,6 @@ namespace RGB.NET.Devices.CoolerMaster
         /// </summary>
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterKeyboardRGBDevice" />.</param>
         /// <param name="physicalKeyboardLayout">The <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterPhysicalKeyboardLayout" /> of the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterKeyboardRGBDevice" />.</param>
-        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using</param>
         internal CoolerMasterKeyboardRGBDeviceInfo(CoolerMasterDevicesIndexes deviceIndex, CoolerMasterPhysicalKeyboardLayout physicalKeyboardLayout)
                 : base(RGBDeviceType.Keyboard, deviceIndex)
         {

@@ -55,7 +55,7 @@ namespace RGB.NET.Devices.Corsair
             }
         }
 
-        protected override object? GetLedCustomData(LedId ledId)
+        protected override object GetLedCustomData(LedId ledId)
         {
             if (string.Equals(DeviceInfo.Model, "GLAIVE RGB", StringComparison.OrdinalIgnoreCase))
                 return MouseIdMapping.GLAIVE.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;

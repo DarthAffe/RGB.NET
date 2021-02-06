@@ -46,7 +46,7 @@ namespace RGB.NET.Devices.Corsair
             }
         }
         
-        protected override object? GetLedCustomData(LedId ledId) => _idMapping.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
+        protected override object GetLedCustomData(LedId ledId) => _idMapping.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
 
         protected virtual LedId GetReferenceLed(RGBDeviceType deviceType)
         {

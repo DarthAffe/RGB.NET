@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
@@ -78,7 +77,7 @@ namespace RGB.NET.Devices.Razer
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             if (IsInitialized)
                 TryUnInit();
@@ -189,14 +188,7 @@ namespace RGB.NET.Devices.Razer
 
             return true;
         }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            foreach (IRGBDevice device in Devices)
-                ((IRazerRGBDevice)device).Reset();
-        }
-
+        
         private void ThrowRazerError(RazerError errorCode) => throw new RazerException(errorCode);
 
         private void TryUnInit()
@@ -208,8 +200,13 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             TryUnInit();
 

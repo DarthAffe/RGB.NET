@@ -46,7 +46,7 @@ namespace RGB.NET.Devices.Wooting.Generic
             this.DeviceType = deviceType;
             this.DeviceIndex = deviceIndex;
 
-            Model = deviceIndex.GetDescription() ?? "Unknown";
+            Model = deviceIndex.GetDescription();
             DeviceName = $"{Manufacturer} {Model}";
         }
 

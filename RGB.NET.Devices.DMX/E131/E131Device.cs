@@ -52,7 +52,7 @@ namespace RGB.NET.Devices.DMX.E131
         }
 
         /// <inheritdoc />
-        protected override object? GetLedCustomData(LedId ledId) => new LedChannelMapping(_ledMappings[ledId]);
+        protected override object GetLedCustomData(LedId ledId) => new LedChannelMapping(_ledMappings[ledId]);
 
 
         /// <inheritdoc />

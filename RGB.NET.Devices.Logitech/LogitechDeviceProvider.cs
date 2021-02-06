@@ -39,7 +39,7 @@ namespace RGB.NET.Devices.Logitech
 
         /// <inheritdoc />
         public bool IsInitialized { get; private set; }
-        
+
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
@@ -76,7 +76,7 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             try
             {
@@ -166,13 +166,15 @@ namespace RGB.NET.Devices.Logitech
         }
 
         /// <inheritdoc />
-        public void ResetDevices() => _LogitechGSDK.LogiLedRestoreLighting();
-
-        /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             try { _LogitechGSDK.LogiLedRestoreLighting(); }
             catch { /* at least we tried */ }

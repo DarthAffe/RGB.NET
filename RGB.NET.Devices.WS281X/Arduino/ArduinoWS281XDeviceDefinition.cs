@@ -29,7 +29,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <summary>
         /// Gets the baud-rate used by the serial-connection.
         /// </summary>
-        public int BaudRate => SerialConnection?.BaudRate ?? 0;
+        public int BaudRate => SerialConnection.BaudRate;
 
         /// <summary>
         /// Gets or sets the name used by this device.

@@ -42,7 +42,7 @@ namespace RGB.NET.Devices.Corsair
         /// Indicates if the SDK is initialized and ready to use.
         /// </summary>
         public bool IsInitialized { get; private set; }
-        
+
         /// <summary>
         /// Gets the protocol details for the current SDK-connection.
         /// </summary>
@@ -84,7 +84,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         /// <exception cref="RGBDeviceException">Thrown if the SDK is already initialized or if the SDK is not compatible to CUE.</exception>
         /// <exception cref="CUEException">Thrown if the CUE-SDK provides an error.</exception>
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -126,8 +126,7 @@ namespace RGB.NET.Devices.Corsair
                         {
                             if ((device == null) || !loadFilter.HasFlag(device.DeviceInfo.DeviceType)) continue;
 
-                            if (deviceUpdateQueue == null)
-                                deviceUpdateQueue = new CorsairDeviceUpdateQueue(UpdateTrigger, info.CorsairDeviceIndex);
+                            deviceUpdateQueue ??= new CorsairDeviceUpdateQueue(UpdateTrigger, info.CorsairDeviceIndex);
 
                             device.Initialize(deviceUpdateQueue);
 
@@ -231,28 +230,14 @@ namespace RGB.NET.Devices.Corsair
         {
             if (deviceType == CorsairDeviceType.Cooler)
                 return CorsairLedId.CustomLiquidCoolerChannel1Led1;
-            else
+
+            return channel switch
             {
-                switch (channel)
-                {
-                    case 0: return CorsairLedId.CustomDeviceChannel1Led1;
-                    case 1: return CorsairLedId.CustomDeviceChannel2Led1;
-                    case 2: return CorsairLedId.CustomDeviceChannel3Led1;
-                }
-            }
-
-            return CorsairLedId.Invalid;
-        }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            if (IsInitialized)
-                try
-                {
-                    _CUESDK.Reload();
-                }
-                catch {/* shit happens */}
+                0 => CorsairLedId.CustomDeviceChannel1Led1,
+                1 => CorsairLedId.CustomDeviceChannel2Led1,
+                2 => CorsairLedId.CustomDeviceChannel3Led1,
+                _ => CorsairLedId.Invalid
+            };
         }
 
         private void Reset()
@@ -265,8 +250,13 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             try { _CUESDK.UnloadCUESDK(); }
             catch { /* at least we tried */ }

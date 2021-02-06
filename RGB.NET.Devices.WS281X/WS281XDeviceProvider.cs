@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Devices.WS281X.NodeMCU;
 
 namespace RGB.NET.Devices.WS281X
 {
@@ -70,7 +69,7 @@ namespace RGB.NET.Devices.WS281X
         public void AddDeviceDefinition(IWS281XDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.Unknown, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.Unknown, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -101,20 +100,17 @@ namespace RGB.NET.Devices.WS281X
 
             return true;
         }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            foreach (IRGBDevice device in Devices)
-                if (device is NodeMCUWS2812USBDevice nodemcuDevice)
-                    nodemcuDevice.UpdateQueue.ResetDevice();
-        }
-
+        
         /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */}
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             DeviceDefinitions.Clear();
         }

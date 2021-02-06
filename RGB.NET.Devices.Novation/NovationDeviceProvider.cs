@@ -59,7 +59,7 @@ namespace RGB.NET.Devices.Novation
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             IsInitialized = false;
 
@@ -106,22 +106,17 @@ namespace RGB.NET.Devices.Novation
 
             return true;
         }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            foreach (IRGBDevice device in Devices)
-            {
-                NovationLaunchpadRGBDevice? novationDevice = device as NovationLaunchpadRGBDevice;
-                novationDevice?.Reset();
-            }
-        }
-
+        
         /// <inheritdoc />
         public void Dispose()
         {
             try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
         }
 
         #endregion

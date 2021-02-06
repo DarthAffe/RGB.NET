@@ -74,7 +74,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <inheritdoc />
         public override void Dispose()
         {
-            try { UpdateQueue?.Dispose(); }
+            try { UpdateQueue.Dispose(); }
             catch { /* at least we tried */ }
 
             base.Dispose();

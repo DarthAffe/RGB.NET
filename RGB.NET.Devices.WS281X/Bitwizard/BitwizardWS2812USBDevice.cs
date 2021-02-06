@@ -68,7 +68,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <inheritdoc />
         public override void Dispose()
         {
-            try { UpdateQueue?.Dispose(); }
+            try { UpdateQueue.Dispose(); }
             catch { /* at least we tried */ }
 
             base.Dispose();

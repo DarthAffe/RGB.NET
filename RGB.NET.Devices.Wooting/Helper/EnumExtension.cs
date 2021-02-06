@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.Wooting.Helper
         /// </summary>
         /// <param name="source">The enum value to get the description from.</param>
         /// <returns>The value of the <see cref="DescriptionAttribute"/> or the <see cref="System.Enum.ToString()" /> result of the source.</returns>
-        internal static string? GetDescription(this System.Enum source)
+        internal static string GetDescription(this System.Enum source)
             => source.GetAttribute<DescriptionAttribute>()?.Description ?? source.ToString();
         
         /// <summary>

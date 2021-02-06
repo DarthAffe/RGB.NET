@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RGB.NET.Core
+﻿namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a generic information for a <see cref="IRGBDevice"/>
