@@ -30,16 +30,12 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\Mousepad", $"{model}.xml"), null);
-
-            if (LedMapping.Count == 0)
-                for (int i = 0; i < _Defines.MOUSEPAD_MAX_LEDS; i++)
-                    InitializeLed(LedId.Mousepad1 + i, new Rectangle(i * 11, 0, 10, 10));
+            for (int i = 0; i < _Defines.MOUSEPAD_MAX_LEDS; i++)
+                AddLed(LedId.Mousepad1 + i, new Point(i * 11, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mousepad1;
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mousepad1;
 
         /// <inheritdoc />
         protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMousepadUpdateQueue(updateTrigger, DeviceInfo.DeviceId);

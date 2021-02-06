@@ -8,13 +8,13 @@ namespace RGB.NET.Devices.SteelSeries.API.Model
         #region Properties & Fields
 
         [JsonPropertyName("game")]
-        public string Game { get; set; }
+        public string? Game { get; set; }
 
         [JsonPropertyName("event")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("data")]
-        public Dictionary<string, object> Data { get; } = new Dictionary<string, object>();
+        public Dictionary<string, object> Data { get; } = new();
 
         #endregion
 

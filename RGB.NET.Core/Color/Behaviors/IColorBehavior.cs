@@ -4,7 +4,7 @@
     {
         string ToString(Color color);
 
-        bool Equals(Color color, object obj);
+        bool Equals(Color color, object? obj);
 
         int GetHashCode(Color color);
 

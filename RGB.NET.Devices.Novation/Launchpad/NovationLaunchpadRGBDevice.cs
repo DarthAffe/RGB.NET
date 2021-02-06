@@ -34,15 +34,12 @@ namespace RGB.NET.Devices.Novation
             foreach (LedId ledId in mapping.Keys)
             {
                 (_, _, int x, int y) = mapping[ledId];
-                InitializeLed(ledId, new Point(BUTTON_SIZE * x, BUTTON_SIZE * y), new Size(BUTTON_SIZE));
+                AddLed(ledId, new Point(BUTTON_SIZE * x, BUTTON_SIZE * y), new Size(BUTTON_SIZE));
             }
-
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Novation\Launchpads", $"{model.ToUpper()}.xml"), "Default");
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => GetDeviceMapping().TryGetValue(ledId, out (byte mode, byte id, int _, int __) data) ? (data.mode, data.id) : ((byte)0x00, (byte)0x00);
+        protected override object GetLedCustomData(LedId ledId) => GetDeviceMapping().TryGetValue(ledId, out (byte mode, byte id, int _, int __) data) ? (data.mode, data.id) : ((byte)0x00, (byte)0x00);
 
         protected virtual Dictionary<LedId, (byte mode, byte id, int x, int y)> GetDeviceMapping()
             => DeviceInfo.LedIdMapping switch

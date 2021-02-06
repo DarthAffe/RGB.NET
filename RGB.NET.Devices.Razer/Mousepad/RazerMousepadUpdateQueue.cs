@@ -34,7 +34,8 @@ namespace RGB.NET.Devices.Razer
             foreach (KeyValuePair<object, Color> data in dataSet)
                 colors[(int)data.Key] = new _Color(data.Value);
 
-            _MousepadCustomEffect effectParams = new _MousepadCustomEffect { Color = colors };
+            _MousepadCustomEffect effectParams = new()
+                                                 { Color = colors };
 
             IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
             Marshal.StructureToPtr(effectParams, ptr, false);

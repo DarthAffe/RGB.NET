@@ -14,8 +14,8 @@ namespace RGB.NET.Devices.Logitech
 
         #region Properties & Fields
 
-        internal static Dictionary<LedId, int> BitmapOffset { get; } = new Dictionary<LedId, int>
-        {
+        internal static Dictionary<LedId, int> BitmapOffset { get; } = new()
+                                                                       {
             { LedId.Keyboard_Escape, 0 },
             { LedId.Keyboard_F1, 4 },
             { LedId.Keyboard_F2, 8 },

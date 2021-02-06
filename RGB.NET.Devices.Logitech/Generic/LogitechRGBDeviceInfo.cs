@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -23,24 +22,8 @@ namespace RGB.NET.Devices.Logitech
         /// <inheritdoc />
         public string Model { get; }
 
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting
-        {
-            get
-            {
-                if (DeviceCaps.HasFlag(LogitechDeviceCaps.PerKeyRGB))
-                    return RGBDeviceLighting.Key;
-
-                if (DeviceCaps.HasFlag(LogitechDeviceCaps.DeviceRGB))
-                    return RGBDeviceLighting.Device;
-
-                return RGBDeviceLighting.None;
-            }
-        }
-        
         /// <summary>
         /// Gets a flag that describes device capabilities. (<see cref="LogitechDeviceCaps" />)
         /// </summary>
@@ -50,16 +33,6 @@ namespace RGB.NET.Devices.Logitech
         /// Gets the amount of zones the <see cref="LogitechRGBDevice{TDeviceInfo}"/> is able to control (0 for single-color and per-key devices)
         /// </summary>
         public int Zones { get; }
-
-        /// <summary>
-        /// Gets the layout used to decide which images to load.
-        /// </summary>
-        internal string ImageLayout { get; }
-
-        /// <summary>
-        /// Gets the path/name of the layout-file.
-        /// </summary>
-        internal string LayoutPath { get; }
 
         #endregion
 
@@ -74,15 +47,12 @@ namespace RGB.NET.Devices.Logitech
         /// <param name="zones">The amount of zones the device is able to control.</param>
         /// <param name="imageLayout">The layout used to decide which images to load.</param>
         /// <param name="layoutPath">The path/name of the layout-file.</param>
-        internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps,
-                                       int zones, string imageLayout, string layoutPath)
+        internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps, int zones)
         {
             this.DeviceType = deviceType;
             this.Model = model;
             this.DeviceCaps = deviceCaps;
             this.Zones = zones;
-            this.ImageLayout = imageLayout;
-            this.LayoutPath = layoutPath;
 
             DeviceName = $"{Manufacturer} {Model}";
         }

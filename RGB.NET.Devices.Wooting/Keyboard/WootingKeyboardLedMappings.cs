@@ -15,8 +15,8 @@ namespace RGB.NET.Devices.Wooting.Keyboard
 
         #region Wooting One
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingOne_US = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> WootingOne_US = new()
+                                                                                         {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
             { LedId.Keyboard_F2, (0,3) },
@@ -111,8 +111,8 @@ namespace RGB.NET.Devices.Wooting.Keyboard
             { LedId.Keyboard_ArrowRight, (5,16) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingOne_UK = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> WootingOne_UK = new()
+                                                                                         {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
             { LedId.Keyboard_F2, (0,3) },
@@ -213,8 +213,8 @@ namespace RGB.NET.Devices.Wooting.Keyboard
 
         #region Wooting Two
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingTwo_US = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> WootingTwo_US = new()
+                                                                                         {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
             { LedId.Keyboard_F2, (0,3) },
@@ -330,8 +330,8 @@ namespace RGB.NET.Devices.Wooting.Keyboard
             { LedId.Keyboard_NumPeriodAndDelete, (5,19) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingTwo_UK = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> WootingTwo_UK = new()
+                                                                                         {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
             { LedId.Keyboard_F2, (0,3) },
@@ -455,7 +455,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// Contains all the hardware-id mappings for Wooting devices.
         /// </summary>
         public static readonly Dictionary<WootingDevicesIndexes, Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>> Mapping =
-            new Dictionary<WootingDevicesIndexes, Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>>
+            new()
             {
                 { WootingDevicesIndexes.WootingOne, new Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
                   {

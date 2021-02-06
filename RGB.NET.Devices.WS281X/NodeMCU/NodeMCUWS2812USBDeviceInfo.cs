@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X.NodeMCU
 {
@@ -25,10 +24,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         public string Model => "WS2812 WLAN";
 
         /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-        
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
         #endregion
 

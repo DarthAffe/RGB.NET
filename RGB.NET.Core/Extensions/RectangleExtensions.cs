@@ -12,7 +12,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="location">The new location of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetLocation(this Rectangle rect, Point location) => new Rectangle(location, rect.Size);
+        public static Rectangle SetLocation(this Rectangle rect, Point location) => new(location, rect.Size);
 
         /// <summary>
         /// Sets the <see cref="Point.X"/> of the <see cref="Rectangle.Location"/> of the given rectangle.
@@ -20,7 +20,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="x">The new x-location of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetX(this Rectangle rect, double x) => new Rectangle(new Point(x, rect.Location.Y), rect.Size);
+        public static Rectangle SetX(this Rectangle rect, double x) => new(new Point(x, rect.Location.Y), rect.Size);
 
         /// <summary>
         /// Sets the <see cref="Point.Y"/> of the <see cref="Rectangle.Location"/> of the given rectangle.
@@ -28,7 +28,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="y">The new y-location of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetY(this Rectangle rect, double y) => new Rectangle(new Point(rect.Location.X, y), rect.Size);
+        public static Rectangle SetY(this Rectangle rect, double y) => new(new Point(rect.Location.X, y), rect.Size);
 
         /// <summary>
         /// Sets the <see cref="Rectangle.Size"/> of the given rectangle.
@@ -36,7 +36,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="size">The new size of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetSize(this Rectangle rect, Size size) => new Rectangle(rect.Location, size);
+        public static Rectangle SetSize(this Rectangle rect, Size size) => new(rect.Location, size);
 
         /// <summary>
         /// Sets the <see cref="Size.Width"/> of the <see cref="Rectangle.Size"/> of the given rectangle.
@@ -44,7 +44,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="width">The new width of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetWidth(this Rectangle rect, double width) => new Rectangle(rect.Location, new Size(width, rect.Size.Height));
+        public static Rectangle SetWidth(this Rectangle rect, double width) => new(rect.Location, new Size(width, rect.Size.Height));
 
         /// <summary>
         /// Sets the <see cref="Size.Height"/> of the <see cref="Rectangle.Size"/> of the given rectangle.
@@ -52,7 +52,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="height">The new height of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetHeight(this Rectangle rect, double height) => new Rectangle(rect.Location, new Size(rect.Size.Width, height));
+        public static Rectangle SetHeight(this Rectangle rect, double height) => new(rect.Location, new Size(rect.Size.Width, height));
 
         /// <summary>
         /// Calculates the percentage of intersection of a rectangle.
@@ -125,7 +125,7 @@ namespace RGB.NET.Core
         /// <param name="x">The x-ammount to move.</param>
         /// <param name="y">The y-ammount to move.</param>
         /// <returns>The moved rectangle.</returns>
-        public static Rectangle Translate(this Rectangle rect, double x = 0, double y = 0) => new Rectangle(rect.Location.Translate(x, y), rect.Size);
+        public static Rectangle Translate(this Rectangle rect, double x = 0, double y = 0) => new(rect.Location.Translate(x, y), rect.Size);
 
         /// <summary>
         /// Rotates the specified <see cref="Rectangle"/> by the given amuont around the given origin.
@@ -141,13 +141,13 @@ namespace RGB.NET.Core
         /// <param name="rotation">The rotation.</param>
         /// <param name="origin">The origin to rotate around. [0,0] if not set.</param>
         /// <returns>A array of <see cref="Point"/> containing the new locations of the corners of the original rectangle.</returns>
-        public static Point[] Rotate(this Rectangle rect, Rotation rotation, Point origin = new Point())
+        public static Point[] Rotate(this Rectangle rect, Rotation rotation, Point origin = new())
         {
             Point[] points = {
                                  rect.Location, // top left
-                                 new Point(rect.Location.X + rect.Size.Width, rect.Location.Y), // top right
-                                 new Point(rect.Location.X + rect.Size.Width, rect.Location.Y + rect.Size.Height), // bottom right
-                                 new Point(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
+                                 new(rect.Location.X + rect.Size.Width, rect.Location.Y), // top right
+                                 new(rect.Location.X + rect.Size.Width, rect.Location.Y + rect.Size.Height), // bottom right
+                                 new(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
                              };
 
             double sin = Math.Sin(rotation.Radians);

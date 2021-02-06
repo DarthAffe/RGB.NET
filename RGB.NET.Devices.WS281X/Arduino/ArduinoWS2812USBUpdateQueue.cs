@@ -21,7 +21,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
 
         #region Properties & Fields
 
-        private readonly Dictionary<int, byte[]> _dataBuffer = new Dictionary<int, byte[]>();
+        private readonly Dictionary<int, byte[]> _dataBuffer = new();
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         #region Methods
 
         /// <inheritdoc />
-        protected override void OnStartup(object sender, CustomUpdateData customData)
+        protected override void OnStartup(object? sender, CustomUpdateData customData)
         {
             base.OnStartup(sender, customData);
 
@@ -56,7 +56,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
                                                                                                  .GroupBy(x => x.Item1.channel))
             {
                 int channel = channelData.Key;
-                if (!_dataBuffer.TryGetValue(channel, out byte[] dataBuffer) || (dataBuffer.Length != ((dataSet.Count * 3) + 1)))
+                if (!_dataBuffer.TryGetValue(channel, out byte[]? dataBuffer) || (dataBuffer.Length != ((dataSet.Count * 3) + 1)))
                     _dataBuffer[channel] = dataBuffer = new byte[(dataSet.Count * 3) + 1];
 
                 dataBuffer[0] = (byte)((channel << 4) | UPDATE_COMMAND[0]);

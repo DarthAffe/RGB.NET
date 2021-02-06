@@ -26,16 +26,13 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            //TODO DarthAffe 07.10.2017: Look for a good default layout
             int ledCount = DeviceInfo.Device.Lights.Count;
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(LedId.Mouse1 + i, new Rectangle(i * 10, 0, 10, 10));
-
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Asus\Mouses", $"{DeviceInfo.Model.Replace(" ", string.Empty).ToUpper()}.xml"), null);
+                AddLed(LedId.Mouse1 + i, new Point(i * 10, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
 
         #endregion
     }

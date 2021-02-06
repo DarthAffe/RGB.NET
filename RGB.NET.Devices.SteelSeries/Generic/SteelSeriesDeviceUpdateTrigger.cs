@@ -71,7 +71,7 @@ namespace RGB.NET.Devices.SteelSeries
         }
 
         /// <inheritdoc />
-        protected override void OnUpdate(CustomUpdateData updateData = null)
+        protected override void OnUpdate(CustomUpdateData? updateData = null)
         {
             base.OnUpdate(updateData);
             _lastUpdateTimestamp = Stopwatch.GetTimestamp();

@@ -33,11 +33,7 @@ namespace RGB.NET.Devices.DMX.E131
         /// <inheritdoc />
         public string Model { get; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-        
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
         /// <summary>
         /// The hostname of the device.
@@ -70,14 +66,16 @@ namespace RGB.NET.Devices.DMX.E131
             this.Model = deviceDefinition.Model;
             this.Hostname = deviceDefinition.Hostname;
             this.Port = deviceDefinition.Port;
-            this.CID = deviceDefinition.CID;
             this.Universe = deviceDefinition.Universe;
 
+            byte[]? cid = deviceDefinition.CID;
             if ((CID == null) || (CID.Length != CID_LENGTH))
             {
                 CID = new byte[CID_LENGTH];
                 new Random().NextBytes(CID);
             }
+
+            CID = cid!;
 
             DeviceName = $"{Manufacturer} {Model}";
         }

@@ -28,7 +28,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         #region Methods
 
         /// <inheritdoc />
-        protected override void OnStartup(object sender, CustomUpdateData customData)
+        protected override void OnStartup(object? sender, CustomUpdateData customData)
         {
             base.OnStartup(sender, customData);
 
@@ -38,8 +38,8 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <inheritdoc />
         protected override IEnumerable<string> GetCommands(Dictionary<object, Color> dataSet)
         {
-            foreach (KeyValuePair<object, Color> data in dataSet)
-                yield return $"pix {(int)data.Key} {data.Value.AsRGBHexString(false)}";
+            foreach ((object key, Color value) in dataSet)
+                yield return $"pix {(int)key} {value.AsRGBHexString(false)}";
         }
 
         #endregion

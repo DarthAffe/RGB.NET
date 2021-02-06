@@ -35,11 +35,11 @@ namespace RGB.NET.Core
             set => SetProperty(ref _shape, value);
         }
 
-        private string _shapeData;
+        private string? _shapeData;
         /// <summary>
         /// Gets or sets the data used for by the <see cref="Core.Shape.Custom"/>-<see cref="Core.Shape"/>.
         /// </summary>
-        public string ShapeData
+        public string? ShapeData
         {
             get => _shapeData;
             set => SetProperty(ref _shapeData, value);
@@ -124,7 +124,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Indicates whether the <see cref="Led" /> is about to change it's color.
         /// </summary>
-        public bool IsDirty => RequestedColor.HasValue && (RequestedColor != InternalColor);
+        public bool IsDirty => RequestedColor.HasValue && (RequestedColor != Color);
 
         private Color? _requestedColor;
         /// <summary>
@@ -152,45 +152,24 @@ namespace RGB.NET.Core
             get => _color;
             set
             {
-                if (!IsLocked)
-                {
-                    if (RequestedColor.HasValue)
-                        RequestedColor += value;
-                    else
-                        RequestedColor = value;
-                }
-
+                if (RequestedColor.HasValue)
+                    RequestedColor = RequestedColor.Value + value;
+                else
+                    RequestedColor = value;
             }
-        }
-
-        /// <summary>
-        /// Gets or set the <see cref="Color"/> ignoring all workflows regarding locks and update-requests. />
-        /// </summary>
-        internal Color InternalColor
-        {
-            get => _color;
-            set => SetProperty(ref _color, value);
-        }
-
-        private bool _isLocked;
-        /// <summary>
-        /// Gets or sets if the color of this LED can be changed.
-        /// </summary>
-        public bool IsLocked
-        {
-            get => _isLocked;
-            set => SetProperty(ref _isLocked, value);
         }
 
         /// <summary>
         /// Gets the URI of an image of the <see cref="Led"/> or null if there is no image.
         /// </summary>
-        public Uri Image { get; set; }
+        public Uri? Image { get; set; }
 
         /// <summary>
         /// Gets the provider-specific data associated with this led.
         /// </summary>
-        public object CustomData { get; }
+        public object? CustomData { get; }
+
+        public object? LayoutMetadata { get; set; }
 
         #endregion
 
@@ -204,7 +183,7 @@ namespace RGB.NET.Core
         /// <param name="location">The physical location of the <see cref="Led"/> relative to the <see cref="Device"/>.</param>
         /// <param name="size">The size of the <see cref="Led"/>.</param>
         /// <param name="customData">The provider-specific data associated with this led.</param>
-        internal Led(IRGBDevice device, LedId id, Point location, Size size, object customData = null)
+        internal Led(IRGBDevice device, LedId id, Point location, Size size, object? customData = null)
         {
             this.Device = device;
             this.Id = id;
@@ -219,14 +198,18 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        private void DevicePropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void DevicePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == nameof(IRGBDevice.Location)))
-                UpdateAbsoluteData();
-            else if (e.PropertyName == nameof(IRGBDevice.DeviceRectangle))
+            switch (e.PropertyName)
             {
-                UpdateActualData();
-                UpdateAbsoluteData();
+                case nameof(IRGBDevice.Location):
+                    UpdateAbsoluteData();
+                    break;
+
+                case nameof(IRGBDevice.DeviceRectangle):
+                    UpdateActualData();
+                    UpdateAbsoluteData();
+                    break;
             }
         }
 
@@ -235,13 +218,13 @@ namespace RGB.NET.Core
             ActualSize = Size * Device.Scale;
 
             Point actualLocation = (Location * Device.Scale);
-            Rectangle ledRectangle = new Rectangle(Location * Device.Scale, Size * Device.Scale);
+            Rectangle ledRectangle = new(Location * Device.Scale, Size * Device.Scale);
 
             if (Device.Rotation.IsRotated)
             {
                 Point deviceCenter = new Rectangle(Device.ActualSize).Center;
                 Point actualDeviceCenter = new Rectangle(Device.DeviceRectangle.Size).Center;
-                Point centerOffset = new Point(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
+                Point centerOffset = new(actualDeviceCenter.X - deviceCenter.X, actualDeviceCenter.Y - deviceCenter.Y);
 
                 actualLocation = actualLocation.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center) + centerOffset;
                 ledRectangle = new Rectangle(ledRectangle.Rotate(Device.Rotation, new Rectangle(Device.ActualSize).Center)).Translate(centerOffset);
@@ -283,7 +266,6 @@ namespace RGB.NET.Core
         {
             _color = Color.Transparent;
             RequestedColor = null;
-            IsLocked = false;
 
             // ReSharper disable once ExplicitCallerInfoArgument
             OnPropertyChanged(nameof(Color));
@@ -297,13 +279,13 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Core.Color" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Color(Led led) => led?.Color ?? Color.Transparent;
+        public static implicit operator Color(Led led) => led.Color;
 
         /// <summary>
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led) => led?.LedRectangle ?? new Rectangle();
+        public static implicit operator Rectangle(Led led) => led.LedRectangle;
 
         #endregion
     }

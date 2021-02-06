@@ -52,7 +52,7 @@ namespace RGB.NET.Brushes
         /// Converts a <see cref="Color" /> to a <see cref="SolidColorBrush" />.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to convert.</param>
-        public static explicit operator SolidColorBrush(Color color) => new SolidColorBrush(color);
+        public static explicit operator SolidColorBrush(Color color) => new(color);
 
         /// <summary>
         /// Converts a <see cref="SolidColorBrush" /> to a <see cref="Color" />.

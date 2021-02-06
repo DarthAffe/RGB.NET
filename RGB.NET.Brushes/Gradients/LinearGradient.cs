@@ -16,7 +16,7 @@ namespace RGB.NET.Brushes.Gradients
         #region Properties & Fields
 
         private bool _isOrderedGradientListDirty = true;
-        private LinkedList<GradientStop> _orderedGradientStops;
+        private LinkedList<GradientStop> _orderedGradientStops = new();
 
         #endregion
 
@@ -60,12 +60,12 @@ namespace RGB.NET.Brushes.Gradients
 
         private void Initialize()
         {
-            void OnGradientStopOnPropertyChanged(object sender, PropertyChangedEventArgs args) => _isOrderedGradientListDirty = true;
+            void OnGradientStopOnPropertyChanged(object? sender, PropertyChangedEventArgs args) => _isOrderedGradientListDirty = true;
 
             foreach (GradientStop gradientStop in GradientStops)
                 gradientStop.PropertyChanged += OnGradientStopOnPropertyChanged;
 
-            GradientStops.CollectionChanged += (sender, args) =>
+            GradientStops.CollectionChanged += (_, args) =>
                                                {
                                                    if (args.OldItems != null)
                                                        foreach (GradientStop gradientStop in args.OldItems)
@@ -114,18 +114,18 @@ namespace RGB.NET.Brushes.Gradients
         /// <returns></returns>
         protected virtual (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(double offset, LinkedList<GradientStop> orderedStops, bool wrap)
         {
-            LinkedList<GradientStop> gradientStops = new LinkedList<GradientStop>(orderedStops);
+            LinkedList<GradientStop> gradientStops = new(orderedStops);
 
             if (wrap)
             {
-                GradientStop gsBefore, gsAfter;
+                GradientStop? gsBefore, gsAfter;
 
                 do
                 {
                     gsBefore = gradientStops.LastOrDefault(n => n.Offset <= offset);
                     if (gsBefore == null)
                     {
-                        GradientStop lastStop = gradientStops.Last.Value;
+                        GradientStop lastStop = gradientStops.Last!.Value;
                         gradientStops.AddFirst(new GradientStop(lastStop.Offset - 1, lastStop.Color));
                         gradientStops.RemoveLast();
                     }
@@ -133,7 +133,7 @@ namespace RGB.NET.Brushes.Gradients
                     gsAfter = gradientStops.FirstOrDefault(n => n.Offset >= offset);
                     if (gsAfter == null)
                     {
-                        GradientStop firstStop = gradientStops.First.Value;
+                        GradientStop firstStop = gradientStops.First!.Value;
                         gradientStops.AddLast(new GradientStop(firstStop.Offset + 1, firstStop.Color));
                         gradientStops.RemoveFirst();
                     }

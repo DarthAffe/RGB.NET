@@ -11,8 +11,10 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
+        public RGBSurface? Surface { get; private set; }
+
         /// <inheritdoc />
-        public IBrush Brush { get; set; }
+        public IBrush? Brush { get; set; }
 
         /// <inheritdoc />
         public int ZIndex { get; set; } = 0;
@@ -24,11 +26,9 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractLedGroup"/> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="AbstractLedGroup"/> should be automatically attached or not.</param>
-        protected AbstractLedGroup(bool autoAttach)
+        protected AbstractLedGroup(RGBSurface? attachTo)
         {
-            if (autoAttach)
-                RGBSurface.Instance.AttachLedGroup(this);
+            attachTo?.AttachLedGroup(this);
         }
 
         #endregion
@@ -39,12 +39,10 @@ namespace RGB.NET.Core
         public abstract IList<Led> GetLeds();
 
         /// <inheritdoc />
-        public virtual void OnAttach()
-        { }
+        public virtual void OnAttach(RGBSurface surface) => Surface = surface;
 
         /// <inheritdoc />
-        public virtual void OnDetach()
-        { }
+        public virtual void OnDetach(RGBSurface surface) => Surface = null;
 
         #endregion
     }

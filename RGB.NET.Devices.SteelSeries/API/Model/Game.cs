@@ -7,10 +7,10 @@ namespace RGB.NET.Devices.SteelSeries.API.Model
         #region Properties & Fields
 
         [JsonPropertyName("game")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("game_display_name")]
-        public string DisplayName { get; set; }
+        public string? DisplayName { get; set; }
 
         #endregion
 

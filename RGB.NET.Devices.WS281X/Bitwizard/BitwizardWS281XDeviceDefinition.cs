@@ -24,17 +24,17 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <summary>
         /// Gets the name of the serial-port to connect to.
         /// </summary>
-        public string Port => SerialConnection?.Port;
+        public string Port => SerialConnection.Port;
 
         /// <summary>
         /// Gets the baud-rate used by the serial-connection.
         /// </summary>
-        public int BaudRate => SerialConnection?.BaudRate ?? 0;
+        public int BaudRate => SerialConnection.BaudRate;
 
         /// <summary>
         /// Gets or sets the name used by this device.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the pin sed to control the leds.
@@ -82,10 +82,10 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            BitwizardWS2812USBUpdateQueue queue = new BitwizardWS2812USBUpdateQueue(updateTrigger, SerialConnection);
+            BitwizardWS2812USBUpdateQueue queue = new(updateTrigger, SerialConnection);
             string name = Name ?? $"Bitwizard WS2812 USB ({Port})";
             int ledOffset = Pin * MaxStripLength;
-            BitwizardWS2812USBDevice device = new BitwizardWS2812USBDevice(new BitwizardWS2812USBDeviceInfo(name), queue, ledOffset);
+            BitwizardWS2812USBDevice device = new(new BitwizardWS2812USBDeviceInfo(name), queue, ledOffset);
             device.Initialize(StripLength);
             yield return device;
         }

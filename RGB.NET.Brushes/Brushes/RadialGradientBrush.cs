@@ -18,7 +18,7 @@ namespace RGB.NET.Brushes
     {
         #region Properties & Fields
 
-        private Point _center = new Point(0.5, 0.5);
+        private Point _center = new(0.5, 0.5);
         /// <summary>
         /// Gets or sets the center <see cref="Point"/> (as percentage in the range [0..1]) around which the <see cref="RadialGradientBrush"/> should be drawn. (default: 0.5, 0.5)
         /// </summary>
@@ -28,9 +28,9 @@ namespace RGB.NET.Brushes
             set => SetProperty(ref _center, value);
         }
 
-        private IGradient _gradient;
+        private IGradient? _gradient;
         /// <inheritdoc />
-        public IGradient Gradient
+        public IGradient? Gradient
         {
             get => _gradient;
             set => SetProperty(ref _gradient, value);
@@ -78,7 +78,7 @@ namespace RGB.NET.Brushes
         {
             if (Gradient == null) return Color.Transparent;
 
-            Point centerPoint = new Point(rectangle.Location.X + (rectangle.Size.Width * Center.X), rectangle.Location.Y + (rectangle.Size.Height * Center.Y));
+            Point centerPoint = new(rectangle.Location.X + (rectangle.Size.Width * Center.X), rectangle.Location.Y + (rectangle.Size.Height * Center.Y));
 
             // Calculate the distance to the farthest point from the center as reference (this has to be a corner)
             // ReSharper disable once RedundantCast - never trust this ...

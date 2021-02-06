@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Corsair
 {
     internal static class MousepadIdMapping
     {
-        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new Dictionary<LedId, CorsairLedId>
-        {
+        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new()
+                                                                           {
             { LedId.Mousepad1, CorsairLedId.Zone1 },
             { LedId.Mousepad2, CorsairLedId.Zone2 },
             { LedId.Mousepad3, CorsairLedId.Zone3 },

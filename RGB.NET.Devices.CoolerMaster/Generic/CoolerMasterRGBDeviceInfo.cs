@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 using RGB.NET.Devices.CoolerMaster.Helper;
 
 namespace RGB.NET.Devices.CoolerMaster
@@ -24,12 +23,8 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <inheritdoc />
         public string Model { get; }
 
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-        
         /// <summary>
         /// Gets the <see cref="CoolerMasterDevicesIndexes"/> of the <see cref="CoolerMasterRGBDevice{TDeviceInfo}"/>.
         /// </summary>
@@ -49,7 +44,7 @@ namespace RGB.NET.Devices.CoolerMaster
             this.DeviceType = deviceType;
             this.DeviceIndex = deviceIndex;
 
-            Model = deviceIndex.GetDescription();
+            Model = deviceIndex.GetDescription() ?? "Unknown";
             DeviceName = $"{Manufacturer} {Model}";
         }
 

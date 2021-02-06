@@ -30,22 +30,13 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            //string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            //ApplyLayoutFromFile(PathHelper.GetAbsolutePath(
-            //    $@"Layouts\Razer\Keyboards\{model}\{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-            //    DeviceInfo.LogicalLayout.ToString(), PathHelper.GetAbsolutePath(@"Images\Razer\Keyboards"));
-
-            //TODO DarthAffe 13.12.2017: Correctly select ids
-            if (LedMapping.Count == 0)
-            {
-                for (int i = 0; i < _Defines.KEYBOARD_MAX_ROW; i++)
-                    for (int j = 0; j < _Defines.KEYBOARD_MAX_COLUMN; j++)
-                        InitializeLed(LedId.Keyboard_Escape + ((i * _Defines.KEYBOARD_MAX_COLUMN) + j), new Rectangle(j * 20, i * 20, 19, 19));
-            }
+            for (int i = 0; i < _Defines.KEYBOARD_MAX_ROW; i++)
+                for (int j = 0; j < _Defines.KEYBOARD_MAX_COLUMN; j++)
+                    AddLed(LedId.Keyboard_Escape + ((i * _Defines.KEYBOARD_MAX_COLUMN) + j), new Point(j * 20, i * 20), new Size(19, 19));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keyboard_Escape;
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keyboard_Escape;
 
         /// <inheritdoc />
         protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerKeyboardUpdateQueue(updateTrigger, DeviceInfo.DeviceId);

@@ -12,6 +12,6 @@ namespace RGB.NET.Brushes
         /// <summary>
         /// Gets the <see cref="IGradient"/> used by this <see cref="IGradientBrush"/>.
         /// </summary>
-        IGradient Gradient { get; }
+        IGradient? Gradient { get; }
     }
 }

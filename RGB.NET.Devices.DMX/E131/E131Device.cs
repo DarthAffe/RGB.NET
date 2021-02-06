@@ -17,7 +17,7 @@ namespace RGB.NET.Devices.DMX.E131
 
         private readonly Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>> _ledMappings;
 
-        private E131UpdateQueue _updateQueue;
+        private E131UpdateQueue? _updateQueue;
 
         #endregion
 
@@ -38,13 +38,11 @@ namespace RGB.NET.Devices.DMX.E131
         {
             int count = 0;
             foreach (LedId id in _ledMappings.Keys)
-                InitializeLed(id, new Rectangle((count++) * 10, 0, 10, 10));
-
-            //TODO DarthAffe 18.02.2018: Allow to load a layout.
+                AddLed(id, new Point((count++) * 10, 0), new Size(10, 10));
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
@@ -54,10 +52,11 @@ namespace RGB.NET.Devices.DMX.E131
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => new LedChannelMapping(_ledMappings[ledId]);
+        protected override object GetLedCustomData(LedId ledId) => new LedChannelMapping(_ledMappings[ledId]);
+
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => _updateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => _updateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <inheritdoc />
         public override void Dispose()

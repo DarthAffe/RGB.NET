@@ -23,7 +23,7 @@ namespace RGB.NET.Devices.Wooting.Generic
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected UpdateQueue UpdateQueue { get; set; }
+        protected UpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace RGB.NET.Devices.Wooting.Generic
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 

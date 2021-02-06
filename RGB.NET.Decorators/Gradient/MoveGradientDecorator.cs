@@ -45,7 +45,8 @@ namespace RGB.NET.Decorators.Gradient
         ///   <see cref="T:RGB.NET.Brushes.Gradients.RainbowGradient" />: 1 unit = 1 degree.</param>
         /// <param name="direction">The direction the <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> is moved.
         /// True leads to an offset-increment (normaly moving to the right), false to an offset-decrement (normaly moving to the left).</param>
-        public MoveGradientDecorator(double speed = 180.0, bool direction = true)
+        public MoveGradientDecorator(RGBSurface surface, double speed = 180.0, bool direction = true)
+            : base(surface)
         {
             this.Speed = speed;
             this.Direction = direction;

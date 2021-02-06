@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Logitech
 {
     internal static class PerKeyIdMapping
     {
-        internal static readonly Dictionary<LedId, LogitechLedId> DEFAULT = new Dictionary<LedId, LogitechLedId>
-        {
+        internal static readonly Dictionary<LedId, LogitechLedId> DEFAULT = new()
+                                                                            {
             { LedId.Invalid, LogitechLedId.Invalid },
             { LedId.Keyboard_Escape, LogitechLedId.ESC },
             { LedId.Keyboard_F1, LogitechLedId.F1 },

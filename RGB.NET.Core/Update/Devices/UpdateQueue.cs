@@ -10,12 +10,13 @@ namespace RGB.NET.Core
     /// <typeparam name="TIdentifier">The type of the key used to identify some data.</typeparam>
     /// <typeparam name="TData">The type of the data.</typeparam>
     public abstract class UpdateQueue<TIdentifier, TData> : IDisposable
+        where TIdentifier : notnull
     {
         #region Properties & Fields
 
-        private readonly object _dataLock = new object();
+        private readonly object _dataLock = new();
         private readonly IDeviceUpdateTrigger _updateTrigger;
-        private Dictionary<TIdentifier, TData> _currentDataSet;
+        private Dictionary<TIdentifier, TData>? _currentDataSet;
 
         #endregion
 
@@ -42,16 +43,18 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="sender">The <see cref="IUpdateTrigger"/> causing this update.</param>
         /// <param name="customData"><see cref="CustomUpdateData"/> provided by the trigger.</param>
-        protected virtual void OnUpdate(object sender, CustomUpdateData customData)
+        protected virtual void OnUpdate(object? sender, CustomUpdateData customData)
         {
             Dictionary<TIdentifier, TData> dataSet;
             lock (_dataLock)
             {
+                if (_currentDataSet == null) return;
+
                 dataSet = _currentDataSet;
                 _currentDataSet = null;
             }
 
-            if ((dataSet != null) && (dataSet.Count != 0))
+            if (dataSet.Count != 0)
                 Update(dataSet);
         }
 
@@ -60,7 +63,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="sender">The starting <see cref="IUpdateTrigger"/>.</param>
         /// <param name="customData"><see cref="CustomUpdateData"/> provided by the trigger.</param>
-        protected virtual void OnStartup(object sender, CustomUpdateData customData) { }
+        protected virtual void OnStartup(object? sender, CustomUpdateData customData) { }
 
         /// <summary>
         /// Performs the update this queue is responsible for.
@@ -75,7 +78,7 @@ namespace RGB.NET.Core
         // ReSharper disable once MemberCanBeProtected.Global
         public virtual void SetData(Dictionary<TIdentifier, TData> dataSet)
         {
-            if ((dataSet == null) || (dataSet.Count == 0)) return;
+            if (dataSet.Count == 0) return;
 
             lock (_dataLock)
             {
@@ -83,8 +86,8 @@ namespace RGB.NET.Core
                     _currentDataSet = dataSet;
                 else
                 {
-                    foreach (KeyValuePair<TIdentifier, TData> command in dataSet)
-                        _currentDataSet[command.Key] = command.Value;
+                    foreach ((TIdentifier key, TData value) in dataSet)
+                        _currentDataSet[key] = value;
                 }
             }
 
@@ -132,7 +135,7 @@ namespace RGB.NET.Core
         /// Calls <see cref="UpdateQueue{TIdentifier,TData}.SetData"/> for a data set created out of the provided list of <see cref="Led"/>.
         /// </summary>
         /// <param name="leds"></param>
-        public void SetData(IEnumerable<Led> leds) => SetData(leds?.ToDictionary(x => x.CustomData ?? x.Id, x => x.Color));
+        public void SetData(IEnumerable<Led> leds) => SetData(leds.ToDictionary(x => x.CustomData ?? x.Id, x => x.Color));
 
         #endregion
     }

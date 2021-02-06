@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using RGB.NET.Core;
-using RGB.NET.Devices.WS281X.NodeMCU;
 
 namespace RGB.NET.Devices.WS281X
 {
@@ -17,7 +17,7 @@ namespace RGB.NET.Devices.WS281X
     {
         #region Properties & Fields
 
-        private static WS281XDeviceProvider _instance;
+        private static WS281XDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="WS281XDeviceProvider"/> instance.
         /// </summary>
@@ -27,17 +27,14 @@ namespace RGB.NET.Devices.WS281X
         public bool IsInitialized { get; private set; }
 
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
-
-        /// <inheritdoc />
-        public bool HasExclusiveAccess => false;
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// Gets a list of all defined device-definitions.
         /// </summary>
         // ReSharper disable once CollectionNeverUpdated.Global
         // ReSharper disable once ReturnTypeCanBeEnumerable.Global
-        public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = new List<IWS281XDeviceDefinition>();
+        public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = new();
 
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
@@ -72,15 +69,15 @@ namespace RGB.NET.Devices.WS281X
         public void AddDeviceDefinition(IWS281XDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.Unknown, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.Unknown, bool throwExceptions = false)
         {
             IsInitialized = false;
 
             try
             {
-                UpdateTrigger?.Stop();
+                UpdateTrigger.Stop();
 
-                List<IRGBDevice> devices = new List<IRGBDevice>();
+                List<IRGBDevice> devices = new();
                 foreach (IWS281XDeviceDefinition deviceDefinition in DeviceDefinitions)
                 {
                     try
@@ -89,7 +86,7 @@ namespace RGB.NET.Devices.WS281X
                     }
                     catch { if (throwExceptions) throw; }
                 }
-                UpdateTrigger?.Start();
+                UpdateTrigger.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;
@@ -103,20 +100,17 @@ namespace RGB.NET.Devices.WS281X
 
             return true;
         }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            foreach (IRGBDevice device in Devices)
-                if (device is NodeMCUWS2812USBDevice nodemcuDevice)
-                    nodemcuDevice.UpdateQueue.ResetDevice();
-        }
-
+        
         /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */}
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             DeviceDefinitions.Clear();
         }

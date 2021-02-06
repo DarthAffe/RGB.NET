@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net5.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <Authors>Darth Affe</Authors>
+    <Company>Wyrez</Company>
+    <Language>en-US</Language>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>RGB.NET.Layout</Title>
+    <AssemblyName>RGB.NET.Layout</AssemblyName>
+    <AssemblyTitle>RGB.NET.Layout</AssemblyTitle>
+    <PackageId>RGB.NET.Layout</PackageId>
+    <RootNamespace>RGB.NET.Layout</RootNamespace>
+    <Description>Layout-Module of RGB.NET</Description>
+    <Summary>Layout-Module of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
+    <Copyright>Copyright © Darth Affe 2021</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2021</PackageCopyright>
+    <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Github</RepositoryType>
+    <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
+  </ItemGroup>
+</Project>

@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Corsair
 {
     internal static class MouseIdMapping
     {
-        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new Dictionary<LedId, CorsairLedId>
-        {
+        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new()
+                                                                           {
             { LedId.Mouse1, CorsairLedId.B1 },
             { LedId.Mouse2, CorsairLedId.B2 },
             { LedId.Mouse3, CorsairLedId.B3 },
@@ -15,15 +15,15 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Mouse6, CorsairLedId.B6 },
         };
 
-        internal static readonly Dictionary<LedId, CorsairLedId> GLAIVE = new Dictionary<LedId, CorsairLedId>
-        {
+        internal static readonly Dictionary<LedId, CorsairLedId> GLAIVE = new()
+                                                                          {
             { LedId.Mouse1, CorsairLedId.B1 },
             { LedId.Mouse2, CorsairLedId.B2 },
             { LedId.Mouse3, CorsairLedId.B5 },
         };
 
-        internal static readonly Dictionary<LedId, CorsairLedId> M65_RGB_ELITE = new Dictionary<LedId, CorsairLedId>
-        {
+        internal static readonly Dictionary<LedId, CorsairLedId> M65_RGB_ELITE = new()
+                                                                                 {
             { LedId.Mouse1, CorsairLedId.B1 },
             { LedId.Mouse2, CorsairLedId.B3 },
         };

@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.SteelSeries
     {
         #region Properties & Fields
 
-        private Dictionary<LedId, SteelSeriesLedId> _ledMapping;
+        private Dictionary<LedId, SteelSeriesLedId> _ledMapping = new();
 
         /// <inheritdoc />
         /// <summary>
@@ -25,7 +25,7 @@ namespace RGB.NET.Devices.SteelSeries
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected UpdateQueue UpdateQueue { get; set; }
+        protected UpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 
@@ -53,35 +53,22 @@ namespace RGB.NET.Devices.SteelSeries
 
             int counter = 0;
             foreach (KeyValuePair<LedId, SteelSeriesLedId> mapping in ledMapping)
-                InitializeLed(mapping.Key, new Rectangle((counter++) * 10, 0, 10, 10));
-
-            InitializeLayout();
+                AddLed(mapping.Key, new Point((counter++) * 10, 0), new Size(10, 10));
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
             UpdateQueue = updateQueue;
         }
 
-        protected override object CreateLedCustomData(LedId ledId) => _ledMapping[ledId];
+        /// <inheritdoc />
+        protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
-
-        /// <summary>
-        /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
-        /// </summary>
-        protected virtual void InitializeLayout()
-        {
-            if (!(DeviceInfo is SteelSeriesRGBDeviceInfo info)) return;
-
-            string layout = info.ImageLayout;
-            string layoutPath = info.LayoutPath;
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\SteelSeries", $"{layoutPath}.xml"), layout, true);
-        }
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <inheritdoc />
         public override void Dispose()

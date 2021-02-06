@@ -26,19 +26,17 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override void InitializeLayout()
+        public override void Initialize(UpdateQueue updateQueue)
         {
-            base.InitializeLayout();
+            base.Initialize(updateQueue);
 
-            if (LedMapping.Count == 0)
-                InitializeLed(LedId.Custom1, new Rectangle(0, 0, 10, 10));
+            AddLed(LedId.Custom1, new Point(0, 0), new Size(10, 10));
         }
+        /// <inheritdoc />
+        protected override object GetLedCustomData(LedId ledId) => (ledId, LogitechLedId.DEVICE);
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (ledId, LogitechLedId.DEVICE);
-
-        /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0).Take(1));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0).Take(1));
 
         #endregion
     }

@@ -29,24 +29,17 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            
             Dictionary<LedId, (int row, int column)> mapping = WootingKeyboardLedMappings.Mapping[DeviceInfo.DeviceIndex][DeviceInfo.PhysicalLayout];
 
             foreach (KeyValuePair<LedId, (int row, int column)> led in mapping)
-            {
-                InitializeLed(led.Key, new Point(led.Value.column * 19, led.Value.row * 19), new Size(19,19));
-            }
-
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\Wooting\Keyboards\{model}", $"{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                                DeviceInfo.LogicalLayout.ToString());
+                AddLed(led.Key, new Point(led.Value.column * 19, led.Value.row * 19), new Size(19, 19));
         }
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.DeviceIndex][DeviceInfo.PhysicalLayout][ledId];
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.DeviceIndex][DeviceInfo.PhysicalLayout][ledId];
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         #endregion
     }

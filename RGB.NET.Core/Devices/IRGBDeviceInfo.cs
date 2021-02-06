@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RGB.NET.Core
+﻿namespace RGB.NET.Core
 {
     /// <summary>
     /// Represents a generic information for a <see cref="IRGBDevice"/>
@@ -29,15 +27,7 @@ namespace RGB.NET.Core
         /// </summary>
         string Model { get; }
 
-        /// <summary>
-        /// Gets the lighting capability of the <see cref="IRGBDevice"/>
-        /// </summary>
-        RGBDeviceLighting Lighting { get; }
-        
-        /// <summary>
-        /// Gets the URI of an image of the <see cref="IRGBDevice"/> or null if there is no image.
-        /// </summary>
-        Uri Image { get; set; }
+        object? LayoutMetadata { get; set; }
 
         #endregion
     }

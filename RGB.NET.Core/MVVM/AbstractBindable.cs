@@ -14,7 +14,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         #endregion
 
@@ -28,10 +28,7 @@ namespace RGB.NET.Core
         /// <param name="value">Value to apply.</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual bool RequiresUpdate<T>(ref T storage, T value)
-        {
-            return !Equals(storage, value);
-        }
+        protected virtual bool RequiresUpdate<T>(ref T storage, T value) => !Equals(storage, value);
 
         /// <summary>
         /// Checks if the property already matches the desired value and updates it if not.
@@ -42,13 +39,13 @@ namespace RGB.NET.Core
         /// <param name="propertyName">Name of the property used to notify listeners. This value is optional 
         /// and can be provided automatically when invoked from compilers that support <see cref="CallerMemberNameAttribute"/>.</param>
         /// <returns><c>true</c> if the value was changed, <c>false</c> if the existing value matched the desired value.</returns>
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
         {
-            if (!this.RequiresUpdate(ref storage, value)) return false;
+            if (!RequiresUpdate(ref storage, value)) return false;
 
             storage = value;
             // ReSharper disable once ExplicitCallerInfoArgument
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
 
@@ -57,10 +54,8 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="propertyName">Name of the property used to notify listeners. This value is optional 
         /// and can be provided automatically when invoked from compilers that support <see cref="CallerMemberNameAttribute"/>.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion
     }

@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using RGB.NET.Core;
+using RGB.NET.Layout;
 
 namespace RGB.NET.Devices.Debug
 {
@@ -16,7 +18,7 @@ namespace RGB.NET.Devices.Debug
     {
         #region Properties & Fields
 
-        private static DebugDeviceProvider _instance;
+        private static DebugDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="DebugDeviceProvider"/> instance.
         /// </summary>
@@ -26,13 +28,9 @@ namespace RGB.NET.Devices.Debug
         public bool IsInitialized { get; private set; }
 
         /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
-        /// <inheritdoc />
-        public bool HasExclusiveAccess { get; private set; }
-
-        private List<(string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction)> _fakeDeviceDefinitions
-            = new List<(string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction)>();
+        private List<(IDeviceLayout layout, string imageLayout, Action<IEnumerable<Led>>? updateLedsAction)> _fakeDeviceDefinitions = new();
 
         #endregion
 
@@ -58,7 +56,7 @@ namespace RGB.NET.Devices.Debug
         /// <param name="layout">The path of the layout file to be used.</param>
         /// <param name="imageLayout">The image-layout to load.</param>
         /// <param name="updateLedsAction">A action emulating led-updates.</param>
-        public void AddFakeDeviceDefinition(string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction = null)
+        public void AddFakeDeviceDefinition(IDeviceLayout layout, string imageLayout, Action<IEnumerable<Led>>? updateLedsAction = null)
             => _fakeDeviceDefinitions.Add((layout, imageLayout, updateLedsAction));
 
         /// <summary>
@@ -67,18 +65,15 @@ namespace RGB.NET.Devices.Debug
         public void ClearFakeDeviceDefinitions() => _fakeDeviceDefinitions.Clear();
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.Unknown, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.Unknown, bool throwExceptions = false)
         {
             IsInitialized = false;
             try
             {
-                HasExclusiveAccess = exclusiveAccessIfPossible;
-
-                List<IRGBDevice> devices = new List<IRGBDevice>();
-                foreach ((string layout, string imageLayout, Action<IEnumerable<Led>> updateLedsAction) in _fakeDeviceDefinitions)
+                List<IRGBDevice> devices = new();
+                foreach ((IDeviceLayout layout, string imageLayout, Action<IEnumerable<Led>>? updateLedsAction) in _fakeDeviceDefinitions)
                 {
-                    DebugRGBDevice device = new DebugRGBDevice(layout, updateLedsAction);
-                    device.Initialize(layout, imageLayout);
+                    DebugRGBDevice device = new(layout, updateLedsAction);
                     devices.Add(device);
                 }
 

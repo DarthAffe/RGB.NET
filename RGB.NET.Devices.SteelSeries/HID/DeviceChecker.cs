@@ -2,7 +2,7 @@
 using System.Linq;
 using HidSharp;
 using RGB.NET.Core;
-using DeviceDataList = System.Collections.Generic.List<(string model, RGB.NET.Core.RGBDeviceType deviceType, int id, RGB.NET.Devices.SteelSeries.SteelSeriesDeviceType steelSeriesDeviceType, string imageLayout, string layoutPath, System.Collections.Generic.Dictionary<RGB.NET.Core.LedId, RGB.NET.Devices.SteelSeries.SteelSeriesLedId> ledMapping)>;
+using DeviceDataList = System.Collections.Generic.List<(string model, RGB.NET.Core.RGBDeviceType deviceType, int id, RGB.NET.Devices.SteelSeries.SteelSeriesDeviceType steelSeriesDeviceType, System.Collections.Generic.Dictionary<RGB.NET.Core.LedId, RGB.NET.Devices.SteelSeries.SteelSeriesLedId> ledMapping)>;
 using LedMapping = System.Collections.Generic.Dictionary<RGB.NET.Core.LedId, RGB.NET.Devices.SteelSeries.SteelSeriesLedId>;
 
 namespace RGB.NET.Devices.SteelSeries.HID
@@ -11,7 +11,7 @@ namespace RGB.NET.Devices.SteelSeries.HID
     {
         #region Constants
 
-        private static readonly LedMapping KEYBOARD_MAPPING_UK = new LedMapping
+        private static readonly LedMapping KEYBOARD_MAPPING_UK = new()
         {
             { LedId.Logo, SteelSeriesLedId.Logo },
             { LedId.Keyboard_Escape, SteelSeriesLedId.Escape },
@@ -121,7 +121,7 @@ namespace RGB.NET.Devices.SteelSeries.HID
             { LedId.Keyboard_NumPeriodAndDelete, SteelSeriesLedId.KeypadPeriod }
         };
 
-        private static readonly LedMapping KEYBOARD_TKL_MAPPING_UK = new LedMapping
+        private static readonly LedMapping KEYBOARD_TKL_MAPPING_UK = new()
         {
             { LedId.Logo, SteelSeriesLedId.Logo },
             { LedId.Keyboard_Escape, SteelSeriesLedId.Escape },
@@ -214,87 +214,87 @@ namespace RGB.NET.Devices.SteelSeries.HID
             { LedId.Keyboard_ArrowRight, SteelSeriesLedId.RightArrow }
         };
 
-        private static readonly LedMapping MOUSE_ONE_ZONE = new LedMapping
+        private static readonly LedMapping MOUSE_ONE_ZONE = new()
         {
-            {LedId.Mouse1, SteelSeriesLedId.ZoneOne}
+            { LedId.Mouse1, SteelSeriesLedId.ZoneOne }
         };
 
-        private static readonly LedMapping MOUSE_TWO_ZONE = new LedMapping
-                                                               {
-                                                                   {LedId.Mouse1, SteelSeriesLedId.ZoneOne},
-                                                                   {LedId.Mouse2, SteelSeriesLedId.ZoneTwo}
-                                                               };
-
-        private static readonly LedMapping MOUSE_THREE_ZONE = new LedMapping
-                                                               {
-            {LedId.Mouse1, SteelSeriesLedId.ZoneOne},
-            {LedId.Mouse2, SteelSeriesLedId.ZoneTwo},
-            {LedId.Mouse3, SteelSeriesLedId.ZoneThree}
-                                                               };
-
-        private static readonly LedMapping MOUSE_EIGHT_ZONE = new LedMapping
-                                                              {
-                                                                  { LedId.Mouse1, SteelSeriesLedId.ZoneOne},
-                                                                  { LedId.Mouse2, SteelSeriesLedId.ZoneTwo},
-                                                                  { LedId.Mouse3, SteelSeriesLedId.ZoneThree},
-                                                                  { LedId.Mouse4, SteelSeriesLedId.ZoneFour},
-                                                                  { LedId.Mouse5, SteelSeriesLedId.ZoneFive},
-                                                                  { LedId.Mouse6, SteelSeriesLedId.ZoneSix},
-                                                                  { LedId.Mouse7, SteelSeriesLedId.ZoneSeven},
-                                                                  { LedId.Mouse8, SteelSeriesLedId.ZoneEight}
-                                                               };
-
-        private static readonly LedMapping HEADSET_TWO_ZONE = new LedMapping
+        private static readonly LedMapping MOUSE_TWO_ZONE = new()
         {
-            {LedId.Headset1, SteelSeriesLedId.ZoneOne},
-            {LedId.Headset2, SteelSeriesLedId.ZoneTwo}
+            { LedId.Mouse1, SteelSeriesLedId.ZoneOne },
+            { LedId.Mouse2, SteelSeriesLedId.ZoneTwo }
         };
-        
+
+        private static readonly LedMapping MOUSE_THREE_ZONE = new()
+        {
+            { LedId.Mouse1, SteelSeriesLedId.ZoneOne },
+            { LedId.Mouse2, SteelSeriesLedId.ZoneTwo },
+            { LedId.Mouse3, SteelSeriesLedId.ZoneThree }
+        };
+
+        private static readonly LedMapping MOUSE_EIGHT_ZONE = new()
+        {
+            { LedId.Mouse1, SteelSeriesLedId.ZoneOne },
+            { LedId.Mouse2, SteelSeriesLedId.ZoneTwo },
+            { LedId.Mouse3, SteelSeriesLedId.ZoneThree },
+            { LedId.Mouse4, SteelSeriesLedId.ZoneFour },
+            { LedId.Mouse5, SteelSeriesLedId.ZoneFive },
+            { LedId.Mouse6, SteelSeriesLedId.ZoneSix },
+            { LedId.Mouse7, SteelSeriesLedId.ZoneSeven },
+            { LedId.Mouse8, SteelSeriesLedId.ZoneEight }
+        };
+
+        private static readonly LedMapping HEADSET_TWO_ZONE = new()
+        {
+            { LedId.Headset1, SteelSeriesLedId.ZoneOne },
+            { LedId.Headset2, SteelSeriesLedId.ZoneTwo }
+        };
+
         private const int VENDOR_ID = 0x1038;
 
         //TODO DarthAffe 16.02.2019: Add devices
-        private static readonly DeviceDataList DEVICES = new DeviceDataList
+        private static readonly DeviceDataList DEVICES = new()
         {
             //Mice
-            ("Aerox 3", RGBDeviceType.Mouse, 0x1836, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Aerox3", MOUSE_THREE_ZONE),
-            ("Aerox 3 Wireless", RGBDeviceType.Mouse, 0x183A, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Aerox3Wireless", MOUSE_THREE_ZONE),
-            ("Rival 100", RGBDeviceType.Mouse, 0x1702, SteelSeriesDeviceType.OneZone, "default", @"Mice\Rival100", MOUSE_ONE_ZONE),
-            ("Rival 105", RGBDeviceType.Mouse, 0x1814, SteelSeriesDeviceType.OneZone, "default", @"Mice\Rival105", MOUSE_ONE_ZONE),
-            ("Rival 106", RGBDeviceType.Mouse, 0x1816, SteelSeriesDeviceType.OneZone, "default", @"Mice\Rival106", MOUSE_ONE_ZONE),
-            ("Rival 110", RGBDeviceType.Mouse, 0x1729, SteelSeriesDeviceType.OneZone, "default", @"Mice\Rival110", MOUSE_ONE_ZONE),
-            ("Rival 150", RGBDeviceType.Mouse, 0x0472, SteelSeriesDeviceType.OneZone, "default", @"Mice\Rival150", MOUSE_ONE_ZONE),
-            ("Rival 300", RGBDeviceType.Mouse, 0x1710, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival300", MOUSE_TWO_ZONE),
-            ("Rival 310", RGBDeviceType.Mouse, 0x1720, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival310", MOUSE_TWO_ZONE),
-            ("Rival 500", RGBDeviceType.Mouse, 0x170E, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival500", MOUSE_TWO_ZONE),
-            ("Rival 600", RGBDeviceType.Mouse, 0x1724, SteelSeriesDeviceType.EightZone, "default", @"Mice\Rival600", MOUSE_EIGHT_ZONE),
-            ("Rival 700", RGBDeviceType.Mouse, 0x1700, SteelSeriesDeviceType.TwoZone, "default", @"Mice\Rival700", MOUSE_TWO_ZONE),
-            ("Rival 3 (Old Firmware)", RGBDeviceType.Mouse, 0x1824, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Rival3", MOUSE_THREE_ZONE),
-            ("Rival 3", RGBDeviceType.Mouse, 0x184C, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Rival3", MOUSE_THREE_ZONE),
-            ("Rival 3 Wireless", RGBDeviceType.Mouse, 0x1830, SteelSeriesDeviceType.ThreeZone, "default", @"Mice\Rival3Wireless", MOUSE_THREE_ZONE),
-            ("Sensei Ten", RGBDeviceType.Mouse, 0x1832, SteelSeriesDeviceType.TwoZone, "default", @"Mice\SenseiTen", MOUSE_TWO_ZONE),
+            ("Aerox 3", RGBDeviceType.Mouse, 0x1836, SteelSeriesDeviceType.ThreeZone, MOUSE_THREE_ZONE),
+            ("Aerox 3 Wireless", RGBDeviceType.Mouse, 0x183A, SteelSeriesDeviceType.ThreeZone, MOUSE_THREE_ZONE),
+            ("Rival 100", RGBDeviceType.Mouse, 0x1702, SteelSeriesDeviceType.OneZone, MOUSE_ONE_ZONE),
+            ("Rival 105", RGBDeviceType.Mouse, 0x1814, SteelSeriesDeviceType.OneZone, MOUSE_ONE_ZONE),
+            ("Rival 106", RGBDeviceType.Mouse, 0x1816, SteelSeriesDeviceType.OneZone, MOUSE_ONE_ZONE),
+            ("Rival 110", RGBDeviceType.Mouse, 0x1729, SteelSeriesDeviceType.OneZone, MOUSE_ONE_ZONE),
+            ("Rival 150", RGBDeviceType.Mouse, 0x0472, SteelSeriesDeviceType.OneZone, MOUSE_ONE_ZONE),
+            ("Rival 300", RGBDeviceType.Mouse, 0x1710, SteelSeriesDeviceType.TwoZone, MOUSE_TWO_ZONE),
+            ("Rival 310", RGBDeviceType.Mouse, 0x1720, SteelSeriesDeviceType.TwoZone, MOUSE_TWO_ZONE),
+            ("Rival 500", RGBDeviceType.Mouse, 0x170E, SteelSeriesDeviceType.TwoZone, MOUSE_TWO_ZONE),
+            ("Rival 600", RGBDeviceType.Mouse, 0x1724, SteelSeriesDeviceType.EightZone, MOUSE_EIGHT_ZONE),
+            ("Rival 700", RGBDeviceType.Mouse, 0x1700, SteelSeriesDeviceType.TwoZone, MOUSE_TWO_ZONE),
+            ("Rival 3 (Old Firmware)", RGBDeviceType.Mouse, 0x1824, SteelSeriesDeviceType.ThreeZone, MOUSE_THREE_ZONE),
+            ("Rival 3", RGBDeviceType.Mouse, 0x184C, SteelSeriesDeviceType.ThreeZone, MOUSE_THREE_ZONE),
+            ("Rival 3 Wireless", RGBDeviceType.Mouse, 0x1830, SteelSeriesDeviceType.ThreeZone, MOUSE_THREE_ZONE),
+            ("Sensei Ten", RGBDeviceType.Mouse, 0x1832, SteelSeriesDeviceType.TwoZone, MOUSE_TWO_ZONE),
 
             //Keyboards
-            ("Apex 5", RGBDeviceType.Keyboard, 0x161C, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\5\UK", KEYBOARD_MAPPING_UK),
-            ("Apex 7", RGBDeviceType.Keyboard, 0x1612, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\7\UK", KEYBOARD_MAPPING_UK),
-            ("Apex 7 TKL", RGBDeviceType.Keyboard, 0x1618, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\7TKL\UK", KEYBOARD_TKL_MAPPING_UK),
-            ("Apex M750", RGBDeviceType.Keyboard, 0x0616, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\M750\UK", KEYBOARD_MAPPING_UK),
-            ("Apex M800", RGBDeviceType.Keyboard, 0x1600, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\M800\UK", KEYBOARD_MAPPING_UK),
-            ("Apex Pro", RGBDeviceType.Keyboard, 0x1610, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\Pro\UK", KEYBOARD_MAPPING_UK),
-            ("Apex Pro TKL", RGBDeviceType.Keyboard, 0x1614, SteelSeriesDeviceType.PerKey, "UK", @"Keyboards\ProTKL\UK", KEYBOARD_TKL_MAPPING_UK),
+            ("Apex 5", RGBDeviceType.Keyboard, 0x161C, SteelSeriesDeviceType.PerKey, KEYBOARD_MAPPING_UK),
+            ("Apex 7", RGBDeviceType.Keyboard, 0x1612, SteelSeriesDeviceType.PerKey, KEYBOARD_MAPPING_UK),
+            ("Apex 7 TKL", RGBDeviceType.Keyboard, 0x1618, SteelSeriesDeviceType.PerKey, KEYBOARD_TKL_MAPPING_UK),
+            ("Apex M750", RGBDeviceType.Keyboard, 0x0616, SteelSeriesDeviceType.PerKey, KEYBOARD_MAPPING_UK),
+            ("Apex M800", RGBDeviceType.Keyboard, 0x1600, SteelSeriesDeviceType.PerKey, KEYBOARD_MAPPING_UK),
+            ("Apex Pro", RGBDeviceType.Keyboard, 0x1610, SteelSeriesDeviceType.PerKey, KEYBOARD_MAPPING_UK),
+            ("Apex Pro TKL", RGBDeviceType.Keyboard, 0x1614, SteelSeriesDeviceType.PerKey, KEYBOARD_TKL_MAPPING_UK),
 
             //Headsets
-            ("Arctis 5", RGBDeviceType.Headset, 0x12AA, SteelSeriesDeviceType.TwoZone, "default", @"Headsets\Artis5", HEADSET_TWO_ZONE),
-            ("Arctis 5 Game", RGBDeviceType.Headset, 0x1250, SteelSeriesDeviceType.TwoZone, "default", @"Headsets\Artis5", HEADSET_TWO_ZONE),
-            ("Arctis 5 Game - Dota 2 edition", RGBDeviceType.Headset, 0x1251, SteelSeriesDeviceType.TwoZone, "default", @"Headsets\Artis5", HEADSET_TWO_ZONE),
-            ("Arctis 5 Game - PUBG edition", RGBDeviceType.Headset, 0x12A8, SteelSeriesDeviceType.TwoZone, "default", @"Headsets\Artis5", HEADSET_TWO_ZONE),
-            ("Arctis Pro Game", RGBDeviceType.Headset, 0x1252, SteelSeriesDeviceType.TwoZone, "default", @"Headsets\Artis5", HEADSET_TWO_ZONE),
+            ("Arctis 5", RGBDeviceType.Headset, 0x12AA, SteelSeriesDeviceType.TwoZone, HEADSET_TWO_ZONE),
+            ("Arctis 5 Game", RGBDeviceType.Headset, 0x1250, SteelSeriesDeviceType.TwoZone, HEADSET_TWO_ZONE),
+            ("Arctis 5 Game - Dota 2 edition", RGBDeviceType.Headset, 0x1251, SteelSeriesDeviceType.TwoZone, HEADSET_TWO_ZONE),
+            ("Arctis 5 Game - PUBG edition", RGBDeviceType.Headset, 0x12A8, SteelSeriesDeviceType.TwoZone, HEADSET_TWO_ZONE),
+            ("Arctis Pro Game", RGBDeviceType.Headset, 0x1252, SteelSeriesDeviceType.TwoZone, HEADSET_TWO_ZONE),
         };
 
         #endregion
 
         #region Properties & Fields
 
-        public static DeviceDataList ConnectedDevices { get; } = new DeviceDataList();
+        public static DeviceDataList ConnectedDevices { get; } = new();
 
         #endregion
 
@@ -304,7 +304,7 @@ namespace RGB.NET.Devices.SteelSeries.HID
         {
             ConnectedDevices.Clear();
 
-            HashSet<int> ids = new HashSet<int>(DeviceList.Local.GetHidDevices(VENDOR_ID).Select(x => x.ProductID).Distinct());
+            HashSet<int> ids = new(DeviceList.Local.GetHidDevices(VENDOR_ID).Select(x => x.ProductID).Distinct());
             DeviceDataList connectedDevices = DEVICES.Where(d => ids.Contains(d.id) && loadFilter.HasFlag(d.deviceType)).ToList();
 
             List<SteelSeriesDeviceType> connectedDeviceTypes = connectedDevices.Select(d => d.steelSeriesDeviceType).ToList();

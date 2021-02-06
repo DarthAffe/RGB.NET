@@ -16,12 +16,7 @@ namespace RGB.NET.Devices.Corsair.Native
         #region Libary Management
 
         private static IntPtr _dllHandle = IntPtr.Zero;
-
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        internal static string LoadedArchitecture { get; private set; }
-
+        
         /// <summary>
         /// Reloads the SDK.
         /// </summary>
@@ -37,7 +32,7 @@ namespace RGB.NET.Devices.Corsair.Native
 
             // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
             List<string> possiblePathList = Environment.Is64BitProcess ? CorsairDeviceProvider.PossibleX64NativePaths : CorsairDeviceProvider.PossibleX86NativePaths;
-            string dllPath = possiblePathList.FirstOrDefault(File.Exists);
+            string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
             if (dllPath == null) throw new RGBDeviceException($"Can't find the CUE-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
             _dllHandle = LoadLibrary(dllPath);
@@ -80,18 +75,18 @@ namespace RGB.NET.Devices.Corsair.Native
 
         #region Pointers
 
-        private static CorsairSetLedsColorsBufferByDeviceIndexPointer _corsairSetLedsColorsBufferByDeviceIndexPointer;
-        private static CorsairSetLedsColorsFlushBufferPointer _corsairSetLedsColorsFlushBufferPointer;
-        private static CorsairGetLedsColorsByDeviceIndexPointer _corsairGetLedsColorsByDeviceIndexPointer;
-        private static CorsairSetLayerPriorityPointer _corsairSetLayerPriorityPointer;
-        private static CorsairGetDeviceCountPointer _corsairGetDeviceCountPointer;
-        private static CorsairGetDeviceInfoPointer _corsairGetDeviceInfoPointer;
-        private static CorsairGetLedIdForKeyNamePointer _corsairGetLedIdForKeyNamePointer;
-        private static CorsairGetLedPositionsByDeviceIndexPointer _corsairGetLedPositionsByDeviceIndexPointer;
-        private static CorsairRequestControlPointer _corsairRequestControlPointer;
-        private static CorsairReleaseControlPointer _corsairReleaseControlPointer;
-        private static CorsairPerformProtocolHandshakePointer _corsairPerformProtocolHandshakePointer;
-        private static CorsairGetLastErrorPointer _corsairGetLastErrorPointer;
+        private static CorsairSetLedsColorsBufferByDeviceIndexPointer? _corsairSetLedsColorsBufferByDeviceIndexPointer;
+        private static CorsairSetLedsColorsFlushBufferPointer? _corsairSetLedsColorsFlushBufferPointer;
+        private static CorsairGetLedsColorsByDeviceIndexPointer? _corsairGetLedsColorsByDeviceIndexPointer;
+        private static CorsairSetLayerPriorityPointer? _corsairSetLayerPriorityPointer;
+        private static CorsairGetDeviceCountPointer? _corsairGetDeviceCountPointer;
+        private static CorsairGetDeviceInfoPointer? _corsairGetDeviceInfoPointer;
+        private static CorsairGetLedIdForKeyNamePointer? _corsairGetLedIdForKeyNamePointer;
+        private static CorsairGetLedPositionsByDeviceIndexPointer? _corsairGetLedPositionsByDeviceIndexPointer;
+        private static CorsairRequestControlPointer? _corsairRequestControlPointer;
+        private static CorsairReleaseControlPointer? _corsairReleaseControlPointer;
+        private static CorsairPerformProtocolHandshakePointer? _corsairPerformProtocolHandshakePointer;
+        private static CorsairGetLastErrorPointer? _corsairGetLastErrorPointer;
 
         #endregion
 
@@ -144,68 +139,70 @@ namespace RGB.NET.Devices.Corsair.Native
         /// and follows after one or more calls of CorsairSetLedsColorsBufferByDeviceIndex to set the LEDs buffer.
         /// This function does not take logical layout into account.
         /// </summary>
-        internal static bool CorsairSetLedsColorsBufferByDeviceIndex(int deviceIndex, int size, IntPtr ledsColors) => _corsairSetLedsColorsBufferByDeviceIndexPointer(deviceIndex, size, ledsColors);
+        internal static bool CorsairSetLedsColorsBufferByDeviceIndex(int deviceIndex, int size, IntPtr ledsColors)
+            => (_corsairSetLedsColorsBufferByDeviceIndexPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(deviceIndex, size, ledsColors);
 
         /// <summary>
         /// CUE-SDK: writes to the devices LEDs colors buffer which is previously filled by the CorsairSetLedsColorsBufferByDeviceIndex function.
         /// This function executes synchronously, if you are concerned about delays consider using CorsairSetLedsColorsFlushBufferAsync
         /// </summary>
-        internal static bool CorsairSetLedsColorsFlushBuffer() => _corsairSetLedsColorsFlushBufferPointer();
+        internal static bool CorsairSetLedsColorsFlushBuffer() => (_corsairSetLedsColorsFlushBufferPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke();
 
         /// <summary>
         /// CUE-SDK: get current color for the list of requested LEDs.
         /// The color should represent the actual state of the hardware LED, which could be a combination of SDK and/or CUE input.
         /// This function works for keyboard, mouse, mousemat, headset, headset stand and DIY-devices.
         /// </summary>
-        internal static bool CorsairGetLedsColorsByDeviceIndex(int deviceIndex, int size, IntPtr ledsColors) => _corsairGetLedsColorsByDeviceIndexPointer(deviceIndex, size, ledsColors);
+        internal static bool CorsairGetLedsColorsByDeviceIndex(int deviceIndex, int size, IntPtr ledsColors)
+            => (_corsairGetLedsColorsByDeviceIndexPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(deviceIndex, size, ledsColors);
 
         /// <summary>
         /// CUE-SDK: set layer priority for this shared client.
         /// By default CUE has priority of 127 and all shared clients have priority of 128 if they don’t call this function.
         /// Layers with higher priority value are shown on top of layers with lower priority.
         /// </summary>
-        internal static bool CorsairSetLayerPriority(int priority) => _corsairSetLayerPriorityPointer(priority);
+        internal static bool CorsairSetLayerPriority(int priority) => (_corsairSetLayerPriorityPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(priority);
 
         /// <summary>
         /// CUE-SDK: returns number of connected Corsair devices that support lighting control.
         /// </summary>
-        internal static int CorsairGetDeviceCount() => _corsairGetDeviceCountPointer();
+        internal static int CorsairGetDeviceCount() => (_corsairGetDeviceCountPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke();
 
         /// <summary>
         /// CUE-SDK: returns information about device at provided index.
         /// </summary>
-        internal static IntPtr CorsairGetDeviceInfo(int deviceIndex) => _corsairGetDeviceInfoPointer(deviceIndex);
+        internal static IntPtr CorsairGetDeviceInfo(int deviceIndex) => (_corsairGetDeviceInfoPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(deviceIndex);
 
         /// <summary>
         /// CUE-SDK: provides list of keyboard or mousepad LEDs with their physical positions.
         /// </summary>
-        internal static IntPtr CorsairGetLedPositionsByDeviceIndex(int deviceIndex) => _corsairGetLedPositionsByDeviceIndexPointer(deviceIndex);
+        internal static IntPtr CorsairGetLedPositionsByDeviceIndex(int deviceIndex) => (_corsairGetLedPositionsByDeviceIndexPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(deviceIndex);
 
         /// <summary>
         /// CUE-SDK: retrieves led id for key name taking logical layout into account.
         /// </summary>
-        internal static CorsairLedId CorsairGetLedIdForKeyName(char keyName) => _corsairGetLedIdForKeyNamePointer(keyName);
+        internal static CorsairLedId CorsairGetLedIdForKeyName(char keyName) => (_corsairGetLedIdForKeyNamePointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(keyName);
 
         /// <summary>
         /// CUE-SDK: requestes control using specified access mode.
         /// By default client has shared control over lighting so there is no need to call CorsairRequestControl unless client requires exclusive control.
         /// </summary>
-        internal static bool CorsairRequestControl(CorsairAccessMode accessMode) => _corsairRequestControlPointer(accessMode);
+        internal static bool CorsairRequestControl(CorsairAccessMode accessMode) => (_corsairRequestControlPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(accessMode);
 
         /// <summary>
         /// CUE-SDK: releases previously requested control for specified access mode.
         /// </summary>
-        internal static bool CorsairReleaseControl(CorsairAccessMode accessMode) => _corsairReleaseControlPointer(accessMode);
+        internal static bool CorsairReleaseControl(CorsairAccessMode accessMode) => (_corsairReleaseControlPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke(accessMode);
 
         /// <summary>
         /// CUE-SDK: checks file and protocol version of CUE to understand which of SDK functions can be used with this version of CUE.
         /// </summary>
-        internal static _CorsairProtocolDetails CorsairPerformProtocolHandshake() => _corsairPerformProtocolHandshakePointer();
+        internal static _CorsairProtocolDetails CorsairPerformProtocolHandshake() => (_corsairPerformProtocolHandshakePointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke();
 
         /// <summary>
         /// CUE-SDK: returns last error that occured while using any of Corsair* functions.
         /// </summary>
-        internal static CorsairError CorsairGetLastError() => _corsairGetLastErrorPointer();
+        internal static CorsairError CorsairGetLastError() => (_corsairGetLastErrorPointer ?? throw new RGBDeviceException("The Corsair-SDK is not initialized.")).Invoke();
 
         // ReSharper restore EventExceptionNotDocumented
 

@@ -30,19 +30,13 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\Mice", $"{model}.xml"), null);
-
-            if (LedMapping.Count == 0)
-            {
-                for (int i = 0; i < _Defines.MOUSE_MAX_ROW; i++)
-                    for (int j = 0; j < _Defines.MOUSE_MAX_COLUMN; j++)
-                        InitializeLed(LedId.Mouse1 + ((i * _Defines.MOUSE_MAX_COLUMN) + j), new Rectangle(j * 11, i * 11, 10, 10));
-            }
+            for (int i = 0; i < _Defines.MOUSE_MAX_ROW; i++)
+                for (int j = 0; j < _Defines.MOUSE_MAX_COLUMN; j++)
+                    AddLed(LedId.Mouse1 + ((i * _Defines.MOUSE_MAX_COLUMN) + j), new Point(j * 11, i * 11), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
 
         /// <inheritdoc />
         protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMouseUpdateQueue(updateTrigger, DeviceInfo.DeviceId);

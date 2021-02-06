@@ -30,15 +30,12 @@ namespace RGB.NET.Devices.CoolerMaster
             Dictionary<LedId, (int row, int column)> mapping = CoolerMasterMouseLedMappings.Mapping[DeviceInfo.DeviceIndex];
 
             foreach (KeyValuePair<LedId, (int row, int column)> led in mapping)
-                InitializeLed(led.Key, new Rectangle(led.Value.column * 19, led.Value.row * 19, 19, 19));
-
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\CoolerMaster\Mice", $"{model}.xml"), null);
+                AddLed(led.Key, new Point(led.Value.column * 19, led.Value.row * 19), new Size(19, 19));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => CoolerMasterMouseLedMappings.Mapping[DeviceInfo.DeviceIndex][ledId];
-
+        protected override object GetLedCustomData(LedId ledId) => CoolerMasterMouseLedMappings.Mapping[DeviceInfo.DeviceIndex][ledId];
+        
         #endregion
     }
 }

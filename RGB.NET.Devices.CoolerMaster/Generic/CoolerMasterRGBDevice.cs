@@ -26,7 +26,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected CoolerMasterUpdateQueue UpdateQueue { get; set; }
+        protected CoolerMasterUpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
 
@@ -68,7 +68,7 @@ namespace RGB.NET.Devices.CoolerMaster
         protected abstract void InitializeLayout();
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         /// <inheritdoc cref="IDisposable.Dispose" />
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />

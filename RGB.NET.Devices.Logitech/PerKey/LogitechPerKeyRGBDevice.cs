@@ -26,10 +26,10 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (ledId, PerKeyIdMapping.DEFAULT.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : LogitechLedId.Invalid);
+        protected override object GetLedCustomData(LedId ledId) => (ledId, PerKeyIdMapping.DEFAULT.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : LogitechLedId.Invalid);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
 
         #endregion
     }

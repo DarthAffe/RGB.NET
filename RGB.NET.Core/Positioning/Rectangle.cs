@@ -12,7 +12,7 @@ namespace RGB.NET.Core
     /// Represents a rectangle defined by it's position and it's size.
     /// </summary>
     [DebuggerDisplay("[Location: {Location}, Size: {Size}]")]
-    public struct Rectangle
+    public readonly struct Rectangle
     {
         #region Properties & Fields
 
@@ -69,6 +69,7 @@ namespace RGB.NET.Core
         {
             this.Location = location;
             this.Size = size;
+
             Center = new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
         }
 
@@ -95,15 +96,14 @@ namespace RGB.NET.Core
             double posX2 = double.MinValue;
             double posY2 = double.MinValue;
 
-            if (rectangles != null)
-                foreach (Rectangle rectangle in rectangles)
-                {
-                    hasPoint = true;
-                    posX = Math.Min(posX, rectangle.Location.X);
-                    posY = Math.Min(posY, rectangle.Location.Y);
-                    posX2 = Math.Max(posX2, rectangle.Location.X + rectangle.Size.Width);
-                    posY2 = Math.Max(posY2, rectangle.Location.Y + rectangle.Size.Height);
-                }
+            foreach (Rectangle rectangle in rectangles)
+            {
+                hasPoint = true;
+                posX = Math.Min(posX, rectangle.Location.X);
+                posY = Math.Min(posY, rectangle.Location.Y);
+                posX2 = Math.Max(posX2, rectangle.Location.X + rectangle.Size.Width);
+                posY2 = Math.Max(posY2, rectangle.Location.Y + rectangle.Size.Height);
+            }
 
             (Point location, Size size) = hasPoint ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2)) : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
             Location = location;
@@ -136,15 +136,14 @@ namespace RGB.NET.Core
             double posX2 = double.MinValue;
             double posY2 = double.MinValue;
 
-            if (points != null)
-                foreach (Point point in points)
-                {
-                    hasPoint = true;
-                    posX = Math.Min(posX, point.X);
-                    posY = Math.Min(posY, point.Y);
-                    posX2 = Math.Max(posX2, point.X);
-                    posY2 = Math.Max(posY2, point.Y);
-                }
+            foreach (Point point in points)
+            {
+                hasPoint = true;
+                posX = Math.Min(posX, point.X);
+                posY = Math.Min(posY, point.Y);
+                posX2 = Math.Max(posX2, point.X);
+                posY2 = Math.Max(posY2, point.Y);
+            }
 
             (Point location, Size size) = hasPoint ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2)) : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
 
@@ -178,7 +177,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rectangle" /> equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is Rectangle compareRect))
                 return false;

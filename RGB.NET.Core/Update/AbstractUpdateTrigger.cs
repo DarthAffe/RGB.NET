@@ -10,9 +10,9 @@ namespace RGB.NET.Core
         #region Events
 
         /// <inheritdoc />
-        public event EventHandler<CustomUpdateData> Starting;
+        public event EventHandler<CustomUpdateData>? Starting;
         /// <inheritdoc />
-        public event EventHandler<CustomUpdateData> Update;
+        public event EventHandler<CustomUpdateData>? Update;
 
         #endregion
 
@@ -22,13 +22,13 @@ namespace RGB.NET.Core
         /// Invokes the <see cref="Starting"/>-event.
         /// </summary>
         /// <param name="updateData">Optional custom-data passed to the subscribers of the <see cref="Starting"/>.event.</param>
-        protected virtual void OnStartup(CustomUpdateData updateData = null) => Starting?.Invoke(this, updateData);
+        protected virtual void OnStartup(CustomUpdateData? updateData = null) => Starting?.Invoke(this, updateData ?? new CustomUpdateData());
 
         /// <summary>
         /// Invokes the <see cref="Update"/>-event.
         /// </summary>
         /// <param name="updateData">Optional custom-data passed to the subscribers of the <see cref="Update"/>.event.</param>
-        protected virtual void OnUpdate(CustomUpdateData updateData = null) => Update?.Invoke(this, updateData);
+        protected virtual void OnUpdate(CustomUpdateData? updateData = null) => Update?.Invoke(this, updateData ?? new CustomUpdateData());
 
         /// <inheritdoc />
         public abstract void Dispose();

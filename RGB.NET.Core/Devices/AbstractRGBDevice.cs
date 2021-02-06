@@ -2,12 +2,9 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using RGB.NET.Core.Layout;
 
 namespace RGB.NET.Core
 {
@@ -21,13 +18,15 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
+        RGBSurface? IRGBDevice.Surface { get; set; }
+
         /// <inheritdoc />
         public abstract TDeviceInfo DeviceInfo { get; }
 
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
-        private Point _location = new Point(0, 0);
+        private Point _location = new(0, 0);
         /// <inheritdoc />
         public Point Location
         {
@@ -44,7 +43,7 @@ namespace RGB.NET.Core
         public Size Size
         {
             get => _size;
-            protected set
+            set
             {
                 if (SetProperty(ref _size, value))
                     UpdateActualData();
@@ -67,7 +66,7 @@ namespace RGB.NET.Core
             private set => SetProperty(ref _deviceRectangle, value);
         }
 
-        private Scale _scale = new Scale(1);
+        private Scale _scale = new(1);
         /// <inheritdoc />
         public Scale Scale
         {
@@ -79,7 +78,7 @@ namespace RGB.NET.Core
             }
         }
 
-        private Rotation _rotation = new Rotation(0);
+        private Rotation _rotation = new(0);
         /// <inheritdoc />
         public Rotation Rotation
         {
@@ -96,26 +95,18 @@ namespace RGB.NET.Core
         /// </summary>
         protected bool RequiresFlush { get; set; } = false;
 
-        /// <inheritdoc />
-        public DeviceUpdateMode UpdateMode { get; set; } = DeviceUpdateMode.Sync;
-
         /// <summary>
         /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
-        protected Dictionary<LedId, Led> LedMapping { get; } = new Dictionary<LedId, Led>();
-
-        /// <summary>
-        /// Gets a dictionary containing all <see cref="IRGBDeviceSpecialPart"/> associated with this <see cref="IRGBDevice"/>.
-        /// </summary>
-        protected Dictionary<Type, IRGBDeviceSpecialPart> SpecialDeviceParts { get; } = new Dictionary<Type, IRGBDeviceSpecialPart>();
+        protected Dictionary<LedId, Led> LedMapping { get; } = new();
 
         #region Indexer
 
         /// <inheritdoc />
-        Led IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led led) ? led : null;
+        Led? IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led? led) ? led : null;
 
         /// <inheritdoc />
-        Led IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
+        Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
 
         /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
@@ -140,22 +131,20 @@ namespace RGB.NET.Core
             DeviceUpdate();
 
             // Send LEDs to SDK
-            List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds)?.ToList() ?? new List<Led>();
+            List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds).ToList();
             foreach (Led ledToUpdate in ledsToUpdate)
                 ledToUpdate.Update();
 
-            if (UpdateMode.HasFlag(DeviceUpdateMode.Sync))
-                UpdateLeds(ledsToUpdate);
+            UpdateLeds(ledsToUpdate);
         }
 
         protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty));
-        
+
         /// <inheritdoc />
         public virtual void Dispose()
         {
             try
             {
-                SpecialDeviceParts.Clear();
                 LedMapping.Clear();
             }
             catch { /* this really shouldn't happen */ }
@@ -176,87 +165,28 @@ namespace RGB.NET.Core
         /// Initializes the <see cref="Led"/> with the specified id.
         /// </summary>
         /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
-        /// <param name="ledRectangle">The <see cref="Rectangle"/> representing the position of the <see cref="Led"/> to initialize.</param>
-        /// <returns></returns>
-        [Obsolete("Use InitializeLed(LedId ledId, Point location, Size size) instead.")]
-        protected virtual Led InitializeLed(LedId ledId, Rectangle rectangle) => InitializeLed(ledId, rectangle.Location, rectangle.Size);
-
-        /// <summary>
-        /// Initializes the <see cref="Led"/> with the specified id.
-        /// </summary>
-        /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
         /// <param name="location">The location of the <see cref="Led"/> to initialize.</param>
         /// <param name="size">The size of the <see cref="Led"/> to initialize.</param>
         /// <returns>The initialized led.</returns>
-        protected virtual Led InitializeLed(LedId ledId, Point location, Size size)
+        public virtual Led? AddLed(LedId ledId, Point location, Size size, object? customData = null)
         {
             if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 
-            Led led = new Led(this, ledId, location, size, CreateLedCustomData(ledId));
+            Led led = new(this, ledId, location, size, customData ?? GetLedCustomData(ledId));
             LedMapping.Add(ledId, led);
             return led;
         }
-        
-        /// <summary>
-        /// Applies the given layout.
-        /// </summary>
-        /// <param name="layoutPath">The file containing the layout.</param>
-        /// <param name="imageLayout">The name of the layout used to get the images of the leds.</param>
-        /// <param name="createMissingLeds">If set to true a new led is initialized for every id in the layout if it doesn't already exist.</param>
-        protected virtual DeviceLayout ApplyLayoutFromFile(string layoutPath, string imageLayout, bool createMissingLeds = false)
+
+        public virtual Led? RemoveLed(LedId ledId)
         {
-            DeviceLayout layout = DeviceLayout.Load(layoutPath);
-            if (layout != null)
-            {
-                string imageBasePath = string.IsNullOrWhiteSpace(layout.ImageBasePath) ? null : PathHelper.GetAbsolutePath(this, layout.ImageBasePath);
-                if ((imageBasePath != null) && !string.IsNullOrWhiteSpace(layout.DeviceImage) && (DeviceInfo != null))
-                    DeviceInfo.Image = new Uri(Path.Combine(imageBasePath, layout.DeviceImage), UriKind.Absolute);
+            if (ledId == LedId.Invalid) return null;
+            if (!LedMapping.TryGetValue(ledId, out Led? led)) return null;
 
-                LedImageLayout ledImageLayout = layout.LedImageLayouts.FirstOrDefault(x => string.Equals(x.Layout, imageLayout, StringComparison.OrdinalIgnoreCase));
-
-                Size = new Size(layout.Width, layout.Height);
-
-                if (layout.Leds != null)
-                    foreach (LedLayout layoutLed in layout.Leds)
-                    {
-                        if (Enum.TryParse(layoutLed.Id, true, out LedId ledId))
-                        {
-                            if (!LedMapping.TryGetValue(ledId, out Led led) && createMissingLeds)
-                                led = InitializeLed(ledId, new Point(), new Size());
-
-                            if (led != null)
-                            {
-                                led.Location = new Point(layoutLed.X, layoutLed.Y);
-                                led.Size = new Size(layoutLed.Width, layoutLed.Height);
-                                led.Shape = layoutLed.Shape;
-                                led.ShapeData = layoutLed.ShapeData;
-
-                                LedImage image = ledImageLayout?.LedImages.FirstOrDefault(x => x.Id == layoutLed.Id);
-                                if ((imageBasePath != null) && !string.IsNullOrEmpty(image?.Image))
-                                    led.Image = new Uri(Path.Combine(imageBasePath, image.Image), UriKind.Absolute);
-                            }
-                        }
-                    }
-            }
-
-            return layout;
+            LedMapping.Remove(ledId);
+            return led;
         }
 
-        /// <summary>
-        /// Creates provider-specific data associated with this <see cref="LedId"/>.
-        /// </summary>
-        /// <param name="ledId">The <see cref="LedId"/>.</param>
-        protected virtual object CreateLedCustomData(LedId ledId) => null;
-
-        /// <inheritdoc />
-        public void AddSpecialDevicePart<T>(T specialDevicePart)
-            where T : class, IRGBDeviceSpecialPart
-            => SpecialDeviceParts[typeof(T)] = specialDevicePart;
-
-        /// <inheritdoc />
-        public T GetSpecialDevicePart<T>()
-            where T : class, IRGBDeviceSpecialPart
-            => SpecialDeviceParts.TryGetValue(typeof(T), out IRGBDeviceSpecialPart devicePart) ? (T)devicePart : default;
+        protected virtual object? GetLedCustomData(LedId ledId) => null;
 
         #region Enumerator
 

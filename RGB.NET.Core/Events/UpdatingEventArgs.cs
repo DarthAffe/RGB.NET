@@ -21,8 +21,8 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the trigger causing this update.
         /// </summary>
-        public IUpdateTrigger Trigger { get; }
-        
+        public IUpdateTrigger? Trigger { get; }
+
         /// <summary>
         /// Gets the custom-data provided by the trigger for this update.
         /// </summary>
@@ -39,7 +39,7 @@ namespace RGB.NET.Core
         /// <param name="deltaTime">The elapsed time (in seconds) since the last update.</param>
         /// <param name="trigger">The trigger causing this update.</param>
         /// <param name="customData">The custom-data provided by the trigger for this update.</param>
-        public UpdatingEventArgs(double deltaTime, IUpdateTrigger trigger, CustomUpdateData customData)
+        public UpdatingEventArgs(double deltaTime, IUpdateTrigger? trigger, CustomUpdateData customData)
         {
             this.DeltaTime = deltaTime;
             this.Trigger = trigger;

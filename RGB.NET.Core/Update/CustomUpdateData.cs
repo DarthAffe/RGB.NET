@@ -9,7 +9,7 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private Dictionary<string, object> _data = new Dictionary<string, object>();
+        private Dictionary<string, object?> _data = new();
 
         #endregion
 
@@ -20,10 +20,10 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="key">The key of the value.</param>
         /// <returns>The value represented by the given key.</returns>
-        public object this[string key]
+        public object? this[string key]
         {
-            get => _data.TryGetValue(key?.ToUpperInvariant() ?? string.Empty, out object data) ? data : default;
-            set => _data[key?.ToUpperInvariant() ?? string.Empty] = value;
+            get => _data.TryGetValue(key.ToUpperInvariant(), out object? data) ? data : default;
+            set => _data[key.ToUpperInvariant()] = value;
         }
 
         #endregion

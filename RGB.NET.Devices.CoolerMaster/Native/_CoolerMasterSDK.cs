@@ -16,12 +16,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         #region Libary Management
 
         private static IntPtr _dllHandle = IntPtr.Zero;
-
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        internal static string LoadedArchitecture { get; private set; }
-
+        
         /// <summary>
         /// Reloads the SDK.
         /// </summary>
@@ -37,7 +32,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
 
             // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
             List<string> possiblePathList = Environment.Is64BitProcess ? CoolerMasterDeviceProvider.PossibleX64NativePaths : CoolerMasterDeviceProvider.PossibleX86NativePaths;
-            string dllPath = possiblePathList.FirstOrDefault(File.Exists);
+            string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
             if (dllPath == null) throw new RGBDeviceException($"Can't find the CoolerMaster-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
             _dllHandle = LoadLibrary(dllPath);
@@ -76,14 +71,14 @@ namespace RGB.NET.Devices.CoolerMaster.Native
 
         #region Pointers
 
-        private static GetSDKVersionPointer _getSDKVersionPointer;
-        private static SetControlDevicePointer _setControlDevicenPointer;
-        private static IsDevicePlugPointer _isDevicePlugPointer;
-        private static GetDeviceLayoutPointer _getDeviceLayoutPointer;
-        private static EnableLedControlPointer _enableLedControlPointer;
-        private static RefreshLedPointer _refreshLedPointer;
-        private static SetLedColorPointer _setLedColorPointer;
-        private static SetAllLedColorPointer _setAllLedColorPointer;
+        private static GetSDKVersionPointer? _getSDKVersionPointer;
+        private static SetControlDevicePointer? _setControlDevicenPointer;
+        private static IsDevicePlugPointer? _isDevicePlugPointer;
+        private static GetDeviceLayoutPointer? _getDeviceLayoutPointer;
+        private static EnableLedControlPointer? _enableLedControlPointer;
+        private static RefreshLedPointer? _refreshLedPointer;
+        private static SetLedColorPointer? _setLedColorPointer;
+        private static SetAllLedColorPointer? _setAllLedColorPointer;
 
         #endregion
 
@@ -125,49 +120,49 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         /// <summary>
         /// CM-SDK: Get SDK Dll's Version.
         /// </summary>
-        internal static int GetSDKVersion() => _getSDKVersionPointer();
+        internal static int GetSDKVersion() => (_getSDKVersionPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke();
 
         /// <summary>
         /// CM-SDK: set operating device
         /// </summary>
         internal static void SetControlDevice(CoolerMasterDevicesIndexes devicesIndexes)
-            => _setControlDevicenPointer(devicesIndexes);
+            => (_setControlDevicenPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke(devicesIndexes);
 
         /// <summary>
         /// CM-SDK: verify if the deviced is plugged in
         /// </summary>
         internal static bool IsDevicePlugged(CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
-            => _isDevicePlugPointer(devIndex);
+            => (_isDevicePlugPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke(devIndex);
 
         /// <summary>
         /// CM-SDK: Obtain current device layout
         /// </summary>
         internal static CoolerMasterPhysicalKeyboardLayout GetDeviceLayout(CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
-            => _getDeviceLayoutPointer(devIndex);
+            => (_getDeviceLayoutPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke(devIndex);
 
         /// <summary>
         /// CM-SDK: set control over device’s LED
         /// </summary>
         internal static bool EnableLedControl(bool value, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
-            => _enableLedControlPointer(value, devIndex);
+            => (_enableLedControlPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke(value, devIndex);
 
         /// <summary>
         /// CM-SDK: Print out the lights setting from Buffer to LED
         /// </summary>
         internal static bool RefreshLed(bool autoRefresh, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
-            => _refreshLedPointer(autoRefresh, devIndex);
+            => (_refreshLedPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke(autoRefresh, devIndex);
 
         /// <summary>
         /// CM-SDK: Set single Key LED color
         /// </summary>
         internal static bool SetLedColor(int row, int column, byte r, byte g, byte b, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
-            => _setLedColorPointer(row, column, r, g, b, devIndex);
+            => (_setLedColorPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke(row, column, r, g, b, devIndex);
 
         /// <summary>
         /// CM-SDK: Set Keyboard "every LED" color
         /// </summary>
         internal static bool SetAllLedColor(_CoolerMasterColorMatrix colorMatrix, CoolerMasterDevicesIndexes devIndex = CoolerMasterDevicesIndexes.Default)
-            => _setAllLedColorPointer(colorMatrix, devIndex);
+            => (_setAllLedColorPointer ?? throw new RGBDeviceException("The CoolerMaster-SDK is not initialized.")).Invoke(colorMatrix, devIndex);
 
         // ReSharper restore EventExceptionNotDocumented
 

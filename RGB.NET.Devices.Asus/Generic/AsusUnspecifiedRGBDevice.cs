@@ -36,14 +36,11 @@ namespace RGB.NET.Devices.Asus
         {
             int ledCount = DeviceInfo.Device.Lights.Count;
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(_baseLedId + i, new Rectangle(i * 10, 0, 10, 10));
-
-            //TODO DarthAffe 19.05.2019: Add a way to define a layout for this kind of devies
+                AddLed(_baseLedId + i, new Point(i * 10, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)_baseLedId;
-
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)_baseLedId;
         #endregion
     }
 }

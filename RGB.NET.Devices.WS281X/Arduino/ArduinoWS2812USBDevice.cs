@@ -53,22 +53,20 @@ namespace RGB.NET.Devices.WS281X.Arduino
         internal void Initialize(int ledCount)
         {
             for (int i = 0; i < ledCount; i++)
-                InitializeLed(LedId.LedStripe1 + i, new Rectangle(i * 10, 0, 10, 10));
-
-            //TODO DarthAffe 23.12.2018: Allow to load a layout.
+                AddLed(LedId.LedStripe1 + i, new Point(i * 10, 0), new Size(10, 10));
 
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
+                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (Channel, (int)ledId - (int)LedId.LedStripe1);
+        protected override object GetLedCustomData(LedId ledId) => (Channel, (int)ledId - (int)LedId.LedStripe1);
 
         /// <inheritdoc />
-        protected override IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => (flushLeds || LedMapping.Values.Any(x => x.IsDirty)) ? LedMapping.Values : null;
+        protected override IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => (flushLeds || LedMapping.Values.Any(x => x.IsDirty)) ? LedMapping.Values : Enumerable.Empty<Led>();
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
@@ -76,7 +74,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <inheritdoc />
         public override void Dispose()
         {
-            try { UpdateQueue?.Dispose(); }
+            try { UpdateQueue.Dispose(); }
             catch { /* at least we tried */ }
 
             base.Dispose();

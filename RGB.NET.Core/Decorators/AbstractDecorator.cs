@@ -29,7 +29,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a readonly-list of all <see cref="IDecoratable"/> this decorator is attached to.
         /// </summary>
-        protected List<IDecoratable> DecoratedObjects { get; } = new List<IDecoratable>();
+        protected List<IDecoratable> DecoratedObjects { get; } = new();
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace RGB.NET.Core
         /// </summary>
         protected virtual void Detach()
         {
-            List<IDecoratable> decoratables = new List<IDecoratable>(DecoratedObjects);
+            List<IDecoratable> decoratables = new(DecoratedObjects);
             foreach (IDecoratable decoratable in decoratables)
             {
                 IEnumerable<Type> types = decoratable.GetType().GetInterfaces().Where(t => t.IsGenericType

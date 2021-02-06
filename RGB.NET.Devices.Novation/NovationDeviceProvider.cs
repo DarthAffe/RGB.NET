@@ -18,7 +18,7 @@ namespace RGB.NET.Devices.Novation
     {
         #region Properties & Fields
 
-        private static NovationDeviceProvider _instance;
+        private static NovationDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="NovationDeviceProvider"/> instance.
         /// </summary>
@@ -31,18 +31,12 @@ namespace RGB.NET.Devices.Novation
         public bool IsInitialized { get; private set; }
 
         /// <inheritdoc />
-        /// <summary>
-        /// Gets whether the application has exclusive access to the SDK or not.
-        /// </summary>
-        public bool HasExclusiveAccess => false;
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for novation devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -65,13 +59,13 @@ namespace RGB.NET.Devices.Novation
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             IsInitialized = false;
 
             try
             {
-                UpdateTrigger?.Stop();
+                UpdateTrigger.Stop();
 
                 IList<IRGBDevice> devices = new List<IRGBDevice>();
 
@@ -85,7 +79,7 @@ namespace RGB.NET.Devices.Novation
 
                             NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
                                                                               .Cast<Enum>()
-                                                                              .FirstOrDefault(x => x.GetDeviceId().ToUpperInvariant().Contains(outCaps.name.ToUpperInvariant()));
+                                                                              .FirstOrDefault(x => x.GetDeviceId()?.ToUpperInvariant().Contains(outCaps.name.ToUpperInvariant()) ?? false);
 
                             if (deviceId == null) continue;
 
@@ -99,7 +93,7 @@ namespace RGB.NET.Devices.Novation
                         catch { if (throwExceptions) throw; }
                     }
 
-                UpdateTrigger?.Start();
+                UpdateTrigger.Start();
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;
             }
@@ -112,22 +106,17 @@ namespace RGB.NET.Devices.Novation
 
             return true;
         }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            foreach (IRGBDevice device in Devices)
-            {
-                NovationLaunchpadRGBDevice novationDevice = device as NovationLaunchpadRGBDevice;
-                novationDevice?.Reset();
-            }
-        }
-
+        
         /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
         }
 
         #endregion

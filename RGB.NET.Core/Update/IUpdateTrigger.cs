@@ -10,11 +10,11 @@ namespace RGB.NET.Core
         /// <summary>
         /// Occurs when the trigger is starting up.
         /// </summary>
-        event EventHandler<CustomUpdateData> Starting;
+        event EventHandler<CustomUpdateData>? Starting;
 
         /// <summary>
         /// Occurs when the trigger wants to cause an update.
         /// </summary>
-        event EventHandler<CustomUpdateData> Update;
+        event EventHandler<CustomUpdateData>? Update;
     }
 }

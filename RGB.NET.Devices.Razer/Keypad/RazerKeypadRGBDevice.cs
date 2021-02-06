@@ -30,19 +30,13 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\Keypad", $"{model}.xml"), null);
-
-            if (LedMapping.Count == 0)
-            {
-                for (int i = 0; i < _Defines.KEYPAD_MAX_ROW; i++)
-                    for (int j = 0; j < _Defines.KEYPAD_MAX_COLUMN; j++)
-                        InitializeLed(LedId.Keypad1 + ((i * _Defines.KEYPAD_MAX_COLUMN) + j), new Rectangle(j * 20, i * 20, 19, 19));
-            }
+            for (int i = 0; i < _Defines.KEYPAD_MAX_ROW; i++)
+                for (int j = 0; j < _Defines.KEYPAD_MAX_COLUMN; j++)
+                    AddLed(LedId.Keypad1 + ((i * _Defines.KEYPAD_MAX_COLUMN) + j), new Point(j * 20, i * 20), new Size(19, 19));
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keypad1;
+        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keypad1;
 
         /// <inheritdoc />
         protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerKeypadUpdateQueue(updateTrigger, DeviceInfo.DeviceId);

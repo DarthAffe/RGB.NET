@@ -33,7 +33,8 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         protected override void InitializeLayout()
         {
-            _CorsairLedPositions nativeLedPositions = (_CorsairLedPositions)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));
+            _CorsairLedPositions? nativeLedPositions = (_CorsairLedPositions?)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));
+            if (nativeLedPositions == null) return;
 
             int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
             IntPtr ptr = nativeLedPositions.pLedPosition;
@@ -41,19 +42,18 @@ namespace RGB.NET.Devices.Corsair
             Dictionary<CorsairLedId, LedId> mapping = KeyboardIdMapping.DEFAULT.SwapKeyValue();
             for (int i = 0; i < nativeLedPositions.numberOfLed; i++)
             {
-                _CorsairLedPosition ledPosition = (_CorsairLedPosition)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
-                InitializeLed(mapping.TryGetValue(ledPosition.LedId, out LedId ledId) ? ledId : LedId.Invalid, ledPosition.ToRectangle());
+                _CorsairLedPosition? ledPosition = (_CorsairLedPosition?)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
+                if (ledPosition == null) continue;
+
+                LedId ledId = mapping.TryGetValue(ledPosition.LedId, out LedId id) ? id : LedId.Invalid;
+                Rectangle rectangle = ledPosition.ToRectangle();
+                AddLed(ledId, rectangle.Location, rectangle.Size);
 
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
             }
-
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\Corsair\Keyboards\{model}", $"{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"),
-                                DeviceInfo.LogicalLayout.ToString());
         }
 
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => KeyboardIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
+        protected override object GetLedCustomData(LedId ledId) => KeyboardIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
 
         #endregion
     }

@@ -11,7 +11,7 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private readonly List<T> _decorators = new List<T>();
+        private readonly List<T> _decorators = new();
 
         /// <inheritdoc />
         public IReadOnlyCollection<T> Decorators

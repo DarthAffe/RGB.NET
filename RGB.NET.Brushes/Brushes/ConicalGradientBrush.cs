@@ -29,7 +29,7 @@ namespace RGB.NET.Brushes
             set => SetProperty(ref _origin, value);
         }
 
-        private Point _center = new Point(0.5, 0.5);
+        private Point _center = new(0.5, 0.5);
         /// <summary>
         /// Gets or sets the center <see cref="Point"/> (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="ConicalGradientBrush"/>. (default: 0.5, 0.5)
         /// </summary>
@@ -39,12 +39,12 @@ namespace RGB.NET.Brushes
             set => SetProperty(ref _center, value);
         }
 
-        private IGradient _gradient;
+        private IGradient? _gradient;
         /// <inheritdoc />
         /// <summary>
         /// Gets or sets the gradient drawn by the brush. If null it will default to full transparent.
         /// </summary>
-        public IGradient Gradient
+        public IGradient? Gradient
         {
             get => _gradient;
             set => SetProperty(ref _gradient, value);
@@ -104,6 +104,8 @@ namespace RGB.NET.Brushes
         /// <inheritdoc />
         protected override Color GetColorAtPoint(Rectangle rectangle, BrushRenderTarget renderTarget)
         {
+            if (Gradient == null) return Color.Transparent;
+
             double centerX = rectangle.Size.Width * Center.X;
             double centerY = rectangle.Size.Height * Center.Y;
 

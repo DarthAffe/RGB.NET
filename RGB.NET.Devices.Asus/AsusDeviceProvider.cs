@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
+using System.Linq;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -18,7 +18,7 @@ namespace RGB.NET.Devices.Asus
     {
         #region Properties & Fields
 
-        private static AsusDeviceProvider _instance;
+        private static AsusDeviceProvider? _instance;
         /// <summary>
         /// Gets the singleton <see cref="AsusDeviceProvider"/> instance.
         /// </summary>
@@ -31,26 +31,14 @@ namespace RGB.NET.Devices.Asus
         public bool IsInitialized { get; private set; }
 
         /// <inheritdoc />
-        /// <summary>
-        /// Gets whether the application has exclusive access to the SDK or not.
-        /// </summary>
-        public bool HasExclusiveAccess { get; private set; }
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
-
-        /// <summary>
-        /// Gets or sets a function to get the culture for a specific device.
-        /// </summary>
-        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        public Func<CultureInfo> GetCulture { get; set; } = CultureHelper.GetCurrentCulture;
+        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
 
         /// <summary>
         /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for asus devices. 
         /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
+        public DeviceUpdateTrigger UpdateTrigger { get; }
 
-        private IAuraSdk2 _sdk;
+        private IAuraSdk2? _sdk;
 
         #endregion
 
@@ -69,17 +57,17 @@ namespace RGB.NET.Devices.Asus
         }
 
         #endregion
-
+        
         #region Methods
 
         /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
         {
             IsInitialized = false;
 
             try
             {
-                UpdateTrigger?.Stop();
+                UpdateTrigger.Stop();
 
                 // ReSharper disable once SuspiciousTypeConversion.Global
                 _sdk = (IAuraSdk2)new AuraSdk();
@@ -116,7 +104,7 @@ namespace RGB.NET.Devices.Asus
                             case AsusDeviceType.KEYBOARD_RGB:
                             case AsusDeviceType.NB_KB_RGB:
                             case AsusDeviceType.NB_KB_4ZONE_RGB:
-                                rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device, CultureInfo.CurrentCulture));
+                                rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device, AsusPhysicalKeyboardLayout.Default));
                                 break;
 
                             case AsusDeviceType.MOUSE_RGB:
@@ -141,7 +129,7 @@ namespace RGB.NET.Devices.Asus
                     }
                 }
 
-                UpdateTrigger?.Start();
+                UpdateTrigger.Start();
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(devices);
                 IsInitialized = true;
@@ -156,17 +144,15 @@ namespace RGB.NET.Devices.Asus
         }
 
         /// <inheritdoc />
-        public void ResetDevices()
-        {
-            _sdk?.ReleaseControl(0);
-            _sdk?.SwitchMode();
-        }
-
-        /// <inheritdoc />
         public void Dispose()
         {
-            try { UpdateTrigger?.Dispose(); }
+            try { UpdateTrigger.Dispose(); }
             catch { /* at least we tried */ }
+
+            foreach (IRGBDevice device in Devices)
+                try { device.Dispose(); }
+                catch { /* at least we tried */ }
+            Devices = Enumerable.Empty<IRGBDevice>();
 
             try { _sdk?.ReleaseControl(0); }
             catch { /* at least we tried */ }

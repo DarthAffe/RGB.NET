@@ -13,6 +13,8 @@ namespace RGB.NET.Core
     {
         #region Properties
 
+        RGBSurface? Surface { get; internal set; }
+
         /// <summary>
         /// Gets generic information about the <see cref="IRGBDevice"/>.
         /// </summary>
@@ -26,7 +28,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the <see cref="Size"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
-        Size Size { get; }
+        Size Size { get; set; }
 
         /// <summary>
         /// Gets the actual <see cref="Size"/> of the <see cref="IRGBDevice"/>.
@@ -49,11 +51,6 @@ namespace RGB.NET.Core
         /// </summary>
         Rotation Rotation { get; set; }
 
-        /// <summary>
-        /// Gets or sets the <see cref="DeviceUpdateMode"/> of the <see cref="IRGBDevice"/>.
-        /// </summary>
-        DeviceUpdateMode UpdateMode { get; set; }
-
         #endregion
 
         #region Indexer
@@ -63,14 +60,14 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledId">The <see cref="LedId"/> of the <see cref="Led"/> to get.</param>
         /// <returns>The <see cref="Led"/> with the specified <see cref="LedId"/> or null if no <see cref="Led"/> is found.</returns>
-        Led this[LedId ledId] { get; }
+        Led? this[LedId ledId] { get; }
 
         /// <summary>
         /// Gets the <see cref="Led" /> at the given physical location.
         /// </summary>
         /// <param name="location">The <see cref="Point"/> to get the location from.</param>
         /// <returns>The <see cref="Led"/> at the given <see cref="Point"/> or null if no location is found.</returns>
-        Led this[Point location] { get; }
+        Led? this[Point location] { get; }
 
         /// <summary>
         /// Gets a list of <see cref="Led" /> inside the given <see cref="Rectangle"/>.
@@ -89,21 +86,10 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/> (including clean ones) should be updated.</param>
         void Update(bool flushLeds = false);
-        
-        /// <summary>
-        /// Adds the given <see cref="IRGBDeviceSpecialPart"/> to the device.
-        /// This will override existing <see cref="IRGBDeviceSpecialPart"/> of the same type.
-        /// </summary>
-        /// <param name="specialDevicePart">The <see cref="IRGBDeviceSpecialPart"/> to add.</param>
-        /// <typeparam name="T">The generic typeof of the <see cref="IRGBDeviceSpecialPart"/> to add.</typeparam>
-        void AddSpecialDevicePart<T>(T specialDevicePart) where T : class, IRGBDeviceSpecialPart;
 
-        /// <summary>
-        /// Gets the requested <see cref="IRGBDeviceSpecialPart"/> if available on this <see cref="IRGBDevice"/>.
-        /// </summary>
-        /// <typeparam name="T">The generic type of the requested <see cref="IRGBDeviceSpecialPart"/>.</typeparam>
-        /// <returns>The requested <see cref="IRGBDeviceSpecialPart"/> or null if not available in this <see cref="IRGBDevice"/>.</returns>
-        T GetSpecialDevicePart<T>() where T : class, IRGBDeviceSpecialPart;
+        Led? AddLed(LedId ledId, Point location, Size size, object? customData = null);
+
+        Led? RemoveLed(LedId ledId);
 
         #endregion
     }

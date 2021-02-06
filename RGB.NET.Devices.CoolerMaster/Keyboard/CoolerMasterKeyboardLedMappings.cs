@@ -14,8 +14,8 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region MasterKeysL
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysL_US = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysL_US = new()
+                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -131,8 +131,8 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumPeriodAndDelete, (5,20) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysL_EU = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysL_EU = new()
+                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -253,8 +253,8 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region MasterKeysM
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysM_US = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysM_US = new()
+                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -354,8 +354,8 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumPeriodAndDelete, (5,17) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysM_EU = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysM_EU = new()
+                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -460,8 +460,8 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region MasterKeysS
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysS_US = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysS_US = new()
+                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -556,8 +556,8 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_ArrowRight, (5,17) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysS_EU = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysS_EU = new()
+                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -657,8 +657,8 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region MasterKeysMK750
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysMK750_US = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysMK750_US = new()
+                                                                                              {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -801,8 +801,8 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_Custom22, (6,17) },
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysMK750_EU = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysMK750_EU = new()
+                                                                                              {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -946,8 +946,8 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_Custom22, (6,17) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysMK750_JP = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> MasterKeysMK750_JP = new()
+                                                                                              {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -1099,8 +1099,8 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region CKxxx
 
-        private static readonly Dictionary<LedId, (int row, int column)> CKxxx_US = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> CKxxx_US = new()
+                                                                                    {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -1212,8 +1212,8 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumPeriodAndDelete, (5,20) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> CKxxx_EU = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> CKxxx_EU = new()
+                                                                                    {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -1326,8 +1326,8 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumPeriodAndDelete, (5,20) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> CKxxx_JP = new Dictionary<LedId, (int row, int column)>
-        {
+        private static readonly Dictionary<LedId, (int row, int column)> CKxxx_JP = new()
+                                                                                    {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,1) },
             { LedId.Keyboard_F2, (0,2) },
@@ -1450,7 +1450,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Contains all the hardware-id mappings for CoolerMaster devices.
         /// </summary>
         public static readonly Dictionary<CoolerMasterDevicesIndexes, Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>> Mapping =
-            new Dictionary<CoolerMasterDevicesIndexes, Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>>
+            new()
             {
                 { CoolerMasterDevicesIndexes.MasterKeys_L, new Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
                   {

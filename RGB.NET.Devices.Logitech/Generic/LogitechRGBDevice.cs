@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
 {
@@ -23,7 +22,7 @@ namespace RGB.NET.Devices.Logitech
         /// Gets or sets the update queue performing updates for this device.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        protected UpdateQueue UpdateQueue { get; set; }
+        protected UpdateQueue? UpdateQueue { get; set; }
 
         #endregion
 
@@ -45,29 +44,9 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        public void Initialize(UpdateQueue updateQueue)
+        public virtual void Initialize(UpdateQueue updateQueue)
         {
-            InitializeLayout();
-
-            if (Size == Size.Invalid)
-            {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
-                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
-            }
-
             UpdateQueue = updateQueue;
-        }
-
-        /// <summary>
-        /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
-        /// </summary>
-        protected virtual void InitializeLayout()
-        {
-            if (!(DeviceInfo is LogitechRGBDeviceInfo info)) return;
-
-            string layout = info.ImageLayout;
-            string layoutPath = info.LayoutPath;
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Logitech", $"{layoutPath}.xml"), layout, true);
         }
 
         /// <inheritdoc />

@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Helper;
 
@@ -26,11 +25,8 @@ namespace RGB.NET.Devices.Wooting.Generic
         public string Model { get; }
 
         /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting => RGBDeviceLighting.Key;
-        
         /// <summary>
         /// Gets the <see cref="WootingDevicesIndexes"/> of the <see cref="WootingRGBDevice{TDeviceInfo}"/>.
         /// </summary>

@@ -24,18 +24,18 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <summary>
         /// Gets the name of the serial-port to connect to.
         /// </summary>
-        public string Port => SerialConnection?.Port;
+        public string Port => SerialConnection.Port;
 
         /// <summary>
         /// Gets the baud-rate used by the serial-connection.
         /// </summary>
-        public int BaudRate => SerialConnection?.BaudRate ?? 0;
+        public int BaudRate => SerialConnection.BaudRate;
 
         /// <summary>
         /// Gets or sets the name used by this device.
         /// This allows to use {0} as a placeholder for a incrementing number if multiple devices are created.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         #endregion
 
@@ -67,13 +67,13 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            ArduinoWS2812USBUpdateQueue queue = new ArduinoWS2812USBUpdateQueue(updateTrigger, SerialConnection);
+            ArduinoWS2812USBUpdateQueue queue = new(updateTrigger, SerialConnection);
             IEnumerable<(int channel, int ledCount)> channels = queue.GetChannels();
             int counter = 0;
             foreach ((int channel, int ledCount) in channels)
             {
                 string name = string.Format(Name ?? $"Arduino WS2812 USB ({Port}) [{{0}}]", ++counter);
-                ArduinoWS2812USBDevice device = new ArduinoWS2812USBDevice(new ArduinoWS2812USBDeviceInfo(name), queue, channel);
+                ArduinoWS2812USBDevice device = new(new ArduinoWS2812USBDeviceInfo(name), queue, channel);
                 device.Initialize(ledCount);
                 yield return device;
             }

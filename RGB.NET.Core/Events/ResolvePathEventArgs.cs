@@ -8,23 +8,21 @@ namespace RGB.NET.Core
 
         /// <summary>
         /// Gets the filename used to resolve the path.
-        /// This has to be checked for null since it'S possible that only <see cref="FileName"/> is used.
         /// Also check <see cref="RelativePath "/> before use.
         /// </summary>
-        public string RelativePart { get; }
+        public string? RelativePart { get; }
 
         /// <summary>
         /// Gets the filename used to resolve the path.
-        /// This has to be checked for null since it'S possible that only <see cref="RelativePart"/> is used.
         /// Also check <see cref="RelativePath "/> before use.
         /// </summary>
-        public string FileName { get; }
+        public string? FileName { get; }
 
         /// <summary>
         /// Gets the relative path used to resolve the path.
         /// If this is set <see cref="RelativePart" /> and <see cref="FileName" /> are unused.
         /// </summary>
-        public string RelativePath { get; }
+        public string? RelativePath { get; }
 
         /// <summary>
         /// Gets or sets the resolved path.

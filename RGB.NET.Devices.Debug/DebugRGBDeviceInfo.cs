@@ -1,5 +1,4 @@
-﻿using System;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Debug
 {
@@ -23,11 +22,7 @@ namespace RGB.NET.Devices.Debug
         /// <inheritdoc />
         public string Model { get; }
 
-        /// <inheritdoc />
-        public RGBDeviceLighting Lighting { get; }
-        
-        /// <inheritdoc />
-        public Uri Image { get; set; }
+        public object? LayoutMetadata { get; set; }
 
         #endregion
 
@@ -39,15 +34,14 @@ namespace RGB.NET.Devices.Debug
         /// <param name="deviceType">The <see cref="RGBDeviceType"/> of the device.</param>
         /// <param name="manufacturer">The manufacturer of the device.</param>
         /// <param name="model">The model of the device.</param>
-        /// <param name="lighting">The <see cref="RGBDeviceLighting"/> of the device.</param>
-        internal DebugRGBDeviceInfo(RGBDeviceType deviceType, string manufacturer, string model, RGBDeviceLighting lighting, string deviceName = null)
+        internal DebugRGBDeviceInfo(RGBDeviceType deviceType, string manufacturer, string model, object? customData)
         {
             this.DeviceType = deviceType;
             this.Manufacturer = manufacturer;
             this.Model = model;
-            this.Lighting = lighting;
+            this.LayoutMetadata = customData;
 
-            DeviceName = deviceName ?? $"{Manufacturer} {Model}";
+            DeviceName = $"{Manufacturer} {Model}";
         }
 
         #endregion

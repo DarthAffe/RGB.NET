@@ -12,8 +12,8 @@ namespace RGB.NET.Devices.Logitech
     {
         #region Constants
 
-        private static readonly Dictionary<RGBDeviceType, LogitechDeviceType> DEVICE_TYPE_MAPPING = new Dictionary<RGBDeviceType, LogitechDeviceType>
-        {
+        private static readonly Dictionary<RGBDeviceType, LogitechDeviceType> DEVICE_TYPE_MAPPING = new()
+                                                                                                    {
             {RGBDeviceType.Keyboard, LogitechDeviceType.Keyboard},
             {RGBDeviceType.Mouse, LogitechDeviceType.Mouse},
             {RGBDeviceType.Headset, LogitechDeviceType.Headset},

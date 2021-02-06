@@ -5,8 +5,8 @@ namespace RGB.NET.Devices.Novation
 {
     internal static class LaunchpadIdMapping
     {
-        internal static readonly Dictionary<LedId, (byte mode, byte id, int x, int y)> LEGACY = new Dictionary<LedId, (byte mode, byte id, int x, int y)>
-        {
+        internal static readonly Dictionary<LedId, (byte mode, byte id, int x, int y)> LEGACY = new()
+                                                                                                {
             { LedId.Invalid, (0x00, 0xFF, 8, 0) },
 
             { LedId.LedMatrix1, (0x90, 0x00, 0, 1) },
@@ -93,8 +93,8 @@ namespace RGB.NET.Devices.Novation
             { LedId.Custom16, (0x90, 0x78, 8, 8) }, //Scene8
         };
 
-        internal static readonly Dictionary<LedId, (byte mode, byte id, int x, int y)> CURRENT = new Dictionary<LedId, (byte mode, byte id, int x, int y)>
-        {
+        internal static readonly Dictionary<LedId, (byte mode, byte id, int x, int y)> CURRENT = new()
+                                                                                                 {
             { LedId.Invalid, (0x00, 0xFF, 8, 0) },
 
             { LedId.LedMatrix1, (0x90, 81, 0, 1) },

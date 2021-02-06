@@ -8,6 +8,8 @@
     {
         #region Properties & Fields
 
+        protected RGBSurface Surface { get; }
+
         /// <summary>
         /// Gets or sets if the <see cref="AbstractUpdateAwareDecorator"/> should call <see cref="Update"/> even if the Decorator is disabled.
         /// </summary>
@@ -21,8 +23,9 @@
         /// Initializes a new instance of the <see cref="AbstractUpdateAwareDecorator"/> class.
         /// </summary>
         /// <param name="updateIfDisabled">Bool indicating if the <see cref="AbstractUpdateAwareDecorator"/> should call <see cref="Update"/> even if the Decorator is disabled.</param>
-        protected AbstractUpdateAwareDecorator(bool updateIfDisabled = false)
+        protected AbstractUpdateAwareDecorator(RGBSurface surface, bool updateIfDisabled = false)
         {
+            this.Surface = surface;
             this.UpdateIfDisabled = updateIfDisabled;
         }
 
@@ -34,7 +37,7 @@
         public override void OnAttached(IDecoratable decoratable)
         {
             if (DecoratedObjects.Count == 0)
-                RGBSurface.Instance.Updating += OnSurfaceUpdating;
+                Surface.Updating += OnSurfaceUpdating;
 
             base.OnAttached(decoratable);
         }
@@ -45,7 +48,7 @@
             base.OnDetached(decoratable);
 
             if (DecoratedObjects.Count == 0)
-                RGBSurface.Instance.Updating -= OnSurfaceUpdating;
+                Surface.Updating -= OnSurfaceUpdating;
         }
 
         private void OnSurfaceUpdating(UpdatingEventArgs args)

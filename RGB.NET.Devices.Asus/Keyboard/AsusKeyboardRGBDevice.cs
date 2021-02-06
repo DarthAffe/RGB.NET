@@ -35,26 +35,23 @@ namespace RGB.NET.Devices.Asus
             {
                 int pos = 0;
                 foreach (IAuraRgbKey key in ((IAuraSyncKeyboard)DeviceInfo.Device).Keys)
-                    InitializeLed(reversedMapping[(AsusLedId)key.Code], new Point(pos++ * 19, 0), new Size(19, 19));
+                    AddLed(reversedMapping[(AsusLedId)key.Code], new Point(pos++ * 19, 0), new Size(19, 19));
 
                 //UK Layout
-                InitializeLed(reversedMapping[AsusLedId.KEY_OEM_102], new Point(pos++ * 19, 0), new Size(19, 19));
+                AddLed(reversedMapping[AsusLedId.KEY_OEM_102], new Point(pos++ * 19, 0), new Size(19, 19));
 
-                InitializeLed(reversedMapping[AsusLedId.UNDOCUMENTED_1], new Point(pos * 19, 0), new Size(19, 19));
+                AddLed(reversedMapping[AsusLedId.UNDOCUMENTED_1], new Point(pos * 19, 0), new Size(19, 19));
             }
             else
             {
                 int ledCount = DeviceInfo.Device.Lights.Count;
                 for (int i = 0; i < ledCount; i++)
-                    InitializeLed(LedId.Keyboard_Custom1 + i, new Point(i * 19, 0), new Size(19, 19));
+                    AddLed(LedId.Keyboard_Custom1 + i, new Point(i * 19, 0), new Size(19, 19));
             }
-
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, $@"Layouts\Asus\Keyboards\{model}", $"{DeviceInfo.PhysicalLayout.ToString().ToUpper()}.xml"), DeviceInfo.LogicalLayout.ToString());
         }
 
         /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId)
+        protected override object? GetLedCustomData(LedId ledId)
         {
             if (DeviceInfo.Device.Type == (uint)AsusDeviceType.NB_KB_4ZONE_RGB)
                 return ledId - LedId.Keyboard_Custom1;

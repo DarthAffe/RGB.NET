@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
+using RGB.NET.Core;
 
-namespace RGB.NET.Core.Layout
+namespace RGB.NET.Layout
 {
     /// <summary>
     /// Represents the serializable layout of a <see cref="IRGBDevice"/>.
     /// </summary>
     [Serializable]
     [XmlRoot("Device")]
-    public class DeviceLayout
+    public class DeviceLayout : IDeviceLayout
     {
         #region Properties & Fields
 
@@ -19,13 +22,13 @@ namespace RGB.NET.Core.Layout
         /// Gets or sets the name of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="RGBDeviceType"/> of the <see cref="DeviceLayout"/>.
@@ -34,22 +37,16 @@ namespace RGB.NET.Core.Layout
         public RGBDeviceType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="RGBDeviceLighting"/> of the <see cref="DeviceLayout"/>.
-        /// </summary>
-        [XmlElement("Lighting")]
-        public RGBDeviceLighting Lighting { get; set; }
-
-        /// <summary>
         /// Gets or sets the vendor of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Vendor")]
-        public string Vendor { get; set; }
+        public string? Vendor { get; set; }
 
         /// <summary>
         /// Gets or sets the model of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Model")]
-        public string Model { get; set; }
+        public string? Model { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Core.Shape"/> of the <see cref="DeviceLayout"/>.
@@ -84,29 +81,20 @@ namespace RGB.NET.Core.Layout
         [DefaultValue(19.0)]
         public double LedUnitHeight { get; set; } = 19.0;
 
-        /// <summary>
-        /// The path images for this device are collected in.
-        /// </summary>
-        [XmlElement("ImageBasePath")]
-        public string ImageBasePath { get; set; }
-
-        /// <summary>
-        /// The image file for this device.
-        /// </summary>
-        [XmlElement("DeviceImage")]
-        public string DeviceImage { get; set; }
+        [XmlArray("Leds")]
+        public List<LedLayout> InternalLeds { get; set; } = new();
 
         /// <summary>
         /// Gets or sets a list of <see cref="LedLayout"/> representing all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
-        [XmlArray("Leds")]
-        public List<LedLayout> Leds { get; set; } = new List<LedLayout>();
+        [XmlIgnore]
+        public IEnumerable<ILedLayout> Leds => InternalLeds;
 
-        /// <summary>
-        /// Gets or sets a list of <see cref="LedImageLayout"/> representing the layouts for the images of all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
-        /// </summary>
-        [XmlArray("LedImageLayouts")]
-        public List<LedImageLayout> LedImageLayouts { get; set; } = new List<LedImageLayout>();
+        [XmlElement("CustomData")]
+        public object? InternalCustomData { get; set; }
+
+        [XmlIgnore]
+        public object? CustomData { get; set; }
 
         #endregion
 
@@ -117,33 +105,54 @@ namespace RGB.NET.Core.Layout
         /// </summary>
         /// <param name="path">The path to the xml file.</param>
         /// <returns>The deserialized <see cref="DeviceLayout"/>.</returns>
-        public static DeviceLayout Load(string path)
+        public static DeviceLayout? Load(string path, Type? customDeviceDataType = null, Type? customLedDataType = null)
         {
             if (!File.Exists(path)) return null;
 
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(DeviceLayout));
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    DeviceLayout layout = serializer.Deserialize(reader) as DeviceLayout;
-                    if (layout?.Leds != null)
-                    {
-                        LedLayout lastLed = null;
-                        foreach (LedLayout led in layout.Leds)
-                        {
-                            led.CalculateValues(layout, lastLed);
-                            lastLed = led;
-                        }
-                    }
+                XmlSerializer serializer = new(typeof(DeviceLayout));
+                using StreamReader reader = new(path);
 
-                    return layout;
+                DeviceLayout? layout = serializer.Deserialize(reader) as DeviceLayout;
+                if (layout != null)
+                    layout.CustomData = layout.GetCustomData(layout.InternalCustomData, customDeviceDataType);
+
+                if (layout?.InternalLeds != null)
+                {
+                    LedLayout? lastLed = null;
+                    foreach (LedLayout led in layout.InternalLeds)
+                    {
+                        led.CalculateValues(layout, lastLed);
+                        lastLed = led;
+
+                        led.CustomData = layout.GetCustomData(led.InternalCustomData, customLedDataType);
+                    }
                 }
+
+                return layout;
             }
             catch
             {
                 return null;
             }
+        }
+
+        protected virtual object? GetCustomData(object? customData, Type? type)
+        {
+            XmlNode? node = (customData as XmlNode) ?? (customData as IEnumerable<XmlNode>)?.FirstOrDefault()?.ParentNode; //HACK DarthAffe 16.01.2021: This gives us the CustomData-Node
+            if ((node == null) || (type == null)) return null;
+
+            if (type == null) return null;
+
+            using MemoryStream ms = new();
+            using StreamWriter writer = new(ms);
+
+            writer.Write(node.OuterXml);
+            writer.Flush();
+            ms.Seek(0, SeekOrigin.Begin);
+
+            return new XmlSerializer(type).Deserialize(ms);
         }
 
         #endregion

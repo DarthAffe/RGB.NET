@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.DMX.E131
         /// Gets or sets the CID of the device (null will generate a random CID)
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        public byte[] CID { get; set; }
+        public byte[]? CID { get; set; }
 
         /// <summary>
         /// Gets or sets the universe the device belongs to.
@@ -55,7 +55,7 @@ namespace RGB.NET.Devices.DMX.E131
         /// <summary>
         /// Gets or sets the led-mappings used to create the device.
         /// </summary>
-        public Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>> Leds { get; } = new Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>>();
+        public Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>> Leds { get; } = new();
 
         #endregion
 
