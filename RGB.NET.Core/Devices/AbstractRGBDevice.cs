@@ -13,82 +13,31 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic RGB-device.
     /// </summary>
-    public abstract class AbstractRGBDevice<TDeviceInfo> : AbstractBindable, IRGBDevice<TDeviceInfo>
+    public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDeviceInfo>
         where TDeviceInfo : class, IRGBDeviceInfo
     {
+        private RGBSurface? _surface;
+
         #region Properties & Fields
 
-        RGBSurface? IRGBDevice.Surface { get; set; }
+        RGBSurface? IRGBDevice.Surface
+        {
+            get => _surface;
+            set
+            {
+                if (SetProperty(ref _surface, value))
+                {
+                    if (value == null) OnDetached();
+                    else OnAttached();
+                }
+            }
+        }
 
         /// <inheritdoc />
         public abstract TDeviceInfo DeviceInfo { get; }
 
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
-
-        private Point _location = new(0, 0);
-        /// <inheritdoc />
-        public Point Location
-        {
-            get => _location;
-            set
-            {
-                if (SetProperty(ref _location, value))
-                    UpdateActualData();
-            }
-        }
-
-        private Size _size = Size.Invalid;
-        /// <inheritdoc />
-        public Size Size
-        {
-            get => _size;
-            set
-            {
-                if (SetProperty(ref _size, value))
-                    UpdateActualData();
-            }
-        }
-
-        private Size _actualSize;
-        /// <inheritdoc />
-        public Size ActualSize
-        {
-            get => _actualSize;
-            private set => SetProperty(ref _actualSize, value);
-        }
-
-        private Rectangle _deviceRectangle;
-        /// <inheritdoc />
-        public Rectangle DeviceRectangle
-        {
-            get => _deviceRectangle;
-            private set => SetProperty(ref _deviceRectangle, value);
-        }
-
-        private Scale _scale = new(1);
-        /// <inheritdoc />
-        public Scale Scale
-        {
-            get => _scale;
-            set
-            {
-                if (SetProperty(ref _scale, value))
-                    UpdateActualData();
-            }
-        }
-
-        private Rotation _rotation = new(0);
-        /// <inheritdoc />
-        public Rotation Rotation
-        {
-            get => _rotation;
-            set
-            {
-                if (SetProperty(ref _rotation, value))
-                    UpdateActualData();
-            }
-        }
 
         /// <summary>
         /// Gets or sets if the device needs to be flushed on every update.
@@ -106,23 +55,17 @@ namespace RGB.NET.Core
         Led? IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led? led) ? led : null;
 
         /// <inheritdoc />
-        Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.LedRectangle.Contains(location));
+        Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.Boundry.Contains(location));
 
         /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
-            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.LedRectangle) >= minOverlayPercentage);
+            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.Boundry) >= minOverlayPercentage);
 
         #endregion
 
         #endregion
 
         #region Methods
-
-        private void UpdateActualData()
-        {
-            ActualSize = Size * Scale;
-            DeviceRectangle = new Rectangle(Location, new Rectangle(new Rectangle(Location, ActualSize).Rotate(Rotation)).Size);
-        }
 
         /// <inheritdoc />
         public virtual void Update(bool flushLeds = false)
@@ -187,6 +130,18 @@ namespace RGB.NET.Core
         }
 
         protected virtual object? GetLedCustomData(LedId ledId) => null;
+
+        protected virtual void OnAttached()
+        {
+            if (Location == Point.Invalid) Location = new Point(0, 0);
+            if (Size == Size.Invalid)
+            {
+                Rectangle ledRectangle = new(this.Select(x => x.Boundry));
+                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
+            }
+        }
+
+        protected virtual void OnDetached() { }
 
         #region Enumerator
 

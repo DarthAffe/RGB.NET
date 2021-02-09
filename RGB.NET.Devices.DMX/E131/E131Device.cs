@@ -39,13 +39,7 @@ namespace RGB.NET.Devices.DMX.E131
             int count = 0;
             foreach (LedId id in _ledMappings.Keys)
                 AddLed(id, new Point((count++) * 10, 0), new Size(10, 10));
-
-            if (Size == Size.Invalid)
-            {
-                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
-                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
-            }
-
+            
             _updateQueue = new E131UpdateQueue(updateTrigger, DeviceInfo.Hostname, DeviceInfo.Port);
             _updateQueue.DataPacket.SetCID(DeviceInfo.CID);
             _updateQueue.DataPacket.SetUniverse(DeviceInfo.Universe);

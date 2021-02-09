@@ -51,12 +51,6 @@ namespace RGB.NET.Devices.Msi
             DeviceUpdateQueue = updateQueue;
 
             InitializeLayout(ledCount);
-
-            if (Size == Size.Invalid)
-            {
-                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
-                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
-            }
         }
 
         /// <summary>

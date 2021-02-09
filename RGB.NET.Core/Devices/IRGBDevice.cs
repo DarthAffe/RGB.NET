@@ -9,7 +9,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic RGB-device.
     /// </summary>
-    public interface IRGBDevice : IEnumerable<Led>, IBindable, IDisposable
+    public interface IRGBDevice : IEnumerable<Led>, IPlaceable, IBindable, IDisposable
     {
         #region Properties
 
@@ -19,38 +19,7 @@ namespace RGB.NET.Core
         /// Gets generic information about the <see cref="IRGBDevice"/>.
         /// </summary>
         IRGBDeviceInfo DeviceInfo { get; }
-
-        /// <summary>
-        /// Gets or sets the location of the <see cref="IRGBDevice"/>.
-        /// </summary>
-        Point Location { get; set; }
-
-        /// <summary>
-        /// Gets the <see cref="Size"/> of the <see cref="IRGBDevice"/>.
-        /// </summary>
-        Size Size { get; set; }
-
-        /// <summary>
-        /// Gets the actual <see cref="Size"/> of the <see cref="IRGBDevice"/>.
-        /// This includes the <see cref="Scale"/>.
-        /// </summary>
-        Size ActualSize { get; }
-
-        /// <summary>
-        /// Gets a <see cref="Rectangle"/> representing the logical location of the <see cref="DeviceRectangle"/> relative to the <see cref="RGBSurface"/>.
-        /// </summary>
-        Rectangle DeviceRectangle { get; }
-
-        /// <summary>
-        /// Gets or sets the scale of the <see cref="IRGBDevice"/>.
-        /// </summary>
-        Scale Scale { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation of the <see cref="IRGBDevice"/>.
-        /// </summary>
-        Rotation Rotation { get; set; }
-
+        
         #endregion
 
         #region Indexer

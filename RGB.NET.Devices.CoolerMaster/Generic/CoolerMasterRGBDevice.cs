@@ -52,13 +52,7 @@ namespace RGB.NET.Devices.CoolerMaster
         public void Initialize(IDeviceUpdateTrigger updateTrigger)
         {
             InitializeLayout();
-
-            if (Size == Size.Invalid)
-            {
-                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
-                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
-            }
-
+            
             UpdateQueue = new CoolerMasterUpdateQueue(updateTrigger, DeviceInfo.DeviceIndex);
         }
 
