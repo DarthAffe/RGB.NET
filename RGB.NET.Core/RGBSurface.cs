@@ -49,7 +49,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.
         /// </summary>
-        public Rectangle SurfaceRectangle { get; private set; }
+        public Rectangle Boundary { get; private set; } = new(new Point(0, 0), new Size(0, 0));
 
         /// <summary>
         /// Gets a list of all <see cref="Led"/> on this <see cref="RGBSurface"/>.
@@ -211,13 +211,13 @@ namespace RGB.NET.Core
             switch (brush.BrushCalculationMode)
             {
                 case BrushCalculationMode.Relative:
-                    Rectangle brushRectangle = new(leds.Select(led => led.AbsoluteBoundry));
+                    Rectangle brushRectangle = new(leds.Select(led => led.AbsoluteBoundary));
                     Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                     brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
-                    brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundry.Translate(offset))));
+                    brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
                     break;
                 case BrushCalculationMode.Absolute:
-                    brush.PerformRender(SurfaceRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundry)));
+                    brush.PerformRender(Boundary, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundary)));
                     break;
                 default:
                     throw new ArgumentException();
@@ -283,7 +283,7 @@ namespace RGB.NET.Core
                 if (device.Surface != null) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' is already attached to a surface.");
 
                 device.Surface = this;
-                device.BoundryChanged += DeviceOnBoundryChanged;
+                device.BoundaryChanged += DeviceOnBoundaryChanged;
 
                 _devices.Add(device);
                 OnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs.FromAddedDevice(device));
@@ -305,7 +305,7 @@ namespace RGB.NET.Core
             {
                 if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' isn't not attached to this surface.");
 
-                device.BoundryChanged -= DeviceOnBoundryChanged;
+                device.BoundaryChanged -= DeviceOnBoundaryChanged;
                 device.Surface = null;
 
                 _devices.Remove(device);
@@ -329,7 +329,7 @@ namespace RGB.NET.Core
 
         // ReSharper restore UnusedMember.Global
 
-        private void DeviceOnBoundryChanged(object? sender, EventArgs args)
+        private void DeviceOnBoundaryChanged(object? sender, EventArgs args)
             => OnSurfaceLayoutChanged((sender is IRGBDevice device) ? SurfaceLayoutChangedEventArgs.FromChangedDevice(device) : SurfaceLayoutChangedEventArgs.Misc());
 
         private void OnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args)
@@ -343,8 +343,8 @@ namespace RGB.NET.Core
         {
             lock (_devices)
             {
-                Rectangle devicesRectangle = new(_devices.Select(d => d.Boundry));
-                SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
+                Rectangle devicesRectangle = new(_devices.Select(d => d.Boundary));
+                Boundary = Boundary.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
             }
         }
 

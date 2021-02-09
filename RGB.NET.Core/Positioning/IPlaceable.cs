@@ -42,7 +42,7 @@ namespace RGB.NET.Core
         /// Gets a rectangle containing the whole <see cref="IPlaceable"/>.
         /// This includes <see cref="Location"/>, <see cref="Size"/>, <see cref="Scale"/> and <see cref="Rotation"/>.
         /// </summary>
-        Rectangle Boundry { get; }
+        Rectangle Boundary { get; }
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace RGB.NET.Core
         event EventHandler<EventArgs> RotationChanged;
         event EventHandler<EventArgs> ActualLocationChanged;
         event EventHandler<EventArgs> ActualSizeChanged;
-        event EventHandler<EventArgs> BoundryChanged;
+        event EventHandler<EventArgs> BoundaryChanged;
 
         #endregion
     }

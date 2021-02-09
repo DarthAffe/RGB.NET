@@ -59,7 +59,7 @@ namespace RGB.NET.Groups
         /// <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
         /// <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
         public RectangleLedGroup(RGBSurface? surface, Led fromLed, Led toLed, double minOverlayPercentage = 0.5)
-            : this(surface, new Rectangle(fromLed.Boundry, toLed.Boundry), minOverlayPercentage)
+            : this(surface, new Rectangle(fromLed.Boundary, toLed.Boundary), minOverlayPercentage)
         { }
 
         /// <inheritdoc />
@@ -117,7 +117,7 @@ namespace RGB.NET.Groups
         /// Gets a list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.
         /// </summary>
         /// <returns>The list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.</returns>
-        public override IList<Led> GetLeds() => _ledCache ??= (Surface?.Leds.Where(led => led.AbsoluteBoundry.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList() ?? new List<Led>());
+        public override IList<Led> GetLeds() => _ledCache ??= (Surface?.Leds.Where(led => led.AbsoluteBoundary.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList() ?? new List<Led>());
 
         private void InvalidateCache() => _ledCache = null;
 

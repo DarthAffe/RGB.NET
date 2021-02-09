@@ -55,11 +55,11 @@ namespace RGB.NET.Core
         Led? IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led? led) ? led : null;
 
         /// <inheritdoc />
-        Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.Boundry.Contains(location));
+        Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.Boundary.Contains(location));
 
         /// <inheritdoc />
         IEnumerable<Led> IRGBDevice.this[Rectangle referenceRect, double minOverlayPercentage]
-            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.Boundry) >= minOverlayPercentage);
+            => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.Boundary) >= minOverlayPercentage);
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace RGB.NET.Core
             if (Location == Point.Invalid) Location = new Point(0, 0);
             if (Size == Size.Invalid)
             {
-                Rectangle ledRectangle = new(this.Select(x => x.Boundry));
+                Rectangle ledRectangle = new(this.Select(x => x.Boundary));
                 Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
             }
         }
