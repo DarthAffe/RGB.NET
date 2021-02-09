@@ -43,14 +43,14 @@ namespace RGB.NET.Core
             set => SetProperty(ref _shapeData, value);
         }
 
-        private Rectangle _absoluteBoundry;
+        private Rectangle _absoluteBoundary;
         /// <summary>
         /// Gets a rectangle representing the logical location of the <see cref="Led"/> on the <see cref="RGBSurface"/>.
         /// </summary>
-        public Rectangle AbsoluteBoundry
+        public Rectangle AbsoluteBoundary
         {
-            get => _absoluteBoundry;
-            private set => SetProperty(ref _absoluteBoundry, value);
+            get => _absoluteBoundary;
+            private set => SetProperty(ref _absoluteBoundary, value);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace RGB.NET.Core
         {
             base.UpdateActualPlaceableData();
 
-            AbsoluteBoundry = Boundry.Translate(Device.Location);
+            AbsoluteBoundary = Boundary.Translate(Device.Location);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace RGB.NET.Core
         /// Converts a <see cref="Led" /> to a <see cref="Rectangle" />.
         /// </summary>
         /// <param name="led">The <see cref="Led"/> to convert.</param>
-        public static implicit operator Rectangle(Led led) => led.Boundry;
+        public static implicit operator Rectangle(Led led) => led.Boundary;
 
         #endregion
     }

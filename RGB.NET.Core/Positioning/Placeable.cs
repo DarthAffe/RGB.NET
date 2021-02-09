@@ -80,15 +80,15 @@ namespace RGB.NET.Core
             }
         }
 
-        private Rectangle _boundry = new(Point.Invalid, Point.Invalid);
+        private Rectangle _boundary = new(Point.Invalid, Point.Invalid);
         /// <inheritdoc />
-        public Rectangle Boundry
+        public Rectangle Boundary
         {
-            get => _boundry;
+            get => _boundary;
             private set
             {
-                if (SetProperty(ref _boundry, value))
-                    OnBoundryChanged();
+                if (SetProperty(ref _boundary, value))
+                    OnBoundaryChanged();
             }
         }
 
@@ -102,7 +102,7 @@ namespace RGB.NET.Core
         public event EventHandler<EventArgs>? RotationChanged;
         public event EventHandler<EventArgs>? ActualLocationChanged;
         public event EventHandler<EventArgs>? ActualSizeChanged;
-        public event EventHandler<EventArgs>? BoundryChanged;
+        public event EventHandler<EventArgs>? BoundaryChanged;
 
         #endregion
 
@@ -114,7 +114,7 @@ namespace RGB.NET.Core
         {
             this.Parent = parent;
 
-            Parent.BoundryChanged += (_, _) => UpdateActualPlaceableData();
+            Parent.BoundaryChanged += (_, _) => UpdateActualPlaceableData();
         }
 
         public Placeable(Point location, Size size)
@@ -129,7 +129,7 @@ namespace RGB.NET.Core
             this.Location = location;
             this.Size = size;
 
-            Parent.BoundryChanged += (_, _) => UpdateActualPlaceableData();
+            Parent.BoundaryChanged += (_, _) => UpdateActualPlaceableData();
         }
 
         #endregion
@@ -142,27 +142,27 @@ namespace RGB.NET.Core
             {
                 Size actualSize = Size * Parent.Scale;
                 Point actualLocation = (Location * Parent.Scale);
-                Rectangle boundry = new(actualLocation, actualSize);
+                Rectangle boundary = new(actualLocation, actualSize);
 
                 if (Parent.Rotation.IsRotated)
                 {
                     Point parentCenter = new Rectangle(Parent.ActualSize).Center;
-                    Point actualParentCenter = new Rectangle(Parent.Boundry.Size).Center;
+                    Point actualParentCenter = new Rectangle(Parent.Boundary.Size).Center;
                     Point centerOffset = new(actualParentCenter.X - parentCenter.X, actualParentCenter.Y - parentCenter.Y);
 
                     actualLocation = actualLocation.Rotate(Parent.Rotation, new Rectangle(Parent.ActualSize).Center) + centerOffset;
-                    boundry = new Rectangle(boundry.Rotate(Parent.Rotation, new Rectangle(Parent.ActualSize).Center)).Translate(centerOffset);
+                    boundary = new Rectangle(boundary.Rotate(Parent.Rotation, new Rectangle(Parent.ActualSize).Center)).Translate(centerOffset);
                 }
 
                 ActualLocation = actualLocation;
                 ActualSize = actualSize;
-                Boundry = boundry;
+                Boundary = boundary;
             }
             else
             {
                 ActualLocation = Location;
                 ActualSize = Size * Scale;
-                Boundry = new Rectangle(Location, new Rectangle(new Rectangle(Location, ActualSize).Rotate(Rotation)).Size);
+                Boundary = new Rectangle(Location, new Rectangle(new Rectangle(Location, ActualSize).Rotate(Rotation)).Size);
             }
         }
 
@@ -192,7 +192,7 @@ namespace RGB.NET.Core
 
         protected virtual void OnActualLocationChanged() => ActualLocationChanged?.Invoke(this, new EventArgs());
         protected virtual void OnActualSizeChanged() => ActualSizeChanged?.Invoke(this, new EventArgs());
-        protected virtual void OnBoundryChanged() => BoundryChanged?.Invoke(this, new EventArgs());
+        protected virtual void OnBoundaryChanged() => BoundaryChanged?.Invoke(this, new EventArgs());
 
         #endregion
     }
