@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -212,13 +211,13 @@ namespace RGB.NET.Core
             switch (brush.BrushCalculationMode)
             {
                 case BrushCalculationMode.Relative:
-                    Rectangle brushRectangle = new(leds.Select(led => led.AbsoluteLedRectangle));
+                    Rectangle brushRectangle = new(leds.Select(led => led.AbsoluteBoundry));
                     Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                     brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
-                    brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteLedRectangle.Translate(offset))));
+                    brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundry.Translate(offset))));
                     break;
                 case BrushCalculationMode.Absolute:
-                    brush.PerformRender(SurfaceRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteLedRectangle)));
+                    brush.PerformRender(SurfaceRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundry)));
                     break;
                 default:
                     throw new ArgumentException();
@@ -281,11 +280,13 @@ namespace RGB.NET.Core
         {
             lock (_devices)
             {
-                if (_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' is already attached.");
+                if (device.Surface != null) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' is already attached to a surface.");
 
                 device.Surface = this;
+                device.BoundryChanged += DeviceOnBoundryChanged;
 
                 _devices.Add(device);
+                OnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs.FromAddedDevice(device));
             }
         }
 
@@ -302,11 +303,14 @@ namespace RGB.NET.Core
         {
             lock (_devices)
             {
-                if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' isn't attached.");
+                if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' isn't not attached to this surface.");
 
+                device.BoundryChanged -= DeviceOnBoundryChanged;
                 device.Surface = null;
 
                 _devices.Remove(device);
+
+                OnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs.FromRemovedDevice(device));
             }
         }
 
@@ -325,17 +329,21 @@ namespace RGB.NET.Core
 
         // ReSharper restore UnusedMember.Global
 
-        private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void DeviceOnBoundryChanged(object? sender, EventArgs args)
+            => OnSurfaceLayoutChanged((sender is IRGBDevice device) ? SurfaceLayoutChangedEventArgs.FromChangedDevice(device) : SurfaceLayoutChangedEventArgs.Misc());
+
+        private void OnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args)
         {
             UpdateSurfaceRectangle();
-            SurfaceLayoutChanged?.Invoke(new SurfaceLayoutChangedEventArgs((sender is IRGBDevice device) ? new[] { device } : Array.Empty<IRGBDevice>(), false, true));
+
+            SurfaceLayoutChanged?.Invoke(args);
         }
 
         private void UpdateSurfaceRectangle()
         {
             lock (_devices)
             {
-                Rectangle devicesRectangle = new(_devices.Select(d => d.DeviceRectangle));
+                Rectangle devicesRectangle = new(_devices.Select(d => d.Boundry));
                 SurfaceRectangle = SurfaceRectangle.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
             }
         }

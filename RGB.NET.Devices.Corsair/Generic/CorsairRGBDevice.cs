@@ -75,12 +75,6 @@ namespace RGB.NET.Devices.Corsair
                 if (led.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))
                     InternalLedMapping.Add(ledId, led);
             }
-
-            if (Size == Size.Invalid)
-            {
-                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
-                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
-            }
         }
 
         /// <summary>

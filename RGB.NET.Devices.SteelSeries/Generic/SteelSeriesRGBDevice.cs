@@ -54,13 +54,7 @@ namespace RGB.NET.Devices.SteelSeries
             int counter = 0;
             foreach (KeyValuePair<LedId, SteelSeriesLedId> mapping in ledMapping)
                 AddLed(mapping.Key, new Point((counter++) * 10, 0), new Size(10, 10));
-
-            if (Size == Size.Invalid)
-            {
-                Rectangle ledRectangle = new(this.Select(x => x.LedRectangle));
-                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
-            }
-
+            
             UpdateQueue = updateQueue;
         }
 
