@@ -45,11 +45,11 @@ namespace RGB.NET.Devices.Corsair
             this.LogicalLayout = (CorsairLogicalKeyboardLayout)nativeInfo.logicalLayout;
             this.Layout = PhysicalLayout switch
             {
-                CorsairPhysicalKeyboardLayout.US => KeyboardLayoutType.Ansi,
-                CorsairPhysicalKeyboardLayout.UK => KeyboardLayoutType.Iso,
-                CorsairPhysicalKeyboardLayout.BR => KeyboardLayoutType.Unknown,
-                CorsairPhysicalKeyboardLayout.JP => KeyboardLayoutType.Jis,
-                CorsairPhysicalKeyboardLayout.KR => KeyboardLayoutType.Unknown,
+                CorsairPhysicalKeyboardLayout.US => KeyboardLayoutType.ANSI,
+                CorsairPhysicalKeyboardLayout.UK => KeyboardLayoutType.ISO,
+                CorsairPhysicalKeyboardLayout.BR => KeyboardLayoutType.ABNT,
+                CorsairPhysicalKeyboardLayout.JP => KeyboardLayoutType.JIS,
+                CorsairPhysicalKeyboardLayout.KR => KeyboardLayoutType.KS,
                 _ => KeyboardLayoutType.Unknown
             };
         }

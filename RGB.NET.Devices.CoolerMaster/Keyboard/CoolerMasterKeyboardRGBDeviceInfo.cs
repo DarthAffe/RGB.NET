@@ -34,9 +34,9 @@ namespace RGB.NET.Devices.CoolerMaster
             this.Layout = physicalKeyboardLayout switch
             {
                 CoolerMasterPhysicalKeyboardLayout.UNINIT => KeyboardLayoutType.Unknown,
-                CoolerMasterPhysicalKeyboardLayout.US => KeyboardLayoutType.Ansi,
-                CoolerMasterPhysicalKeyboardLayout.EU => KeyboardLayoutType.Iso,
-                CoolerMasterPhysicalKeyboardLayout.JP => KeyboardLayoutType.Jis,
+                CoolerMasterPhysicalKeyboardLayout.US => KeyboardLayoutType.ANSI,
+                CoolerMasterPhysicalKeyboardLayout.EU => KeyboardLayoutType.ISO,
+                CoolerMasterPhysicalKeyboardLayout.JP => KeyboardLayoutType.JIS,
                 _ => KeyboardLayoutType.Unknown
             };
         }

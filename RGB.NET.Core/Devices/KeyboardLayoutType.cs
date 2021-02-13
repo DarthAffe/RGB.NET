@@ -1,10 +1,13 @@
-﻿namespace RGB.NET.Core
+﻿// ReSharper disable InconsistentNaming
+namespace RGB.NET.Core
 {
     public enum KeyboardLayoutType
     {
         Unknown = 0,
-        Ansi = 1,
-        Iso = 2,
-        Jis = 3
+        ANSI = 1,
+        ISO = 2,
+        JIS = 3,
+        ABNT = 4,
+        KS = 5
     }
 }
