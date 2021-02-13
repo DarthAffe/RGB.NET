@@ -90,9 +90,8 @@ namespace RGB.NET.Devices.Wooting
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
                     IWootingRGBDevice device = nativeDeviceInfo.Model switch
                     {
-                        // TODO: Find an accurate way to determine physical and logical layouts
-                        "Wooting two" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo, WootingPhysicalKeyboardLayout.US)),
-                        "Wooting one" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne, WootingPhysicalKeyboardLayout.US)),
+                        "Wooting two" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo)),
+                        "Wooting one" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne)),
                         _ => throw new RGBDeviceException("No supported Wooting keyboard connected")
                     };
 
@@ -113,7 +112,7 @@ namespace RGB.NET.Devices.Wooting
 
             return true;
         }
-        
+
         /// <inheritdoc />
         public void Dispose()
         {
