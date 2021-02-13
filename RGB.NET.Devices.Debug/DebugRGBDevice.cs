@@ -33,7 +33,7 @@ namespace RGB.NET.Devices.Debug
 
             DeviceInfo = new DebugRGBDeviceInfo(layout.Type, layout.Vendor ?? "RGB.NET", layout.Model ?? "Debug", layout.CustomData);
 
-            Layout.ApplyTo(this);
+            Layout.ApplyTo(this, true);
         }
 
         #endregion
