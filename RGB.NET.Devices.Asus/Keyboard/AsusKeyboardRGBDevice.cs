@@ -11,6 +11,12 @@ namespace RGB.NET.Devices.Asus
     /// </summary>
     public class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceInfo>, IKeyboard
     {
+        #region Properties & Fields
+
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />

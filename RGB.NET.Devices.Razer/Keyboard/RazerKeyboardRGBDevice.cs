@@ -12,6 +12,12 @@ namespace RGB.NET.Devices.Razer
     /// </summary>
     public class RazerKeyboardRGBDevice : RazerRGBDevice<RazerKeyboardRGBDeviceInfo>, IKeyboard
     {
+        #region Properties & Fields
+
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />

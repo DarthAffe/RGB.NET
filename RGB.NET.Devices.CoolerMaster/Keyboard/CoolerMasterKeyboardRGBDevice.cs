@@ -9,6 +9,12 @@ namespace RGB.NET.Devices.CoolerMaster
     /// </summary>
     public class CoolerMasterKeyboardRGBDevice : CoolerMasterRGBDevice<CoolerMasterKeyboardRGBDeviceInfo>, IKeyboard
     {
+        #region Properties & Fields
+
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />

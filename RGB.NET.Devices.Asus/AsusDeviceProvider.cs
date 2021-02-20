@@ -104,7 +104,7 @@ namespace RGB.NET.Devices.Asus
                             case AsusDeviceType.KEYBOARD_RGB:
                             case AsusDeviceType.NB_KB_RGB:
                             case AsusDeviceType.NB_KB_4ZONE_RGB:
-                                rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device, AsusPhysicalKeyboardLayout.Default));
+                                rgbDevice = new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device));
                                 break;
 
                             case AsusDeviceType.MOUSE_RGB:

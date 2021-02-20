@@ -4,18 +4,15 @@ using RGB.NET.Devices.Wooting.Generic;
 
 namespace RGB.NET.Devices.Wooting.Keyboard
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Wooting.Keyboard.WootingKeyboardRGBDevice" />.
     /// </summary>
-    public class WootingKeyboardRGBDeviceInfo : WootingRGBDeviceInfo
+    public class WootingKeyboardRGBDeviceInfo : WootingRGBDeviceInfo, IKeyboardDeviceInfo
     {
         #region Properties & Fields
 
-        /// <summary>
-        /// Gets the <see cref="WootingPhysicalKeyboardLayout"/> of the <see cref="WootingKeyboardRGBDevice"/>.
-        /// </summary>
-        public WootingPhysicalKeyboardLayout PhysicalLayout { get; }
+        /// <inheritdoc />
+        public KeyboardLayoutType Layout => KeyboardLayoutType.Unknown;
 
         #endregion
 
@@ -27,11 +24,9 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// </summary>
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
         /// <param name="physicalKeyboardLayout">The <see cref="T:RGB.NET.Devices.Wooting.WootingPhysicalKeyboardLayout" /> of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
-        internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex, WootingPhysicalKeyboardLayout physicalKeyboardLayout)
+        internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex)
             : base(RGBDeviceType.Keyboard, deviceIndex)
-        {
-            this.PhysicalLayout = physicalKeyboardLayout;
-        }
+        { }
 
         #endregion
     }

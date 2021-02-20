@@ -15,6 +15,12 @@ namespace RGB.NET.Devices.Corsair
     /// </summary>
     public class CorsairKeyboardRGBDevice : CorsairRGBDevice<CorsairKeyboardRGBDeviceInfo>, IKeyboard
     {
+        #region Properties & Fields
+
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />

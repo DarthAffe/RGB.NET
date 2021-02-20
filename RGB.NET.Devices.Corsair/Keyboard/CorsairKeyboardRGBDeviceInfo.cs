@@ -7,13 +7,15 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" />.
     /// </summary>
-    public class CorsairKeyboardRGBDeviceInfo : CorsairRGBDeviceInfo
+    public class CorsairKeyboardRGBDeviceInfo : CorsairRGBDeviceInfo, IKeyboardDeviceInfo
     {
         #region Properties & Fields
+
+        /// <inheritdoc />
+        public KeyboardLayoutType Layout { get; }
 
         /// <summary>
         /// Gets the physical layout of the keyboard.
@@ -41,6 +43,15 @@ namespace RGB.NET.Devices.Corsair
         {
             this.PhysicalLayout = (CorsairPhysicalKeyboardLayout)nativeInfo.physicalLayout;
             this.LogicalLayout = (CorsairLogicalKeyboardLayout)nativeInfo.logicalLayout;
+            this.Layout = PhysicalLayout switch
+            {
+                CorsairPhysicalKeyboardLayout.US => KeyboardLayoutType.ANSI,
+                CorsairPhysicalKeyboardLayout.UK => KeyboardLayoutType.ISO,
+                CorsairPhysicalKeyboardLayout.BR => KeyboardLayoutType.ABNT,
+                CorsairPhysicalKeyboardLayout.JP => KeyboardLayoutType.JIS,
+                CorsairPhysicalKeyboardLayout.KR => KeyboardLayoutType.KS,
+                _ => KeyboardLayoutType.Unknown
+            };
         }
 
         #endregion

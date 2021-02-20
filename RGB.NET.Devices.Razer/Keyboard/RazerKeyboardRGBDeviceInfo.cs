@@ -6,12 +6,18 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice" />.
     /// </summary>
-    public class RazerKeyboardRGBDeviceInfo : RazerRGBDeviceInfo
+    public class RazerKeyboardRGBDeviceInfo : RazerRGBDeviceInfo, IKeyboardDeviceInfo
     {
+        #region Properties & Fields
+
+        /// <inheritdoc />
+        public KeyboardLayoutType Layout => KeyboardLayoutType.Unknown;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />
