@@ -19,12 +19,12 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// </summary>
         /// <param name="offset">The percentage offset to take the <see cref="Color"/> from.</param>
         /// <returns>The <see cref="Color"/> at the specific offset.</returns>
-        Color GetColor(double offset);
+        Color GetColor(float offset);
 
         /// <summary>
         /// Moves the <see cref="IGradient"/> by the provided offset.
         /// </summary>
         /// <param name="offset">The offset the <see cref="IGradient"/> should be moved.</param>
-        void Move(double offset);
+        void Move(float offset);
     }
 }

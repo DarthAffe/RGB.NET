@@ -16,9 +16,9 @@ namespace RGB.NET.Presets.Textures
     {
         #region Properties & Fields
 
-        private double _referenceDistance = GradientHelper.CalculateDistance(new Point(0.5, 0.5), new Point(0, 0));
+        private float _referenceDistance = GradientHelper.CalculateDistance(new Point(0.5f, 0.5f), new Point(0, 0));
 
-        private Point _center = new(0.5, 0.5);
+        private Point _center = new(0.5f, 0.5f);
         /// <summary>
         /// Gets or sets the center <see cref="Point"/> (as percentage in the range [0..1]) around which the <see cref="RadialGradientTexture"/> should be drawn. (default: 0.5, 0.5)
         /// </summary>
@@ -61,15 +61,15 @@ namespace RGB.NET.Presets.Textures
 
         private void CalculateReferenceDistance()
         {
-            double referenceX = Center.X < 0.5 ? 1 : 0;
-            double referenceY = Center.Y < 0.5 ? 1 : 0;
+            float referenceX = Center.X < 0.5f ? 1 : 0;
+            float referenceY = Center.Y < 0.5f ? 1 : 0;
             _referenceDistance = GradientHelper.CalculateDistance(new Point(referenceX, referenceY), Center);
         }
 
         protected override Color GetColor(in Point point)
         {
-            double distance = GradientHelper.CalculateDistance(point, Center);
-            double offset = distance / _referenceDistance;
+            float distance = GradientHelper.CalculateDistance(point, Center);
+            float offset = distance / _referenceDistance;
             return Gradient.GetColor(offset);
         }
 

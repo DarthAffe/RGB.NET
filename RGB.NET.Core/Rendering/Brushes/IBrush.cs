@@ -24,12 +24,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets or sets the overall percentage brightness of the <see cref="IBrush"/>.
         /// </summary>
-        double Brightness { get; set; }
+        float Brightness { get; set; }
 
         /// <summary>
         /// Gets or sets the overall percentage opacity of the <see cref="IBrush"/>.
         /// </summary>
-        double Opacity { get; set; }
+        float Opacity { get; set; }
 
         /// <summary>
         /// Performs the render pass of the <see cref="IBrush"/> and calculates the raw <see cref="Color"/> for all requested <see cref="RenderTarget"/>.

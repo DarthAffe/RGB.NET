@@ -19,7 +19,7 @@
         {
             if (!(obj is Color)) return false;
 
-            (double a, double r, double g, double b) = ((Color)obj).GetRGB();
+            (float a, float r, float g, float b) = ((Color)obj).GetRGB();
             return color.A.EqualsInTolerance(a) && color.R.EqualsInTolerance(r) && color.G.EqualsInTolerance(g) && color.B.EqualsInTolerance(b);
         }
 
@@ -50,10 +50,10 @@
             if (blendColor.A.EqualsInTolerance(1))
                 return blendColor;
 
-            double resultA = (1.0 - ((1.0 - blendColor.A) * (1.0 - baseColor.A)));
-            double resultR = (((blendColor.R * blendColor.A) / resultA) + ((baseColor.R * baseColor.A * (1.0 - blendColor.A)) / resultA));
-            double resultG = (((blendColor.G * blendColor.A) / resultA) + ((baseColor.G * baseColor.A * (1.0 - blendColor.A)) / resultA));
-            double resultB = (((blendColor.B * blendColor.A) / resultA) + ((baseColor.B * baseColor.A * (1.0 - blendColor.A)) / resultA));
+            float resultA = (1.0f - ((1.0f - blendColor.A) * (1.0f - baseColor.A)));
+            float resultR = (((blendColor.R * blendColor.A) / resultA) + ((baseColor.R * baseColor.A * (1.0f - blendColor.A)) / resultA));
+            float resultG = (((blendColor.G * blendColor.A) / resultA) + ((baseColor.G * baseColor.A * (1.0f - blendColor.A)) / resultA));
+            float resultB = (((blendColor.B * blendColor.A) / resultA) + ((baseColor.B * baseColor.A * (1.0f - blendColor.A)) / resultA));
 
             return new Color(resultA, resultR, resultG, resultB);
         }

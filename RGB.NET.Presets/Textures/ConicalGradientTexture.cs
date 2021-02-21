@@ -18,23 +18,23 @@ namespace RGB.NET.Presets.Textures
     {
         #region Constants
 
-        private const double PI2 = Math.PI * 2;
+        private const float PI2 = MathF.PI * 2.0f;
 
         #endregion
 
         #region Properties & Fields
 
-        private double _origin = Math.Atan2(-1, 0);
+        private float _origin = MathF.Atan2(-1, 0);
         /// <summary>
         /// Gets or sets the origin (radian-angle) this <see cref="ConicalGradientTexture"/> is drawn to. (default: -π/2)
         /// </summary>
-        public double Origin
+        public float Origin
         {
             get => _origin;
             set => SetProperty(ref _origin, value);
         }
 
-        private Point _center = new(0.5, 0.5);
+        private Point _center = new(0.5f, 0.5f);
         /// <summary>
         /// Gets or sets the center <see cref="Point"/> (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="ConicalGradientTexture"/>. (default: 0.5, 0.5)
         /// </summary>
@@ -86,9 +86,9 @@ namespace RGB.NET.Presets.Textures
 
         protected override Color GetColor(in Point point)
         {
-            double angle = Math.Atan2(point.Y - Center.Y, point.X - Center.X) - Origin;
+            float angle = MathF.Atan2(point.Y - Center.Y, point.X - Center.X) - Origin;
             if (angle < 0) angle += PI2;
-            double offset = angle / PI2;
+            float offset = angle / PI2;
 
             return Gradient.GetColor(offset);
         }

@@ -16,7 +16,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a [NaN,NaN]-Point.
         /// </summary>
-        public static Point Invalid => new(double.NaN, double.NaN);
+        public static Point Invalid => new(float.NaN, float.NaN);
 
         #endregion
 
@@ -25,12 +25,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the X-position of this <see cref="Point"/>.
         /// </summary>
-        public double X { get; }
+        public float X { get; }
 
         /// <summary>
         /// Gets the Y-position of this <see cref="Point"/>.
         /// </summary>
-        public double Y { get; }
+        public float Y { get; }
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="x">The value used for the X-position.</param>
         /// <param name="y">The value used for the Y-position.</param>
-        public Point(double x, double y)
+        public Point(float x, float y)
         {
             this.X = x;
             this.Y = y;
@@ -67,8 +67,8 @@ namespace RGB.NET.Core
             if (!(obj is Point)) return false;
 
             Point comparePoint = (Point)obj;
-            return ((double.IsNaN(X) && double.IsNaN(comparePoint.X)) || X.EqualsInTolerance(comparePoint.X))
-                && ((double.IsNaN(Y) && double.IsNaN(comparePoint.Y)) || Y.EqualsInTolerance(comparePoint.Y));
+            return ((float.IsNaN(X) && float.IsNaN(comparePoint.X)) || X.EqualsInTolerance(comparePoint.X))
+                && ((float.IsNaN(Y) && float.IsNaN(comparePoint.Y)) || Y.EqualsInTolerance(comparePoint.Y));
         }
 
         /// <summary>

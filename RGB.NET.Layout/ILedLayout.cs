@@ -22,22 +22,22 @@ namespace RGB.NET.Layout
         /// <summary>
         /// Gets the x-position of the <see cref="LedLayout"/>.
         /// </summary>
-        double X { get; }
+        float X { get; }
 
         /// <summary>
         /// Gets the y-position of the <see cref="LedLayout"/>.
         /// </summary>
-        double Y { get; }
+        float Y { get; }
 
         /// <summary>
         /// Gets the width of the <see cref="LedLayout"/>.
         /// </summary>
-        double Width { get; }
+        float Width { get; }
 
         /// <summary>
         /// Gets the height of the <see cref="LedLayout"/>.
         /// </summary>
-        double Height { get; }
+        float Height { get; }
 
         object? CustomData { get; }
     }

@@ -49,7 +49,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public static (double a, double r, double g, double b) GetRGB(this Color color)
+        public static (float a, float r, float g, float b) GetRGB(this Color color)
             => (color.A, color.R, color.G, color.B);
 
         #endregion
@@ -75,7 +75,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green value to add.</param>
         /// <param name="b">The blue value to add.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color AddRGB(this Color color, double r = 0, double g = 0, double b = 0)
+        public static Color AddRGB(this Color color, float r = 0, float g = 0, float b = 0)
             => new(color.A, color.R + r, color.G + g, color.B + b);
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="a">The alpha value to add.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color AddA(this Color color, double a)
+        public static Color AddA(this Color color, float a)
             => new(color.A + a, color.R, color.G, color.B);
 
         #endregion
@@ -115,7 +115,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green value to subtract.</param>
         /// <param name="b">The blue value to subtract.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color SubtractRGB(this Color color, double r = 0, double g = 0, double b = 0)
+        public static Color SubtractRGB(this Color color, float r = 0, float g = 0, float b = 0)
             => new(color.A, color.R - r, color.G - g, color.B - b);
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="a">The alpha value to subtract.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color SubtractA(this Color color, double aPercent)
+        public static Color SubtractA(this Color color, float aPercent)
             => new(color.A - aPercent, color.R, color.G, color.B);
 
         #endregion
@@ -145,7 +145,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green value to multiply.</param>
         /// <param name="b">The blue value to multiply.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color MultiplyRGB(this Color color, double r = 1, double g = 1, double b = 1)
+        public static Color MultiplyRGB(this Color color, float r = 1, float g = 1, float b = 1)
             => new(color.A, color.R * r, color.G * g, color.B * b);
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="a">The alpha value to multiply.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color MultiplyA(this Color color, double a)
+        public static Color MultiplyA(this Color color, float a)
             => new(color.A * a, color.R, color.G, color.B);
 
         #endregion
@@ -167,7 +167,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green value to divide.</param>
         /// <param name="b">The blue value to divide.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color DivideRGB(this Color color, double r = 1, double g = 1, double b = 1)
+        public static Color DivideRGB(this Color color, float r = 1, float g = 1, float b = 1)
             => new(color.A, color.R / r, color.G / g, color.B / b);
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="a">The alpha value to divide.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color DivideA(this Color color, double a)
+        public static Color DivideA(this Color color, float a)
             => new(color.A / a, color.R, color.G, color.B);
 
         #endregion
@@ -209,7 +209,7 @@ namespace RGB.NET.Core
         /// <param name="g">The green value to set.</param>
         /// <param name="b">The blue value to set.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color SetRGB(this Color color, double? r = null, double? g = null, double? b = null)
+        public static Color SetRGB(this Color color, float? r = null, float? g = null, float? b = null)
             => new(color.A, r ?? color.R, g ?? color.G, b ?? color.B);
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="a">The alpha value to set.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color SetA(this Color color, double a) => new(a, color.R, color.G, color.B);
+        public static Color SetA(this Color color, float a) => new(a, color.R, color.G, color.B);
 
         #endregion
 

@@ -96,23 +96,23 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
-        protected double ClipOffset(double offset)
+        protected float ClipOffset(float offset)
         {
-            double max = GradientStops.Max(stop => stop.Offset);
+            float max = GradientStops.Max(stop => stop.Offset);
             if (offset > max)
                 return max;
 
-            double min = GradientStops.Min(stop => stop.Offset);
+            float min = GradientStops.Min(stop => stop.Offset);
             return offset < min ? min : offset;
         }
 
         /// <inheritdoc />
-        public abstract Color GetColor(double offset);
+        public abstract Color GetColor(float offset);
 
         /// <inheritdoc />
-        public virtual void Move(double offset)
+        public virtual void Move(float offset)
         {
-            offset /= 360.0;
+            offset /= 360.0f;
 
             foreach (GradientStop gradientStop in GradientStops)
                 gradientStop.Offset += offset;

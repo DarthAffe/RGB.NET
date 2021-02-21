@@ -324,7 +324,7 @@ namespace RGB.NET.Core
         /// </summary>
         public void AlignDevices()
         {
-            double posX = 0;
+            float posX = 0;
             foreach (IRGBDevice device in Devices)
             {
                 device.Location += new Point(posX, 0);

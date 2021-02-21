@@ -23,10 +23,10 @@ namespace RGB.NET.Core
         public RenderMode CalculationMode { get; set; } = RenderMode.Relative;
 
         /// <inheritdoc />
-        public double Brightness { get; set; }
+        public float Brightness { get; set; }
 
         /// <inheritdoc />
-        public double Opacity { get; set; }
+        public float Opacity { get; set; }
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="brightness">The overall percentage brightness of the brush. (default: 1.0)</param>
         /// <param name="opacity">The overall percentage opacity of the brush. (default: 1.0)</param>
-        protected AbstractBrush(double brightness = 1, double opacity = 1)
+        protected AbstractBrush(float brightness = 1, float opacity = 1)
         {
             this.Brightness = brightness;
             this.Opacity = opacity;

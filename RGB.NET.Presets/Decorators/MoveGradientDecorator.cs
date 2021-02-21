@@ -26,7 +26,7 @@ namespace RGB.NET.Presets.Decorators
         ///   <see cref="LinearGradient"/>: 360 unit = 1 offset.
         ///   <see cref="RainbowGradient"/>: 1 unit = 1 degree.
         /// </summary>
-        public double Speed { get; set; }
+        public float Speed { get; set; }
 
         // ReSharper restore MemberCanBePrivate.Global
         // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
@@ -44,7 +44,7 @@ namespace RGB.NET.Presets.Decorators
         ///   <see cref="T:RGB.NET.Presets.Gradients.RainbowGradient" />: 1 unit = 1 degree.</param>
         /// <param name="direction">The direction the <see cref="T:RGB.NET.Presets.Gradients.IGradient" /> is moved.
         /// True leads to an offset-increment (normaly moving to the right), false to an offset-decrement (normaly moving to the left).</param>
-        public MoveGradientDecorator(RGBSurface surface, double speed = 180.0, bool direction = true)
+        public MoveGradientDecorator(RGBSurface surface, float speed = 180.0f, bool direction = true)
             : base(surface)
         {
             this.Speed = speed;
@@ -58,7 +58,7 @@ namespace RGB.NET.Presets.Decorators
         /// <inheritdoc />
         protected override void Update(double deltaTime)
         {
-            double movement = Speed * deltaTime;
+            float movement = Speed * (float)deltaTime;
 
             if (!Direction)
                 movement = -movement;

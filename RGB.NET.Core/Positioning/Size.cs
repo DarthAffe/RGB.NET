@@ -16,7 +16,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a [NaN,NaN]-Size.
         /// </summary>
-        public static Size Invalid => new(double.NaN, double.NaN);
+        public static Size Invalid => new(float.NaN, float.NaN);
 
         #endregion
 
@@ -25,12 +25,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets or sets the width component value of this <see cref="Size"/>.
         /// </summary>
-        public double Width { get; }
+        public float Width { get; }
 
         /// <summary>
         /// Gets or sets the height component value of this <see cref="Size"/>.
         /// </summary>
-        public double Height { get; }
+        public float Height { get; }
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace RGB.NET.Core
         /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Size" /> using the provided size to define a square.
         /// </summary>
         /// <param name="size">The size used for the <see cref="P:RGB.NET.Core.Size.Width" /> component value and the <see cref="P:RGB.NET.Core.Size.Height" /> component value.</param>
-        public Size(double size)
+        public Size(float size)
             : this(size, size)
         { }
 
@@ -50,7 +50,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="width">The size used for the <see cref="Width"/> component value.</param>
         /// <param name="height">The size used for the <see cref="Height"/> component value.</param>
-        public Size(double width, double height)
+        public Size(float width, float height)
         {
             this.Width = width;
             this.Height = height;
@@ -75,9 +75,9 @@ namespace RGB.NET.Core
         {
             if (!(obj is Size size)) return false;
 
-            (double width, double height) = size;
-            return ((double.IsNaN(Width) && double.IsNaN(width)) || Width.EqualsInTolerance(width))
-                && ((double.IsNaN(Height) && double.IsNaN(height)) || Height.EqualsInTolerance(height));
+            (float width, float height) = size;
+            return ((float.IsNaN(Width) && float.IsNaN(width)) || Width.EqualsInTolerance(width))
+                && ((float.IsNaN(Height) && float.IsNaN(height)) || Height.EqualsInTolerance(height));
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public void Deconstruct(out double width, out double height)
+        public void Deconstruct(out float width, out float height)
         {
             width = Width;
             height = Height;
@@ -163,7 +163,7 @@ namespace RGB.NET.Core
         /// <param name="size">The <see cref="Size"/>.</param>
         /// <param name="factor">The factor by which the <see cref="Size"/> should be multiplied.</param>
         /// <returns>A new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the provided factor.</returns>
-        public static Size operator *(Size size, double factor) => new(size.Width * factor, size.Height * factor);
+        public static Size operator *(Size size, float factor) => new(size.Width * factor, size.Height * factor);
 
         /// <summary>
         /// Returns a new <see cref="Size"/> representing the division of the two provided <see cref="Size"/>.
@@ -181,7 +181,7 @@ namespace RGB.NET.Core
         /// <param name="size">The <see cref="Size"/>.</param>
         /// <param name="factor">The factor by which the <see cref="Size"/> should be divided.</param>
         /// <returns>A new <see cref="Size"/> representing the division of the <see cref="Size"/> and the provided factor.</returns>
-        public static Size operator /(Size size, double factor) => factor.EqualsInTolerance(0) ? Invalid : new Size(size.Width / factor, size.Height / factor);
+        public static Size operator /(Size size, float factor) => factor.EqualsInTolerance(0) ? Invalid : new Size(size.Width / factor, size.Height / factor);
 
         /// <summary>
         /// Returns a new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the given <see cref="Scale"/>.

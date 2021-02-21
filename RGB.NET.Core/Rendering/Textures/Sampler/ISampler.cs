@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace RGB.NET.Core
+﻿namespace RGB.NET.Core
 {
+    public delegate Color GetColor(int x, int y);
+
     public interface ISampler
     {
-        Color SampleColor(in ReadOnlyMemory<Color> data, int x, int y, int width, int height);
+        Color SampleColor(int x, int y, int width, int height, GetColor getColorFunc);
     }
 }

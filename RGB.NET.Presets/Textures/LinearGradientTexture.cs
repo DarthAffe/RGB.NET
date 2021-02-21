@@ -19,7 +19,7 @@ namespace RGB.NET.Presets.Textures
     {
         #region Properties & Fields
 
-        private Point _startPoint = new(0, 0.5);
+        private Point _startPoint = new(0, 0.5f);
         /// <summary>
         /// Gets or sets the start <see cref="Point"/> (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="LinearGradientTexture"/>. (default: 0.0, 0.5)
         /// </summary>
@@ -29,7 +29,7 @@ namespace RGB.NET.Presets.Textures
             set => SetProperty(ref _startPoint, value);
         }
 
-        private Point _endPoint = new(1, 0.5);
+        private Point _endPoint = new(1, 0.5f);
         /// <summary>
         /// Gets or sets the end <see cref="Point"/>  (as percentage in the range [0..1]) of the <see cref="IGradient"/> drawn by this <see cref="LinearGradientTexture"/>. (default: 1.0, 0.5)
         /// </summary>
@@ -70,7 +70,7 @@ namespace RGB.NET.Presets.Textures
 
         protected override Color GetColor(in Point point)
         {
-            double offset = GradientHelper.CalculateLinearGradientOffset(StartPoint, EndPoint, point);
+            float offset = GradientHelper.CalculateLinearGradientOffset(StartPoint, EndPoint, point);
             return Gradient.GetColor(offset);
         }
 

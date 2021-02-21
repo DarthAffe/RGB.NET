@@ -17,21 +17,21 @@ namespace RGB.NET.Presets.Textures.Gradients
     {
         #region Properties & Fields
 
-        private double _startHue;
+        private float _startHue;
         /// <summary>
         /// Gets or sets the hue (in degrees) to start from.
         /// </summary>
-        public double StartHue
+        public float StartHue
         {
             get => _startHue;
             set => SetProperty(ref _startHue, value);
         }
 
-        private double _endHue;
+        private float _endHue;
         /// <summary>
         /// Gets or sets the hue (in degrees) to end the with.
         /// </summary>
-        public double EndHue
+        public float EndHue
         {
             get => _endHue;
             set => SetProperty(ref _endHue, value);
@@ -53,7 +53,7 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// </summary>
         /// <param name="startHue">The hue (in degrees) to start from (default: 0)</param>
         /// <param name="endHue">The hue (in degrees) to end with (default: 360)</param>
-        public RainbowGradient(double startHue = 0, double endHue = 360)
+        public RainbowGradient(float startHue = 0, float endHue = 360)
         {
             this.StartHue = startHue;
             this.EndHue = endHue;
@@ -71,15 +71,15 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// </summary>
         /// <param name="offset">The percentage offset to take the color from.</param>
         /// <returns>The color at the specific offset.</returns>
-        public Color GetColor(double offset)
+        public Color GetColor(float offset)
         {
-            double range = EndHue - StartHue;
-            double hue = StartHue + (range * offset);
+            float range = EndHue - StartHue;
+            float hue = StartHue + (range * offset);
             return HSVColor.Create(hue, 1, 1);
         }
 
         /// <inheritdoc />
-        public void Move(double offset)
+        public void Move(float offset)
         {
             // RainbowGradient is calculated inverse
             offset *= -1;

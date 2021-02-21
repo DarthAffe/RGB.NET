@@ -20,7 +20,7 @@ namespace RGB.NET.Presets.Helper
         /// <param name="endPoint">The end <see cref="Point"/> of the gradient.</param>
         /// <param name="point">The <see cref="Point"/> on the gradient to which the offset is calculated.</param>
         /// <returns>The offset of the <see cref="Point"/> on the gradient.</returns>
-        public static double CalculateLinearGradientOffset(in Point startPoint, in Point endPoint, in Point point)
+        public static float CalculateLinearGradientOffset(in Point startPoint, in Point endPoint, in Point point)
         {
             Point intersectingPoint;
             if (startPoint.Y.EqualsInTolerance(endPoint.Y)) // Horizontal case
@@ -31,20 +31,20 @@ namespace RGB.NET.Presets.Helper
 
             else // Diagonal case
             {
-                double slope = (endPoint.Y - startPoint.Y) / (endPoint.X - startPoint.X);
-                double orthogonalSlope = -1 / slope;
+                float slope = (endPoint.Y - startPoint.Y) / (endPoint.X - startPoint.X);
+                float orthogonalSlope = -1 / slope;
 
-                double startYIntercept = startPoint.Y - (slope * startPoint.X);
-                double pointYIntercept = point.Y - (orthogonalSlope * point.X);
+                float startYIntercept = startPoint.Y - (slope * startPoint.X);
+                float pointYIntercept = point.Y - (orthogonalSlope * point.X);
 
-                double intersectingPointX = (pointYIntercept - startYIntercept) / (slope - orthogonalSlope);
-                double intersectingPointY = (slope * intersectingPointX) + startYIntercept;
+                float intersectingPointX = (pointYIntercept - startYIntercept) / (slope - orthogonalSlope);
+                float intersectingPointY = (slope * intersectingPointX) + startYIntercept;
                 intersectingPoint = new Point(intersectingPointX, intersectingPointY);
             }
 
             // Calculate distances relative to the vector start
-            double intersectDistance = CalculateDistance(intersectingPoint, startPoint, endPoint);
-            double gradientLength = CalculateDistance(endPoint, startPoint, endPoint);
+            float intersectDistance = CalculateDistance(intersectingPoint, startPoint, endPoint);
+            float gradientLength = CalculateDistance(endPoint, startPoint, endPoint);
 
             return intersectDistance / gradientLength;
         }
@@ -57,9 +57,9 @@ namespace RGB.NET.Presets.Helper
         /// <param name="origin">The origin of the vector.</param>
         /// <param name="direction">The direction of the vector.</param>
         /// <returns>The signed magnitude of a <see cref="Point"/> on a vector.</returns>
-        public static double CalculateDistance(in Point point, in Point origin, in Point direction)
+        public static float CalculateDistance(in Point point, in Point origin, in Point direction)
         {
-            double distance = CalculateDistance(point, origin);
+            float distance = CalculateDistance(point, origin);
 
             return (((point.Y < origin.Y) && (direction.Y > origin.Y))
                  || ((point.Y > origin.Y) && (direction.Y < origin.Y))
@@ -74,11 +74,11 @@ namespace RGB.NET.Presets.Helper
         /// <param name="point1">The first <see cref="Point"/>.</param>
         /// <param name="point2">The second <see cref="Point"/>.</param>
         /// <returns>The distance between the two <see cref="Point"/>.</returns>
-        public static double CalculateDistance(in Point point1, in Point point2)
+        public static float CalculateDistance(in Point point1, in Point point2)
         {
-            double x = point1.X - point2.X;
-            double y = point1.Y - point2.Y;
-            return Math.Sqrt((y * y) + (x * x));
+            float x = point1.X - point2.X;
+            float y = point1.Y - point2.Y;
+            return MathF.Sqrt((y * y) + (x * x));
         }
 
         #endregion

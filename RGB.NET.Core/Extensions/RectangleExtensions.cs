@@ -20,7 +20,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="x">The new x-location of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetX(this Rectangle rect, double x) => new(new Point(x, rect.Location.Y), rect.Size);
+        public static Rectangle SetX(this Rectangle rect, float x) => new(new Point(x, rect.Location.Y), rect.Size);
 
         /// <summary>
         /// Sets the <see cref="Point.Y"/> of the <see cref="Rectangle.Location"/> of the given rectangle.
@@ -28,7 +28,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="y">The new y-location of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetY(this Rectangle rect, double y) => new(new Point(rect.Location.X, y), rect.Size);
+        public static Rectangle SetY(this Rectangle rect, float y) => new(new Point(rect.Location.X, y), rect.Size);
 
         /// <summary>
         /// Sets the <see cref="Rectangle.Size"/> of the given rectangle.
@@ -44,7 +44,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="width">The new width of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetWidth(this Rectangle rect, double width) => new(rect.Location, new Size(width, rect.Size.Height));
+        public static Rectangle SetWidth(this Rectangle rect, float width) => new(rect.Location, new Size(width, rect.Size.Height));
 
         /// <summary>
         /// Sets the <see cref="Size.Height"/> of the <see cref="Rectangle.Size"/> of the given rectangle.
@@ -52,14 +52,14 @@ namespace RGB.NET.Core
         /// <param name="rect">The rectangle to modify.</param>
         /// <param name="height">The new height of the rectangle.</param>
         /// <returns>The modified <see cref="Rectangle"/>.</returns>
-        public static Rectangle SetHeight(this Rectangle rect, double height) => new(rect.Location, new Size(rect.Size.Width, height));
+        public static Rectangle SetHeight(this Rectangle rect, float height) => new(rect.Location, new Size(rect.Size.Width, height));
 
         /// <summary>
         /// Calculates the percentage of intersection of a rectangle.
         /// </summary>
         /// <param name="intersectingRect">The intersecting rectangle.</param>
         /// <returns>The percentage of intersection.</returns>
-        public static double CalculateIntersectPercentage(this Rectangle rect, in Rectangle intersectingRect)
+        public static float CalculateIntersectPercentage(this Rectangle rect, in Rectangle intersectingRect)
         {
             if (rect.IsEmpty || intersectingRect.IsEmpty) return 0;
 
@@ -74,11 +74,11 @@ namespace RGB.NET.Core
         /// <returns>A new <see cref="Rectangle"/> representing the intersection this <see cref="Rectangle"/> and the one provided as parameter.</returns>
         public static Rectangle CalculateIntersection(this Rectangle rect, in Rectangle intersectingRectangle)
         {
-            double x1 = Math.Max(rect.Location.X, intersectingRectangle.Location.X);
-            double x2 = Math.Min(rect.Location.X + rect.Size.Width, intersectingRectangle.Location.X + intersectingRectangle.Size.Width);
+            float x1 = Math.Max(rect.Location.X, intersectingRectangle.Location.X);
+            float x2 = Math.Min(rect.Location.X + rect.Size.Width, intersectingRectangle.Location.X + intersectingRectangle.Size.Width);
 
-            double y1 = Math.Max(rect.Location.Y, intersectingRectangle.Location.Y);
-            double y2 = Math.Min(rect.Location.Y + rect.Size.Height, intersectingRectangle.Location.Y + intersectingRectangle.Size.Height);
+            float y1 = Math.Max(rect.Location.Y, intersectingRectangle.Location.Y);
+            float y2 = Math.Min(rect.Location.Y + rect.Size.Height, intersectingRectangle.Location.Y + intersectingRectangle.Size.Height);
 
             if ((x2 >= x1) && (y2 >= y1))
                 return new Rectangle(x1, y1, x2 - x1, y2 - y1);
@@ -99,7 +99,7 @@ namespace RGB.NET.Core
         /// <param name="x">The X-location to test.</param>
         /// <param name="y">The Y-location to test.</param>
         /// <returns><c>true</c> if the rectangle contains the given coordinates; otherwise <c>false</c>.</returns>
-        public static bool Contains(this Rectangle rect, double x, double y) => (rect.Location.X <= x) && (x < (rect.Location.X + rect.Size.Width))
+        public static bool Contains(this Rectangle rect, float x, float y) => (rect.Location.X <= x) && (x < (rect.Location.X + rect.Size.Width))
                                                                              && (rect.Location.Y <= y) && (y < (rect.Location.Y + rect.Size.Height));
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace RGB.NET.Core
         /// <param name="x">The x-ammount to move.</param>
         /// <param name="y">The y-ammount to move.</param>
         /// <returns>The moved rectangle.</returns>
-        public static Rectangle Translate(this Rectangle rect, double x = 0, double y = 0) => new(rect.Location.Translate(x, y), rect.Size);
+        public static Rectangle Translate(this Rectangle rect, float x = 0, float y = 0) => new(rect.Location.Translate(x, y), rect.Size);
 
         /// <summary>
         /// Rotates the specified <see cref="Rectangle"/> by the given amuont around the given origin.
@@ -150,8 +150,8 @@ namespace RGB.NET.Core
                                  new(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
                              };
 
-            double sin = Math.Sin(rotation.Radians);
-            double cos = Math.Cos(rotation.Radians);
+            float sin = MathF.Sin(rotation.Radians);
+            float cos = MathF.Cos(rotation.Radians);
 
             for (int i = 0; i < points.Length; i++)
             {

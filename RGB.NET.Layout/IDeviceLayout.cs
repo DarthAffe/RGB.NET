@@ -38,12 +38,12 @@ namespace RGB.NET.Layout
         /// <summary>
         /// Gets or sets the width of the <see cref="IDeviceLayout"/>.
         /// </summary>
-        double Width { get; }
+        float Width { get; }
 
         /// <summary>
         /// Gets or sets the height of the <see cref="IDeviceLayout"/>.
         /// </summary>
-        double Height { get; }
+        float Height { get; }
 
         /// <summary>
         /// Gets or sets a list of <see cref="ILedLayout"/> representing all the <see cref="Led"/> of the <see cref="IDeviceLayout"/>.

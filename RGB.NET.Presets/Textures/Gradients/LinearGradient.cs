@@ -83,7 +83,7 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// </summary>
         /// <param name="offset">The percentage offset to take the color from.</param>
         /// <returns>The <see cref="T:RGB.NET.Core.Color" /> at the specific offset.</returns>
-        public override Color GetColor(double offset)
+        public override Color GetColor(float offset)
         {
             if (GradientStops.Count == 0) return Color.Transparent;
             if (GradientStops.Count == 1) return GradientStops[0].Color;
@@ -93,14 +93,14 @@ namespace RGB.NET.Presets.Textures.Gradients
 
             (GradientStop gsBefore, GradientStop gsAfter) = GetEnclosingGradientStops(offset, _orderedGradientStops, WrapGradient);
 
-            double blendFactor = 0;
+            float blendFactor = 0;
             if (!gsBefore.Offset.Equals(gsAfter.Offset))
                 blendFactor = ((offset - gsBefore.Offset) / (gsAfter.Offset - gsBefore.Offset));
 
-            double colA = ((gsAfter.Color.A - gsBefore.Color.A) * blendFactor) + gsBefore.Color.A;
-            double colR = ((gsAfter.Color.R - gsBefore.Color.R) * blendFactor) + gsBefore.Color.R;
-            double colG = ((gsAfter.Color.G - gsBefore.Color.G) * blendFactor) + gsBefore.Color.G;
-            double colB = ((gsAfter.Color.B - gsBefore.Color.B) * blendFactor) + gsBefore.Color.B;
+            float colA = ((gsAfter.Color.A - gsBefore.Color.A) * blendFactor) + gsBefore.Color.A;
+            float colR = ((gsAfter.Color.R - gsBefore.Color.R) * blendFactor) + gsBefore.Color.R;
+            float colG = ((gsAfter.Color.G - gsBefore.Color.G) * blendFactor) + gsBefore.Color.G;
+            float colB = ((gsAfter.Color.B - gsBefore.Color.B) * blendFactor) + gsBefore.Color.B;
 
             return new Color(colA, colR, colG, colB);
         }
@@ -112,7 +112,7 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// <param name="orderedStops">The ordered list of <see cref="GradientStop"/> to choose from.</param>
         /// <param name="wrap">Bool indicating if the gradient should be wrapped or not.</param>
         /// <returns></returns>
-        protected virtual (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(double offset, LinkedList<GradientStop> orderedStops, bool wrap)
+        protected virtual (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(float offset, LinkedList<GradientStop> orderedStops, bool wrap)
         {
             LinkedList<GradientStop> gradientStops = new(orderedStops);
 

@@ -16,12 +16,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the horizontal scaling value.
         /// </summary>
-        public double Horizontal { get; }
+        public float Horizontal { get; }
 
         /// <summary>
         /// Gets the vertical scaling value.
         /// </summary>
-        public double Vertical { get; }
+        public float Vertical { get; }
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace RGB.NET.Core
         /// Initializes a new instance of the <see cref="Scale"/> class using the provided values.
         /// </summary>
         /// <param name="scale">The value used for horizontal and vertical scaling. 0 if not set.</param>
-        public Scale(double scale = 1.0) : this(scale, scale)
+        public Scale(float scale = 1.0f) : this(scale, scale)
         { }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="horizontal">The value used for horizontal scaling.</param>
         /// <param name="vertical">The value used for vertical scaling.</param>
-        public Scale(double horizontal, double vertical)
+        public Scale(float horizontal, float vertical)
         {
             this.Horizontal = horizontal;
             this.Vertical = vertical;
@@ -74,7 +74,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="horizontalScale">The horizontal scaling value.</param>
         /// <param name="verticalScale">The vertical scaling value.</param>
-        public void Deconstruct(out double horizontalScale, out double verticalScale)
+        public void Deconstruct(out float horizontalScale, out float verticalScale)
         {
             horizontalScale = Horizontal;
             verticalScale = Vertical;
@@ -106,7 +106,7 @@ namespace RGB.NET.Core
         /// <param name="scale">The <see cref="Scale"/>.</param>
         /// <param name="value">The value to add.</param>
         /// <returns>A new <see cref="Scale"/> representing the addition of the <see cref="Scale"/> and the provided value.</returns>
-        public static Scale operator +(Scale scale, double value) => new(scale.Horizontal + value, scale.Vertical + value);
+        public static Scale operator +(Scale scale, float value) => new(scale.Horizontal + value, scale.Vertical + value);
 
         /// <summary>
         /// Returns a new <see cref="Scale"/> representing the subtraction of the <see cref="Scale"/> and the provided value.
@@ -114,7 +114,7 @@ namespace RGB.NET.Core
         /// <param name="scale">The <see cref="Scale"/>.</param>
         /// <param name="value">The value to substract.</param>
         /// <returns>A new <see cref="Scale"/> representing the subtraction of the <see cref="Scale"/> and the provided value.</returns>
-        public static Scale operator -(Scale scale, double value) => new(scale.Horizontal - value, scale.Vertical - value);
+        public static Scale operator -(Scale scale, float value) => new(scale.Horizontal - value, scale.Vertical - value);
 
         /// <summary>
         /// Returns a new <see cref="Scale"/> representing the multiplication of the <see cref="Scale"/> and the provided value.
@@ -122,7 +122,7 @@ namespace RGB.NET.Core
         /// <param name="scale">The <see cref="Scale"/>.</param>
         /// <param name="value">The value to multiply with.</param>
         /// <returns>A new <see cref="Scale"/> representing the multiplication of the <see cref="Scale"/> and the provided value.</returns>
-        public static Scale operator *(Scale scale, double value) => new(scale.Horizontal * value, scale.Vertical * value);
+        public static Scale operator *(Scale scale, float value) => new(scale.Horizontal * value, scale.Vertical * value);
 
         /// <summary>
         /// Returns a new <see cref="Scale"/> representing the division of the <see cref="Scale"/> and the provided value.
@@ -130,14 +130,14 @@ namespace RGB.NET.Core
         /// <param name="scale">The <see cref="Scale"/>.</param>
         /// <param name="value">The value to device with.</param>
         /// <returns>A new <see cref="Scale"/> representing the division of the <see cref="Scale"/> and the provided value.</returns>
-        public static Scale operator /(Scale scale, double value) => value.EqualsInTolerance(0) ? new Scale(0) : new Scale(scale.Horizontal / value, scale.Vertical / value);
+        public static Scale operator /(Scale scale, float value) => value.EqualsInTolerance(0) ? new Scale(0) : new Scale(scale.Horizontal / value, scale.Vertical / value);
 
 
         /// <summary>
-        /// Converts a double to a <see cref="Scale" />.
+        /// Converts a float to a <see cref="Scale" />.
         /// </summary>
         /// <param name="scale">The scale value to convert.</param>
-        public static implicit operator Scale(double scale) => new(scale);
+        public static implicit operator Scale(float scale) => new(scale);
 
         #endregion
     }

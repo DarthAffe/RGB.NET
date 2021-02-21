@@ -13,21 +13,21 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public static double GetHue(this Color color) => color.GetHSV().hue;
+        public static float GetHue(this Color color) => color.GetHSV().hue;
 
         /// <summary>
         /// Gets the saturation component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public static double GetSaturation(this Color color) => color.GetHSV().saturation;
+        public static float GetSaturation(this Color color) => color.GetHSV().saturation;
 
         /// <summary>
         /// Gets the value component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public static double GetValue(this Color color) => color.GetHSV().value;
+        public static float GetValue(this Color color) => color.GetHSV().value;
 
         /// <summary>
         /// Gets the hue, saturation and value component values (HSV-color space) of this <see cref="Color"/>.
@@ -37,7 +37,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public static (double hue, double saturation, double value) GetHSV(this Color color)
+        public static (float hue, float saturation, float value) GetHSV(this Color color)
             => CaclulateHSVFromRGB(color.R, color.G, color.B);
 
         #endregion
@@ -51,9 +51,9 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation value to add.</param>
         /// <param name="value">The value value to add.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color AddHSV(this Color color, double hue = 0, double saturation = 0, double value = 0)
+        public static Color AddHSV(this Color color, float hue = 0, float saturation = 0, float value = 0)
         {
-            (double cHue, double cSaturation, double cValue) = color.GetHSV();
+            (float cHue, float cSaturation, float cValue) = color.GetHSV();
             return Create(color.A, cHue + hue, cSaturation + saturation, cValue + value);
         }
 
@@ -64,9 +64,9 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation value to subtract.</param>
         /// <param name="value">The value value to subtract.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color SubtractHSV(this Color color, double hue = 0, double saturation = 0, double value = 0)
+        public static Color SubtractHSV(this Color color, float hue = 0, float saturation = 0, float value = 0)
         {
-            (double cHue, double cSaturation, double cValue) = color.GetHSV();
+            (float cHue, float cSaturation, float cValue) = color.GetHSV();
             return Create(color.A, cHue - hue, cSaturation - saturation, cValue - value);
         }
 
@@ -77,9 +77,9 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation value to multiply.</param>
         /// <param name="value">The value value to multiply.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color MultiplyHSV(this Color color, double hue = 1, double saturation = 1, double value = 1)
+        public static Color MultiplyHSV(this Color color, float hue = 1, float saturation = 1, float value = 1)
         {
-            (double cHue, double cSaturation, double cValue) = color.GetHSV();
+            (float cHue, float cSaturation, float cValue) = color.GetHSV();
             return Create(color.A, cHue * hue, cSaturation * saturation, cValue * value);
         }
 
@@ -90,9 +90,9 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation value to divide.</param>
         /// <param name="value">The value value to divide.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color DivideHSV(this Color color, double hue = 1, double saturation = 1, double value = 1)
+        public static Color DivideHSV(this Color color, float hue = 1, float saturation = 1, float value = 1)
         {
-            (double cHue, double cSaturation, double cValue) = color.GetHSV();
+            (float cHue, float cSaturation, float cValue) = color.GetHSV();
             return Create(color.A, cHue / hue, cSaturation / saturation, cValue / value);
         }
 
@@ -103,9 +103,9 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation value to set.</param>
         /// <param name="value">The value value to set.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color SetHSV(this Color color, double? hue = null, double? saturation = null, double? value = null)
+        public static Color SetHSV(this Color color, float? hue = null, float? saturation = null, float? value = null)
         {
-            (double cHue, double cSaturation, double cValue) = color.GetHSV();
+            (float cHue, float cSaturation, float cValue) = color.GetHSV();
             return Create(color.A, hue ?? cHue, saturation ?? cSaturation, value ?? cValue);
         }
 
@@ -120,8 +120,8 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation component value of this <see cref="Color"/>.</param>
         /// <param name="value">The value component value of this <see cref="Color"/>.</param>
         /// <returns>The color created from the values.</returns>
-        public static Color Create(double hue, double saturation, double value)
-            => Create(1.0, hue, saturation, value);
+        public static Color Create(float hue, float saturation, float value)
+            => Create(1.0f, hue, saturation, value);
 
         /// <summary>
         /// Creates a new instance of the <see cref="T:RGB.NET.Core.Color" /> struct using AHSV-Values. 
@@ -131,8 +131,8 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation component value of this <see cref="Color"/>.</param>
         /// <param name="value">The value component value of this <see cref="Color"/>.</param>
         /// <returns>The color created from the values.</returns>
-        public static Color Create(byte a, double hue, double saturation, double value)
-            => Create((double)a / byte.MaxValue, hue, saturation, value);
+        public static Color Create(byte a, float hue, float saturation, float value)
+            => Create((float)a / byte.MaxValue, hue, saturation, value);
 
         /// <summary>
         /// Creates a new instance of the <see cref="T:RGB.NET.Core.Color" /> struct using AHSV-Values. 
@@ -142,8 +142,8 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation component value of this <see cref="Color"/>.</param>
         /// <param name="value">The value component value of this <see cref="Color"/>.</param>
         /// <returns>The color created from the values.</returns>
-        public static Color Create(int a, double hue, double saturation, double value)
-            => Create((double)a / byte.MaxValue, hue, saturation, value);
+        public static Color Create(int a, float hue, float saturation, float value)
+            => Create((float)a / byte.MaxValue, hue, saturation, value);
 
         /// <summary>
         /// Creates a new instance of the <see cref="T:RGB.NET.Core.Color" /> struct using AHSV-Values. 
@@ -153,9 +153,9 @@ namespace RGB.NET.Core
         /// <param name="saturation">The saturation component value of this <see cref="Color"/>.</param>
         /// <param name="value">The value component value of this <see cref="Color"/>.</param>
         /// <returns>The color created from the values.</returns>
-        public static Color Create(double a, double hue, double saturation, double value)
+        public static Color Create(float a, float hue, float saturation, float value)
         {
-            (double r, double g, double b) = CalculateRGBFromHSV(hue, saturation, value);
+            (float r, float g, float b) = CalculateRGBFromHSV(hue, saturation, value);
             return new Color(a, r, g, b);
         }
 
@@ -163,33 +163,33 @@ namespace RGB.NET.Core
 
         #region Helper
 
-        private static (double h, double s, double v) CaclulateHSVFromRGB(double r, double g, double b)
+        private static (float h, float s, float v) CaclulateHSVFromRGB(float r, float g, float b)
         {
             if (r.EqualsInTolerance(g) && g.EqualsInTolerance(b)) return (0, 0, r);
 
-            double min = Math.Min(Math.Min(r, g), b);
-            double max = Math.Max(Math.Max(r, g), b);
+            float min = Math.Min(Math.Min(r, g), b);
+            float max = Math.Max(Math.Max(r, g), b);
 
-            double hue;
+            float hue;
             if (max.EqualsInTolerance(min))
                 hue = 0;
             else if (max.EqualsInTolerance(r)) // r is max
                 hue = (g - b) / (max - min);
             else if (max.EqualsInTolerance(g)) // g is max
-                hue = 2.0 + ((b - r) / (max - min));
+                hue = 2.0f + ((b - r) / (max - min));
             else // b is max
-                hue = 4.0 + ((r - g) / (max - min));
+                hue = 4.0f + ((r - g) / (max - min));
 
-            hue *= 60.0;
+            hue *= 60.0f;
             hue = hue.Wrap(0, 360);
 
-            double saturation = max.EqualsInTolerance(0) ? 0 : 1.0 - (min / max);
-            double value = Math.Max(r, Math.Max(g, b));
+            float saturation = max.EqualsInTolerance(0) ? 0 : 1.0f - (min / max);
+            float value = Math.Max(r, Math.Max(g, b));
 
             return (hue, saturation, value);
         }
 
-        private static (double r, double g, double b) CalculateRGBFromHSV(double h, double s, double v)
+        private static (float r, float g, float b) CalculateRGBFromHSV(float h, float s, float v)
         {
             h = h.Wrap(0, 360);
             s = s.Clamp(0, 1);
@@ -198,12 +198,12 @@ namespace RGB.NET.Core
             if (s <= 0.0)
                 return (v, v, v);
 
-            double hh = h / 60.0;
+            float hh = h / 60.0f;
             int i = (int)hh;
-            double ff = hh - i;
-            double p = v * (1.0 - s);
-            double q = v * (1.0 - (s * ff));
-            double t = v * (1.0 - (s * (1.0 - ff)));
+            float ff = hh - i;
+            float p = v * (1.0f - s);
+            float q = v * (1.0f - (s * ff));
+            float t = v * (1.0f - (s * (1.0f - ff)));
 
             return i switch
             {

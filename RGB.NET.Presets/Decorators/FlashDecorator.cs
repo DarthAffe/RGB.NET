@@ -20,46 +20,46 @@ namespace RGB.NET.Presets.Decorators
         /// Gets or sets the attack-time (in seconds) of the decorator. (default: 0.2)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" />  as reference)
         /// </summary>
-        public double Attack { get; set; } = 0.2;
+        public float Attack { get; set; } = 0.2f;
 
         /// <summary>
         /// Gets or sets the decay-time (in seconds) of the decorator. (default: 0)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)
         /// </summary>
-        public double Decay { get; set; } = 0;
+        public float Decay { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the sustain-time (in seconds) of the decorator. (default: 0.3)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)<br />
         /// Note that this value for naming reasons represents the time NOT the level.
         /// </summary>
-        public double Sustain { get; set; } = 0.3;
+        public float Sustain { get; set; } = 0.3f;
 
         /// <summary>
         /// Gets or sets the release-time (in seconds) of the decorator. (default: 0.2)<br />
         /// This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)
         /// </summary>
-        public double Release { get; set; } = 0.2;
+        public float Release { get; set; } = 0.2f;
 
         /// <summary>
         /// Gets or sets the level to which the oppacity (percentage) should raise in the attack-cycle. (default: 1);
         /// </summary>
-        public double AttackValue { get; set; } = 1;
+        public float AttackValue { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets the level at which the oppacity (percentage) should stay in the sustain-cycle. (default: 1);
         /// </summary>
-        public double SustainValue { get; set; } = 1;
+        public float SustainValue { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets the level at which the oppacity (percentage) should stay in the pause-cycle. (default: 0);
         /// </summary>
-        public double PauseValue { get; set; } = 0;
+        public float PauseValue { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the interval (in seconds) in which the decorator should repeat (if repetition is enabled). (default: 1)
         /// </summary>
-        public double Interval { get; set; } = 1;
+        public float Interval { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets the amount of repetitions the decorator should do until it's finished. Zero means infinite. (default: 0)
@@ -67,10 +67,10 @@ namespace RGB.NET.Presets.Decorators
         public int Repetitions { get; set; } = 0;
 
         private ADSRPhase _currentPhase;
-        private double _currentPhaseValue;
+        private float _currentPhaseValue;
         private int _repetitionCount;
 
-        private double _currentValue;
+        private float _currentValue;
 
         #endregion
 
@@ -90,14 +90,14 @@ namespace RGB.NET.Presets.Decorators
         /// <inheritdoc />
         protected override void Update(double deltaTime)
         {
-            _currentPhaseValue -= deltaTime;
+            _currentPhaseValue -= (float)deltaTime;
 
             // Using ifs instead of a switch allows to skip phases with time 0.
             // ReSharper disable InvertIf
 
             if (_currentPhase == ADSRPhase.Attack)
                 if (_currentPhaseValue > 0)
-                    _currentValue = PauseValue + (Math.Min(1, (Attack - _currentPhaseValue) / Attack) * (AttackValue - PauseValue));
+                    _currentValue = PauseValue + (MathF.Min(1, (Attack - _currentPhaseValue) / Attack) * (AttackValue - PauseValue));
                 else
                 {
                     _currentPhaseValue = Decay;
@@ -106,7 +106,7 @@ namespace RGB.NET.Presets.Decorators
 
             if (_currentPhase == ADSRPhase.Decay)
                 if (_currentPhaseValue > 0)
-                    _currentValue = SustainValue + (Math.Min(1, _currentPhaseValue / Decay) * (AttackValue - SustainValue));
+                    _currentValue = SustainValue + (MathF.Min(1, _currentPhaseValue / Decay) * (AttackValue - SustainValue));
                 else
                 {
                     _currentPhaseValue = Sustain;
@@ -124,7 +124,7 @@ namespace RGB.NET.Presets.Decorators
 
             if (_currentPhase == ADSRPhase.Release)
                 if (_currentPhaseValue > 0)
-                    _currentValue = PauseValue + (Math.Min(1, _currentPhaseValue / Release) * (SustainValue - PauseValue));
+                    _currentValue = PauseValue + (MathF.Min(1, _currentPhaseValue / Release) * (SustainValue - PauseValue));
                 else
                 {
                     _currentPhaseValue = Interval;

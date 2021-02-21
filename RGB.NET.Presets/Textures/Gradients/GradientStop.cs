@@ -12,11 +12,11 @@ namespace RGB.NET.Presets.Textures.Gradients
     {
         #region Properties & Fields
 
-        private double _offset;
+        private float _offset;
         /// <summary>
         /// Gets or sets the percentage offset to place this <see cref="GradientStop"/>. This should be inside the range of [0..1] but it's not necessary.
         /// </summary>
-        public double Offset
+        public float Offset
         {
             get => _offset;
             set => SetProperty(ref _offset, value);
@@ -41,7 +41,7 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// </summary>
         /// <param name="offset">The percentage offset to place this <see cref="GradientStop"/>.</param>
         /// <param name="color">The <see cref="Color"/> of the <see cref="GradientStop"/>.</param>
-        public GradientStop(double offset, Color color)
+        public GradientStop(float offset, Color color)
         {
             this.Offset = offset;
             this.Color = color;

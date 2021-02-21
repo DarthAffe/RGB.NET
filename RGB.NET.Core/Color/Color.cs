@@ -32,22 +32,22 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the alpha component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double A { get; }
+        public float A { get; }
 
         /// <summary>
         /// Gets the red component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double R { get; }
+        public float R { get; }
 
         /// <summary>
         /// Gets the green component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double G { get; }
+        public float G { get; }
 
         /// <summary>
         /// Gets the blue component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        public double B { get; }
+        public float B { get; }
 
         #endregion
 
@@ -106,8 +106,8 @@ namespace RGB.NET.Core
         /// <param name="r">The red component value of this <see cref="Color"/>.</param>
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
-        public Color(double r, double g, double b)
-            : this(1.0, r, g, b)
+        public Color(float r, float g, float b)
+            : this(1.0f, r, g, b)
         { }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace RGB.NET.Core
         /// <param name="r">The red component value of this <see cref="Color"/>.</param>
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
-        public Color(double a, byte r, byte g, byte b)
+        public Color(float a, byte r, byte g, byte b)
             : this(a, r.GetPercentageFromByteValue(), g.GetPercentageFromByteValue(), b.GetPercentageFromByteValue())
         { }
 
@@ -128,7 +128,7 @@ namespace RGB.NET.Core
         /// <param name="r">The red component value of this <see cref="Color"/>.</param>
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
-        public Color(double a, int r, int g, int b)
+        public Color(float a, int r, int g, int b)
             : this(a, (byte)r.Clamp(0, byte.MaxValue), (byte)g.Clamp(0, byte.MaxValue), (byte)b.Clamp(0, byte.MaxValue))
         { }
 
@@ -139,7 +139,7 @@ namespace RGB.NET.Core
         /// <param name="r">The red component value of this <see cref="Color"/>.</param>
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
-        public Color(int a, double r, double g, double b)
+        public Color(int a, float r, float g, float b)
             : this((byte)a.Clamp(0, byte.MaxValue), r, g, b)
         { }
 
@@ -150,7 +150,7 @@ namespace RGB.NET.Core
         /// <param name="r">The red component value of this <see cref="Color"/>.</param>
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
-        public Color(byte a, double r, double g, double b)
+        public Color(byte a, float r, float g, float b)
             : this(a.GetPercentageFromByteValue(), r, g, b)
         { }
 
@@ -161,7 +161,7 @@ namespace RGB.NET.Core
         /// <param name="r">The red component value of this <see cref="Color"/>.</param>
         /// <param name="g">The green component value of this <see cref="Color"/>.</param>
         /// <param name="b">The blue component value of this <see cref="Color"/>.</param>
-        public Color(double a, double r, double g, double b)
+        public Color(float a, float r, float g, float b)
         {
             A = a.Clamp(0, 1);
             R = r.Clamp(0, 1);
@@ -269,14 +269,14 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((double r, double g, double b) components) => new(components.r, components.g, components.b);
+        public static implicit operator Color((float r, float g, float b) components) => new(components.r, components.g, components.b);
 
         /// <summary>
         /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.
         /// </summary>
         /// <param name="components">The <see cref="ValueTuple"/> containing the components.</param>
         /// <returns>The color.</returns>
-        public static implicit operator Color((double a, double r, double g, double b) components) => new(components.a, components.r, components.g, components.b);
+        public static implicit operator Color((float a, float r, float g, float b) components) => new(components.a, components.r, components.g, components.b);
 
         #endregion
     }
