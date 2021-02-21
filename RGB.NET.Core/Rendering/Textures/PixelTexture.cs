@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core
 {
-    public sealed class PixelTexture : ITexture
+    public abstract class PixelTexture<T> : ITexture
     {
         #region Properties & Fields
 
-        private readonly int _dataWidth;
-        private readonly int _dataHeight;
-        private readonly ReadOnlyMemory<Color> _data;
-        private readonly ISampler _sampler;
+        protected ISampler Sampler { get; set; }
+        protected T[] Data { get; set; }
 
         public Size Size { get; }
 
@@ -17,12 +16,11 @@ namespace RGB.NET.Core
         {
             get
             {
-                if (_data.IsEmpty) return Color.Transparent;
+                if (Data.Length == 0) return Color.Transparent;
 
                 int x = (int)Math.Round(Size.Width * point.X.Clamp(0, 1));
                 int y = (int)Math.Round(Size.Height * point.Y.Clamp(0, 1));
-
-                return _data.Span[(y * _dataWidth) + x];
+                return GetColor(x, y);
             }
         }
 
@@ -30,14 +28,14 @@ namespace RGB.NET.Core
         {
             get
             {
-                if (_data.IsEmpty) return Color.Transparent;
+                if (Data.Length == 0) return Color.Transparent;
 
                 int x = (int)Math.Round(Size.Width * rectangle.Location.X.Clamp(0, 1));
                 int y = (int)Math.Round(Size.Height * rectangle.Location.Y.Clamp(0, 1));
                 int width = (int)Math.Round(Size.Width * rectangle.Size.Width.Clamp(0, 1));
                 int height = (int)Math.Round(Size.Height * rectangle.Size.Height.Clamp(0, 1));
 
-                return _sampler.SampleColor(in _data, x, y, width, height);
+                return Sampler.SampleColor(x, y, width, height, GetColor);
             }
         }
 
@@ -45,21 +43,51 @@ namespace RGB.NET.Core
 
         #region Constructors
 
-        public PixelTexture(int with, int height, ReadOnlyMemory<Color> data)
-            : this(with, height, data, new AverageSampler())
-        { }
-
-        public PixelTexture(int with, int height, ReadOnlyMemory<Color> data, ISampler sampler)
+        public PixelTexture(int with, int height, T[] data, ISampler sampler)
         {
-            this._data = data;
-            this._dataWidth = with;
-            this._dataHeight = height;
-            this._sampler = sampler;
-
-            if (_data.Length != (with * height)) throw new ArgumentException($"Data-Length {_data.Length} differs from the given size {with}x{height} ({with * height}).");
+            this.Data = data;
+            this.Sampler = sampler;
 
             Size = new Size(with, height);
         }
+
+        #endregion
+
+        #region Methods
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected abstract Color GetColor(int x, int y);
+
+        #endregion
+    }
+
+    public sealed class PixelTexture : PixelTexture<Color>
+    {
+        #region Properties & Fields
+
+        private readonly int _stride;
+
+        #endregion
+
+        #region Constructors
+
+        public PixelTexture(int with, int height, Color[] data)
+            : this(with, height, data, new AverageSampler())
+        { }
+
+        public PixelTexture(int with, int height, Color[] data, ISampler sampler)
+            : base(with, height, data, sampler)
+        {
+            this._stride = with;
+
+            if (Data.Length != (with * height)) throw new ArgumentException($"Data-Length {Data.Length} differs from the given size {with}x{height} ({with * height}).");
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override Color GetColor(int x, int y) => Data[(y * _stride) + x];
 
         #endregion
     }
