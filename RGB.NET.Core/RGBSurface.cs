@@ -201,6 +201,7 @@ namespace RGB.NET.Core
         /// Renders a ledgroup.
         /// </summary>
         /// <param name="ledGroup">The led group to render.</param>
+        /// <exception cref="ArgumentException">Thrown if the <see cref="IBrush.CalculationMode"/> of the Brush is not valid.</exception>
         private void Render(ILedGroup ledGroup)
         {
             IList<Led> leds = ledGroup.GetLeds().ToList();
@@ -208,26 +209,30 @@ namespace RGB.NET.Core
 
             if ((brush == null) || !brush.IsEnabled) return;
 
-            switch (brush.BrushCalculationMode)
+            IEnumerable<(RenderTarget renderTarget, Color color)> render;
+            switch (brush.CalculationMode)
             {
-                case BrushCalculationMode.Relative:
+                case RenderMode.Relative:
                     Rectangle brushRectangle = new(leds.Select(led => led.AbsoluteBoundary));
                     Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                     brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
-                    brush.PerformRender(brushRectangle, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
+                    render = brush.Render(brushRectangle, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
                     break;
-                case BrushCalculationMode.Absolute:
-                    brush.PerformRender(Boundary, leds.Select(led => new BrushRenderTarget(led, led.AbsoluteBoundary)));
+                case RenderMode.Absolute:
+                    render = brush.Render(Boundary, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary)));
                     break;
                 default:
-                    throw new ArgumentException();
+                    throw new ArgumentException($"The CalculationMode '{brush.CalculationMode}' is not valid.");
             }
 
-            //brush.UpdateEffects();
-            brush.PerformFinalize();
+            foreach ((RenderTarget renderTarget, Color c) in render)
+            {
+                Color color = c;
+                foreach (IColorCorrection colorCorrection in renderTarget.Led.Device.ColorCorrections)
+                    colorCorrection.ApplyTo(ref color);
 
-            foreach (KeyValuePair<BrushRenderTarget, Color> renders in brush.RenderedTargets)
-                renders.Key.Led.Color = renders.Value;
+                renderTarget.Led.Color = color;
+            }
         }
 
         /// <summary>
@@ -303,7 +308,7 @@ namespace RGB.NET.Core
         {
             lock (_devices)
             {
-                if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' isn't not attached to this surface.");
+                if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' is not attached to this surface.");
 
                 device.BoundaryChanged -= DeviceOnBoundaryChanged;
                 device.Surface = null;

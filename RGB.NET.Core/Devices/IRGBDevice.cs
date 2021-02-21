@@ -20,6 +20,8 @@ namespace RGB.NET.Core
         /// </summary>
         IRGBDeviceInfo DeviceInfo { get; }
         
+        IList<IColorCorrection> ColorCorrections { get; }
+
         #endregion
 
         #region Indexer

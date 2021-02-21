@@ -179,7 +179,7 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rectangle" /> equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
         public override bool Equals(object? obj)
         {
-            if (!(obj is Rectangle compareRect))
+            if (obj is not Rectangle compareRect)
                 return false;
 
             if (GetType() != compareRect.GetType())
@@ -221,6 +221,15 @@ namespace RGB.NET.Core
         /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are not equal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(Rectangle rectangle1, Rectangle rectangle2) => !(rectangle1 == rectangle2);
+
+        // DarthAffe 20.02.2021: Used for normalization
+        public static Rectangle operator /(Rectangle rectangle1, Rectangle rectangle2)
+        {
+            double x = rectangle1.Location.X / (rectangle2.Size.Width - rectangle2.Location.X);
+            double y = rectangle1.Location.Y / (rectangle2.Size.Height - rectangle2.Location.Y);
+            Size size = rectangle1.Size / rectangle2.Size;
+            return new Rectangle(new Point(x, y), size);
+        }
 
         #endregion
     }

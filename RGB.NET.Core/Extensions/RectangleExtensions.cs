@@ -59,7 +59,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="intersectingRect">The intersecting rectangle.</param>
         /// <returns>The percentage of intersection.</returns>
-        public static double CalculateIntersectPercentage(this Rectangle rect, Rectangle intersectingRect)
+        public static double CalculateIntersectPercentage(this Rectangle rect, in Rectangle intersectingRect)
         {
             if (rect.IsEmpty || intersectingRect.IsEmpty) return 0;
 
@@ -72,7 +72,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="intersectingRectangle">The intersecting <see cref="Rectangle"/></param>
         /// <returns>A new <see cref="Rectangle"/> representing the intersection this <see cref="Rectangle"/> and the one provided as parameter.</returns>
-        public static Rectangle CalculateIntersection(this Rectangle rect, Rectangle intersectingRectangle)
+        public static Rectangle CalculateIntersection(this Rectangle rect, in Rectangle intersectingRectangle)
         {
             double x1 = Math.Max(rect.Location.X, intersectingRectangle.Location.X);
             double x2 = Math.Min(rect.Location.X + rect.Size.Width, intersectingRectangle.Location.X + intersectingRectangle.Size.Width);
@@ -91,7 +91,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="point">The <see cref="Point"/> to test.</param>
         /// <returns><c>true</c> if the rectangle contains the given point; otherwise <c>false</c>.</returns>
-        public static bool Contains(this Rectangle rect, Point point) => rect.Contains(point.X, point.Y);
+        public static bool Contains(this Rectangle rect, in Point point) => rect.Contains(point.X, point.Y);
 
         /// <summary>
         /// Determines if the specified location is contained within this <see cref="Rectangle"/>.
@@ -107,7 +107,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="rect">The <see cref="Rectangle"/> to test.</param>
         /// <returns><c>true</c> if the rectangle contains the given rect; otherwise <c>false</c>.</returns>
-        public static bool Contains(this Rectangle rect, Rectangle rect2) => (rect.Location.X <= rect2.Location.X) && ((rect2.Location.X + rect2.Size.Width) <= (rect.Location.X + rect.Size.Width))
+        public static bool Contains(this Rectangle rect, in Rectangle rect2) => (rect.Location.X <= rect2.Location.X) && ((rect2.Location.X + rect2.Size.Width) <= (rect.Location.X + rect.Size.Width))
                                                                           && (rect.Location.Y <= rect2.Location.Y) && ((rect2.Location.Y + rect2.Size.Height) <= (rect.Location.Y + rect.Size.Height));
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace RGB.NET.Core
         /// <param name="rect">The <see cref="Rectangle"/> to move.</param>
         /// <param name="point">The amount to move.</param>
         /// <returns>The moved rectangle.</returns>
-        public static Rectangle Translate(this Rectangle rect, Point point) => rect.Translate(point.X, point.Y);
+        public static Rectangle Translate(this Rectangle rect, in Point point) => rect.Translate(point.X, point.Y);
 
         /// <summary>
         /// Moves the specified <see cref="Rectangle"/> by the given amount.
@@ -141,7 +141,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The rotation.</param>
         /// <param name="origin">The origin to rotate around. [0,0] if not set.</param>
         /// <returns>A array of <see cref="Point"/> containing the new locations of the corners of the original rectangle.</returns>
-        public static Point[] Rotate(this Rectangle rect, Rotation rotation, Point origin = new())
+        public static Point[] Rotate(this Rectangle rect, in Rotation rotation, in Point origin = new())
         {
             Point[] points = {
                                  rect.Location, // top left

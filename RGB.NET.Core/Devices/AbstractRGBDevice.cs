@@ -39,6 +39,9 @@ namespace RGB.NET.Core
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
+        /// <inheritdoc />
+        public IList<IColorCorrection> ColorCorrections { get; } = new List<IColorCorrection>();
+
         /// <summary>
         /// Gets or sets if the device needs to be flushed on every update.
         /// </summary>

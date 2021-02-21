@@ -12,6 +12,6 @@
         /// <param name="rectangle">The rectangle in which the <see cref="IBrush"/> should be drawn.</param>
         /// <param name="renderTarget">The target (key/point) from which the <see cref="Color"/> should be taken.</param>
         /// <param name="color">The <see cref="Color"/> to be modified.</param>
-        Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color);
+        void ManipulateColor(in Rectangle rectangle, in RenderTarget renderTarget, ref Color color);
     }
 }
