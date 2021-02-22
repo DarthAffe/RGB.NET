@@ -47,7 +47,7 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        public IEnumerable<(RenderTarget renderTarget, Color color)> Render(Rectangle rectangle, IEnumerable<RenderTarget> renderTargets)
+        public virtual IEnumerable<(RenderTarget renderTarget, Color color)> Render(Rectangle rectangle, IEnumerable<RenderTarget> renderTargets)
         {
             foreach (RenderTarget renderTarget in renderTargets)
             {
@@ -66,6 +66,8 @@ namespace RGB.NET.Core
         /// <param name="color">The <see cref="Color"/> to be modified.</param>
         protected virtual void ApplyDecorators(in Rectangle rectangle, in RenderTarget renderTarget, ref Color color)
         {
+            if (Decorators.Count == 0) return;
+
             lock (Decorators)
                 foreach (IBrushDecorator decorator in Decorators)
                     if (decorator.IsEnabled)
