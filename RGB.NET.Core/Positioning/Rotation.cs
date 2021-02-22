@@ -103,7 +103,7 @@ namespace RGB.NET.Core
         /// <param name="rotation1">The first <see cref="Rotation" /> to compare.</param>
         /// <param name="rotation2">The second <see cref="Rotation" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rotation1" /> and <paramref name="rotation2" /> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(Rotation rotation1, Rotation rotation2) => rotation1.Equals(rotation2);
+        public static bool operator ==(in Rotation rotation1, in Rotation rotation2) => rotation1.Equals(rotation2);
 
         /// <summary>
         /// Returns a value that indicates whether two specified <see cref="Rotation" /> are equal.
@@ -111,7 +111,7 @@ namespace RGB.NET.Core
         /// <param name="rotation1">The first <see cref="Rotation" /> to compare.</param>
         /// <param name="rotation2">The second <see cref="Rotation" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rotation1" /> and <paramref name="rotation2" /> are not equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(Rotation rotation1, Rotation rotation2) => !(rotation1 == rotation2);
+        public static bool operator !=(in Rotation rotation1, in Rotation rotation2) => !(rotation1 == rotation2);
 
         /// <summary>
         /// Returns a new <see cref="Rotation"/> representing the addition of the <see cref="Rotation"/> and the provided value.
@@ -119,7 +119,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The <see cref="Rotation"/>.</param>
         /// <param name="value">The value to add.</param>
         /// <returns>A new <see cref="Rotation"/> representing the addition of the <see cref="Rotation"/> and the provided value.</returns>
-        public static Rotation operator +(Rotation rotation, float value) => new(rotation.Degrees + value);
+        public static Rotation operator +(in Rotation rotation, float value) => new(rotation.Degrees + value);
 
         /// <summary>
         /// Returns a new <see cref="Rotation"/> representing the subtraction of the <see cref="Rotation"/> and the provided value.
@@ -127,7 +127,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The <see cref="Rotation"/>.</param>
         /// <param name="value">The value to substract.</param>
         /// <returns>A new <see cref="Rotation"/> representing the subtraction of the <see cref="Rotation"/> and the provided value.</returns>
-        public static Rotation operator -(Rotation rotation, float value) => new(rotation.Degrees - value);
+        public static Rotation operator -(in Rotation rotation, float value) => new(rotation.Degrees - value);
 
         /// <summary>
         /// Returns a new <see cref="Rotation"/> representing the multiplication of the <see cref="Rotation"/> and the provided value.
@@ -135,7 +135,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The <see cref="Rotation"/>.</param>
         /// <param name="value">The value to multiply with.</param>
         /// <returns>A new <see cref="Rotation"/> representing the multiplication of the <see cref="Rotation"/> and the provided value.</returns>
-        public static Rotation operator *(Rotation rotation, float value) => new(rotation.Degrees * value);
+        public static Rotation operator *(in Rotation rotation, float value) => new(rotation.Degrees * value);
 
         /// <summary>
         /// Returns a new <see cref="Rotation"/> representing the division of the <see cref="Rotation"/> and the provided value.
@@ -143,7 +143,7 @@ namespace RGB.NET.Core
         /// <param name="rotation">The <see cref="Rotation"/>.</param>
         /// <param name="value">The value to device with.</param>
         /// <returns>A new <see cref="Rotation"/> representing the division of the <see cref="Rotation"/> and the provided value.</returns>
-        public static Rotation operator /(Rotation rotation, float value) => value.EqualsInTolerance(0) ? new Rotation(0) : new Rotation(rotation.Degrees / value);
+        public static Rotation operator /(in Rotation rotation, float value) => value.EqualsInTolerance(0) ? new Rotation(0) : new Rotation(rotation.Degrees / value);
 
         /// <summary>
         /// Converts a float to a <see cref="Rotation" />.
@@ -155,7 +155,7 @@ namespace RGB.NET.Core
         /// Converts <see cref="Rotation" /> to a float representing the rotation in degrees.
         /// </summary>
         /// <param name="rotation">The rotatio to convert.</param>
-        public static implicit operator float(Rotation rotation) => rotation.Degrees;
+        public static implicit operator float(in Rotation rotation) => rotation.Degrees;
 
         #endregion
     }

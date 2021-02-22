@@ -13,7 +13,7 @@ namespace RGB.NET.Core
         /// <param name="x">The x-ammount to move.</param>
         /// <param name="y">The y-ammount to move.</param>
         /// <returns>The new location of the point.</returns>
-        public static Point Translate(this Point point, float x = 0, float y = 0) => new(point.X + x, point.Y + y);
+        public static Point Translate(this in Point point, float x = 0, float y = 0) => new(point.X + x, point.Y + y);
 
         /// <summary>
         /// Rotates the specified <see cref="Point"/> by the given amuont around the given origin.
@@ -22,14 +22,18 @@ namespace RGB.NET.Core
         /// <param name="rotation">The rotation.</param>
         /// <param name="origin">The origin to rotate around. [0,0] if not set.</param>
         /// <returns>The new location of the point.</returns>
-        public static Point Rotate(this Point point, Rotation rotation, Point origin = new())
+        public static Point Rotate(this in Point point, in Rotation rotation, in Point origin = new())
         {
             float sin = MathF.Sin(rotation.Radians);
             float cos = MathF.Cos(rotation.Radians);
 
-            point = new Point(point.X - origin.X, point.Y - origin.Y);
-            point = new Point((point.X * cos) - (point.Y * sin), (point.X * sin) + (point.Y * cos));
-            return new Point(point.X + origin.X, point.Y + origin.Y); ;
+            float x = point.X - origin.X;
+            float y = point.Y - origin.Y;
+
+            x = (x * cos) - (y * sin);
+            y = (x * sin) + (y * cos);
+
+            return new Point(x + origin.X, y + origin.Y); ;
         }
 
         #endregion

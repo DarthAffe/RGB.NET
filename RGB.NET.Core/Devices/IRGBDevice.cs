@@ -58,7 +58,7 @@ namespace RGB.NET.Core
         /// <param name="flushLeds">Specifies whether all <see cref="Led"/> (including clean ones) should be updated.</param>
         void Update(bool flushLeds = false);
 
-        Led? AddLed(LedId ledId, Point location, Size size, object? customData = null);
+        Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null);
 
         Led? RemoveLed(LedId ledId);
 

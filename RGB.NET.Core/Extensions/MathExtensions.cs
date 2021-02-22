@@ -13,7 +13,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Defines the precision RGB.NET processes floating point comparisons in.
         /// </summary>
-        public const float TOLERANCE = 1E-10f;
+        public const float TOLERANCE = 1E-7f;
 
         #endregion
 

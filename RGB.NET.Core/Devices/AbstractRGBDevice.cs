@@ -114,7 +114,7 @@ namespace RGB.NET.Core
         /// <param name="location">The location of the <see cref="Led"/> to initialize.</param>
         /// <param name="size">The size of the <see cref="Led"/> to initialize.</param>
         /// <returns>The initialized led.</returns>
-        public virtual Led? AddLed(LedId ledId, Point location, Size size, object? customData = null)
+        public virtual Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null)
         {
             if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 

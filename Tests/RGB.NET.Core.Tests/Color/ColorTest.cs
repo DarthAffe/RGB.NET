@@ -324,13 +324,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.A);
 
             Core.Color color3 = new(128, 0, 0, 0);
-            Assert.AreEqual(128 / 255.0, color3.A);
+            Assert.AreEqual(128 / 255.0f, color3.A);
 
             Core.Color color4 = new(30, 0, 0, 0);
-            Assert.AreEqual(30 / 255.0, color4.A);
+            Assert.AreEqual(30 / 255.0f, color4.A);
 
             Core.Color color5 = new(201, 0, 0, 0);
-            Assert.AreEqual(201 / 255.0, color5.A);
+            Assert.AreEqual(201 / 255.0f, color5.A);
         }
 
         [TestMethod]
@@ -343,13 +343,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.R);
 
             Core.Color color3 = new(0, 128, 0, 0);
-            Assert.AreEqual(128 / 255.0, color3.R);
+            Assert.AreEqual(128 / 255.0f, color3.R);
 
             Core.Color color4 = new(0, 30, 0, 0);
-            Assert.AreEqual(30 / 255.0, color4.R);
+            Assert.AreEqual(30 / 255.0f, color4.R);
 
             Core.Color color5 = new(0, 201, 0, 0);
-            Assert.AreEqual(201 / 255.0, color5.R);
+            Assert.AreEqual(201 / 255.0f, color5.R);
         }
 
         [TestMethod]
@@ -362,13 +362,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.G);
 
             Core.Color color3 = new(0, 0, 128, 0);
-            Assert.AreEqual(128 / 255.0, color3.G);
+            Assert.AreEqual(128 / 255.0f, color3.G);
 
             Core.Color color4 = new(0, 0, 30, 0);
-            Assert.AreEqual(30 / 255.0, color4.G);
+            Assert.AreEqual(30 / 255.0f, color4.G);
 
             Core.Color color5 = new(0, 0, 201, 0);
-            Assert.AreEqual(201 / 255.0, color5.G);
+            Assert.AreEqual(201 / 255.0f, color5.G);
         }
 
         [TestMethod]
@@ -381,13 +381,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.B);
 
             Core.Color color3 = new(0, 0, 0, 128);
-            Assert.AreEqual(128 / 255.0, color3.B);
+            Assert.AreEqual(128 / 255.0f, color3.B);
 
             Core.Color color4 = new(0, 0, 0, 30);
-            Assert.AreEqual(30 / 255.0, color4.B);
+            Assert.AreEqual(30 / 255.0f, color4.B);
 
             Core.Color color5 = new(0, 0, 0, 201);
-            Assert.AreEqual(201 / 255.0, color5.B);
+            Assert.AreEqual(201 / 255.0f, color5.B);
         }
 
         #endregion

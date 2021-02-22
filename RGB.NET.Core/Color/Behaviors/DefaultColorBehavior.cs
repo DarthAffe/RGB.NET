@@ -8,18 +8,18 @@
         /// Converts the individual byte values of this <see cref="Color"/> to a human-readable string.
         /// </summary>
         /// <returns>A string that contains the individual byte values of this <see cref="Color"/>. For example "[A: 255, R: 255, G: 0, B: 0]".</returns>
-        public virtual string ToString(Color color) => $"[A: {color.GetA()}, R: {color.GetR()}, G: {color.GetG()}, B: {color.GetB()}]";
+        public virtual string ToString(in Color color) => $"[A: {color.GetA()}, R: {color.GetR()}, G: {color.GetG()}, B: {color.GetB()}]";
 
         /// <summary>
         /// Tests whether the specified object is a <see cref="Color" /> and is equivalent to this <see cref="Color" />.
         /// </summary>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Color" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
-        public virtual bool Equals(Color color, object? obj)
+        public virtual bool Equals(in Color color, object? obj)
         {
-            if (!(obj is Color)) return false;
+            if (!(obj is Color color2)) return false;
 
-            (float a, float r, float g, float b) = ((Color)obj).GetRGB();
+            (float a, float r, float g, float b) = color2.GetRGB();
             return color.A.EqualsInTolerance(a) && color.R.EqualsInTolerance(r) && color.G.EqualsInTolerance(g) && color.B.EqualsInTolerance(b);
         }
 
@@ -27,7 +27,7 @@
         /// Returns a hash code for this <see cref="Color" />.
         /// </summary>
         /// <returns>An integer value that specifies the hash code for this <see cref="Color" />.</returns>
-        public virtual int GetHashCode(Color color)
+        public virtual int GetHashCode(in Color color)
         {
             unchecked
             {
@@ -43,7 +43,7 @@
         /// Blends a <see cref="Color"/> over this color.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to blend.</param>
-        public virtual Color Blend(Color baseColor, Color blendColor)
+        public virtual Color Blend(in Color baseColor, in Color blendColor)
         {
             if (blendColor.A.EqualsInTolerance(0)) return baseColor;
 
