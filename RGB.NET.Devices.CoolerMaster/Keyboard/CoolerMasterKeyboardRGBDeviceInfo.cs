@@ -2,13 +2,15 @@
 
 namespace RGB.NET.Devices.CoolerMaster
 {
-    /// <inheritdoc />
     /// <summary>
     /// Represents a generic information for a <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterKeyboardRGBDevice" />.
     /// </summary>
-    public class CoolerMasterKeyboardRGBDeviceInfo : CoolerMasterRGBDeviceInfo
+    public class CoolerMasterKeyboardRGBDeviceInfo : CoolerMasterRGBDeviceInfo, IKeyboardDeviceInfo
     {
         #region Properties & Fields
+
+        /// <inheritdoc />
+        public KeyboardLayoutType Layout { get; }
 
         /// <summary>
         /// Gets the <see cref="CoolerMasterPhysicalKeyboardLayout"/> of the <see cref="CoolerMasterKeyboardRGBDevice"/>.
@@ -29,6 +31,14 @@ namespace RGB.NET.Devices.CoolerMaster
                 : base(RGBDeviceType.Keyboard, deviceIndex)
         {
             this.PhysicalLayout = physicalKeyboardLayout;
+            this.Layout = physicalKeyboardLayout switch
+            {
+                CoolerMasterPhysicalKeyboardLayout.UNINIT => KeyboardLayoutType.Unknown,
+                CoolerMasterPhysicalKeyboardLayout.US => KeyboardLayoutType.ANSI,
+                CoolerMasterPhysicalKeyboardLayout.EU => KeyboardLayoutType.ISO,
+                CoolerMasterPhysicalKeyboardLayout.JP => KeyboardLayoutType.JIS,
+                _ => KeyboardLayoutType.Unknown
+            };
         }
 
         #endregion

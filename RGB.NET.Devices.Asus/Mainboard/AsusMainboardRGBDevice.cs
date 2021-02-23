@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Asus
     /// <summary>
     /// Represents a Asus mainboard.
     /// </summary>
-    public class AsusMainboardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IKeyboard
+    public class AsusMainboardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IMainboard
     {
         #region Constructors
 
