@@ -1,9 +1,7 @@
 ﻿namespace RGB.NET.Core
 {
-    public delegate Color GetColor(int x, int y);
-
-    public interface ISampler
+    public interface ISampler<T>
     {
-        Color SampleColor(int x, int y, int width, int height, GetColor getColorFunc);
+        Color SampleColor(SamplerInfo<T> info);
     }
 }
