@@ -119,10 +119,10 @@ namespace RGB.NET.Core
 
         protected override void GetRegionData(int x, int y, int width, int height, in Span<Color> buffer)
         {
-            Span<Color> data = Data.AsSpan();
+            ReadOnlySpan<Color> data = Data.AsSpan();
             for (int i = 0; i < height; i++)
             {
-                Span<Color> dataSlice = data.Slice(((y + i) * _stride) + x, width);
+                ReadOnlySpan<Color> dataSlice = data.Slice(((y + i) * _stride) + x, width);
                 Span<Color> destination = buffer.Slice(i * width, width);
                 dataSlice.CopyTo(destination);
             }

@@ -58,10 +58,10 @@ namespace RGB.NET.Presets.Textures
         protected override void GetRegionData(int x, int y, int width, int height, in Span<float> buffer)
         {
             int width3 = width * 3;
-            Span<float> data = Data.AsSpan();
+            ReadOnlySpan<float> data = Data.AsSpan();
             for (int i = 0; i < height; i++)
             {
-                Span<float> dataSlice = data.Slice((((y + i) * _stride) + x) * 3, width3);
+                ReadOnlySpan<float> dataSlice = data.Slice((((y + i) * _stride) + x) * 3, width3);
                 Span<float> destination = buffer.Slice(i * width3, width3);
                 dataSlice.CopyTo(destination);
             }
