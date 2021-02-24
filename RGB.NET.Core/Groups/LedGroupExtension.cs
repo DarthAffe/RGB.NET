@@ -1,9 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using RGB.NET.Core;
-
-namespace RGB.NET.Presets.Groups
+namespace RGB.NET.Core
 {
     /// <summary>
     /// Offers some extensions and helper-methods for <see cref="ILedGroup"/> related things.
