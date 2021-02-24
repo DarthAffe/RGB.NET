@@ -34,7 +34,7 @@ namespace RGB.NET.Presets.Textures
 
         #region Methods
 
-        protected override Color GetColor(ReadOnlySpan<byte> pixel)
+        protected override Color GetColor(in ReadOnlySpan<byte> pixel)
         {
             if (ColorFormat == ColorFormat.BGR)
                 return new Color(pixel[2], pixel[1], pixel[0]);

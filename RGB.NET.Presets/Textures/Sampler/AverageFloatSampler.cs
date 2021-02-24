@@ -7,7 +7,7 @@ namespace RGB.NET.Presets.Textures.Sampler
     {
         #region Methods
 
-        public void SampleColor(in SamplerInfo<float> info, Span<float> pixelData)
+        public void SampleColor(in SamplerInfo<float> info, in Span<float> pixelData)
         {
             int count = info.Width * info.Height;
             if (count == 0) return;

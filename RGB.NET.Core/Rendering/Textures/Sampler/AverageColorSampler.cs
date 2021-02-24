@@ -6,7 +6,7 @@ namespace RGB.NET.Core
     {
         #region Methods
 
-        public void SampleColor(in SamplerInfo<Color> info, Span<Color> pixelData)
+        public void SampleColor(in SamplerInfo<Color> info, in Span<Color> pixelData)
         {
             int count = info.Width * info.Height;
             if (count == 0) return;

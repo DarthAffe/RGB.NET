@@ -7,7 +7,7 @@ namespace RGB.NET.Presets.Textures.Sampler
     {
         #region Methods
 
-        public void SampleColor(in SamplerInfo<byte> info, Span<byte> pixelData)
+        public void SampleColor(in SamplerInfo<byte> info, in Span<byte> pixelData)
         {
             int count = info.Width * info.Height;
             if (count == 0) return;
@@ -20,8 +20,9 @@ namespace RGB.NET.Presets.Textures.Sampler
                 for (int j = 0; j < sums.Length; j++)
                     sums[j] += data[i + j];
 
+            float divisor = count * byte.MaxValue;
             for (int i = 0; i < pixelData.Length; i++)
-                pixelData[i] = (byte)MathF.Round(sums[i] / (float)count);
+                pixelData[i] = (sums[i] / divisor).GetByteValueFromPercentage();
         }
 
         #endregion

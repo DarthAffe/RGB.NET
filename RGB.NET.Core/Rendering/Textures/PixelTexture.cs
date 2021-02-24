@@ -91,12 +91,12 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        protected abstract Color GetColor(ReadOnlySpan<T> pixel);
+        protected abstract Color GetColor(in ReadOnlySpan<T> pixel);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual ReadOnlySpan<T> GetPixelData(int x, int y) => Data.Slice((y * _stride) + x, _dataPerPixel);
 
-        protected virtual void GetRegionData(int x, int y, int width, int height, Span<T> buffer)
+        protected virtual void GetRegionData(int x, int y, int width, int height, in Span<T> buffer)
         {
             int dataWidth = width * _dataPerPixel;
             ReadOnlySpan<T> data = Data;
@@ -139,7 +139,7 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        protected override Color GetColor(ReadOnlySpan<Color> pixel) => pixel[0];
+        protected override Color GetColor(in ReadOnlySpan<Color> pixel) => pixel[0];
 
         #endregion
     }
