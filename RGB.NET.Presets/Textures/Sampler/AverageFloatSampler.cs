@@ -7,22 +7,21 @@ namespace RGB.NET.Presets.Textures.Sampler
     {
         #region Methods
 
-        public Color SampleColor(SamplerInfo<float> info)
+        public void SampleColor(in SamplerInfo<float> info, Span<float> pixelData)
         {
             int count = info.Width * info.Height;
-            if (count == 0) return Color.Transparent;
+            if (count == 0) return;
 
             ReadOnlySpan<float> data = info.Data;
 
-            float r = 0, g = 0, b = 0;
-            for (int i = 0; i < data.Length; i += 3)
-            {
-                r += data[i];
-                g += data[i + 1];
-                b += data[i + 2];
-            }
+            int dataLength = pixelData.Length;
+            Span<float> sums = stackalloc float[dataLength];
+            for (int i = 0; i < data.Length; i += dataLength)
+                for (int j = 0; j < sums.Length; j++)
+                    sums[j] += data[i + j];
 
-            return new Color(r / count, g / count, b / count);
+            for (int i = 0; i < pixelData.Length; i++)
+                pixelData[i] = sums[i] / count;
         }
 
         #endregion

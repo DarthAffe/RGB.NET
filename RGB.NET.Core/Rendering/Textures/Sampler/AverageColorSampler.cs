@@ -1,19 +1,15 @@
-﻿namespace RGB.NET.Core
+﻿using System;
+
+namespace RGB.NET.Core
 {
     public class AverageColorSampler : ISampler<Color>
     {
-        #region Properties & Fields
-
-        public bool SampleAlpha { get; set; }
-
-        #endregion
-
         #region Methods
 
-        public Color SampleColor(SamplerInfo<Color> info)
+        public void SampleColor(in SamplerInfo<Color> info, Span<Color> pixelData)
         {
             int count = info.Width * info.Height;
-            if (count == 0) return Color.Transparent;
+            if (count == 0) return;
 
             float a = 0, r = 0, g = 0, b = 0;
             foreach (Color color in info.Data)
@@ -24,9 +20,7 @@
                 b += color.B;
             }
 
-            return SampleAlpha
-                       ? new Color(a / count, r / count, g / count, b / count)
-                       : new Color(r / count, g / count, b / count);
+            pixelData[0] = new Color(a / count, r / count, g / count, b / count);
         }
 
         #endregion

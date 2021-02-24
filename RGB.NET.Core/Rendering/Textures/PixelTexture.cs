@@ -15,12 +15,13 @@ namespace RGB.NET.Core
 
         #region Properties & Fields
 
-        private readonly int _dataPerColor;
+        private readonly int _dataPerPixel;
+        private readonly int _stride;
 
-        protected ISampler<T> Sampler { get; set; }
-        protected T[] Data { get; set; }
-
+        public ISampler<T> Sampler { get; set; }
         public Size Size { get; }
+
+        protected abstract ReadOnlySpan<T> Data { get; }
 
         public virtual Color this[in Point point]
         {
@@ -30,7 +31,7 @@ namespace RGB.NET.Core
 
                 int x = (int)Math.Round(Size.Width * point.X.Clamp(0, 1));
                 int y = (int)Math.Round(Size.Height * point.Y.Clamp(0, 1));
-                return GetColor(x, y);
+                return GetColor(GetPixelData(x, y));
             }
         }
 
@@ -45,22 +46,30 @@ namespace RGB.NET.Core
                 int width = (int)Math.Round(Size.Width * rectangle.Size.Width.Clamp(0, 1));
                 int height = (int)Math.Round(Size.Height * rectangle.Size.Height.Clamp(0, 1));
 
-                int bufferSize = width * height * _dataPerColor;
+                int bufferSize = width * height * _dataPerPixel;
                 if (bufferSize <= STACK_ALLOC_LIMIT)
                 {
                     Span<T> buffer = stackalloc T[bufferSize];
                     GetRegionData(x, y, width, height, buffer);
-                    return Sampler.SampleColor(new SamplerInfo<T>(width, height, buffer));
+
+                    Span<T> pixelData = stackalloc T[_dataPerPixel];
+                    Sampler.SampleColor(new SamplerInfo<T>(width, height, buffer), pixelData);
+
+                    return GetColor(pixelData);
                 }
                 else
                 {
                     T[] rent = ArrayPool<T>.Shared.Rent(bufferSize);
+
                     Span<T> buffer = new Span<T>(rent).Slice(0, bufferSize);
                     GetRegionData(x, y, width, height, buffer);
-                    Color color = Sampler.SampleColor(new SamplerInfo<T>(width, height, buffer));
+
+                    Span<T> pixelData = stackalloc T[_dataPerPixel];
+                    Sampler.SampleColor(new SamplerInfo<T>(width, height, buffer), pixelData);
+
                     ArrayPool<T>.Shared.Return(rent);
 
-                    return color;
+                    return GetColor(pixelData);
                 }
             }
         }
@@ -69,10 +78,10 @@ namespace RGB.NET.Core
 
         #region Constructors
 
-        public PixelTexture(int with, int height, T[] data, int dataPerColor, ISampler<T> sampler)
+        public PixelTexture(int with, int height, int dataPerPixel, ISampler<T> sampler)
         {
-            this.Data = data;
-            this._dataPerColor = dataPerColor;
+            this._stride = with;
+            this._dataPerPixel = dataPerPixel;
             this.Sampler = sampler;
 
             Size = new Size(with, height);
@@ -82,8 +91,22 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        protected abstract Color GetColor(int x, int y);
-        protected abstract void GetRegionData(int x, int y, int width, int height, in Span<T> buffer);
+        protected abstract Color GetColor(ReadOnlySpan<T> pixel);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual ReadOnlySpan<T> GetPixelData(int x, int y) => Data.Slice((y * _stride) + x, _dataPerPixel);
+
+        protected virtual void GetRegionData(int x, int y, int width, int height, Span<T> buffer)
+        {
+            int dataWidth = width * _dataPerPixel;
+            ReadOnlySpan<T> data = Data;
+            for (int i = 0; i < height; i++)
+            {
+                ReadOnlySpan<T> dataSlice = data.Slice((((y + i) * _stride) + x) * _dataPerPixel, dataWidth);
+                Span<T> destination = buffer.Slice(i * dataWidth, dataWidth);
+                dataSlice.CopyTo(destination);
+            }
+        }
 
         #endregion
     }
@@ -92,7 +115,9 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private readonly int _stride;
+        private readonly Color[] _data;
+
+        protected override ReadOnlySpan<Color> Data => _data;
 
         #endregion
 
@@ -103,9 +128,9 @@ namespace RGB.NET.Core
         { }
 
         public PixelTexture(int with, int height, Color[] data, ISampler<Color> sampler)
-            : base(with, height, data, 1, sampler)
+            : base(with, height, 1, sampler)
         {
-            this._stride = with;
+            this._data = data;
 
             if (Data.Length != (with * height)) throw new ArgumentException($"Data-Length {Data.Length} differs from the given size {with}x{height} ({with * height}).");
         }
@@ -114,19 +139,7 @@ namespace RGB.NET.Core
 
         #region Methods
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override Color GetColor(int x, int y) => Data[(y * _stride) + x];
-
-        protected override void GetRegionData(int x, int y, int width, int height, in Span<Color> buffer)
-        {
-            ReadOnlySpan<Color> data = Data.AsSpan();
-            for (int i = 0; i < height; i++)
-            {
-                ReadOnlySpan<Color> dataSlice = data.Slice(((y + i) * _stride) + x, width);
-                Span<Color> destination = buffer.Slice(i * width, width);
-                dataSlice.CopyTo(destination);
-            }
-        }
+        protected override Color GetColor(ReadOnlySpan<Color> pixel) => pixel[0];
 
         #endregion
     }
