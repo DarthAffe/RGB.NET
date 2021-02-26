@@ -73,7 +73,7 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Keyboard_P, 208 },
             { LedId.Keyboard_BracketLeft, 212 },
             { LedId.Keyboard_BracketRight, 216 },
-            // { LedId.Keyboard_?, 220 },
+            { LedId.Keyboard_Backslash, 220 },
             { LedId.Keyboard_Delete, 224 },
             { LedId.Keyboard_End, 228 },
             { LedId.Keyboard_PageDown, 232 },
@@ -105,7 +105,7 @@ namespace RGB.NET.Devices.Logitech
             // { LedId.Keyboard_?, 332 },
 
             { LedId.Keyboard_LeftShift, 336 },
-            { LedId.Keyboard_Backslash, 340 },
+            { LedId.Keyboard_NonUsBackslash, 340 },
             { LedId.Keyboard_Z, 344 },
             { LedId.Keyboard_X, 348 },
             { LedId.Keyboard_C, 352 },
