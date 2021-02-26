@@ -193,7 +193,7 @@ namespace RGB.NET.Core
 
             h *= DEGREES_RADIANS_CONVERSION;
             float a = c * MathF.Cos(h);
-            float b = c * MathF.Sign(h);
+            float b = c * MathF.Sin(h);
 
             return LabColor.CalculateRGBFromLab(l, a, b);
         }

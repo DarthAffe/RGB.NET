@@ -167,21 +167,12 @@ namespace RGB.NET.Core
         {
             (float x, float y, float z) = XYZColor.CaclulateXYZFromRGB(r, g, b);
             return CaclulateLabFromXYZ(x, y, z);
-
-            //const float LAB_MULTIPLIER = (1f / 127f) * 0.5f;
-
-            //(float x, float y, float z) = XYZColor.CaclulateXYZFromRGB(r, g, b);
-            //(float l, float a, float _b) = CaclulateLabFromXYZ(x, y, z);
-            //return (l / 100.0f, 0.5f + (a * LAB_MULTIPLIER), 0.5f + (_b * LAB_MULTIPLIER));
         }
 
         internal static (float r, float g, float b) CalculateRGBFromLab(float l, float a, float b)
         {
             (float x, float y, float z) = CalculateXYZFromLab(l, a, b);
             return XYZColor.CalculateRGBFromXYZ(x, y, z);
-
-            //(float x, float y, float z) = CalculateXYZFromLab(100.0f * l, 254.0f * (a - 0.5f), 2.0f * 254.0f * (b - 0.5f));
-            //return XYZColor.CalculateRGBFromXYZ(x, y, z);
         }
 
         private static (float l, float a, float b) CaclulateLabFromXYZ(float x, float y, float z)
@@ -212,15 +203,15 @@ namespace RGB.NET.Core
             float x = (a / 500.0f) + y;
             float z = y - (b / 200.0f);
 
-            float powX = MathF.Pow(y, 3.0f);
+            float powX = MathF.Pow(x, 3.0f);
             float powY = MathF.Pow(y, 3.0f);
-            float powZ = MathF.Pow(y, 3.0f);
+            float powZ = MathF.Pow(z, 3.0f);
 
-            y = ((powY > 0.008856f) ? (powY) : ((y - FACTOR2) / 7.787f));
             x = ((powX > 0.008856f) ? (powX) : ((x - FACTOR2) / 7.787f));
+            y = ((powY > 0.008856f) ? (powY) : ((y - FACTOR2) / 7.787f));
             z = ((powZ > 0.008856f) ? (powZ) : ((z - FACTOR2) / 7.787f));
 
-            return (95.047f * x, 100.0f * y, 108.883f * z);
+            return (x * 95.047f, y * 100.0f, z * 108.883f);
         }
 
         #endregion
