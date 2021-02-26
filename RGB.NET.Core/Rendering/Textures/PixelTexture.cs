@@ -29,8 +29,8 @@ namespace RGB.NET.Core
             {
                 if (Data.Length == 0) return Color.Transparent;
 
-                int x = (int)Math.Round(Size.Width * point.X.Clamp(0, 1));
-                int y = (int)Math.Round(Size.Height * point.Y.Clamp(0, 1));
+                int x = (int)MathF.Round(Size.Width * point.X.Clamp(0, 1));
+                int y = (int)MathF.Round(Size.Height * point.Y.Clamp(0, 1));
                 return GetColor(GetPixelData(x, y));
             }
         }
@@ -41,10 +41,13 @@ namespace RGB.NET.Core
             {
                 if (Data.Length == 0) return Color.Transparent;
 
-                int x = (int)Math.Round(Size.Width * rectangle.Location.X.Clamp(0, 1));
-                int y = (int)Math.Round(Size.Height * rectangle.Location.Y.Clamp(0, 1));
-                int width = (int)Math.Round(Size.Width * rectangle.Size.Width.Clamp(0, 1));
-                int height = (int)Math.Round(Size.Height * rectangle.Size.Height.Clamp(0, 1));
+                int x = (int)MathF.Round(Size.Width * rectangle.Location.X.Clamp(0, 1));
+                int y = (int)MathF.Round(Size.Height * rectangle.Location.Y.Clamp(0, 1));
+                int width = (int)MathF.Round(Size.Width * rectangle.Size.Width.Clamp(0, 1));
+                int height = (int)MathF.Round(Size.Height * rectangle.Size.Height.Clamp(0, 1));
+
+                if ((width == 0) || (height == 0)) return Color.Transparent;
+                if ((width == 1) && (height == 1)) return GetColor(GetPixelData(x, y));
 
                 int bufferSize = width * height * _dataPerPixel;
                 if (bufferSize <= STACK_ALLOC_LIMIT)
