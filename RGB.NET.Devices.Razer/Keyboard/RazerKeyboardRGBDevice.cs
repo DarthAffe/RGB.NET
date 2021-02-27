@@ -6,15 +6,15 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="RazerRGBDevice" />
     /// <summary>
     /// Represents a razer keyboard.
     /// </summary>
-    public class RazerKeyboardRGBDevice : RazerRGBDevice<RazerKeyboardRGBDeviceInfo>, IKeyboard
+    public class RazerKeyboardRGBDevice : RazerRGBDevice, IKeyboard
     {
         #region Properties & Fields
 
-        IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => (IKeyboardDeviceInfo) DeviceInfo;
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.Razer
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keyboard_Escape;
 
         /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerKeyboardUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
+        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerKeyboardUpdateQueue(updateTrigger);
 
         #endregion
     }

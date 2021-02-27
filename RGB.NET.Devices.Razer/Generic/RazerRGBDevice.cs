@@ -4,13 +4,12 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="AbstractRGBDevice{RazerRGBDeviceInfo}" />
     /// <inheritdoc cref="IRazerRGBDevice" />
     /// <summary>
     /// Represents a generic razer-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class RazerRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IRazerRGBDevice
-        where TDeviceInfo : RazerRGBDeviceInfo
+    public abstract class RazerRGBDevice : AbstractRGBDevice<RazerRGBDeviceInfo>, IRazerRGBDevice
     {
         #region Properties & Fields
 
@@ -18,7 +17,7 @@ namespace RGB.NET.Devices.Razer
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Razer.RazerRGBDevice" />.
         /// </summary>
-        public override TDeviceInfo DeviceInfo { get; }
+        public override RazerRGBDeviceInfo DeviceInfo { get; }
 
         /// <summary>
         /// Gets or sets the update queue performing updates for this device.
@@ -31,10 +30,10 @@ namespace RGB.NET.Devices.Razer
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RazerRGBDevice{TDeviceInfo}"/> class.
+        /// Initializes a new instance of the <see cref="RazerRGBDevice"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by razer for the device.</param>
-        protected RazerRGBDevice(TDeviceInfo info)
+        protected RazerRGBDevice(RazerRGBDeviceInfo info)
         {
             this.DeviceInfo = info;
 

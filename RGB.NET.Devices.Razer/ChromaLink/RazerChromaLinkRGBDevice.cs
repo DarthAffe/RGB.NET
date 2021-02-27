@@ -6,11 +6,11 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="RazerRGBDevice" />
     /// <summary>
     /// Represents a razer chroma link.
     /// </summary>
-    public class RazerChromaLinkRGBDevice : RazerRGBDevice<RazerChromaLinkRGBDeviceInfo>, ILedStripe
+    public class RazerChromaLinkRGBDevice : RazerRGBDevice, IUnknownDevice
     {
         #region Constructors
 
@@ -19,7 +19,7 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the chroma link.</param>
-        internal RazerChromaLinkRGBDevice(RazerChromaLinkRGBDeviceInfo info)
+        internal RazerChromaLinkRGBDevice(RazerRGBDeviceInfo info)
             : base(info)
         { }
 
@@ -38,7 +38,7 @@ namespace RGB.NET.Devices.Razer
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Custom1;
 
         /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerChromaLinkUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
+        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerChromaLinkUpdateQueue(updateTrigger);
 
         #endregion
     }
