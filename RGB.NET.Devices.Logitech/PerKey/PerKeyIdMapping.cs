@@ -82,6 +82,7 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Keyboard_Home, LogitechLedId.HOME },
             { LedId.Keyboard_PageUp, LogitechLedId.PAGE_UP },
             { LedId.Keyboard_BracketRight, LogitechLedId.CLOSE_BRACKET },
+            { LedId.Keyboard_NonUsBackslash, LogitechLedId.BACKSLASH },
             { LedId.Keyboard_Backslash, LogitechLedId.BACKSLASH },
             { LedId.Keyboard_NonUsTilde, LogitechLedId.NonUsTilde },
             { LedId.Keyboard_Enter, LogitechLedId.ENTER },
