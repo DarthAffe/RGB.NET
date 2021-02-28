@@ -6,11 +6,11 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="RazerRGBDevice" />
     /// <summary>
     /// Represents a razer mouse.
     /// </summary>
-    public class RazerMouseRGBDevice : RazerRGBDevice<RazerMouseRGBDeviceInfo>, IMouse
+    public class RazerMouseRGBDevice : RazerRGBDevice, IMouse
     {
         #region Constructors
 
@@ -19,7 +19,7 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the mouse.</param>
-        internal RazerMouseRGBDevice(RazerMouseRGBDeviceInfo info)
+        internal RazerMouseRGBDevice(RazerRGBDeviceInfo info)
             : base(info)
         { }
 
@@ -39,7 +39,7 @@ namespace RGB.NET.Devices.Razer
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
 
         /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMouseUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
+        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMouseUpdateQueue(updateTrigger);
 
         #endregion
     }

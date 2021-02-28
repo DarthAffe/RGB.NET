@@ -17,9 +17,8 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="RazerMouseUpdateQueue" /> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used to update this queue.</param>
-        /// <param name="deviceId">The id of the device updated by this queue.</param>
-        public RazerMouseUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
-            : base(updateTrigger, deviceId)
+        public RazerMouseUpdateQueue(IDeviceUpdateTrigger updateTrigger)
+            : base(updateTrigger)
         { }
 
         #endregion
@@ -42,6 +41,10 @@ namespace RGB.NET.Devices.Razer
 
             return ptr;
         }
+
+
+        /// <inheritdoc />
+        protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateMouseEffect(_Defines.MOUSE_EFFECT_ID, effectParams, ref effectId);
 
         #endregion
     }

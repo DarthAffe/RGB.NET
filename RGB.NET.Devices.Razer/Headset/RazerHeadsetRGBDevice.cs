@@ -6,11 +6,11 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="RazerRGBDevice" />
     /// <summary>
     /// Represents a razer headset.
     /// </summary>
-    public class RazerHeadsetRGBDevice : RazerRGBDevice<RazerHeadsetRGBDeviceInfo>, IHeadset
+    public class RazerHeadsetRGBDevice : RazerRGBDevice, IHeadset
     {
         #region Constructors
 
@@ -19,7 +19,7 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the headset.</param>
-        internal RazerHeadsetRGBDevice(RazerHeadsetRGBDeviceInfo info)
+        internal RazerHeadsetRGBDevice(RazerRGBDeviceInfo info)
             : base(info)
         { }
 
@@ -38,7 +38,7 @@ namespace RGB.NET.Devices.Razer
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Headset1;
 
         /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerHeadsetUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
+        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerHeadsetUpdateQueue(updateTrigger);
 
         #endregion
     }
