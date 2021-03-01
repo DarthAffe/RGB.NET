@@ -81,9 +81,9 @@ namespace RGB.NET.Core
 
         #region Constructors
 
-        public PixelTexture(int with, int height, int dataPerPixel, ISampler<T> sampler)
+        public PixelTexture(int with, int height, int dataPerPixel, ISampler<T> sampler, int stride = -1)
         {
-            this._stride = with;
+            this._stride = stride == -1 ? with : stride;
             this._dataPerPixel = dataPerPixel;
             this.Sampler = sampler;
 
