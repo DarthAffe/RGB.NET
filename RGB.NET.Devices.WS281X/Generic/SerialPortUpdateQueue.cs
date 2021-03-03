@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X
@@ -56,9 +57,9 @@ namespace RGB.NET.Devices.WS281X
         }
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            foreach (TData command in GetCommands(dataSet))
+            foreach (TData command in GetCommands(dataSet.ToArray()))
             {
                 SerialConnection.ReadTo(Prompt);
                 SendCommand(command);
@@ -70,7 +71,7 @@ namespace RGB.NET.Devices.WS281X
         /// </summary>
         /// <param name="dataSet">The set of data that needs to be updated.</param>
         /// <returns>The commands to be sent.</returns>
-        protected abstract IEnumerable<TData> GetCommands(Dictionary<object, Color> dataSet);
+        protected abstract IEnumerable<TData> GetCommands(IList<(object key, Color color)> dataSet);
 
         /// <summary>
         /// Sends a command as a string followed by a line-break to the device.

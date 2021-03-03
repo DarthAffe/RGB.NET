@@ -36,7 +36,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         }
 
         /// <inheritdoc />
-        protected override IEnumerable<string> GetCommands(Dictionary<object, Color> dataSet)
+        protected override IEnumerable<string> GetCommands(IList<(object key, Color color)> dataSet)
         {
             foreach ((object key, Color value) in dataSet)
                 yield return $"pix {(int)key} {value.AsRGBHexString(false)}";

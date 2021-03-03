@@ -2,7 +2,6 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 using System;
-using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {

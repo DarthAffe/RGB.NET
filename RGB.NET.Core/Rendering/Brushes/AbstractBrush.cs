@@ -3,7 +3,6 @@
 // ReSharper disable VirtualMemberNeverOverridden.Global
 
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RGB.NET.Core
 {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -43,7 +43,7 @@ namespace RGB.NET.Devices.Asus
         }
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
             if (Device == null) return;
 

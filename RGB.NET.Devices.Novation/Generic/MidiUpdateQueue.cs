@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using RGB.NET.Core;
 using Sanford.Multimedia.Midi;
 
@@ -37,10 +36,10 @@ namespace RGB.NET.Devices.Novation
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            foreach (KeyValuePair<object, Color> data in dataSet)
-                SendMessage(CreateMessage(data));
+            foreach ((object key, Color color) in dataSet)
+                SendMessage(CreateMessage(key, color));
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace RGB.NET.Devices.Novation
         /// </summary>
         /// <param name="data">The data set to create the message from.</param>
         /// <returns>The message created out of the data set.</returns>
-        protected abstract ShortMessage? CreateMessage(KeyValuePair<object, Color> data);
+        protected abstract ShortMessage? CreateMessage(object key, in Color color);
 
         /// <inheritdoc />
         public override void Dispose()

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.Native;
 
@@ -27,9 +25,9 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            Color color = dataSet.Values.First();
+            Color color = dataSet[0].color;
 
             _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.DeviceRGB);
             _LogitechGSDK.LogiLedSetLighting((int)Math.Round(color.R * 100),

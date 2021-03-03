@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using RGB.NET.Core;
 using RGB.NET.Devices.CoolerMaster.Native;
 
@@ -28,7 +28,7 @@ namespace RGB.NET.Devices.CoolerMaster
             : base(updateTrigger)
         {
             this._deviceIndex = deviceIndex;
-            
+
             _deviceMatrix = new _CoolerMasterColorMatrix();
             _deviceMatrix.KeyColor = new _CoolerMasterKeyColor[_CoolerMasterColorMatrix.ROWS, _CoolerMasterColorMatrix.COLUMNS];
         }
@@ -38,12 +38,12 @@ namespace RGB.NET.Devices.CoolerMaster
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            foreach (KeyValuePair<object, Color> data in dataSet)
+            foreach ((object key, Color color) in dataSet)
             {
-                (int row, int column) = ((int, int))data.Key;
-                _deviceMatrix.KeyColor[row, column] = new _CoolerMasterKeyColor(data.Value.GetR(), data.Value.GetG(), data.Value.GetB());
+                (int row, int column) = ((int, int))key;
+                _deviceMatrix.KeyColor[row, column] = new _CoolerMasterKeyColor(color.GetR(), color.GetG(), color.GetB());
             }
 
             _CoolerMasterSDK.SetAllLedColor(_deviceMatrix, _deviceIndex);
