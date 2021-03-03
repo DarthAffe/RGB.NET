@@ -133,15 +133,5 @@ namespace RGB.NET.Core
         { }
 
         #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Calls <see cref="UpdateQueue{TIdentifier,TData}.SetData"/> for a data set created out of the provided list of <see cref="Led"/>.
-        /// </summary>
-        /// <param name="leds"></param>
-        public void SetData(IEnumerable<Led> leds) => SetData(leds.Select(x => (x.CustomData ?? x.Id, x.Color)));
-
-        #endregion
     }
 }

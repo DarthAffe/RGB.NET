@@ -59,7 +59,7 @@ namespace RGB.NET.Devices.Logitech
         protected override object? GetLedCustomData(LedId ledId) => (int)(ledId - _baseLedId);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(GetUpdateData(ledsToUpdate));
 
         #endregion
     }

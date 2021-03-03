@@ -60,7 +60,7 @@ namespace RGB.NET.Devices.Msi
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-            => DeviceUpdateQueue?.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is int)));
+            => DeviceUpdateQueue?.SetData(GetUpdateData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is int))));
 
         /// <inheritdoc />
         public override void Dispose()

@@ -57,7 +57,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         protected override object GetLedCustomData(LedId ledId) => _ledOffset + ((int)ledId - (int)LedId.LedStripe1);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         /// <inheritdoc />
         public override void Dispose()

@@ -49,7 +49,7 @@ namespace RGB.NET.Devices.Asus
         public void Initialize(IDeviceUpdateTrigger updateTrigger)
         {
             InitializeLayout();
-            
+
             UpdateQueue = new AsusUpdateQueue(updateTrigger);
             UpdateQueue.Initialize(DeviceInfo.Device);
         }
@@ -60,7 +60,7 @@ namespace RGB.NET.Devices.Asus
         protected abstract void InitializeLayout();
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(GetUpdateData(ledsToUpdate));
 
         /// <inheritdoc />
         public override void Dispose()

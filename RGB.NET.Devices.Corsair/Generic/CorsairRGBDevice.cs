@@ -84,7 +84,7 @@ namespace RGB.NET.Devices.Corsair
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate)
-            => DeviceUpdateQueue?.SetData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid))));
+            => DeviceUpdateQueue?.SetData(GetUpdateData(ledsToUpdate.Where(x => (x.Color.A > 0) && (x.CustomData is CorsairLedId ledId && (ledId != CorsairLedId.Invalid)))));
 
         /// <inheritdoc />
         public override void Dispose()

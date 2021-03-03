@@ -84,7 +84,33 @@ namespace RGB.NET.Core
             UpdateLeds(ledsToUpdate);
         }
 
-        protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty));
+        protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).Where(led => led.Color.A > 0);
+        protected virtual IEnumerable<(object key, Color color)> GetUpdateData(IEnumerable<Led> leds)
+        {
+            if (ColorCorrections.Count > 0)
+            {
+                foreach (Led led in leds)
+                {
+                    Color color = led.Color;
+                    object key = led.CustomData ?? led.Id;
+
+                    foreach (IColorCorrection colorCorrection in ColorCorrections)
+                        colorCorrection.ApplyTo(ref color);
+
+                    yield return (key, color);
+                }
+            }
+            else
+            {
+                foreach (Led led in leds)
+                {
+                    Color color = led.Color;
+                    object key = led.CustomData ?? led.Id;
+
+                    yield return (key, color);
+                }
+            }
+        }
 
         /// <inheritdoc />
         public virtual void Dispose()

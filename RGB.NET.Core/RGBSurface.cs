@@ -226,13 +226,7 @@ namespace RGB.NET.Core
             }
 
             foreach ((RenderTarget renderTarget, Color c) in render)
-            {
-                Color color = c;
-                for (int i = 0; i < renderTarget.Led.Device.ColorCorrections.Count; i++)
-                    renderTarget.Led.Device.ColorCorrections[i].ApplyTo(ref color);
-
-                renderTarget.Led.Color = color;
-            }
+                renderTarget.Led.Color = c;
         }
 
         /// <summary>

@@ -47,7 +47,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.DeviceIndex][WootingPhysicalKeyboardLayout.US][ledId];
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(GetUpdateData(ledsToUpdate));
 
         #endregion
     }
