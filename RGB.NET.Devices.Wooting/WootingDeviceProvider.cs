@@ -124,11 +124,8 @@ namespace RGB.NET.Devices.Wooting
                 catch { /* at least we tried */ }
             Devices = Enumerable.Empty<IRGBDevice>();
 
-            try { _WootingSDK.Close(); }
+            try { _WootingSDK.Reset(); }
             catch { /* Unlucky.. */ }
-
-            try { _WootingSDK.UnloadWootingSDK(); }
-            catch { /* at least we tried */ }
         }
 
         #endregion
