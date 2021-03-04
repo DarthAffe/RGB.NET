@@ -16,5 +16,7 @@ namespace RGB.NET.Core
         /// Occurs when the trigger wants to cause an update.
         /// </summary>
         event EventHandler<CustomUpdateData>? Update;
+
+        void Start();
     }
 }

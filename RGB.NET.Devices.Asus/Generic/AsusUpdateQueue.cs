@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// The device to be updated.
         /// </summary>
-        protected IAuraSyncDevice? Device { get; private set; }
+        protected IAuraSyncDevice Device { get; }
 
         #endregion
 
@@ -25,28 +25,19 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="AsusUpdateQueue"/> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
-        public AsusUpdateQueue(IDeviceUpdateTrigger updateTrigger)
+        public AsusUpdateQueue(IDeviceUpdateTrigger updateTrigger, IAuraSyncDevice device)
             : base(updateTrigger)
-        { }
+        {
+            this.Device = device;
+        }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Initializes the queue.
-        /// </summary>
-        /// <param name="device">The device to be updated.</param>
-        public void Initialize(IAuraSyncDevice device)
-        {
-            Device = device;
-        }
-
         /// <inheritdoc />
         protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            if (Device == null) return;
-
             try
             {
                 if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))

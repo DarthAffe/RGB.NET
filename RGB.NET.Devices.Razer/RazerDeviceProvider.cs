@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Razer
     /// <summary>
     /// Represents a device provider responsible for razer devices.
     /// </summary>
-    public class RazerDeviceProvider : IRGBDeviceProvider
+    public class RazerDeviceProvider : AbstractRGBDeviceProvider
     {
         #region Properties & Fields
 
@@ -37,24 +37,10 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         public static List<string> PossibleX64NativePaths { get; } = new() { @"%systemroot%\System32\RzChromaSDK.dll", @"%systemroot%\System32\RzChromaSDK64.dll" };
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Indicates if the SDK is initialized and ready to use.
-        /// </summary>
-        public bool IsInitialized { get; private set; }
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
-
         /// <summary>
         /// Forces to load the devices represented by the emulator even if they aren't reported to exist.
         /// </summary>
         public bool LoadEmulatorDevices { get; set; } = false;
-
-        /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for razer devices. 
-        /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -68,127 +54,75 @@ namespace RGB.NET.Devices.Razer
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(RazerDeviceProvider)}");
             _instance = this;
-
-            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
+        protected override void InitializeSDK()
         {
-            if (IsInitialized)
-                TryUnInit();
+            TryUnInit();
 
-            IsInitialized = false;
+            _RazerSDK.Reload();
 
-            try
-            {
-                UpdateTrigger.Stop();
-
-                _RazerSDK.Reload();
-
-                RazerError error;
-                if (((error = _RazerSDK.Init()) != RazerError.Success)
-                    && Enum.IsDefined(typeof(RazerError), error)) //HACK DarthAffe 08.02.2018: The x86-SDK seems to have a problem here ...
-                    ThrowRazerError(error);
-
-                IList<IRGBDevice> devices = new List<IRGBDevice>();
-
-                if (loadFilter.HasFlag(RGBDeviceType.Keyboard))
-                    foreach ((Guid guid, string model) in Razer.Devices.KEYBOARDS)
-                        try
-                        {
-                            if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
-                                && (!LoadEmulatorDevices || (Razer.Devices.KEYBOARDS.FirstOrDefault().guid != guid))) continue;
-
-                            RazerKeyboardRGBDevice device = new(new RazerKeyboardRGBDeviceInfo(guid, model));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                        catch { if (throwExceptions) throw; }
-
-                if (loadFilter.HasFlag(RGBDeviceType.Mouse))
-                    foreach ((Guid guid, string model) in Razer.Devices.MICE)
-                        try
-                        {
-                            if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
-                                && (!LoadEmulatorDevices || (Razer.Devices.MICE.FirstOrDefault().guid != guid))) continue;
-
-                            RazerMouseRGBDevice device = new(new RazerMouseRGBDeviceInfo(guid, model));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                        catch { if (throwExceptions) throw; }
-
-                if (loadFilter.HasFlag(RGBDeviceType.Headset))
-                    foreach ((Guid guid, string model) in Razer.Devices.HEADSETS)
-                        try
-                        {
-                            if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
-                                && (!LoadEmulatorDevices || (Razer.Devices.HEADSETS.FirstOrDefault().guid != guid))) continue;
-
-                            RazerHeadsetRGBDevice device = new(new RazerHeadsetRGBDeviceInfo(guid, model));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                        catch { if (throwExceptions) throw; }
-
-                if (loadFilter.HasFlag(RGBDeviceType.Mousepad))
-                    foreach ((Guid guid, string model) in Razer.Devices.MOUSEMATS)
-                        try
-                        {
-                            if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
-                                && (!LoadEmulatorDevices || (Razer.Devices.MOUSEMATS.FirstOrDefault().guid != guid))) continue;
-
-                            RazerMousepadRGBDevice device = new(new RazerMousepadRGBDeviceInfo(guid, model));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                        catch { if (throwExceptions) throw; }
-
-                if (loadFilter.HasFlag(RGBDeviceType.Keypad))
-                    foreach ((Guid guid, string model) in Razer.Devices.KEYPADS)
-                        try
-                        {
-                            if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
-                                && (!LoadEmulatorDevices || (Razer.Devices.KEYPADS.FirstOrDefault().guid != guid))) continue;
-
-                            RazerKeypadRGBDevice device = new(new RazerKeypadRGBDeviceInfo(guid, model));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                        catch { if (throwExceptions) throw; }
-
-                if (loadFilter.HasFlag(RGBDeviceType.Keyboard))
-                    foreach ((Guid guid, string model) in Razer.Devices.CHROMALINKS)
-                        try
-                        {
-                            if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
-                                && (!LoadEmulatorDevices || (Razer.Devices.CHROMALINKS.FirstOrDefault().guid != guid))) continue;
-
-                            RazerChromaLinkRGBDevice device = new(new RazerChromaLinkRGBDeviceInfo(guid, model));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                        catch { if (throwExceptions) throw; }
-
-                UpdateTrigger.Start();
-                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-                IsInitialized = true;
-            }
-            catch
-            {
-                TryUnInit();
-                if (throwExceptions) throw;
-                return false;
-            }
-
-            return true;
+            RazerError error;
+            if (((error = _RazerSDK.Init()) != RazerError.Success)
+             && Enum.IsDefined(typeof(RazerError), error)) //HACK DarthAffe 08.02.2018: The x86-SDK seems to have a problem here ...
+                ThrowRazerError(error);
         }
-        
+
+        protected override IEnumerable<IRGBDevice> LoadDevices()
+        {
+            foreach ((Guid guid, string model) in Razer.Devices.KEYBOARDS)
+            {
+                if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
+                 && (!LoadEmulatorDevices || (Razer.Devices.KEYBOARDS.FirstOrDefault().guid != guid))) continue;
+
+                yield return new RazerKeyboardRGBDevice(new RazerKeyboardRGBDeviceInfo(guid, model), GetUpdateTrigger());
+            }
+
+            foreach ((Guid guid, string model) in Razer.Devices.MICE)
+            {
+                if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
+                 && (!LoadEmulatorDevices || (Razer.Devices.MICE.FirstOrDefault().guid != guid))) continue;
+
+                yield return new RazerMouseRGBDevice(new RazerMouseRGBDeviceInfo(guid, model), GetUpdateTrigger());
+            }
+
+            foreach ((Guid guid, string model) in Razer.Devices.HEADSETS)
+            {
+                if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
+                 && (!LoadEmulatorDevices || (Razer.Devices.HEADSETS.FirstOrDefault().guid != guid))) continue;
+
+                yield return new RazerHeadsetRGBDevice(new RazerHeadsetRGBDeviceInfo(guid, model), GetUpdateTrigger());
+            }
+
+            foreach ((Guid guid, string model) in Razer.Devices.MOUSEMATS)
+            {
+                if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
+                 && (!LoadEmulatorDevices || (Razer.Devices.MOUSEMATS.FirstOrDefault().guid != guid))) continue;
+
+                yield return new RazerMousepadRGBDevice(new RazerMousepadRGBDeviceInfo(guid, model), GetUpdateTrigger());
+            }
+
+            foreach ((Guid guid, string model) in Razer.Devices.KEYPADS)
+            {
+                if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
+                 && (!LoadEmulatorDevices || (Razer.Devices.KEYPADS.FirstOrDefault().guid != guid))) continue;
+
+                yield return new RazerKeypadRGBDevice(new RazerKeypadRGBDeviceInfo(guid, model), GetUpdateTrigger());
+            }
+
+            foreach ((Guid guid, string model) in Razer.Devices.CHROMALINKS)
+            {
+                if (((_RazerSDK.QueryDevice(guid, out _DeviceInfo deviceInfo) != RazerError.Success) || (deviceInfo.Connected < 1))
+                 && (!LoadEmulatorDevices || (Razer.Devices.CHROMALINKS.FirstOrDefault().guid != guid))) continue;
+
+                yield return new RazerChromaLinkRGBDevice(new RazerChromaLinkRGBDeviceInfo(guid, model), GetUpdateTrigger());
+            }
+        }
+
         private void ThrowRazerError(RazerError errorCode) => throw new RazerException(errorCode);
 
         private void TryUnInit()
@@ -198,15 +132,9 @@ namespace RGB.NET.Devices.Razer
         }
 
         /// <inheritdoc />
-        public void Dispose()
+        public override void Dispose()
         {
-            try { UpdateTrigger.Dispose(); }
-            catch { /* at least we tried */ }
-
-            foreach (IRGBDevice device in Devices)
-                try { device.Dispose(); }
-                catch { /* at least we tried */ }
-            Devices = Enumerable.Empty<IRGBDevice>();
+            base.Dispose();
 
             TryUnInit();
 

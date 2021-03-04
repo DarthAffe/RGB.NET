@@ -10,7 +10,7 @@ namespace RGB.NET.Core
     /// </summary>
     /// <typeparam name="TIdentifier">The type of the key used to identify some data.</typeparam>
     /// <typeparam name="TData">The type of the data.</typeparam>
-    public abstract class UpdateQueue<TIdentifier, TData> : IDisposable
+    public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier, TData>
         where TIdentifier : notnull
     {
         #region Properties & Fields
@@ -123,7 +123,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic <see cref="UpdateQueue{TIdentifier,TData}"/> using an object as the key and a color as the value.
     /// </summary>
-    public abstract class UpdateQueue : UpdateQueue<object, Color>
+    public abstract class UpdateQueue : UpdateQueue<object, Color>, IUpdateQueue
     {
         #region Constructors
 

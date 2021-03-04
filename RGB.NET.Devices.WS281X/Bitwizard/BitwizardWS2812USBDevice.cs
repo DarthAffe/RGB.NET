@@ -2,13 +2,12 @@
 // ReSharper disable UnusedMember.Global
 
 using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X.Bitwizard
 {
     // ReSharper disable once InconsistentNaming
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{T}" />
     /// <summary>
     /// Represents an bitwizard WS2812 USB device.
     /// </summary>
@@ -17,14 +16,6 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         #region Properties & Fields
 
         private readonly int _ledOffset;
-
-        /// <summary>
-        /// Gets the update queue performing updates for this device.
-        /// </summary>
-        public BitwizardWS2812USBUpdateQueue UpdateQueue { get; }
-
-        /// <inheritdoc />
-        public override BitwizardWS2812USBDeviceInfo DeviceInfo { get; }
 
         #endregion
 
@@ -35,19 +26,18 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// </summary>
         /// <param name="deviceInfo">The update trigger used by this queue.</param>
         /// <param name="updateQueue">The update queue performing updates for this device.</param>
-        public BitwizardWS2812USBDevice(BitwizardWS2812USBDeviceInfo deviceInfo, BitwizardWS2812USBUpdateQueue updateQueue, int ledOffset)
+        public BitwizardWS2812USBDevice(BitwizardWS2812USBDeviceInfo deviceInfo, BitwizardWS2812USBUpdateQueue updateQueue, int ledOffset, int ledCount)
+            : base(deviceInfo, updateQueue)
         {
-            this.DeviceInfo = deviceInfo;
-            this.UpdateQueue = updateQueue;
-
             this._ledOffset = ledOffset;
+            InitializeLayout(ledCount);
         }
 
         #endregion
 
         #region Methods
 
-        internal void Initialize(int ledCount)
+        private void InitializeLayout(int ledCount)
         {
             for (int i = 0; i < ledCount; i++)
                 AddLed(LedId.LedStripe1 + i, new Point(i * 10, 0), new Size(10, 10));
@@ -58,15 +48,6 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
-        /// <inheritdoc />
-        public override void Dispose()
-        {
-            try { UpdateQueue.Dispose(); }
-            catch { /* at least we tried */ }
-
-            base.Dispose();
-        }
 
         #endregion
     }

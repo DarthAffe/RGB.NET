@@ -19,16 +19,17 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the mouse.</param>
-        internal RazerMouseRGBDevice(RazerMouseRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal RazerMouseRGBDevice(RazerMouseRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, new RazerMouseUpdateQueue(updateTrigger, info.DeviceId))
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             for (int i = 0; i < _Defines.MOUSE_MAX_ROW; i++)
                 for (int j = 0; j < _Defines.MOUSE_MAX_COLUMN; j++)
@@ -37,9 +38,6 @@ namespace RGB.NET.Devices.Razer
 
         /// <inheritdoc />
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
-
-        /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMouseUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
 
         #endregion
     }

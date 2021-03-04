@@ -16,16 +16,17 @@ namespace RGB.NET.Devices.Msi
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Msi.MsiMainboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by MSI for the mainboard.</param>
-        internal MsiMainboardRGBDevice(MsiRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal MsiMainboardRGBDevice(MsiRGBDeviceInfo info, int ledCount, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
+        {
+            InitializeLayout(ledCount);
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout(int ledCount)
+        private void InitializeLayout(int ledCount)
         {
             for (int i = 0; i < ledCount; i++)
             {

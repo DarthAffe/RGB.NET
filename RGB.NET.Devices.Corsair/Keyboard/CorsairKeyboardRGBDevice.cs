@@ -28,16 +28,17 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keyboard</param>
-        internal CorsairKeyboardRGBDevice(CorsairKeyboardRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal CorsairKeyboardRGBDevice(CorsairKeyboardRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+            : base(info, updateQueue)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             _CorsairLedPositions? nativeLedPositions = (_CorsairLedPositions?)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));
             if (nativeLedPositions == null) return;

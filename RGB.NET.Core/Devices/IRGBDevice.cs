@@ -19,7 +19,7 @@ namespace RGB.NET.Core
         /// Gets generic information about the <see cref="IRGBDevice"/>.
         /// </summary>
         IRGBDeviceInfo DeviceInfo { get; }
-        
+
         IList<IColorCorrection> ColorCorrections { get; }
 
         #endregion

@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Msi.Exceptions;
 using RGB.NET.Devices.Msi.Native;
@@ -15,7 +13,7 @@ namespace RGB.NET.Devices.Msi
     /// <summary>
     /// Represents a device provider responsible for MSI devices.
     /// </summary>
-    public class MsiDeviceProvider : IRGBDeviceProvider
+    public class MsiDeviceProvider : AbstractRGBDeviceProvider
     {
         #region Properties & Fields
 
@@ -37,20 +35,6 @@ namespace RGB.NET.Devices.Msi
         /// </summary>
         public static List<string> PossibleX64NativePaths { get; } = new() { "x64/MysticLight_SDK.dll" };
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Indicates if the SDK is initialized and ready to use.
-        /// </summary>
-        public bool IsInitialized { get; private set; }
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
-
-        /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
-        /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; }
-
         #endregion
 
         #region Constructors
@@ -63,102 +47,58 @@ namespace RGB.NET.Devices.Msi
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(MsiDeviceProvider)}");
             _instance = this;
-
-            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
+        protected override void InitializeSDK()
         {
-            IsInitialized = false;
+            _MsiSDK.Reload();
 
-            try
-            {
-                UpdateTrigger.Stop();
-
-                _MsiSDK.Reload();
-
-                IList<IRGBDevice> devices = new List<IRGBDevice>();
-
-                int errorCode;
-                if ((errorCode = _MsiSDK.Initialize()) != 0)
-                    ThrowMsiError(errorCode);
-
-                if ((errorCode = _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] ledCounts)) != 0)
-                    ThrowMsiError(errorCode);
-
-                for (int i = 0; i < deviceTypes.Length; i++)
-                {
-                    try
-                    {
-                        string deviceType = deviceTypes[i];
-                        int ledCount = ledCounts[i];
-
-                        //Hex3l: MSI_MB provide access to the motherboard "leds" where a led must be intended as a led header (JRGB, JRAINBOW etc..) (Tested on MSI X570 Unify)
-                        if (deviceType.Equals("MSI_MB"))
-                        {
-                            MsiDeviceUpdateQueue updateQueue = new(UpdateTrigger, deviceType);
-                            IMsiRGBDevice motherboard = new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceType, "MSI", "Motherboard"));
-                            motherboard.Initialize(updateQueue, ledCount);
-                            devices.Add(motherboard);
-                        }
-                        else if (deviceType.Equals("MSI_VGA"))
-                        {
-                            //Hex3l: Every led under MSI_VGA should be a different graphics card. Handling all the cards together seems a good way to avoid overlapping of leds
-                            //Hex3l: The led name is the name of the card (e.g. NVIDIA GeForce RTX 2080 Ti) we could provide it in device info.
-
-                            MsiDeviceUpdateQueue updateQueue = new(UpdateTrigger, deviceType);
-                            IMsiRGBDevice graphicscard = new MsiGraphicsCardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.GraphicsCard, deviceType, "MSI", "GraphicsCard"));
-                            graphicscard.Initialize(updateQueue, ledCount);
-                            devices.Add(graphicscard);
-                        }
-                        else if (deviceType.Equals("MSI_MOUSE"))
-                        {
-                            //Hex3l: Every led under MSI_MOUSE should be a different mouse. Handling all the mouses together seems a good way to avoid overlapping of leds
-                            //Hex3l: The led name is the name of the mouse (e.g. msi CLUTCH GM11) we could provide it in device info.
-
-                            MsiDeviceUpdateQueue updateQueue = new(UpdateTrigger, deviceType);
-                            IMsiRGBDevice mouses = new MsiMouseRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mouse, deviceType, "MSI", "Mouse"));
-                            mouses.Initialize(updateQueue, ledCount);
-                            devices.Add(mouses);
-                        }
-
-                        //TODO DarthAffe 22.02.2020: Add other devices
-                    }
-                    catch { if (throwExceptions) throw; }
-                }
-
-                UpdateTrigger.Start();
-
-                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-                IsInitialized = true;
-            }
-            catch
-            {
-                if (throwExceptions)
-                    throw;
-                return false;
-            }
-
-            return true;
+            int errorCode;
+            if ((errorCode = _MsiSDK.Initialize()) != 0)
+                ThrowMsiError(errorCode);
         }
 
-        private void ThrowMsiError(int errorCode) => throw new MysticLightException(errorCode, _MsiSDK.GetErrorMessage(errorCode));
+        protected override IEnumerable<IRGBDevice> LoadDevices()
+        {
+            int errorCode;
+            if ((errorCode = _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] ledCounts)) != 0)
+                ThrowMsiError(errorCode);
+
+            for (int i = 0; i < deviceTypes.Length; i++)
+            {
+                string deviceType = deviceTypes[i];
+                int ledCount = ledCounts[i];
+
+                if (deviceType.Equals("MSI_MB"))
+                {
+                    //Hex3l: MSI_MB provide access to the motherboard "leds" where a led must be intended as a led header (JRGB, JRAINBOW etc..) (Tested on MSI X570 Unify)
+                    yield return new MsiMainboardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mainboard, deviceType, "MSI", "Motherboard"), ledCount, GetUpdateTrigger());
+                }
+                else if (deviceType.Equals("MSI_VGA"))
+                {
+                    //Hex3l: Every led under MSI_VGA should be a different graphics card. Handling all the cards together seems a good way to avoid overlapping of leds
+                    //Hex3l: The led name is the name of the card (e.g. NVIDIA GeForce RTX 2080 Ti) we could provide it in device info.
+                    yield return new MsiGraphicsCardRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.GraphicsCard, deviceType, "MSI", "GraphicsCard"), ledCount, GetUpdateTrigger());
+                }
+                else if (deviceType.Equals("MSI_MOUSE"))
+                {
+                    //Hex3l: Every led under MSI_MOUSE should be a different mouse. Handling all the mouses together seems a good way to avoid overlapping of leds
+                    //Hex3l: The led name is the name of the mouse (e.g. msi CLUTCH GM11) we could provide it in device info.
+                    yield return new MsiMouseRGBDevice(new MsiRGBDeviceInfo(RGBDeviceType.Mouse, deviceType, "MSI", "Mouse"), ledCount, GetUpdateTrigger());
+                }
+            }
+        }
+
+        private void ThrowMsiError(int errorCode) => Throw(new MysticLightException(errorCode, _MsiSDK.GetErrorMessage(errorCode)));
 
         /// <inheritdoc />
-        public void Dispose()
+        public override void Dispose()
         {
-            try { UpdateTrigger.Dispose(); }
-            catch { /* at least we tried */ }
-
-            foreach (IRGBDevice device in Devices)
-                try { device.Dispose(); }
-                catch { /* at least we tried */ }
-            Devices = Enumerable.Empty<IRGBDevice>();
+            base.Dispose();
 
             try { _MsiSDK.UnloadMsiSDK(); }
             catch { /* at least we tried */ }

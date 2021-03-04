@@ -21,18 +21,19 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusHeadsetRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Asus for the headset.</param>
-        internal AsusUnspecifiedRGBDevice(AsusRGBDeviceInfo info, LedId baseLedId)
-            : base(info)
+        internal AsusUnspecifiedRGBDevice(AsusRGBDeviceInfo info, LedId baseLedId, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
         {
             this._baseLedId = baseLedId;
+
+            InitializeLayout();
         }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             int ledCount = DeviceInfo.Device.Lights.Count;
             for (int i = 0; i < ledCount; i++)
@@ -41,6 +42,7 @@ namespace RGB.NET.Devices.Asus
 
         /// <inheritdoc />
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)_baseLedId;
+
         #endregion
     }
 }

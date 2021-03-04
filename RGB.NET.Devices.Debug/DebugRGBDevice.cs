@@ -13,9 +13,6 @@ namespace RGB.NET.Devices.Debug
     {
         #region Properties & Fields
 
-        /// <inheritdoc />
-        public override DebugRGBDeviceInfo DeviceInfo { get; }
-
         public IDeviceLayout Layout { get; }
 
         private Action<IEnumerable<Led>>? _updateLedsAction;
@@ -27,11 +24,10 @@ namespace RGB.NET.Devices.Debug
         /// Internal constructor of <see cref="DebugRGBDeviceInfo"/>.
         /// </summary>
         internal DebugRGBDevice(IDeviceLayout layout, Action<IEnumerable<Led>>? updateLedsAction = null)
+            : base(new DebugRGBDeviceInfo(layout.Type, layout.Vendor ?? "RGB.NET", layout.Model ?? "Debug", layout.CustomData), new DebugDeviceUpdateQueue())
         {
             this.Layout = layout;
             this._updateLedsAction = updateLedsAction;
-
-            DeviceInfo = new DebugRGBDeviceInfo(layout.Type, layout.Vendor ?? "RGB.NET", layout.Model ?? "Debug", layout.CustomData);
 
             Layout.ApplyTo(this, true);
         }

@@ -17,16 +17,17 @@ namespace RGB.NET.Devices.Novation
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Novation.NovationLaunchpadRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Novation for the launchpad</param>
-        internal NovationLaunchpadRGBDevice(NovationLaunchpadRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal NovationLaunchpadRGBDevice(NovationLaunchpadRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             Dictionary<LedId, (byte mode, byte id, int x, int y)> mapping = GetDeviceMapping();
 

@@ -22,6 +22,15 @@ namespace RGB.NET.Core
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Occurs when an exception is thrown in the device provider
+        /// </summary>
+        event EventHandler<Exception>? Exception;
+
+        #endregion
+
         #region Methods
 
         bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false);

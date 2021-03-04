@@ -86,7 +86,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Starts the trigger.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             if (IsRunning) return;
 

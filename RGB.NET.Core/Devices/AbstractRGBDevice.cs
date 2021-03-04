@@ -34,7 +34,7 @@ namespace RGB.NET.Core
         }
 
         /// <inheritdoc />
-        public abstract TDeviceInfo DeviceInfo { get; }
+        public TDeviceInfo DeviceInfo { get; }
 
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
@@ -52,6 +52,8 @@ namespace RGB.NET.Core
         /// </summary>
         protected Dictionary<LedId, Led> LedMapping { get; } = new();
 
+        protected IUpdateQueue UpdateQueue { get; }
+
         #region Indexer
 
         /// <inheritdoc />
@@ -65,6 +67,16 @@ namespace RGB.NET.Core
             => LedMapping.Values.Where(x => referenceRect.CalculateIntersectPercentage(x.Boundary) >= minOverlayPercentage);
 
         #endregion
+
+        #endregion
+
+        #region Constructors
+
+        protected AbstractRGBDevice(TDeviceInfo deviceOnfo, IUpdateQueue updateQueue)
+        {
+            this.DeviceInfo = deviceOnfo;
+            this.UpdateQueue = updateQueue;
+        }
 
         #endregion
 
@@ -112,14 +124,16 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Sends all the updated <see cref="Led"/> to the device.
+        /// </summary>
+        protected virtual void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
+
         /// <inheritdoc />
         public virtual void Dispose()
         {
-            try
-            {
-                LedMapping.Clear();
-            }
-            catch { /* this really shouldn't happen */ }
+            try { UpdateQueue.Dispose(); } catch { /* :( */ }
+            try { LedMapping.Clear(); } catch { /* this really shouldn't happen */ }
         }
 
         /// <summary>
@@ -127,11 +141,6 @@ namespace RGB.NET.Core
         /// </summary>
         protected virtual void DeviceUpdate()
         { }
-
-        /// <summary>
-        /// Sends all the updated <see cref="Led"/> to the device.
-        /// </summary>
-        protected abstract void UpdateLeds(IEnumerable<Led> ledsToUpdate);
 
         /// <summary>
         /// Initializes the <see cref="Led"/> with the specified id.

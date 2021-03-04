@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Generic;
@@ -25,16 +24,17 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Wooting.Keyboard.WootingKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Wooting for the keyboard</param>
-        internal WootingKeyboardRGBDevice(WootingKeyboardRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal WootingKeyboardRGBDevice(WootingKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             //TODO DarthAffe 13.02.2021: Check how the mapping can work without knowing the physical layout
             Dictionary<LedId, (int row, int column)> mapping = WootingKeyboardLedMappings.Mapping[DeviceInfo.DeviceIndex][WootingPhysicalKeyboardLayout.US];
@@ -47,7 +47,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.DeviceIndex][WootingPhysicalKeyboardLayout.US][ledId];
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(GetUpdateData(ledsToUpdate));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         #endregion
     }

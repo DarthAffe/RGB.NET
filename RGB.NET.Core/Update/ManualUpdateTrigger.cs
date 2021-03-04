@@ -44,7 +44,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Starts the trigger if needed, causing it to performing updates.
         /// </summary>
-        private void Start()
+        public override void Start()
         {
             if (UpdateTask == null)
             {

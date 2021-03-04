@@ -23,16 +23,17 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetStandRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the headset stand</param>
-        internal CorsairHeadsetStandRGBDevice(CorsairHeadsetStandRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal CorsairHeadsetStandRGBDevice(CorsairHeadsetStandRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+            : base(info, updateQueue)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             _CorsairLedPositions? nativeLedPositions = (_CorsairLedPositions?)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));
             if (nativeLedPositions == null) return;
