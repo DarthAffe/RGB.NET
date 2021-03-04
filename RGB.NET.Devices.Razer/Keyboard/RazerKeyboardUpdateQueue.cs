@@ -16,9 +16,8 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="RazerKeyboardUpdateQueue" /> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used to update this queue.</param>
-        /// <param name="deviceId">The id of the device updated by this queue.</param>
-        public RazerKeyboardUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
-            : base(updateTrigger, deviceId)
+        public RazerKeyboardUpdateQueue(IDeviceUpdateTrigger updateTrigger)
+            : base(updateTrigger)
         { }
 
         #endregion

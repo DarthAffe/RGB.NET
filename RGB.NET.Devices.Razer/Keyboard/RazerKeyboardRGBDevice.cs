@@ -6,15 +6,15 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="RazerRGBDevice" />
     /// <summary>
     /// Represents a razer keyboard.
     /// </summary>
-    public class RazerKeyboardRGBDevice : RazerRGBDevice<RazerKeyboardRGBDeviceInfo>, IKeyboard
+    public class RazerKeyboardRGBDevice : RazerRGBDevice, IKeyboard
     {
         #region Properties & Fields
 
-        IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => (IKeyboardDeviceInfo) DeviceInfo;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keyboard.</param>
         internal RazerKeyboardRGBDevice(RazerKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
-            : base(info, new RazerKeyboardUpdateQueue(updateTrigger, info.DeviceId))
+            : base(info, new RazerKeyboardUpdateQueue(updateTrigger))
         {
             InitializeLayout();
         }

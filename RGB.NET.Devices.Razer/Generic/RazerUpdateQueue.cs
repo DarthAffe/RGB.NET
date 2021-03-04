@@ -10,8 +10,7 @@ namespace RGB.NET.Devices.Razer
     public abstract class RazerUpdateQueue : UpdateQueue
     {
         #region Properties & Fields
-
-        private readonly Guid _deviceId;
+        
         private Guid? _lastEffect;
 
         #endregion
@@ -22,11 +21,9 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="RazerUpdateQueue" /> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used to update this queue.</param>
-        /// <param name="deviceId">The id of the device updated by this queue.</param>
-        protected RazerUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
+        protected RazerUpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         {
-            this._deviceId = deviceId;
         }
 
         #endregion
@@ -53,7 +50,7 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         /// <param name="effectParams">The parameters of the effect.</param>
         /// <param name="effectId">The id this effect is created with.</param>
-        protected virtual void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateEffect(_deviceId, _Defines.EFFECT_ID, effectParams, ref effectId);
+        protected abstract void CreateEffect(IntPtr effectParams, ref Guid effectId);
 
         /// <inheritdoc />
         public override void Reset()

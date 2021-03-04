@@ -3,21 +3,20 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="AbstractRGBDevice{RazerRGBDeviceInfo}" />
     /// <inheritdoc cref="IRazerRGBDevice" />
     /// <summary>
     /// Represents a generic razer-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class RazerRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IRazerRGBDevice
-        where TDeviceInfo : RazerRGBDeviceInfo
+    public abstract class RazerRGBDevice : AbstractRGBDevice<RazerRGBDeviceInfo>, IRazerRGBDevice
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RazerRGBDevice{TDeviceInfo}"/> class.
+        /// Initializes a new instance of the <see cref="RazerRGBDevice"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by razer for the device.</param>
-        protected RazerRGBDevice(TDeviceInfo info, IUpdateQueue updateQueue)
+        protected RazerRGBDevice(RazerRGBDeviceInfo info, IUpdateQueue updateQueue)
             : base(info, updateQueue)
         {
             RequiresFlush = true;

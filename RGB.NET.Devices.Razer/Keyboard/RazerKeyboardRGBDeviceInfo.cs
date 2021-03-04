@@ -1,7 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using System;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
@@ -24,10 +23,9 @@ namespace RGB.NET.Devices.Razer
         /// <summary>
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo" />.
         /// </summary>
-        /// <param name="deviceId">The Id of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The model of the <see cref="IRGBDevice"/>.</param>
-        internal RazerKeyboardRGBDeviceInfo(Guid deviceId, string model)
-            : base(deviceId, RGBDeviceType.Keyboard, model)
+        internal RazerKeyboardRGBDeviceInfo(string model)
+            : base(RGBDeviceType.Keyboard, model)
         { }
 
         #endregion

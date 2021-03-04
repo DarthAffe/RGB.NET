@@ -6,11 +6,11 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="RazerRGBDevice" />
     /// <summary>
     /// Represents a razer keypad.
     /// </summary>
-    public class RazerKeypadRGBDevice : RazerRGBDevice<RazerKeypadRGBDeviceInfo>, IKeypad
+    public class RazerKeypadRGBDevice : RazerRGBDevice, IKeypad
     {
         #region Constructors
 
@@ -19,8 +19,8 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerKeypadRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keypad.</param>
-        internal RazerKeypadRGBDevice(RazerKeypadRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
-            : base(info, new RazerKeypadUpdateQueue(updateTrigger, info.DeviceId))
+        internal RazerKeypadRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, new RazerKeypadUpdateQueue(updateTrigger))
         {
             InitializeLayout();
         }

@@ -16,9 +16,8 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="RazerKeypadUpdateQueue" /> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used to update this queue.</param>
-        /// <param name="deviceId">The id of the device updated by this queue.</param>
-        public RazerKeypadUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
-            : base(updateTrigger, deviceId)
+        public RazerKeypadUpdateQueue(IDeviceUpdateTrigger updateTrigger)
+            : base(updateTrigger)
         { }
 
         #endregion
@@ -40,6 +39,9 @@ namespace RGB.NET.Devices.Razer
 
             return ptr;
         }
+
+        /// <inheritdoc />
+        protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateKeypadEffect(_Defines.KEYPAD_EFFECT_ID, effectParams, ref effectId);
 
         #endregion
     }
