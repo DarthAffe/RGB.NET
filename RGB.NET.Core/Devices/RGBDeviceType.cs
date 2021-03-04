@@ -84,6 +84,11 @@ namespace RGB.NET.Core
         Cooler = 1 << 13,
 
         /// <summary>
+        /// Represents a monitor.
+        /// </summary>
+        Monitor = 1 << 14,
+
+        /// <summary>
         /// Represents a device where the type is not known or not present in the list.
         /// </summary>
         Unknown = 1 << 31,
