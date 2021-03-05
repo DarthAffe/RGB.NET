@@ -19,16 +19,17 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the headset.</param>
-        internal RazerHeadsetRGBDevice(RazerRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal RazerHeadsetRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, new RazerHeadsetUpdateQueue(updateTrigger))
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             for (int i = 0; i < _Defines.HEADSET_MAX_LEDS; i++)
                 AddLed(LedId.Headset1 + i, new Point(i * 11, 0), new Size(10, 10));
@@ -36,9 +37,6 @@ namespace RGB.NET.Devices.Razer
 
         /// <inheritdoc />
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Headset1;
-
-        /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerHeadsetUpdateQueue(updateTrigger);
 
         #endregion
     }

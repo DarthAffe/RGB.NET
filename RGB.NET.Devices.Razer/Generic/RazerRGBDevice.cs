@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
@@ -11,32 +10,15 @@ namespace RGB.NET.Devices.Razer
     /// </summary>
     public abstract class RazerRGBDevice : AbstractRGBDevice<RazerRGBDeviceInfo>, IRazerRGBDevice
     {
-        #region Properties & Fields
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Gets information about the <see cref="T:RGB.NET.Devices.Razer.RazerRGBDevice" />.
-        /// </summary>
-        public override RazerRGBDeviceInfo DeviceInfo { get; }
-
-        /// <summary>
-        /// Gets or sets the update queue performing updates for this device.
-        /// </summary>
-        // ReSharper disable once MemberCanBePrivate.Global
-        protected RazerUpdateQueue? UpdateQueue { get; set; }
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RazerRGBDevice"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by razer for the device.</param>
-        protected RazerRGBDevice(RazerRGBDeviceInfo info)
+        protected RazerRGBDevice(RazerRGBDeviceInfo info, IUpdateQueue updateQueue)
+            : base(info, updateQueue)
         {
-            this.DeviceInfo = info;
-
             RequiresFlush = true;
         }
 
@@ -44,35 +26,8 @@ namespace RGB.NET.Devices.Razer
 
         #region Methods
 
-        /// <summary>
-        /// Initializes the device.
-        /// </summary>
-        public void Initialize(IDeviceUpdateTrigger updateTrigger)
-        {
-            InitializeLayout();
-            
-            UpdateQueue = CreateUpdateQueue(updateTrigger);
-        }
-
-        /// <summary>
-        /// Creates a specific <see cref="RazerUpdateQueue"/> for this device.
-        /// </summary>
-        /// <param name="updateTrigger">The trigger used to update the queue.</param>
-        /// <returns>The <see cref="RazerUpdateQueue"/> for this device.</returns>
-        protected abstract RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger);
-
-        /// <summary>
-        /// Initializes the <see cref="Led"/> and <see cref="Size"/> of the device.
-        /// </summary>
-        protected abstract void InitializeLayout();
-
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
-
-        /// <summary>
-        /// Resets the device.
-        /// </summary>
-        public void Reset() => UpdateQueue?.Reset();
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         /// <inheritdoc />
         public override void Dispose()

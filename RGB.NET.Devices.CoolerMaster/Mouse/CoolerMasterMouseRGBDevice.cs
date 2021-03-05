@@ -16,16 +16,15 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterMouseRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CoolerMaster for the mouse</param>
-        internal CoolerMasterMouseRGBDevice(CoolerMasterMouseRGBDeviceInfo info)
-            : base(info)
+        internal CoolerMasterMouseRGBDevice(CoolerMasterMouseRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
         { }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             Dictionary<LedId, (int row, int column)> mapping = CoolerMasterMouseLedMappings.Mapping[DeviceInfo.DeviceIndex];
 
@@ -35,7 +34,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
         /// <inheritdoc />
         protected override object GetLedCustomData(LedId ledId) => CoolerMasterMouseLedMappings.Mapping[DeviceInfo.DeviceIndex][ledId];
-        
+
         #endregion
     }
 }

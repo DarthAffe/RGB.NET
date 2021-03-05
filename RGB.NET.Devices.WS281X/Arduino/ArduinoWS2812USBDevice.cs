@@ -8,22 +8,12 @@ using RGB.NET.Core;
 namespace RGB.NET.Devices.WS281X.Arduino
 {
     // ReSharper disable once InconsistentNaming
-    /// <inheritdoc />
     /// <summary>
     /// Represents an arduino WS2812 device.
     /// </summary>
     public class ArduinoWS2812USBDevice : AbstractRGBDevice<ArduinoWS2812USBDeviceInfo>, ILedStripe
     {
         #region Properties & Fields
-
-        /// <summary>
-        /// Gets the update queue performing updates for this device.
-        /// </summary>
-        public ArduinoWS2812USBUpdateQueue UpdateQueue { get; }
-
-        /// <inheritdoc />
-        public override ArduinoWS2812USBDeviceInfo DeviceInfo { get; }
-
         /// <summary>
         /// Gets the channel (as defined in the arduino-sketch) this device is attached to.
         /// </summary>
@@ -39,18 +29,19 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <param name="deviceInfo">The update trigger used by this queue.</param>
         /// <param name="updateQueue">The update queue performing updates for this device.</param>
         /// <param name="channel">The channel (as defined in the arduino-sketch) this device is attached to.</param>
-        public ArduinoWS2812USBDevice(ArduinoWS2812USBDeviceInfo deviceInfo, ArduinoWS2812USBUpdateQueue updateQueue, int channel)
+        public ArduinoWS2812USBDevice(ArduinoWS2812USBDeviceInfo deviceInfo, ArduinoWS2812USBUpdateQueue updateQueue, int channel, int ledCount)
+            : base(deviceInfo, updateQueue)
         {
-            this.DeviceInfo = deviceInfo;
-            this.UpdateQueue = updateQueue;
             this.Channel = channel;
+
+            InitializeLayout(ledCount);
         }
 
         #endregion
 
         #region Methods
 
-        internal void Initialize(int ledCount)
+        private void InitializeLayout(int ledCount)
         {
             for (int i = 0; i < ledCount; i++)
                 AddLed(LedId.LedStripe1 + i, new Point(i * 10, 0), new Size(10, 10));
@@ -63,16 +54,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         protected override IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => (flushLeds || LedMapping.Values.Any(x => x.IsDirty)) ? LedMapping.Values : Enumerable.Empty<Led>();
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
-
-        /// <inheritdoc />
-        public override void Dispose()
-        {
-            try { UpdateQueue.Dispose(); }
-            catch { /* at least we tried */ }
-
-            base.Dispose();
-        }
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         #endregion
     }

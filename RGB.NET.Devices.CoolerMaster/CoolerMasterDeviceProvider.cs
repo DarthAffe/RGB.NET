@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.CoolerMaster.Helper;
 using RGB.NET.Devices.CoolerMaster.Native;
@@ -15,7 +13,7 @@ namespace RGB.NET.Devices.CoolerMaster
     /// <summary>
     /// Represents a device provider responsible for Cooler Master devices.
     /// </summary>
-    public class CoolerMasterDeviceProvider : IRGBDeviceProvider
+    public class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
     {
         #region Properties & Fields
 
@@ -37,20 +35,6 @@ namespace RGB.NET.Devices.CoolerMaster
         /// </summary>
         public static List<string> PossibleX64NativePaths { get; } = new() { "x64/CMSDK.dll" };
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Indicates if the SDK is initialized and ready to use.
-        /// </summary>
-        public bool IsInitialized { get; private set; }
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
-
-        /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for cooler master devices. 
-        /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; }
-
         #endregion
 
         #region Constructors
@@ -63,97 +47,48 @@ namespace RGB.NET.Devices.CoolerMaster
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CoolerMasterDeviceProvider)}");
             _instance = this;
-
-            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
+        protected override void InitializeSDK()
         {
-            IsInitialized = false;
-
-            try
-            {
-                UpdateTrigger.Stop();
-
-                _CoolerMasterSDK.Reload();
-                if (_CoolerMasterSDK.GetSDKVersion() <= 0) return false;
-
-                IList<IRGBDevice> devices = new List<IRGBDevice>();
-
-                foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))
-                {
-                    try
-                    {
-                        RGBDeviceType deviceType = index.GetDeviceType();
-                        if (deviceType == RGBDeviceType.None) continue;
-
-                        if (_CoolerMasterSDK.IsDevicePlugged(index))
-                        {
-                            if (!loadFilter.HasFlag(deviceType)) continue;
-
-                            ICoolerMasterRGBDevice device;
-                            switch (deviceType)
-                            {
-                                case RGBDeviceType.Keyboard:
-                                    CoolerMasterPhysicalKeyboardLayout physicalLayout = _CoolerMasterSDK.GetDeviceLayout(index);
-                                    device = new CoolerMasterKeyboardRGBDevice(new CoolerMasterKeyboardRGBDeviceInfo(index, physicalLayout));
-                                    break;
-
-                                case RGBDeviceType.Mouse:
-                                    device = new CoolerMasterMouseRGBDevice(new CoolerMasterMouseRGBDeviceInfo(index));
-                                    break;
-
-                                default:
-                                    if (throwExceptions)
-                                        throw new RGBDeviceException("Unknown Device-Type");
-                                    else
-                                        continue;
-                            }
-
-                            if (!_CoolerMasterSDK.EnableLedControl(true, index))
-                                throw new RGBDeviceException("Failed to enable LED control for device " + index);
-
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                    }
-                    catch { if (throwExceptions) throw; }
-                }
-
-                UpdateTrigger.Start();
-
-                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-                IsInitialized = true;
-            }
-            catch
-            {
-                if (throwExceptions)
-                    throw;
-                return false;
-            }
-
-            return true;
+            _CoolerMasterSDK.Reload();
+            if (_CoolerMasterSDK.GetSDKVersion() <= 0) Throw(new RGBDeviceException("Failed to initialize CoolerMaster-SDK"));
         }
 
-        /// <inheritdoc />
-        public void Dispose()
+        protected override IEnumerable<IRGBDevice> LoadDevices()
         {
-            try { UpdateTrigger.Dispose(); }
-            catch { /* at least we tried */ }
+            foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))
+            {
+                RGBDeviceType deviceType = index.GetDeviceType();
+                if (deviceType == RGBDeviceType.None) continue;
 
-            foreach (IRGBDevice device in Devices)
-                try { device.Dispose(); }
-                catch { /* at least we tried */ }
-            Devices = Enumerable.Empty<IRGBDevice>();
+                if (_CoolerMasterSDK.IsDevicePlugged(index))
+                {
+                    if (!_CoolerMasterSDK.EnableLedControl(true, index))
+                        Throw(new RGBDeviceException("Failed to enable LED control for device " + index));
+                    else
+                    {
+                        switch (deviceType)
+                        {
+                            case RGBDeviceType.Keyboard:
+                                yield return new CoolerMasterKeyboardRGBDevice(new CoolerMasterKeyboardRGBDeviceInfo(index, _CoolerMasterSDK.GetDeviceLayout(index)), GetUpdateTrigger());
+                                break;
 
-            // DarthAffe 03.03.2020: Should be done but isn't possible due to an weird winodws-hook inside the sdk which corrupts the stack when unloading the dll
-            //try { _CoolerMasterSDK.UnloadCMSDK(); }
-            //catch { /* at least we tried */ }
+                            case RGBDeviceType.Mouse:
+                                yield return new CoolerMasterMouseRGBDevice(new CoolerMasterMouseRGBDeviceInfo(index), GetUpdateTrigger());
+                                break;
+
+                            default:
+                                Throw(new RGBDeviceException("Unknown Device-Type"));
+                                break;
+                        }
+                    }
+                }
+            }
         }
 
         #endregion

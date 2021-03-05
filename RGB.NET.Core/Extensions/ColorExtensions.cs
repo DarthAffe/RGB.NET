@@ -13,7 +13,7 @@ namespace RGB.NET.Core
         /// <param name="color1">The start color of the distance calculation.</param>
         /// <param name="color2">The end color fot the distance calculation.</param>
         /// <returns></returns>
-        public static double DistanceTo(this Color color1, Color color2)
+        public static double DistanceTo(this in Color color1, in Color color2)
         {
             (_, byte r1, byte g1, byte b1) = color1.GetRGBBytes();
             (_, byte r2, byte g2, byte b2) = color2.GetRGBBytes();

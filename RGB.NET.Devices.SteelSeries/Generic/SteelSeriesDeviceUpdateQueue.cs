@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.SteelSeries.API;
@@ -44,8 +44,8 @@ namespace RGB.NET.Devices.SteelSeries
         }
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
-            => SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.Select(x => (((SteelSeriesLedId)x.Key).GetAPIName(), x.Value.ToIntArray())).Where(x => x.Item1 != null).ToList()!);
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+            => SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToArray().Select(x => (((SteelSeriesLedId)x.key).GetAPIName(), x.color.ToIntArray())).Where(x => x.Item1 != null).ToList()!);
 
         #endregion
     }

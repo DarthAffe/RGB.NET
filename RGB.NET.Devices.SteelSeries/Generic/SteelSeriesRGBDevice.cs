@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.SteelSeries
@@ -13,19 +12,7 @@ namespace RGB.NET.Devices.SteelSeries
     {
         #region Properties & Fields
 
-        private Dictionary<LedId, SteelSeriesLedId> _ledMapping = new();
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Gets information about the <see cref="SteelSeriesRGBDevice" />.
-        /// </summary>
-        public override SteelSeriesRGBDeviceInfo DeviceInfo { get; }
-
-        /// <summary>
-        /// Gets or sets the update queue performing updates for this device.
-        /// </summary>
-        // ReSharper disable once MemberCanBePrivate.Global
-        protected UpdateQueue? UpdateQueue { get; set; }
+        private readonly Dictionary<LedId, SteelSeriesLedId> _ledMapping;
 
         #endregion
 
@@ -35,34 +22,30 @@ namespace RGB.NET.Devices.SteelSeries
         /// Initializes a new instance of the <see cref="SteelSeriesRGBDevice"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by SteelSeries for the device.</param>
-        internal SteelSeriesRGBDevice(SteelSeriesRGBDeviceInfo info)
+        internal SteelSeriesRGBDevice(SteelSeriesRGBDeviceInfo info, string apiName, Dictionary<LedId, SteelSeriesLedId> ledMapping, IDeviceUpdateTrigger updateTrigger)
+            : base(info, new SteelSeriesDeviceUpdateQueue(updateTrigger, apiName))
         {
-            this.DeviceInfo = info;
+            this._ledMapping = ledMapping;
+
+            InitializeLayout();
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Initializes the device.
-        /// </summary>
-        void ISteelSeriesRGBDevice.Initialize(UpdateQueue updateQueue, Dictionary<LedId, SteelSeriesLedId> ledMapping)
+        private void InitializeLayout()
         {
-            _ledMapping = ledMapping;
-
             int counter = 0;
-            foreach (KeyValuePair<LedId, SteelSeriesLedId> mapping in ledMapping)
+            foreach (KeyValuePair<LedId, SteelSeriesLedId> mapping in _ledMapping)
                 AddLed(mapping.Key, new Point((counter++) * 10, 0), new Size(10, 10));
-            
-            UpdateQueue = updateQueue;
         }
 
         /// <inheritdoc />
         protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         /// <inheritdoc />
         public override void Dispose()

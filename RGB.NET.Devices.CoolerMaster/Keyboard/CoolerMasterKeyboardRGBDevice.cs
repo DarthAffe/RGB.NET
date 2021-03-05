@@ -22,16 +22,17 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CoolerMaster for the keyboard</param>
-        internal CoolerMasterKeyboardRGBDevice(CoolerMasterKeyboardRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal CoolerMasterKeyboardRGBDevice(CoolerMasterKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             if (!CoolerMasterKeyboardLedMappings.Mapping.TryGetValue(DeviceInfo.DeviceIndex, out Dictionary<CoolerMasterPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>? deviceMappings))
                 throw new RGBDeviceException($"Failed to find a CoolerMasterKeyboardLedMapping for device index {DeviceInfo.DeviceIndex}");
@@ -44,7 +45,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
         /// <inheritdoc />
         protected override object GetLedCustomData(LedId ledId) => CoolerMasterKeyboardLedMappings.Mapping[DeviceInfo.DeviceIndex][DeviceInfo.PhysicalLayout][ledId];
-        
+
         #endregion
     }
 }

@@ -19,16 +19,17 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMousepadRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the mousepad.</param>
-        internal RazerMousepadRGBDevice(RazerRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal RazerMousepadRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, new RazerMousepadUpdateQueue(updateTrigger))
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             for (int i = 0; i < _Defines.MOUSEPAD_MAX_LEDS; i++)
                 AddLed(LedId.Mousepad1 + i, new Point(i * 11, 0), new Size(10, 10));
@@ -36,10 +37,6 @@ namespace RGB.NET.Devices.Razer
 
         /// <inheritdoc />
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mousepad1;
-
-        /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMousepadUpdateQueue(updateTrigger);
-
         #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using RGB.NET.Core;
 using RGB.NET.Devices.Msi.Native;
 
@@ -34,10 +34,10 @@ namespace RGB.NET.Devices.Msi
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            foreach (KeyValuePair<object, Color> data in dataSet)
-                _MsiSDK.SetLedColor(_deviceType, (int)data.Key, data.Value.GetR(), data.Value.GetG(), data.Value.GetB());
+            foreach ((object key, Color color) in dataSet)
+                _MsiSDK.SetLedColor(_deviceType, (int)key, color.GetR(), color.GetG(), color.GetB());
         }
 
         #endregion

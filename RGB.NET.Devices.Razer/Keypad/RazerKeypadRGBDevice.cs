@@ -19,16 +19,17 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerKeypadRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keypad.</param>
-        internal RazerKeypadRGBDevice(RazerRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal RazerKeypadRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, new RazerKeypadUpdateQueue(updateTrigger))
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             for (int i = 0; i < _Defines.KEYPAD_MAX_ROW; i++)
                 for (int j = 0; j < _Defines.KEYPAD_MAX_COLUMN; j++)
@@ -37,9 +38,6 @@ namespace RGB.NET.Devices.Razer
 
         /// <inheritdoc />
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keypad1;
-
-        /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerKeypadUpdateQueue(updateTrigger);
 
         #endregion
     }

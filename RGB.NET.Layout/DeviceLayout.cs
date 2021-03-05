@@ -59,27 +59,27 @@ namespace RGB.NET.Layout
         /// Gets or sets the width of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Width")]
-        public double Width { get; set; }
+        public float Width { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Height")]
-        public double Height { get; set; }
+        public float Height { get; set; }
 
         /// <summary>
         /// Gets or sets the width of one 'unit' used for the calculation of led positions and sizes.
         /// </summary>
         [XmlElement("LedUnitWidth")]
         [DefaultValue(19.0)]
-        public double LedUnitWidth { get; set; } = 19.0;
+        public float LedUnitWidth { get; set; } = 19.0f;
 
         /// <summary>
         /// Gets or sets the height of one 'unit' used for the calculation of led positions and sizes.
         /// </summary>
         [XmlElement("LedUnitHeight")]
         [DefaultValue(19.0)]
-        public double LedUnitHeight { get; set; } = 19.0;
+        public float LedUnitHeight { get; set; } = 19.0f;
 
         [XmlArray("Leds")]
         public List<LedLayout> InternalLeds { get; set; } = new();

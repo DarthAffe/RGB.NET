@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,14 +10,14 @@ namespace RGB.NET.Core
     /// </summary>
     /// <typeparam name="TIdentifier">The type of the key used to identify some data.</typeparam>
     /// <typeparam name="TData">The type of the data.</typeparam>
-    public abstract class UpdateQueue<TIdentifier, TData> : IDisposable
+    public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier, TData>
         where TIdentifier : notnull
     {
         #region Properties & Fields
 
         private readonly object _dataLock = new();
         private readonly IDeviceUpdateTrigger _updateTrigger;
-        private Dictionary<TIdentifier, TData>? _currentDataSet;
+        private readonly Dictionary<TIdentifier, TData> _currentDataSet = new();
 
         #endregion
 
@@ -45,17 +46,25 @@ namespace RGB.NET.Core
         /// <param name="customData"><see cref="CustomUpdateData"/> provided by the trigger.</param>
         protected virtual void OnUpdate(object? sender, CustomUpdateData customData)
         {
-            Dictionary<TIdentifier, TData> dataSet;
+            (TIdentifier, TData)[] dataSet;
+            Span<(TIdentifier, TData)> data;
             lock (_dataLock)
             {
-                if (_currentDataSet == null) return;
+                if (_currentDataSet.Count == 0) return;
 
-                dataSet = _currentDataSet;
-                _currentDataSet = null;
+                dataSet = ArrayPool<(TIdentifier, TData)>.Shared.Rent(_currentDataSet.Count);
+                data = new Span<(TIdentifier, TData)>(dataSet).Slice(0, _currentDataSet.Count);
+
+                int i = 0;
+                foreach ((TIdentifier key, TData value) in _currentDataSet)
+                    data[i++] = (key, value);
+
+                _currentDataSet.Clear();
             }
 
-            if (dataSet.Count != 0)
-                Update(dataSet);
+            Update(data);
+
+            ArrayPool<(TIdentifier, TData)>.Shared.Return(dataSet);
         }
 
         /// <summary>
@@ -69,26 +78,22 @@ namespace RGB.NET.Core
         /// Performs the update this queue is responsible for.
         /// </summary>
         /// <param name="dataSet">The set of data that needs to be updated.</param>
-        protected abstract void Update(Dictionary<TIdentifier, TData> dataSet);
+        protected abstract void Update(in ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
 
         /// <summary>
         /// Sets or merges the provided data set in the current dataset and notifies the trigger that there is new data available.
         /// </summary>
         /// <param name="dataSet">The set of data.</param>
         // ReSharper disable once MemberCanBeProtected.Global
-        public virtual void SetData(Dictionary<TIdentifier, TData> dataSet)
+        public virtual void SetData(IEnumerable<(TIdentifier, TData)> dataSet)
         {
-            if (dataSet.Count == 0) return;
+            IList<(TIdentifier, TData)> data = dataSet.ToList();
+            if (data.Count == 0) return;
 
             lock (_dataLock)
             {
-                if (_currentDataSet == null)
-                    _currentDataSet = dataSet;
-                else
-                {
-                    foreach ((TIdentifier key, TData value) in dataSet)
-                        _currentDataSet[key] = value;
-                }
+                foreach ((TIdentifier key, TData value) in data)
+                    _currentDataSet[key] = value;
             }
 
             _updateTrigger.TriggerHasData();
@@ -100,7 +105,7 @@ namespace RGB.NET.Core
         public virtual void Reset()
         {
             lock (_dataLock)
-                _currentDataSet = null;
+                _currentDataSet.Clear();
         }
 
         /// <inheritdoc />
@@ -118,7 +123,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a generic <see cref="UpdateQueue{TIdentifier,TData}"/> using an object as the key and a color as the value.
     /// </summary>
-    public abstract class UpdateQueue : UpdateQueue<object, Color>
+    public abstract class UpdateQueue : UpdateQueue<object, Color>, IUpdateQueue
     {
         #region Constructors
 
@@ -126,16 +131,6 @@ namespace RGB.NET.Core
         protected UpdateQueue(IDeviceUpdateTrigger updateTrigger)
             : base(updateTrigger)
         { }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Calls <see cref="UpdateQueue{TIdentifier,TData}.SetData"/> for a data set created out of the provided list of <see cref="Led"/>.
-        /// </summary>
-        /// <param name="leds"></param>
-        public void SetData(IEnumerable<Led> leds) => SetData(leds.ToDictionary(x => x.CustomData ?? x.Id, x => x.Color));
 
         #endregion
     }

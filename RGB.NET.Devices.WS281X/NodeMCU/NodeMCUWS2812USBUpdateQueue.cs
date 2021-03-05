@@ -77,10 +77,9 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         }
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            foreach (IGrouping<int, ((int channel, int key), Color Value)> channelData in dataSet.Select(x => (((int channel, int key))x.Key, x.Value))
-                                                                                                 .GroupBy(x => x.Item1.channel))
+            foreach (IGrouping<int, ((int channel, int key), Color color)> channelData in dataSet.ToArray().Select(x => (((int channel, int key))x.key, x.color)).GroupBy(x => x.Item1.channel))
             {
                 byte[] buffer = GetBuffer(channelData);
                 _sendDataAction(buffer);
@@ -98,7 +97,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
             _udpClient?.Send(buffer, buffer.Length);
         }
 
-        private byte[] GetBuffer(IGrouping<int, ((int channel, int key), Color Value)> data)
+        private byte[] GetBuffer(IGrouping<int, ((int channel, int key) identifier, Color color)> data)
         {
             int channel = data.Key;
             byte[] buffer = _dataBuffer[channel];
@@ -106,8 +105,8 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
             buffer[0] = GetSequenceNumber(channel);
             buffer[1] = (byte)channel;
             int i = 2;
-            foreach ((byte _, byte r, byte g, byte b) in data.OrderBy(x => x.Item1.key)
-                                                             .Select(x => x.Value.GetRGBBytes()))
+            foreach ((byte _, byte r, byte g, byte b) in data.OrderBy(x => x.identifier.key)
+                                                             .Select(x => x.color.GetRGBBytes()))
             {
                 buffer[i++] = r;
                 buffer[i++] = g;

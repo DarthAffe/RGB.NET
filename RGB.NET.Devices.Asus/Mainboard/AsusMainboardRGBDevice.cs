@@ -15,16 +15,17 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusMainboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Asus for the mainboard.</param>
-        internal AsusMainboardRGBDevice(AsusRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal AsusMainboardRGBDevice(AsusRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             int ledCount = DeviceInfo.Device.Lights.Count;
             for (int i = 0; i < ledCount; i++)
@@ -33,7 +34,7 @@ namespace RGB.NET.Devices.Asus
 
         /// <inheritdoc />
         protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mainboard1;
-        
+
         #endregion
     }
 }

@@ -34,10 +34,13 @@ namespace RGB.NET.Core
         }
 
         /// <inheritdoc />
-        public abstract TDeviceInfo DeviceInfo { get; }
+        public TDeviceInfo DeviceInfo { get; }
 
         /// <inheritdoc />
         IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
+
+        /// <inheritdoc />
+        public IList<IColorCorrection> ColorCorrections { get; } = new List<IColorCorrection>();
 
         /// <summary>
         /// Gets or sets if the device needs to be flushed on every update.
@@ -48,6 +51,8 @@ namespace RGB.NET.Core
         /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
         /// </summary>
         protected Dictionary<LedId, Led> LedMapping { get; } = new();
+
+        protected IUpdateQueue UpdateQueue { get; }
 
         #region Indexer
 
@@ -65,6 +70,16 @@ namespace RGB.NET.Core
 
         #endregion
 
+        #region Constructors
+
+        protected AbstractRGBDevice(TDeviceInfo deviceOnfo, IUpdateQueue updateQueue)
+        {
+            this.DeviceInfo = deviceOnfo;
+            this.UpdateQueue = updateQueue;
+        }
+
+        #endregion
+
         #region Methods
 
         /// <inheritdoc />
@@ -75,22 +90,51 @@ namespace RGB.NET.Core
 
             // Send LEDs to SDK
             List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds).ToList();
-            foreach (Led ledToUpdate in ledsToUpdate)
-                ledToUpdate.Update();
+
+            foreach (Led led in ledsToUpdate)
+                led.Update();
 
             UpdateLeds(ledsToUpdate);
         }
 
-        protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty));
+        protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).Where(led => led.RequestedColor?.A > 0);
+        protected virtual IEnumerable<(object key, Color color)> GetUpdateData(IEnumerable<Led> leds)
+        {
+            if (ColorCorrections.Count > 0)
+            {
+                foreach (Led led in leds)
+                {
+                    Color color = led.Color;
+                    object key = led.CustomData ?? led.Id;
+
+                    foreach (IColorCorrection colorCorrection in ColorCorrections)
+                        colorCorrection.ApplyTo(ref color);
+
+                    yield return (key, color);
+                }
+            }
+            else
+            {
+                foreach (Led led in leds)
+                {
+                    Color color = led.Color;
+                    object key = led.CustomData ?? led.Id;
+
+                    yield return (key, color);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sends all the updated <see cref="Led"/> to the device.
+        /// </summary>
+        protected virtual void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         /// <inheritdoc />
         public virtual void Dispose()
         {
-            try
-            {
-                LedMapping.Clear();
-            }
-            catch { /* this really shouldn't happen */ }
+            try { UpdateQueue.Dispose(); } catch { /* :( */ }
+            try { LedMapping.Clear(); } catch { /* this really shouldn't happen */ }
         }
 
         /// <summary>
@@ -100,18 +144,13 @@ namespace RGB.NET.Core
         { }
 
         /// <summary>
-        /// Sends all the updated <see cref="Led"/> to the device.
-        /// </summary>
-        protected abstract void UpdateLeds(IEnumerable<Led> ledsToUpdate);
-
-        /// <summary>
         /// Initializes the <see cref="Led"/> with the specified id.
         /// </summary>
         /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
         /// <param name="location">The location of the <see cref="Led"/> to initialize.</param>
         /// <param name="size">The size of the <see cref="Led"/> to initialize.</param>
         /// <returns>The initialized led.</returns>
-        public virtual Led? AddLed(LedId ledId, Point location, Size size, object? customData = null)
+        public virtual Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null)
         {
             if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 

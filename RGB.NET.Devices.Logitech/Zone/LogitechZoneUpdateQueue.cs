@@ -13,12 +13,12 @@ namespace RGB.NET.Devices.Logitech
         #region Constants
 
         private static readonly Dictionary<RGBDeviceType, LogitechDeviceType> DEVICE_TYPE_MAPPING = new()
-                                                                                                    {
-            {RGBDeviceType.Keyboard, LogitechDeviceType.Keyboard},
-            {RGBDeviceType.Mouse, LogitechDeviceType.Mouse},
-            {RGBDeviceType.Headset, LogitechDeviceType.Headset},
-            {RGBDeviceType.Mousepad, LogitechDeviceType.Mousemat},
-            {RGBDeviceType.Speaker, LogitechDeviceType.Speaker}
+        {
+            { RGBDeviceType.Keyboard, LogitechDeviceType.Keyboard },
+            { RGBDeviceType.Mouse, LogitechDeviceType.Mouse },
+            { RGBDeviceType.Headset, LogitechDeviceType.Headset },
+            { RGBDeviceType.Mousepad, LogitechDeviceType.Mousemat },
+            { RGBDeviceType.Speaker, LogitechDeviceType.Speaker }
         };
 
         #endregion
@@ -48,17 +48,17 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
             _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.All);
 
-            foreach (KeyValuePair<object, Color> data in dataSet)
+            foreach ((object key, Color color) in dataSet)
             {
-                int zone = (int)data.Key;
+                int zone = (int)key;
                 _LogitechGSDK.LogiLedSetLightingForTargetZone(_deviceType, zone,
-                                                              (int)Math.Round(data.Value.R * 100),
-                                                              (int)Math.Round(data.Value.G * 100),
-                                                              (int)Math.Round(data.Value.B * 100));
+                                                              (int)MathF.Round(color.R * 100),
+                                                              (int)MathF.Round(color.G * 100),
+                                                              (int)MathF.Round(color.B * 100));
             }
         }
 

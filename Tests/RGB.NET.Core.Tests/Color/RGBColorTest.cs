@@ -30,19 +30,19 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void BlendUpTest()
         {
-            Core.Color baseColor = new(0.0, 0.0, 0.0);
-            Core.Color blendColor = new(0.5, 1.0, 1.0, 1.0);
+            Core.Color baseColor = new(0.0f, 0.0f, 0.0f);
+            Core.Color blendColor = new(0.5f, 1.0f, 1.0f, 1.0f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.5), baseColor.Blend(blendColor));
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.5f), baseColor.Blend(blendColor));
         }
 
         [TestMethod]
         public void BlendDownTest()
         {
-            Core.Color baseColor = new(1.0, 1.0, 1.0);
-            Core.Color blendColor = new(0.5, 0.0, 0.0, 0.0);
+            Core.Color baseColor = new(1.0f, 1.0f, 1.0f);
+            Core.Color blendColor = new(0.5f, 0.0f, 0.0f, 0.0f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.5), baseColor.Blend(blendColor));
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.5f), baseColor.Blend(blendColor));
         }
 
         #endregion
@@ -61,10 +61,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void AddRGBPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.AddRGB(0.2, 0.3, 0.4);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.AddRGB(0.2f, 0.3f, 0.4f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.7, 0.8, 0.9), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.7f, 0.8f, 0.9f), result);
         }
 
         [TestMethod]
@@ -79,10 +79,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void AddAPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.AddA(0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.AddA(0.1f);
 
-            Assert.AreEqual(new Core.Color(0.6, 0.5, 0.5, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.6f, 0.5f, 0.5f, 0.5f), result);
         }
 
         [TestMethod]
@@ -97,10 +97,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void AddRPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.AddRGB(r: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.AddRGB(r: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.6, 0.5, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.6f, 0.5f, 0.5f), result);
         }
 
         [TestMethod]
@@ -115,10 +115,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void AddGPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.AddRGB(g: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.AddRGB(g: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.6, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.6f, 0.5f), result);
         }
 
         [TestMethod]
@@ -133,10 +133,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void AddBPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.AddRGB(b: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.AddRGB(b: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.5, 0.6), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.5f, 0.6f), result);
         }
 
         #endregion
@@ -155,10 +155,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SubtractRGBPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SubtractRGB(0.2, 0.3, 0.4);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SubtractRGB(0.2f, 0.3f, 0.4f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.3, 0.2, 0.1), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.3f, 0.2f, 0.1f), result);
         }
 
         [TestMethod]
@@ -173,10 +173,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SubtractAPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SubtractA(0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SubtractA(0.1f);
 
-            Assert.AreEqual(new Core.Color(0.4, 0.5, 0.5, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.4f, 0.5f, 0.5f, 0.5f), result);
         }
 
         [TestMethod]
@@ -191,10 +191,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SubtractRPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SubtractRGB(r: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SubtractRGB(r: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.4, 0.5, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.4f, 0.5f, 0.5f), result);
         }
 
         [TestMethod]
@@ -209,10 +209,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SubtractGPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SubtractRGB(g: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SubtractRGB(g: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.4, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.4f, 0.5f), result);
         }
 
         [TestMethod]
@@ -227,10 +227,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SubtractBPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SubtractRGB(b: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SubtractRGB(b: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.5, 0.4), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.5f, 0.4f), result);
         }
 
         #endregion
@@ -240,46 +240,46 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void MultiplyRGBPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.2, 0.2, 0.2);
+            Core.Color baseColor = new(0.2f, 0.2f, 0.2f, 0.2f);
             Core.Color result = baseColor.MultiplyRGB(3, 4, 5);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.6, 0.8, 1.0), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.6f, 0.8f, 1.0f), result);
         }
 
         [TestMethod]
         public void MultiplyAPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.2, 0.2, 0.2);
+            Core.Color baseColor = new(0.2f, 0.2f, 0.2f, 0.2f);
             Core.Color result = baseColor.MultiplyA(3);
 
-            Assert.AreEqual(new Core.Color(0.6, 0.2, 0.2, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.6f, 0.2f, 0.2f, 0.2f), result);
         }
 
         [TestMethod]
         public void MultiplyRPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.2, 0.2, 0.2);
+            Core.Color baseColor = new(0.2f, 0.2f, 0.2f, 0.2f);
             Core.Color result = baseColor.MultiplyRGB(r: 3);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.6, 0.2, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.6f, 0.2f, 0.2f), result);
         }
 
         [TestMethod]
         public void MultiplyGPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.2, 0.2, 0.2);
+            Core.Color baseColor = new(0.2f, 0.2f, 0.2f, 0.2f);
             Core.Color result = baseColor.MultiplyRGB(g: 3);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.2, 0.6, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.2f, 0.6f, 0.2f), result);
         }
 
         [TestMethod]
         public void MultiplyBPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.2, 0.2, 0.2);
+            Core.Color baseColor = new(0.2f, 0.2f, 0.2f, 0.2f);
             Core.Color result = baseColor.MultiplyRGB(b: 3);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.2, 0.2, 0.6), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.2f, 0.2f, 0.6f), result);
         }
 
         #endregion
@@ -289,46 +289,46 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void DivideRGBPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.6, 0.8, 1.0);
+            Core.Color baseColor = new(0.2f, 0.6f, 0.8f, 1.0f);
             Core.Color result = baseColor.DivideRGB(3, 4, 5);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.2, 0.2, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.2f, 0.2f, 0.2f), result);
         }
 
         [TestMethod]
         public void DivideAPercentTest()
         {
-            Core.Color baseColor = new(0.6, 0.2, 0.2, 0.2);
+            Core.Color baseColor = new(0.6f, 0.2f, 0.2f, 0.2f);
             Core.Color result = baseColor.DivideA(3);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.2, 0.2, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.2f, 0.2f, 0.2f), result);
         }
 
         [TestMethod]
         public void DivideRPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.6, 0.2, 0.2);
+            Core.Color baseColor = new(0.2f, 0.6f, 0.2f, 0.2f);
             Core.Color result = baseColor.DivideRGB(r: 3);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.2, 0.2, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.2f, 0.2f, 0.2f), result);
         }
 
         [TestMethod]
         public void DivideGPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.2, 0.6, 0.2);
+            Core.Color baseColor = new(0.2f, 0.2f, 0.6f, 0.2f);
             Core.Color result = baseColor.DivideRGB(g: 3);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.2, 0.2, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.2f, 0.2f, 0.2f), result);
         }
 
         [TestMethod]
         public void DivideBPercentTest()
         {
-            Core.Color baseColor = new(0.2, 0.2, 0.2, 0.6);
+            Core.Color baseColor = new(0.2f, 0.2f, 0.2f, 0.6f);
             Core.Color result = baseColor.DivideRGB(b: 3);
 
-            Assert.AreEqual(new Core.Color(0.2, 0.2, 0.2, 0.2), result);
+            Assert.AreEqual(new Core.Color(0.2f, 0.2f, 0.2f, 0.2f), result);
         }
 
         #endregion
@@ -347,10 +347,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SetRGBPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SetRGB(0.2, 0.3, 0.4);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SetRGB(0.2f, 0.3f, 0.4f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.2, 0.3, 0.4), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.2f, 0.3f, 0.4f), result);
         }
 
         [TestMethod]
@@ -365,10 +365,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SetAPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SetA(0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SetA(0.1f);
 
-            Assert.AreEqual(new Core.Color(0.1, 0.5, 0.5, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.1f, 0.5f, 0.5f, 0.5f), result);
         }
 
         [TestMethod]
@@ -383,10 +383,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SetRPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SetRGB(r: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SetRGB(r: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.1, 0.5, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.1f, 0.5f, 0.5f), result);
         }
 
         [TestMethod]
@@ -401,10 +401,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SetGPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SetRGB(g: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SetRGB(g: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.1, 0.5), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.1f, 0.5f), result);
         }
 
         [TestMethod]
@@ -419,10 +419,10 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void SetBPercentTest()
         {
-            Core.Color baseColor = new(0.5, 0.5, 0.5, 0.5);
-            Core.Color result = baseColor.SetRGB(b: 0.1);
+            Core.Color baseColor = new(0.5f, 0.5f, 0.5f, 0.5f);
+            Core.Color result = baseColor.SetRGB(b: 0.1f);
 
-            Assert.AreEqual(new Core.Color(0.5, 0.5, 0.5, 0.1), result);
+            Assert.AreEqual(new Core.Color(0.5f, 0.5f, 0.5f, 0.1f), result);
         }
 
         #endregion

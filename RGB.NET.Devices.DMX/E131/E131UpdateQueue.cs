@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using RGB.NET.Core;
 
@@ -52,15 +51,15 @@ namespace RGB.NET.Devices.DMX.E131
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
             DataPacket.SetSequenceNumber(GetNextSequenceNumber());
 
-            foreach (KeyValuePair<object, Color> data in dataSet)
+            foreach ((object key, Color color) in dataSet)
             {
-                LedChannelMapping mapping = (LedChannelMapping)data.Key;
+                LedChannelMapping mapping = (LedChannelMapping)key;
                 foreach ((int channel, Func<Color, byte> getValue) in mapping)
-                    DataPacket.SetChannel(channel, getValue(data.Value));
+                    DataPacket.SetChannel(channel, getValue(color));
             }
 
             _socket.Send(DataPacket, DataPacket.Length);

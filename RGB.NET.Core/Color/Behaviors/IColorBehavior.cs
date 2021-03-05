@@ -2,12 +2,12 @@
 {
     public interface IColorBehavior
     {
-        string ToString(Color color);
+        string ToString(in Color color);
 
-        bool Equals(Color color, object? obj);
+        bool Equals(in Color color, object? obj);
 
-        int GetHashCode(Color color);
+        int GetHashCode(in Color color);
 
-        Color Blend(Color baseColor, Color blendColor);
+        Color Blend(in Color baseColor, in Color blendColor);
     }
 }

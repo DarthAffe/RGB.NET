@@ -83,25 +83,25 @@ namespace RGB.NET.Layout
         /// Gets the x-position of the <see cref="LedLayout"/>.
         /// </summary>
         [XmlIgnore]
-        public double X { get; private set; }
+        public float X { get; private set; }
 
         /// <summary>
         /// Gets the y-position of the <see cref="LedLayout"/>.
         /// </summary>
         [XmlIgnore]
-        public double Y { get; private set; }
+        public float Y { get; private set; }
 
         /// <summary>
         /// Gets the width of the <see cref="LedLayout"/>.
         /// </summary>
         [XmlIgnore]
-        public double Width { get; private set; }
+        public float Width { get; private set; }
 
         /// <summary>
         /// Gets the height of the <see cref="LedLayout"/>.
         /// </summary>
         [XmlIgnore]
-        public double Height { get; private set; }
+        public float Height { get; private set; }
 
         #endregion
 
@@ -128,7 +128,7 @@ namespace RGB.NET.Layout
             Y = GetLocationValue(DescriptiveY, lastLed?.Y ?? 0, Height, lastLed?.Height ?? 0);
         }
 
-        protected virtual double GetLocationValue(string value, double lastValue, double currentSize, double lastSize)
+        protected virtual float GetLocationValue(string value, float lastValue, float currentSize, float lastSize)
         {
             try
             {
@@ -143,21 +143,21 @@ namespace RGB.NET.Layout
                     return lastValue + lastSize;
 
                 if (value.StartsWith("+", StringComparison.Ordinal))
-                    return lastValue + lastSize + double.Parse(value[1..], CultureInfo.InvariantCulture);
+                    return lastValue + lastSize + float.Parse(value[1..], CultureInfo.InvariantCulture);
 
                 if (string.Equals(value, "-", StringComparison.Ordinal))
                     return lastValue - currentSize;
 
                 if (value.StartsWith("-", StringComparison.Ordinal))
-                    return lastValue - currentSize - double.Parse(value[1..], CultureInfo.InvariantCulture);
+                    return lastValue - currentSize - float.Parse(value[1..], CultureInfo.InvariantCulture);
 
                 if (string.Equals(value, "~", StringComparison.Ordinal))
                     return (lastValue + lastSize) - currentSize;
 
                 if (value.StartsWith("~", StringComparison.Ordinal))
-                    return (lastValue + lastSize) - currentSize - double.Parse(value[1..], CultureInfo.InvariantCulture);
+                    return (lastValue + lastSize) - currentSize - float.Parse(value[1..], CultureInfo.InvariantCulture);
 
-                return double.Parse(value, CultureInfo.InvariantCulture);
+                return float.Parse(value, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -165,7 +165,7 @@ namespace RGB.NET.Layout
             }
         }
 
-        protected virtual double GetSizeValue(string value, double unitSize)
+        protected virtual float GetSizeValue(string value, float unitSize)
         {
             try
             {
@@ -174,9 +174,9 @@ namespace RGB.NET.Layout
                 value = value.Replace(" ", string.Empty);
 
                 if (value.EndsWith("mm", StringComparison.OrdinalIgnoreCase))
-                    return double.Parse(value[..^2], CultureInfo.InvariantCulture);
+                    return float.Parse(value[..^2], CultureInfo.InvariantCulture);
 
-                return unitSize * double.Parse(value, CultureInfo.InvariantCulture);
+                return unitSize * float.Parse(value, CultureInfo.InvariantCulture);
             }
             catch
             {

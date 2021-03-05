@@ -67,15 +67,14 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
+            //TODO DarthAffe 04.03.2021: one queue per device
             ArduinoWS2812USBUpdateQueue queue = new(updateTrigger, SerialConnection);
             IEnumerable<(int channel, int ledCount)> channels = queue.GetChannels();
             int counter = 0;
             foreach ((int channel, int ledCount) in channels)
             {
                 string name = string.Format(Name ?? $"Arduino WS2812 USB ({Port}) [{{0}}]", ++counter);
-                ArduinoWS2812USBDevice device = new(new ArduinoWS2812USBDeviceInfo(name), queue, channel);
-                device.Initialize(ledCount);
-                yield return device;
+                yield return new ArduinoWS2812USBDevice(new ArduinoWS2812USBDeviceInfo(name), queue, channel, ledCount);
             }
         }
 

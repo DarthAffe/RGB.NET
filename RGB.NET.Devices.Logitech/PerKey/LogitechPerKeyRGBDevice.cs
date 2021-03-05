@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
@@ -17,8 +16,8 @@ namespace RGB.NET.Devices.Logitech
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by logitech for the per-key-lightable device</param>
-        internal LogitechPerKeyRGBDevice(LogitechRGBDeviceInfo info)
-            : base(info)
+        internal LogitechPerKeyRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue)
+            : base(info, updateQueue)
         { }
 
         #endregion
@@ -29,7 +28,7 @@ namespace RGB.NET.Devices.Logitech
         protected override object GetLedCustomData(LedId ledId) => (ledId, PerKeyIdMapping.DEFAULT.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : LogitechLedId.Invalid);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         #endregion
     }

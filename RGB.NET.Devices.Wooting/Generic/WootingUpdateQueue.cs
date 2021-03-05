@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Native;
 
@@ -26,17 +26,17 @@ namespace RGB.NET.Devices.Wooting.Generic
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            foreach (KeyValuePair<object, Color> data in dataSet)
+            foreach ((object key, Color color) in dataSet)
             {
-                (int row, int column) = ((int, int))data.Key;
-                _WootingSDK.ArraySetSingle((byte)row, (byte)column, data.Value.GetR(), data.Value.GetG(), data.Value.GetB());
+                (int row, int column) = ((int, int))key;
+                _WootingSDK.ArraySetSingle((byte)row, (byte)column, color.GetR(), color.GetG(), color.GetB());
             }
 
             _WootingSDK.ArrayUpdateKeyboard();
         }
-        
+
         #endregion
     }
 }

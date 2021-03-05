@@ -17,26 +17,25 @@ namespace RGB.NET.Devices.Logitech
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by logitech for the per-device-lightable device</param>
-        internal LogitechPerDeviceRGBDevice(LogitechRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal LogitechPerDeviceRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue)
+            : base(info, updateQueue)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        public override void Initialize(UpdateQueue updateQueue)
+        private void InitializeLayout()
         {
-            base.Initialize(updateQueue);
-
             AddLed(LedId.Custom1, new Point(0, 0), new Size(10, 10));
         }
         /// <inheritdoc />
         protected override object GetLedCustomData(LedId ledId) => (ledId, LogitechLedId.DEVICE);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0).Take(1));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate.Take(1)));
 
         #endregion
     }

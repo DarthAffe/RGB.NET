@@ -35,7 +35,7 @@ namespace RGB.NET.Core
         /// Gets a bool indicating if both, the width and the height of the rectangle is greater than zero.
         /// <c>True</c> if the rectangle has a width or a height of zero; otherwise, <c>false</c>.
         /// </summary>
-        public bool IsEmpty => (Size.Width <= DoubleExtensions.TOLERANCE) || (Size.Height <= DoubleExtensions.TOLERANCE);
+        public bool IsEmpty => (Size.Width <= FloatExtensions.TOLERANCE) || (Size.Height <= FloatExtensions.TOLERANCE);
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace RGB.NET.Core
         /// <param name="y">The y-value of the <see cref="T:RGB.NET.Core.Location" />-position of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
         /// <param name="width">The width of the <see cref="T:RGB.NET.Core.Size"/> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
         /// <param name="height">The height of the <see cref="T:RGB.NET.Core.Size"/> of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
-        public Rectangle(double x, double y, double width, double height)
+        public Rectangle(float x, float y, float width, float height)
             : this(new Point(x, y), new Size(width, height))
         { }
 
@@ -70,7 +70,7 @@ namespace RGB.NET.Core
             this.Location = location;
             this.Size = size;
 
-            Center = new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
+            Center = new Point(Location.X + (Size.Width / 2.0f), Location.Y + (Size.Height / 2.0f));
         }
 
         /// <inheritdoc />
@@ -91,10 +91,10 @@ namespace RGB.NET.Core
         public Rectangle(IEnumerable<Rectangle> rectangles)
         {
             bool hasPoint = false;
-            double posX = double.MaxValue;
-            double posY = double.MaxValue;
-            double posX2 = double.MinValue;
-            double posY2 = double.MinValue;
+            float posX = float.MaxValue;
+            float posY = float.MaxValue;
+            float posX2 = float.MinValue;
+            float posY2 = float.MinValue;
 
             foreach (Rectangle rectangle in rectangles)
             {
@@ -108,7 +108,7 @@ namespace RGB.NET.Core
             (Point location, Size size) = hasPoint ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2)) : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
             Location = location;
             Size = size;
-            Center = new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
+            Center = new Point(Location.X + (Size.Width / 2.0f), Location.Y + (Size.Height / 2.0f));
         }
 
         /// <inheritdoc />
@@ -131,10 +131,10 @@ namespace RGB.NET.Core
             : this()
         {
             bool hasPoint = false;
-            double posX = double.MaxValue;
-            double posY = double.MaxValue;
-            double posX2 = double.MinValue;
-            double posY2 = double.MinValue;
+            float posX = float.MaxValue;
+            float posY = float.MaxValue;
+            float posX2 = float.MinValue;
+            float posY2 = float.MinValue;
 
             foreach (Point point in points)
             {
@@ -149,19 +149,19 @@ namespace RGB.NET.Core
 
             Location = location;
             Size = size;
-            Center = new Point(Location.X + (Size.Width / 2.0), Location.Y + (Size.Height / 2.0));
+            Center = new Point(Location.X + (Size.Width / 2.0f), Location.Y + (Size.Height / 2.0f));
         }
 
         #endregion
 
         #region Methods
 
-        private static (Point location, Size size) InitializeFromPoints(Point point1, Point point2)
+        private static (Point location, Size size) InitializeFromPoints(in Point point1, in Point point2)
         {
-            double posX = Math.Min(point1.X, point2.X);
-            double posY = Math.Min(point1.Y, point2.Y);
-            double width = Math.Max(point1.X, point2.X) - posX;
-            double height = Math.Max(point1.Y, point2.Y) - posY;
+            float posX = Math.Min(point1.X, point2.X);
+            float posY = Math.Min(point1.Y, point2.Y);
+            float width = Math.Max(point1.X, point2.X) - posX;
+            float height = Math.Max(point1.Y, point2.Y) - posY;
 
             return (new Point(posX, posY), new Size(width, height));
         }
@@ -179,7 +179,7 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rectangle" /> equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
         public override bool Equals(object? obj)
         {
-            if (!(obj is Rectangle compareRect))
+            if (obj is not Rectangle compareRect)
                 return false;
 
             if (GetType() != compareRect.GetType())
@@ -212,7 +212,7 @@ namespace RGB.NET.Core
         /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
         /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2) => rectangle1.Equals(rectangle2);
+        public static bool operator ==(in Rectangle rectangle1, in Rectangle rectangle2) => rectangle1.Equals(rectangle2);
 
         /// <summary>
         /// Returns a value that indicates whether two specified <see cref="Rectangle" /> are equal.
@@ -220,7 +220,16 @@ namespace RGB.NET.Core
         /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
         /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
         /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are not equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(Rectangle rectangle1, Rectangle rectangle2) => !(rectangle1 == rectangle2);
+        public static bool operator !=(in Rectangle rectangle1, in Rectangle rectangle2) => !(rectangle1 == rectangle2);
+
+        // DarthAffe 20.02.2021: Used for normalization
+        public static Rectangle operator /(in Rectangle rectangle1, in Rectangle rectangle2)
+        {
+            float x = rectangle1.Location.X / (rectangle2.Size.Width - rectangle2.Location.X);
+            float y = rectangle1.Location.Y / (rectangle2.Size.Height - rectangle2.Location.Y);
+            Size size = rectangle1.Size / rectangle2.Size;
+            return new Rectangle(new Point(x, y), size);
+        }
 
         #endregion
     }

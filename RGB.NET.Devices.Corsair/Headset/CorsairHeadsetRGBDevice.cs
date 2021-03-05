@@ -18,16 +18,17 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairHeadsetRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the headset</param>
-        internal CorsairHeadsetRGBDevice(CorsairHeadsetRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal CorsairHeadsetRGBDevice(CorsairHeadsetRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+            : base(info, updateQueue)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             AddLed(LedId.Headset1, new Point(0, 0), new Size(10, 10));
             AddLed(LedId.Headset2, new Point(10, 0), new Size(10, 10));

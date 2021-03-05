@@ -56,7 +56,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Starts the trigger if needed, causing it to performing updates.
         /// </summary>
-        public void Start()
+        public override void Start()
         {
             lock (_lock)
             {

@@ -19,16 +19,17 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the mouse</param>
-        internal CorsairMouseRGBDevice(CorsairMouseRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal CorsairMouseRGBDevice(CorsairMouseRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+            : base(info, updateQueue)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             switch (DeviceInfo.PhysicalLayout)
             {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
 
@@ -32,7 +31,7 @@ namespace RGB.NET.Devices.Razer
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
             IntPtr effectParams = CreateEffectParams(dataSet);
             Guid effectId = Guid.NewGuid();
@@ -68,7 +67,7 @@ namespace RGB.NET.Devices.Razer
         /// </summary>
         /// <param name="dataSet">The data to be updated.</param>
         /// <returns>An <see cref="IntPtr"/> pointing to the effect parameter struct.</returns>
-        protected abstract IntPtr CreateEffectParams(Dictionary<object, Color> dataSet);
+        protected abstract IntPtr CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet);
 
         #endregion
     }

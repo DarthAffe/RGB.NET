@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech
@@ -36,21 +35,20 @@ namespace RGB.NET.Devices.Logitech
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechZoneRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by logitech for the zone-lightable device</param>
-        internal LogitechZoneRGBDevice(LogitechRGBDeviceInfo info)
-            : base(info)
+        internal LogitechZoneRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue)
+            : base(info, updateQueue)
         {
             _baseLedId = BASE_LED_MAPPING.TryGetValue(info.DeviceType, out LedId id) ? id : LedId.Custom1;
+
+            InitializeLayout();
         }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        public override void Initialize(UpdateQueue updateQueue)
+        private void InitializeLayout()
         {
-            base.Initialize(updateQueue);
-
             for (int i = 0; i < DeviceInfo.Zones; i++)
                 AddLed(_baseLedId + i, new Point(i * 10, 0), new Size(10, 10));
         }
@@ -59,7 +57,7 @@ namespace RGB.NET.Devices.Logitech
         protected override object? GetLedCustomData(LedId ledId) => (int)(ledId - _baseLedId);
 
         /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue?.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
+        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
         #endregion
     }

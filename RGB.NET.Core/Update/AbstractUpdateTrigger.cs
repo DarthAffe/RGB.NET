@@ -31,6 +31,9 @@ namespace RGB.NET.Core
         protected virtual void OnUpdate(CustomUpdateData? updateData = null) => Update?.Invoke(this, updateData ?? new CustomUpdateData());
 
         /// <inheritdoc />
+        public abstract void Start();
+
+        /// <inheritdoc />
         public abstract void Dispose();
 
         #endregion

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
@@ -36,26 +35,26 @@ namespace RGB.NET.Devices.Corsair
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
             int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
-            IntPtr ptr = Marshal.AllocHGlobal(structSize * dataSet.Count);
+            IntPtr ptr = Marshal.AllocHGlobal(structSize * dataSet.Length);
             IntPtr addPtr = new(ptr.ToInt64());
-            foreach (KeyValuePair<object, Color> data in dataSet)
+            foreach ((object key, Color color) in dataSet)
             {
-                _CorsairLedColor color = new()
-                                         {
-                    ledId = (int)data.Key,
-                    r = data.Value.GetR(),
-                    g = data.Value.GetG(),
-                    b = data.Value.GetB()
+                _CorsairLedColor corsairColor = new()
+                {
+                    ledId = (int)key,
+                    r = color.GetR(),
+                    g = color.GetG(),
+                    b = color.GetB()
                 };
 
-                Marshal.StructureToPtr(color, addPtr, false);
+                Marshal.StructureToPtr(corsairColor, addPtr, false);
                 addPtr = new IntPtr(addPtr.ToInt64() + structSize);
             }
 
-            _CUESDK.CorsairSetLedsColorsBufferByDeviceIndex(_deviceIndex, dataSet.Count, ptr);
+            _CUESDK.CorsairSetLedsColorsBufferByDeviceIndex(_deviceIndex, dataSet.Length, ptr);
             _CUESDK.CorsairSetLedsColorsFlushBuffer();
             Marshal.FreeHGlobal(ptr);
         }

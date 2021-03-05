@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using RGB.NET.Core;
 using Sanford.Multimedia.Midi;
@@ -14,7 +13,7 @@ namespace RGB.NET.Devices.Novation
     /// <summary>
     /// Represents a device provider responsible for Novation  devices.
     /// </summary>
-    public class NovationDeviceProvider : IRGBDeviceProvider
+    public class NovationDeviceProvider : AbstractRGBDeviceProvider
     {
         #region Properties & Fields
 
@@ -23,20 +22,6 @@ namespace RGB.NET.Devices.Novation
         /// Gets the singleton <see cref="NovationDeviceProvider"/> instance.
         /// </summary>
         public static NovationDeviceProvider Instance => _instance ?? new NovationDeviceProvider();
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Indicates if the SDK is initialized and ready to use.
-        /// </summary>
-        public bool IsInitialized { get; private set; }
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; } = Enumerable.Empty<IRGBDevice>();
-
-        /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for novation devices. 
-        /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; }
 
         #endregion
 
@@ -50,73 +35,32 @@ namespace RGB.NET.Devices.Novation
         {
             if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(NovationDeviceProvider)}");
             _instance = this;
-
-            UpdateTrigger = new DeviceUpdateTrigger();
         }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
+        protected override void InitializeSDK() { }
+
+        protected override IEnumerable<IRGBDevice> LoadDevices()
         {
-            IsInitialized = false;
-
-            try
+            for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
             {
-                UpdateTrigger.Stop();
+                MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
+                if (outCaps.name == null) continue;
 
-                IList<IRGBDevice> devices = new List<IRGBDevice>();
+                NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
+                                                                  .Cast<Enum>()
+                                                                  .FirstOrDefault(x => x.GetDeviceId()?.ToUpperInvariant().Contains(outCaps.name.ToUpperInvariant()) ?? false);
 
-                if (loadFilter.HasFlag(RGBDeviceType.LedMatrix))
-                    for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)
-                    {
-                        try
-                        {
-                            MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
-                            if (outCaps.name == null) continue;
+                if (deviceId == null) continue;
 
-                            NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
-                                                                              .Cast<Enum>()
-                                                                              .FirstOrDefault(x => x.GetDeviceId()?.ToUpperInvariant().Contains(outCaps.name.ToUpperInvariant()) ?? false);
+                NovationColorCapabilities colorCapability = deviceId.GetColorCapability();
+                if (colorCapability == NovationColorCapabilities.None) continue;
 
-                            if (deviceId == null) continue;
-
-                            NovationColorCapabilities colorCapability = deviceId.GetColorCapability();
-                            if (colorCapability == NovationColorCapabilities.None) continue;
-
-                            INovationRGBDevice device = new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, colorCapability, deviceId.GetLedIdMapping()));
-                            device.Initialize(UpdateTrigger);
-                            devices.Add(device);
-                        }
-                        catch { if (throwExceptions) throw; }
-                    }
-
-                UpdateTrigger.Start();
-                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-                IsInitialized = true;
+                yield return new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, colorCapability, deviceId.GetLedIdMapping()), GetUpdateTrigger());
             }
-            catch
-            {
-                if (throwExceptions)
-                    throw;
-                return false;
-            }
-
-            return true;
-        }
-        
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            try { UpdateTrigger.Dispose(); }
-            catch { /* at least we tried */ }
-
-            foreach (IRGBDevice device in Devices)
-                try { device.Dispose(); }
-                catch { /* at least we tried */ }
-            Devices = Enumerable.Empty<IRGBDevice>();
         }
 
         #endregion

@@ -50,9 +50,9 @@ namespace RGB.NET.Devices.WS281X.Arduino
         }
 
         /// <inheritdoc />
-        protected override IEnumerable<byte[]> GetCommands(Dictionary<object, Color> dataSet)
+        protected override IEnumerable<byte[]> GetCommands(IList<(object key, Color color)> dataSet)
         {
-            foreach (IGrouping<int, ((int channel, int key), Color Value)> channelData in dataSet.Select(x => (((int channel, int key))x.Key, x.Value))
+            foreach (IGrouping<int, ((int channel, int key), Color Value)> channelData in dataSet.Select(x => (((int channel, int key))x.key, x.color))
                                                                                                  .GroupBy(x => x.Item1.channel))
             {
                 int channel = channelData.Key;

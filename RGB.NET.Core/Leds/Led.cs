@@ -151,18 +151,6 @@ namespace RGB.NET.Core
             OnPropertyChanged(nameof(Color));
         }
 
-        /// <summary>
-        /// Resets the <see cref="Led"/> back to default.
-        /// </summary>
-        internal void Reset()
-        {
-            _color = Color.Transparent;
-            RequestedColor = null;
-
-            // ReSharper disable once ExplicitCallerInfoArgument
-            OnPropertyChanged(nameof(Color));
-        }
-
         #endregion
 
         #region Operators

@@ -25,16 +25,17 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairCustomRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the custom-device.</param>
-        internal CorsairCustomRGBDevice(CorsairCustomRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal CorsairCustomRGBDevice(CorsairCustomRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+            : base(info, updateQueue)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             LedId referenceId = GetReferenceLed(DeviceInfo.DeviceType);
 
@@ -45,7 +46,7 @@ namespace RGB.NET.Devices.Corsair
                 AddLed(ledId, new Point(i * 10, 0), new Size(10, 10));
             }
         }
-        
+
         protected override object GetLedCustomData(LedId ledId) => _idMapping.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
 
         protected virtual LedId GetReferenceLed(RGBDeviceType deviceType)

@@ -24,16 +24,17 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Asus for the keyboard.</param>
-        internal AsusKeyboardRGBDevice(AsusKeyboardRGBDeviceInfo info)
-            : base(info)
-        { }
+        internal AsusKeyboardRGBDevice(AsusKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+            : base(info, updateTrigger)
+        {
+            InitializeLayout();
+        }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        private void InitializeLayout()
         {
             Dictionary<AsusLedId, LedId> reversedMapping = AsusKeyboardLedMapping.MAPPING.ToDictionary(x => x.Value, x => x.Key);
 

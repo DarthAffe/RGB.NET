@@ -36,15 +36,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// </summary>
         public string? Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the pin sed to control the leds.
-        /// </summary>
-        public int Pin { get; set; } = 0;
-
-        /// <summary>
-        /// Gets or sets the amount of leds of this device.
-        /// </summary>
-        public int StripLength { get; set; } = 384;
+        public List<(int pin, int stripLength)> Strips { get; } = new();
 
         /// <summary>
         /// Gets or sets the amount of leds controlled by one pin.
@@ -60,9 +52,11 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// Initializes a new instance of the <see cref="BitwizardWS281XDeviceDefinition"/> class.
         /// </summary>
         /// <param name="serialConnection">The serial connection used for the device.</param>
-        public BitwizardWS281XDeviceDefinition(ISerialConnection serialConnection)
+        public BitwizardWS281XDeviceDefinition(ISerialConnection serialConnection, params (int pin, int stripLength)[] strips)
         {
             this.SerialConnection = serialConnection;
+
+            Strips.AddRange(strips);
         }
 
         /// <summary>
@@ -70,9 +64,11 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// </summary>
         /// <param name="port">The name of the serial-port to connect to.</param>
         /// <param name="baudRate">The baud-rate of the serial-connection.</param>
-        public BitwizardWS281XDeviceDefinition(string port, int baudRate = 115200)
+        public BitwizardWS281XDeviceDefinition(string port, int baudRate = 115200, params (int pin, int stripLength)[] strips)
         {
             SerialConnection = new SerialPortConnection(port, baudRate);
+
+            Strips.AddRange(strips);
         }
 
         #endregion
@@ -82,12 +78,13 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <inheritdoc />
         public IEnumerable<IRGBDevice> CreateDevices(IDeviceUpdateTrigger updateTrigger)
         {
-            BitwizardWS2812USBUpdateQueue queue = new(updateTrigger, SerialConnection);
-            string name = Name ?? $"Bitwizard WS2812 USB ({Port})";
-            int ledOffset = Pin * MaxStripLength;
-            BitwizardWS2812USBDevice device = new(new BitwizardWS2812USBDeviceInfo(name), queue, ledOffset);
-            device.Initialize(StripLength);
-            yield return device;
+            foreach ((int pin, int stripLength) in Strips)
+            {
+                BitwizardWS2812USBUpdateQueue queue = new(updateTrigger, SerialConnection);
+                string name = Name ?? $"Bitwizard WS2812 USB ({Port}) Pin {pin}";
+                int ledOffset = pin * MaxStripLength;
+                yield return new BitwizardWS2812USBDevice(new BitwizardWS2812USBDeviceInfo(name), queue, ledOffset, stripLength);
+            }
         }
 
         #endregion

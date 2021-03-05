@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using RGB.NET.Core;
 using Sanford.Multimedia.Midi;
 
@@ -26,10 +25,10 @@ namespace RGB.NET.Devices.Novation
         #region Methods
 
         /// <inheritdoc />
-        protected override ShortMessage CreateMessage(KeyValuePair<object, Color> data)
+        protected override ShortMessage CreateMessage(object key, in Color color)
         {
-            (byte mode, byte id) = ((byte, byte))data.Key;
-            return new ShortMessage(mode, id, Convert.ToByte(ConvertColor(data.Value)));
+            (byte mode, byte id) = ((byte, byte))key;
+            return new ShortMessage(mode, id, Convert.ToByte(ConvertColor(color)));
         }
 
         /// <summary>
@@ -38,9 +37,9 @@ namespace RGB.NET.Devices.Novation
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to convert.</param>
         /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
-        protected virtual int ConvertColor(Color color)
+        protected virtual int ConvertColor(in Color color)
         {
-            (double hue, double saturation, double value) = color.GetHSV();
+            (double hue, double _, double value) = color.GetHSV();
 
             if ((hue >= 330) || (hue < 30))
                 return (int)Math.Ceiling(value * 3); // red with brightness 1, 2 or 3

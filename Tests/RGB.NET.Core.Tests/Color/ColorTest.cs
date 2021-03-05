@@ -221,36 +221,36 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void RGBPercentConstructorTest()
         {
-            Core.Color color = new(0.25341, 0.55367, 1);
+            Core.Color color = new(0.25341f, 0.55367f, 1);
 
-            Assert.AreEqual(1, color.A, DoubleExtensions.TOLERANCE, "A is not 1");
-            Assert.AreEqual(0.25341, color.R, DoubleExtensions.TOLERANCE, "R is not 0.25341");
-            Assert.AreEqual(0.55367, color.G, DoubleExtensions.TOLERANCE, "G is not 0.55367");
-            Assert.AreEqual(1, color.B, DoubleExtensions.TOLERANCE, "B is not 1");
+            Assert.AreEqual(1, color.A, FloatExtensions.TOLERANCE, "A is not 1");
+            Assert.AreEqual(0.25341, color.R, FloatExtensions.TOLERANCE, "R is not 0.25341");
+            Assert.AreEqual(0.55367, color.G, FloatExtensions.TOLERANCE, "G is not 0.55367");
+            Assert.AreEqual(1, color.B, FloatExtensions.TOLERANCE, "B is not 1");
         }
 
         [TestMethod]
         public void ARGBPercentConstructorTest()
         {
-            Core.Color color = new(0.3315, 0.25341, 0.55367, 1);
+            Core.Color color = new(0.3315f, 0.25341f, 0.55367f, 1);
 
-            Assert.AreEqual(0.3315, color.A, DoubleExtensions.TOLERANCE, "A is not 0.3315");
-            Assert.AreEqual(0.25341, color.R, DoubleExtensions.TOLERANCE, "R is not 0.25341");
-            Assert.AreEqual(0.55367, color.G, DoubleExtensions.TOLERANCE, "G is not 0.55367");
-            Assert.AreEqual(1, color.B, DoubleExtensions.TOLERANCE, "B is not 1");
+            Assert.AreEqual(0.3315f, color.A, FloatExtensions.TOLERANCE, "A is not 0.3315");
+            Assert.AreEqual(0.25341f, color.R, FloatExtensions.TOLERANCE, "R is not 0.25341");
+            Assert.AreEqual(0.55367f, color.G, FloatExtensions.TOLERANCE, "G is not 0.55367");
+            Assert.AreEqual(1, color.B, FloatExtensions.TOLERANCE, "B is not 1");
         }
 
         [TestMethod]
         public void RGBPercentConstructorClampTest()
         {
-            Core.Color color1 = new(1.1, 1.1, 1.1);
+            Core.Color color1 = new(1.1f, 1.1f, 1.1f);
 
             Assert.AreEqual(1, color1.A, "A is not 1");
             Assert.AreEqual(1, color1.R, "R is not 1");
             Assert.AreEqual(1, color1.G, "G is not 1");
             Assert.AreEqual(1, color1.B, "B is not 1");
 
-            Core.Color color2 = new(-1.0, -1.0, -1.0);
+            Core.Color color2 = new(-1.0f, -1.0f, -1.0f);
 
             Assert.AreEqual(1, color2.A, "A is not 1");
             Assert.AreEqual(0, color2.R, "R is not 0");
@@ -261,14 +261,14 @@ namespace RGB.NET.Core.Tests.Color
         [TestMethod]
         public void ARGBPercentConstructorClampTest()
         {
-            Core.Color color1 = new(1.1, 1.1, 1.1, 1.1);
+            Core.Color color1 = new(1.1f, 1.1f, 1.1f, 1.1f);
 
             Assert.AreEqual(1, color1.A, "A is not 1");
             Assert.AreEqual(1, color1.R, "R is not 1");
             Assert.AreEqual(1, color1.G, "G is not 1");
             Assert.AreEqual(1, color1.B, "B is not 1");
 
-            Core.Color color2 = new(-1.0, -1.0, -1.0, -1.0);
+            Core.Color color2 = new(-1.0f, -1.0f, -1.0f, -1.0f);
 
             Assert.AreEqual(0, color2.A, "A is not 0");
             Assert.AreEqual(0, color2.R, "R is not 0");
@@ -324,13 +324,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.A);
 
             Core.Color color3 = new(128, 0, 0, 0);
-            Assert.AreEqual(128 / 255.0, color3.A);
+            Assert.AreEqual(128 / 255.0f, color3.A);
 
             Core.Color color4 = new(30, 0, 0, 0);
-            Assert.AreEqual(30 / 255.0, color4.A);
+            Assert.AreEqual(30 / 255.0f, color4.A);
 
             Core.Color color5 = new(201, 0, 0, 0);
-            Assert.AreEqual(201 / 255.0, color5.A);
+            Assert.AreEqual(201 / 255.0f, color5.A);
         }
 
         [TestMethod]
@@ -343,13 +343,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.R);
 
             Core.Color color3 = new(0, 128, 0, 0);
-            Assert.AreEqual(128 / 255.0, color3.R);
+            Assert.AreEqual(128 / 255.0f, color3.R);
 
             Core.Color color4 = new(0, 30, 0, 0);
-            Assert.AreEqual(30 / 255.0, color4.R);
+            Assert.AreEqual(30 / 255.0f, color4.R);
 
             Core.Color color5 = new(0, 201, 0, 0);
-            Assert.AreEqual(201 / 255.0, color5.R);
+            Assert.AreEqual(201 / 255.0f, color5.R);
         }
 
         [TestMethod]
@@ -362,13 +362,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.G);
 
             Core.Color color3 = new(0, 0, 128, 0);
-            Assert.AreEqual(128 / 255.0, color3.G);
+            Assert.AreEqual(128 / 255.0f, color3.G);
 
             Core.Color color4 = new(0, 0, 30, 0);
-            Assert.AreEqual(30 / 255.0, color4.G);
+            Assert.AreEqual(30 / 255.0f, color4.G);
 
             Core.Color color5 = new(0, 0, 201, 0);
-            Assert.AreEqual(201 / 255.0, color5.G);
+            Assert.AreEqual(201 / 255.0f, color5.G);
         }
 
         [TestMethod]
@@ -381,13 +381,13 @@ namespace RGB.NET.Core.Tests.Color
             Assert.AreEqual(1, color2.B);
 
             Core.Color color3 = new(0, 0, 0, 128);
-            Assert.AreEqual(128 / 255.0, color3.B);
+            Assert.AreEqual(128 / 255.0f, color3.B);
 
             Core.Color color4 = new(0, 0, 0, 30);
-            Assert.AreEqual(30 / 255.0, color4.B);
+            Assert.AreEqual(30 / 255.0f, color4.B);
 
             Core.Color color5 = new(0, 0, 0, 201);
-            Assert.AreEqual(201 / 255.0, color5.B);
+            Assert.AreEqual(201 / 255.0f, color5.B);
         }
 
         #endregion

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.Native;
 
@@ -33,27 +32,27 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
+        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
             _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.PerKeyRGB);
 
             Array.Clear(_bitmap, 0, _bitmap.Length);
             bool usesBitmap = false;
-            foreach (KeyValuePair<object, Color> data in dataSet)
+            foreach ((object key, Color color) in dataSet)
             {
-                (LedId id, LogitechLedId customData) = ((LedId, LogitechLedId))data.Key;
+                (LedId id, LogitechLedId customData) = ((LedId, LogitechLedId))key;
 
                 // DarthAffe 26.03.2017: This is only needed since update by name doesn't work as expected for all keys ...
                 if (BitmapMapping.BitmapOffset.TryGetValue(id, out int bitmapOffset))
                 {
-                    BitmapMapping.SetColor(_bitmap, bitmapOffset, data.Value);
+                    BitmapMapping.SetColor(_bitmap, bitmapOffset, color);
                     usesBitmap = true;
                 }
                 else
                     _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)customData,
-                                                                      (int)Math.Round(data.Value.R * 100),
-                                                                      (int)Math.Round(data.Value.G * 100),
-                                                                      (int)Math.Round(data.Value.B * 100));
+                                                                      (int)MathF.Round(color.R * 100),
+                                                                      (int)MathF.Round(color.G * 100),
+                                                                      (int)MathF.Round(color.B * 100));
             }
 
             if (usesBitmap)
