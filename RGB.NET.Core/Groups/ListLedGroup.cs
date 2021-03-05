@@ -113,7 +113,7 @@ namespace RGB.NET.Core
         public void MergeLeds(ILedGroup groupToMerge)
         {
             lock (GroupLeds)
-                foreach (Led led in groupToMerge.GetLeds())
+                foreach (Led led in groupToMerge)
                     if (!GroupLeds.Contains(led))
                         GroupLeds.Add(led);
         }
@@ -123,7 +123,7 @@ namespace RGB.NET.Core
         /// Gets a list containing the <see cref="T:RGB.NET.Core.Led" /> from this group.
         /// </summary>
         /// <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
-        public override IList<Led> GetLeds()
+        protected override IEnumerable<Led> GetLeds()
         {
             lock (GroupLeds)
                 return new List<Led>(GroupLeds);

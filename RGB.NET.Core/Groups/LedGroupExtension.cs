@@ -16,11 +16,11 @@ namespace RGB.NET.Core
         public static ListLedGroup ToListLedGroup(this ILedGroup ledGroup)
         {
             // ReSharper disable once InvertIf
-            if (!(ledGroup is ListLedGroup listLedGroup))
+            if (ledGroup is not ListLedGroup listLedGroup)
             {
-                if (ledGroup.Surface != null)
-                    ledGroup.Detach(ledGroup.Surface);
-                listLedGroup = new ListLedGroup(ledGroup.Surface, ledGroup.GetLeds()) { Brush = ledGroup.Brush };
+                if (ledGroup.IsAttached)
+                    ledGroup.Detach();
+                listLedGroup = new ListLedGroup(ledGroup.Surface, ledGroup) { Brush = ledGroup.Brush, ZIndex = ledGroup.ZIndex };
             }
             return listLedGroup;
         }
@@ -45,13 +45,13 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
-        public static bool Attach(this ILedGroup ledGroup, RGBSurface surface) => surface.AttachLedGroup(ledGroup);
+        public static bool Attach(this ILedGroup ledGroup, RGBSurface surface) => surface.Attach(ledGroup);
 
         /// <summary>
         /// Detaches the given <see cref="ILedGroup"/> from the <see cref="RGBSurface"/>.
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
-        public static bool Detach(this ILedGroup ledGroup, RGBSurface surface) => surface.DetachLedGroup(ledGroup);
+        public static bool Detach(this ILedGroup ledGroup) => ledGroup.Surface?.Detach(ledGroup) ?? false;
     }
 }

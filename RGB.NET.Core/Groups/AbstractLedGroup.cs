@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
@@ -11,7 +12,8 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        public RGBSurface? Surface { get; private set; }
+        RGBSurface? ILedGroup.Surface { get; set; }
+        public RGBSurface? Surface => ((ILedGroup)this).Surface;
 
         /// <inheritdoc />
         public IBrush? Brush { get; set; }
@@ -28,21 +30,26 @@ namespace RGB.NET.Core
         /// </summary>
         protected AbstractLedGroup(RGBSurface? attachTo)
         {
-            attachTo?.AttachLedGroup(this);
+            attachTo?.Attach(this);
         }
 
         #endregion
 
         #region Methods
 
-        /// <inheritdoc />
-        public abstract IList<Led> GetLeds();
+        protected abstract IEnumerable<Led> GetLeds();
 
         /// <inheritdoc />
-        public virtual void OnAttach(RGBSurface surface) => Surface = surface;
+        public virtual void OnAttach() { }
 
         /// <inheritdoc />
-        public virtual void OnDetach(RGBSurface surface) => Surface = null;
+        public virtual void OnDetach() { }
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <inheritdoc />
+        public IEnumerator<Led> GetEnumerator() => GetLeds().GetEnumerator();
 
         #endregion
     }

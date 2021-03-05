@@ -14,20 +14,15 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a RGB-surface containing multiple devices.
     /// </summary>
-    public class RGBSurface : AbstractBindable, IDisposable
+    public sealed class RGBSurface : AbstractBindable, IDisposable
     {
         #region Properties & Fields
 
         private Stopwatch _deltaTimeCounter;
 
-        private IList<IRGBDevice> _devices = new List<IRGBDevice>();
-        private IList<IUpdateTrigger> _updateTriggers = new List<IUpdateTrigger>();
-
-        // ReSharper disable InconsistentNaming
-
-        private readonly LinkedList<ILedGroup> _ledGroups = new();
-
-        // ReSharper restore InconsistentNaming
+        private readonly IList<IRGBDevice> _devices = new List<IRGBDevice>();
+        private readonly IList<IUpdateTrigger> _updateTriggers = new List<IUpdateTrigger>();
+        private readonly List<ILedGroup> _ledGroups = new List<ILedGroup>();
 
         /// <summary>
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
@@ -160,7 +155,7 @@ namespace RGB.NET.Core
                             lock (_ledGroups)
                             {
                                 // Render brushes
-                                foreach (ILedGroup ledGroup in _ledGroups.OrderBy(x => x.ZIndex))
+                                foreach (ILedGroup ledGroup in _ledGroups)
                                     try { Render(ledGroup); }
                                     catch (Exception ex) { OnException(ex); }
                             }
@@ -169,6 +164,9 @@ namespace RGB.NET.Core
                             foreach (IRGBDevice device in _devices)
                                 try { device.Update(flushLeds); }
                                 catch (Exception ex) { OnException(ex); }
+
+                        foreach (Led led in Leds)
+                            led.Update();
 
                         OnUpdated();
                     }
@@ -204,7 +202,7 @@ namespace RGB.NET.Core
         /// <exception cref="ArgumentException">Thrown if the <see cref="IBrush.CalculationMode"/> of the Brush is not valid.</exception>
         private void Render(ILedGroup ledGroup)
         {
-            IList<Led> leds = ledGroup.GetLeds().ToList();
+            IList<Led> leds = ledGroup.ToList();
             IBrush? brush = ledGroup.Brush;
 
             if ((brush == null) || !brush.IsEnabled) return;
@@ -234,14 +232,16 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
-        public bool AttachLedGroup(ILedGroup ledGroup)
+        public bool Attach(ILedGroup ledGroup)
         {
             lock (_ledGroups)
             {
-                if (_ledGroups.Contains(ledGroup)) return false;
+                if (ledGroup.Surface != null) return false;
 
-                _ledGroups.AddLast(ledGroup);
-                ledGroup.OnAttach(this);
+                ledGroup.Surface = this;
+                _ledGroups.Add(ledGroup);
+                _ledGroups.Sort((group1, group2) => group1.ZIndex.CompareTo(group2.ZIndex));
+                ledGroup.OnAttach();
 
                 return true;
             }
@@ -252,26 +252,15 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to detached.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
-        public bool DetachLedGroup(ILedGroup ledGroup)
+        public bool Detach(ILedGroup ledGroup)
         {
             lock (_ledGroups)
             {
-                LinkedListNode<ILedGroup>? node = _ledGroups.Find(ledGroup);
-                if (node == null) return false;
-
-                _ledGroups.Remove(node);
-                node.Value.OnDetach(this);
+                if (!_ledGroups.Remove(ledGroup)) return false;
+                ledGroup.OnDetach();
+                ledGroup.Surface = null;
 
                 return true;
-            }
-        }
-
-        public void Attach(IEnumerable<IRGBDevice> devices)
-        {
-            lock (_devices)
-            {
-                foreach (IRGBDevice device in devices)
-                    Attach(device);
             }
         }
 
@@ -289,15 +278,6 @@ namespace RGB.NET.Core
             }
         }
 
-        public void Detach(IEnumerable<IRGBDevice> devices)
-        {
-            lock (_devices)
-            {
-                foreach (IRGBDevice device in devices)
-                    Detach(device);
-            }
-        }
-
         public void Detach(IRGBDevice device)
         {
             lock (_devices)
@@ -310,19 +290,6 @@ namespace RGB.NET.Core
                 _devices.Remove(device);
 
                 OnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs.FromRemovedDevice(device));
-            }
-        }
-
-        /// <summary>
-        /// Automatically aligns all devices to prevent overlaps.
-        /// </summary>
-        public void AlignDevices()
-        {
-            float posX = 0;
-            foreach (IRGBDevice device in Devices)
-            {
-                device.Location += new Point(posX, 0);
-                posX += device.ActualSize.Width + 1;
             }
         }
 
@@ -345,29 +312,6 @@ namespace RGB.NET.Core
                 Rectangle devicesRectangle = new(_devices.Select(d => d.Boundary));
                 Boundary = Boundary.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
             }
-        }
-
-        /// <summary>
-        /// Gets all devices of a specific type.
-        /// </summary>
-        /// <typeparam name="T">The type of devices to get.</typeparam>
-        /// <returns>A list of devices with the specified type.</returns>
-        public IList<T> GetDevices<T>()
-            where T : class
-        {
-            lock (_devices)
-                return new ReadOnlyCollection<T>(_devices.Where(x => x is T).Cast<T>().ToList());
-        }
-
-        /// <summary>
-        /// Gets all devices of the specified <see cref="RGBDeviceType"/>.
-        /// </summary>
-        /// <param name="deviceType">The <see cref="RGBDeviceType"/> of the devices to get.</param>
-        /// <returns>a list of devices matching the specified <see cref="RGBDeviceType"/>.</returns>
-        public IList<IRGBDevice> GetDevices(RGBDeviceType deviceType)
-        {
-            lock (_devices)
-                return new ReadOnlyCollection<IRGBDevice>(_devices.Where(d => deviceType.HasFlag(d.DeviceInfo.DeviceType)).ToList());
         }
 
         /// <summary>

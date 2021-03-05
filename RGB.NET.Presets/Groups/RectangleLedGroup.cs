@@ -93,21 +93,18 @@ namespace RGB.NET.Presets.Groups
         #region Methods
 
         /// <inheritdoc />
-        public override void OnAttach(RGBSurface surface)
+        public override void OnAttach()
         {
-            base.OnAttach(surface);
-
-            if (Surface != null)
-                Surface.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
+            base.OnAttach();
+            Surface!.SurfaceLayoutChanged += RGBSurfaceOnSurfaceLayoutChanged;
         }
 
         /// <inheritdoc />
-        public override void OnDetach(RGBSurface surface)
+        public override void OnDetach()
         {
-            if (Surface != null)
-                Surface.SurfaceLayoutChanged -= RGBSurfaceOnSurfaceLayoutChanged;
+            Surface!.SurfaceLayoutChanged -= RGBSurfaceOnSurfaceLayoutChanged;
 
-            base.OnDetach(surface);
+            base.OnDetach();
         }
 
         private void RGBSurfaceOnSurfaceLayoutChanged(SurfaceLayoutChangedEventArgs args) => InvalidateCache();
@@ -117,7 +114,7 @@ namespace RGB.NET.Presets.Groups
         /// Gets a list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Presets.Groups.RectangleLedGroup" />.
         /// </summary>
         /// <returns>The list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Presets.Groups.RectangleLedGroup" />.</returns>
-        public override IList<Led> GetLeds() => _ledCache ??= (Surface?.Leds.Where(led => led.AbsoluteBoundary.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList() ?? new List<Led>());
+        protected override IEnumerable<Led> GetLeds() => _ledCache ??= (Surface?.Leds.Where(led => led.AbsoluteBoundary.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList() ?? new List<Led>());
 
         private void InvalidateCache() => _ledCache = null;
 
