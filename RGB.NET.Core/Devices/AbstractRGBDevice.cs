@@ -90,10 +90,14 @@ namespace RGB.NET.Core
 
             // Send LEDs to SDK
             List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds).ToList();
+
+            foreach (Led led in ledsToUpdate)
+                led.Update();
+
             UpdateLeds(ledsToUpdate);
         }
 
-        protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).Where(led => led.Color.A > 0);
+        protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).Where(led => led.RequestedColor?.A > 0);
         protected virtual IEnumerable<(object key, Color color)> GetUpdateData(IEnumerable<Led> leds)
         {
             if (ColorCorrections.Count > 0)

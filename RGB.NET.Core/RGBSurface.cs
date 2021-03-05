@@ -165,9 +165,6 @@ namespace RGB.NET.Core
                                 try { device.Update(flushLeds); }
                                 catch (Exception ex) { OnException(ex); }
 
-                        foreach (Led led in Leds)
-                            led.Update();
-
                         OnUpdated();
                     }
             }
