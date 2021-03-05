@@ -47,12 +47,13 @@ namespace RGB.NET.Core
         protected virtual void OnUpdate(object? sender, CustomUpdateData customData)
         {
             (TIdentifier, TData)[] dataSet;
+            Span<(TIdentifier, TData)> data;
             lock (_dataLock)
             {
                 if (_currentDataSet.Count == 0) return;
 
                 dataSet = ArrayPool<(TIdentifier, TData)>.Shared.Rent(_currentDataSet.Count);
-                Span<(TIdentifier, TData)> data = new Span<(TIdentifier, TData)>(dataSet).Slice(0, _currentDataSet.Count);
+                data = new Span<(TIdentifier, TData)>(dataSet).Slice(0, _currentDataSet.Count);
 
                 int i = 0;
                 foreach ((TIdentifier key, TData value) in _currentDataSet)
@@ -61,8 +62,7 @@ namespace RGB.NET.Core
                 _currentDataSet.Clear();
             }
 
-            if (dataSet.Length != 0)
-                Update(dataSet);
+            Update(data);
 
             ArrayPool<(TIdentifier, TData)>.Shared.Return(dataSet);
         }
