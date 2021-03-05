@@ -82,10 +82,12 @@ namespace RGB.NET.Core
         protected virtual IDeviceUpdateTrigger GetUpdateTrigger(int id = -1, double? updateRateHardLimit = null)
         {
             if (!UpdateTriggers.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))
-                UpdateTriggers[id] = (updaeTrigger = new DeviceUpdateTrigger(updateRateHardLimit ?? _defaultUpdateRateHardLimit));
+                UpdateTriggers[id] = (updaeTrigger = CreateUpdateTrigger(id, updateRateHardLimit ?? _defaultUpdateRateHardLimit));
 
             return updaeTrigger;
         }
+
+        protected virtual IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new DeviceUpdateTrigger(updateRateHardLimit);
 
         protected virtual void Reset()
         {
