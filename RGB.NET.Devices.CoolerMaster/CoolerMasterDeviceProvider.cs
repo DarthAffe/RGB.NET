@@ -91,6 +91,15 @@ namespace RGB.NET.Devices.CoolerMaster
             }
         }
 
+        /// <inheritdoc />
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            try { _CoolerMasterSDK.Reload(); }
+            catch { /* Unlucky.. */ }
+        }
+
         #endregion
     }
 }

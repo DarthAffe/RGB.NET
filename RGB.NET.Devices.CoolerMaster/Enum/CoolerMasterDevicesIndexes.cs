@@ -81,6 +81,22 @@ namespace RGB.NET.Devices.CoolerMaster
         [DeviceType(RGBDeviceType.Keyboard)]
         MK850 = 16,
 
+        [Description("SK630")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        SK630 = 17,
+
+        [Description("SK650")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        SK650 = 18,
+
+        [Description("SK621")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        SK621 = 19,
+
+        [Description("MK730")]
+        [DeviceType(RGBDeviceType.Keyboard)]
+        MK730 = 20,
+
         [DeviceType(RGBDeviceType.None)]
         Default = 0xFFFF
     }
