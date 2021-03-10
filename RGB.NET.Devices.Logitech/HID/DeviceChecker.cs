@@ -17,6 +17,7 @@ namespace RGB.NET.Devices.Logitech.HID
                 ("G910", RGBDeviceType.Keyboard, 0xC32B, 0),
                 ("G910v2", RGBDeviceType.Keyboard, 0xC335, 0),
                 ("G915", RGBDeviceType.Keyboard, 0xC541, 0),
+                ("G815", RGBDeviceType.Keyboard, 0xC33F, 0),
                 ("G810", RGBDeviceType.Keyboard, 0xC337, 0),
                 ("G810", RGBDeviceType.Keyboard, 0xC331, 0),
                 ("G610", RGBDeviceType.Keyboard, 0xC333, 0),
