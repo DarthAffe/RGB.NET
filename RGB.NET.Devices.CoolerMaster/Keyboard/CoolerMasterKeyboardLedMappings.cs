@@ -2510,7 +2510,7 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_PauseBreak, (0, 17) },
             { LedId.Keyboard_Custom1, (0, 22) },
             { LedId.Keyboard_Custom30, (0, 23) },
-
+            
             { LedId.Keyboard_GraveAccentAndTilde, (1, 0) },
             { LedId.Keyboard_1, (1, 1) },
             { LedId.Keyboard_2, (1, 2) },
@@ -2534,7 +2534,7 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumMinus, (1, 21) },
             { LedId.Keyboard_Custom2, (1, 22) },
             { LedId.Keyboard_Custom31, (1, 23) },
-
+            
             { LedId.Keyboard_Tab, (2, 0) },
             { LedId.Keyboard_Q, (2, 1) },
             { LedId.Keyboard_W, (2, 2) },
@@ -2558,7 +2558,7 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumPlus, (2, 21) },
             { LedId.Keyboard_Custom3, (2, 22) },
             { LedId.Keyboard_Custom32, (2, 23) },
-
+            
             { LedId.Keyboard_CapsLock, (3, 0) },
             { LedId.Keyboard_A, (3, 1) },
             { LedId.Keyboard_S, (3, 2) },
@@ -2577,7 +2577,7 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_Num6, (3, 20) },
             { LedId.Keyboard_Custom4, (3, 22) },
             { LedId.Keyboard_Custom33, (3, 23) },
-
+            
             { LedId.Keyboard_LeftShift, (4, 0) },
             { LedId.Keyboard_Z, (4, 2) },
             { LedId.Keyboard_X, (4, 3) },
@@ -2597,7 +2597,7 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumEnter, (4, 21) },
             { LedId.Keyboard_Custom5, (4, 22) },
             { LedId.Keyboard_Custom34, (4, 23) },
-
+            
             { LedId.Keyboard_LeftCtrl, (5, 0) },
             { LedId.Keyboard_LeftGui, (5, 1) },
             { LedId.Keyboard_LeftAlt, (5, 2) },
@@ -2613,7 +2613,7 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_NumPeriodAndDelete, (5, 20) },
             { LedId.Keyboard_Custom59, (5, 22) },
             { LedId.Keyboard_Custom60, (5, 23) },
-
+            
             { LedId.Keyboard_Custom6, (6, 0) },
             { LedId.Keyboard_Custom7, (6, 1) },
             { LedId.Keyboard_Custom8, (6, 2) },
@@ -2638,7 +2638,7 @@ namespace RGB.NET.Devices.CoolerMaster
             { LedId.Keyboard_Custom27, (6, 21) },
             { LedId.Keyboard_Custom28, (6, 22) },
             { LedId.Keyboard_Custom29, (6, 23) },
-
+            
             { LedId.Keyboard_Custom35, (7, 0) },
             { LedId.Keyboard_Custom36, (7, 1) },
             { LedId.Keyboard_Custom37, (7, 2) },
