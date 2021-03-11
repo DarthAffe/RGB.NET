@@ -22,8 +22,13 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         /// </summary>
         internal static void Reload()
         {
-            UnloadCMSDK();
-            LoadCMSDK();
+            if (_dllHandle != IntPtr.Zero)
+            {
+                foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))
+                    EnableLedControl(false, index);
+            }
+            else
+                LoadCMSDK();
         }
 
         private static void LoadCMSDK()
@@ -45,15 +50,6 @@ namespace RGB.NET.Devices.CoolerMaster.Native
             _refreshLedPointer = (RefreshLedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "RefreshLed"), typeof(RefreshLedPointer));
             _setLedColorPointer = (SetLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetLedColor"), typeof(SetLedColorPointer));
             _setAllLedColorPointer = (SetAllLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetAllLedColor"), typeof(SetAllLedColorPointer));
-        }
-
-        internal static void UnloadCMSDK()
-        {
-            if (_dllHandle == IntPtr.Zero) return;
-
-            // ReSharper disable once EmptyEmbeddedStatement - DarthAffe 20.02.2016: We might need to reduce the internal reference counter more than once to set the library free
-            while (FreeLibrary(_dllHandle)) ;
-            _dllHandle = IntPtr.Zero;
         }
 
         [DllImport("kernel32.dll")]

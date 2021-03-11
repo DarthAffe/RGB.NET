@@ -95,6 +95,7 @@ namespace RGB.NET.Core
         Keyboard_International3 = 0x00000052,
         Keyboard_International5 = 0x00000053,
         Keyboard_International4 = 0x00000054,
+        Keyboard_Function = 0x00000055,
 
         Keyboard_PrintScreen = 0x00001001,
         Keyboard_ScrollLock = 0x000001002,
