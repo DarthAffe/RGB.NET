@@ -67,6 +67,7 @@ namespace RGB.NET.Devices.Logitech.HID
                 ("G933", RGBDeviceType.Headset, 0x0A5B, 2),
                 ("G935", RGBDeviceType.Headset, 0x0A87, 2),
                 ("G560", RGBDeviceType.Speaker, 0x0A78, 4),
+                ("G733", RGBDeviceType.Speaker, 0xAB5, 2),
             };
 
         #endregion
