@@ -46,6 +46,16 @@ namespace RGB.NET.Core
                 int width = (int)MathF.Round(Size.Width * rectangle.Size.Width.Clamp(0, 1));
                 int height = (int)MathF.Round(Size.Height * rectangle.Size.Height.Clamp(0, 1));
 
+                return this[x, y, width, height];
+            }
+        }
+
+        public virtual Color this[int x, int y, int width, int height]
+        {
+            get
+            {
+                if (Data.Length == 0) return Color.Transparent;
+
                 if ((width == 0) || (height == 0)) return Color.Transparent;
                 if ((width == 1) && (height == 1)) return GetColor(GetPixelData(x, y));
 
