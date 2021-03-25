@@ -48,6 +48,12 @@ namespace RGB.NET.Core
 
                 if ((width == 0) || (height == 0)) return Color.Transparent;
                 if ((width == 1) && (height == 1)) return GetColor(GetPixelData(x, y));
+                if ((width > 1) && (height > 1))
+                {
+                    //Avoid overlaping of the adjacent and spreading of pixels from one led to another
+                    width--;
+                    height--;
+                }
 
                 int bufferSize = width * height * _dataPerPixel;
                 if (bufferSize <= STACK_ALLOC_LIMIT)
