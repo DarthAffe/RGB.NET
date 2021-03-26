@@ -36,18 +36,21 @@ namespace RGB.NET.Devices.Asus
 
         private void InitializeLayout()
         {
-            Dictionary<AsusLedId, LedId> reversedMapping = AsusKeyboardLedMapping.MAPPING.ToDictionary(x => x.Value, x => x.Key);
-
             if (DeviceInfo.Device.Type != (uint)AsusDeviceType.NB_KB_4ZONE_RGB)
             {
                 int pos = 0;
                 foreach (IAuraRgbKey key in ((IAuraSyncKeyboard)DeviceInfo.Device).Keys)
-                    AddLed(reversedMapping[(AsusLedId)key.Code], new Point(pos++ * 19, 0), new Size(19, 19));
+                {
+                    if (AsusKeyboardLedMapping.MAPPING.TryGetValue((AsusLedId)key.Code, out LedId ledId))
+                        AddLed(ledId, new Point(pos++ * 19, 0), new Size(19, 19));
+                    else
+                        throw new RGBDeviceException($"Couldn't find a LED mapping for key {key.Code:X} named '{key.Name}' on device '{DeviceInfo.DeviceName}'");
+                }
 
                 //UK Layout
-                AddLed(reversedMapping[AsusLedId.KEY_OEM_102], new Point(pos++ * 19, 0), new Size(19, 19));
+                AddLed(AsusKeyboardLedMapping.MAPPING[AsusLedId.KEY_OEM_102], new Point(pos++ * 19, 0), new Size(19, 19));
 
-                AddLed(reversedMapping[AsusLedId.UNDOCUMENTED_1], new Point(pos * 19, 0), new Size(19, 19));
+                AddLed(AsusKeyboardLedMapping.MAPPING[AsusLedId.UNDOCUMENTED_1], new Point(pos * 19, 0), new Size(19, 19));
             }
             else
             {
@@ -63,7 +66,7 @@ namespace RGB.NET.Devices.Asus
             if (DeviceInfo.Device.Type == (uint)AsusDeviceType.NB_KB_4ZONE_RGB)
                 return ledId - LedId.Keyboard_Custom1;
 
-            return AsusKeyboardLedMapping.MAPPING[ledId];
+            return AsusKeyboardLedMapping.MAPPING.FirstOrDefault(m => m.Value == ledId).Key;
         }
 
         #endregion
