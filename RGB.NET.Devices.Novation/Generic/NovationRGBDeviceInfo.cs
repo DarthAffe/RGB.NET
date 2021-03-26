@@ -53,7 +53,7 @@ namespace RGB.NET.Devices.Novation
             this.DeviceId = deviceId;
             this.ColorCapabilities = colorCapabilities;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion

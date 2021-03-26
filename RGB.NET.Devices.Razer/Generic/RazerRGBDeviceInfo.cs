@@ -46,7 +46,7 @@ namespace RGB.NET.Devices.Razer
             this.EndpointType = endpointType;
             this.Model = model;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion
