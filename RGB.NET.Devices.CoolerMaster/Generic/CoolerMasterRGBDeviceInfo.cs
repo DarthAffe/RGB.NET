@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.CoolerMaster
             this.DeviceIndex = deviceIndex;
 
             Model = deviceIndex.GetDescription() ?? "Unknown";
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion

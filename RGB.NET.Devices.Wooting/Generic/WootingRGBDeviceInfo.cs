@@ -47,7 +47,7 @@ namespace RGB.NET.Devices.Wooting.Generic
             this.DeviceIndex = deviceIndex;
 
             Model = deviceIndex.GetDescription();
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion

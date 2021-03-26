@@ -87,12 +87,11 @@ namespace RGB.NET.Devices.Corsair
 
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
-            Dictionary<string, int> modelCounter = new();
             int deviceCount = _CUESDK.CorsairGetDeviceCount();
             for (int i = 0; i < deviceCount; i++)
             {
                 _CorsairDeviceInfo nativeDeviceInfo = (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo))!;
-                CorsairRGBDeviceInfo info = new(i, RGBDeviceType.Unknown, nativeDeviceInfo, modelCounter);
+                CorsairRGBDeviceInfo info = new(i, RGBDeviceType.Unknown, nativeDeviceInfo);
                 if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
                     continue; // Everything that doesn't support lighting control is useless
 
@@ -100,27 +99,27 @@ namespace RGB.NET.Devices.Corsair
                 switch (info.CorsairDeviceType)
                 {
                     case CorsairDeviceType.Keyboard:
-                        yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo, modelCounter), updateQueue);
+                        yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                         break;
 
                     case CorsairDeviceType.Mouse:
-                        yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo, modelCounter), updateQueue);
+                        yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                         break;
 
                     case CorsairDeviceType.Headset:
-                        yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo, modelCounter), updateQueue);
+                        yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                         break;
 
                     case CorsairDeviceType.Mousepad:
-                        yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo, modelCounter), updateQueue);
+                        yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                         break;
 
                     case CorsairDeviceType.HeadsetStand:
-                        yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo, modelCounter), updateQueue);
+                        yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                         break;
 
                     case CorsairDeviceType.MemoryModule:
-                        yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(i, nativeDeviceInfo, modelCounter), updateQueue);
+                        yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                         break;
 
                     case CorsairDeviceType.Cooler:
@@ -145,7 +144,7 @@ namespace RGB.NET.Devices.Corsair
                                 {
                                     _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo))!;
 
-                                    yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info, nativeDeviceInfo, channelDeviceInfo, referenceLed, modelCounter), updateQueue);
+                                    yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info, nativeDeviceInfo, channelDeviceInfo, referenceLed), updateQueue);
                                     referenceLed += channelDeviceInfo.deviceLedCount;
 
                                     channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);

@@ -48,7 +48,7 @@ namespace RGB.NET.Devices.Msi
             this.Manufacturer = manufacturer;
             this.Model = model;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion

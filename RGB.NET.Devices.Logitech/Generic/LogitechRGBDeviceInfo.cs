@@ -54,7 +54,7 @@ namespace RGB.NET.Devices.Logitech
             this.DeviceCaps = deviceCaps;
             this.Zones = zones;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion
