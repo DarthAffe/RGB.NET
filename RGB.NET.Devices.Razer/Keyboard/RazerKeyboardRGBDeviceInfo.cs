@@ -24,9 +24,11 @@ namespace RGB.NET.Devices.Razer
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDeviceInfo" />.
         /// </summary>
         /// <param name="model">The model of the <see cref="IRGBDevice"/>.</param>
-        internal RazerKeyboardRGBDeviceInfo(string model)
-            : base(RGBDeviceType.Keyboard, model)
-        { }
+        /// <param name="endpointType">The Razer SDK endpoint type the <see cref="IRGBDevice"/> is addressed through.</param>
+        internal RazerKeyboardRGBDeviceInfo(string model, RazerEndpointType endpointType)
+            : base(RGBDeviceType.Keyboard, endpointType, model)
+        {
+        }
 
         #endregion
     }

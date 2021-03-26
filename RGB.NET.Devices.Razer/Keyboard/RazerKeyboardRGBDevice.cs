@@ -37,6 +37,7 @@ namespace RGB.NET.Devices.Razer
 
         private void InitializeLayout()
         {
+            // TODO Look at DeviceInfo.EndpointType and act accordingly for both Keyboard and LaptopKeyboard
             for (int i = 0; i < _Defines.KEYBOARD_MAX_ROW; i++)
                 for (int j = 0; j < _Defines.KEYBOARD_MAX_COLUMN; j++)
                     AddLed(LedId.Keyboard_Escape + ((i * _Defines.KEYBOARD_MAX_COLUMN) + j), new Point(j * 20, i * 20), new Size(19, 19));
