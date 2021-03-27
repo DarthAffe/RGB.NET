@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -12,6 +11,8 @@ namespace RGB.NET.Devices.Asus
     public class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceInfo>, IKeyboard
     {
         #region Properties & Fields
+
+        private Dictionary<LedId, AsusLedId> _ledAsusLed = new();
 
         IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
 
@@ -42,15 +43,15 @@ namespace RGB.NET.Devices.Asus
                 foreach (IAuraRgbKey key in ((IAuraSyncKeyboard)DeviceInfo.Device).Keys)
                 {
                     if (AsusKeyboardLedMapping.MAPPING.TryGetValue((AsusLedId)key.Code, out LedId ledId))
-                        AddLed(ledId, new Point(pos++ * 19, 0), new Size(19, 19));
+                        AddAsusLed((AsusLedId)key.Code, ledId, new Point(pos++ * 19, 0), new Size(19, 19));
                     else
                         throw new RGBDeviceException($"Couldn't find a LED mapping for key {key.Code:X} named '{key.Name}' on device '{DeviceInfo.DeviceName}'");
+                    
                 }
 
-                //UK Layout
-                AddLed(AsusKeyboardLedMapping.MAPPING[AsusLedId.KEY_OEM_102], new Point(pos++ * 19, 0), new Size(19, 19));
-
-                AddLed(AsusKeyboardLedMapping.MAPPING[AsusLedId.UNDOCUMENTED_1], new Point(pos * 19, 0), new Size(19, 19));
+                // UK Layout
+                AddAsusLed(AsusLedId.KEY_OEM_102, AsusKeyboardLedMapping.MAPPING[AsusLedId.KEY_OEM_102], new Point(pos++ * 19, 0), new Size(19, 19));
+                AddAsusLed(AsusLedId.KEY_OEM_102, AsusKeyboardLedMapping.MAPPING[AsusLedId.UNDOCUMENTED_1], new Point(pos * 19, 0), new Size(19, 19));
             }
             else
             {
@@ -60,13 +61,21 @@ namespace RGB.NET.Devices.Asus
             }
         }
 
+        private void AddAsusLed(AsusLedId asusLedId, LedId ledId, Point position, Size size)
+        {
+            if (this._ledAsusLed.TryGetValue(ledId, out AsusLedId firstAsusLed))
+                throw new RGBDeviceException($"Got LED '{ledId}' twice, first ASUS LED '{firstAsusLed}' second ASUS LED '{asusLedId}' on device '{DeviceInfo.DeviceName}'");
+
+            this._ledAsusLed.Add(ledId, asusLedId);
+            AddLed(ledId, position, size);
+        }
+
         /// <inheritdoc />
         protected override object? GetLedCustomData(LedId ledId)
         {
-            if (DeviceInfo.Device.Type == (uint)AsusDeviceType.NB_KB_4ZONE_RGB)
-                return ledId - LedId.Keyboard_Custom1;
-
-            return AsusKeyboardLedMapping.MAPPING.FirstOrDefault(m => m.Value == ledId).Key;
+            if (this._ledAsusLed.TryGetValue(ledId, out AsusLedId asusLedId))
+                return asusLedId;
+            return null;
         }
 
         #endregion
