@@ -40,13 +40,16 @@ namespace RGB.NET.Devices.Asus
             if (DeviceInfo.Device.Type != (uint)AsusDeviceType.NB_KB_4ZONE_RGB)
             {
                 int pos = 0;
+                int unknownLed = (int) LedId.Unknown1;
                 foreach (IAuraRgbKey key in ((IAuraSyncKeyboard)DeviceInfo.Device).Keys)
                 {
                     if (AsusKeyboardLedMapping.MAPPING.TryGetValue((AsusLedId)key.Code, out LedId ledId))
                         AddAsusLed((AsusLedId)key.Code, ledId, new Point(pos++ * 19, 0), new Size(19, 19));
                     else
-                        throw new RGBDeviceException($"Couldn't find a LED mapping for key {key.Code:X} named '{key.Name}' on device '{DeviceInfo.DeviceName}'");
-                    
+                    {
+                        AddAsusLed((AsusLedId)key.Code, (LedId)unknownLed, new Point(pos++ * 19, 0), new Size(19, 19));
+                        unknownLed++;
+                    }
                 }
 
                 // UK Layout

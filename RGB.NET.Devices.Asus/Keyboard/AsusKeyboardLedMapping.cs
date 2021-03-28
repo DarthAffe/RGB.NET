@@ -158,7 +158,11 @@ namespace RGB.NET.Devices.Asus
             { AsusLedId.UNDOCUMENTED_5, LedId.Keyboard_Custom2 },
             { AsusLedId.UNDOCUMENTED_6, LedId.Keyboard_NonUsTilde },
             { AsusLedId.UNDOCUMENTED_7, LedId.Keyboard_NonUsBackslash },
-            { AsusLedId.UNDOCUMENTED_8, LedId.Keyboard_Custom37 },
+
+            // { AsusLedId.UNDOCUMENTED_8, LedId.Keyboard_Custom37 },
+            // { AsusLedId.UNDOCUMENTED_9, LedId.Keyboard_Custom38 },
+            // { AsusLedId.UNDOCUMENTED_10, LedId.Keyboard_Custom39 },
+            // { AsusLedId.UNDOCUMENTED_11, LedId.Keyboard_Custom40 },
         };
     }
 }

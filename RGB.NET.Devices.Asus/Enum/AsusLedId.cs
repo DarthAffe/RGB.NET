@@ -158,6 +158,10 @@ namespace RGB.NET.Devices.Asus
         UNDOCUMENTED_5 = 0x103,
         UNDOCUMENTED_6 = 0x1EB, // ISO tilde
         UNDOCUMENTED_7 = 0x1EC, // ISO backslash
-        UNDOCUMENTED_8 = 0x14E,
+
+        // UNDOCUMENTED_8 = 0x14E,
+        // UNDOCUMENTED_9 = 0x424,
+        // UNDOCUMENTED_10 = 0x1A8,
+        // UNDOCUMENTED_11 = 0x415,
     }
 }
