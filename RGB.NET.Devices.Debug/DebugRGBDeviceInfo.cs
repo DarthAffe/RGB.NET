@@ -41,7 +41,7 @@ namespace RGB.NET.Devices.Debug
             this.Model = model;
             this.LayoutMetadata = customData;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion

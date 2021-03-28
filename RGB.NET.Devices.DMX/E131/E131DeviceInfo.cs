@@ -77,7 +77,7 @@ namespace RGB.NET.Devices.DMX.E131
 
             CID = cid!;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion

@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.Asus
             this.Model = model ?? device.Name;
             this.Manufacturer = manufacturer;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion

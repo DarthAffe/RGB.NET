@@ -26,7 +26,7 @@ namespace RGB.NET.Devices.SteelSeries
         public object? LayoutMetadata { get; set; }
 
         public SteelSeriesDeviceType SteelSeriesDeviceType { get; }
-        
+
         #endregion
 
         #region Constructors
@@ -45,7 +45,7 @@ namespace RGB.NET.Devices.SteelSeries
             this.Model = model;
             this.SteelSeriesDeviceType = steelSeriesDeviceType;
 
-            DeviceName = $"{Manufacturer} {Model}";
+            DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
         #endregion
