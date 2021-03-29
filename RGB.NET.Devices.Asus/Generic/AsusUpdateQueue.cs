@@ -47,23 +47,8 @@ namespace RGB.NET.Devices.Asus
                         AsusLedId index = (AsusLedId)key;
                         if (Device is IAuraSyncKeyboard keyboard)
                         {
-                            IAuraRgbLight light = index switch
-                            {
-                                //UK keyboard Layout
-                                AsusLedId.KEY_OEM_102 => keyboard.Lights[(int)((3 * keyboard.Width) + 13)],
-                                AsusLedId.UNDOCUMENTED_1 => keyboard.Lights[(int)((4 * keyboard.Width) + 1)],
-                                _ => keyboard.Key[(ushort)index]
-                            };
-
-                            // Asus Strix Scope
-                            if (keyboard.Name == "Charm")
-                                light = index switch
-                                {
-                                    AsusLedId.KEY_LWIN => keyboard.Lights[(int)((5 * keyboard.Width) + 2)],
-                                    AsusLedId.KEY_LMENU => keyboard.Lights[(int)((5 * keyboard.Width) + 3)],
-                                    _ => light
-                                };
-
+                            IAuraRgbLight light = keyboard.Key[(ushort)index];
+                            
                             (_, byte r, byte g, byte b) = value.GetRGBBytes();
                             light.Red = r;
                             light.Green = g;
@@ -88,8 +73,10 @@ namespace RGB.NET.Devices.Asus
                 Device.Apply();
             }
             catch
-            { /* "The server threw an exception." seems to be a thing here ... */ }
+            { /* "The server threw an exception." seems to be a thing here ... */
+            }
         }
+
         #endregion
     }
 }

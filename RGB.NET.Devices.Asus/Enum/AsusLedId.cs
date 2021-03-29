@@ -149,19 +149,5 @@ namespace RGB.NET.Devices.Asus
         KEY_MAIL = 0xEC, // Mail 
         KEY_MEDIASELECT = 0xED, // Media Select 
         KEY_FN = 0x100, // Function key 
-
-        // Undocumented
-        UNDOCUMENTED_1 = 0x59,
-        UNDOCUMENTED_2 = 0x56,
-        UNDOCUMENTED_3 = 0x101,
-        UNDOCUMENTED_4 = 0x102,
-        UNDOCUMENTED_5 = 0x103,
-        UNDOCUMENTED_6 = 0x1EB, // ISO tilde
-        UNDOCUMENTED_7 = 0x1EC, // ISO backslash
-
-        // UNDOCUMENTED_8 = 0x14E,
-        // UNDOCUMENTED_9 = 0x424,
-        // UNDOCUMENTED_10 = 0x1A8,
-        // UNDOCUMENTED_11 = 0x415,
     }
 }

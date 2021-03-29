@@ -145,24 +145,12 @@ namespace RGB.NET.Devices.Asus
             { AsusLedId.KEY_MYCOMPUTER, LedId.Keyboard_Custom33 },
             { AsusLedId.KEY_MAIL, LedId.Keyboard_Custom34 },
             { AsusLedId.KEY_MEDIASELECT, LedId.Keyboard_Custom35 },
-            { AsusLedId.KEY_FN, LedId.Keyboard_Custom36 },
+            { AsusLedId.KEY_FN, LedId.Keyboard_Function },
             { AsusLedId.KEY_MUTE, LedId.Keyboard_MediaMute },
             { AsusLedId.KEY_PLAYPAUSE, LedId.Keyboard_MediaPlay },
             { AsusLedId.KEY_MEDIASTOP, LedId.Keyboard_MediaStop },
             { AsusLedId.KEY_VOLUMEDOWN, LedId.Keyboard_MediaVolumeDown },
             { AsusLedId.KEY_VOLUMEUP, LedId.Keyboard_MediaVolumeUp },
-            { AsusLedId.UNDOCUMENTED_1, LedId.Keyboard_NonUsBackslash },
-            { AsusLedId.UNDOCUMENTED_2, LedId.Keyboard_NonUsTilde },
-            { AsusLedId.UNDOCUMENTED_3, LedId.Logo },
-            { AsusLedId.UNDOCUMENTED_4, LedId.Keyboard_Custom1 },
-            { AsusLedId.UNDOCUMENTED_5, LedId.Keyboard_Custom2 },
-            { AsusLedId.UNDOCUMENTED_6, LedId.Keyboard_NonUsTilde },
-            { AsusLedId.UNDOCUMENTED_7, LedId.Keyboard_NonUsBackslash },
-
-            // { AsusLedId.UNDOCUMENTED_8, LedId.Keyboard_Custom37 },
-            // { AsusLedId.UNDOCUMENTED_9, LedId.Keyboard_Custom38 },
-            // { AsusLedId.UNDOCUMENTED_10, LedId.Keyboard_Custom39 },
-            // { AsusLedId.UNDOCUMENTED_11, LedId.Keyboard_Custom40 },
         };
     }
 }
