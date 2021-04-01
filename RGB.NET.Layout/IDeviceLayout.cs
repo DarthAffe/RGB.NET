@@ -16,6 +16,11 @@ namespace RGB.NET.Layout
         string? Description { get; }
 
         /// <summary>
+        /// Gets or sets the author of the <see cref="IDeviceLayout"/>.
+        /// </summary>
+        string? Author { get; }
+
+        /// <summary>
         /// Gets or sets the <see cref="RGBDeviceType"/> of the <see cref="IDeviceLayout"/>.
         /// </summary>
         RGBDeviceType Type { get; }

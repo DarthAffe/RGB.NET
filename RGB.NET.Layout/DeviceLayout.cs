@@ -31,6 +31,12 @@ namespace RGB.NET.Layout
         public string? Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the author of the <see cref="DeviceLayout"/>.
+        /// </summary>
+        [XmlElement("Author")]
+        public string? Author { get; set; }
+
+        /// <summary>
         /// Gets or sets the <see cref="RGBDeviceType"/> of the <see cref="DeviceLayout"/>.
         /// </summary>
         [XmlElement("Type")]
