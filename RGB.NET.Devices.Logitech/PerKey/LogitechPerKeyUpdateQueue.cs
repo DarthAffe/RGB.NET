@@ -37,26 +37,10 @@ namespace RGB.NET.Devices.Logitech
             _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.PerKeyRGB);
 
             Array.Clear(_bitmap, 0, _bitmap.Length);
-            bool usesBitmap = false;
             foreach ((object key, Color color) in dataSet)
-            {
-                (LedId id, LogitechLedId customData) = ((LedId, LogitechLedId))key;
+                BitmapMapping.SetColor(_bitmap, (int)key, color);
 
-                // DarthAffe 26.03.2017: This is only needed since update by name doesn't work as expected for all keys ...
-                if (BitmapMapping.BitmapOffset.TryGetValue(id, out int bitmapOffset))
-                {
-                    BitmapMapping.SetColor(_bitmap, bitmapOffset, color);
-                    usesBitmap = true;
-                }
-                else
-                    _LogitechGSDK.LogiLedSetLightingForKeyWithKeyName((int)customData,
-                                                                      (int)MathF.Round(color.R * 100),
-                                                                      (int)MathF.Round(color.G * 100),
-                                                                      (int)MathF.Round(color.B * 100));
-            }
-
-            if (usesBitmap)
-                _LogitechGSDK.LogiLedSetLightingFromBitmap(_bitmap);
+            _LogitechGSDK.LogiLedSetLightingFromBitmap(_bitmap);
         }
 
         #endregion

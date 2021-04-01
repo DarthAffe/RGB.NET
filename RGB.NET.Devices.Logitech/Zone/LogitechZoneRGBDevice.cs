@@ -9,22 +9,9 @@ namespace RGB.NET.Devices.Logitech
     /// </summary>
     public class LogitechZoneRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
     {
-        #region Constants
-
-        private static readonly Dictionary<RGBDeviceType, LedId> BASE_LED_MAPPING = new()
-        {
-            { RGBDeviceType.Keyboard, LedId.Keyboard_Programmable1 },
-            { RGBDeviceType.Mouse, LedId.Mouse1 },
-            { RGBDeviceType.Headset, LedId.Headset1 },
-            { RGBDeviceType.Mousepad, LedId.Mousepad1 },
-            { RGBDeviceType.Speaker, LedId.Speaker1 }
-        };
-
-        #endregion
-
         #region Properties & Fields
 
-        private LedId _baseLedId;
+        private readonly LedMapping<int> _ledMapping;
 
         #endregion
 
@@ -34,11 +21,10 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechZoneRGBDevice" /> class.
         /// </summary>
-        /// <param name="info">The specific information provided by logitech for the zone-lightable device</param>
-        internal LogitechZoneRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue)
+        internal LogitechZoneRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue, LedMapping<int> ledMapping)
             : base(info, updateQueue)
         {
-            _baseLedId = BASE_LED_MAPPING.TryGetValue(info.DeviceType, out LedId id) ? id : LedId.Custom1;
+            this._ledMapping = ledMapping;
 
             InitializeLayout();
         }
@@ -50,11 +36,11 @@ namespace RGB.NET.Devices.Logitech
         private void InitializeLayout()
         {
             for (int i = 0; i < DeviceInfo.Zones; i++)
-                AddLed(_baseLedId + i, new Point(i * 10, 0), new Size(10, 10));
+                AddLed(_ledMapping[i], new Point(i * 10, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object? GetLedCustomData(LedId ledId) => (int)(ledId - _baseLedId);
+        protected override object? GetLedCustomData(LedId ledId) => _ledMapping[ledId];
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));

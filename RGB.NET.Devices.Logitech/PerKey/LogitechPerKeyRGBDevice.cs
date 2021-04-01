@@ -9,23 +9,30 @@ namespace RGB.NET.Devices.Logitech
     /// </summary>
     public class LogitechPerKeyRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
     {
+        #region Properties & Fields
+
+        private readonly LedMapping<int> _ledMapping;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice" /> class.
         /// </summary>
-        /// <param name="info">The specific information provided by logitech for the per-key-lightable device</param>
-        internal LogitechPerKeyRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue)
+        internal LogitechPerKeyRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue, LedMapping<int> ledMapping)
             : base(info, updateQueue)
-        { }
+        {
+            this._ledMapping = ledMapping;
+        }
 
         #endregion
 
         #region Methods
 
         /// <inheritdoc />
-        protected override object GetLedCustomData(LedId ledId) => (ledId, PerKeyIdMapping.DEFAULT.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : LogitechLedId.Invalid);
+        protected override object GetLedCustomData(LedId ledId) => _ledMapping.TryGetValue(ledId, out int logitechLedId) ? logitechLedId : -1;
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
