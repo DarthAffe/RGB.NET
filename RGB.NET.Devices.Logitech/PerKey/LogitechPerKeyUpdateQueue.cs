@@ -38,7 +38,11 @@ namespace RGB.NET.Devices.Logitech
 
             Array.Clear(_bitmap, 0, _bitmap.Length);
             foreach ((object key, Color color) in dataSet)
-                BitmapMapping.SetColor(_bitmap, (int)key, color);
+            {
+                int offset = key as int? ?? -1;
+                if (offset >= 0)
+                    BitmapMapping.SetColor(_bitmap, offset, color);
+            }
 
             _LogitechGSDK.LogiLedSetLightingFromBitmap(_bitmap);
         }
