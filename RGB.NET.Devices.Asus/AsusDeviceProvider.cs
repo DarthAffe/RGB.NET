@@ -23,6 +23,7 @@ namespace RGB.NET.Devices.Asus
         public static AsusDeviceProvider Instance => _instance ?? new AsusDeviceProvider();
 
         private IAuraSdk2? _sdk;
+        private IAuraSyncDeviceCollection? _devices; //HACK DarthAffe 05.04.2021: Due to some researches this might fix the access violation in the asus-sdk
 
         #endregion
 
@@ -52,8 +53,10 @@ namespace RGB.NET.Devices.Asus
         {
             if (_sdk == null) yield break;
 
-            foreach (IAuraSyncDevice device in _sdk.Enumerate(0))
+            _devices = _sdk.Enumerate(0);
+            for (int i = 0; i < _devices.Count; i++)
             {
+                IAuraSyncDevice device = _devices[i];
                 yield return (AsusDeviceType)device.Type switch
                 {
                     AsusDeviceType.MB_RGB => new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, WMIHelper.GetMainboardInfo()?.model ?? device.Name), GetUpdateTrigger()),
@@ -78,6 +81,7 @@ namespace RGB.NET.Devices.Asus
             try { _sdk?.ReleaseControl(0); }
             catch { /* at least we tried */ }
 
+            _devices = null;
             _sdk = null;
         }
 
