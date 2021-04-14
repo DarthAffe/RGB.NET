@@ -42,7 +42,7 @@ namespace RGB.NET.Devices.Logitech
 
         private const int VENDOR_ID = 0x046D;
 
-        public static HIDLoader<int, int> PerKeyDeviceDefinitions { get; } = new(VENDOR_ID)
+        public static HIDLoader<LogitechLedId, int> PerKeyDeviceDefinitions { get; } = new(VENDOR_ID)
         {
             { 0xC32B, RGBDeviceType.Keyboard, "G910", LedMappings.PerKey, 0 },
             { 0xC335, RGBDeviceType.Keyboard, "G910v2", LedMappings.PerKey, 0 },
@@ -139,10 +139,10 @@ namespace RGB.NET.Devices.Logitech
         //TODO DarthAffe 04.03.2021: Rework device selection and configuration for HID-based providers 
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
-            IEnumerable<(HIDDeviceDefinition<int, int> definition, HidDevice device)> perKeyDevices = PerKeyDeviceDefinitions.GetConnectedDevices();
+            IEnumerable<(HIDDeviceDefinition<LogitechLedId, int> definition, HidDevice device)> perKeyDevices = PerKeyDeviceDefinitions.GetConnectedDevices();
             if ((_perKeyUpdateQueue != null) && perKeyDevices.Any())
             {
-                (HIDDeviceDefinition<int, int> definition, _) = perKeyDevices.First();
+                (HIDDeviceDefinition<LogitechLedId, int> definition, _) = perKeyDevices.First();
                 yield return new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.PerKeyRGB, 0), _perKeyUpdateQueue, definition.LedMapping);
             }
 
@@ -150,14 +150,14 @@ namespace RGB.NET.Devices.Logitech
             foreach ((HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)> definition, _) in perZoneDevices)
             {
                 LogitechZoneUpdateQueue updateQueue = new(GetUpdateTrigger(), definition.CustomData.deviceType);
-                yield return new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, definition.CustomData.zones), updateQueue, definition.LedMapping);
+                yield return new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, definition.CustomData.zones), updateQueue, definition.LedMapping);
             }
 
             IEnumerable<(HIDDeviceDefinition<int, int> definition, HidDevice device)> perDeviceDevices = PerDeviceDeviceDefinitions.GetConnectedDevices();
             if ((_perDeviceUpdateQueue != null) && perDeviceDevices.Any())
             {
                 (HIDDeviceDefinition<int, int> definition, _) = perDeviceDevices.First();
-                yield return new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, 0), _perDeviceUpdateQueue, definition.LedMapping);
+                yield return new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, 0), _perDeviceUpdateQueue, definition.LedMapping);
             }
         }
 

@@ -11,7 +11,7 @@ namespace RGB.NET.Devices.Logitech
     {
         #region Properties & Fields
 
-        private readonly LedMapping<int> _ledMapping;
+        private readonly LedMapping<LogitechLedId> _ledMapping;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerKeyRGBDevice" /> class.
         /// </summary>
-        internal LogitechPerKeyRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue, LedMapping<int> ledMapping)
+        internal LogitechPerKeyRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue, LedMapping<LogitechLedId> ledMapping)
             : base(info, updateQueue)
         {
             this._ledMapping = ledMapping;
@@ -32,7 +32,7 @@ namespace RGB.NET.Devices.Logitech
         #region Methods
 
         /// <inheritdoc />
-        protected override object GetLedCustomData(LedId ledId) => _ledMapping.TryGetValue(ledId, out int logitechLedId) ? logitechLedId : -1;
+        protected override object GetLedCustomData(LedId ledId) => _ledMapping.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : -1;
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
