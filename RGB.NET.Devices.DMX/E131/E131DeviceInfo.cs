@@ -69,10 +69,10 @@ namespace RGB.NET.Devices.DMX.E131
             this.Universe = deviceDefinition.Universe;
 
             byte[]? cid = deviceDefinition.CID;
-            if ((CID == null) || (CID.Length != CID_LENGTH))
+            if ((cid == null) || (cid.Length != CID_LENGTH))
             {
-                CID = new byte[CID_LENGTH];
-                new Random().NextBytes(CID);
+                cid = new byte[CID_LENGTH];
+                new Random().NextBytes(cid);
             }
 
             CID = cid!;
