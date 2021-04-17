@@ -250,5 +250,49 @@ namespace RGB.NET.Devices.Razer
 
             //Row 7 is also empty
         };
+
+        internal static readonly LedMapping<int> Mouse = new()
+        {
+            //row 0 empty
+
+            //row 1
+            [LedId.Mouse1] = (_Defines.MOUSE_MAX_COLUMN * 1) + 0,
+            [LedId.Mouse2] = (_Defines.MOUSE_MAX_COLUMN * 1) + 6,
+
+            //row 2
+
+            [LedId.Mouse3] = (_Defines.MOUSE_MAX_COLUMN * 2) + 0,
+            [LedId.Mouse4] = (_Defines.MOUSE_MAX_COLUMN * 2) + 3,
+            [LedId.Mouse5] = (_Defines.MOUSE_MAX_COLUMN * 2) + 6,
+
+            //row 3
+            [LedId.Mouse6] = (_Defines.MOUSE_MAX_COLUMN * 3) + 0,
+            [LedId.Mouse7] = (_Defines.MOUSE_MAX_COLUMN * 3) + 6,
+
+            //row 4
+            [LedId.Mouse8] = (_Defines.MOUSE_MAX_COLUMN * 4) + 0,
+            [LedId.Mouse9] = (_Defines.MOUSE_MAX_COLUMN * 4) + 3,
+            [LedId.Mouse10] = (_Defines.MOUSE_MAX_COLUMN * 4) + 6,
+
+            //row 5
+            [LedId.Mouse11] = (_Defines.MOUSE_MAX_COLUMN * 5) + 0,
+            [LedId.Mouse12] = (_Defines.MOUSE_MAX_COLUMN * 5) + 6,
+
+            //row 6
+            [LedId.Mouse13] = (_Defines.MOUSE_MAX_COLUMN * 6) + 0,
+            [LedId.Mouse14] = (_Defines.MOUSE_MAX_COLUMN * 6) + 6,
+
+            //row 7
+            [LedId.Mouse15] = (_Defines.MOUSE_MAX_COLUMN * 7) + 0,
+            [LedId.Mouse16]= (_Defines.MOUSE_MAX_COLUMN * 7) + 3,
+            [LedId.Mouse17] = (_Defines.MOUSE_MAX_COLUMN * 7) + 6,
+
+            //row 8
+            [LedId.Mouse18] = (_Defines.MOUSE_MAX_COLUMN * 8) + 1,
+            [LedId.Mouse19] = (_Defines.MOUSE_MAX_COLUMN * 8) + 2,
+            [LedId.Mouse20] = (_Defines.MOUSE_MAX_COLUMN * 8) + 3,
+            [LedId.Mouse21] = (_Defines.MOUSE_MAX_COLUMN * 8) + 4,
+            [LedId.Mouse22] = (_Defines.MOUSE_MAX_COLUMN * 8) + 5,
+        };
     }
 }
