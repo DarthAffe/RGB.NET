@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.SteelSeries
     {
         #region Properties & Fields
 
-        private readonly Dictionary<LedId, SteelSeriesLedId> _ledMapping;
+        private readonly LedMapping<SteelSeriesLedId> _ledMapping;
 
         #endregion
 
@@ -21,8 +21,7 @@ namespace RGB.NET.Devices.SteelSeries
         /// <summary>
         /// Initializes a new instance of the <see cref="SteelSeriesRGBDevice"/> class.
         /// </summary>
-        /// <param name="info">The generic information provided by SteelSeries for the device.</param>
-        internal SteelSeriesRGBDevice(SteelSeriesRGBDeviceInfo info, string apiName, Dictionary<LedId, SteelSeriesLedId> ledMapping, IDeviceUpdateTrigger updateTrigger)
+        internal SteelSeriesRGBDevice(SteelSeriesRGBDeviceInfo info, string apiName, LedMapping<SteelSeriesLedId> ledMapping, IDeviceUpdateTrigger updateTrigger)
             : base(info, new SteelSeriesDeviceUpdateQueue(updateTrigger, apiName))
         {
             this._ledMapping = ledMapping;
@@ -37,8 +36,8 @@ namespace RGB.NET.Devices.SteelSeries
         private void InitializeLayout()
         {
             int counter = 0;
-            foreach (KeyValuePair<LedId, SteelSeriesLedId> mapping in _ledMapping)
-                AddLed(mapping.Key, new Point((counter++) * 10, 0), new Size(10, 10));
+            foreach ((LedId ledId, _) in _ledMapping)
+                AddLed(ledId, new Point((counter++) * 10, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />
@@ -46,15 +45,6 @@ namespace RGB.NET.Devices.SteelSeries
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
-        /// <inheritdoc />
-        public override void Dispose()
-        {
-            try { UpdateQueue?.Dispose(); }
-            catch { /* at least we tried */ }
-
-            base.Dispose();
-        }
 
         #endregion
     }

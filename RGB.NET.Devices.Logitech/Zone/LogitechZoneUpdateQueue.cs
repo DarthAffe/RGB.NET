@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.Native;
 
@@ -10,19 +9,6 @@ namespace RGB.NET.Devices.Logitech
     /// </summary>
     public class LogitechZoneUpdateQueue : UpdateQueue
     {
-        #region Constants
-
-        private static readonly Dictionary<RGBDeviceType, LogitechDeviceType> DEVICE_TYPE_MAPPING = new()
-        {
-            { RGBDeviceType.Keyboard, LogitechDeviceType.Keyboard },
-            { RGBDeviceType.Mouse, LogitechDeviceType.Mouse },
-            { RGBDeviceType.Headset, LogitechDeviceType.Headset },
-            { RGBDeviceType.Mousepad, LogitechDeviceType.Mousemat },
-            { RGBDeviceType.Speaker, LogitechDeviceType.Speaker }
-        };
-
-        #endregion
-
         #region Properties & Fields
 
         private readonly LogitechDeviceType _deviceType;
@@ -36,11 +22,10 @@ namespace RGB.NET.Devices.Logitech
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
         /// <param name="deviceType">The tpye of the device this queue is updating.</param>
-        public LogitechZoneUpdateQueue(IDeviceUpdateTrigger updateTrigger, RGBDeviceType deviceType)
+        public LogitechZoneUpdateQueue(IDeviceUpdateTrigger updateTrigger, LogitechDeviceType deviceType)
             : base(updateTrigger)
         {
-            if (!DEVICE_TYPE_MAPPING.TryGetValue(deviceType, out _deviceType))
-                throw new ArgumentException($"Invalid type '{deviceType.ToString()}'", nameof(deviceType));
+            this._deviceType = deviceType;
         }
 
         #endregion
