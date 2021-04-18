@@ -36,6 +36,7 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
         /// <summary>
@@ -53,7 +54,6 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceIndex">The index of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.</param>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
-        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
         internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo)
         {
             this.CorsairDeviceIndex = deviceIndex;
@@ -72,7 +72,6 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
         /// <param name="modelName">The name of the device-model (overwrites the one provided with the device info).</param>
-        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
         internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, string modelName)
         {
             this.CorsairDeviceIndex = deviceIndex;
@@ -83,11 +82,6 @@ namespace RGB.NET.Devices.Corsair
 
             DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
-
-        #endregion
-
-        #region Methods
-
 
         #endregion
     }

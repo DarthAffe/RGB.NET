@@ -9,17 +9,17 @@ namespace RGB.NET.Devices.Corsair
     /// <summary>
     /// Represents a corsair memory.
     /// </summary>
-    public class CorsairMemoryRGBDevice : CorsairRGBDevice<CorsairMemoryRGBDeviceInfo>, IDRAM
+    public class CorsairMainboardRGBDevice : CorsairRGBDevice<CorsairMainboardRGBDeviceInfo>, IMainboard
     {
         #region Constructors
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMemoryRGBDevice" /> class.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMainboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the memory.</param>
-        internal CorsairMemoryRGBDevice(CorsairMemoryRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-            : base(info, LedMappings.Memory, updateQueue)
+        internal CorsairMainboardRGBDevice(CorsairMainboardRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+            : base(info, LedMappings.Mainboard, updateQueue)
         { }
 
         #endregion

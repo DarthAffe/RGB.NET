@@ -1,12 +1,51 @@
-﻿using System.Collections.Generic;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Corsair
 {
-    internal static class KeyboardIdMapping
+    public static class LedMappings
     {
-        internal static readonly Dictionary<LedId, CorsairLedId> DEFAULT = new()
-                                                                           {
+        static LedMappings()
+        {
+            for (int i = 0; i <= (CorsairLedId.GPU50 - CorsairLedId.GPU1); i++)
+                GraphicsCard.Add(LedId.GraphicsCard1 + i, (CorsairLedId.GPU1 + i));
+
+            for (int i = 0; i <= (CorsairLedId.HeadsetStandZone9 - CorsairLedId.HeadsetStandZone1); i++)
+                HeadsetStand.Add(LedId.HeadsetStand1 + i, (CorsairLedId.HeadsetStandZone1 + i));
+
+            for (int i = 0; i <= (CorsairLedId.Mainboard100 - CorsairLedId.Mainboard1); i++)
+                Mainboard.Add(LedId.Mainboard1 + i, (CorsairLedId.Mainboard1 + i));
+
+            for (int i = 0; i <= (CorsairLedId.DRAM12 - CorsairLedId.DRAM1); i++)
+                Memory.Add(LedId.DRAM1 + i, (CorsairLedId.DRAM1 + i));
+
+            for (int i = 0; i <= (CorsairLedId.Zone15 - CorsairLedId.Zone1); i++)
+                Mousepad.Add(LedId.Mousepad1 + i, (CorsairLedId.Zone1 + i));
+        }
+
+        public static LedMapping<CorsairLedId> GraphicsCard = new();
+        public static LedMapping<CorsairLedId> HeadsetStand = new();
+        public static LedMapping<CorsairLedId> Mainboard = new();
+        public static LedMapping<CorsairLedId> Memory = new();
+        public static LedMapping<CorsairLedId> Mousepad = new();
+
+        public static LedMapping<CorsairLedId> Headset = new()
+        {
+            { LedId.Headset1, CorsairLedId.LeftLogo },
+            { LedId.Headset2, CorsairLedId.RightLogo },
+        };
+
+        public static LedMapping<CorsairLedId> Mouse = new()
+        {
+            { LedId.Mouse1, CorsairLedId.B1 },
+            { LedId.Mouse2, CorsairLedId.B2 },
+            { LedId.Mouse3, CorsairLedId.B3 },
+            { LedId.Mouse4, CorsairLedId.B4 },
+            { LedId.Mouse5, CorsairLedId.B5 },
+            { LedId.Mouse6, CorsairLedId.B6 },
+        };
+
+        public static LedMapping<CorsairLedId> Keyboard = new()
+        {
             { LedId.Invalid, CorsairLedId.Invalid },
             { LedId.Logo, CorsairLedId.Logo },
             { LedId.Keyboard_Escape, CorsairLedId.Escape },

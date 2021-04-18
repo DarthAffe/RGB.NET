@@ -17,6 +17,7 @@ namespace RGB.NET.Devices.Corsair
 
         public CorsairLedId ReferenceCorsairLed { get; }
         public int LedCount { get; }
+        internal int LedOffset { get; }
 
         #endregion
 
@@ -31,11 +32,11 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
         /// <param name="channelDeviceInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairChannelDeviceInfo"/> representing this device.</param>
         /// <param name="referenceCorsairLed">The id of the first led of this device.</param>
-        /// <param name="modelCounter">A dictionary containing counters to create unique names for equal devices models.</param>
-        internal CorsairCustomRGBDeviceInfo(CorsairRGBDeviceInfo info, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, CorsairLedId referenceCorsairLed)
+        internal CorsairCustomRGBDeviceInfo(CorsairRGBDeviceInfo info, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, CorsairLedId referenceCorsairLed, int ledOffset)
             : base(info.CorsairDeviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo, GetModelName(info, channelDeviceInfo))
         {
             this.ReferenceCorsairLed = referenceCorsairLed;
+            this.LedOffset = ledOffset;
 
             LedCount = channelDeviceInfo.deviceLedCount;
         }

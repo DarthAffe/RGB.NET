@@ -6,5 +6,7 @@ namespace RGB.NET.Devices.Corsair
     /// Represents a corsair RGB-device.
     /// </summary>
     public interface ICorsairRGBDevice : IRGBDevice
-    { }
+    {
+        internal void Initialize();
+    }
 }
