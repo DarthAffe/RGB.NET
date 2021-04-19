@@ -19,22 +19,8 @@ namespace RGB.NET.Devices.Corsair
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the headset</param>
         internal CorsairHeadsetRGBDevice(CorsairHeadsetRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-            : base(info, updateQueue)
-        {
-            InitializeLayout();
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void InitializeLayout()
-        {
-            AddLed(LedId.Headset1, new Point(0, 0), new Size(10, 10));
-            AddLed(LedId.Headset2, new Point(10, 0), new Size(10, 10));
-        }
-
-        protected override object GetLedCustomData(LedId ledId) => HeadsetIdMapping.DEFAULT.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
+            : base(info, LedMappings.Headset, updateQueue)
+        { }
 
         #endregion
     }
