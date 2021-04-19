@@ -84,12 +84,14 @@ namespace RGB.NET.Devices.SteelSeries
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             if (!SteelSeriesSDK.IsInitialized)
                 SteelSeriesSDK.Initialize();
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
         {
             DeviceDefinitions.LoadFilter = loadFilter;
@@ -97,6 +99,7 @@ namespace RGB.NET.Devices.SteelSeries
             return base.GetLoadedDevices(loadFilter);
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             foreach ((HIDDeviceDefinition<SteelSeriesLedId, SteelSeriesDeviceType> definition, _) in DeviceDefinitions.GetConnectedDevices(x => x.CustomData))
@@ -108,6 +111,9 @@ namespace RGB.NET.Devices.SteelSeries
                     yield return new SteelSeriesRGBDevice(new SteelSeriesRGBDeviceInfo(definition.DeviceType, definition.Name, definition.CustomData), apiName, definition.LedMapping, GetUpdateTrigger());
             }
         }
+
+        /// <inheritdoc />
+        protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new SteelSeriesDeviceUpdateTrigger(updateRateHardLimit);
 
         /// <inheritdoc />
         public override void Dispose()
