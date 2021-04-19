@@ -41,7 +41,7 @@ namespace RGB.NET.Devices.Corsair
             IntPtr ptr = new(nativeLedPositions.pLedPosition.ToInt64() + (structSize * DeviceInfo.LedOffset));
 
             LedId referenceLedId = GetReferenceLed(DeviceInfo.DeviceType);
-            for (int i = 0; i < nativeLedPositions.numberOfLed; i++)
+            for (int i = 0; i < DeviceInfo.LedCount; i++)
             {
                 LedId ledId = referenceLedId + i;
                 _CorsairLedPosition? ledPosition = (_CorsairLedPosition?)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
@@ -59,7 +59,7 @@ namespace RGB.NET.Devices.Corsair
                 ptr = new IntPtr(ptr.ToInt64() + structSize);
             }
         }
-        
+
         private static LedId GetReferenceLed(RGBDeviceType deviceType)
             => deviceType switch
             {
