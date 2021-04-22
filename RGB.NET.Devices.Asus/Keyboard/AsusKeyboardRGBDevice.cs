@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -13,6 +14,7 @@ namespace RGB.NET.Devices.Asus
         #region Properties & Fields
 
         private Dictionary<LedId, AsusLedId> _ledAsusLed = new();
+        private Dictionary<LedId, int> _ledAsusLights = new();
 
         IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
 
@@ -40,10 +42,28 @@ namespace RGB.NET.Devices.Asus
             if (DeviceInfo.Device.Type != (uint)AsusDeviceType.NB_KB_4ZONE_RGB)
             {
                 int pos = 0;
-                foreach (IAuraRgbKey key in ((IAuraSyncKeyboard)DeviceInfo.Device).Keys)
+                int unknownLed = (int)LedId.Unknown1;
+
+                List<IAuraRgbKey> keys = ((IAuraSyncKeyboard)DeviceInfo.Device).Keys.Cast<IAuraRgbKey>().ToList();
+                foreach (IAuraRgbKey key in keys)
                 {
                     if (AsusKeyboardLedMapping.MAPPING.TryGetValue((AsusLedId)key.Code, out LedId ledId))
                         AddAsusLed((AsusLedId)key.Code, ledId, new Point(pos++ * 19, 0), new Size(19, 19));
+                    else
+                    {
+                        AddAsusLed((AsusLedId)key.Code, (LedId)unknownLed, new Point(pos++ * 19, 0), new Size(19, 19));
+                        unknownLed++;
+                    }
+                }
+
+                for (int index = 0; index < ((IAuraSyncKeyboard)DeviceInfo.Device).Lights.Count; index++)
+                {
+                    IAuraRgbLight light = ((IAuraSyncKeyboard)DeviceInfo.Device).Lights[index];
+                    if (keys.Contains(light))
+                        continue;
+
+                    AddAsusLed(index, (LedId)unknownLed, new Point(pos++ * 19, 0), new Size(19, 19));
+                    unknownLed++;
                 }
             }
             else
@@ -57,9 +77,16 @@ namespace RGB.NET.Devices.Asus
         private void AddAsusLed(AsusLedId asusLedId, LedId ledId, Point position, Size size)
         {
             if (this._ledAsusLed.TryGetValue(ledId, out AsusLedId firstAsusLed))
-                throw new RGBDeviceException($"Got LED '{ledId}' twice, first ASUS LED '{firstAsusLed}' second ASUS LED '{asusLedId}' on device '{DeviceInfo.DeviceName}'");
+                throw new
+                    RGBDeviceException($"Got LED '{ledId}' twice, first ASUS LED '{firstAsusLed}' second ASUS LED '{asusLedId}' on device '{DeviceInfo.DeviceName}'");
 
             this._ledAsusLed.Add(ledId, asusLedId);
+            AddLed(ledId, position, size);
+        }
+
+        private void AddAsusLed(int index, LedId ledId, Point position, Size size)
+        {
+            this._ledAsusLights.Add(ledId, index);
             AddLed(ledId, position, size);
         }
 
@@ -67,7 +94,9 @@ namespace RGB.NET.Devices.Asus
         protected override object? GetLedCustomData(LedId ledId)
         {
             if (this._ledAsusLed.TryGetValue(ledId, out AsusLedId asusLedId))
-                return asusLedId;
+                return (true, (int)asusLedId);
+            if (this._ledAsusLights.TryGetValue(ledId, out int lightIndex))
+                return (false, lightIndex);
             return null;
         }
 

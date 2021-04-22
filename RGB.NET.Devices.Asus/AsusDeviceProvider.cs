@@ -45,6 +45,7 @@ namespace RGB.NET.Devices.Asus
 
         protected override void InitializeSDK()
         {
+            // ReSharper disable once SuspiciousTypeConversion.Global
             _sdk = (IAuraSdk2)new AuraSdk();
             _sdk.SwitchMode();
         }
