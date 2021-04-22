@@ -1,15 +1,12 @@
-﻿// ReSharper disable InconsistentNaming
-
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+﻿#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
 namespace RGB.NET.Devices.Logitech
 {
     /// <summary>
-    /// Contains list of all LEDs available for all logitech devices.
+    /// Contains a list of Logitech LED IDs
     /// </summary>
     public enum LogitechLedId
     {
-        Invalid = 0,
         ESC = 0x01,
         F1 = 0x3b,
         F2 = 0x3c,
@@ -25,8 +22,7 @@ namespace RGB.NET.Devices.Logitech
         F12 = 0x58,
         PRINT_SCREEN = 0x137,
         SCROLL_LOCK = 0x46,
-        PAUSE_BREAK = 0x45,
-
+        PAUSE_BREAK = 0x145,
         TILDE = 0x29,
         ONE = 0x02,
         TWO = 0x03,
@@ -44,11 +40,10 @@ namespace RGB.NET.Devices.Logitech
         INSERT = 0x152,
         HOME = 0x147,
         PAGE_UP = 0x149,
-        NUM_LOCK = 0x145,
+        NUM_LOCK = 0x45,
         NUM_SLASH = 0x135,
         NUM_ASTERISK = 0x37,
         NUM_MINUS = 0x4A,
-
         TAB = 0x0F,
         Q = 0x10,
         W = 0x11,
@@ -70,7 +65,6 @@ namespace RGB.NET.Devices.Logitech
         NUM_EIGHT = 0x48,
         NUM_NINE = 0x49,
         NUM_PLUS = 0x4E,
-
         CAPS_LOCK = 0x3A,
         A = 0x1E,
         S = 0x1F,
@@ -83,12 +77,10 @@ namespace RGB.NET.Devices.Logitech
         L = 0x26,
         SEMICOLON = 0x27,
         APOSTROPHE = 0x28,
-        NonUsTilde = 0xFF, //TODO DarthAffe 26.03.2017: Find the real ID/Name of this key - it's not documented ...
         ENTER = 0x1C,
         NUM_FOUR = 0x4B,
         NUM_FIVE = 0x4C,
         NUM_SIX = 0x4D,
-
         LEFT_SHIFT = 0x2A,
         Z = 0x2C,
         X = 0x2D,
@@ -106,7 +98,6 @@ namespace RGB.NET.Devices.Logitech
         NUM_TWO = 0x50,
         NUM_THREE = 0x51,
         NUM_ENTER = 0x11C,
-
         LEFT_CONTROL = 0x1D,
         LEFT_WINDOWS = 0x15B,
         LEFT_ALT = 0x38,
@@ -120,7 +111,8 @@ namespace RGB.NET.Devices.Logitech
         ARROW_RIGHT = 0x14D,
         NUM_ZERO = 0x52,
         NUM_PERIOD = 0x53,
-
+        ISO_BACKSLASH = 0x56,
+        ISO_TILDE = 0x5D,
         G_1 = 0xFFF1,
         G_2 = 0xFFF2,
         G_3 = 0xFFF3,
@@ -131,8 +123,6 @@ namespace RGB.NET.Devices.Logitech
         G_8 = 0xFFF8,
         G_9 = 0xFFF9,
         G_LOGO = 0xFFFF1,
-        G_BADGE = 0xFFFF2,
-
-        DEVICE = 0xFFFFFFF
-    }
+        G_BADGE = 0xFFFF2
+    };
 }

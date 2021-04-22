@@ -52,6 +52,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
-    <PackageReference Include="HidSharp" Version="2.1.0" />
+    <ProjectReference Include="..\RGB.NET.HID\RGB.NET.HID.csproj" />
   </ItemGroup>
 </Project>
