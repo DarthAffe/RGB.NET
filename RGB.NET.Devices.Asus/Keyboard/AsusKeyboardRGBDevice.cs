@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -44,8 +43,8 @@ namespace RGB.NET.Devices.Asus
                 int pos = 0;
                 int unknownLed = (int)LedId.Unknown1;
 
-                List<IAuraRgbKey> keys = ((IAuraSyncKeyboard)DeviceInfo.Device).Keys.Cast<IAuraRgbKey>().ToList();
-                foreach (IAuraRgbKey key in keys)
+                ClearTags();
+                foreach (IAuraRgbKey key in ((IAuraSyncKeyboard)DeviceInfo.Device).Keys)
                 {
                     if (AsusKeyboardLedMapping.MAPPING.TryGetValue((AsusLedId)key.Code, out LedId ledId))
                         AddAsusLed((AsusLedId)key.Code, ledId, new Point(pos++ * 19, 0), new Size(19, 19));
@@ -54,17 +53,20 @@ namespace RGB.NET.Devices.Asus
                         AddAsusLed((AsusLedId)key.Code, (LedId)unknownLed, new Point(pos++ * 19, 0), new Size(19, 19));
                         unknownLed++;
                     }
+
+                    TagAsusLed(key);
                 }
 
                 for (int index = 0; index < ((IAuraSyncKeyboard)DeviceInfo.Device).Lights.Count; index++)
                 {
                     IAuraRgbLight light = ((IAuraSyncKeyboard)DeviceInfo.Device).Lights[index];
-                    if (keys.Contains(light))
+                    if (IsAsusLedTagged(light))
                         continue;
 
                     AddAsusLed(index, (LedId)unknownLed, new Point(pos++ * 19, 0), new Size(19, 19));
                     unknownLed++;
                 }
+                ClearTags();
             }
             else
             {
@@ -98,6 +100,22 @@ namespace RGB.NET.Devices.Asus
             if (this._ledAsusLights.TryGetValue(ledId, out int lightIndex))
                 return (false, lightIndex);
             return null;
+        }
+
+        private void ClearTags()
+        {
+            foreach (IAuraRgbLight light in ((IAuraSyncKeyboard)DeviceInfo.Device).Lights) 
+                light.Color = 0x000000;
+        }
+
+        private void TagAsusLed(IAuraRgbKey key)
+        {
+            key.Color = 0x000001;
+        }
+
+        private bool IsAsusLedTagged(IAuraRgbLight light)
+        {
+            return light.Color == 0x000001;
         }
 
         #endregion
