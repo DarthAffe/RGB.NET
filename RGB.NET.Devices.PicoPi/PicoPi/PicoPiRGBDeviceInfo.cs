@@ -34,9 +34,5 @@ namespace RGB.NET.Devices.PicoPi
         }
 
         #endregion
-
-        #region Methods
-
-        #endregion
     }
 }
