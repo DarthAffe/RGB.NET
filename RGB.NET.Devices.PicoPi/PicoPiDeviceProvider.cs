@@ -76,8 +76,8 @@ namespace RGB.NET.Devices.PicoPi
             {
                 PicoPiSDK sdk = new(device);
                 _sdks.Add(sdk);
-                IDeviceUpdateTrigger updateTrigger = GetUpdateTrigger(sdk.Id);
-                foreach ((int channel, int ledCount) in sdk.Channels)
+                IDeviceUpdateTrigger updateTrigger = GetUpdateTrigger(sdk.Id.GetHashCode());
+                foreach ((int channel, int ledCount, _) in sdk.Channels.Where(c => c.ledCount > 0))
                 {
                     PicoPiRGBDevice picoPiDevice = new(new PicoPiRGBDeviceInfo(definition.DeviceType, definition.Name, sdk.Id, sdk.Version, channel, ledCount), GetUpdateQueue(updateTrigger, sdk, channel, ledCount), definition.LedMapping);
                     picoPiDevice.Initialize();

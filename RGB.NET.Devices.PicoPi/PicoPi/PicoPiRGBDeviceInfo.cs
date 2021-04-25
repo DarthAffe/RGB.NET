@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.PicoPi
         public string Model { get; }
         public object? LayoutMetadata { get; set; }
 
-        public int Id { get; }
+        public string Id { get; }
         public int Version { get; }
         public int Channel { get; }
         public int LedCount { get; }
@@ -21,7 +21,7 @@ namespace RGB.NET.Devices.PicoPi
 
         #region Constructors
 
-        internal PicoPiRGBDeviceInfo(RGBDeviceType deviceType, string model, int id, int version, int channel, int ledCount)
+        internal PicoPiRGBDeviceInfo(RGBDeviceType deviceType, string model, string id, int version, int channel, int ledCount)
         {
             this.DeviceType = deviceType;
             this.Model = model;

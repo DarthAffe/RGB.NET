@@ -5,6 +5,7 @@ using System.Linq;
 using HidSharp;
 using LibUsbDotNet.LibUsb;
 using LibUsbDotNet.Main;
+using RGB.NET.Core;
 
 namespace RGB.NET.Devices.PicoPi
 {
@@ -41,9 +42,9 @@ namespace RGB.NET.Devices.PicoPi
 
         public bool IsBulkSupported { get; private set; }
 
-        public int Id { get; }
+        public string Id { get; }
         public int Version { get; }
-        public IReadOnlyList<(int channel, int ledCount)> Channels { get; }
+        public IReadOnlyList<(int channel, int ledCount, int pin)> Channels { get; }
 
         #endregion
 
@@ -60,7 +61,7 @@ namespace RGB.NET.Devices.PicoPi
 
             Id = GetId();
             Version = GetVersion();
-            Channels = new ReadOnlyCollection<(int channel, int ledCount)>(GetChannels().ToList());
+            Channels = new ReadOnlyCollection<(int channel, int ledCount, int pin)>(GetChannels().ToList());
 
             _bulkSendBuffer = new byte[(Channels.Sum(c => c.ledCount + 1) * 3) + 5];
         }
@@ -68,6 +69,32 @@ namespace RGB.NET.Devices.PicoPi
         #endregion
 
         #region Methods
+
+        public void SetLedCounts(params (int channel, int ledCount)[] ledCounts)
+        {
+            byte[] data = new byte[Channels.Count + 2];
+            data[1] = COMMAND_LEDCOUNTS;
+            foreach ((int channel, int ledCount, _) in Channels)
+                data[channel + 1] = (byte)ledCount;
+
+            foreach ((int channel, int ledCount) in ledCounts)
+                data[channel + 1] = (byte)ledCount;
+
+            SendHID(data);
+        }
+
+        public void SetPins(params (int channel, int pin)[] pins)
+        {
+            byte[] data = new byte[Channels.Count + 2];
+            data[1] = COMMAND_PINS;
+            foreach ((int channel, _, int pin) in Channels)
+                data[channel + 1] = (byte)pin;
+
+            foreach ((int channel, int pin) in pins)
+                data[channel + 1] = (byte)pin;
+
+            SendHID(data);
+        }
 
         private void LoadBulkDevice()
         {
@@ -108,10 +135,10 @@ namespace RGB.NET.Devices.PicoPi
             }
         }
 
-        private int GetId()
+        private string GetId()
         {
             SendHID(0x00, COMMAND_ID);
-            return Read()[1];
+            return ConversionHelper.ToHex(Read().Skip(1).Take(8).ToArray());
         }
 
         private int GetVersion()
@@ -120,7 +147,7 @@ namespace RGB.NET.Devices.PicoPi
             return Read()[1];
         }
 
-        private IEnumerable<(int channel, int ledCount)> GetChannels()
+        private IEnumerable<(int channel, int ledCount, int pin)> GetChannels()
         {
             SendHID(0x00, COMMAND_CHANNEL_COUNT);
             int channelCount = Read()[1];
@@ -129,8 +156,11 @@ namespace RGB.NET.Devices.PicoPi
             {
                 SendHID(0x00, (byte)((i << 4) | COMMAND_LEDCOUNTS));
                 int ledCount = Read()[1];
-                if (ledCount > 0)
-                    yield return (i, ledCount);
+
+                SendHID(0x00, (byte)((i << 4) | COMMAND_PINS));
+                int pin = Read()[1];
+
+                yield return (i, ledCount, pin);
             }
         }
 
