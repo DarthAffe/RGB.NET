@@ -71,16 +71,16 @@ namespace RGB.NET.Devices.Corsair
 
             CorsairError error = LastError;
             if (error != CorsairError.Success)
-                Throw(new CUEException(error));
+                Throw(new CUEException(error), true);
 
             if (ProtocolDetails.BreakingChanges)
                 Throw(new RGBDeviceException("The SDK currently used isn't compatible with the installed version of CUE.\r\n"
                                            + $"CUE-Version: {ProtocolDetails.ServerVersion} (Protocol {ProtocolDetails.ServerProtocolVersion})\r\n"
-                                           + $"SDK-Version: {ProtocolDetails.SdkVersion} (Protocol {ProtocolDetails.SdkProtocolVersion})"));
+                                           + $"SDK-Version: {ProtocolDetails.SdkVersion} (Protocol {ProtocolDetails.SdkProtocolVersion})"), true);
 
             // DarthAffe 02.02.2021: 127 is iCUE
             if (!_CUESDK.CorsairSetLayerPriority(128))
-                Throw(new CUEException(LastError));
+                Throw(new CUEException(LastError), false);
         }
 
         /// <inheritdoc />

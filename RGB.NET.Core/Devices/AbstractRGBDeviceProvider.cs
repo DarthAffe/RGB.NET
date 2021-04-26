@@ -22,7 +22,7 @@ namespace RGB.NET.Core
 
         #region Events
 
-        public event EventHandler<Exception>? Exception;
+        public event EventHandler<ExceptionEventArgs>? Exception;
 
         #endregion
 
@@ -54,10 +54,15 @@ namespace RGB.NET.Core
 
                 IsInitialized = true;
             }
+            catch (DeviceProviderException)
+            {
+                Reset();
+                throw;
+            }
             catch (Exception ex)
             {
                 Reset();
-                Throw(ex);
+                Throw(ex, true);
                 return false;
             }
 
@@ -66,13 +71,23 @@ namespace RGB.NET.Core
 
         protected virtual IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
         {
+            List<IRGBDevice> devices = new();
             foreach (IRGBDevice device in LoadDevices())
             {
-                if (loadFilter.HasFlag(device.DeviceInfo.DeviceType))
-                    yield return device;
-                else
-                    device.Dispose();
+                try
+                {
+                    if (loadFilter.HasFlag(device.DeviceInfo.DeviceType))
+                        devices.Add(device);
+                    else
+                        device.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Throw(ex);
+                }
             }
+
+            return devices;
         }
 
         protected abstract void InitializeSDK();
@@ -98,15 +113,16 @@ namespace RGB.NET.Core
             IsInitialized = false;
         }
 
-        protected virtual void Throw(Exception ex)
+        protected virtual void Throw(Exception ex, bool isCritical = false)
         {
-            try { OnException(ex); } catch { /* we don't want to throw due to bad event handlers */ }
+            ExceptionEventArgs args = new(ex, isCritical, ThrowsExceptions);
+            try { OnException(args); } catch { /* we don't want to throw due to bad event handlers */ }
 
-            if (ThrowsExceptions)
-                throw ex;
+            if (args.Throw)
+                throw new DeviceProviderException(ex, isCritical);
         }
 
-        protected virtual void OnException(Exception ex) => Exception?.Invoke(this, ex);
+        protected virtual void OnException(ExceptionEventArgs args) => Exception?.Invoke(this, args);
 
         public virtual void Dispose()
         {

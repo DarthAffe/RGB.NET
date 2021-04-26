@@ -36,6 +36,7 @@ namespace RGB.NET.Devices.Razer.Native
             if (dllPath == null) throw new RGBDeviceException($"Can't find the Razer-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
             _dllHandle = LoadLibrary(dllPath);
+            if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"Razer LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
 
             _initPointer = (InitPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "Init"), typeof(InitPointer));
             _unInitPointer = (UnInitPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "UnInit"), typeof(UnInitPointer));

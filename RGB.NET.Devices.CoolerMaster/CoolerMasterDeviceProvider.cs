@@ -56,7 +56,7 @@ namespace RGB.NET.Devices.CoolerMaster
         protected override void InitializeSDK()
         {
             _CoolerMasterSDK.Reload();
-            if (_CoolerMasterSDK.GetSDKVersion() <= 0) Throw(new RGBDeviceException("Failed to initialize CoolerMaster-SDK"));
+            if (_CoolerMasterSDK.GetSDKVersion() <= 0) Throw(new RGBDeviceException("Failed to initialize CoolerMaster-SDK"), true);
         }
 
         protected override IEnumerable<IRGBDevice> LoadDevices()
