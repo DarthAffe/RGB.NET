@@ -218,7 +218,7 @@ namespace RGB.NET.Devices.Razer
 
             RazerError error;
             if (((error = _RazerSDK.Init()) != RazerError.Success) && Enum.IsDefined(typeof(RazerError), error)) //HACK DarthAffe 08.02.2018: The x86-SDK seems to have a problem here ...
-                ThrowRazerError(error);
+                ThrowRazerError(error, true);
         }
 
         protected override IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
@@ -265,7 +265,7 @@ namespace RGB.NET.Devices.Razer
             }
         }
 
-        private void ThrowRazerError(RazerError errorCode) => throw new RazerException(errorCode);
+        private void ThrowRazerError(RazerError errorCode, bool isCritical) => Throw(new RazerException(errorCode), isCritical);
 
         private void TryUnInit()
         {

@@ -124,7 +124,7 @@ namespace RGB.NET.Devices.Logitech
             _perKeyUpdateQueue = new LogitechPerKeyUpdateQueue(GetUpdateTrigger());
 
             _LogitechGSDK.Reload();
-            if (!_LogitechGSDK.LogiLedInit()) Throw(new RGBDeviceException("Failed to initialize Logitech-SDK."));
+            if (!_LogitechGSDK.LogiLedInit()) Throw(new RGBDeviceException("Failed to initialize Logitech-SDK."), true);
 
             _LogitechGSDK.LogiLedSaveCurrentLighting();
         }

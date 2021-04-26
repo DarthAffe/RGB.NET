@@ -71,13 +71,23 @@ namespace RGB.NET.Core
 
         protected virtual IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
         {
+            List<IRGBDevice> devices = new();
             foreach (IRGBDevice device in LoadDevices())
             {
-                if (loadFilter.HasFlag(device.DeviceInfo.DeviceType))
-                    yield return device;
-                else
-                    device.Dispose();
+                try
+                {
+                    if (loadFilter.HasFlag(device.DeviceInfo.DeviceType))
+                        devices.Add(device);
+                    else
+                        device.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Throw(ex);
+                }
             }
+
+            return devices;
         }
 
         protected abstract void InitializeSDK();

@@ -36,6 +36,7 @@ namespace RGB.NET.Devices.Corsair.Native
             if (dllPath == null) throw new RGBDeviceException($"Can't find the CUE-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
             _dllHandle = LoadLibrary(dllPath);
+            if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"Corsair LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
 
             _corsairSetLedsColorsBufferByDeviceIndexPointer = (CorsairSetLedsColorsBufferByDeviceIndexPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairSetLedsColorsBufferByDeviceIndex"), typeof(CorsairSetLedsColorsBufferByDeviceIndexPointer));
             _corsairSetLedsColorsFlushBufferPointer = (CorsairSetLedsColorsFlushBufferPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "CorsairSetLedsColorsFlushBuffer"), typeof(CorsairSetLedsColorsFlushBufferPointer));
