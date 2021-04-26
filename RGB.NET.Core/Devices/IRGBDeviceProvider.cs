@@ -27,7 +27,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Occurs when an exception is thrown in the device provider
         /// </summary>
-        event EventHandler<Exception>? Exception;
+        event EventHandler<ExceptionEventArgs>? Exception;
 
         #endregion
 

@@ -18,6 +18,10 @@ namespace RGB.NET.Core
         /// </summary>
         public Exception Exception { get; }
 
+        public bool IsCritical { get; }
+
+        public bool Throw { get; set; }
+
         #endregion
 
         #region Constructors
@@ -27,9 +31,11 @@ namespace RGB.NET.Core
         /// Initializes a new instance of the <see cref="T:RGB.NET.Core.ExceptionEventArgs" /> class.
         /// </summary>
         /// <param name="exception">The <see cref="T:System.Exception" /> which is responsible for the event-call.</param>
-        public ExceptionEventArgs(Exception exception)
+        public ExceptionEventArgs(Exception exception, bool isCritical = false, bool @throw = false)
         {
             this.Exception = exception;
+            this.IsCritical = isCritical;
+            this.Throw = @throw;
         }
 
         #endregion
