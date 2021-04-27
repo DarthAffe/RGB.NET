@@ -33,7 +33,7 @@ namespace RGB.NET.Devices.PicoPi
 
         public static HIDLoader<int, int> DeviceDefinitions { get; } = new(PicoPiSDK.VENDOR_ID)
         {
-            { PicoPiSDK.HID_BULK_CONTROLLER_PID, RGBDeviceType.LedStripe, "WS1812B-Controller", LedMappings.StripeMapping, 0 },
+            { PicoPiSDK.HID_BULK_CONTROLLER_PID, RGBDeviceType.LedStripe, "WS2812B-Controller", LedMappings.StripeMapping, 0 },
         };
 
         private readonly List<PicoPiSDK> _sdks = new();
