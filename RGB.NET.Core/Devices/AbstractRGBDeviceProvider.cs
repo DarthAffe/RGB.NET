@@ -16,7 +16,9 @@ namespace RGB.NET.Core
 
         public virtual IEnumerable<IRGBDevice> Devices { get; protected set; } = Enumerable.Empty<IRGBDevice>();
 
-        protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggers { get; } = new();
+        protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggerMapping { get; } = new();
+
+        public ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers => new(UpdateTriggerMapping.Select(x => (x.Key, x.Value)).ToList());
 
         #endregion
 
@@ -49,7 +51,7 @@ namespace RGB.NET.Core
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(GetLoadedDevices(loadFilter).ToList());
 
-                foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggers.Values)
+                foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
                     updateTrigger.Start();
 
                 IsInitialized = true;
@@ -96,8 +98,8 @@ namespace RGB.NET.Core
 
         protected virtual IDeviceUpdateTrigger GetUpdateTrigger(int id = -1, double? updateRateHardLimit = null)
         {
-            if (!UpdateTriggers.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))
-                UpdateTriggers[id] = (updaeTrigger = CreateUpdateTrigger(id, updateRateHardLimit ?? _defaultUpdateRateHardLimit));
+            if (!UpdateTriggerMapping.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))
+                UpdateTriggerMapping[id] = (updaeTrigger = CreateUpdateTrigger(id, updateRateHardLimit ?? _defaultUpdateRateHardLimit));
 
             return updaeTrigger;
         }
@@ -106,8 +108,11 @@ namespace RGB.NET.Core
 
         protected virtual void Reset()
         {
-            foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggers.Values)
+            foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
                 updateTrigger.Dispose();
+
+            foreach (IRGBDevice device in Devices)
+                device.Dispose();
 
             Devices = Enumerable.Empty<IRGBDevice>();
             IsInitialized = false;
@@ -124,13 +129,7 @@ namespace RGB.NET.Core
 
         protected virtual void OnException(ExceptionEventArgs args) => Exception?.Invoke(this, args);
 
-        public virtual void Dispose()
-        {
-            IEnumerable<IRGBDevice> devices = Devices;
-            Reset();
-            foreach (IRGBDevice device in devices)
-                device.Dispose();
-        }
+        public virtual void Dispose() => Reset();
 
         #endregion
     }

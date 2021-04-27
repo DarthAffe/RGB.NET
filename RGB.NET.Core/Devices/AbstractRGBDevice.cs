@@ -72,9 +72,9 @@ namespace RGB.NET.Core
 
         #region Constructors
 
-        protected AbstractRGBDevice(TDeviceInfo deviceOnfo, IUpdateQueue updateQueue)
+        protected AbstractRGBDevice(TDeviceInfo deviceInfo, IUpdateQueue updateQueue)
         {
-            this.DeviceInfo = deviceOnfo;
+            this.DeviceInfo = deviceInfo;
             this.UpdateQueue = updateQueue;
         }
 

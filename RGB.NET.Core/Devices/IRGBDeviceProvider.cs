@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace RGB.NET.Core
 {
@@ -19,6 +20,8 @@ namespace RGB.NET.Core
         /// Gets a list of <see cref="IRGBDevice"/> loaded by this <see cref="IRGBDeviceProvider"/>.
         /// </summary>
         IEnumerable<IRGBDevice> Devices { get; }
+
+        ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers { get; }
 
         #endregion
 

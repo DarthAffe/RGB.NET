@@ -7,6 +7,8 @@ namespace RGB.NET.Core
     /// </summary>
     public interface IUpdateTrigger : IDisposable
     {
+        double LastUpdateTime { get; }
+
         /// <summary>
         /// Occurs when the trigger is starting up.
         /// </summary>
