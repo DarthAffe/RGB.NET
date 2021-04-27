@@ -158,40 +158,40 @@ namespace RGB.NET.Devices.Razer
             { 0x008A, RGBDeviceType.Mouse, "Viper Mini", LedMappings.Mouse, RazerEndpointType.Mouse },
 
             // Mousepads
-            { 0x0068, RGBDeviceType.Mousepad, "Firefly Hyperflux", LedMappings.TODO, RazerEndpointType.Mousepad },
-            { 0x0C00, RGBDeviceType.Mousepad, "Firefly", LedMappings.TODO, RazerEndpointType.Mousepad },
-            { 0x0C01, RGBDeviceType.Mousepad, "Goliathus", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0C02, RGBDeviceType.Mousepad, "Goliathus Extended", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0C04, RGBDeviceType.Mousepad, "Firefly v2", LedMappings.TODO, RazerEndpointType.Mousepad },
+            { 0x0068, RGBDeviceType.Mousepad, "Firefly Hyperflux", LedMappings.Mousepad, RazerEndpointType.Mousepad },
+            { 0x0C00, RGBDeviceType.Mousepad, "Firefly", LedMappings.Mousepad, RazerEndpointType.Mousepad },
+            { 0x0C01, RGBDeviceType.Mousepad, "Goliathus", LedMappings.Mousepad, RazerEndpointType.ChromaLink },
+            { 0x0C02, RGBDeviceType.Mousepad, "Goliathus Extended", LedMappings.Mousepad, RazerEndpointType.ChromaLink },
+            { 0x0C04, RGBDeviceType.Mousepad, "Firefly v2", LedMappings.Mousepad, RazerEndpointType.Mousepad },
 
             // Headsets
-            { 0x0501, RGBDeviceType.Headset, "Kraken 7.1", LedMappings.TODO, RazerEndpointType.Headset },
-            { 0x0504, RGBDeviceType.Headset, "Kraken 7.1 Chroma", LedMappings.TODO, RazerEndpointType.Headset },
-            { 0x0506, RGBDeviceType.Headset, "Kraken 7.1", LedMappings.TODO, RazerEndpointType.Headset },
-            { 0x0510, RGBDeviceType.Headset, "Kraken 7.1 V2", LedMappings.TODO, RazerEndpointType.Headset },
-            { 0x051A, RGBDeviceType.Headset, "Nari Ultimate", LedMappings.TODO, RazerEndpointType.Headset },
-            { 0x0527, RGBDeviceType.Headset, "Kraken Ultimate", LedMappings.TODO, RazerEndpointType.Headset },
-            { 0x0F19, RGBDeviceType.Headset, "Kraken Kitty Edition", LedMappings.TODO, RazerEndpointType.Headset },
+            { 0x0501, RGBDeviceType.Headset, "Kraken 7.1", LedMappings.Headset, RazerEndpointType.Headset },
+            { 0x0504, RGBDeviceType.Headset, "Kraken 7.1 Chroma", LedMappings.Headset, RazerEndpointType.Headset },
+            { 0x0506, RGBDeviceType.Headset, "Kraken 7.1", LedMappings.Headset, RazerEndpointType.Headset },
+            { 0x0510, RGBDeviceType.Headset, "Kraken 7.1 V2", LedMappings.Headset, RazerEndpointType.Headset },
+            { 0x051A, RGBDeviceType.Headset, "Nari Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
+            { 0x0527, RGBDeviceType.Headset, "Kraken Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
+            { 0x0F19, RGBDeviceType.Headset, "Kraken Kitty Edition", LedMappings.Headset, RazerEndpointType.Headset },
 
             // Keypads
-            { 0x0111, RGBDeviceType.Keypad, "Nostromo", LedMappings.TODO, RazerEndpointType.Keypad },
-            { 0x0113, RGBDeviceType.Keypad, "Orbweaver", LedMappings.TODO, RazerEndpointType.Keypad },
-            { 0x0201, RGBDeviceType.Keypad, "Tartarus", LedMappings.TODO, RazerEndpointType.Keypad },
-            { 0x0207, RGBDeviceType.Keypad, "Orbweaver Chroma", LedMappings.TODO, RazerEndpointType.Keypad },
-            { 0x0208, RGBDeviceType.Keypad, "Tartarus Chroma", LedMappings.TODO, RazerEndpointType.Keypad },
-            { 0x022B, RGBDeviceType.Keypad, "Tartarus V2", LedMappings.TODO, RazerEndpointType.Keypad },
-            { 0x0244, RGBDeviceType.Keypad, "Tartarus Pro", LedMappings.TODO, RazerEndpointType.Keypad },
+            { 0x0111, RGBDeviceType.Keypad, "Nostromo", LedMappings.Keypad, RazerEndpointType.Keypad },
+            { 0x0113, RGBDeviceType.Keypad, "Orbweaver", LedMappings.Keypad, RazerEndpointType.Keypad },
+            { 0x0201, RGBDeviceType.Keypad, "Tartarus", LedMappings.Keypad, RazerEndpointType.Keypad },
+            { 0x0207, RGBDeviceType.Keypad, "Orbweaver Chroma", LedMappings.Keypad, RazerEndpointType.Keypad },
+            { 0x0208, RGBDeviceType.Keypad, "Tartarus Chroma", LedMappings.Keypad, RazerEndpointType.Keypad },
+            { 0x022B, RGBDeviceType.Keypad, "Tartarus V2", LedMappings.Keypad, RazerEndpointType.Keypad },
+            { 0x0244, RGBDeviceType.Keypad, "Tartarus Pro", LedMappings.Keypad, RazerEndpointType.Keypad },
 
             // Misc - guessing these are through ChromaLink
-            { 0x0215, RGBDeviceType.GraphicsCard, "Core", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0F08, RGBDeviceType.HeadsetStand, "Base Station Chroma", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0517, RGBDeviceType.Speaker, "Nommo Chroma", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0518, RGBDeviceType.Speaker, "Nommo Pro", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0F07, RGBDeviceType.Unknown, "Chroma Mug Holder", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0F09, RGBDeviceType.Unknown, "Chroma Hardware Development Kit (HDK)", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0F1D, RGBDeviceType.Unknown, "Mouse Bungee V3 Chroma", LedMappings.TODO, RazerEndpointType.ChromaLink },
-            { 0x0F20, RGBDeviceType.Unknown, "Base Station V2 Chroma", LedMappings.TODO, RazerEndpointType.ChromaLink }
+            { 0x0215, RGBDeviceType.GraphicsCard, "Core", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0F08, RGBDeviceType.HeadsetStand, "Base Station Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0517, RGBDeviceType.Speaker, "Nommo Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0518, RGBDeviceType.Speaker, "Nommo Pro", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0F07, RGBDeviceType.Unknown, "Chroma Mug Holder", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0F09, RGBDeviceType.Unknown, "Chroma Hardware Development Kit (HDK)", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0F1D, RGBDeviceType.Unknown, "Mouse Bungee V3 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+            { 0x0F20, RGBDeviceType.Unknown, "Base Station V2 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink }
         };
 
         #endregion

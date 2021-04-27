@@ -28,7 +28,8 @@ namespace RGB.NET.Devices.Razer
         internal RazerMouseRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger, LedMapping<int> ledMapping)
             : base(info, new RazerMouseUpdateQueue(updateTrigger))
         {
-            _ledMapping = ledMapping;
+            this._ledMapping = ledMapping;
+
             InitializeLayout();
         }
 
@@ -38,16 +39,10 @@ namespace RGB.NET.Devices.Razer
 
         private void InitializeLayout()
         {
-            for (int i = 0; i < _Defines.MOUSE_MAX_ROW; i++)
-            {
-                for (int j = 0; j < _Defines.MOUSE_MAX_COLUMN; j++)
-                {
-                    if (_ledMapping.TryGetValue((i * _Defines.MOUSE_MAX_COLUMN) + j, out LedId ledId))
-                    {
-                        AddLed(ledId, new Point(j * 11, i * 11), new Size(10, 10));
-                    }
-                }
-            }
+            for (int row = 0; row < _Defines.MOUSE_MAX_ROW; row++)
+                for (int column = 0; column < _Defines.MOUSE_MAX_COLUMN; column++)
+                    if (_ledMapping.TryGetValue((row * _Defines.MOUSE_MAX_COLUMN) + column, out LedId ledId))
+                        AddLed(ledId, new Point(column * 10, row * 10), new Size(10, 10));
         }
 
         /// <inheritdoc />

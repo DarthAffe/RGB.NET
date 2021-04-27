@@ -31,9 +31,9 @@ namespace RGB.NET.Devices.Razer
 
         private void InitializeLayout()
         {
-            for (int i = 0; i < _Defines.KEYPAD_MAX_ROW; i++)
-                for (int j = 0; j < _Defines.KEYPAD_MAX_COLUMN; j++)
-                    AddLed(LedId.Keypad1 + ((i * _Defines.KEYPAD_MAX_COLUMN) + j), new Point(j * 20, i * 20), new Size(19, 19));
+            for (int row = 0; row < _Defines.KEYPAD_MAX_ROW; row++)
+                for (int column = 0; column < _Defines.KEYPAD_MAX_COLUMN; column++)
+                    AddLed(LedId.Keypad1 + ((row * _Defines.KEYPAD_MAX_COLUMN) + column), new Point(column * 19, row * 19), new Size(19, 19));
         }
 
         /// <inheritdoc />

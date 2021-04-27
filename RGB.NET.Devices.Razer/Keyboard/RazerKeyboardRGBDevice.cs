@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.Razer
     {
         #region Properties & Fields
 
-        IKeyboardDeviceInfo IKeyboard.DeviceInfo => (IKeyboardDeviceInfo) DeviceInfo;
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => (IKeyboardDeviceInfo)DeviceInfo;
 
         private readonly LedMapping<int> _ledMapping;
 
@@ -30,7 +30,8 @@ namespace RGB.NET.Devices.Razer
         internal RazerKeyboardRGBDevice(RazerKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger, LedMapping<int> ledMapping)
             : base(info, new RazerKeyboardUpdateQueue(updateTrigger))
         {
-            _ledMapping = ledMapping;
+            this._ledMapping = ledMapping;
+
             InitializeLayout();
         }
 
@@ -40,16 +41,10 @@ namespace RGB.NET.Devices.Razer
 
         private void InitializeLayout()
         {
-            for (int i = 0; i < _Defines.KEYBOARD_MAX_ROW; i++)
-            {
-                for (int j = 0; j < _Defines.KEYBOARD_MAX_COLUMN; j++)
-                {
-                    if (_ledMapping.TryGetValue((i * _Defines.KEYBOARD_MAX_COLUMN) + j, out var id))
-                    {
-                        AddLed(id, new Point(j * 20, i * 20), new Size(19, 19));
-                    }
-                }
-            }
+            for (int row = 0; row < _Defines.KEYBOARD_MAX_ROW; row++)
+                for (int column = 0; column < _Defines.KEYBOARD_MAX_COLUMN; column++)
+                    if (_ledMapping.TryGetValue((row * _Defines.KEYBOARD_MAX_COLUMN) + column, out LedId id))
+                        AddLed(id, new Point(column * 19, row * 19), new Size(19, 19));
         }
 
         /// <inheritdoc />

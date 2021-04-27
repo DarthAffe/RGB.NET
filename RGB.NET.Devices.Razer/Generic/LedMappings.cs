@@ -5,14 +5,12 @@ namespace RGB.NET.Devices.Razer
 {
     public static class LedMappings
     {
-        public static LedMapping<int> TODO { get; } = new()
-        { };
-
-        internal static readonly LedMapping<int> Keyboard = new()
+        public static readonly LedMapping<int> Keyboard = new()
         {
             //Row 0 is empty
 
             #region Row 1
+
             [LedId.Keyboard_Escape] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 2,
             [LedId.Keyboard_F1] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 4,
             [LedId.Keyboard_F2] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 5,
@@ -30,9 +28,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_ScrollLock] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 17,
             [LedId.Keyboard_PauseBreak] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 18,
             [LedId.Logo] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 21,
+
             #endregion
 
             #region Row 2
+
             [LedId.Keyboard_Macro1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 1,
             [LedId.Keyboard_GraveAccentAndTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
             [LedId.Keyboard_1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 3,
@@ -55,9 +55,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_NumSlash] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 20,
             [LedId.Keyboard_NumAsterisk] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 21,
             [LedId.Keyboard_NumMinus] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 22,
+
             #endregion
 
             #region Row 3
+
             [LedId.Keyboard_Macro2] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 1,
             [LedId.Keyboard_Tab] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 2,
             [LedId.Keyboard_Q] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 3,
@@ -80,9 +82,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_Num8] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 20,
             [LedId.Keyboard_Num9] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 21,
             [LedId.Keyboard_NumPlus] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 22,
+
             #endregion
 
             #region Row 4
+
             [LedId.Keyboard_Macro3] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 1,
             [LedId.Keyboard_CapsLock] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 2,
             [LedId.Keyboard_A] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 3,
@@ -101,9 +105,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_Num4] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 19,
             [LedId.Keyboard_Num5] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 20,
             [LedId.Keyboard_Num6] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 21,
+
             #endregion
 
             #region Row 5
+
             [LedId.Keyboard_Macro4] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 1,
             [LedId.Keyboard_LeftShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 2,
             [LedId.Keyboard_NonUsBackslash] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 3,
@@ -123,9 +129,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_Num2] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 20,
             [LedId.Keyboard_Num3] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 21,
             [LedId.Keyboard_NumEnter] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 22,
+
             #endregion
 
             #region Row 6
+
             [LedId.Keyboard_Macro5] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 1,
             [LedId.Keyboard_LeftCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 2,
             [LedId.Keyboard_LeftGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 3,
@@ -140,16 +148,18 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_ArrowRight] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 18,
             [LedId.Keyboard_Num0] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 20,
             [LedId.Keyboard_NumPeriodAndDelete] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 21,
+
             #endregion
 
             //Row 7 is also empty
         };
 
-        internal static readonly LedMapping<int> LaptopKeyboard = new()
+        public static readonly LedMapping<int> LaptopKeyboard = new()
         {
             //Row 0 is empty
 
             #region Row 1
+
             [LedId.Keyboard_Escape] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 1,
             [LedId.Keyboard_F1] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 2,
             [LedId.Keyboard_F2] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 3,
@@ -165,9 +175,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_F12] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 13,
             [LedId.Keyboard_Insert] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 14,
             [LedId.Keyboard_Delete] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 15,
+
             #endregion
 
             #region Row 2
+
             [LedId.Keyboard_GraveAccentAndTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 1,
             [LedId.Keyboard_1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
             [LedId.Keyboard_2] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 3,
@@ -182,9 +194,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_MinusAndUnderscore] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 12,
             [LedId.Keyboard_EqualsAndPlus] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 13,
             [LedId.Keyboard_Backspace] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 14,
+
             #endregion
 
             #region Row 3
+
             [LedId.Keyboard_Tab] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 2,
             [LedId.Keyboard_Q] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 3,
             [LedId.Keyboard_W] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 4,
@@ -199,9 +213,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_BracketLeft] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 13,
             [LedId.Keyboard_BracketRight] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 14,
             [LedId.Keyboard_Backslash] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 15,
+
             #endregion
 
             #region Row 4
+
             [LedId.Keyboard_CapsLock] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 1,
             [LedId.Keyboard_A] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 3,
             [LedId.Keyboard_S] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 4,
@@ -214,11 +230,13 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_L] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 11,
             [LedId.Keyboard_SemicolonAndColon] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 12,
             [LedId.Keyboard_ApostropheAndDoubleQuote] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 13,
-            //[LedId.Keyboard_NonUsTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 14, TODO: investigate
+            //[LedId.Keyboard_NonUsTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 14, //TODO diogotr7 15.04.2021: investigate
             [LedId.Keyboard_Enter] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 16,
+
             #endregion
 
             #region Row 5
+
             [LedId.Keyboard_LeftShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 2,
             [LedId.Keyboard_Z] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 3,
             [LedId.Keyboard_X] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 4,
@@ -232,9 +250,11 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_SlashAndQuestionMark] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 12,
             [LedId.Keyboard_ArrowUp] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 13,
             [LedId.Keyboard_RightShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 14,
+
             #endregion
 
             #region Row 6
+
             [LedId.Keyboard_LeftCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 1,
             [LedId.Keyboard_Custom1] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 2,//left fn
             [LedId.Keyboard_LeftGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 3,
@@ -246,12 +266,13 @@ namespace RGB.NET.Devices.Razer
             [LedId.Keyboard_ArrowDown] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 13,
             [LedId.Keyboard_ArrowRight] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 14,
             [LedId.Keyboard_Custom2] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 15,//right fn
+
             #endregion
 
             //Row 7 is also empty
         };
 
-        internal static readonly LedMapping<int> Mouse = new()
+        public static readonly LedMapping<int> Mouse = new()
         {
             //row 0 empty
 
@@ -260,7 +281,6 @@ namespace RGB.NET.Devices.Razer
             [LedId.Mouse2] = (_Defines.MOUSE_MAX_COLUMN * 1) + 6,
 
             //row 2
-
             [LedId.Mouse3] = (_Defines.MOUSE_MAX_COLUMN * 2) + 0,
             [LedId.Mouse4] = (_Defines.MOUSE_MAX_COLUMN * 2) + 3,
             [LedId.Mouse5] = (_Defines.MOUSE_MAX_COLUMN * 2) + 6,
@@ -284,7 +304,7 @@ namespace RGB.NET.Devices.Razer
 
             //row 7
             [LedId.Mouse15] = (_Defines.MOUSE_MAX_COLUMN * 7) + 0,
-            [LedId.Mouse16]= (_Defines.MOUSE_MAX_COLUMN * 7) + 3,
+            [LedId.Mouse16] = (_Defines.MOUSE_MAX_COLUMN * 7) + 3,
             [LedId.Mouse17] = (_Defines.MOUSE_MAX_COLUMN * 7) + 6,
 
             //row 8
@@ -294,5 +314,14 @@ namespace RGB.NET.Devices.Razer
             [LedId.Mouse21] = (_Defines.MOUSE_MAX_COLUMN * 8) + 4,
             [LedId.Mouse22] = (_Defines.MOUSE_MAX_COLUMN * 8) + 5,
         };
+
+        //TODO DarthAffe 27.04.2021: Are mappings for these possible?
+        public static readonly LedMapping<int> Mousepad = new();
+
+        public static readonly LedMapping<int> Headset = new();
+
+        public static readonly LedMapping<int> Keypad = new();
+
+        public static readonly LedMapping<int> ChromaLink = new();
     }
 }
