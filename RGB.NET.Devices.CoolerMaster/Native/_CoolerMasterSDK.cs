@@ -16,7 +16,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         #region Libary Management
 
         private static IntPtr _dllHandle = IntPtr.Zero;
-        
+
         /// <summary>
         /// Reloads the SDK.
         /// </summary>
@@ -41,6 +41,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
             if (dllPath == null) throw new RGBDeviceException($"Can't find the CoolerMaster-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
             _dllHandle = LoadLibrary(dllPath);
+            if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
 
             _getSDKVersionPointer = (GetSDKVersionPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetCM_SDK_DllVer"), typeof(GetSDKVersionPointer));
             _setControlDevicenPointer = (SetControlDevicePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetControlDevice"), typeof(SetControlDevicePointer));

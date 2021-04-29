@@ -32,7 +32,7 @@ namespace RGB.NET.Devices.Razer
         private void InitializeLayout()
         {
             for (int i = 0; i < _Defines.CHROMALINK_MAX_LEDS; i++)
-                AddLed(LedId.Custom1 + i, new Point(i * 11, 0), new Size(10, 10));
+                AddLed(LedId.Custom1 + i, new Point(i * 10, 0), new Size(10, 10));
         }
 
         /// <inheritdoc />

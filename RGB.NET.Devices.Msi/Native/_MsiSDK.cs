@@ -38,6 +38,7 @@ namespace RGB.NET.Devices.Msi.Native
             SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath))!);
 
             _dllHandle = LoadLibrary(dllPath);
+            if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"MSI LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
 
             _initializePointer = (InitializePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_Initialize"), typeof(InitializePointer));
             _getDeviceInfoPointer = (GetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetDeviceInfo"), typeof(GetDeviceInfoPointer));

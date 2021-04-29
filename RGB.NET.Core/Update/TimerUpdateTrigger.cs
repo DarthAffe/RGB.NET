@@ -33,7 +33,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the time it took the last update-loop cycle to run.
         /// </summary>
-        public double LastUpdateTime { get; private set; }
+        public override double LastUpdateTime { get; protected set; }
 
         #endregion
 

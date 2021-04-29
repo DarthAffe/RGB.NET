@@ -38,6 +38,7 @@ namespace RGB.NET.Devices.Wooting.Native
             SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath))!);
 
             _dllHandle = LoadLibrary(dllPath);
+            if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"Wooting LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
 
             _getDeviceInfoPointer = (GetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_device_info"), typeof(GetDeviceInfoPointer));
             _keyboardConnectedPointer = (KeyboardConnectedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_kbd_connected"), typeof(KeyboardConnectedPointer));

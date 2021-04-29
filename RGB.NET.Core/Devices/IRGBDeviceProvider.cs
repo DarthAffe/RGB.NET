@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace RGB.NET.Core
 {
@@ -20,6 +21,8 @@ namespace RGB.NET.Core
         /// </summary>
         IEnumerable<IRGBDevice> Devices { get; }
 
+        ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers { get; }
+
         #endregion
 
         #region Events
@@ -27,7 +30,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Occurs when an exception is thrown in the device provider
         /// </summary>
-        event EventHandler<Exception>? Exception;
+        event EventHandler<ExceptionEventArgs>? Exception;
 
         #endregion
 

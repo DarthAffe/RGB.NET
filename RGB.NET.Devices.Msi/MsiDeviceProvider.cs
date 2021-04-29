@@ -59,14 +59,14 @@ namespace RGB.NET.Devices.Msi
 
             int errorCode;
             if ((errorCode = _MsiSDK.Initialize()) != 0)
-                ThrowMsiError(errorCode);
+                ThrowMsiError(errorCode, true);
         }
 
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             int errorCode;
             if ((errorCode = _MsiSDK.GetDeviceInfo(out string[] deviceTypes, out int[] ledCounts)) != 0)
-                ThrowMsiError(errorCode);
+                ThrowMsiError(errorCode, true);
 
             for (int i = 0; i < deviceTypes.Length; i++)
             {
@@ -93,7 +93,7 @@ namespace RGB.NET.Devices.Msi
             }
         }
 
-        private void ThrowMsiError(int errorCode) => Throw(new MysticLightException(errorCode, _MsiSDK.GetErrorMessage(errorCode)));
+        private void ThrowMsiError(int errorCode, bool isCritical = false) => Throw(new MysticLightException(errorCode, _MsiSDK.GetErrorMessage(errorCode)), isCritical);
 
         /// <inheritdoc />
         public override void Dispose()

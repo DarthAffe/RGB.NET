@@ -53,6 +53,8 @@ namespace RGB.NET.Core
             }
         }
 
+        public override double LastUpdateTime { get; protected set; }
+
         protected AutoResetEvent HasDataEvent { get; set; } = new(false);
 
         protected bool IsRunning { get; set; }
@@ -126,9 +128,11 @@ namespace RGB.NET.Core
 
                     OnUpdate();
 
+                    double lastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
+                    LastUpdateTime = lastUpdateTime;
+
                     if (UpdateFrequency > 0)
                     {
-                        double lastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
                         int sleep = (int)((UpdateFrequency * 1000.0) - lastUpdateTime);
                         if (sleep > 0)
                             Thread.Sleep(sleep);

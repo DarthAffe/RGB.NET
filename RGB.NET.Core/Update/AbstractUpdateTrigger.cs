@@ -7,6 +7,12 @@ namespace RGB.NET.Core
     /// </summary>
     public abstract class AbstractUpdateTrigger : AbstractBindable, IUpdateTrigger
     {
+        #region Properties & Fields
+
+        public abstract double LastUpdateTime { get; protected set; }
+
+        #endregion
+
         #region Events
 
         /// <inheritdoc />

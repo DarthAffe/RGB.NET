@@ -37,6 +37,7 @@ namespace RGB.NET.Devices.Logitech.Native
             if (dllPath == null) throw new RGBDeviceException($"Can't find the Logitech-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
             _dllHandle = LoadLibrary(dllPath);
+            if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"Logitech LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
 
             _logiLedInitPointer = (LogiLedInitPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedInit"), typeof(LogiLedInitPointer));
             _logiLedShutdownPointer = (LogiLedShutdownPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedShutdown"), typeof(LogiLedShutdownPointer));

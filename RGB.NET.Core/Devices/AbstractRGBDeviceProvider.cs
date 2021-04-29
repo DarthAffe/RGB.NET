@@ -16,13 +16,15 @@ namespace RGB.NET.Core
 
         public virtual IEnumerable<IRGBDevice> Devices { get; protected set; } = Enumerable.Empty<IRGBDevice>();
 
-        protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggers { get; } = new();
+        protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggerMapping { get; } = new();
+
+        public ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers => new(UpdateTriggerMapping.Select(x => (x.Key, x.Value)).ToList());
 
         #endregion
 
         #region Events
 
-        public event EventHandler<Exception>? Exception;
+        public event EventHandler<ExceptionEventArgs>? Exception;
 
         #endregion
 
@@ -49,15 +51,20 @@ namespace RGB.NET.Core
 
                 Devices = new ReadOnlyCollection<IRGBDevice>(GetLoadedDevices(loadFilter).ToList());
 
-                foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggers.Values)
+                foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
                     updateTrigger.Start();
 
                 IsInitialized = true;
             }
+            catch (DeviceProviderException)
+            {
+                Reset();
+                throw;
+            }
             catch (Exception ex)
             {
                 Reset();
-                Throw(ex);
+                Throw(ex, true);
                 return false;
             }
 
@@ -66,13 +73,23 @@ namespace RGB.NET.Core
 
         protected virtual IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
         {
+            List<IRGBDevice> devices = new();
             foreach (IRGBDevice device in LoadDevices())
             {
-                if (loadFilter.HasFlag(device.DeviceInfo.DeviceType))
-                    yield return device;
-                else
-                    device.Dispose();
+                try
+                {
+                    if (loadFilter.HasFlag(device.DeviceInfo.DeviceType))
+                        devices.Add(device);
+                    else
+                        device.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Throw(ex);
+                }
             }
+
+            return devices;
         }
 
         protected abstract void InitializeSDK();
@@ -81,8 +98,8 @@ namespace RGB.NET.Core
 
         protected virtual IDeviceUpdateTrigger GetUpdateTrigger(int id = -1, double? updateRateHardLimit = null)
         {
-            if (!UpdateTriggers.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))
-                UpdateTriggers[id] = (updaeTrigger = CreateUpdateTrigger(id, updateRateHardLimit ?? _defaultUpdateRateHardLimit));
+            if (!UpdateTriggerMapping.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))
+                UpdateTriggerMapping[id] = (updaeTrigger = CreateUpdateTrigger(id, updateRateHardLimit ?? _defaultUpdateRateHardLimit));
 
             return updaeTrigger;
         }
@@ -91,30 +108,28 @@ namespace RGB.NET.Core
 
         protected virtual void Reset()
         {
-            foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggers.Values)
+            foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
                 updateTrigger.Dispose();
+
+            foreach (IRGBDevice device in Devices)
+                device.Dispose();
 
             Devices = Enumerable.Empty<IRGBDevice>();
             IsInitialized = false;
         }
 
-        protected virtual void Throw(Exception ex)
+        protected virtual void Throw(Exception ex, bool isCritical = false)
         {
-            try { OnException(ex); } catch { /* we don't want to throw due to bad event handlers */ }
+            ExceptionEventArgs args = new(ex, isCritical, ThrowsExceptions);
+            try { OnException(args); } catch { /* we don't want to throw due to bad event handlers */ }
 
-            if (ThrowsExceptions)
-                throw ex;
+            if (args.Throw)
+                throw new DeviceProviderException(ex, isCritical);
         }
 
-        protected virtual void OnException(Exception ex) => Exception?.Invoke(this, ex);
+        protected virtual void OnException(ExceptionEventArgs args) => Exception?.Invoke(this, args);
 
-        public virtual void Dispose()
-        {
-            IEnumerable<IRGBDevice> devices = Devices;
-            Reset();
-            foreach (IRGBDevice device in devices)
-                device.Dispose();
-        }
+        public virtual void Dispose() => Reset();
 
         #endregion
     }
