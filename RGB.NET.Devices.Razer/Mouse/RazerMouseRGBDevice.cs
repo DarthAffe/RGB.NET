@@ -12,6 +12,12 @@ namespace RGB.NET.Devices.Razer
     /// </summary>
     public class RazerMouseRGBDevice : RazerRGBDevice, IMouse
     {
+        #region Properties & Fields
+
+        private readonly LedMapping<int> _ledMapping;
+
+        #endregion
+
         #region Constructors
 
         /// <inheritdoc />
@@ -19,9 +25,11 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the mouse.</param>
-        internal RazerMouseRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+        internal RazerMouseRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger, LedMapping<int> ledMapping)
             : base(info, new RazerMouseUpdateQueue(updateTrigger))
         {
+            this._ledMapping = ledMapping;
+
             InitializeLayout();
         }
 
@@ -31,13 +39,14 @@ namespace RGB.NET.Devices.Razer
 
         private void InitializeLayout()
         {
-            for (int i = 0; i < _Defines.MOUSE_MAX_ROW; i++)
-                for (int j = 0; j < _Defines.MOUSE_MAX_COLUMN; j++)
-                    AddLed(LedId.Mouse1 + ((i * _Defines.MOUSE_MAX_COLUMN) + j), new Point(j * 11, i * 11), new Size(10, 10));
+            for (int row = 0; row < _Defines.MOUSE_MAX_ROW; row++)
+                for (int column = 0; column < _Defines.MOUSE_MAX_COLUMN; column++)
+                    if (_ledMapping.TryGetValue((row * _Defines.MOUSE_MAX_COLUMN) + column, out LedId ledId))
+                        AddLed(ledId, new Point(column * 10, row * 10), new Size(10, 10));
         }
 
         /// <inheritdoc />
-        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
+        protected override object? GetLedCustomData(LedId ledId) => _ledMapping[ledId];
 
         #endregion
     }

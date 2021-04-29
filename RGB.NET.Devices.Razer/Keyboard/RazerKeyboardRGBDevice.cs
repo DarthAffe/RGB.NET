@@ -14,7 +14,9 @@ namespace RGB.NET.Devices.Razer
     {
         #region Properties & Fields
 
-        IKeyboardDeviceInfo IKeyboard.DeviceInfo => (IKeyboardDeviceInfo) DeviceInfo;
+        IKeyboardDeviceInfo IKeyboard.DeviceInfo => (IKeyboardDeviceInfo)DeviceInfo;
+
+        private readonly LedMapping<int> _ledMapping;
 
         #endregion
 
@@ -25,9 +27,11 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keyboard.</param>
-        internal RazerKeyboardRGBDevice(RazerKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+        internal RazerKeyboardRGBDevice(RazerKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger, LedMapping<int> ledMapping)
             : base(info, new RazerKeyboardUpdateQueue(updateTrigger))
         {
+            this._ledMapping = ledMapping;
+
             InitializeLayout();
         }
 
@@ -37,14 +41,14 @@ namespace RGB.NET.Devices.Razer
 
         private void InitializeLayout()
         {
-            // TODO Look at DeviceInfo.EndpointType and act accordingly for both Keyboard and LaptopKeyboard
-            for (int i = 0; i < _Defines.KEYBOARD_MAX_ROW; i++)
-                for (int j = 0; j < _Defines.KEYBOARD_MAX_COLUMN; j++)
-                    AddLed(LedId.Keyboard_Escape + ((i * _Defines.KEYBOARD_MAX_COLUMN) + j), new Point(j * 20, i * 20), new Size(19, 19));
+            for (int row = 0; row < _Defines.KEYBOARD_MAX_ROW; row++)
+                for (int column = 0; column < _Defines.KEYBOARD_MAX_COLUMN; column++)
+                    if (_ledMapping.TryGetValue((row * _Defines.KEYBOARD_MAX_COLUMN) + column, out LedId id))
+                        AddLed(id, new Point(column * 19, row * 19), new Size(19, 19));
         }
 
         /// <inheritdoc />
-        protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Keyboard_Escape;
+        protected override object? GetLedCustomData(LedId ledId) => _ledMapping[ledId];
 
         #endregion
     }
