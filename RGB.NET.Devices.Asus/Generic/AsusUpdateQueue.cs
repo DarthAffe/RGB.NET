@@ -44,13 +44,13 @@ namespace RGB.NET.Devices.Asus
                 {
                     if (Device is not IAuraSyncKeyboard keyboard)
                         return;
-                    
+
                     foreach ((object customData, Color value) in dataSet)
                     {
-                        (bool, int) customDataTuple = ((bool, int))customData;
-                        if (customDataTuple.Item1)
+                        (AsusLedType ledType, int id) = (AsusKeyboardLedCustomData)customData;
+                        if (ledType == AsusLedType.Key)
                         {
-                            IAuraRgbLight light = keyboard.Key[(ushort)customDataTuple.Item2];
+                            IAuraRgbLight light = keyboard.Key[(ushort)id];
                             (_, byte r, byte g, byte b) = value.GetRGBBytes();
                             light.Red = r;
                             light.Green = g;
@@ -58,7 +58,7 @@ namespace RGB.NET.Devices.Asus
                         }
                         else
                         {
-                            IAuraRgbLight light = keyboard.Lights[customDataTuple.Item2];
+                            IAuraRgbLight light = keyboard.Lights[id];
                             (_, byte r, byte g, byte b) = value.GetRGBBytes();
                             light.Red = r;
                             light.Green = g;
