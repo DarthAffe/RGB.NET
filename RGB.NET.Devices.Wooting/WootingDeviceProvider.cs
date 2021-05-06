@@ -55,25 +55,31 @@ namespace RGB.NET.Devices.Wooting
 
         protected override void InitializeSDK()
         {
-            _WootingSDK.Reload();
+            lock (_WootingSDK.SdkLock)
+            {
+                _WootingSDK.Reload();
+            }
         }
 
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
-            if (_WootingSDK.KeyboardConnected())
+            lock (_WootingSDK.SdkLock)
             {
-                _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
-                IWootingRGBDevice? device = nativeDeviceInfo.Model switch
+                if (_WootingSDK.KeyboardConnected())
                 {
-                    "Wooting two" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo), GetUpdateTrigger()),
-                    "Wooting one" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne), GetUpdateTrigger()),
-                    _ => null
-                };
+                    _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
+                    IWootingRGBDevice? device = nativeDeviceInfo.Model switch
+                    {
+                        "Wooting two" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo), GetUpdateTrigger()),
+                        "Wooting one" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne), GetUpdateTrigger()),
+                        _ => null
+                    };
 
-                if (device == null)
-                    Throw(new RGBDeviceException("No supported Wooting keyboard connected"));
-                else
-                    yield return device;
+                    if (device == null)
+                        Throw(new RGBDeviceException("No supported Wooting keyboard connected"));
+                    else
+                        yield return device;
+                }
             }
         }
 
@@ -82,11 +88,11 @@ namespace RGB.NET.Devices.Wooting
         {
             base.Dispose();
 
-            try { _WootingSDK.Close(); }
-            catch { /* Unlucky.. */ }
-
-            try { _WootingSDK.UnloadWootingSDK(); }
-            catch { /* at least we tried */ }
+            lock (_WootingSDK.SdkLock)
+            {
+                try { _WootingSDK.UnloadWootingSDK(); }
+                catch { /* at least we tried */ }
+            }
         }
 
         #endregion

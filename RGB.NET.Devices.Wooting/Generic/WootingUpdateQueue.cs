@@ -28,13 +28,16 @@ namespace RGB.NET.Devices.Wooting.Generic
         /// <inheritdoc />
         protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
-            foreach ((object key, Color color) in dataSet)
+            lock (_WootingSDK.SdkLock)
             {
-                (int row, int column) = ((int, int))key;
-                _WootingSDK.ArraySetSingle((byte)row, (byte)column, color.GetR(), color.GetG(), color.GetB());
-            }
+                foreach ((object key, Color color) in dataSet)
+                {
+                    (int row, int column) = ((int, int))key;
+                    _WootingSDK.ArraySetSingle((byte)row, (byte)column, color.GetR(), color.GetG(), color.GetB());
+                }
 
-            _WootingSDK.ArrayUpdateKeyboard();
+                _WootingSDK.ArrayUpdateKeyboard();
+            }
         }
 
         #endregion
