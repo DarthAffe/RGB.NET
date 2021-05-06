@@ -141,6 +141,8 @@ namespace RGB.NET.Core
 
         Keyboard_WinLock = 0x00004001,
         Keyboard_Brightness = 0x00004002,
+        Keyboard_LedProgramming = 0x00004003,
+        Keyboard_Profile = 0x00004004,
 
         Keyboard_MacroRecording = 0x00005001,
         Keyboard_Macro1 = 0x00005002,

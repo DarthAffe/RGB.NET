@@ -7,19 +7,22 @@ namespace RGB.NET.Devices.Corsair
         static LedMappings()
         {
             for (int i = 0; i <= (CorsairLedId.GPU50 - CorsairLedId.GPU1); i++)
-                GraphicsCard.Add(LedId.GraphicsCard1 + i, (CorsairLedId.GPU1 + i));
+                GraphicsCard.Add(LedId.GraphicsCard1 + i, CorsairLedId.GPU1 + i);
 
             for (int i = 0; i <= (CorsairLedId.HeadsetStandZone9 - CorsairLedId.HeadsetStandZone1); i++)
-                HeadsetStand.Add(LedId.HeadsetStand1 + i, (CorsairLedId.HeadsetStandZone1 + i));
+                HeadsetStand.Add(LedId.HeadsetStand1 + i, CorsairLedId.HeadsetStandZone1 + i);
 
             for (int i = 0; i <= (CorsairLedId.Mainboard100 - CorsairLedId.Mainboard1); i++)
-                Mainboard.Add(LedId.Mainboard1 + i, (CorsairLedId.Mainboard1 + i));
+                Mainboard.Add(LedId.Mainboard1 + i, CorsairLedId.Mainboard1 + i);
 
             for (int i = 0; i <= (CorsairLedId.DRAM12 - CorsairLedId.DRAM1); i++)
-                Memory.Add(LedId.DRAM1 + i, (CorsairLedId.DRAM1 + i));
+                Memory.Add(LedId.DRAM1 + i, CorsairLedId.DRAM1 + i);
 
             for (int i = 0; i <= (CorsairLedId.Zone15 - CorsairLedId.Zone1); i++)
-                Mousepad.Add(LedId.Mousepad1 + i, (CorsairLedId.Zone1 + i));
+                Mousepad.Add(LedId.Mousepad1 + i, CorsairLedId.Zone1 + i);
+
+            for (int i = 0; i <= (CorsairLedId.OemLed100 - CorsairLedId.OemLed1); i++)
+                Keyboard.Add(LedId.Custom1 + i, CorsairLedId.OemLed1 + i);
         }
 
         public static LedMapping<CorsairLedId> GraphicsCard = new();
@@ -193,27 +196,60 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Keyboard_Programmable18, CorsairLedId.G18 },
             { LedId.Keyboard_International5, CorsairLedId.International5 },
             { LedId.Keyboard_International4, CorsairLedId.International4 },
-            { LedId.Keyboard_Custom1, CorsairLedId.Lightbar1 },
-            { LedId.Keyboard_Custom2, CorsairLedId.Lightbar2 },
-            { LedId.Keyboard_Custom3, CorsairLedId.Lightbar3 },
-            { LedId.Keyboard_Custom4, CorsairLedId.Lightbar4 },
-            { LedId.Keyboard_Custom5, CorsairLedId.Lightbar5 },
-            { LedId.Keyboard_Custom6, CorsairLedId.Lightbar6 },
-            { LedId.Keyboard_Custom7, CorsairLedId.Lightbar7 },
-            { LedId.Keyboard_Custom8, CorsairLedId.Lightbar8 },
-            { LedId.Keyboard_Custom9, CorsairLedId.Lightbar9 },
-            { LedId.Keyboard_Custom10, CorsairLedId.Lightbar10 },
-            { LedId.Keyboard_Custom11, CorsairLedId.Lightbar11 },
-            { LedId.Keyboard_Custom12, CorsairLedId.Lightbar12 },
-            { LedId.Keyboard_Custom13, CorsairLedId.Lightbar13 },
-            { LedId.Keyboard_Custom14, CorsairLedId.Lightbar14 },
-            { LedId.Keyboard_Custom15, CorsairLedId.Lightbar15 },
-            { LedId.Keyboard_Custom16, CorsairLedId.Lightbar16 },
-            { LedId.Keyboard_Custom17, CorsairLedId.Lightbar17 },
-            { LedId.Keyboard_Custom18, CorsairLedId.Lightbar18 },
-            { LedId.Keyboard_Custom19, CorsairLedId.Lightbar19 },
-            { LedId.Keyboard_Custom20, CorsairLedId.LedProgramming },
-            { LedId.Keyboard_Custom21, CorsairLedId.Fn }
+            { LedId.Keyboard_Profile, CorsairLedId.Profile },
+            { LedId.Keyboard_LedProgramming, CorsairLedId.LedProgramming },
+            { LedId.Keyboard_Function, CorsairLedId.Fn },
+
+            { LedId.LedStripe1, CorsairLedId.Lightbar1 },
+            { LedId.LedStripe2, CorsairLedId.Lightbar2 },
+            { LedId.LedStripe3, CorsairLedId.Lightbar3 },
+            { LedId.LedStripe4, CorsairLedId.Lightbar4 },
+            { LedId.LedStripe5, CorsairLedId.Lightbar5 },
+            { LedId.LedStripe6, CorsairLedId.Lightbar6 },
+            { LedId.LedStripe7, CorsairLedId.Lightbar7 },
+            { LedId.LedStripe8, CorsairLedId.Lightbar8 },
+            { LedId.LedStripe9, CorsairLedId.Lightbar9 },
+            { LedId.LedStripe10, CorsairLedId.Lightbar10 },
+            { LedId.LedStripe11, CorsairLedId.Lightbar11 },
+            { LedId.LedStripe12, CorsairLedId.Lightbar12 },
+            { LedId.LedStripe13, CorsairLedId.Lightbar13 },
+            { LedId.LedStripe14, CorsairLedId.Lightbar14 },
+            { LedId.LedStripe15, CorsairLedId.Lightbar15 },
+            { LedId.LedStripe16, CorsairLedId.Lightbar16 },
+            { LedId.LedStripe17, CorsairLedId.Lightbar17 },
+            { LedId.LedStripe18, CorsairLedId.Lightbar18 },
+            { LedId.LedStripe19, CorsairLedId.Lightbar19 },
+            { LedId.LedStripe20, CorsairLedId.Lightbar20 },
+            { LedId.LedStripe21, CorsairLedId.Lightbar21 },
+            { LedId.LedStripe22, CorsairLedId.Lightbar22 },
+            { LedId.LedStripe23, CorsairLedId.Lightbar23 },
+            { LedId.LedStripe24, CorsairLedId.Lightbar24 },
+            { LedId.LedStripe25, CorsairLedId.Lightbar25 },
+            { LedId.LedStripe26, CorsairLedId.Lightbar26 },
+            { LedId.LedStripe27, CorsairLedId.Lightbar27 },
+            { LedId.LedStripe28, CorsairLedId.Lightbar28 },
+            { LedId.LedStripe29, CorsairLedId.Lightbar29 },
+            { LedId.LedStripe30, CorsairLedId.Lightbar30 },
+            { LedId.LedStripe31, CorsairLedId.Lightbar31 },
+            { LedId.LedStripe32, CorsairLedId.Lightbar32 },
+            { LedId.LedStripe33, CorsairLedId.Lightbar33 },
+            { LedId.LedStripe34, CorsairLedId.Lightbar34 },
+            { LedId.LedStripe35, CorsairLedId.Lightbar35 },
+            { LedId.LedStripe36, CorsairLedId.Lightbar36 },
+            { LedId.LedStripe37, CorsairLedId.Lightbar37 },
+            { LedId.LedStripe38, CorsairLedId.Lightbar38 },
+            { LedId.LedStripe39, CorsairLedId.Lightbar39 },
+            { LedId.LedStripe40, CorsairLedId.Lightbar40 },
+            { LedId.LedStripe41, CorsairLedId.Lightbar41 },
+            { LedId.LedStripe42, CorsairLedId.Lightbar42 },
+            { LedId.LedStripe43, CorsairLedId.Lightbar43 },
+            { LedId.LedStripe44, CorsairLedId.Lightbar44 },
+            { LedId.LedStripe45, CorsairLedId.Lightbar45 },
+            { LedId.LedStripe46, CorsairLedId.Lightbar46 },
+            { LedId.LedStripe47, CorsairLedId.Lightbar47 },
+            { LedId.LedStripe48, CorsairLedId.Lightbar48 },
+            { LedId.LedStripe49, CorsairLedId.Lightbar49 },
+            { LedId.LedStripe50, CorsairLedId.Lightbar50 },
         };
     }
 }
