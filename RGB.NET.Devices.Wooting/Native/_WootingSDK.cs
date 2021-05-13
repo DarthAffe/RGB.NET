@@ -16,6 +16,7 @@ namespace RGB.NET.Devices.Wooting.Native
         #region Library management
 
         private static IntPtr _dllHandle = IntPtr.Zero;
+        internal static object SdkLock = new();
 
         /// <summary>
         /// Reloads the SDK.
@@ -51,6 +52,16 @@ namespace RGB.NET.Devices.Wooting.Native
         internal static void UnloadWootingSDK()
         {
             if (_dllHandle == IntPtr.Zero) return;
+
+            Reset();
+            Close();
+
+            _getDeviceInfoPointer = null;
+            _keyboardConnectedPointer = null;
+            _arrayUpdateKeyboardPointer = null;
+            _arraySetSinglePointer = null;
+            _resetPointer = null;
+            _closePointer = null;
 
             // ReSharper disable once EmptyEmbeddedStatement - DarthAffe 20.02.2016: We might need to reduce the internal reference counter more than once to set the library free
             while (FreeLibrary(_dllHandle)) ;
@@ -116,3 +127,4 @@ namespace RGB.NET.Devices.Wooting.Native
         #endregion
     }
 }
+    
