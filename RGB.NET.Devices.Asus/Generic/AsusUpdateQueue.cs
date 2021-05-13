@@ -42,28 +42,23 @@ namespace RGB.NET.Devices.Asus
             {
                 if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))
                 {
-                    foreach ((object key, Color value) in dataSet)
+                    if (Device is not IAuraSyncKeyboard keyboard)
+                        return;
+
+                    foreach ((object customData, Color value) in dataSet)
                     {
-                        AsusLedId index = (AsusLedId)key;
-                        if (Device is IAuraSyncKeyboard keyboard)
+                        (AsusLedType ledType, int id) = (AsusKeyboardLedCustomData)customData;
+                        if (ledType == AsusLedType.Key)
                         {
-                            IAuraRgbLight light = index switch
-                            {
-                                //UK keyboard Layout
-                                AsusLedId.KEY_OEM_102 => keyboard.Lights[(int)((3 * keyboard.Width) + 13)],
-                                AsusLedId.UNDOCUMENTED_1 => keyboard.Lights[(int)((4 * keyboard.Width) + 1)],
-                                _ => keyboard.Key[(ushort)index]
-                            };
-
-                            // Asus Strix Scope
-                            if (keyboard.Name == "Charm")
-                                light = index switch
-                                {
-                                    AsusLedId.KEY_LWIN => keyboard.Lights[(int)((5 * keyboard.Width) + 2)],
-                                    AsusLedId.KEY_LMENU => keyboard.Lights[(int)((5 * keyboard.Width) + 3)],
-                                    _ => light
-                                };
-
+                            IAuraRgbLight light = keyboard.Key[(ushort)id];
+                            (_, byte r, byte g, byte b) = value.GetRGBBytes();
+                            light.Red = r;
+                            light.Green = g;
+                            light.Blue = b;
+                        }
+                        else
+                        {
+                            IAuraRgbLight light = keyboard.Lights[id];
                             (_, byte r, byte g, byte b) = value.GetRGBBytes();
                             light.Red = r;
                             light.Green = g;
@@ -88,8 +83,10 @@ namespace RGB.NET.Devices.Asus
                 Device.Apply();
             }
             catch
-            { /* "The server threw an exception." seems to be a thing here ... */ }
+            { /* "The server threw an exception." seems to be a thing here ... */
+            }
         }
+
         #endregion
     }
 }
