@@ -2,6 +2,8 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
@@ -28,12 +30,13 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairCustomRGBDeviceInfo" />.
         /// </summary>
-        /// <param name="info">The info describing the the <see cref="T:RGB.NET.Devices.Corsair.CorsairCustomRGBDevice" />.</param>
+        /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair._CorsairChannelDeviceInfo" />.</param>
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
         /// <param name="channelDeviceInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairChannelDeviceInfo"/> representing this device.</param>
         /// <param name="referenceCorsairLed">The id of the first led of this device.</param>
-        internal CorsairCustomRGBDeviceInfo(CorsairRGBDeviceInfo info, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, CorsairLedId referenceCorsairLed, int ledOffset)
-            : base(info.CorsairDeviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo, GetModelName(info, channelDeviceInfo))
+        internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, CorsairLedId referenceCorsairLed, int ledOffset)
+            : base(deviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo,
+                   GetModelName(nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase), channelDeviceInfo))
         {
             this.ReferenceCorsairLed = referenceCorsairLed;
             this.LedOffset = ledOffset;
@@ -73,7 +76,7 @@ namespace RGB.NET.Devices.Corsair
             }
         }
 
-        private static string GetModelName(IRGBDeviceInfo info, _CorsairChannelDeviceInfo channelDeviceInfo)
+        private static string GetModelName(string model, _CorsairChannelDeviceInfo channelDeviceInfo)
         {
             switch (channelDeviceInfo.type)
             {
@@ -100,14 +103,14 @@ namespace RGB.NET.Devices.Corsair
 
                 case CorsairChannelDeviceType.Strip:
                     // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single
-                    if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 138))
+                    if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 138))
                         return "LS100 LED Strip (dual monitor)";
-                    else if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 84))
+                    else if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 84))
                         return "LS100 LED Strip (single monitor)";
                     // Any other value means an "External LED Strip" in iCUE, these are reported per-strip, 15 for short strips, 27 for long
-                    else if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 15))
+                    else if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 15))
                         return "LS100 LED Strip (short)";
-                    else if ((info.Model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 27))
+                    else if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 27))
                         return "LS100 LED Strip (long)";
                     // Device model is "Commander Pro" for regular LED strips
                     else
