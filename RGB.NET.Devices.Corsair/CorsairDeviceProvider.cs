@@ -99,12 +99,11 @@ namespace RGB.NET.Devices.Corsair
             for (int i = 0; i < deviceCount; i++)
             {
                 _CorsairDeviceInfo nativeDeviceInfo = (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo))!;
-                CorsairRGBDeviceInfo info = new(i, RGBDeviceType.Unknown, nativeDeviceInfo);
-                if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
+                if (!((CorsairDeviceCaps)nativeDeviceInfo.capsMask).HasFlag(CorsairDeviceCaps.Lighting))
                     continue; // Everything that doesn't support lighting control is useless
 
-                CorsairDeviceUpdateQueue updateQueue = new(GetUpdateTrigger(), info.CorsairDeviceIndex);
-                switch (info.CorsairDeviceType)
+                CorsairDeviceUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
+                switch (nativeDeviceInfo.type)
                 {
                     case CorsairDeviceType.Keyboard:
                         yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
@@ -149,7 +148,7 @@ namespace RGB.NET.Devices.Corsair
 
                             for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
                             {
-                                CorsairLedId referenceLed = GetChannelReferenceId(info.CorsairDeviceType, channel);
+                                CorsairLedId referenceLed = GetChannelReferenceId(nativeDeviceInfo.type, channel);
                                 if (referenceLed == CorsairLedId.Invalid) continue;
 
                                 _CorsairChannelInfo channelInfo = (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo))!;
@@ -161,7 +160,7 @@ namespace RGB.NET.Devices.Corsair
                                 {
                                     _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo))!;
 
-                                    yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info, nativeDeviceInfo, channelDeviceInfo, referenceLed, ledOffset), updateQueue);
+                                    yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(i, nativeDeviceInfo, channelDeviceInfo, referenceLed, ledOffset), updateQueue);
                                     referenceLed += channelDeviceInfo.deviceLedCount;
 
                                     ledOffset += channelDeviceInfo.deviceLedCount;

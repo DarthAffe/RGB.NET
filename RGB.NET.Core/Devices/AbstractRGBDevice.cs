@@ -135,6 +135,8 @@ namespace RGB.NET.Core
         {
             try { UpdateQueue.Dispose(); } catch { /* :( */ }
             try { LedMapping.Clear(); } catch { /* this really shouldn't happen */ }
+
+            IdGenerator.ResetCounter(GetType().Assembly);
         }
 
         /// <summary>

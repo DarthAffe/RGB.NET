@@ -265,7 +265,8 @@ namespace RGB.NET.Core
         {
             lock (_devices)
             {
-                if (device.Surface != null) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' is already attached to a surface.");
+                if (string.IsNullOrWhiteSpace(device.DeviceInfo.DeviceName)) throw new RGBDeviceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' has no valid name.");
+                if (device.Surface != null) throw new RGBSurfaceException($"The device '{device.DeviceInfo.DeviceName}' is already attached to a surface.");
 
                 device.Surface = this;
                 device.BoundaryChanged += DeviceOnBoundaryChanged;
@@ -279,7 +280,7 @@ namespace RGB.NET.Core
         {
             lock (_devices)
             {
-                if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' is not attached to this surface.");
+                if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.DeviceName}' is not attached to this surface.");
 
                 device.BoundaryChanged -= DeviceOnBoundaryChanged;
                 device.Surface = null;
