@@ -33,7 +33,7 @@ namespace RGB.NET.Devices.Razer
 
             #region Row 2
 
-            [LedId.Keyboard_Macro1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 1,
+            [LedId.Keyboard_Programmable1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 1,
             [LedId.Keyboard_GraveAccentAndTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
             [LedId.Keyboard_1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 3,
             [LedId.Keyboard_2] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 4,
@@ -60,7 +60,7 @@ namespace RGB.NET.Devices.Razer
 
             #region Row 3
 
-            [LedId.Keyboard_Macro2] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 1,
+            [LedId.Keyboard_Programmable2] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 1,
             [LedId.Keyboard_Tab] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 2,
             [LedId.Keyboard_Q] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 3,
             [LedId.Keyboard_W] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 4,
@@ -87,7 +87,7 @@ namespace RGB.NET.Devices.Razer
 
             #region Row 4
 
-            [LedId.Keyboard_Macro3] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 1,
+            [LedId.Keyboard_Programmable3] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 1,
             [LedId.Keyboard_CapsLock] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 2,
             [LedId.Keyboard_A] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 3,
             [LedId.Keyboard_S] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 4,
@@ -110,7 +110,7 @@ namespace RGB.NET.Devices.Razer
 
             #region Row 5
 
-            [LedId.Keyboard_Macro4] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 1,
+            [LedId.Keyboard_Programmable4] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 1,
             [LedId.Keyboard_LeftShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 2,
             [LedId.Keyboard_NonUsBackslash] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 3,
             [LedId.Keyboard_Z] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 4,
@@ -134,7 +134,7 @@ namespace RGB.NET.Devices.Razer
 
             #region Row 6
 
-            [LedId.Keyboard_Macro5] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 1,
+            [LedId.Keyboard_Programmable5] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 1,
             [LedId.Keyboard_LeftCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 2,
             [LedId.Keyboard_LeftGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 3,
             [LedId.Keyboard_LeftAlt] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 4,
