@@ -156,6 +156,8 @@ namespace RGB.NET.Devices.Razer
             { 0x0088, RGBDeviceType.Mouse, "Basilisk Ultimate", LedMappings.Mouse, RazerEndpointType.Mouse },
             { 0x0084, RGBDeviceType.Mouse, "DeathAdder V2", LedMappings.Mouse, RazerEndpointType.Mouse },
             { 0x008A, RGBDeviceType.Mouse, "Viper Mini", LedMappings.Mouse, RazerEndpointType.Mouse },
+            { 0x008D, RGBDeviceType.Mouse, "Naga Left Handed Edition", LedMappings.Mouse, RazerEndpointType.Mouse },
+
 
             // Mousepads
             { 0x0068, RGBDeviceType.Mousepad, "Firefly Hyperflux", LedMappings.Mousepad, RazerEndpointType.Mousepad },
