@@ -140,10 +140,10 @@ namespace RGB.NET.Devices.Logitech
         //TODO DarthAffe 04.03.2021: Rework device selection and configuration for HID-based providers 
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
-            IEnumerable<(HIDDeviceDefinition<LogitechLedId, int> definition, HidDevice device)> perKeyDevices = PerKeyDeviceDefinitions.GetConnectedDevices();
-            if ((_perKeyUpdateQueue != null) && perKeyDevices.Any())
+            (HIDDeviceDefinition<LogitechLedId, int> definition, HidDevice device) perKeyDevice = PerKeyDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
+            if ((_perKeyUpdateQueue != null) && (perKeyDevice != default))
             {
-                (HIDDeviceDefinition<LogitechLedId, int> definition, _) = perKeyDevices.First();
+                (HIDDeviceDefinition<LogitechLedId, int> definition, _) = perKeyDevice;
                 yield return new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.PerKeyRGB, 0), _perKeyUpdateQueue, definition.LedMapping);
             }
 
@@ -154,10 +154,10 @@ namespace RGB.NET.Devices.Logitech
                 yield return new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, definition.CustomData.zones), updateQueue, definition.LedMapping);
             }
 
-            IEnumerable<(HIDDeviceDefinition<int, int> definition, HidDevice device)> perDeviceDevices = PerDeviceDeviceDefinitions.GetConnectedDevices();
-            if ((_perDeviceUpdateQueue != null) && perDeviceDevices.Any())
+            (HIDDeviceDefinition<int, int> definition, HidDevice device) perDeviceDevice = PerDeviceDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
+            if ((_perDeviceUpdateQueue != null) && (perDeviceDevice != default))
             {
-                (HIDDeviceDefinition<int, int> definition, _) = perDeviceDevices.First();
+                (HIDDeviceDefinition<int, int> definition, _) = perDeviceDevice;
                 yield return new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, 0), _perDeviceUpdateQueue, definition.LedMapping);
             }
         }
@@ -172,6 +172,8 @@ namespace RGB.NET.Devices.Logitech
 
             try { _LogitechGSDK.UnloadLogitechGSDK(); }
             catch { /* at least we tried */ }
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

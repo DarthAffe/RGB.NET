@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable EventNeverSubscribedTo.Global
+
+using System;
 
 namespace RGB.NET.Core
 {

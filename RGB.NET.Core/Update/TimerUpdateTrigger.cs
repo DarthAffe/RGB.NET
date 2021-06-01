@@ -1,5 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private object _lock = new();
+        private readonly object _lock = new();
 
         protected Task? UpdateTask { get; set; }
         protected CancellationTokenSource? UpdateTokenSource { get; set; }
@@ -46,6 +47,7 @@ namespace RGB.NET.Core
         public TimerUpdateTrigger(bool autostart = true)
         {
             if (autostart)
+                // ReSharper disable once VirtualMemberCallInConstructor - HACK DarthAffe 01.06.2021: I've no idea how to correctly handle that case, for now just disable it 
                 Start();
         }
 
@@ -109,7 +111,11 @@ namespace RGB.NET.Core
         }
 
         /// <inheritdoc />
-        public override void Dispose() => Stop();
+        public override void Dispose()
+        {
+            Stop();
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }

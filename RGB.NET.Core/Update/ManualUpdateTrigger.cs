@@ -14,7 +14,7 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private AutoResetEvent _mutex = new(false);
+        private readonly AutoResetEvent _mutex = new(false);
         private Task? UpdateTask { get; set; }
         private CancellationTokenSource? UpdateTokenSource { get; set; }
         private CancellationToken UpdateToken { get; set; }

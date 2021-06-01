@@ -40,7 +40,9 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <inheritdoc />
+        // ReSharper disable RedundantCast
         protected override object GetLedCustomData(LedId ledId) => GetDeviceMapping().TryGetValue(ledId, out (byte mode, byte id, int _, int __) data) ? (data.mode, data.id) : ((byte)0x00, (byte)0x00);
+        // ReSharper restore RedundantCast
 
         protected virtual Dictionary<LedId, (byte mode, byte id, int x, int y)> GetDeviceMapping()
             => DeviceInfo.LedIdMapping switch

@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.CoolerMaster.Helper
         /// </summary>
         /// <param name="source">The enum value to get the description from.</param>
         /// <returns>The value of the <see cref="DescriptionAttribute"/> or the <see cref="Enum.ToString()" /> result of the source.</returns>
-        internal static string? GetDescription(this Enum source)
+        internal static string GetDescription(this Enum source)
             => source.GetAttribute<DescriptionAttribute>()?.Description ?? source.ToString();
 
         /// <summary>

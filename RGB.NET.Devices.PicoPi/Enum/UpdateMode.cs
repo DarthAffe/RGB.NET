@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Devices.PicoPi.Enum
+﻿// ReSharper disable InconsistentNaming
+
+namespace RGB.NET.Devices.PicoPi.Enum
 {
     public enum UpdateMode
     {

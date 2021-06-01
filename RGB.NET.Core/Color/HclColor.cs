@@ -155,8 +155,8 @@ namespace RGB.NET.Core
         /// <returns>The color created from the values.</returns>
         public static Color Create(float alpha, float h, float c, float l)
         {
-            (float r, float g, float _b) = CalculateRGBFromHcl(h, c, l);
-            return new Color(alpha, r, g, _b);
+            (float r, float g, float b) = CalculateRGBFromHcl(h, c, l);
+            return new Color(alpha, r, g, b);
         }
 
         #endregion
@@ -167,6 +167,7 @@ namespace RGB.NET.Core
         {
             const float RADIANS_DEGREES_CONVERSION = 180.0f / MathF.PI;
 
+            // ReSharper disable once InconsistentNaming - b is used above
             (float l, float a, float _b) = LabColor.CalculateLabFromRGB(r, g, b);
 
             float h, c;

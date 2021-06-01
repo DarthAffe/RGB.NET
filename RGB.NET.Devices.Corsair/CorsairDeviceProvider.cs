@@ -80,7 +80,7 @@ namespace RGB.NET.Devices.Corsair
 
             // DarthAffe 02.02.2021: 127 is iCUE
             if (!_CUESDK.CorsairSetLayerPriority(128))
-                Throw(new CUEException(LastError), false);
+                Throw(new CUEException(LastError));
         }
 
         /// <inheritdoc />

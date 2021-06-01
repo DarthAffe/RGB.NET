@@ -9,6 +9,7 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
+        /// <inheritdoc />
         public abstract double LastUpdateTime { get; protected set; }
 
         #endregion

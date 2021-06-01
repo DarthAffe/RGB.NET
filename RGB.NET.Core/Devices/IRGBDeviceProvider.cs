@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable EventNeverSubscribedTo.Global
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 

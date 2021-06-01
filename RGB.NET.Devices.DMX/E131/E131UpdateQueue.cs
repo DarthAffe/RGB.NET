@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.DMX.E131
         /// <summary>
         /// The UDP-Connection used to send data.
         /// </summary>
-        private UdpClient _socket;
+        private readonly UdpClient _socket;
 
         /// <summary>
         /// Gets the byte-representation of a E1.31 packet as described in http://tsp.esta.org/tsp/documents/docs/E1-31-2016.pdf.
@@ -26,7 +26,7 @@ namespace RGB.NET.Devices.DMX.E131
         /// <summary>
         /// The sequence-number used to detect the order in which packages where sent.
         /// </summary>
-        private byte _sequenceNumber = 0;
+        private byte _sequenceNumber;
 
         #endregion
 

@@ -48,7 +48,7 @@ namespace RGB.NET.Devices.Razer
         }
 
         /// <inheritdoc />
-        protected override object? GetLedCustomData(LedId ledId) => _ledMapping[ledId];
+        protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
 
         #endregion
     }

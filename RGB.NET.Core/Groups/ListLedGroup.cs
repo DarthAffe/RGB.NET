@@ -73,7 +73,7 @@ namespace RGB.NET.Core
         {
             lock (GroupLeds)
                 foreach (Led led in leds)
-                    if ((led != null) && !ContainsLed(led))
+                    if (!ContainsLed(led))
                         GroupLeds.Add(led);
         }
 
@@ -91,8 +91,7 @@ namespace RGB.NET.Core
         {
             lock (GroupLeds)
                 foreach (Led led in leds)
-                    if (led != null)
-                        GroupLeds.Remove(led);
+                    GroupLeds.Remove(led);
         }
 
         /// <summary>

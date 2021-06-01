@@ -18,7 +18,9 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <param name="info">The specific information provided by CoolerMaster for the mouse</param>
         internal CoolerMasterMouseRGBDevice(CoolerMasterMouseRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
-        { }
+        {
+            InitializeLayout();
+        }
 
         #endregion
 

@@ -33,7 +33,7 @@ namespace RGB.NET.Core
             x = (x * cos) - (y * sin);
             y = (x * sin) + (y * cos);
 
-            return new Point(x + origin.X, y + origin.Y); ;
+            return new Point(x + origin.X, y + origin.Y);
         }
 
         #endregion

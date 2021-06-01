@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
@@ -32,10 +33,12 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         public override void Dispose()
         {
-            try { UpdateQueue?.Dispose(); }
+            try { UpdateQueue.Dispose(); }
             catch { /* at least we tried */ }
 
             base.Dispose();
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Devices.SteelSeries
+﻿// ReSharper disable InconsistentNaming
+
+namespace RGB.NET.Devices.SteelSeries
 {
     public enum SteelSeriesLedId
     {

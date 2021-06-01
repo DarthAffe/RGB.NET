@@ -53,7 +53,7 @@ namespace RGB.NET.Core
                 if (_currentDataSet.Count == 0) return;
 
                 dataSet = ArrayPool<(TIdentifier, TData)>.Shared.Rent(_currentDataSet.Count);
-                data = new Span<(TIdentifier, TData)>(dataSet).Slice(0, _currentDataSet.Count);
+                data = new Span<(TIdentifier, TData)>(dataSet)[.._currentDataSet.Count];
 
                 int i = 0;
                 foreach ((TIdentifier key, TData value) in _currentDataSet)
@@ -115,6 +115,8 @@ namespace RGB.NET.Core
             _updateTrigger.Update -= OnUpdate;
 
             Reset();
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

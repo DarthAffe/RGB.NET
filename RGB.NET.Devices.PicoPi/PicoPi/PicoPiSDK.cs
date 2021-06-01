@@ -38,7 +38,7 @@ namespace RGB.NET.Devices.PicoPi
         private readonly byte[] _hidSendBuffer;
         private readonly byte[] _bulkSendBuffer;
 
-        private int _bulkTransferLength = 0;
+        private int _bulkTransferLength;
 
         public bool IsBulkSupported { get; private set; }
 
@@ -181,7 +181,7 @@ namespace RGB.NET.Devices.PicoPi
         {
             if ((data.Length == 0) || !IsBulkSupported) return;
 
-            Span<byte> sendBuffer = new Span<byte>(_bulkSendBuffer).Slice(2);
+            Span<byte> sendBuffer = new Span<byte>(_bulkSendBuffer)[2..];
             int payloadSize = data.Length;
 
             sendBuffer[_bulkTransferLength++] = (byte)((channel << 4) | COMMAND_UPDATE_BULK);
@@ -212,6 +212,8 @@ namespace RGB.NET.Devices.PicoPi
             _hidStream.Dispose();
             _bulkDevice?.Dispose();
             _usbContext?.Dispose();
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

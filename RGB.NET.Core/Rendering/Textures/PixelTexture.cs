@@ -74,7 +74,7 @@ namespace RGB.NET.Core
                 {
                     T[] rent = ArrayPool<T>.Shared.Rent(bufferSize);
 
-                    Span<T> buffer = new Span<T>(rent).Slice(0, bufferSize);
+                    Span<T> buffer = new Span<T>(rent)[..bufferSize];
                     GetRegionData(x, y, width, height, buffer);
 
                     Span<T> pixelData = stackalloc T[_dataPerPixel];

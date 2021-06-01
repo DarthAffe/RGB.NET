@@ -5,11 +5,10 @@ using Sanford.Multimedia.Midi;
 namespace RGB.NET.Devices.Novation
 {
     /// <inheritdoc cref="UpdateQueue" />
-    /// <inheritdoc cref="IDisposable" />
     /// <summary>
     /// Represents the update-queue performing updates for midi devices.
     /// </summary>
-    public abstract class MidiUpdateQueue : UpdateQueue, IDisposable
+    public abstract class MidiUpdateQueue : UpdateQueue
     {
         #region Properties & Fields
 
@@ -66,6 +65,8 @@ namespace RGB.NET.Devices.Novation
             base.Dispose();
 
             _outputDevice.Dispose();
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

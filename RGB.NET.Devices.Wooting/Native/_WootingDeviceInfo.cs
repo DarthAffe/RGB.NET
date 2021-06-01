@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿#pragma warning disable IDE1006 // Naming Styles
+// ReSharper disable InconsistentNaming
+
+using System.Runtime.InteropServices;
 using RGB.NET.Devices.Wooting.Enum;
 
 namespace RGB.NET.Devices.Wooting.Native

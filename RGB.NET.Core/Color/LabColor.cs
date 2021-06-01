@@ -155,6 +155,7 @@ namespace RGB.NET.Core
         /// <returns>The color created from the values.</returns>
         public static Color Create(float alpha, float l, float a, float b)
         {
+            // ReSharper disable once InconsistentNaming - b is used above
             (float r, float g, float _b) = CalculateRGBFromLab(l, a, b);
             return new Color(alpha, r, g, _b);
         }

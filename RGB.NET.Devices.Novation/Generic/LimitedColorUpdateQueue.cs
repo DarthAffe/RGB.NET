@@ -41,16 +41,13 @@ namespace RGB.NET.Devices.Novation
         {
             (double hue, double _, double value) = color.GetHSV();
 
-            if ((hue >= 330) || (hue < 30))
-                return (int)Math.Ceiling(value * 3); // red with brightness 1, 2 or 3
-
-            if ((hue >= 30) && (hue < 90)) // yellow with brightness 17, 34 or 51
-                return (int)Math.Ceiling(value * 3) * 17;
-
-            if ((hue >= 90) && (hue < 150)) // green with brightness 16, 32 or 48
-                return (int)Math.Ceiling(value * 3) * 16;
-
-            return 0;
+            return hue switch
+            {
+                >= 330 or < 30 => (int)Math.Ceiling(value * 3), // red with brightness 1, 2 or 3
+                >= 30 and < 90 => (int)Math.Ceiling(value * 3) * 17, // yellow with brightness 17, 34 or 51
+                >= 90 and < 150 => (int)Math.Ceiling(value * 3) * 16, // green with brightness 16, 32 or 48
+                _ => 0
+            };
         }
 
         /// <inheritdoc />

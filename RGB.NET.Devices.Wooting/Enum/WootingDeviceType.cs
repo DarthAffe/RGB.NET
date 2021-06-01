@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Devices.Wooting.Enum
+﻿// ReSharper disable InconsistentNaming
+
+namespace RGB.NET.Devices.Wooting.Enum
 {
     public enum WootingDeviceType
     {
