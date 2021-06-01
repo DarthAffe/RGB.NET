@@ -28,19 +28,19 @@ namespace RGB.NET.Devices.Corsair
                 Keyboard.Add(LedId.Custom101 + i, CorsairLedId.OemLed101 + i);
         }
 
-        public static LedMapping<CorsairLedId> GraphicsCard = new();
-        public static LedMapping<CorsairLedId> HeadsetStand = new();
-        public static LedMapping<CorsairLedId> Mainboard = new();
-        public static LedMapping<CorsairLedId> Memory = new();
-        public static LedMapping<CorsairLedId> Mousepad = new();
+        public static LedMapping<CorsairLedId> GraphicsCard { get; } = new();
+        public static LedMapping<CorsairLedId> HeadsetStand { get; } = new();
+        public static LedMapping<CorsairLedId> Mainboard { get; } = new();
+        public static LedMapping<CorsairLedId> Memory { get; } = new();
+        public static LedMapping<CorsairLedId> Mousepad { get; } = new();
 
-        public static LedMapping<CorsairLedId> Headset = new()
+        public static LedMapping<CorsairLedId> Headset { get; } = new()
         {
             { LedId.Headset1, CorsairLedId.LeftLogo },
             { LedId.Headset2, CorsairLedId.RightLogo },
         };
 
-        public static LedMapping<CorsairLedId> Mouse = new()
+        public static LedMapping<CorsairLedId> Mouse { get; } = new()
         {
             { LedId.Mouse1, CorsairLedId.B1 },
             { LedId.Mouse2, CorsairLedId.B2 },
@@ -64,7 +64,7 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Mouse20, CorsairLedId.B20 },
         };
 
-        public static LedMapping<CorsairLedId> Keyboard = new()
+        public static LedMapping<CorsairLedId> Keyboard { get; } = new()
         {
             { LedId.Invalid, CorsairLedId.Invalid },
             { LedId.Logo, CorsairLedId.Logo },

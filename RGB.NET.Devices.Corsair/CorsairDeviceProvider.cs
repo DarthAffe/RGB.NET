@@ -43,7 +43,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Gets the last error documented by CUE.
         /// </summary>
-        public CorsairError LastError => _CUESDK.CorsairGetLastError();
+        public static CorsairError LastError => _CUESDK.CorsairGetLastError();
 
         #endregion
 
@@ -207,6 +207,8 @@ namespace RGB.NET.Devices.Corsair
 
             try { _CUESDK.UnloadCUESDK(); }
             catch { /* at least we tried */ }
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

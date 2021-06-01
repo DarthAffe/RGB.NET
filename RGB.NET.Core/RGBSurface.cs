@@ -18,11 +18,11 @@ namespace RGB.NET.Core
     {
         #region Properties & Fields
 
-        private Stopwatch _deltaTimeCounter;
+        private readonly Stopwatch _deltaTimeCounter;
 
         private readonly IList<IRGBDevice> _devices = new List<IRGBDevice>();
         private readonly IList<IUpdateTrigger> _updateTriggers = new List<IUpdateTrigger>();
-        private readonly List<ILedGroup> _ledGroups = new List<ILedGroup>();
+        private readonly List<ILedGroup> _ledGroups = new();
 
         /// <summary>
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
