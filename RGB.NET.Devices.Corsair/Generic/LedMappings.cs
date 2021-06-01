@@ -23,6 +23,9 @@ namespace RGB.NET.Devices.Corsair
 
             for (int i = 0; i <= (CorsairLedId.OemLed100 - CorsairLedId.OemLed1); i++)
                 Keyboard.Add(LedId.Custom1 + i, CorsairLedId.OemLed1 + i);
+
+            for (int i = 0; i <= (CorsairLedId.OemLed250 - CorsairLedId.OemLed101); i++)
+                Keyboard.Add(LedId.Custom101 + i, CorsairLedId.OemLed101 + i);
         }
 
         public static LedMapping<CorsairLedId> GraphicsCard = new();
@@ -45,6 +48,20 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Mouse4, CorsairLedId.B4 },
             { LedId.Mouse5, CorsairLedId.B5 },
             { LedId.Mouse6, CorsairLedId.B6 },
+            { LedId.Mouse7, CorsairLedId.B7 },
+            { LedId.Mouse8, CorsairLedId.B8 },
+            { LedId.Mouse9, CorsairLedId.B9 },
+            { LedId.Mouse10, CorsairLedId.B10 },
+            { LedId.Mouse11, CorsairLedId.B11 },
+            { LedId.Mouse12, CorsairLedId.B12 },
+            { LedId.Mouse13, CorsairLedId.B13 },
+            { LedId.Mouse14, CorsairLedId.B14 },
+            { LedId.Mouse15, CorsairLedId.B15 },
+            { LedId.Mouse16, CorsairLedId.B16 },
+            { LedId.Mouse17, CorsairLedId.B17 },
+            { LedId.Mouse18, CorsairLedId.B18 },
+            { LedId.Mouse19, CorsairLedId.B19 },
+            { LedId.Mouse20, CorsairLedId.B20 },
         };
 
         public static LedMapping<CorsairLedId> Keyboard = new()
