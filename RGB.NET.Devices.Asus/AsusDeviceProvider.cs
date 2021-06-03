@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -45,9 +47,22 @@ namespace RGB.NET.Devices.Asus
 
         protected override void InitializeSDK()
         {
+            PerformHealthCheck();
+
             // ReSharper disable once SuspiciousTypeConversion.Global
             _sdk = (IAuraSdk2)new AuraSdk();
             _sdk.SwitchMode();
+        }
+
+        public void PerformHealthCheck()
+        {
+            var lightingServiceRunning = Process.GetProcessesByName("LightingService").Length != 0;
+
+            while (!lightingServiceRunning)
+            {
+                Thread.Sleep(1000);
+                lightingServiceRunning = Process.GetProcessesByName("LightingService").Length != 0;
+            }
         }
 
         protected override IEnumerable<IRGBDevice> LoadDevices()
