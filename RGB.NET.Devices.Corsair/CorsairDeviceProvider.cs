@@ -165,6 +165,10 @@ namespace RGB.NET.Devices.Corsair
 
                                     ledOffset += channelDeviceInfo.deviceLedCount;
                                     channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
+
+                                    // Never go past the amount of LEDs reported by device info
+                                    if (ledOffset >= nativeDeviceInfo.ledsCount)
+                                        break;
                                 }
 
                                 int channelInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelInfo));
