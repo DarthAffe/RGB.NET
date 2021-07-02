@@ -48,5 +48,11 @@ namespace RGB.NET.Devices.Corsair.Native
         /// CUE-SDK: structure that describes channels of the DIY-devices
         /// </summary>
         internal _CorsairChannelsInfo? channels;
+
+        /// <summary>
+        /// CUE-SDK: null-terminated string that contains unique device identifier that uniquely identifies device at least within session
+        /// </summary>
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        internal string? deviceId;
     }
 }
