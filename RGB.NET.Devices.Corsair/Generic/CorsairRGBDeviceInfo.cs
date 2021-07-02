@@ -36,6 +36,12 @@ namespace RGB.NET.Devices.Corsair
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <summary>
+        /// Returns the unique ID provided by the Corsair-SDK.
+        /// Returns string.Empty for Custom devices.
+        /// </summary>
+        public string DeviceId { get; }
+
         /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
@@ -60,6 +66,7 @@ namespace RGB.NET.Devices.Corsair
             this.DeviceType = deviceType;
             this.CorsairDeviceType = nativeInfo.type;
             this.Model = nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
+            this.DeviceId = nativeInfo.deviceId ?? string.Empty;
             this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
 
             DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
@@ -78,6 +85,7 @@ namespace RGB.NET.Devices.Corsair
             this.DeviceType = deviceType;
             this.CorsairDeviceType = nativeInfo.type;
             this.Model = modelName;
+            this.DeviceId = nativeInfo.deviceId ?? string.Empty;
             this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
 
             DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
