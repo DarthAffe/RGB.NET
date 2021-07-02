@@ -81,7 +81,7 @@ namespace RGB.NET.Devices.Corsair
             switch (channelDeviceInfo.type)
             {
                 case CorsairChannelDeviceType.Invalid:
-                    return "Invalid";
+                    return model;
 
                 case CorsairChannelDeviceType.FanHD:
                     return "HD Fan";

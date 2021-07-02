@@ -156,7 +156,7 @@ namespace RGB.NET.Devices.Corsair
                                 int channelDeviceInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelDeviceInfo));
                                 IntPtr channelDeviceInfoPtr = channelInfo.devices;
 
-                                for (int device = 0; device < channelInfo.devicesCount; device++)
+                                for (int device = 0; (device < channelInfo.devicesCount) && (ledOffset < nativeDeviceInfo.ledsCount); device++)
                                 {
                                     _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo))!;
 
