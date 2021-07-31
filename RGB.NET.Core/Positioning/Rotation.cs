@@ -44,7 +44,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="Rotation"/> class using the provided values.
         /// </summary>
-        /// <param name="scale">The rotation in degrees.</param>
+        /// <param name="degrees">The rotation in degrees.</param>
         public Rotation(float degrees)
             : this(degrees, degrees * DEGREES_RADIANS_CONVERSION)
         { }
@@ -60,16 +60,16 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <summary>
-        /// Creates a new Rotation out of the given degree-angle.
+        /// Creates a new Rotation out of the specified degree-angle.
         /// </summary>
         /// <param name="degrees">The angle in degrees.</param>
         /// <returns>The new rotation.</returns>
         public static Rotation FromDegrees(float degrees) => new(degrees);
 
         /// <summary>
-        /// Creates a new Rotation out of the given radian-angle.
+        /// Creates a new Rotation out of the specified radian-angle.
         /// </summary>
-        /// <param name="degrees">The angle in radians.</param>
+        /// <param name="radians">The angle in radians.</param>
         /// <returns>The new rotation.</returns>
         public static Rotation FromRadians(float radians) => new(radians * RADIANS_DEGREES_CONVERSION, radians);
 

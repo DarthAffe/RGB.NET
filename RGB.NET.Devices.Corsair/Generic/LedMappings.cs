@@ -2,6 +2,9 @@
 
 namespace RGB.NET.Devices.Corsair
 {
+    /// <summary>
+    /// Contains mappings for <see cref="LedId"/> to <see cref="CorsairLedId"/>.
+    /// </summary>
     public static class LedMappings
     {
         static LedMappings()
@@ -28,18 +31,43 @@ namespace RGB.NET.Devices.Corsair
                 Keyboard.Add(LedId.Custom101 + i, CorsairLedId.OemLed101 + i);
         }
 
+        /// <summary>
+        /// Gets the mapping for graphics cards.
+        /// </summary>
         public static LedMapping<CorsairLedId> GraphicsCard { get; } = new();
+
+        /// <summary>
+        /// Gets the mapping for headsets.
+        /// </summary>
         public static LedMapping<CorsairLedId> HeadsetStand { get; } = new();
+
+        /// <summary>
+        /// Gets the mapping for mainboards.
+        /// </summary>
         public static LedMapping<CorsairLedId> Mainboard { get; } = new();
+
+        /// <summary>
+        /// Gets the mapping for memory.
+        /// </summary>
         public static LedMapping<CorsairLedId> Memory { get; } = new();
+
+        /// <summary>
+        /// Gets the mapping for mousepads.
+        /// </summary>
         public static LedMapping<CorsairLedId> Mousepad { get; } = new();
 
+        /// <summary>
+        /// Gets the mapping for headsets.
+        /// </summary>
         public static LedMapping<CorsairLedId> Headset { get; } = new()
         {
             { LedId.Headset1, CorsairLedId.LeftLogo },
             { LedId.Headset2, CorsairLedId.RightLogo },
         };
 
+        /// <summary>
+        /// Gets the mapping for mice.
+        /// </summary>
         public static LedMapping<CorsairLedId> Mouse { get; } = new()
         {
             { LedId.Mouse1, CorsairLedId.B1 },
@@ -64,6 +92,9 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Mouse20, CorsairLedId.B20 },
         };
 
+        /// <summary>
+        /// Gets the mapping for keyboards.
+        /// </summary>
         public static LedMapping<CorsairLedId> Keyboard { get; } = new()
         {
             { LedId.Invalid, CorsairLedId.Invalid },

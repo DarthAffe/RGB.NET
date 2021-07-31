@@ -75,7 +75,7 @@ namespace RGB.NET.Devices.Msi.Native
         [DllImport("kernel32.dll")]
         private static extern bool FreeLibrary(IntPtr dllHandle);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
         private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
 
         #endregion

@@ -4,6 +4,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Represents a generic placeable element.
+    /// </summary>
     public interface IPlaceable
     {
         #region Properties & Fields
@@ -50,12 +53,39 @@ namespace RGB.NET.Core
 
         #region Events
 
+        /// <summary>
+        /// Occurs when the <see cref="Location"/> property was changed.
+        /// </summary>
         event EventHandler<EventArgs> LocationChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Size"/> property was changed.
+        /// </summary>
         event EventHandler<EventArgs> SizeChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Scale"/> property was changed.
+        /// </summary>
         event EventHandler<EventArgs> ScaleChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Rotation"/> property was changed.
+        /// </summary>
         event EventHandler<EventArgs> RotationChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="ActualLocation"/> property was changed.
+        /// </summary>
         event EventHandler<EventArgs> ActualLocationChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="ActualSize"/> property was changed.
+        /// </summary>
         event EventHandler<EventArgs> ActualSizeChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="Boundary"/> property was changed.
+        /// </summary>
         event EventHandler<EventArgs> BoundaryChanged;
 
         #endregion

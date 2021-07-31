@@ -21,6 +21,7 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairCustomRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the custom-device.</param>
+        /// <param name="updateQueue">The queue used to update this device.</param>
         internal CorsairCustomRGBDevice(CorsairCustomRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
             : base(info, new LedMapping<CorsairLedId>(), updateQueue)
         { }

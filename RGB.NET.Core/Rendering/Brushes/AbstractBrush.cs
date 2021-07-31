@@ -46,6 +46,12 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <summary>
+        /// Renders the brush to the specified list of <see cref="RenderTarget"/>.
+        /// </summary>
+        /// <param name="rectangle">The bounding box the brush is rendered in.</param>
+        /// <param name="renderTargets">The targets to render to.</param>
+        /// <returns>A enumerable containing the rendered <see cref="Color"/> for each <see cref="RenderTarget"/>.</returns>
         public virtual IEnumerable<(RenderTarget renderTarget, Color color)> Render(Rectangle rectangle, IEnumerable<RenderTarget> renderTargets)
         {
             foreach (RenderTarget renderTarget in renderTargets)
@@ -74,7 +80,7 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Gets the color at an specific point assuming the brush is drawn into the given rectangle.
+        /// Gets the color at an specific point assuming the brush is drawn into the specified rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle in which the brush should be drawn.</param>
         /// <param name="renderTarget">The target (key/point) from which the color should be taken.</param>

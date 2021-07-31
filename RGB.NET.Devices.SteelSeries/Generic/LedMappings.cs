@@ -2,8 +2,14 @@
 
 namespace RGB.NET.Devices.SteelSeries
 {
+    /// <summary>
+    /// Contains mappings for <see cref="LedId"/> to <see cref="SteelSeriesLedId"/>.
+    /// </summary>
     public static class LedMappings
     {
+        /// <summary>
+        /// Gets the uk-mapping for keyboards.
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> KeyboardMappingUk { get; } = new()
         {
             { LedId.Logo, SteelSeriesLedId.Logo },
@@ -114,6 +120,9 @@ namespace RGB.NET.Devices.SteelSeries
             { LedId.Keyboard_NumPeriodAndDelete, SteelSeriesLedId.KeypadPeriod }
         };
 
+        /// <summary>
+        /// Gets the uk-tkl-mapping for keyboards.
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> KeyboardTklMappingUk { get; } = new()
         {
             { LedId.Logo, SteelSeriesLedId.Logo },
@@ -207,17 +216,26 @@ namespace RGB.NET.Devices.SteelSeries
             { LedId.Keyboard_ArrowRight, SteelSeriesLedId.RightArrow }
         };
 
+        /// <summary>
+        /// Gets the mapping for one-zone mice.
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> MouseOneZone { get; } = new()
         {
             { LedId.Mouse1, SteelSeriesLedId.ZoneOne }
         };
 
+        /// <summary>
+        /// Gets the mapping for two-zone mice.
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> MouseTwoZone { get; } = new()
         {
             { LedId.Mouse1, SteelSeriesLedId.ZoneOne },
             { LedId.Mouse2, SteelSeriesLedId.ZoneTwo }
         };
 
+        /// <summary>
+        /// Gets the mapping for three-zone mice.
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> MouseThreeZone { get; } = new()
         {
             { LedId.Mouse1, SteelSeriesLedId.ZoneOne },
@@ -225,6 +243,9 @@ namespace RGB.NET.Devices.SteelSeries
             { LedId.Mouse3, SteelSeriesLedId.ZoneThree }
         };
 
+        /// <summary>
+        /// Gets the mapping for eight-zone mice.
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> MouseEightZone { get; } = new()
         {
             { LedId.Mouse1, SteelSeriesLedId.ZoneOne },
@@ -237,12 +258,18 @@ namespace RGB.NET.Devices.SteelSeries
             { LedId.Mouse8, SteelSeriesLedId.ZoneEight }
         };
 
+        /// <summary>
+        /// Gets the mapping for two-zone headsets.
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> HeadsetTwoZone { get; } = new()
         {
             { LedId.Headset1, SteelSeriesLedId.ZoneOne },
             { LedId.Headset2, SteelSeriesLedId.ZoneTwo }
         };
 
+        /// <summary>
+        /// Gets the mapping for twelve-zone mousepads
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> MousepadTwelveZone { get; } = new()
         {
             { LedId.Mousepad1, SteelSeriesLedId.ZoneOne },
@@ -259,6 +286,9 @@ namespace RGB.NET.Devices.SteelSeries
             { LedId.Mousepad12, SteelSeriesLedId.ZoneTwelve },
         };
 
+        /// <summary>
+        /// Gets the mapping for 103-zone led strip devices (monitor).
+        /// </summary>
         public static LedMapping<SteelSeriesLedId> MonitorOnehundredandthreeZone { get; } = new()
         {
             { LedId.LedStripe1, SteelSeriesLedId.ZoneOne },

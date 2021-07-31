@@ -2,8 +2,14 @@
 
 namespace RGB.NET.Devices.Logitech
 {
+    /// <summary>
+    /// Contains mappings for <see cref="LedId"/> to <see cref="LogitechDeviceCaps"/>.
+    /// </summary>
     public static class LedMappings
     {
+        /// <summary>
+        /// Gets the mapping for per key devices.
+        /// </summary>
         public static LedMapping<LogitechLedId> PerKey { get; } = new()
         {
             { LedId.Keyboard_Escape, LogitechLedId.ESC },
@@ -131,11 +137,17 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Keyboard_Custom1, LogitechLedId.G_BADGE },
         };
 
+        /// <summary>
+        /// Gets the mapping for per device devices.
+        /// </summary>
         public static LedMapping<int> Device { get; } = new()
         {
             { LedId.Custom1, 0 }
         };
 
+        /// <summary>
+        /// Gets the mapping for per zone keyboards.
+        /// </summary>
         public static LedMapping<int> ZoneKeyboard { get; } = new()
         {
             { LedId.Keyboard_Programmable1, 0 },
@@ -172,6 +184,9 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Keyboard_Programmable32, 31 },
         };
 
+        /// <summary>
+        /// Gets the mapping for per zone mice.
+        /// </summary>
         public static LedMapping<int> ZoneMouse { get; } = new()
         {
             { LedId.Mouse1, 0 },
@@ -208,6 +223,9 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Mouse32, 31 },
         };
 
+        /// <summary>
+        /// Gets the mapping for per zone headsets.
+        /// </summary>
         public static LedMapping<int> ZoneHeadset { get; } = new()
         {
             { LedId.Headset1, 0 },
@@ -244,6 +262,9 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Headset32, 31 },
         };
 
+        /// <summary>
+        /// Gets the mapping for per zone mousepads.
+        /// </summary>
         public static LedMapping<int> ZoneMousepad { get; } = new()
         {
             { LedId.Mousepad1, 0 },
@@ -280,6 +301,9 @@ namespace RGB.NET.Devices.Logitech
             { LedId.Mousepad32, 31 },
         };
 
+        /// <summary>
+        /// Gets the mapping for per zone speakers.
+        /// </summary>
         public static LedMapping<int> ZoneSpeaker { get; } = new()
         {
             { LedId.Speaker1, 0 },

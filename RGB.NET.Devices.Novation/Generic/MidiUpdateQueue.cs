@@ -53,7 +53,7 @@ namespace RGB.NET.Devices.Novation
 
 
         /// <summary>
-        /// Creates a update-message out of a given data set.
+        /// Creates a update-message out of a specified data set.
         /// </summary>
         /// <param name="data">The data set to create the message from.</param>
         /// <returns>The message created out of the data set.</returns>

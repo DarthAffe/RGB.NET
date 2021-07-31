@@ -6,7 +6,7 @@
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Contains list of available SDK access modes.
+    /// Represents an SDK access mode.
     /// </summary>
     public enum CorsairAccessMode
     {

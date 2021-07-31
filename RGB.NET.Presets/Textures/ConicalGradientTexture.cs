@@ -12,7 +12,7 @@ namespace RGB.NET.Presets.Textures
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a brush drawing a conical gradient.
+    /// Represents a texture drawing a conical gradient.
     /// </summary>
     public sealed class ConicalGradientTexture : AbstractGradientTexture
     {
@@ -51,6 +51,7 @@ namespace RGB.NET.Presets.Textures
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Textures.ConicalGradientTexture" /> class.
         /// </summary>
+        /// <param name="size">The size of the texture.</param>
         /// <param name="gradient">The <see cref="T:RGB.NET.Presets.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Presets.Textures.ConicalGradientTexture" />.</param>
         public ConicalGradientTexture(Size size, IGradient gradient)
             : base(size, gradient)
@@ -59,8 +60,9 @@ namespace RGB.NET.Presets.Textures
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Textures.ConicalGradientTexture" /> class.
         /// </summary>
-        /// <param name="center">The center <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
+        /// <param name="size">The size of the texture.</param>
         /// <param name="gradient">The <see cref="T:RGB.NET.Presets.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Presets.Textures.ConicalGradientTexture" />.</param>
+        /// <param name="center">The center <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
         public ConicalGradientTexture(Size size, IGradient gradient, Point center)
             : base(size, gradient)
         {
@@ -70,9 +72,10 @@ namespace RGB.NET.Presets.Textures
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Textures.ConicalGradientTexture" /> class.
         /// </summary>
-        /// <param name="center">The center <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
-        /// <param name="origin">The origin (radian-angle) the <see cref="T:RGB.NET.Core.IBrush" /> is drawn to.</param>
+        /// <param name="size">The size of the texture.</param>
         /// <param name="gradient">The <see cref="T:RGB.NET.Presets.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Presets.Textures.ConicalGradientTexture" />.</param>
+        /// <param name="center">The center <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
+        /// <param name="origin">The origin (radian-angle) the gradient is drawn to.</param>
         public ConicalGradientTexture(Size size, IGradient gradient, Point center, float origin)
             : base(size, gradient)
         {
@@ -84,6 +87,7 @@ namespace RGB.NET.Presets.Textures
 
         #region Methods
 
+        /// <inheritdoc />
         protected override Color GetColor(in Point point)
         {
             float angle = MathF.Atan2(point.Y - Center.Y, point.X - Center.X) - Origin;

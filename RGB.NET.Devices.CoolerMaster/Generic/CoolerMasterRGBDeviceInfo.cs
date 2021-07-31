@@ -23,6 +23,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
         /// <summary>

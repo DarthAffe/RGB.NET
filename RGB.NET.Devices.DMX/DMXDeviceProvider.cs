@@ -46,7 +46,7 @@ namespace RGB.NET.Devices.DMX
         #region Methods
 
         /// <summary>
-        /// Adds the given <see cref="IDMXDeviceDefinition" /> to this device-provider.
+        /// Adds the specified <see cref="IDMXDeviceDefinition" /> to this device-provider.
         /// </summary>
         /// <param name="deviceDefinition">The <see cref="IDMXDeviceDefinition"/> to add.</param>
         public void AddDeviceDefinition(IDMXDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);

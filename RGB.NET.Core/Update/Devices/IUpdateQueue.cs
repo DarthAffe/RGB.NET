@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Represents a generic update queue.
+    /// </summary>
+    /// <typeparam name="TIdentifier">The identifier used to identify the data processed by this queue.</typeparam>
+    /// <typeparam name="TData">The type of the data processed by this queue.</typeparam>
     public interface IUpdateQueue<TIdentifier, TData> : IDisposable
         where TIdentifier : notnull
     {
@@ -19,6 +24,9 @@ namespace RGB.NET.Core
         void Reset();
     }
 
+    /// <summary>
+    /// Represents a generic update queue processing <see cref="Color"/>-data using <see cref="object"/>-identifiers.
+    /// </summary>
     public interface IUpdateQueue : IUpdateQueue<object, Color>
     { }
 }

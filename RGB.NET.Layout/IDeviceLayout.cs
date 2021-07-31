@@ -3,6 +3,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Layout
 {
+    /// <summary>
+    /// Represents a generic layout of a device.
+    /// </summary>
     public interface IDeviceLayout
     {
         /// <summary>
@@ -55,6 +58,9 @@ namespace RGB.NET.Layout
         /// </summary>
         IEnumerable<ILedLayout> Leds { get; }
 
+        /// <summary>
+        /// Gets the the custom data associated with the device.
+        /// </summary>
         object? CustomData { get; }
     }
 }

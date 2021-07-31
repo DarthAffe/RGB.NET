@@ -13,7 +13,16 @@ namespace RGB.NET.Devices.PicoPi
     {
         #region Constants
 
+        /// <summary>
+        /// The vendor id used by the pico-pi firmware.
+        /// Registered at https://pid.codes/1209/2812/
+        /// </summary>
         public const int VENDOR_ID = 0x1209;
+
+        /// <summary>
+        /// The product id used by the pico-pi firmware.
+        /// Registered at https://pid.codes/1209/2812/
+        /// </summary>
         public const int HID_BULK_CONTROLLER_PID = 0x2812;
 
         private const byte COMMAND_CHANNEL_COUNT = 0x01;

@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Offers some methods to create and handle unique identifiers.
+    /// </summary>
     public static class IdGenerator
     {
         #region Properties & Fields
@@ -18,6 +21,11 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <summary>
+        /// Makes the specified id unique based on the calling assembly by adding a counter if needed.
+        /// </summary>
+        /// <param name="id">The id to make unique.</param>
+        /// <returns>The unique id.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string MakeUnique(string id) => MakeUnique(Assembly.GetCallingAssembly(), id);
 
@@ -49,6 +57,10 @@ namespace RGB.NET.Core
             return counter <= 1 ? mappedId : $"{mappedId} ({counter})";
         }
 
+        /// <summary>
+        /// Resets the counter used to create unique ids.
+        /// All previous generated ids are not garantueed to stay unique if this is called!
+        /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ResetCounter() => ResetCounter(Assembly.GetCallingAssembly());
 

@@ -1,7 +1,11 @@
 ﻿// ReSharper disable InconsistentNaming
+#pragma warning disable 1591
 
 namespace RGB.NET.Devices.SteelSeries
 {
+    /// <summary>
+    /// Contains a list of Steel Series LED IDs
+    /// </summary>
     public enum SteelSeriesLedId
     {
         [APIName("one")]

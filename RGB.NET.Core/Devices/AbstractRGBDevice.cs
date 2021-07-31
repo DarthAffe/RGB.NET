@@ -52,6 +52,9 @@ namespace RGB.NET.Core
         /// </summary>
         protected Dictionary<LedId, Led> LedMapping { get; } = new();
 
+        /// <summary>
+        /// Gets the update queue used to update this device.
+        /// </summary>
         protected IUpdateQueue UpdateQueue { get; }
 
         #region Indexer
@@ -72,6 +75,11 @@ namespace RGB.NET.Core
 
         #region Constructors
 
+        /// <summary> 
+        /// Initializes a new instance of the <see cref="AbstractRGBDevice{T}"/> class.
+        /// </summary>
+        /// <param name="deviceInfo">The device info of this device.</param>
+        /// <param name="updateQueue">The queue used to update this device.</param>
         protected AbstractRGBDevice(TDeviceInfo deviceInfo, IUpdateQueue updateQueue)
         {
             this.DeviceInfo = deviceInfo;
@@ -97,7 +105,22 @@ namespace RGB.NET.Core
             UpdateLeds(ledsToUpdate);
         }
 
+        /// <summary>
+        /// Gets an enumerable of LEDs that are changed and requires an update.
+        /// </summary>
+        /// <param name="flushLeds">Forces all LEDs to be treated as dirty.</param>
+        /// <returns>The collection LEDs to update.</returns>
         protected virtual IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => ((RequiresFlush || flushLeds) ? LedMapping.Values : LedMapping.Values.Where(x => x.IsDirty)).Where(led => led.RequestedColor?.A > 0);
+
+        /// <summary>
+        /// Gets an enumerable of a custom data and color tuple for the specified leds.
+        /// </summary>
+        /// <remarks>
+        /// Applies all <see cref="ColorCorrections"/>.
+        /// if no <see cref="Led.CustomData"/> ist specified the <see cref="Led.Id"/> is used.
+        /// </remarks>
+        /// <param name="leds">The enumerable of leds to convert.</param>
+        /// <returns>The enumerable of custom data and color tuples for the specified leds.</returns>
         protected virtual IEnumerable<(object key, Color color)> GetUpdateData(IEnumerable<Led> leds)
         {
             if (ColorCorrections.Count > 0)
@@ -145,13 +168,7 @@ namespace RGB.NET.Core
         protected virtual void DeviceUpdate()
         { }
 
-        /// <summary>
-        /// Initializes the <see cref="Led"/> with the specified id.
-        /// </summary>
-        /// <param name="ledId">The <see cref="LedId"/> to initialize.</param>
-        /// <param name="location">The location of the <see cref="Led"/> to initialize.</param>
-        /// <param name="size">The size of the <see cref="Led"/> to initialize.</param>
-        /// <returns>The initialized led.</returns>
+        /// <inheritdoc />
         public virtual Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null)
         {
             if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
@@ -161,6 +178,7 @@ namespace RGB.NET.Core
             return led;
         }
 
+        /// <inheritdoc />
         public virtual Led? RemoveLed(LedId ledId)
         {
             if (ledId == LedId.Invalid) return null;
@@ -170,8 +188,19 @@ namespace RGB.NET.Core
             return led;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ledId"></param>
+        /// <returns></returns>
         protected virtual object? GetLedCustomData(LedId ledId) => null;
 
+        /// <summary>
+        /// Called when the device is attached to a surface.
+        /// </summary>
+        /// <remarks> 
+        /// When overriden base should be called to validate boundries.
+        /// </remarks>
         protected virtual void OnAttached()
         {
             if (Location == Point.Invalid) Location = new Point(0, 0);
@@ -182,6 +211,9 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Called when the device is detached from a surface.
+        /// </summary>
         protected virtual void OnDetached() { }
 
         #region Enumerator

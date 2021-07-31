@@ -4,6 +4,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Contains helper-methods and extension for the <see cref="Color"/>-type to work in the Lab color space.
+    /// </summary>
     public static class LabColor
     {
         #region Getter
@@ -11,22 +14,22 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the L component value (Lab-color space) of this <see cref="Color"/> in the range [0..100].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The L component value of the color.</returns>
         public static float GetLabL(this in Color color) => color.GetLab().l;
 
         /// <summary>
         /// Gets the a component value (Lab-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The a component value of the color.</returns>
         public static float GetLabA(this in Color color) => color.GetLab().a;
 
         /// <summary>
         /// Gets the b component value (Lab-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The b component value of the color.</returns>
         public static float GetLabB(this in Color color) => color.GetLab().b;
 
         /// <summary>
@@ -35,8 +38,8 @@ namespace RGB.NET.Core
         /// a in the range [0..1].
         /// b in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>A tuple containing the L, a and b component value of the color.</returns>
         public static (float l, float a, float b) GetLab(this in Color color)
             => CalculateLabFromRGB(color.R, color.G, color.B);
 
@@ -45,8 +48,9 @@ namespace RGB.NET.Core
         #region Manipulation
 
         /// <summary>
-        /// Adds the given Lab values to this color.
+        /// Adds the specified Lab values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="l">The L value to add.</param>
         /// <param name="a">The a value to add.</param>
         /// <param name="b">The b value to add.</param>
@@ -58,8 +62,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Subtracts the given Lab values to this color.
+        /// Subtracts the specified Lab values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="l">The L value to subtract.</param>
         /// <param name="a">The a value to subtract.</param>
         /// <param name="b">The b value to subtract.</param>
@@ -71,8 +76,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Multiplies the given Lab values to this color.
+        /// Multiplies the specified Lab values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="l">The L value to multiply.</param>
         /// <param name="a">The a value to multiply.</param>
         /// <param name="b">The b value to multiply.</param>
@@ -84,8 +90,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Divides the given Lab values to this color.
+        /// Divides the specified Lab values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="l">The L value to divide.</param>
         /// <param name="a">The a value to divide.</param>
         /// <param name="b">The b value to divide.</param>
@@ -97,8 +104,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Sets the given X valueof this color.
+        /// Sets the specified X valueof this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="l">The L value to set.</param>
         /// <param name="a">The a value to set.</param>
         /// <param name="b">The b value to set.</param>

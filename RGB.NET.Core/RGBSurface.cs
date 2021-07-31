@@ -225,7 +225,7 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Attaches the given <see cref="ILedGroup"/>.
+        /// Attaches the specified <see cref="ILedGroup"/>.
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
@@ -245,10 +245,10 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Detaches the given <see cref="ILedGroup"/>.
+        /// Detaches the specified <see cref="ILedGroup"/>.
         /// </summary>
-        /// <param name="ledGroup">The <see cref="ILedGroup"/> to detached.</param>
-        /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
+        /// <param name="ledGroup">The <see cref="ILedGroup"/> to detache.</param>
+        /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; <c>false</c> otherwise.</returns>
         public bool Detach(ILedGroup ledGroup)
         {
             lock (_ledGroups)
@@ -261,6 +261,10 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Attaches the specified <see cref="IRGBDevice"/>.
+        /// </summary>
+        /// <param name="device">The <see cref="IRGBDevice"/> to attach.</param>
         public void Attach(IRGBDevice device)
         {
             lock (_devices)
@@ -276,6 +280,11 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Detaches the specified <see cref="IRGBDevice"/>.
+        /// </summary>
+        /// <param name="device">The <see cref="IRGBDevice"/> to detache.</param>
+        /// <returns><c>true</c> if the <see cref="IRGBDevice"/> could be detached; <c>false</c> otherwise.</returns>
         public void Detach(IRGBDevice device)
         {
             lock (_devices)

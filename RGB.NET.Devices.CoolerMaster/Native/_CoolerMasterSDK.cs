@@ -57,7 +57,7 @@ namespace RGB.NET.Devices.CoolerMaster.Native
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         private static extern IntPtr LoadLibrary(string dllToLoad);
         
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
         private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
 
         #endregion

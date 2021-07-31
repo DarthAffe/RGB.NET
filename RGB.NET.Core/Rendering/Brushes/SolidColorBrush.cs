@@ -24,8 +24,7 @@ namespace RGB.NET.Core
         #endregion
 
         #region Constructors
-
-        /// <inheritdoc />
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Core.SolidColorBrush" /> class.
         /// </summary>

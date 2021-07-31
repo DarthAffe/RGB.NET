@@ -6,7 +6,7 @@ using System;
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Contains list of corsair device capabilities.
+    /// Contains a list of corsair device capabilities.
     /// </summary>
     [Flags]
     public enum CorsairDeviceCaps

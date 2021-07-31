@@ -96,6 +96,9 @@ namespace RGB.NET.Core
         /// </summary>
         public object? CustomData { get; }
 
+        /// <summary>
+        /// Gets or sets some custom metadata of this led.
+        /// </summary>
         public object? LayoutMetadata { get; set; }
 
         #endregion
@@ -124,6 +127,7 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void UpdateActualPlaceableData()
         {
             base.UpdateActualPlaceableData();

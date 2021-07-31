@@ -49,32 +49,21 @@ namespace RGB.NET.Devices.Corsair
         #region Methods
 
         private static RGBDeviceType GetDeviceType(CorsairChannelDeviceType deviceType)
-        {
-            switch (deviceType)
+            => deviceType switch
             {
-                case CorsairChannelDeviceType.Invalid:
-                    return RGBDeviceType.Unknown;
-
-                case CorsairChannelDeviceType.FanHD:
-                case CorsairChannelDeviceType.FanSP:
-                case CorsairChannelDeviceType.FanLL:
-                case CorsairChannelDeviceType.FanML:
-                case CorsairChannelDeviceType.DAP:
-                case CorsairChannelDeviceType.FanQL:
-                case CorsairChannelDeviceType.FanSPPRO:
-                    return RGBDeviceType.Fan;
-
-                case CorsairChannelDeviceType.Strip:
-                    return RGBDeviceType.LedStripe;
-
-                case CorsairChannelDeviceType.Pump:
-                case CorsairChannelDeviceType.WaterBlock:
-                    return RGBDeviceType.Cooler;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(deviceType), deviceType, null);
-            }
-        }
+                CorsairChannelDeviceType.Invalid => RGBDeviceType.Unknown,
+                CorsairChannelDeviceType.FanHD => RGBDeviceType.Fan,
+                CorsairChannelDeviceType.FanSP => RGBDeviceType.Fan,
+                CorsairChannelDeviceType.FanLL => RGBDeviceType.Fan,
+                CorsairChannelDeviceType.FanML => RGBDeviceType.Fan,
+                CorsairChannelDeviceType.DAP => RGBDeviceType.Fan,
+                CorsairChannelDeviceType.FanQL => RGBDeviceType.Fan,
+                CorsairChannelDeviceType.FanSPPRO => RGBDeviceType.Fan,
+                CorsairChannelDeviceType.Strip => RGBDeviceType.LedStripe,
+                CorsairChannelDeviceType.Pump => RGBDeviceType.Cooler,
+                CorsairChannelDeviceType.WaterBlock => RGBDeviceType.Cooler,
+                _ => throw new ArgumentOutOfRangeException(nameof(deviceType), deviceType, null)
+            };
 
         private static string GetModelName(string model, _CorsairChannelDeviceInfo channelDeviceInfo)
         {
@@ -126,7 +115,9 @@ namespace RGB.NET.Devices.Corsair
                     return "Pump";
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(channelDeviceInfo.type), channelDeviceInfo.type, null);
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
+                    throw new ArgumentOutOfRangeException($"{nameof(channelDeviceInfo)}.{nameof(channelDeviceInfo.type)}", channelDeviceInfo.type, null);
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
             }
         }
 

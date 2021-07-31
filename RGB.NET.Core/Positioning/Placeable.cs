@@ -2,10 +2,16 @@
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Represents a placeable element.
+    /// </summary>
     public class Placeable : AbstractBindable, IPlaceable
     {
         #region Properties & Fields
 
+        /// <summary>
+        /// Gets the parent this placeable is placed in.
+        /// </summary>
         protected IPlaceable? Parent { get; }
 
         private Point _location = Point.Invalid;
@@ -96,20 +102,40 @@ namespace RGB.NET.Core
 
         #region Events
 
+        /// <inheritdoc />
         public event EventHandler<EventArgs>? LocationChanged;
+
+        /// <inheritdoc />
         public event EventHandler<EventArgs>? SizeChanged;
+
+        /// <inheritdoc />
         public event EventHandler<EventArgs>? ScaleChanged;
+
+        /// <inheritdoc />
         public event EventHandler<EventArgs>? RotationChanged;
+
+        /// <inheritdoc />
         public event EventHandler<EventArgs>? ActualLocationChanged;
+
+        /// <inheritdoc />
         public event EventHandler<EventArgs>? ActualSizeChanged;
+
+        /// <inheritdoc />
         public event EventHandler<EventArgs>? BoundaryChanged;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Placeable" /> class.
+        /// </summary>
         public Placeable() { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Placeable" /> class.
+        /// </summary>
+        /// <param name="parent">The parent this placeable is placed in.</param>
         public Placeable(IPlaceable parent)
         {
             this.Parent = parent;
@@ -117,12 +143,23 @@ namespace RGB.NET.Core
             Parent.BoundaryChanged += (_, _) => UpdateActualPlaceableData();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Placeable" /> class.
+        /// </summary>
+        /// <param name="location">The location of this placeable.</param>
+        /// <param name="size">The size of this placeable.</param>
         public Placeable(Point location, Size size)
         {
             this.Location = location;
             this.Size = size;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Placeable" /> class.
+        /// </summary>
+        /// <param name="parent">The parent placeable this placeable is placed in.</param>
+        /// <param name="location">The location of this placeable.</param>
+        /// <param name="size">The size of this placeable.</param>
         public Placeable(IPlaceable parent, Point location, Size size)
         {
             this.Parent = parent;
@@ -136,6 +173,9 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <summary>
+        /// Updates the <see cref="ActualSize"/>, <see cref="ActualLocation"/> and <see cref="Boundary"/> based on the <see cref="Size"/>, <see cref="Scale"/> and <see cref="Rotation"/>.
+        /// </summary>
         protected virtual void UpdateActualPlaceableData()
         {
             if (Parent != null)
@@ -166,32 +206,55 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Called when the <see cref="Location"/> property was changed.
+        /// </summary>
         protected virtual void OnLocationChanged()
         {
             LocationChanged?.Invoke(this, new EventArgs());
             UpdateActualPlaceableData();
         }
 
+        /// <summary>
+        /// Called when the <see cref="Size"/> property was changed.
+        /// </summary>
         protected virtual void OnSizeChanged()
         {
             SizeChanged?.Invoke(this, new EventArgs());
             UpdateActualPlaceableData();
         }
 
+        /// <summary>
+        /// Called when the <see cref="Scale"/> property was changed.
+        /// </summary>
         protected virtual void OnScaleChanged()
         {
             ScaleChanged?.Invoke(this, new EventArgs());
             UpdateActualPlaceableData();
         }
 
+        /// <summary>
+        /// Called when the <see cref="Rotation"/> property was changed.
+        /// </summary>
         protected virtual void OnRotationChanged()
         {
             RotationChanged?.Invoke(this, new EventArgs());
             UpdateActualPlaceableData();
         }
 
+        /// <summary>
+        /// Called when the <see cref="ActualLocation"/> property was changed.
+        /// </summary>
         protected virtual void OnActualLocationChanged() => ActualLocationChanged?.Invoke(this, new EventArgs());
+
+        /// <summary>
+        /// Called when the <see cref="ActualLocation"/> property was changed.
+        /// </summary>
         protected virtual void OnActualSizeChanged() => ActualSizeChanged?.Invoke(this, new EventArgs());
+
+        /// <summary>
+        /// Called when the <see cref="Boundary"/> property was changed.
+        /// </summary>
         protected virtual void OnBoundaryChanged() => BoundaryChanged?.Invoke(this, new EventArgs());
 
         #endregion

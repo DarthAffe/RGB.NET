@@ -25,8 +25,8 @@ namespace RGB.NET.Devices.Asus
         #region Properties & Fields
 
         private readonly LedMapping<AsusLedId>? _ledMapping;
-        private Dictionary<LedId, AsusLedId> _ledAsusLed = new();
-        private Dictionary<LedId, int> _ledAsusLights = new();
+        private readonly Dictionary<LedId, AsusLedId> _ledAsusLed = new();
+        private readonly Dictionary<LedId, int> _ledAsusLights = new();
 
         IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
 
@@ -34,11 +34,10 @@ namespace RGB.NET.Devices.Asus
         /// Gets or sets a list of extra LED mappings to apply to modes that match the provided regex
         /// <para>Note: These LED mappings should be based on light indexes</para>
         /// </summary>
-        public static List<AsusKeyboardExtraMapping> ExtraLedMappings =
-            new()
-            {
-                new AsusKeyboardExtraMapping(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15)
-            };
+        public static readonly List<AsusKeyboardExtraMapping> ExtraLedMappings = new()
+        {
+            new AsusKeyboardExtraMapping(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15)
+        };
 
         #endregion
 

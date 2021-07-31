@@ -54,14 +54,14 @@ namespace RGB.NET.Core
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class using the <see cref="Location"/>(0,0) and the given <see cref="Core.Size"/>.
+        /// Initializes a new instance of the <see cref="Rectangle"/> class using the <see cref="Location"/>(0,0) and the specified <see cref="Core.Size"/>.
         /// </summary>
         /// <param name="size">The size of of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
         public Rectangle(Size size) : this(new Point(), size)
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class using the given <see cref="Point"/> and <see cref="Core.Size"/>.
+        /// Initializes a new instance of the <see cref="Rectangle"/> class using the specified <see cref="Point"/> and <see cref="Core.Size"/>.
         /// </summary>
         /// <param name="location">The location of this of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
         /// <param name="size">The size of of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
@@ -75,7 +75,7 @@ namespace RGB.NET.Core
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the given array of <see cref="T:RGB.NET.Core.Rectangle" />.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the specified array of <see cref="T:RGB.NET.Core.Rectangle" />.
         /// The <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /> is calculated to completely contain all rectangles provided as parameters.
         /// </summary>
         /// <param name="rectangles">The array of <see cref="T:RGB.NET.Core.Rectangle" /> used to calculate the <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /></param>
@@ -84,7 +84,7 @@ namespace RGB.NET.Core
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> class using the given list of <see cref="Rectangle"/>.
+        /// Initializes a new instance of the <see cref="Rectangle"/> class using the specified list of <see cref="Rectangle"/>.
         /// The <see cref="Location"/> and <see cref="Size"/> is calculated to completely contain all rectangles provided as parameters.
         /// </summary>
         /// <param name="rectangles">The list of <see cref="Rectangle"/> used to calculate the <see cref="Location"/> and <see cref="Size"/></param>
@@ -113,7 +113,7 @@ namespace RGB.NET.Core
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the given array of <see cref="T:RGB.NET.Core.Point" />.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the specified array of <see cref="T:RGB.NET.Core.Point" />.
         /// The <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /> is calculated to contain all points provided as parameters.
         /// </summary>
         /// <param name="points">The array of <see cref="T:RGB.NET.Core.Point" /> used to calculate the <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /></param>
@@ -123,7 +123,7 @@ namespace RGB.NET.Core
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the given list of <see cref="T:RGB.NET.Core.Point" />.
+        /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the specified list of <see cref="T:RGB.NET.Core.Point" />.
         /// The <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /> is calculated to contain all points provided as parameters.
         /// </summary>
         /// <param name="points">The list of <see cref="T:RGB.NET.Core.Point" /> used to calculate the <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /></param>
@@ -223,6 +223,12 @@ namespace RGB.NET.Core
         public static bool operator !=(in Rectangle rectangle1, in Rectangle rectangle2) => !(rectangle1 == rectangle2);
 
         // DarthAffe 20.02.2021: Used for normalization
+        /// <summary>
+        /// Returns a <see cref="Rectangle"/> normalized to the specified reference.
+        /// </summary>
+        /// <param name="rectangle1">The rectangle to nromalize.</param>
+        /// <param name="rectangle2">The reference used for normalization.</param>
+        /// <returns>A normalized rectangle.</returns>
         public static Rectangle operator /(in Rectangle rectangle1, in Rectangle rectangle2)
         {
             float x = rectangle1.Location.X / (rectangle2.Size.Width - rectangle2.Location.X);

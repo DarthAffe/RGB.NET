@@ -17,6 +17,7 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="RazerRGBDevice"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by razer for the device.</param>
+        /// <param name="updateQueue">The queue used to update this device.</param>
         protected RazerRGBDevice(RazerRGBDeviceInfo info, IUpdateQueue updateQueue)
             : base(info, updateQueue)
         {

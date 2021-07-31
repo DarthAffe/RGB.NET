@@ -2,6 +2,9 @@
 
 namespace RGB.NET.Devices.Asus
 {
+    /// <summary>
+    /// Contains mappings for <see cref="LedId"/> to <see cref="AsusLedId"/>.
+    /// </summary>
     public static class LedMappings
     {
         /// <summary>
@@ -163,12 +166,14 @@ namespace RGB.NET.Devices.Asus
 
         /// <summary>
         /// A LED mapping containing extra lights for the ROG Zephyrus Duo 15
+        /// </summary>
+        /// <remarks>
         /// <para>
         /// ASUS notebooks have extra lights under wide keys like space and backspace, these do not appear as keys on the device.
         /// Instead they only appear in the Lights enumerable, this mapping maps LED IDs to the index of these lights.
         /// </para>
         /// <para>You may add more of these by further populating <see cref="AsusKeyboardRGBDevice.ExtraLedMappings"/>.</para>
-        /// </summary>
+        /// </remarks>
         public static LedMapping<int> ROGZephyrusDuo15 { get; } = new()
         {
             { LedId.Keyboard_Custom50, 39 }, // Mapping starts at Custom50 to avoid possible conflicts with KeyboardMapping above

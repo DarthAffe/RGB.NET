@@ -38,6 +38,7 @@ namespace RGB.NET.Presets.Decorators
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Decorators.MoveGradientDecorator" /> class.
         /// </summary>
+        /// <param name="surface">The surface this decorator belongs to.</param>
         /// <param name="speed">The speed of the movement in units per second.
         /// The meaning of units differs for the different <see cref="T:RGB.NET.Presets.Gradients.IGradient" />  but 360 units will always be one complete cycle:
         ///   <see cref="T:RGB.NET.Presets.Gradients.LinearGradient" />: 360 unit = 1 offset.

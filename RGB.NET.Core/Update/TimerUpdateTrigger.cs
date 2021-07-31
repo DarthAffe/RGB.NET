@@ -9,7 +9,7 @@ namespace RGB.NET.Core
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents an <see cref="T:RGB.NET.Core.IUpdateTrigger" />
+    /// Represents an update trigger that triggers in a set interval.
     /// </summary>
     public class TimerUpdateTrigger : AbstractUpdateTrigger
     {
@@ -17,8 +17,19 @@ namespace RGB.NET.Core
 
         private readonly object _lock = new();
 
+        /// <summary>
+        /// Gets or sets the update loop of this trigger.
+        /// </summary>
         protected Task? UpdateTask { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cancellation token source used to create the cancellation token checked by the <see cref="UpdateTask"/>.
+        /// </summary>
         protected CancellationTokenSource? UpdateTokenSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cancellation token checked by the <see cref="UpdateTask"/>.
+        /// </summary>
         protected CancellationToken UpdateToken { get; set; }
 
         private double _updateFrequency = 1.0 / 30.0;
