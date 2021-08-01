@@ -15,11 +15,10 @@
     <RootNamespace>RGB.NET.Devices.Novation</RootNamespace>
     <Description>Novation-Device-Implementations of RGB.NET</Description>
     <Summary>Novation-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Darth Affe 2020</Copyright>
-    <PackageCopyright>Copyright © Darth Affe 2020</PackageCopyright>
-    <PackageIconUrl>http://lib.arge.be/icon.png</PackageIconUrl>
+    <Copyright>Copyright © Darth Affe 2021</Copyright>
+    <Icon>icon.png</Icon>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/DarthAffe/RGB.NET/master/LICENSE</PackageLicenseUrl>
+    <License>LGPL-2.1-only</License>
     <RepositoryType>Github</RepositoryType>
     <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -34,21 +33,25 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeSource>True</IncludeSource>
     <IncludeSymbols>True</IncludeSymbols>
+    <DebugType>portable</DebugType>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\Resources\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
