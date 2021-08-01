@@ -83,7 +83,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Represents the event-handler of the <see cref="SurfaceLayoutChanged"/>-event.
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">The arguments provided by the event.</param>
         public delegate void SurfaceLayoutChangedEventHandler(SurfaceLayoutChangedEventArgs args);
 
         #endregion

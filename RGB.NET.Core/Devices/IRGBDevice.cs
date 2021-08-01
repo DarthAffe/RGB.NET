@@ -51,7 +51,7 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="referenceRect">The <see cref="Rectangle"/> to check.</param>
         /// <param name="minOverlayPercentage">The minimal percentage overlay a <see cref="Led"/> must have with the <see cref="Rectangle" /> to be taken into the list.</param>
-        /// <returns></returns>
+        /// <returns>A enumerable of leds inside the specified rectangle.</returns>
         IEnumerable<Led> this[Rectangle referenceRect, double minOverlayPercentage = 0.5] { get; }
 
         #endregion

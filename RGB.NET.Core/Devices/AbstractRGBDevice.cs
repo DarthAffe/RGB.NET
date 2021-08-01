@@ -189,10 +189,10 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// 
+        /// Gets the custom data associated with the specified LED.
         /// </summary>
-        /// <param name="ledId"></param>
-        /// <returns></returns>
+        /// <param name="ledId">The id of the led.</param>
+        /// <returns>The custom data for the specified LED.</returns>
         protected virtual object? GetLedCustomData(LedId ledId) => null;
 
         /// <summary>

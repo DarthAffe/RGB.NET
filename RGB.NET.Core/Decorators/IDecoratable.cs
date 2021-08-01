@@ -13,7 +13,7 @@ namespace RGB.NET.Core
     /// <summary>
     /// Represents a basic decoratable for a specific type of <see cref="T:RGB.NET.Core.IDecorator" />
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of decorators this decoratable can be decorated with.</typeparam>
     public interface IDecoratable<T> : IDecoratable
         where T : IDecorator
     {

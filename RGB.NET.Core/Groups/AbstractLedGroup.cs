@@ -42,7 +42,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a enumerable containing all leds in this group.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A enumerable containing all leds of this group.</returns>
         protected abstract IEnumerable<Led> GetLeds();
 
         /// <inheritdoc />

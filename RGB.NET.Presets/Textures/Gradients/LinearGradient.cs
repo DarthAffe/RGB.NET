@@ -111,7 +111,7 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// <param name="offset">The reference offset.</param>
         /// <param name="orderedStops">The ordered list of <see cref="GradientStop"/> to choose from.</param>
         /// <param name="wrap">Bool indicating if the gradient should be wrapped or not.</param>
-        /// <returns></returns>
+        /// <returns>The two <see cref="GradientStop"/>s encapsulating the specified offset.</returns>
         protected virtual (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(float offset, LinkedList<GradientStop> orderedStops, bool wrap)
         {
             LinkedList<GradientStop> gradientStops = new(orderedStops);

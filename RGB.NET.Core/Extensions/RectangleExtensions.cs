@@ -75,7 +75,7 @@ namespace RGB.NET.Core
         /// Calculates the <see cref="Rectangle"/> representing the intersection of this <see cref="Rectangle"/> and the one provided as parameter.
         /// </summary>
         /// <param name="rect">The rectangle to calculate the intersection for.</param>
-        /// <param name="intersectingRectangle">The intersecting <see cref="Rectangle"/></param>
+        /// <param name="intersectingRectangle">The intersecting <see cref="Rectangle"/>.</param>
         /// <returns>A new <see cref="Rectangle"/> representing the intersection this <see cref="Rectangle"/> and the one provided as parameter.</returns>
         public static Rectangle CalculateIntersection(this in Rectangle rect, in Rectangle intersectingRectangle)
         {

@@ -21,7 +21,7 @@ namespace RGB.NET.Devices.Novation
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Novation.NovationLaunchpadRGBDeviceInfo" />.
         /// </summary>
         /// <param name="model">The represented device model.</param>
-        /// <param name="deviceId"></param>
+        /// <param name="deviceId">The id of the device.</param>
         /// <param name="colorCapabilities">The <see cref="T:RGB.NET.Devices.Novation.NovationColorCapabilities" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.</param>
         /// <param name="ledMapping">A mapping of leds this device is initialized with.</param>
         internal NovationLaunchpadRGBDeviceInfo(string model, int deviceId, NovationColorCapabilities colorCapabilities, LedIdMappings ledMapping)
