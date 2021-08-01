@@ -9,6 +9,9 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.PicoPi
 {
+    /// <summary>
+    /// Represents a SDK to access devices based on a Raspberry Pi Pico.
+    /// </summary>
     public class PicoPiSDK : IDisposable
     {
         #region Constants
@@ -49,16 +52,34 @@ namespace RGB.NET.Devices.PicoPi
 
         private int _bulkTransferLength;
 
+        /// <summary>
+        /// Gets if updates via the Bulk-Enbpoint are possible.
+        /// </summary>
         public bool IsBulkSupported { get; private set; }
 
+        /// <summary>
+        /// Gets the Id of the device.
+        /// </summary>
         public string Id { get; }
+
+        /// <summary>
+        /// Gets the version of the device firmware.
+        /// </summary>
         public int Version { get; }
+
+        /// <summary>
+        /// Gets a collection of channels, led counts and pins that are available on this device.
+        /// </summary>
         public IReadOnlyList<(int channel, int ledCount, int pin)> Channels { get; }
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PicoPiSDK" /> class.
+        /// </summary>
+        /// <param name="device">The underlying hid device.</param>
         public PicoPiSDK(HidDevice device)
         {
             this._hidDevice = device;
@@ -79,6 +100,11 @@ namespace RGB.NET.Devices.PicoPi
 
         #region Methods
 
+        /// <summary>
+        /// Configures the amount of leds to update on the specified channels.
+        /// </summary>
+        /// <remarks>This is a configuration function. The value is persistent on the device.</remarks>
+        /// <param name="ledCounts">The values to set on the device.</param>
         public void SetLedCounts(params (int channel, int ledCount)[] ledCounts)
         {
             byte[] data = new byte[Channels.Count + 2];
@@ -92,6 +118,11 @@ namespace RGB.NET.Devices.PicoPi
             SendHID(data);
         }
 
+        /// <summary>
+        /// Configures the pins used by the specified channels.
+        /// </summary>
+        /// <remarks>This is a configuration function. The value is persistent on the device.</remarks>
+        /// <param name="pins">T values to set on the device.</param>
         public void SetPins(params (int channel, int pin)[] pins)
         {
             byte[] data = new byte[Channels.Count + 2];
@@ -173,6 +204,13 @@ namespace RGB.NET.Devices.PicoPi
             }
         }
 
+        /// <summary>
+        /// Sends a update to the device using the HID-endpoint.
+        /// </summary>
+        /// <param name="data">The data packet to send.</param>
+        /// <param name="channel">The channel to update.</param>
+        /// <param name="chunk">The chunk id of the packet. (Required if packets are fragmented.)</param>
+        /// <param name="update">A value indicating if the device should update directly after receiving this packet. (If packets are fragmented this should only be true for the last chunk.)</param>
         public void SendHidUpdate(in Span<byte> data, int channel, int chunk, bool update)
         {
             if (data.Length == 0) return;
@@ -186,6 +224,14 @@ namespace RGB.NET.Devices.PicoPi
             SendHID(_hidSendBuffer);
         }
 
+        /// <summary>
+        /// Sends a update to the device using the bulk-endpoint.
+        /// </summary>
+        /// <remarks>
+        /// Silently fails if not bulk-updates are supported. (Check <see cref="IsBulkSupported"/>)
+        /// </remarks>
+        /// <param name="data">The data packet to send.</param>
+        /// <param name="channel">The channel to update.</param>
         public void SendBulkUpdate(in Span<byte> data, int channel)
         {
             if ((data.Length == 0) || !IsBulkSupported) return;
@@ -200,6 +246,9 @@ namespace RGB.NET.Devices.PicoPi
             _bulkTransferLength += payloadSize;
         }
 
+        /// <summary>
+        /// Flushing the bulk endpoint, causing the device to update.
+        /// </summary>
         public void FlushBulk()
         {
             if (_bulkTransferLength == 0) return;
@@ -216,6 +265,7 @@ namespace RGB.NET.Devices.PicoPi
 
         private byte[] Read() => _hidStream.Read();
 
+        /// <inheritdoc />
         public void Dispose()
         {
             _hidStream.Dispose();

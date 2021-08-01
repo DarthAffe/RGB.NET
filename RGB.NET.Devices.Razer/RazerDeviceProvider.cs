@@ -44,6 +44,9 @@ namespace RGB.NET.Devices.Razer
 
         private const int VENDOR_ID = 0x1532;
 
+        /// <summary>
+        /// Gets the HID-definitions for Razer-devices.
+        /// </summary>
         public static HIDLoader<int, RazerEndpointType> DeviceDefinitions { get; } = new(VENDOR_ID)
         {
             // Keyboards
@@ -214,6 +217,7 @@ namespace RGB.NET.Devices.Razer
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             TryUnInit();
@@ -225,6 +229,7 @@ namespace RGB.NET.Devices.Razer
                 ThrowRazerError(error, true);
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
         {
             DeviceDefinitions.LoadFilter = loadFilter;
@@ -250,6 +255,7 @@ namespace RGB.NET.Devices.Razer
             return devices;
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             // Only take the first device of each endpoint type, the Razer SDK doesn't allow separate control over multiple devices using the same endpoint

@@ -23,7 +23,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" /> class.
         /// </summary>
-        /// <param name="info">The specific information provided by CUE for the keyboard</param>
+        /// <param name="info">The specific information provided by CUE for the keyboard.</param>
         /// <param name="updateQueue">The queue used to update this device.</param>
         internal CorsairKeyboardRGBDevice(CorsairKeyboardRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
             : base(info, LedMappings.Keyboard, updateQueue)

@@ -63,6 +63,7 @@ namespace RGB.NET.Devices.Corsair
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             _CUESDK.Reload();
@@ -193,6 +194,7 @@ namespace RGB.NET.Devices.Corsair
             };
         }
 
+        /// <inheritdoc />
         protected override void Reset()
         {
             ProtocolDetails = null;

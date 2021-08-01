@@ -23,8 +23,12 @@ namespace RGB.NET.Devices.Asus
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
+        /// <summary>
+        /// Gets the SDK-aura-device this device represents.
+        /// </summary>
         public IAuraSyncDevice Device { get; }
 
         #endregion

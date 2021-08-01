@@ -55,8 +55,10 @@ namespace RGB.NET.Devices.Debug
         /// </summary>
         public void ClearFakeDeviceDefinitions() => _fakeDeviceDefinitions.Clear();
 
+        /// <inheritdoc />
         protected override void InitializeSDK() { }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             foreach ((IDeviceLayout layout, Action<IEnumerable<Led>>? updateLedsAction) in _fakeDeviceDefinitions)

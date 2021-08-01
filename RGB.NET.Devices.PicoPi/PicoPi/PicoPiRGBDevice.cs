@@ -2,6 +2,10 @@
 
 namespace RGB.NET.Devices.PicoPi
 {
+    /// <inheritdoc cref="AbstractRGBDevice{PicoPiRGBDeviceInfo}" />
+    /// <summary>
+    /// Represents a device based on an Raspberry Pi Pico.
+    /// </summary>
     public class PicoPiRGBDevice : AbstractRGBDevice<PicoPiRGBDeviceInfo>
     {
         #region Properties & Fields
@@ -12,6 +16,13 @@ namespace RGB.NET.Devices.PicoPi
 
         #region Constructors
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PicoPiRGBDevice" /> class.
+        /// </summary>
+        /// <param name="deviceInfo">The device info of this device.</param>
+        /// <param name="updateQueue">The queue used to update this device.</param>
+        /// <param name="ledMapping">A mapping of leds this device is initialized with.</param>
         public PicoPiRGBDevice(PicoPiRGBDeviceInfo deviceInfo, IUpdateQueue updateQueue, LedMapping<int> ledMapping)
             : base(deviceInfo, updateQueue)
         {

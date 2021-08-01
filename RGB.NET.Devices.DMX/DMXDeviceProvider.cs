@@ -51,8 +51,10 @@ namespace RGB.NET.Devices.DMX
         /// <param name="deviceDefinition">The <see cref="IDMXDeviceDefinition"/> to add.</param>
         public void AddDeviceDefinition(IDMXDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
 
+        /// <inheritdoc />
         protected override void InitializeSDK() { }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             foreach (IDMXDeviceDefinition dmxDeviceDefinition in DeviceDefinitions)

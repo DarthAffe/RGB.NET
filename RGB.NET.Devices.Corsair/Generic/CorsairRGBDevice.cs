@@ -14,6 +14,9 @@ namespace RGB.NET.Devices.Corsair
     {
         #region Properties & Fields
 
+        /// <summary>
+        /// Gets the mapping of <see cref="LedId"/> to <see cref="CorsairLedId"/> used to update the LEDs of this device.
+        /// </summary>
         protected LedMapping<CorsairLedId> Mapping { get; }
 
         #endregion
@@ -24,6 +27,8 @@ namespace RGB.NET.Devices.Corsair
         /// Initializes a new instance of the <see cref="CorsairRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by CUE for the device.</param>
+        /// <param name="mapping">The mapping <see cref="LedId"/> to <see cref="CorsairLedId"/> used to update the LEDs of this device.</param>
+        /// <param name="updateQueue">The queue used to update this device.</param>
         protected CorsairRGBDevice(TDeviceInfo info, LedMapping<CorsairLedId> mapping, CorsairDeviceUpdateQueue updateQueue)
             : base(info, updateQueue)
         {
@@ -35,7 +40,10 @@ namespace RGB.NET.Devices.Corsair
         #region Methods
 
         void ICorsairRGBDevice.Initialize() => InitializeLayout();
-
+        
+        /// <summary>
+        /// Initializes the LEDs of the device based on the data provided by the SDK.
+        /// </summary>
         protected virtual void InitializeLayout()
         {
             _CorsairLedPositions? nativeLedPositions = (_CorsairLedPositions?)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));

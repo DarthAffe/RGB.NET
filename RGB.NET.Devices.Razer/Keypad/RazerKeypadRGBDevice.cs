@@ -19,6 +19,7 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerKeypadRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keypad.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal RazerKeypadRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, new RazerKeypadUpdateQueue(updateTrigger))
         {

@@ -17,8 +17,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.WS281X.Bitwizard.BitwizardWS2812USBUpdateQueue" /> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
-        /// <param name="portName">The name of the serial-port to connect to.</param>
-        /// <param name="baudRate">The baud-rate used by the serial-connection.</param>
+        /// <param name="serialConnection">The serial connection used to access the device.</param>
         public BitwizardWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, ISerialConnection serialConnection)
             : base(updateTrigger, serialConnection)
         { }

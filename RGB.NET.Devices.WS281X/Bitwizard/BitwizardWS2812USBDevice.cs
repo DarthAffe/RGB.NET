@@ -24,8 +24,10 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// <summary>
         /// Initializes a new instance of the <see cref="BitwizardWS2812USBDevice"/> class.
         /// </summary>
-        /// <param name="deviceInfo">The update trigger used by this queue.</param>
+        /// <param name="deviceInfo">The device info of this device.</param>
         /// <param name="updateQueue">The update queue performing updates for this device.</param>
+        /// <param name="ledOffset">The offset used to access the leds on this device.</param>
+        /// <param name="ledCount">The amount of leds on this device.</param>
         public BitwizardWS2812USBDevice(BitwizardWS2812USBDeviceInfo deviceInfo, BitwizardWS2812USBUpdateQueue updateQueue, int ledOffset, int ledCount)
             : base(deviceInfo, updateQueue)
         {

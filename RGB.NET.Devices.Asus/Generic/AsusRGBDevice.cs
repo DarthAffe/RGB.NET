@@ -15,6 +15,7 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="AsusRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by Asus for the device.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         protected AsusRGBDevice(TDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, new AsusUpdateQueue(updateTrigger, info.Device))
         { }

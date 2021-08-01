@@ -15,6 +15,7 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusMouseRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Asus for the mouse.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal AsusMouseRGBDevice(AsusRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
         {

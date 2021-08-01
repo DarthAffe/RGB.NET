@@ -33,6 +33,7 @@ namespace RGB.NET.Devices.DMX.E131
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
         /// <summary>

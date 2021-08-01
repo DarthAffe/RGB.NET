@@ -17,8 +17,19 @@ namespace RGB.NET.Devices.Corsair
     {
         #region Properties & Fields
 
+        /// <summary>
+        /// Gets the corsair-id of the first LED of this device.
+        /// </summary>
         public CorsairLedId ReferenceCorsairLed { get; }
+
+        /// <summary>
+        /// Gets the amount of LEDs this device contains.
+        /// </summary>
         public int LedCount { get; }
+
+        /// <summary>
+        /// Gets the offset used to access the LEDs of this device.
+        /// </summary>
         internal int LedOffset { get; }
 
         #endregion
@@ -33,7 +44,8 @@ namespace RGB.NET.Devices.Corsair
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair._CorsairChannelDeviceInfo" />.</param>
         /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
         /// <param name="channelDeviceInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairChannelDeviceInfo"/> representing this device.</param>
-        /// <param name="referenceCorsairLed">The id of the first led of this device.</param>
+        /// <param name="referenceCorsairLed">The id of the first LED of this device.</param>
+        /// <param name="ledOffset">The offset used to find the LEDs of this device.</param>
         internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, CorsairLedId referenceCorsairLed, int ledOffset)
             : base(deviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo,
                    GetModelName(nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase), channelDeviceInfo))

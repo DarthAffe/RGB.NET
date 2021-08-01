@@ -53,6 +53,7 @@ namespace RGB.NET.Devices.Msi
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             _MsiSDK.Reload();
@@ -62,6 +63,7 @@ namespace RGB.NET.Devices.Msi
                 ThrowMsiError(errorCode, true);
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             int errorCode;

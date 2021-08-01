@@ -19,6 +19,7 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerHeadsetRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the headset.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal RazerHeadsetRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, new RazerHeadsetUpdateQueue(updateTrigger))
         {

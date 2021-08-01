@@ -42,6 +42,9 @@ namespace RGB.NET.Devices.Logitech
 
         private const int VENDOR_ID = 0x046D;
 
+        /// <summary>
+        /// Gets the HID-definitions for per-key-devices.
+        /// </summary>
         public static HIDLoader<LogitechLedId, int> PerKeyDeviceDefinitions { get; } = new(VENDOR_ID)
         {
             { 0xC32B, RGBDeviceType.Keyboard, "G910", LedMappings.PerKey, 0 },
@@ -60,6 +63,9 @@ namespace RGB.NET.Devices.Logitech
             { 0xC545, RGBDeviceType.Keyboard, "Lightspeed Keyboard Dongle", LedMappings.PerKey, 0 },
         };
 
+        /// <summary>
+        /// Gets the HID-definitions for per-zone-devices.
+        /// </summary>
         public static HIDLoader<int, (LogitechDeviceType deviceType, int zones)> PerZoneDeviceDefinitions { get; } = new(VENDOR_ID)
         {
             { 0xC336, RGBDeviceType.Keyboard, "G213", LedMappings.ZoneKeyboard, (LogitechDeviceType.Keyboard, 2) },
@@ -83,6 +89,9 @@ namespace RGB.NET.Devices.Logitech
             { 0xAB5, RGBDeviceType.Speaker, "G733", LedMappings.ZoneSpeaker, (LogitechDeviceType.Speaker, 2) },
         };
 
+        /// <summary>
+        /// Gets the HID-definitions for per-device-devices.
+        /// </summary>
         public static HIDLoader<int, int> PerDeviceDeviceDefinitions { get; } = new(VENDOR_ID)
         {
             { 0xC228, RGBDeviceType.Keyboard, "G19", LedMappings.Device, 0 },
@@ -117,6 +126,7 @@ namespace RGB.NET.Devices.Logitech
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             _perDeviceUpdateQueue = new LogitechPerDeviceUpdateQueue(GetUpdateTrigger());
@@ -128,6 +138,7 @@ namespace RGB.NET.Devices.Logitech
             _LogitechGSDK.LogiLedSaveCurrentLighting();
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
         {
             PerKeyDeviceDefinitions.LoadFilter = loadFilter;
@@ -136,8 +147,8 @@ namespace RGB.NET.Devices.Logitech
 
             return base.GetLoadedDevices(loadFilter);
         }
-
-        //TODO DarthAffe 04.03.2021: Rework device selection and configuration for HID-based providers 
+        
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             (HIDDeviceDefinition<LogitechLedId, int> definition, HidDevice device) perKeyDevice = PerKeyDeviceDefinitions.GetConnectedDevices().FirstOrDefault();

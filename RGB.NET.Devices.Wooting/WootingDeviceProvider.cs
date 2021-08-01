@@ -53,6 +53,7 @@ namespace RGB.NET.Devices.Wooting
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             lock (_WootingSDK.SdkLock)
@@ -61,6 +62,7 @@ namespace RGB.NET.Devices.Wooting
             }
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             lock (_WootingSDK.SdkLock)

@@ -27,6 +27,8 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CUE for the keyboard.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
+        /// <param name="ledMapping">A mapping of leds this device is initialized with.</param>
         internal RazerKeyboardRGBDevice(RazerKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger, LedMapping<int> ledMapping)
             : base(info, new RazerKeyboardUpdateQueue(updateTrigger))
         {

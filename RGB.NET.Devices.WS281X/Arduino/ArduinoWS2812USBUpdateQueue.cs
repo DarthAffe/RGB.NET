@@ -31,8 +31,7 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// Initializes a new instance of the <see cref="ArduinoWS2812USBUpdateQueue"/> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
-        /// <param name="portName">The name of the serial-port to connect to.</param>
-        /// <param name="baudRate">The baud-rate used by the serial-connection.</param>
+        /// <param name="serialConnection">The serial connection used to access the device.</param>
         public ArduinoWS2812USBUpdateQueue(IDeviceUpdateTrigger updateTrigger, ISerialConnection serialConnection)
             : base(updateTrigger, serialConnection)
         { }

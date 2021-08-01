@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.SteelSeries
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a device provider responsible for SteelSeries- devices.
+    /// Represents a device provider responsible for SteelSeries-devices.
     /// </summary>
     public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     {
@@ -22,6 +22,9 @@ namespace RGB.NET.Devices.SteelSeries
 
         private const int VENDOR_ID = 0x1038;
 
+        /// <summary>
+        /// Gets the HID-definitions for SteelSeries-devices.
+        /// </summary>
         public static HIDLoader<SteelSeriesLedId, SteelSeriesDeviceType> DeviceDefinitions { get; } = new(VENDOR_ID)
         {
             //Mice

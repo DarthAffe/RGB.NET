@@ -36,6 +36,9 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// </summary>
         public string? Name { get; set; }
 
+        /// <summary>
+        /// Gets a list of LED-strips configured on this device.
+        /// </summary>
         public List<(int pin, int stripLength)> Strips { get; } = new();
 
         /// <summary>
@@ -52,6 +55,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// Initializes a new instance of the <see cref="BitwizardWS281XDeviceDefinition"/> class.
         /// </summary>
         /// <param name="serialConnection">The serial connection used for the device.</param>
+        /// <param name="strips">A list of LED-strips connected to this device.</param>
         public BitwizardWS281XDeviceDefinition(ISerialConnection serialConnection, params (int pin, int stripLength)[] strips)
         {
             this.SerialConnection = serialConnection;
@@ -64,6 +68,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard
         /// </summary>
         /// <param name="port">The name of the serial-port to connect to.</param>
         /// <param name="baudRate">The baud-rate of the serial-connection.</param>
+        /// <param name="strips">A list of LED-strips connected to this device.</param>
         public BitwizardWS281XDeviceDefinition(string port, int baudRate = 115200, params (int pin, int stripLength)[] strips)
         {
             SerialConnection = new SerialPortConnection(port, baudRate);

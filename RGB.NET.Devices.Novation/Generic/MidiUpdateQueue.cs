@@ -51,11 +51,11 @@ namespace RGB.NET.Devices.Novation
                 _outputDevice.SendShort(message.Message);
         }
 
-
         /// <summary>
         /// Creates a update-message out of a specified data set.
         /// </summary>
-        /// <param name="data">The data set to create the message from.</param>
+        /// <param name="key">The key used to identify the LED to update.</param>
+        /// <param name="color">The color to send.</param>
         /// <returns>The message created out of the data set.</returns>
         protected abstract ShortMessage? CreateMessage(object key, in Color color);
 
