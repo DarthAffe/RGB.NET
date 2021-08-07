@@ -61,9 +61,14 @@ namespace RGB.NET.Layout
         [DefaultValue("1.0")]
         public string DescriptiveHeight { get; set; } = "1.0";
 
+        /// <summary>
+        /// Gets or sets the internal custom data of this layout.
+        /// Normally you should use <see cref="CustomData"/> to access or set this data.
+        /// </summary>
         [XmlElement("CustomData")]
         public object? InternalCustomData { get; set; }
 
+        /// <inheritdoc />
         [XmlIgnore]
         public object? CustomData { get; set; }
 
@@ -128,6 +133,14 @@ namespace RGB.NET.Layout
             Y = GetLocationValue(DescriptiveY, lastLed?.Y ?? 0, Height, lastLed?.Height ?? 0);
         }
 
+        /// <summary>
+        /// Gets the calculated location-value from the internal representation.
+        /// </summary>
+        /// <param name="value">The value provided by the layout.</param>
+        /// <param name="lastValue">The location of the last calculated LED.</param>
+        /// <param name="currentSize">The size of the current LED.</param>
+        /// <param name="lastSize">The size of the last loaded LED.</param>
+        /// <returns>The location-value of the LED.</returns>
         protected virtual float GetLocationValue(string value, float lastValue, float currentSize, float lastSize)
         {
             try
@@ -165,6 +178,12 @@ namespace RGB.NET.Layout
             }
         }
 
+        /// <summary>
+        /// Gets the calculated size-value from the internal representation.
+        /// </summary>
+        /// <param name="value">The value provided by the layout.</param>
+        /// <param name="unitSize">The absolute size of one 'unit'.</param>
+        /// <returns>The size-value of the LED.</returns>
         protected virtual float GetSizeValue(string value, float unitSize)
         {
             try

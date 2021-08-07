@@ -53,13 +53,32 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <inheritdoc />
         public override double LastUpdateTime { get; protected set; }
 
+        /// <summary>
+        /// Gets or sets the event to trigger when new data is available (<see cref="TriggerHasData"/>).
+        /// </summary>
         protected AutoResetEvent HasDataEvent { get; set; } = new(false);
 
+        /// <summary>
+        /// Gets or sets a bool indicating if the trigger is currently updating.
+        /// </summary>
         protected bool IsRunning { get; set; }
+
+        /// <summary>
+        /// Gets or sets the update loop of this trigger.
+        /// </summary>
         protected Task? UpdateTask { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cancellation token source used to create the cancellation token checked by the <see cref="UpdateTask"/>.
+        /// </summary>
         protected CancellationTokenSource? UpdateTokenSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cancellation token checked by the <see cref="UpdateTask"/>.
+        /// </summary>
         protected CancellationToken UpdateToken { get; set; }
 
         #endregion
@@ -116,6 +135,9 @@ namespace RGB.NET.Core
             UpdateTask = null;
         }
 
+        /// <summary>
+        /// The update loop called by the <see cref="UpdateTask"/>.
+        /// </summary>
         protected virtual void UpdateLoop()
         {
             OnStartup();

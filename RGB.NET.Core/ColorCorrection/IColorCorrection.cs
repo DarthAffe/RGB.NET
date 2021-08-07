@@ -8,7 +8,7 @@ namespace RGB.NET.Core
     public interface IColorCorrection
     {
         /// <summary>
-        /// Applies the <see cref="IColorCorrection"/> to the given <see cref="Color"/>. 
+        /// Applies the <see cref="IColorCorrection"/> to the specified <see cref="Color"/>. 
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to correct.</param>
         void ApplyTo(ref Color color);

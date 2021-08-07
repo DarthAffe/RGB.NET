@@ -17,6 +17,7 @@ namespace RGB.NET.Devices.Novation
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Novation.NovationLaunchpadRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Novation for the launchpad</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal NovationLaunchpadRGBDevice(NovationLaunchpadRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
         {
@@ -40,10 +41,17 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <inheritdoc />
+        // ReSharper disable RedundantCast
         protected override object GetLedCustomData(LedId ledId) => GetDeviceMapping().TryGetValue(ledId, out (byte mode, byte id, int _, int __) data) ? (data.mode, data.id) : ((byte)0x00, (byte)0x00);
+        // ReSharper restore RedundantCast
 
+        /// <summary>
+        /// Gets the mapping used to access the LEDs of the device based on <see cref="NovationLaunchpadRGBDeviceInfo.LedMapping"/>.
+        /// </summary>
+        /// <returns>The mapping of the device.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the value of <see cref="NovationLaunchpadRGBDeviceInfo.LedMapping"/> is not known.</exception>
         protected virtual Dictionary<LedId, (byte mode, byte id, int x, int y)> GetDeviceMapping()
-            => DeviceInfo.LedIdMapping switch
+            => DeviceInfo.LedMapping switch
             {
                 LedIdMappings.Current => LaunchpadIdMapping.CURRENT,
                 LedIdMappings.Legacy => LaunchpadIdMapping.LEGACY,

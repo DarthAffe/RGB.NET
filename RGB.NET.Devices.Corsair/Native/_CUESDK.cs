@@ -1,4 +1,5 @@
-﻿// ReSharper disable UnusedMethodReturnValue.Global
+﻿#pragma warning disable IDE1006 // Naming Styles
+// ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable UnusedMember.Global
 
 using System;
@@ -61,13 +62,13 @@ namespace RGB.NET.Devices.Corsair.Native
             _dllHandle = IntPtr.Zero;
         }
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         private static extern IntPtr LoadLibrary(string dllToLoad);
 
         [DllImport("kernel32.dll")]
         private static extern bool FreeLibrary(IntPtr dllHandle);
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
         private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
 
         #endregion

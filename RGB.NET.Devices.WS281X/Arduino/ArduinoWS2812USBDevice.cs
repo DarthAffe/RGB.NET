@@ -26,9 +26,10 @@ namespace RGB.NET.Devices.WS281X.Arduino
         /// <summary>
         /// Initializes a new instance of the <see cref="ArduinoWS2812USBDevice"/> class.
         /// </summary>
-        /// <param name="deviceInfo">The update trigger used by this queue.</param>
+        /// <param name="deviceInfo">The device info of this device.</param>
         /// <param name="updateQueue">The update queue performing updates for this device.</param>
         /// <param name="channel">The channel (as defined in the arduino-sketch) this device is attached to.</param>
+        /// <param name="ledCount">The amount of leds on this device.</param>
         public ArduinoWS2812USBDevice(ArduinoWS2812USBDeviceInfo deviceInfo, ArduinoWS2812USBUpdateQueue updateQueue, int channel, int ledCount)
             : base(deviceInfo, updateQueue)
         {

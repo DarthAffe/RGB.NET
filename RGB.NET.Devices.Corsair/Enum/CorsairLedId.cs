@@ -1,11 +1,11 @@
 ﻿// ReSharper disable InconsistentNaming
-
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+// ReSharper disable UnusedMember.Global
+#pragma warning disable 1591
 
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Contains list of all LEDs available for all corsair devices.
+    /// Contains a list of all LEDs available for all corsair devices.
     /// </summary>
     public enum CorsairLedId
     {

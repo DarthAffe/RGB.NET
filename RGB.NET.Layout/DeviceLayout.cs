@@ -87,6 +87,10 @@ namespace RGB.NET.Layout
         [DefaultValue(19.0)]
         public float LedUnitHeight { get; set; } = 19.0f;
 
+        /// <summary>
+        /// Gets or sets the internal list of led layouts.
+        /// Normally you should use <see cref="Leds"/> to access this data.
+        /// </summary>
         [XmlArray("Leds")]
         public List<LedLayout> InternalLeds { get; set; } = new();
 
@@ -96,9 +100,14 @@ namespace RGB.NET.Layout
         [XmlIgnore]
         public IEnumerable<ILedLayout> Leds => InternalLeds;
 
+        /// <summary>
+        /// Gets or sets the internal custom data of this layout.
+        /// Normally you should use <see cref="CustomData"/> to access or set this data.
+        /// </summary>
         [XmlElement("CustomData")]
         public object? InternalCustomData { get; set; }
 
+        /// <inheritdoc />
         [XmlIgnore]
         public object? CustomData { get; set; }
 
@@ -107,9 +116,11 @@ namespace RGB.NET.Layout
         #region Methods
 
         /// <summary>
-        /// Creates a new <see cref="DeviceLayout"/> from the given xml.
+        /// Creates a new <see cref="DeviceLayout"/> from the specified xml.
         /// </summary>
         /// <param name="path">The path to the xml file.</param>
+        /// <param name="customDeviceDataType">The type of the custom data.</param>
+        /// <param name="customLedDataType">The type of the custom data of the leds.</param>
         /// <returns>The deserialized <see cref="DeviceLayout"/>.</returns>
         public static DeviceLayout? Load(string path, Type? customDeviceDataType = null, Type? customLedDataType = null)
         {
@@ -144,12 +155,16 @@ namespace RGB.NET.Layout
             }
         }
 
+        /// <summary>
+        /// Gets the deserialized custom data.
+        /// </summary>
+        /// <param name="customData">The internal custom data node.</param>
+        /// <param name="type">The type of the custom data.</param>
+        /// <returns>The deserialized custom data object.</returns>
         protected virtual object? GetCustomData(object? customData, Type? type)
         {
             XmlNode? node = (customData as XmlNode) ?? (customData as IEnumerable<XmlNode>)?.FirstOrDefault()?.ParentNode; //HACK DarthAffe 16.01.2021: This gives us the CustomData-Node
             if ((node == null) || (type == null)) return null;
-
-            if (type == null) return null;
 
             using MemoryStream ms = new();
             using StreamWriter writer = new(ms);

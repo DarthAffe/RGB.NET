@@ -76,6 +76,11 @@ namespace RGB.NET.Presets.Decorators
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a new <see cref="FlashDecorator"/> from the specified xml.
+        /// </summary>
+        /// <param name="surface">The surface this decorator belongs to.</param>
+        /// <param name="updateIfDisabled">A value indicating if the decorator should be updated if it is disabled.</param>
         public FlashDecorator(RGBSurface surface, bool updateIfDisabled = false)
             : base(surface, updateIfDisabled)
         { }

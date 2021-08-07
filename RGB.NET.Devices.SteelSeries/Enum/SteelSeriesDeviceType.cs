@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Devices.SteelSeries
+﻿#pragma warning disable 1591
+
+namespace RGB.NET.Devices.SteelSeries
 {
     // DarthAffe 09.07.2020: Review the LISP-Handler in SteelSeriesSDK after adding new device-types! They need to be initialized.
     public enum SteelSeriesDeviceType

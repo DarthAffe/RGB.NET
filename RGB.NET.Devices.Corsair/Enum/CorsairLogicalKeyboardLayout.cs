@@ -1,12 +1,11 @@
 ﻿// ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
-
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable 1591
 
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Contains list of available logical layouts for corsair keyboards.
+    /// Contains a list of available logical layouts for corsair keyboards.
     /// </summary>
     public enum CorsairLogicalKeyboardLayout
     {

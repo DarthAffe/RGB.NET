@@ -10,7 +10,7 @@ namespace RGB.NET.Presets.Textures
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a brush drawing a radial gradient around a center point.
+    /// Represents a texture drawing a radial gradient around a center point.
     /// </summary>
     public sealed class RadialGradientTexture : AbstractGradientTexture
     {
@@ -39,6 +39,7 @@ namespace RGB.NET.Presets.Textures
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Textures.RadialGradientTexture" /> class.
         /// </summary>
+        /// <param name="size">The size of the texture.</param>
         /// <param name="gradient">The gradient drawn by the brush.</param>
         public RadialGradientTexture(Size size, IGradient gradient)
             : base(size, gradient)
@@ -47,8 +48,9 @@ namespace RGB.NET.Presets.Textures
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Textures.RadialGradientTexture" /> class.
         /// </summary>
-        /// <param name="center">The center point (as percentage in the range [0..1]).</param>
+        /// <param name="size">The size of the texture.</param>
         /// <param name="gradient">The gradient drawn by the brush.</param>
+        /// <param name="center">The center point (as percentage in the range [0..1]).</param>
         public RadialGradientTexture(Size size, IGradient gradient, Point center)
             : base(size, gradient)
         {
@@ -66,6 +68,7 @@ namespace RGB.NET.Presets.Textures
             _referenceDistance = GradientHelper.CalculateDistance(new Point(referenceX, referenceY), Center);
         }
 
+        /// <inheritdoc />
         protected override Color GetColor(in Point point)
         {
             float distance = GradientHelper.CalculateDistance(point, Center);

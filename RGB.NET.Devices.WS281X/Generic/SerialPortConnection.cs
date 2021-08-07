@@ -28,6 +28,11 @@ namespace RGB.NET.Devices.WS281X
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerialPortConnection"/> class.
+        /// </summary>
+        /// <param name="port">The name of the serial-port to connect to.</param>
+        /// <param name="baudRate">The baud-rate used by the serial-connection.</param>
         public SerialPortConnection(string port, int baudRate)
         {
             SerialPort = new SerialPort(port, baudRate);

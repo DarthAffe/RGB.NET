@@ -27,6 +27,9 @@
         /// </summary>
         string Model { get; }
 
+        /// <summary>
+        /// Gets custom metadata added to the layout.
+        /// </summary>
         object? LayoutMetadata { get; set; }
 
         #endregion

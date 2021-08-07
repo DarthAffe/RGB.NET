@@ -10,8 +10,14 @@ namespace RGB.NET.Core
     /// </summary>
     public interface ILedGroup : IDecoratable<ILedGroupDecorator>, IEnumerable<Led>
     {
+        /// <summary>
+        /// Gets the surface this group is attached to or <c>null</c> if it is not attached to any surface.
+        /// </summary>
         RGBSurface? Surface { get; internal set; }
 
+        /// <summary>
+        /// Gets a bool indicating if the group is attached to a surface.
+        /// </summary>
         bool IsAttached => Surface != null;
 
         /// <summary>

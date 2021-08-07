@@ -2,6 +2,9 @@
 
 namespace RGB.NET.Layout
 {
+    /// <summary>
+    /// Represents a generic layour of a LED.
+    /// </summary>
     public interface ILedLayout
     {
         /// <summary>
@@ -39,6 +42,9 @@ namespace RGB.NET.Layout
         /// </summary>
         float Height { get; }
 
+        /// <summary>
+        /// Gets the the custom data associated with the LED.
+        /// </summary>
         object? CustomData { get; }
     }
 }

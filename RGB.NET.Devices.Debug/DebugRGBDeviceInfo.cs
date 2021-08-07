@@ -22,6 +22,7 @@ namespace RGB.NET.Devices.Debug
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
         #endregion
@@ -34,6 +35,7 @@ namespace RGB.NET.Devices.Debug
         /// <param name="deviceType">The <see cref="RGBDeviceType"/> of the device.</param>
         /// <param name="manufacturer">The manufacturer of the device.</param>
         /// <param name="model">The model of the device.</param>
+        /// <param name="customData">Some custom data for this device provided by the layout.</param>
         internal DebugRGBDeviceInfo(RGBDeviceType deviceType, string manufacturer, string model, object? customData)
         {
             this.DeviceType = deviceType;

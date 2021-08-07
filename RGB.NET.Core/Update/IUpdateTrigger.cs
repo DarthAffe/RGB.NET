@@ -7,6 +7,9 @@ namespace RGB.NET.Core
     /// </summary>
     public interface IUpdateTrigger : IDisposable
     {
+        /// <summary>
+        /// Gets the time spent for the last update.
+        /// </summary>
         double LastUpdateTime { get; }
 
         /// <summary>
@@ -19,6 +22,9 @@ namespace RGB.NET.Core
         /// </summary>
         event EventHandler<CustomUpdateData>? Update;
 
+        /// <summary>
+        /// Starts the update trigger.
+        /// </summary>
         void Start();
     }
 }

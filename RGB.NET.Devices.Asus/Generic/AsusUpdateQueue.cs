@@ -25,6 +25,7 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="AsusUpdateQueue"/> class.
         /// </summary>
         /// <param name="updateTrigger">The update trigger used by this queue.</param>
+        /// <param name="device">The SDK-aura-device this device represents.</param>
         public AsusUpdateQueue(IDeviceUpdateTrigger updateTrigger, IAuraSyncDevice device)
             : base(updateTrigger)
         {

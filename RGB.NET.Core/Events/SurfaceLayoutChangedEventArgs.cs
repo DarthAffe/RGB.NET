@@ -43,7 +43,8 @@ namespace RGB.NET.Core
         /// </summary>
         /// <param name="devices">The <see cref="T:RGB.NET.Core.IRGBDevice" /> that caused the change.</param>
         /// <param name="deviceAdded">A value indicating if the event is caused by the addition of a new <see cref="T:RGB.NET.Core.IRGBDevice" /> to the <see cref="T:RGB.NET.Core.RGBSurface" />.</param>
-        /// <param name="deviceLocationChanged">A value indicating if the event is caused by a changed location of one of the devices on the <see cref="T:RGB.NET.Core.RGBSurface" />.</param>
+        /// <param name="deviceRemoved">A value indicating if the event is caused by the removal of a <see cref="T:RGB.NET.Core.IRGBDevice" /> from the <see cref="T:RGB.NET.Core.RGBSurface" />.</param>
+        /// <param name="deviceChanged">A value indicating if the event is caused by a change to a <see cref="T:RGB.NET.Core.IRGBDevice" /> on the <see cref="T:RGB.NET.Core.RGBSurface" />.</param>
         private SurfaceLayoutChangedEventArgs(IRGBDevice? devices, bool deviceAdded, bool deviceRemoved, bool deviceChanged)
         {
             this.Devices = devices;

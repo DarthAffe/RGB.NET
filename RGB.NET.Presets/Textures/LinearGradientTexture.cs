@@ -13,7 +13,7 @@ namespace RGB.NET.Presets.Textures
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents a brush drawing a linear gradient.
+    /// Represents a texture drawing a linear gradient.
     /// </summary>
     public sealed class LinearGradientTexture : AbstractGradientTexture
     {
@@ -46,6 +46,7 @@ namespace RGB.NET.Presets.Textures
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Textures.LinearGradientTexture" /> class.
         /// </summary>
+        /// <param name="size">The size of the texture.</param>
         /// <param name="gradient">The <see cref="T:RGB.NET.Presets.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Presets.Textures.LinearGradientTexture" />.</param>
         public LinearGradientTexture(Size size, IGradient gradient)
             : base(size, gradient)
@@ -54,9 +55,10 @@ namespace RGB.NET.Presets.Textures
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Presets.Textures.LinearGradientTexture" /> class.
         /// </summary>
+        /// <param name="size">The size of the texture.</param>
+        /// <param name="gradient">The <see cref="T:RGB.NET.Presets.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Presets.Textures.LinearGradientTexture" />.</param>
         /// <param name="startPoint">The start <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
         /// <param name="endPoint">The end <see cref="T:RGB.NET.Core.Point" /> (as percentage in the range [0..1]).</param>
-        /// <param name="gradient">The <see cref="T:RGB.NET.Presets.Gradients.IGradient" /> drawn by this <see cref="T:RGB.NET.Presets.Textures.LinearGradientTexture" />.</param>
         public LinearGradientTexture(Size size, IGradient gradient, Point startPoint, Point endPoint)
             : base(size, gradient)
         {
@@ -68,6 +70,7 @@ namespace RGB.NET.Presets.Textures
 
         #region Methods
 
+        /// <inheritdoc />
         protected override Color GetColor(in Point point)
         {
             float offset = GradientHelper.CalculateLinearGradientOffset(StartPoint, EndPoint, point);

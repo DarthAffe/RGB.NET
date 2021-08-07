@@ -1,7 +1,7 @@
 ﻿namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Contains list of available physical layouts for mice.
+    /// Contains a list of available physical layouts for mice.
     /// </summary>
     public enum CorsairPhysicalMouseLayout
     {

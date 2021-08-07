@@ -1,5 +1,10 @@
-﻿namespace RGB.NET.Devices.Logitech
+﻿#pragma warning disable 1591
+
+namespace RGB.NET.Devices.Logitech
 {
+    /// <summary>
+    /// Contains list of available logitech device types.
+    /// </summary>
     public enum LogitechDeviceType
     {
         Keyboard = 0x0,

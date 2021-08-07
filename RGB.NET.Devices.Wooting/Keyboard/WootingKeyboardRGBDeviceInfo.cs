@@ -23,7 +23,6 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDeviceInfo" />.
         /// </summary>
         /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
-        /// <param name="physicalKeyboardLayout">The <see cref="T:RGB.NET.Devices.Wooting.WootingPhysicalKeyboardLayout" /> of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
         internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex)
             : base(RGBDeviceType.Keyboard, deviceIndex)
         { }

@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Novation
     {
         #region Properties & Fields
 
-        internal LedIdMappings LedIdMapping { get; }
+        internal LedIdMappings LedMapping { get; }
 
         #endregion
 
@@ -21,13 +21,13 @@ namespace RGB.NET.Devices.Novation
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Novation.NovationLaunchpadRGBDeviceInfo" />.
         /// </summary>
         /// <param name="model">The represented device model.</param>
-        /// <param name="deviceId"></param>
+        /// <param name="deviceId">The id of the device.</param>
         /// <param name="colorCapabilities">The <see cref="T:RGB.NET.Devices.Novation.NovationColorCapabilities" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.</param>
-        internal NovationLaunchpadRGBDeviceInfo(string model, int deviceId, NovationColorCapabilities colorCapabilities,
-                                                LedIdMappings ledIdMapping)
+        /// <param name="ledMapping">A mapping of leds this device is initialized with.</param>
+        internal NovationLaunchpadRGBDeviceInfo(string model, int deviceId, NovationColorCapabilities colorCapabilities, LedIdMappings ledMapping)
             : base(RGBDeviceType.LedMatrix, model, deviceId, colorCapabilities)
         {
-            this.LedIdMapping = ledIdMapping;
+            this.LedMapping = ledMapping;
         }
 
         #endregion

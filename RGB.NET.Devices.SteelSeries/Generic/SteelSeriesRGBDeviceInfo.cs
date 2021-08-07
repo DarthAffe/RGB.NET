@@ -25,6 +25,9 @@ namespace RGB.NET.Devices.SteelSeries
         /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
+        /// <summary>
+        /// Gets the type of this device used in the SDK.
+        /// </summary>
         public SteelSeriesDeviceType SteelSeriesDeviceType { get; }
 
         #endregion
@@ -36,9 +39,7 @@ namespace RGB.NET.Devices.SteelSeries
         /// </summary>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
         /// <param name="model">The represented device model.</param>
-        /// <param name="deviceCaps">The lighting-capabilities of the device.</param>
-        /// <param name="imageLayout">The layout used to decide which images to load.</param>
-        /// <param name="layoutPath">The path/name of the layout-file.</param>
+        /// <param name="steelSeriesDeviceType">The type of this device used in the SDK.</param>
         internal SteelSeriesRGBDeviceInfo(RGBDeviceType deviceType, string model, SteelSeriesDeviceType steelSeriesDeviceType)
         {
             this.DeviceType = deviceType;

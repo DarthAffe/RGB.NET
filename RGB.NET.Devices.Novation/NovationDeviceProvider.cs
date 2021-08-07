@@ -41,8 +41,10 @@ namespace RGB.NET.Devices.Novation
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK() { }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             for (int index = 0; index < OutputDeviceBase.DeviceCount; index++)

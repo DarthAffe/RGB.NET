@@ -19,7 +19,7 @@ namespace RGB.NET.Core
         /// Gets or sets the value for a specific key.
         /// </summary>
         /// <param name="key">The key of the value.</param>
-        /// <returns>The value represented by the given key.</returns>
+        /// <returns>The value represented by the specified key.</returns>
         public object? this[string key]
         {
             get => _data.TryGetValue(key.ToUpperInvariant(), out object? data) ? data : default;

@@ -14,7 +14,7 @@ namespace RGB.NET.Presets.Helper
 
         // Based on https://web.archive.org/web/20170125201230/https://dotupdate.wordpress.com/2008/01/28/find-the-color-of-a-point-in-a-lineargradientbrush/
         /// <summary>
-        /// Calculates the offset of an given <see cref="Point"/> on an gradient.
+        /// Calculates the offset of an specified <see cref="Point"/> on an gradient.
         /// </summary>
         /// <param name="startPoint">The start <see cref="Point"/> of the gradient.</param>
         /// <param name="endPoint">The end <see cref="Point"/> of the gradient.</param>

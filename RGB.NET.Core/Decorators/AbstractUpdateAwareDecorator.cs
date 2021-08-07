@@ -8,6 +8,9 @@
     {
         #region Properties & Fields
 
+        /// <summary>
+        /// Gets the surface this decorator is attached to.
+        /// </summary>
         protected RGBSurface Surface { get; }
 
         /// <summary>
@@ -22,6 +25,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractUpdateAwareDecorator"/> class.
         /// </summary>
+        /// <param name="surface">The surface this decorator is attached to.</param>
         /// <param name="updateIfDisabled">Bool indicating if the <see cref="AbstractUpdateAwareDecorator"/> should call <see cref="Update"/> even if the Decorator is disabled.</param>
         protected AbstractUpdateAwareDecorator(RGBSurface surface, bool updateIfDisabled = false)
         {

@@ -17,6 +17,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Initializes a new instance of the <see cref="CoolerMasterRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by CoolerMaster for the device.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         protected CoolerMasterRGBDevice(TDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, new CoolerMasterUpdateQueue(updateTrigger, info.DeviceIndex))
         { }

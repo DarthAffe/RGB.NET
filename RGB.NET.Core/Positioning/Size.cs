@@ -74,7 +74,7 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Size" /> equivalent to this <see cref="Size" />; otherwise, <c>false</c>.</returns>
         public override bool Equals(object? obj)
         {
-            if (!(obj is Size size)) return false;
+            if (obj is not Size size) return false;
 
             (float width, float height) = size;
             return ((float.IsNaN(Width) && float.IsNaN(width)) || Width.EqualsInTolerance(width))
@@ -185,11 +185,11 @@ namespace RGB.NET.Core
         public static Size operator /(in Size size, float factor) => factor.EqualsInTolerance(0) ? Invalid : new Size(size.Width / factor, size.Height / factor);
 
         /// <summary>
-        /// Returns a new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the given <see cref="Scale"/>.
+        /// Returns a new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the specified <see cref="Scale"/>.
         /// </summary>
         /// <param name="size">The <see cref="Size"/> to scale.</param>
         /// <param name="scale">The scaling factor.</param>
-        /// <returns>A new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the given <see cref="Scale"/>.</returns>
+        /// <returns>A new <see cref="Size"/> representing the multiplication of the <see cref="Size"/> and the specified <see cref="Scale"/>.</returns>
         public static Size operator *(in Size size, in Scale scale) => new(size.Width * scale.Horizontal, size.Height * scale.Vertical);
 
         #endregion

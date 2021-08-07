@@ -4,6 +4,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Contains helper-methods and extension for the <see cref="Color"/>-type to work in the Hcl color space.
+    /// </summary>
     public static class HclColor
     {
         #region Getter
@@ -11,23 +14,23 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the H component value (Hcl-color space) of this <see cref="Color"/> in the range [0..360].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
-        public static float GetHclH(this in Color color) => color.GetHcl().l;
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The H component value of the color. </returns>
+        public static float GetHclH(this in Color color) => color.GetHcl().h;
 
         /// <summary>
         /// Gets the c component value (Hcl-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The c component value of the color. </returns>
         public static float GetHclC(this in Color color) => color.GetHcl().c;
 
         /// <summary>
         /// Gets the l component value (Hcl-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
-        public static float GetHclL(this in Color color) => color.GetHcl().h;
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The l component value of the color. </returns>
+        public static float GetHclL(this in Color color) => color.GetHcl().l;
 
         /// <summary>
         /// Gets the H, c and l component values (Hcl-color space) of this <see cref="Color"/>.
@@ -35,8 +38,8 @@ namespace RGB.NET.Core
         /// c in the range [0..1].
         /// l in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>A tuple containing the H, c and l component value of the color.</returns>
         public static (float h, float c, float l) GetHcl(this in Color color)
             => CalculateHclFromRGB(color.R, color.G, color.B);
 
@@ -45,8 +48,9 @@ namespace RGB.NET.Core
         #region Manipulation
 
         /// <summary>
-        /// Adds the given Hcl values to this color.
+        /// Adds the specified Hcl values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="h">The H value to add.</param>
         /// <param name="c">The c value to add.</param>
         /// <param name="l">The l value to add.</param>
@@ -58,8 +62,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Subtracts the given Hcl values to this color.
+        /// Subtracts the specified Hcl values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="h">The H value to subtract.</param>
         /// <param name="c">The c value to subtract.</param>
         /// <param name="l">The l value to subtract.</param>
@@ -71,8 +76,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Multiplies the given Hcl values to this color.
+        /// Multiplies the specified Hcl values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="h">The H value to multiply.</param>
         /// <param name="c">The c value to multiply.</param>
         /// <param name="l">The l value to multiply.</param>
@@ -84,8 +90,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Divides the given Hcl values to this color.
+        /// Divides the specified Hcl values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="h">The H value to divide.</param>
         /// <param name="c">The c value to divide.</param>
         /// <param name="l">The l value to divide.</param>
@@ -97,8 +104,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Sets the given X value of this color.
+        /// Sets the specified X value of this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="h">The H value to set.</param>
         /// <param name="c">The c value to set.</param>
         /// <param name="l">The l value to set.</param>
@@ -155,8 +163,8 @@ namespace RGB.NET.Core
         /// <returns>The color created from the values.</returns>
         public static Color Create(float alpha, float h, float c, float l)
         {
-            (float r, float g, float _b) = CalculateRGBFromHcl(h, c, l);
-            return new Color(alpha, r, g, _b);
+            (float r, float g, float b) = CalculateRGBFromHcl(h, c, l);
+            return new Color(alpha, r, g, b);
         }
 
         #endregion
@@ -167,6 +175,7 @@ namespace RGB.NET.Core
         {
             const float RADIANS_DEGREES_CONVERSION = 180.0f / MathF.PI;
 
+            // ReSharper disable once InconsistentNaming - b is used above
             (float l, float a, float _b) = LabColor.CalculateLabFromRGB(r, g, b);
 
             float h, c;

@@ -28,11 +28,12 @@ namespace RGB.NET.Devices.WS281X.NodeMCU
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeMCUWS2812USBDevice"/> class.
         /// </summary>
-        /// <param name="deviceInfo">The update trigger used by this queue.</param>
+        /// <param name="deviceInfo">The device info of this device.</param>
         /// <param name="updateQueue">The update queue performing updates for this device.</param>
         /// <param name="channel">The channel (as defined in the NodeMCU-sketch) this device is attached to.</param>
-        public NodeMCUWS2812USBDevice(NodeMCUWS2812USBDeviceInfo info, NodeMCUWS2812USBUpdateQueue updateQueue, int channel, int ledCount)
-            : base(info, updateQueue)
+        /// <param name="ledCount">The amount of leds on this device.</param>
+        public NodeMCUWS2812USBDevice(NodeMCUWS2812USBDeviceInfo deviceInfo, NodeMCUWS2812USBUpdateQueue updateQueue, int channel, int ledCount)
+            : base(deviceInfo, updateQueue)
         {
             this.Channel = channel;
 

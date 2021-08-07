@@ -3,11 +3,15 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Presets.Textures.Sampler
 {
+    /// <summary>
+    /// Represents a sampled that averages multiple float-data entries.
+    /// </summary>
     public class AverageFloatSampler : ISampler<float>
     {
         #region Methods
 
-        public void SampleColor(in SamplerInfo<float> info, in Span<float> pixelData)
+        /// <inheritdoc />
+        public void Sample(in SamplerInfo<float> info, in Span<float> pixelData)
         {
             int count = info.Width * info.Height;
             if (count == 0) return;

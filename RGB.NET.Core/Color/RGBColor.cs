@@ -4,6 +4,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Contains helper-methods and extension for the <see cref="Color"/>-type to work in the RGB color space.
+    /// </summary>
     public static class RGBColor
     {
         #region Getter
@@ -11,44 +14,44 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the A component value of this <see cref="Color"/> as byte in the range [0..255].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The A component value of the color.</returns>
         public static byte GetA(this in Color color) => color.A.GetByteValueFromPercentage();
 
         /// <summary>
         /// Gets the R component value of this <see cref="Color"/> as byte in the range [0..255].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The R component value of the color.</returns>
         public static byte GetR(this in Color color) => color.R.GetByteValueFromPercentage();
 
         /// <summary>
         /// Gets the G component value of this <see cref="Color"/> as byte in the range [0..255].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The G component value of the color.</returns>
         public static byte GetG(this in Color color) => color.G.GetByteValueFromPercentage();
 
         /// <summary>
         /// Gets the B component value of this <see cref="Color"/> as byte in the range [0..255].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The B component value of the color.</returns>
         public static byte GetB(this in Color color) => color.B.GetByteValueFromPercentage();
 
         /// <summary>
         /// Gets the A, R, G and B component value of this <see cref="Color"/> as byte in the range [0..255].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>A tuple containing the A, R, G and B component value of the color.</returns>
         public static (byte a, byte r, byte g, byte b) GetRGBBytes(this in Color color)
             => (color.GetA(), color.GetR(), color.GetG(), color.GetB());
 
         /// <summary>
         /// Gets the A, R, G and B component value of this <see cref="Color"/> as percentage in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>A tuple containing the A, R, G and B component value of the color.</returns>
         public static (float a, float r, float g, float b) GetRGB(this in Color color)
             => (color.A, color.R, color.G, color.B);
 
@@ -59,8 +62,9 @@ namespace RGB.NET.Core
         #region Add
 
         /// <summary>
-        /// Adds the given RGB values to this color.
+        /// Adds the specified RGB values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to add.</param>
         /// <param name="g">The green value to add.</param>
         /// <param name="b">The blue value to add.</param>
@@ -69,8 +73,9 @@ namespace RGB.NET.Core
             => new(color.A, color.GetR() + r, color.GetG() + g, color.GetB() + b);
 
         /// <summary>
-        /// Adds the given RGB-percent values to this color.
+        /// Adds the specified RGB-percent values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to add.</param>
         /// <param name="g">The green value to add.</param>
         /// <param name="b">The blue value to add.</param>
@@ -79,16 +84,18 @@ namespace RGB.NET.Core
             => new(color.A, color.R + r, color.G + g, color.B + b);
 
         /// <summary>
-        /// Adds the given alpha value to this color.
+        /// Adds the specified alpha value to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="a">The alpha value to add.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color AddA(this in Color color, int a)
             => new(color.GetA() + a, color.R, color.G, color.B);
 
         /// <summary>
-        /// Adds the given alpha-percent value to this color.
+        /// Adds the specified alpha-percent value to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="a">The alpha value to add.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color AddA(this in Color color, float a)
@@ -99,8 +106,9 @@ namespace RGB.NET.Core
         #region Subtract
 
         /// <summary>
-        /// Subtracts the given RGB values to this color.
+        /// Subtracts the specified RGB values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to subtract.</param>
         /// <param name="g">The green value to subtract.</param>
         /// <param name="b">The blue value to subtract.</param>
@@ -109,8 +117,9 @@ namespace RGB.NET.Core
             => new(color.A, color.GetR() - r, color.GetG() - g, color.GetB() - b);
 
         /// <summary>
-        /// Subtracts the given RGB values to this color.
+        /// Subtracts the specified RGB values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to subtract.</param>
         /// <param name="g">The green value to subtract.</param>
         /// <param name="b">The blue value to subtract.</param>
@@ -119,17 +128,19 @@ namespace RGB.NET.Core
             => new(color.A, color.R - r, color.G - g, color.B - b);
 
         /// <summary>
-        /// Subtracts the given alpha value to this color.
+        /// Subtracts the specified alpha value to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="a">The alpha value to subtract.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color SubtractA(this in Color color, int a)
             => new(color.GetA() - a, color.R, color.G, color.B);
 
         /// <summary>
-        /// Subtracts the given alpha-percent value to this color.
+        /// Subtracts the specified alpha-percent value to this color.
         /// </summary>
-        /// <param name="a">The alpha value to subtract.</param>
+        /// <param name="color">The color to modify.</param>
+        /// <param name="aPercent">The alpha value to subtract.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color SubtractA(this in Color color, float aPercent)
             => new(color.A - aPercent, color.R, color.G, color.B);
@@ -139,8 +150,9 @@ namespace RGB.NET.Core
         #region Multiply
 
         /// <summary>
-        /// Multiplies the given RGB values to this color.
+        /// Multiplies the specified RGB values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to multiply.</param>
         /// <param name="g">The green value to multiply.</param>
         /// <param name="b">The blue value to multiply.</param>
@@ -149,8 +161,9 @@ namespace RGB.NET.Core
             => new(color.A, color.R * r, color.G * g, color.B * b);
 
         /// <summary>
-        /// Multiplies the given alpha value to this color.
+        /// Multiplies the specified alpha value to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="a">The alpha value to multiply.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color MultiplyA(this in Color color, float a)
@@ -161,8 +174,9 @@ namespace RGB.NET.Core
         #region Divide
 
         /// <summary>
-        /// Divides the given RGB values to this color.
+        /// Divides the specified RGB values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to divide.</param>
         /// <param name="g">The green value to divide.</param>
         /// <param name="b">The blue value to divide.</param>
@@ -171,8 +185,9 @@ namespace RGB.NET.Core
             => new(color.A, color.R / r, color.G / g, color.B / b);
 
         /// <summary>
-        /// Divides the given alpha value to this color.
+        /// Divides the specified alpha value to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="a">The alpha value to divide.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color DivideA(this in Color color, float a)
@@ -183,8 +198,9 @@ namespace RGB.NET.Core
         #region Set
 
         /// <summary>
-        /// Sets the given RGB value of this color.
+        /// Sets the specified RGB value of this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to set.</param>
         /// <param name="g">The green value to set.</param>
         /// <param name="b">The blue value to set.</param>
@@ -193,8 +209,9 @@ namespace RGB.NET.Core
             => new(color.A, r ?? color.GetR(), g ?? color.GetG(), b ?? color.GetB());
 
         /// <summary>
-        /// Sets the given RGB value of this color.
+        /// Sets the specified RGB value of this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to set.</param>
         /// <param name="g">The green value to set.</param>
         /// <param name="b">The blue value to set.</param>
@@ -203,8 +220,9 @@ namespace RGB.NET.Core
             => new(color.A, r ?? color.GetR(), g ?? color.GetG(), b ?? color.GetB());
 
         /// <summary>
-        /// Sets the given RGB value of this color.
+        /// Sets the specified RGB value of this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="r">The red value to set.</param>
         /// <param name="g">The green value to set.</param>
         /// <param name="b">The blue value to set.</param>
@@ -213,15 +231,17 @@ namespace RGB.NET.Core
             => new(color.A, r ?? color.R, g ?? color.G, b ?? color.B);
 
         /// <summary>
-        /// Sets the given alpha value of this color.
+        /// Sets the specified alpha value of this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="a">The alpha value to set.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color SetA(this in Color color, int a) => new(a, color.R, color.G, color.B);
 
         /// <summary>
-        /// Sets the given alpha value of this color.
+        /// Sets the specified alpha value of this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="a">The alpha value to set.</param>
         /// <returns>The new color after the modification.</returns>
         public static Color SetA(this in Color color, float a) => new(a, color.R, color.G, color.B);

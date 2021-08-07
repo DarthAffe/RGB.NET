@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable EventNeverSubscribedTo.Global
+
+using System;
 using RGB.NET.Core;
 using RGB.NET.Presets.Decorators;
 

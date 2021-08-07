@@ -4,6 +4,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Contains helper-methods and extension for the <see cref="Color"/>-type to work in the XYZ color space.
+    /// </summary>
     public static class XYZColor
     {
         #region Getter
@@ -11,22 +14,22 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the X component value (XYZ-color space) of this <see cref="Color"/> in the range [0..95.047].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The X component value of the color.</returns>
         public static float GetX(this in Color color) => color.GetXYZ().x;
 
         /// <summary>
         /// Gets the Y component value (XYZ-color space) of this <see cref="Color"/> in the range [0..100].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The Y component value of the color.</returns>
         public static float GetY(this in Color color) => color.GetXYZ().y;
 
         /// <summary>
         /// Gets the Z component value (XYZ-color space) of this <see cref="Color"/> in the range [0..108.883].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The Z component value of the color.</returns>
         public static float GetZ(this in Color color) => color.GetXYZ().z;
 
         /// <summary>
@@ -35,8 +38,8 @@ namespace RGB.NET.Core
         /// Y in the range [0..100].
         /// Z in the range [0..108.883].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>A tuple containing the X, Y and Z component value of the color.</returns>
         public static (float x, float y, float z) GetXYZ(this in Color color)
             => CaclulateXYZFromRGB(color.R, color.G, color.B);
 
@@ -45,8 +48,9 @@ namespace RGB.NET.Core
         #region Manipulation
 
         /// <summary>
-        /// Adds the given XYZ values to this color.
+        /// Adds the specified XYZ values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="x">The X value to add.</param>
         /// <param name="y">The Y value to add.</param>
         /// <param name="z">The Z value to add.</param>
@@ -58,8 +62,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Subtracts the given XYZ values to this color.
+        /// Subtracts the specified XYZ values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="x">The X value to subtract.</param>
         /// <param name="y">The Y value to subtract.</param>
         /// <param name="z">The Z value to subtract.</param>
@@ -71,8 +76,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Multiplies the given XYZ values to this color.
+        /// Multiplies the specified XYZ values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="x">The X value to multiply.</param>
         /// <param name="y">The Y value to multiply.</param>
         /// <param name="z">The Z value to multiply.</param>
@@ -84,8 +90,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Divides the given XYZ values to this color.
+        /// Divides the specified XYZ values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="x">The X value to divide.</param>
         /// <param name="y">The Y value to divide.</param>
         /// <param name="z">The Z value to divide.</param>
@@ -97,16 +104,17 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Sets the given X valueof this color.
+        /// Sets the specified X valueof this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="x">The X value to set.</param>
         /// <param name="y">The Y value to set.</param>
         /// <param name="z">The Z value to set.</param>
         /// <returns>The new color after the modification.</returns>
-        public static Color SetXYZ(this in Color color, float? x = null, float? y = null, float? value = null)
+        public static Color SetXYZ(this in Color color, float? x = null, float? y = null, float? z = null)
         {
             (float cX, float cY, float cZ) = color.GetXYZ();
-            return Create(color.A, x ?? cX, y ?? cY, value ?? cZ);
+            return Create(color.A, x ?? cX, y ?? cY, z ?? cZ);
         }
 
         #endregion

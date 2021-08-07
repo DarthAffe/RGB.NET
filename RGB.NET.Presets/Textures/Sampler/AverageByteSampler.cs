@@ -3,11 +3,15 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Presets.Textures.Sampler
 {
+    /// <summary>
+    /// Represents a sampled that averages multiple byte-data entries.
+    /// </summary>
     public class AverageByteSampler : ISampler<byte>
     {
         #region Methods
 
-        public void SampleColor(in SamplerInfo<byte> info, in Span<byte> pixelData)
+        /// <inheritdoc />
+        public void Sample(in SamplerInfo<byte> info, in Span<byte> pixelData)
         {
             int count = info.Width * info.Height;
             if (count == 0) return;

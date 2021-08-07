@@ -2,17 +2,20 @@
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Offers some extensions and helper-methods for <see cref="Color"/> related things.
+    /// </summary>
     public static class ColorExtensions
     {
         #region Methods
 
         /// <summary>
-        /// Calculates the distance between the two given colors using the redmean algorithm.
+        /// Calculates the distance between the two specified colors using the redmean algorithm.
         /// For more infos check https://www.compuphase.com/cmetric.htm
         /// </summary>
         /// <param name="color1">The start color of the distance calculation.</param>
         /// <param name="color2">The end color fot the distance calculation.</param>
-        /// <returns></returns>
+        /// <returns>The redmean distance between the two specified colors.</returns>
         public static double DistanceTo(this in Color color1, in Color color2)
         {
             (_, byte r1, byte g1, byte b1) = color1.GetRGBBytes();

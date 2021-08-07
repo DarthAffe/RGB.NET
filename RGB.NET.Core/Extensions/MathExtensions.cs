@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace RGB.NET.Core
 {
     /// <summary>
-    /// Offers some extensions and helper-methods for the work with floats
+    /// Offers some extensions and helper-methods for the work with floats.
     /// </summary>
     public static class FloatExtensions
     {
@@ -83,18 +83,28 @@ namespace RGB.NET.Core
             return value;
         }
 
+        /// <summary>
+        /// Converts a normalized float value in the range [0..1] to a byte [0..255].
+        /// </summary>
+        /// <param name="percentage">The normalized float value to convert.</param>
+        /// <returns>The byte value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte GetByteValueFromPercentage(this float percentage)
         {
             if (float.IsNaN(percentage)) return 0;
 
             percentage = percentage.Clamp(0, 1.0f);
-            return (byte)(percentage >= 1.0 ? 255 : percentage * 256.0);
+            return (byte)(percentage >= 1.0f ? 255 : percentage * 256.0f);
         }
 
+        /// <summary>
+        /// Converts a byte value [0..255] to a normalized float value in the range [0..1].
+        /// </summary>
+        /// <param name="value">The byte value to convert.</param>
+        /// <returns>The normalized float value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetPercentageFromByteValue(this byte value)
-            => ((float)value) / byte.MaxValue;
+            => value == 255 ? 1.0f : (value / 256.0f);
 
         #endregion
     }

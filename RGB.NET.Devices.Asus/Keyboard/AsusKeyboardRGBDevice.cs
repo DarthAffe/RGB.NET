@@ -25,20 +25,20 @@ namespace RGB.NET.Devices.Asus
         #region Properties & Fields
 
         private readonly LedMapping<AsusLedId>? _ledMapping;
-        private Dictionary<LedId, AsusLedId> _ledAsusLed = new();
-        private Dictionary<LedId, int> _ledAsusLights = new();
+        private readonly Dictionary<LedId, AsusLedId> _ledAsusLed = new();
+        private readonly Dictionary<LedId, int> _ledAsusLights = new();
 
         IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
 
         /// <summary>
-        /// Gets or sets a list of extra LED mappings to apply to modes that match the provided regex
-        /// <para>Note: These LED mappings should be based on light indexes</para>
+        /// Gets or sets a list of extra LED mappings to apply to modes that match the provided regex.
+        /// <para>Note: These LED mappings should be based on light indexes.</para>
         /// </summary>
-        public static List<AsusKeyboardExtraMapping> ExtraLedMappings =
-            new()
-            {
-                new AsusKeyboardExtraMapping(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15)
-            };
+        // ReSharper disable once InconsistentNaming
+        public static readonly List<AsusKeyboardExtraMapping> ExtraLedMappings = new()
+        {
+            new AsusKeyboardExtraMapping(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15)
+        };
 
         #endregion
 
@@ -49,6 +49,8 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Asus for the keyboard.</param>
+        /// <param name="ledMapping">A mapping of leds this device is initialized with.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal AsusKeyboardRGBDevice(AsusKeyboardRGBDeviceInfo info, LedMapping<AsusLedId>? ledMapping, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
         {

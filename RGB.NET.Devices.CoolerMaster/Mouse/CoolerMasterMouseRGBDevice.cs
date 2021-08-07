@@ -10,15 +10,18 @@ namespace RGB.NET.Devices.CoolerMaster
     public class CoolerMasterMouseRGBDevice : CoolerMasterRGBDevice<CoolerMasterMouseRGBDeviceInfo>, IMouse
     {
         #region Constructors
-
+        
         /// <inheritdoc />
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterMouseRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CoolerMaster for the mouse</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal CoolerMasterMouseRGBDevice(CoolerMasterMouseRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
-        { }
+        {
+            InitializeLayout();
+        }
 
         #endregion
 

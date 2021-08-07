@@ -26,7 +26,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        /// <param name="surface">Specifies the surface to attach this group to or <c>null</c> if the group should not be attached on creation.</param>
         public ListLedGroup(RGBSurface? surface)
             : base(surface)
         { }
@@ -35,7 +35,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        /// <param name="surface">Specifies the surface to attach this group to or <c>null</c> if the group should not be attached on creation.</param>
         /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(RGBSurface? surface, IEnumerable<Led> leds)
             : base(surface)
@@ -47,7 +47,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
         /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        /// <param name="surface">Specifies the surface to attach this group to or <c>null</c> if the group should not be attached on creation.</param>
         /// <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
         public ListLedGroup(RGBSurface? surface, params Led[] leds)
             : base(surface)
@@ -60,43 +60,42 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <summary>
-        /// Adds the given LED(s) to this <see cref="ListLedGroup"/>.
+        /// Adds the specified LED(s) to this <see cref="ListLedGroup"/>.
         /// </summary>
         /// <param name="leds">The LED(s) to add.</param>
         public void AddLed(params Led[] leds) => AddLeds(leds);
 
         /// <summary>
-        /// Adds the given <see cref="Led"/> to this <see cref="ListLedGroup"/>.
+        /// Adds the specified <see cref="Led"/> to this <see cref="ListLedGroup"/>.
         /// </summary>
         /// <param name="leds">The <see cref="Led"/> to add.</param>
         public void AddLeds(IEnumerable<Led> leds)
         {
             lock (GroupLeds)
                 foreach (Led led in leds)
-                    if ((led != null) && !ContainsLed(led))
+                    if (!ContainsLed(led))
                         GroupLeds.Add(led);
         }
 
         /// <summary>
-        /// Removes the given LED(s) from this <see cref="ListLedGroup"/>.
+        /// Removes the specified LED(s) from this <see cref="ListLedGroup"/>.
         /// </summary>
         /// <param name="leds">The LED(s) to remove.</param>
         public void RemoveLed(params Led[] leds) => RemoveLeds(leds);
 
         /// <summary>
-        /// Removes the given <see cref="Led"/> from this <see cref="ListLedGroup"/>.
+        /// Removes the specified <see cref="Led"/> from this <see cref="ListLedGroup"/>.
         /// </summary>
         /// <param name="leds">The <see cref="Led"/> to remove.</param>
         public void RemoveLeds(IEnumerable<Led> leds)
         {
             lock (GroupLeds)
                 foreach (Led led in leds)
-                    if (led != null)
-                        GroupLeds.Remove(led);
+                    GroupLeds.Remove(led);
         }
 
         /// <summary>
-        /// Checks if a given LED is contained by this ledgroup.
+        /// Checks if a specified LED is contained by this ledgroup.
         /// </summary>
         /// <param name="led">The LED which should be checked.</param>
         /// <returns><c>true</c> if the LED is contained by this ledgroup; otherwise, <c>false</c>.</returns>
@@ -107,7 +106,7 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Merges the <see cref="Led"/> from the given ledgroup in this ledgroup. 
+        /// Merges the <see cref="Led"/> from the specified ledgroup in this ledgroup. 
         /// </summary>
         /// <param name="groupToMerge">The ledgroup to merge.</param>
         public void MergeLeds(ILedGroup groupToMerge)

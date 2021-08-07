@@ -16,6 +16,8 @@ namespace RGB.NET.Devices.Msi
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Msi.MsiMainboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by MSI for the mainboard.</param>
+        /// <param name="ledCount">The amount of leds on this device.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal MsiMainboardRGBDevice(MsiRGBDeviceInfo info, int ledCount, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
         {

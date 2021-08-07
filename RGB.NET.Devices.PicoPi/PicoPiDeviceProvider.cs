@@ -31,6 +31,9 @@ namespace RGB.NET.Devices.PicoPi
         /// </summary>
         public static PicoPiDeviceProvider Instance => _instance ?? new PicoPiDeviceProvider();
 
+        /// <summary>
+        /// Gets the HID-definitions for PicoPi-devices.
+        /// </summary>
         public static HIDLoader<int, int> DeviceDefinitions { get; } = new(PicoPiSDK.VENDOR_ID)
         {
             { PicoPiSDK.HID_BULK_CONTROLLER_PID, RGBDeviceType.LedStripe, "WS2812B-Controller", LedMappings.StripeMapping, 0 },
@@ -38,6 +41,10 @@ namespace RGB.NET.Devices.PicoPi
 
         private readonly List<PicoPiSDK> _sdks = new();
 
+        /// <summary>
+        /// Gets or sets the endpoint used to update devices. (default <see cref="PicoPi.Enum.UpdateMode.Auto"/>).
+        /// If auto is set it automatically is using bulk-updates for devies with more than 40 LEDs if supported. Else HID is used.
+        /// </summary>
         public UpdateMode UpdateMode { get; set; } = UpdateMode.Auto;
 
         #endregion
@@ -58,6 +65,7 @@ namespace RGB.NET.Devices.PicoPi
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK() { }
 
         /// <inheritdoc />
@@ -108,6 +116,7 @@ namespace RGB.NET.Devices.PicoPi
             }
         }
 
+        /// <inheritdoc />
         protected override void Reset()
         {
             base.Reset();

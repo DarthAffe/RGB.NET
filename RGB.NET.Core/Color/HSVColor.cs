@@ -4,6 +4,9 @@ using System;
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Contains helper-methods and extension for the <see cref="Color"/>-type to work in the HSV color space.
+    /// </summary>
     public static class HSVColor
     {
         #region Getter
@@ -11,22 +14,22 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets the hue component value (HSV-color space) of this <see cref="Color"/> as degree in the range [0..360].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The hue component value of the color.</returns>
         public static float GetHue(this in Color color) => color.GetHSV().hue;
 
         /// <summary>
         /// Gets the saturation component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The saturation component value of the color.</returns>
         public static float GetSaturation(this in Color color) => color.GetHSV().saturation;
 
         /// <summary>
         /// Gets the value component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>The value component value of the color.</returns>
         public static float GetValue(this in Color color) => color.GetHSV().value;
 
         /// <summary>
@@ -35,8 +38,8 @@ namespace RGB.NET.Core
         /// Saturation in the range [0..1].
         /// Value in the range [0..1].
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">The color to get the value from.</param>
+        /// <returns>A tuple containing the hue, saturation and value component value of the color.</returns>
         public static (float hue, float saturation, float value) GetHSV(this in Color color)
             => CaclulateHSVFromRGB(color.R, color.G, color.B);
 
@@ -45,8 +48,9 @@ namespace RGB.NET.Core
         #region Manipulation
 
         /// <summary>
-        /// Adds the given HSV values to this color.
+        /// Adds the specified HSV values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="hue">The hue value to add.</param>
         /// <param name="saturation">The saturation value to add.</param>
         /// <param name="value">The value value to add.</param>
@@ -58,8 +62,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Subtracts the given HSV values to this color.
+        /// Subtracts the specified HSV values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="hue">The hue value to subtract.</param>
         /// <param name="saturation">The saturation value to subtract.</param>
         /// <param name="value">The value value to subtract.</param>
@@ -71,8 +76,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Multiplies the given HSV values to this color.
+        /// Multiplies the specified HSV values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="hue">The hue value to multiply.</param>
         /// <param name="saturation">The saturation value to multiply.</param>
         /// <param name="value">The value value to multiply.</param>
@@ -84,8 +90,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Divides the given HSV values to this color.
+        /// Divides the specified HSV values to this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="hue">The hue value to divide.</param>
         /// <param name="saturation">The saturation value to divide.</param>
         /// <param name="value">The value value to divide.</param>
@@ -97,8 +104,9 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Sets the given hue value of this color.
+        /// Sets the specified hue value of this color.
         /// </summary>
+        /// <param name="color">The color to modify.</param>
         /// <param name="hue">The hue value to set.</param>
         /// <param name="saturation">The saturation value to set.</param>
         /// <param name="value">The value value to set.</param>

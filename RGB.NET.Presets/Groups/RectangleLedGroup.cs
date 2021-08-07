@@ -54,10 +54,10 @@ namespace RGB.NET.Presets.Groups
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> class.
         /// </summary>
+        /// <param name="surface">Specifies the surface to attach this group to or <c>null</c> if the group should not be attached on creation.</param>
         /// <param name="fromLed">They first <see cref="T:RGB.NET.Core.Led" />  to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
         /// <param name="toLed">They second <see cref="T:RGB.NET.Core.Led" />  to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
         /// <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
-        /// <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
         public RectangleLedGroup(RGBSurface? surface, Led fromLed, Led toLed, double minOverlayPercentage = 0.5)
             : this(surface, new Rectangle(fromLed.Boundary, toLed.Boundary), minOverlayPercentage)
         { }
@@ -66,10 +66,10 @@ namespace RGB.NET.Presets.Groups
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> class.
         /// </summary>
+        /// <param name="surface">Specifies the surface to attach this group to or <c>null</c> if the group should not be attached on creation.</param>
         /// <param name="fromPoint">They first point to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
         /// <param name="toPoint">They second point to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
         /// <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
-        /// <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
         public RectangleLedGroup(RGBSurface? surface, Point fromPoint, Point toPoint, double minOverlayPercentage = 0.5)
             : this(surface, new Rectangle(fromPoint, toPoint), minOverlayPercentage)
         { }
@@ -78,9 +78,9 @@ namespace RGB.NET.Presets.Groups
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> class.
         /// </summary>
+        /// <param name="surface">Specifies the surface to attach this group to or <c>null</c> if the group should not be attached on creation.</param>
         /// <param name="rectangle">The <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.</param>
         /// <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
-        /// <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
         public RectangleLedGroup(RGBSurface? surface, Rectangle rectangle, double minOverlayPercentage = 0.5)
             : base(surface)
         {

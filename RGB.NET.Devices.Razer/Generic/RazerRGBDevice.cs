@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer
@@ -16,6 +17,7 @@ namespace RGB.NET.Devices.Razer
         /// Initializes a new instance of the <see cref="RazerRGBDevice"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by razer for the device.</param>
+        /// <param name="updateQueue">The queue used to update this device.</param>
         protected RazerRGBDevice(RazerRGBDeviceInfo info, IUpdateQueue updateQueue)
             : base(info, updateQueue)
         {
@@ -32,10 +34,12 @@ namespace RGB.NET.Devices.Razer
         /// <inheritdoc />
         public override void Dispose()
         {
-            try { UpdateQueue?.Dispose(); }
+            try { UpdateQueue.Dispose(); }
             catch { /* at least we tried */ }
 
             base.Dispose();
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

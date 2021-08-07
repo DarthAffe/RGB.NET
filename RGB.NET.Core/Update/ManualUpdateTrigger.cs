@@ -8,13 +8,13 @@ namespace RGB.NET.Core
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents an <see cref="T:RGB.NET.Core.IUpdateTrigger" />
+    /// Represents an update trigger that is manully triggered by calling <see cref="TriggerUpdate"/>.
     /// </summary>
     public sealed class ManualUpdateTrigger : AbstractUpdateTrigger
     {
         #region Properties & Fields
 
-        private AutoResetEvent _mutex = new(false);
+        private readonly AutoResetEvent _mutex = new(false);
         private Task? UpdateTask { get; set; }
         private CancellationTokenSource? UpdateTokenSource { get; set; }
         private CancellationToken UpdateToken { get; set; }
@@ -31,7 +31,6 @@ namespace RGB.NET.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="ManualUpdateTrigger"/> class.
         /// </summary>
-        /// <param name="autostart">A value indicating if the trigger should automatically <see cref="Start"/> right after construction.</param>
         public ManualUpdateTrigger()
         {
             Start();
@@ -69,6 +68,9 @@ namespace RGB.NET.Core
             }
         }
 
+        /// <summary>
+        /// Triggers an update.
+        /// </summary>
         public void TriggerUpdate() => _mutex.Set();
 
         private void UpdateLoop()

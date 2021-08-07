@@ -3,9 +3,15 @@ using RGB.NET.Devices.Razer.Native;
 
 namespace RGB.NET.Devices.Razer
 {
+    /// <summary>
+    /// Contains mappings for <see cref="LedId"/> to the matrix location.
+    /// </summary>
     public static class LedMappings
     {
-        public static readonly LedMapping<int> Keyboard = new()
+        /// <summary>
+        /// Gets the mapping for keyboards.
+        /// </summary>
+        public static LedMapping<int> Keyboard { get; } = new()
         {
             //Row 0 is empty
 
@@ -154,7 +160,10 @@ namespace RGB.NET.Devices.Razer
             //Row 7 is also empty
         };
 
-        public static readonly LedMapping<int> LaptopKeyboard = new()
+        /// <summary>
+        /// Gets the mapping for laptop keyboards.
+        /// </summary>
+        public static LedMapping<int> LaptopKeyboard { get; } = new()
         {
             //Row 0 is empty
 
@@ -272,7 +281,10 @@ namespace RGB.NET.Devices.Razer
             //Row 7 is also empty
         };
 
-        public static readonly LedMapping<int> Mouse = new()
+        /// <summary>
+        /// Gets the mapping for mice.
+        /// </summary>
+        public static LedMapping<int> Mouse { get; } = new()
         {
             //row 0 empty
 
@@ -316,12 +328,24 @@ namespace RGB.NET.Devices.Razer
         };
 
         //TODO DarthAffe 27.04.2021: Are mappings for these possible?
-        public static readonly LedMapping<int> Mousepad = new();
+        /// <summary>
+        /// Gets the mapping for mousepads.
+        /// </summary>
+        public static LedMapping<int> Mousepad { get; } = new();
 
-        public static readonly LedMapping<int> Headset = new();
+        /// <summary>
+        /// Gets the mapping for headsets.
+        /// </summary>
+        public static LedMapping<int> Headset { get; } = new();
 
-        public static readonly LedMapping<int> Keypad = new();
+        /// <summary>
+        /// Gets the mapping for keypads.
+        /// </summary>
+        public static LedMapping<int> Keypad { get; } = new();
 
-        public static readonly LedMapping<int> ChromaLink = new();
+        /// <summary>
+        /// Gets the mapping for chroma link devices.
+        /// </summary>
+        public static LedMapping<int> ChromaLink { get; } = new();
     }
 }

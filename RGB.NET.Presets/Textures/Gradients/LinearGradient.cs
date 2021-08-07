@@ -79,7 +79,7 @@ namespace RGB.NET.Presets.Textures.Gradients
 
         /// <inheritdoc />
         /// <summary>
-        /// Gets the linear interpolated <see cref="T:RGB.NET.Core.Color" /> at the given offset.
+        /// Gets the linear interpolated <see cref="T:RGB.NET.Core.Color" /> at the specified offset.
         /// </summary>
         /// <param name="offset">The percentage offset to take the color from.</param>
         /// <returns>The <see cref="T:RGB.NET.Core.Color" /> at the specific offset.</returns>
@@ -106,12 +106,12 @@ namespace RGB.NET.Presets.Textures.Gradients
         }
 
         /// <summary>
-        /// Get the two <see cref="GradientStop"/>s encapsulating the given offset.
+        /// Get the two <see cref="GradientStop"/>s encapsulating the specified offset.
         /// </summary>
         /// <param name="offset">The reference offset.</param>
         /// <param name="orderedStops">The ordered list of <see cref="GradientStop"/> to choose from.</param>
         /// <param name="wrap">Bool indicating if the gradient should be wrapped or not.</param>
-        /// <returns></returns>
+        /// <returns>The two <see cref="GradientStop"/>s encapsulating the specified offset.</returns>
         protected virtual (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(float offset, LinkedList<GradientStop> orderedStops, bool wrap)
         {
             LinkedList<GradientStop> gradientStops = new(orderedStops);

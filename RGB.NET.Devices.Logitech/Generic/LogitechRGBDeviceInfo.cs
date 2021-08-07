@@ -22,6 +22,7 @@ namespace RGB.NET.Devices.Logitech
         /// <inheritdoc />
         public string Model { get; }
 
+        /// <inheritdoc />
         public object? LayoutMetadata { get; set; }
 
         /// <summary>
@@ -45,8 +46,6 @@ namespace RGB.NET.Devices.Logitech
         /// <param name="model">The represented device model.</param>
         /// <param name="deviceCaps">The lighting-capabilities of the device.</param>
         /// <param name="zones">The amount of zones the device is able to control.</param>
-        /// <param name="imageLayout">The layout used to decide which images to load.</param>
-        /// <param name="layoutPath">The path/name of the layout-file.</param>
         internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps, int zones)
         {
             this.DeviceType = deviceType;

@@ -15,6 +15,7 @@ namespace RGB.NET.Devices.Msi
         /// Initializes a new instance of the <see cref="MsiRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by MSI for the device.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         protected MsiRGBDevice(TDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, new MsiDeviceUpdateQueue(updateTrigger, info.MsiDeviceType))
         { }

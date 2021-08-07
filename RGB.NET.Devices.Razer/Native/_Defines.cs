@@ -1,4 +1,7 @@
-﻿namespace RGB.NET.Devices.Razer.Native
+﻿#pragma warning disable IDE1006 // Naming Styles
+// ReSharper disable InconsistentNaming
+
+namespace RGB.NET.Devices.Razer.Native
 {
     internal static class _Defines
     {

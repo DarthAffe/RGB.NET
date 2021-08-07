@@ -13,6 +13,7 @@ namespace RGB.NET.Devices.SteelSeries.API.Model
         [JsonPropertyName("event")]
         public string? Name { get; set; }
 
+        // ReSharper disable once CollectionNeverQueried.Global
         [JsonPropertyName("data")]
         public Dictionary<string, object> Data { get; } = new();
 

@@ -13,6 +13,9 @@ namespace RGB.NET.Devices.Debug
     {
         #region Properties & Fields
 
+        /// <summary>
+        /// Gets the layour used to describe this debug device.
+        /// </summary>
         public IDeviceLayout Layout { get; }
 
         private Action<IEnumerable<Led>>? _updateLedsAction;

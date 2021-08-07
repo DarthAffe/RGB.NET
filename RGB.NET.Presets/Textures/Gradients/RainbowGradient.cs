@@ -67,7 +67,7 @@ namespace RGB.NET.Presets.Textures.Gradients
 
         /// <inheritdoc />
         /// <summary>
-        /// Gets the color on the rainbow at the given offset.
+        /// Gets the color on the rainbow at the specified offset.
         /// </summary>
         /// <param name="offset">The percentage offset to take the color from.</param>
         /// <returns>The color at the specific offset.</returns>

@@ -21,12 +21,12 @@ namespace RGB.NET.Core
         #region Methods
 
         /// <summary>
-        /// Checks if the property already matches the desirec value or needs to be updated.
+        /// Checks if the property already matches the desired value or needs to be updated.
         /// </summary>
         /// <typeparam name="T">Type of the property.</typeparam>
         /// <param name="storage">Reference to the backing-filed.</param>
         /// <param name="value">Value to apply.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the value needs to be updated; otherweise <c>false</c>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual bool RequiresUpdate<T>(ref T storage, T value) => !Equals(storage, value);
 

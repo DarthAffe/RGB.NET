@@ -5,8 +5,18 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Layout
 {
+    /// <summary>
+    /// Offers some extensions and helper-methods for layout related things.
+    /// </summary>
     public static class LayoutExtension
     {
+        /// <summary>
+        /// Applies the specified layout to the specified device.
+        /// </summary>
+        /// <param name="layout">The layout to apply.</param>
+        /// <param name="device">The device to apply the layout to.</param>
+        /// <param name="createMissingLeds">Indicates if LEDs that are in the layout but not on the device should be created.</param>
+        /// <param name="removeExcessiveLeds">Indicates if LEDS that are on the device but not in the layout should be removed.</param>
         public static void ApplyTo(this IDeviceLayout layout, IRGBDevice device, bool createMissingLeds = false, bool removeExcessiveLeds = false)
         {
             device.Size = new Size(layout.Width, layout.Height);

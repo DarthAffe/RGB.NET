@@ -94,8 +94,8 @@ namespace RGB.NET.Presets.Textures.Gradients
         /// <summary>
         /// Clips the offset and ensures, that it is inside the bounds of the stop list.
         /// </summary>
-        /// <param name="offset"></param>
-        /// <returns></returns>
+        /// <param name="offset">The offset to clip.</param>
+        /// <returns>The clipped offset.</returns>
         protected float ClipOffset(float offset)
         {
             float max = GradientStops.Max(stop => stop.Offset);

@@ -114,6 +114,9 @@ namespace RGB.NET.Devices.SteelSeries.API
             _client.Dispose();
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
+        // ReSharper disable UnusedMethodReturnValue.Local
+        // ReSharper disable UnusedMember.Local
         private static string TriggerEvent(Event e) => PostJson("/game_event", e);
         private static string RegisterGoLispHandler(GoLispHandler handler) => PostJson("/load_golisp_handlers", handler);
         private static string RegisterEvent(Event e) => PostJson("/register_game_event", e);
@@ -122,6 +125,9 @@ namespace RGB.NET.Devices.SteelSeries.API
         private static string UnregisterGame(Game game) => PostJson("/remove_game", game);
         private static string StopGame(Game game) => PostJson("/stop_game", game);
         private static string SendHeartbeat(Game game) => PostJson("/game_heartbeat", game);
+        // ReSharper restore UnusedMember.Local
+        // ReSharper restore UnusedMethodReturnValue.Local
+#pragma warning restore IDE0051 // Remove unused private members
 
         private static string PostJson(string urlSuffix, object o)
         {

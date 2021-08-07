@@ -5,11 +5,10 @@ using Sanford.Multimedia.Midi;
 namespace RGB.NET.Devices.Novation
 {
     /// <inheritdoc cref="UpdateQueue" />
-    /// <inheritdoc cref="IDisposable" />
     /// <summary>
     /// Represents the update-queue performing updates for midi devices.
     /// </summary>
-    public abstract class MidiUpdateQueue : UpdateQueue, IDisposable
+    public abstract class MidiUpdateQueue : UpdateQueue
     {
         #region Properties & Fields
 
@@ -52,11 +51,11 @@ namespace RGB.NET.Devices.Novation
                 _outputDevice.SendShort(message.Message);
         }
 
-
         /// <summary>
-        /// Creates a update-message out of a given data set.
+        /// Creates a update-message out of a specified data set.
         /// </summary>
-        /// <param name="data">The data set to create the message from.</param>
+        /// <param name="key">The key used to identify the LED to update.</param>
+        /// <param name="color">The color to send.</param>
         /// <returns>The message created out of the data set.</returns>
         protected abstract ShortMessage? CreateMessage(object key, in Color color);
 
@@ -66,6 +65,8 @@ namespace RGB.NET.Devices.Novation
             base.Dispose();
 
             _outputDevice.Dispose();
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

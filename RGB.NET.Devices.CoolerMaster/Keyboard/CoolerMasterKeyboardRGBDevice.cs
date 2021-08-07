@@ -22,6 +22,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterKeyboardRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by CoolerMaster for the keyboard</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal CoolerMasterKeyboardRGBDevice(CoolerMasterKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
         {

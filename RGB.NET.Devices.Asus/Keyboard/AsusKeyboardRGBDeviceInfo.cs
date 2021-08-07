@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Asus
         /// The ASUS SDK returns useless names for notebook keyboards, possibly for others as well.
         /// Keep a list of those and rely on <see cref="WMIHelper.GetSystemModelInfo()"/> to get the real model
         /// </summary>
-        private static List<string> GenericDeviceNames = new() {"NotebookKeyboard"};
+        private static readonly List<string> GENERIC_DEVICE_NAMES = new() { "NotebookKeyboard" };
 
         /// <inheritdoc />
         public KeyboardLayoutType Layout => KeyboardLayoutType.Unknown;
@@ -37,10 +37,7 @@ namespace RGB.NET.Devices.Asus
 
         #region Methods
 
-        private static string? GetKeyboardModel(string deviceName)
-        {
-            return GenericDeviceNames.Contains(deviceName) ? WMIHelper.GetSystemModelInfo() : deviceName;
-        }
+        private static string? GetKeyboardModel(string deviceName) => GENERIC_DEVICE_NAMES.Contains(deviceName) ? WMIHelper.GetSystemModelInfo() : deviceName;
 
         #endregion
     }

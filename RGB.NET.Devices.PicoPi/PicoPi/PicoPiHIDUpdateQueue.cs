@@ -3,6 +3,10 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.PicoPi
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents the update-queue performing updates for Pico-Pi HID-devices.
+    ///  </summary>
     public class PicoPiHIDUpdateQueue : UpdateQueue
     {
         #region Constants
@@ -22,6 +26,13 @@ namespace RGB.NET.Devices.PicoPi
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PicoPiHIDUpdateQueue"/> class.
+        /// </summary>
+        /// <param name="updateTrigger">The update trigger used by this queue.</param>
+        /// <param name="sdk">The sdk used to access the device.</param>
+        /// <param name="channel">The channel to update.</param>
+        /// <param name="ledCount">The maximum amount of leds to update.</param>
         public PicoPiHIDUpdateQueue(IDeviceUpdateTrigger updateTrigger, PicoPiSDK sdk, int channel, int ledCount)
             : base(updateTrigger)
         {
@@ -35,6 +46,7 @@ namespace RGB.NET.Devices.PicoPi
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
         {
             Span<byte> buffer = _dataBuffer;

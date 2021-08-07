@@ -23,13 +23,13 @@
         #region Methods
 
         /// <summary>
-        /// Attaches this <see cref="IDecorator"/> to the given target.
+        /// Attaches this <see cref="IDecorator"/> to the specified target.
         /// </summary>
         /// <param name="decoratable">The object this <see cref="IDecorator"/> should be attached to.</param>
         void OnAttached(IDecoratable decoratable);
 
         /// <summary>
-        /// Detaches this <see cref="IDecorator"/> from the given target.
+        /// Detaches this <see cref="IDecorator"/> from the specified target.
         /// </summary>
         /// <param name="decoratable">The object this <see cref="IDecorator"/> should be detached from.</param>
         void OnDetached(IDecoratable decoratable);

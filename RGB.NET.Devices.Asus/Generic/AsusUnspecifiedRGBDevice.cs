@@ -21,6 +21,8 @@ namespace RGB.NET.Devices.Asus
         /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusHeadsetRGBDevice" /> class.
         /// </summary>
         /// <param name="info">The specific information provided by Asus for the headset.</param>
+        /// <param name="baseLedId">The ledId of the first led of this device. All other leds are created by incrementing this base-id by 1.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         internal AsusUnspecifiedRGBDevice(AsusRGBDeviceInfo info, LedId baseLedId, IDeviceUpdateTrigger updateTrigger)
             : base(info, updateTrigger)
         {

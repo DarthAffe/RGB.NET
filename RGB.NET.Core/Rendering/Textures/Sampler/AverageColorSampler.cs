@@ -2,11 +2,18 @@
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Represents a sampled that averages multiple color to a single color.
+    /// </summary>
+    /// <remarks>
+    /// Averages all components (A, R, G, B) of the colors separately which isn't ideal in cases where multiple different colors are combined.
+    /// </remarks>
     public class AverageColorSampler : ISampler<Color>
     {
         #region Methods
 
-        public void SampleColor(in SamplerInfo<Color> info, in Span<Color> pixelData)
+        /// <inheritdoc />
+        public void Sample(in SamplerInfo<Color> info, in Span<Color> pixelData)
         {
             int count = info.Width * info.Height;
             if (count == 0) return;

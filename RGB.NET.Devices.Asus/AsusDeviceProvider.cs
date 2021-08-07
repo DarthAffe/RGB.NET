@@ -43,6 +43,7 @@ namespace RGB.NET.Devices.Asus
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
@@ -50,6 +51,7 @@ namespace RGB.NET.Devices.Asus
             _sdk.SwitchMode();
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             if (_sdk == null) yield break;
@@ -84,6 +86,8 @@ namespace RGB.NET.Devices.Asus
 
             _devices = null;
             _sdk = null;
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

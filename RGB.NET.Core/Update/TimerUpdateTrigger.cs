@@ -1,5 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,16 +9,27 @@ namespace RGB.NET.Core
 {
     /// <inheritdoc />
     /// <summary>
-    /// Represents an <see cref="T:RGB.NET.Core.IUpdateTrigger" />
+    /// Represents an update trigger that triggers in a set interval.
     /// </summary>
     public class TimerUpdateTrigger : AbstractUpdateTrigger
     {
         #region Properties & Fields
 
-        private object _lock = new();
+        private readonly object _lock = new();
 
+        /// <summary>
+        /// Gets or sets the update loop of this trigger.
+        /// </summary>
         protected Task? UpdateTask { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cancellation token source used to create the cancellation token checked by the <see cref="UpdateTask"/>.
+        /// </summary>
         protected CancellationTokenSource? UpdateTokenSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cancellation token checked by the <see cref="UpdateTask"/>.
+        /// </summary>
         protected CancellationToken UpdateToken { get; set; }
 
         private double _updateFrequency = 1.0 / 30.0;
@@ -46,6 +58,7 @@ namespace RGB.NET.Core
         public TimerUpdateTrigger(bool autostart = true)
         {
             if (autostart)
+                // ReSharper disable once VirtualMemberCallInConstructor - HACK DarthAffe 01.06.2021: I've no idea how to correctly handle that case, for now just disable it 
                 Start();
         }
 
@@ -109,7 +122,11 @@ namespace RGB.NET.Core
         }
 
         /// <inheritdoc />
-        public override void Dispose() => Stop();
+        public override void Dispose()
+        {
+            Stop();
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
     }

@@ -11,6 +11,7 @@ namespace RGB.NET.Devices.WS281X
     /// Represents a device provider responsible for WS2812B- and WS2811-Led-devices.
     /// </summary>
     // ReSharper disable once InconsistentNaming
+    // ReSharper disable once UnusedType.Global
     public class WS281XDeviceProvider : AbstractRGBDeviceProvider
     {
         #region Properties & Fields
@@ -47,14 +48,16 @@ namespace RGB.NET.Devices.WS281X
         #region Methods
 
         /// <summary>
-        /// Adds the given <see cref="IWS281XDeviceDefinition" /> to this device-provider.
+        /// Adds the specified <see cref="IWS281XDeviceDefinition" /> to this device-provider.
         /// </summary>
         /// <param name="deviceDefinition">The <see cref="IWS281XDeviceDefinition"/> to add.</param>
         // ReSharper disable once UnusedMember.Global
         public void AddDeviceDefinition(IWS281XDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
 
+        /// <inheritdoc />
         protected override void InitializeSDK() { }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             int i = 0;

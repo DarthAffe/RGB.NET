@@ -9,7 +9,7 @@ namespace RGB.NET.Core
     public static class LedGroupExtension
     {
         /// <summary>
-        /// Converts the given <see cref="ILedGroup" /> to a <see cref="ListLedGroup" />.
+        /// Converts the specified <see cref="ILedGroup" /> to a <see cref="ListLedGroup" />.
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup" /> to convert.</param>
         /// <returns>The converted <see cref="ListLedGroup" />.</returns>
@@ -26,7 +26,7 @@ namespace RGB.NET.Core
         }
 
         /// <summary>
-        /// Returns a new <see cref="ListLedGroup" /> which contains all <see cref="Led"/> from the given <see cref="ILedGroup"/> excluding the specified ones.
+        /// Returns a new <see cref="ListLedGroup" /> which contains all <see cref="Led"/> from the specified <see cref="ILedGroup"/> excluding the specified ones.
         /// </summary>
         /// <param name="ledGroup">The base <see cref="ILedGroup"/>.</param>
         /// <param name="ledIds">The <see cref="Led"/> to exclude.</param>
@@ -41,14 +41,15 @@ namespace RGB.NET.Core
 
         // ReSharper disable once UnusedMethodReturnValue.Global
         /// <summary>
-        /// Attaches the given <see cref="ILedGroup"/> to the <see cref="RGBSurface"/>.
+        /// Attaches the specified <see cref="ILedGroup"/> to the <see cref="RGBSurface"/>.
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
+        /// <param name="surface">The <see cref="RGBSurface"/> to attach this group to.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
         public static bool Attach(this ILedGroup ledGroup, RGBSurface surface) => surface.Attach(ledGroup);
 
         /// <summary>
-        /// Detaches the given <see cref="ILedGroup"/> from the <see cref="RGBSurface"/>.
+        /// Detaches the specified <see cref="ILedGroup"/> from the <see cref="RGBSurface"/>.
         /// </summary>
         /// <param name="ledGroup">The <see cref="ILedGroup"/> to attach.</param>
         /// <returns><c>true</c> if the <see cref="ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>

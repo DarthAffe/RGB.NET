@@ -13,6 +13,8 @@ namespace RGB.NET.Core
         #region Properties & Fields
 
         RGBSurface? ILedGroup.Surface { get; set; }
+
+        /// <inheritdoc cref="ILedGroup.Surface" />
         public RGBSurface? Surface => ((ILedGroup)this).Surface;
 
         /// <inheritdoc />
@@ -37,6 +39,10 @@ namespace RGB.NET.Core
 
         #region Methods
 
+        /// <summary>
+        /// Gets a enumerable containing all leds in this group.
+        /// </summary>
+        /// <returns>A enumerable containing all leds of this group.</returns>
         protected abstract IEnumerable<Led> GetLeds();
 
         /// <inheritdoc />

@@ -17,6 +17,7 @@ namespace RGB.NET.Devices.Novation
         /// Initializes a new instance of the <see cref="NovationRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by Novation for the device.</param>
+        /// <param name="updateTrigger">The update trigger used to update this device.</param>
         protected NovationRGBDevice(TDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
             : base(info, GetUpdateQueue(updateTrigger, info))
         { }

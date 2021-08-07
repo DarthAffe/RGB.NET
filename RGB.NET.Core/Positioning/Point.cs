@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Diagnostics;
 
 namespace RGB.NET.Core
@@ -65,9 +66,8 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Point" /> equivalent to this <see cref="Point" />; otherwise, <c>false</c>.</returns>
         public override bool Equals(object? obj)
         {
-            if (!(obj is Point)) return false;
+            if (obj is not Point comparePoint) return false;
 
-            Point comparePoint = (Point)obj;
             return ((float.IsNaN(X) && float.IsNaN(comparePoint.X)) || X.EqualsInTolerance(comparePoint.X))
                 && ((float.IsNaN(Y) && float.IsNaN(comparePoint.Y)) || Y.EqualsInTolerance(comparePoint.Y));
         }
@@ -76,15 +76,7 @@ namespace RGB.NET.Core
         /// Returns a hash code for this <see cref="Point" />.
         /// </summary>
         /// <returns>An integer value that specifies the hash code for this <see cref="Point" />.</returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                return hashCode;
-            }
-        }
+        public override int GetHashCode() => HashCode.Combine(X, Y);
 
         #endregion
 

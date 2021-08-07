@@ -2,12 +2,15 @@
 
 namespace RGB.NET.Core
 {
+    /// <summary>
+    /// Offers some extensions and helper-methods for <see cref="Point"/> related things.
+    /// </summary>
     public static class PointExtensions
     {
         #region Methods
 
         /// <summary>
-        /// Moves the specified <see cref="Point"/> by the given amount.
+        /// Moves the specified <see cref="Point"/> by the specified amount.
         /// </summary>
         /// <param name="point">The <see cref="Point"/> to move.</param>
         /// <param name="x">The x-ammount to move.</param>
@@ -16,7 +19,7 @@ namespace RGB.NET.Core
         public static Point Translate(this in Point point, float x = 0, float y = 0) => new(point.X + x, point.Y + y);
 
         /// <summary>
-        /// Rotates the specified <see cref="Point"/> by the given amuont around the given origin.
+        /// Rotates the specified <see cref="Point"/> by the specified amuont around the specified origin.
         /// </summary>
         /// <param name="point">The <see cref="Point"/> to rotate.</param>
         /// <param name="rotation">The rotation.</param>
@@ -33,7 +36,7 @@ namespace RGB.NET.Core
             x = (x * cos) - (y * sin);
             y = (x * sin) + (y * cos);
 
-            return new Point(x + origin.X, y + origin.Y); ;
+            return new Point(x + origin.X, y + origin.Y);
         }
 
         #endregion

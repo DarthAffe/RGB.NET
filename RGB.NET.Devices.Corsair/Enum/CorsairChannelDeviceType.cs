@@ -7,7 +7,7 @@
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Contains list of available corsair channel device types.
+    /// Contains a list of available corsair channel device types.
     /// </summary>
     public enum CorsairChannelDeviceType
     {

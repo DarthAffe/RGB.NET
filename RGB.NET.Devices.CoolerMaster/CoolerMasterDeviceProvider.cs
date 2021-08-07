@@ -53,12 +53,14 @@ namespace RGB.NET.Devices.CoolerMaster
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             _CoolerMasterSDK.Reload();
             if (_CoolerMasterSDK.GetSDKVersion() <= 0) Throw(new RGBDeviceException("Failed to initialize CoolerMaster-SDK"), true);
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
             foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))

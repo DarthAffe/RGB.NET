@@ -62,9 +62,9 @@ namespace RGB.NET.Devices.DMX.E131
         #region Constructors
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="E131DMXDeviceDefinition" /> class.
         /// </summary>
-        /// <param name="hostname"></param>
+        /// <param name="hostname">The hostname of the device.</param>
         public E131DMXDeviceDefinition(string hostname)
         {
             this.Hostname = hostname;

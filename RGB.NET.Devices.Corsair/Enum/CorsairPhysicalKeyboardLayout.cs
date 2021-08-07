@@ -4,7 +4,7 @@
 namespace RGB.NET.Devices.Corsair
 {
     /// <summary>
-    /// Contains list of available physical layouts for corsair keyboards.
+    /// Contains a list of available physical layouts for corsair keyboards.
     /// </summary>
     public enum CorsairPhysicalKeyboardLayout
     {

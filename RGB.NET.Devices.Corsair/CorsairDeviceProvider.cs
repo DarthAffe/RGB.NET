@@ -43,7 +43,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Gets the last error documented by CUE.
         /// </summary>
-        public CorsairError LastError => _CUESDK.CorsairGetLastError();
+        public static CorsairError LastError => _CUESDK.CorsairGetLastError();
 
         #endregion
 
@@ -63,6 +63,7 @@ namespace RGB.NET.Devices.Corsair
 
         #region Methods
 
+        /// <inheritdoc />
         protected override void InitializeSDK()
         {
             _CUESDK.Reload();
@@ -80,7 +81,7 @@ namespace RGB.NET.Devices.Corsair
 
             // DarthAffe 02.02.2021: 127 is iCUE
             if (!_CUESDK.CorsairSetLayerPriority(128))
-                Throw(new CUEException(LastError), false);
+                Throw(new CUEException(LastError));
         }
 
         /// <inheritdoc />
@@ -193,6 +194,7 @@ namespace RGB.NET.Devices.Corsair
             };
         }
 
+        /// <inheritdoc />
         protected override void Reset()
         {
             ProtocolDetails = null;
@@ -207,6 +209,8 @@ namespace RGB.NET.Devices.Corsair
 
             try { _CUESDK.UnloadCUESDK(); }
             catch { /* at least we tried */ }
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion

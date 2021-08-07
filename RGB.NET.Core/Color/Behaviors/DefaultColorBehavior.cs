@@ -1,5 +1,11 @@
-﻿namespace RGB.NET.Core
+﻿using System;
+
+namespace RGB.NET.Core
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Represents the default-behavior for the work with colors.
+    /// </summary>
     public class DefaultColorBehavior : IColorBehavior
     {
         #region Methods
@@ -13,11 +19,12 @@
         /// <summary>
         /// Tests whether the specified object is a <see cref="Color" /> and is equivalent to this <see cref="Color" />.
         /// </summary>
+        /// <param name="color">The color to test.</param>
         /// <param name="obj">The object to test.</param>
         /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Color" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
         public virtual bool Equals(in Color color, object? obj)
         {
-            if (!(obj is Color color2)) return false;
+            if (obj is not Color color2) return false;
 
             (float a, float r, float g, float b) = color2.GetRGB();
             return color.A.EqualsInTolerance(a) && color.R.EqualsInTolerance(r) && color.G.EqualsInTolerance(g) && color.B.EqualsInTolerance(b);
@@ -27,22 +34,13 @@
         /// Returns a hash code for this <see cref="Color" />.
         /// </summary>
         /// <returns>An integer value that specifies the hash code for this <see cref="Color" />.</returns>
-        public virtual int GetHashCode(in Color color)
-        {
-            unchecked
-            {
-                int hashCode = color.A.GetHashCode();
-                hashCode = (hashCode * 397) ^ color.R.GetHashCode();
-                hashCode = (hashCode * 397) ^ color.G.GetHashCode();
-                hashCode = (hashCode * 397) ^ color.B.GetHashCode();
-                return hashCode;
-            }
-        }
+        public virtual int GetHashCode(in Color color) => HashCode.Combine(color.A, color.R, color.G, color.B);
 
         /// <summary>
         /// Blends a <see cref="Color"/> over this color.
         /// </summary>
-        /// <param name="color">The <see cref="Color"/> to blend.</param>
+        /// <param name="baseColor">The <see cref="Color"/> to to blend over.</param>
+        /// <param name="blendColor">The <see cref="Color"/> to blend.</param>
         public virtual Color Blend(in Color baseColor, in Color blendColor)
         {
             if (blendColor.A.EqualsInTolerance(0)) return baseColor;
