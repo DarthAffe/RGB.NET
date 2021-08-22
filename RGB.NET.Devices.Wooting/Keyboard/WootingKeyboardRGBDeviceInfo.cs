@@ -1,6 +1,7 @@
 ﻿using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Generic;
+using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Keyboard
 {
@@ -22,9 +23,9 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// <summary>
         /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDeviceInfo" />.
         /// </summary>
-        /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDevice" />.</param>
-        internal WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes deviceIndex)
-            : base(RGBDeviceType.Keyboard, deviceIndex)
+        /// <param name="deviceInfo">The native <see cref="T:RGB.NET.Devices.Wooting.Native._WootingDeviceInfo" />.</param>
+        internal WootingKeyboardRGBDeviceInfo(_WootingDeviceInfo deviceInfo)
+            : base(RGBDeviceType.Keyboard, deviceInfo)
         { }
 
         #endregion

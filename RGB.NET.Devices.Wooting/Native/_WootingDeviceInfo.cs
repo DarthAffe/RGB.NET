@@ -20,5 +20,7 @@ namespace RGB.NET.Devices.Wooting.Native
         internal byte KeycodeLimit { get; private set; }
 
         internal WootingDeviceType DeviceType { get; private set; }
+
+        internal bool V2Interface { get; set; }
     }
 }
