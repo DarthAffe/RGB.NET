@@ -92,10 +92,20 @@ namespace RGB.NET.Core
                 if (UpdateTask != null)
                 {
                     UpdateTokenSource?.Cancel();
-                    // ReSharper disable once MethodSupportsCancellation
-                    UpdateTask.Wait();
-                    UpdateTask.Dispose();
-                    UpdateTask = null;
+                    try
+                    {
+                        // ReSharper disable once MethodSupportsCancellation
+                        UpdateTask.Wait();
+                    }
+                    catch (AggregateException)
+                    {
+                        // ignored
+                    }
+                    finally
+                    {
+                        UpdateTask.Dispose();
+                        UpdateTask = null;
+                    }
                 }
             }
         }
