@@ -48,6 +48,21 @@ namespace RGB.NET.Devices.CoolerMaster
                       { LedId.Mouse3, (0,2) }
                   }
                 },
+
+                { CoolerMasterDevicesIndexes.MM830, new Dictionary<LedId, (int row, int column)>
+                  {
+                      { LedId.Mouse1, (0,0) },
+                      { LedId.Mouse2, (0,1) },
+                      { LedId.Mouse3, (0,2) },
+                      { LedId.Mouse4, (0,3) },
+                      { LedId.Mouse5, (0,4) },
+                      { LedId.Mouse6, (0,5) },
+                      { LedId.Mouse7, (0,6) },
+                      { LedId.Mouse8, (0,7) },
+                      { LedId.Mouse9, (0,8) },
+                      { LedId.Mouse10, (0,9) },
+                  }
+                },
             };
 
         #endregion
