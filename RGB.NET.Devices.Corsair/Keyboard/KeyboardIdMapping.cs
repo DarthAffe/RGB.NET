@@ -174,7 +174,10 @@ namespace RGB.NET.Devices.Corsair
             { LedId.Keyboard_Custom18, CorsairLedId.Lightbar18 },
             { LedId.Keyboard_Custom19, CorsairLedId.Lightbar19 },
             { LedId.Keyboard_Custom20, CorsairLedId.LedProgramming },
-            { LedId.Keyboard_Custom21, CorsairLedId.Fn }
+            { LedId.Keyboard_Custom21, CorsairLedId.Fn },
+            { LedId.Keyboard_Custom22, CorsairLedId.OemLed1 },
+            { LedId.Keyboard_Custom23, CorsairLedId.OemLed2 },
+            { LedId.Keyboard_Custom24, CorsairLedId.OemLed3 },
         };
     }
 }
