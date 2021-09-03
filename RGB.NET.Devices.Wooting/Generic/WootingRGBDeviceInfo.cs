@@ -1,6 +1,7 @@
 ﻿using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Helper;
+using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Generic
 {
@@ -28,9 +29,9 @@ namespace RGB.NET.Devices.Wooting.Generic
         public object? LayoutMetadata { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="WootingDevicesIndexes"/> of the <see cref="WootingRGBDevice{TDeviceInfo}"/>.
+        /// Gets the <see cref="WootingDeviceType"/> of the <see cref="WootingRGBDevice{TDeviceInfo}"/>.
         /// </summary>
-        public WootingDevicesIndexes DeviceIndex { get; }
+        public WootingDeviceType WootingDeviceType { get; }
 
         #endregion
 
@@ -40,13 +41,13 @@ namespace RGB.NET.Devices.Wooting.Generic
         /// Internal constructor of managed <see cref="WootingRGBDeviceInfo"/>.
         /// </summary>
         /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
-        /// <param name="deviceIndex">The <see cref="WootingDevicesIndexes"/> of the <see cref="IRGBDevice"/>.</param>
-        internal WootingRGBDeviceInfo(RGBDeviceType deviceType, WootingDevicesIndexes deviceIndex)
+        /// <param name="deviceInfo">The <see cref="_WootingDeviceInfo"/> of the <see cref="IRGBDevice"/>.</param>
+        internal WootingRGBDeviceInfo(RGBDeviceType deviceType, _WootingDeviceInfo deviceInfo)
         {
             this.DeviceType = deviceType;
-            this.DeviceIndex = deviceIndex;
+            this.WootingDeviceType = deviceInfo.DeviceType;
 
-            Model = deviceIndex.GetDescription();
+            Model = deviceInfo.Model;
             DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
 
