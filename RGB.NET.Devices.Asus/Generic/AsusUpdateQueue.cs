@@ -13,7 +13,6 @@ namespace RGB.NET.Devices.Asus
         #region Properties & Fields
 
         private readonly IAuraRgbLight[] _lights;
-        private readonly IAuraRgbKey[] _keys;
 
         /// <summary>
         /// The device to be updated.
@@ -37,15 +36,6 @@ namespace RGB.NET.Devices.Asus
             this._lights = new IAuraRgbLight[device.Lights.Count];
             for (int i = 0; i < device.Lights.Count; i++)
                 _lights[i] = device.Lights[i];
-
-            if (Device is IAuraSyncKeyboard keyboard)
-            {
-                this._keys = new IAuraRgbKey[keyboard.Keys.Count];
-                for (int i = 0; i < keyboard.Keys.Count; i++) 
-                    _keys[i] = keyboard.Keys[i];
-            }
-            else
-                this._keys = new IAuraRgbKey[0];
         }
 
         #endregion
@@ -59,7 +49,7 @@ namespace RGB.NET.Devices.Asus
             {
                 if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))
                 {
-                    if (Device is not IAuraSyncKeyboard)
+                    if (Device is not IAuraSyncKeyboard keyboard)
                         return;
 
                     foreach ((object customData, Color value) in dataSet)
@@ -67,7 +57,7 @@ namespace RGB.NET.Devices.Asus
                         (AsusLedType ledType, int id) = (AsusKeyboardLedCustomData)customData;
                         if (ledType == AsusLedType.Key)
                         {
-                            IAuraRgbLight light = _keys[(ushort)id];
+                            IAuraRgbLight light = keyboard.Key[(ushort)id];
                             (_, byte r, byte g, byte b) = value.GetRGBBytes();
                             light.Red = r;
                             light.Green = g;
