@@ -14,7 +14,7 @@ namespace RGB.NET.Core
         private readonly List<T> _decorators = new();
 
         /// <inheritdoc />
-        public IReadOnlyCollection<T> Decorators { get; }
+        public IReadOnlyList<T> Decorators { get; }
 
         #endregion
 

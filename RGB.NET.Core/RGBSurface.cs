@@ -27,12 +27,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
         /// </summary>
-        public IReadOnlyCollection<IRGBDevice> Devices { get; }
+        public IReadOnlyList<IRGBDevice> Devices { get; }
 
         /// <summary>
         /// Gets a readonly list containing all registered <see cref="IUpdateTrigger"/>.
         /// </summary>
-        public IReadOnlyCollection<IUpdateTrigger> UpdateTriggers { get; }
+        public IReadOnlyList<IUpdateTrigger> UpdateTriggers { get; }
 
         /// <summary>
         /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.

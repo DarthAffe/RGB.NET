@@ -20,7 +20,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a readonly-list of all <see cref="IDecorator"/> attached to this <see cref="IDecoratable{T}"/>.
         /// </summary>
-        IReadOnlyCollection<T> Decorators { get; }
+        IReadOnlyList<T> Decorators { get; }
 
         /// <summary>
         /// Adds an <see cref="IDecorator"/> to the <see cref="IDecoratable"/>.

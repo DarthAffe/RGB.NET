@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace RGB.NET.Core
 {
@@ -31,7 +30,7 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a collection <see cref="IDeviceUpdateTrigger"/> registered to this device provider.
         /// </summary>
-        ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers { get; }
+        IReadOnlyList<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers { get; }
 
         #endregion
 

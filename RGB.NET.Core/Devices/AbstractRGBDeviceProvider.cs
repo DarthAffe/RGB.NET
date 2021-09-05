@@ -30,7 +30,7 @@ namespace RGB.NET.Core
         protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggerMapping { get; } = new();
 
         /// <inheritdoc />
-        public ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers => new(UpdateTriggerMapping.Select(x => (x.Key, x.Value)).ToList());
+        public IReadOnlyList<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers => new ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)>(UpdateTriggerMapping.Select(x => (x.Key, x.Value)).ToList());
 
         #endregion
 
