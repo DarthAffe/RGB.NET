@@ -27,19 +27,12 @@ namespace RGB.NET.Core
         /// <summary>
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
         /// </summary>
-        public IEnumerable<IRGBDevice> Devices
-        {
-            get
-            {
-                lock (_devices)
-                    return new ReadOnlyCollection<IRGBDevice>(_devices);
-            }
-        }
+        public IReadOnlyCollection<IRGBDevice> Devices { get; }
 
         /// <summary>
         /// Gets a readonly list containing all registered <see cref="IUpdateTrigger"/>.
         /// </summary>
-        public IEnumerable<IUpdateTrigger> UpdateTriggers => new ReadOnlyCollection<IUpdateTrigger>(_updateTriggers);
+        public IReadOnlyCollection<IUpdateTrigger> UpdateTriggers { get; }
 
         /// <summary>
         /// Gets a copy of the <see cref="Rectangle"/> representing this <see cref="RGBSurface"/>.
@@ -124,6 +117,9 @@ namespace RGB.NET.Core
         public RGBSurface()
         {
             _deltaTimeCounter = Stopwatch.StartNew();
+
+            Devices = new ReadOnlyCollection<IRGBDevice>(_devices);
+            UpdateTriggers = new ReadOnlyCollection<IUpdateTrigger>(_updateTriggers);
         }
 
         #endregion
