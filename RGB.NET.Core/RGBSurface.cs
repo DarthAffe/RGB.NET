@@ -13,7 +13,6 @@ namespace RGB.NET.Core
     /// <inheritdoc cref="IDisposable" />
     /// <summary>
     /// Represents a RGB-surface containing multiple devices.
-    /// Represents a RGB-surface containing multiple devices.
     /// </summary>
     public sealed class RGBSurface : AbstractBindable, IDisposable
     {
@@ -27,11 +26,13 @@ namespace RGB.NET.Core
 
         /// <summary>
         /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
+        /// This collection should be locked when enumerated in a multi-threaded application.
         /// </summary>
         public IReadOnlyList<IRGBDevice> Devices { get; }
 
         /// <summary>
         /// Gets a readonly list containing all registered <see cref="IUpdateTrigger"/>.
+        /// This collection should be locked when enumerated in a multi-threaded application.
         /// </summary>
         public IReadOnlyList<IUpdateTrigger> UpdateTriggers { get; }
 
