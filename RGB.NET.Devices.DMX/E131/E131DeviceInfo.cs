@@ -68,7 +68,7 @@ namespace RGB.NET.Devices.DMX.E131
             this.Hostname = deviceDefinition.Hostname;
             this.Port = deviceDefinition.Port;
             this.Universe = deviceDefinition.Universe;
-            
+
             byte[]? cid = deviceDefinition.CID;
             if ((cid == null) || (cid.Length != CID_LENGTH))
             {
@@ -76,7 +76,7 @@ namespace RGB.NET.Devices.DMX.E131
                 new Random().NextBytes(cid);
             }
 
-            CID = cid!;
+            CID = cid;
 
             DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
         }
