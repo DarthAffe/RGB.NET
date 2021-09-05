@@ -13,6 +13,7 @@ namespace RGB.NET.Core
     /// <inheritdoc cref="IDisposable" />
     /// <summary>
     /// Represents a RGB-surface containing multiple devices.
+    /// Represents a RGB-surface containing multiple devices.
     /// </summary>
     public sealed class RGBSurface : AbstractBindable, IDisposable
     {
@@ -46,7 +47,7 @@ namespace RGB.NET.Core
         {
             get
             {
-                lock (_devices)
+                lock (Devices)
                     return _devices.SelectMany(x => x);
             }
         }
@@ -142,8 +143,8 @@ namespace RGB.NET.Core
                 bool render = customData["render"] as bool? ?? true;
                 bool updateDevices = customData["updateDevices"] as bool? ?? true;
 
-                lock (_updateTriggers)
-                    lock (_devices)
+                lock (UpdateTriggers)
+                    lock (Devices)
                     {
                         OnUpdating(updateTrigger, customData);
 
@@ -174,7 +175,7 @@ namespace RGB.NET.Core
         public void Dispose()
         {
             List<IRGBDevice> devices;
-            lock (_devices)
+            lock (Devices)
                 devices = new List<IRGBDevice>(_devices);
 
             foreach (IRGBDevice device in devices)
@@ -263,7 +264,7 @@ namespace RGB.NET.Core
         /// <param name="device">The <see cref="IRGBDevice"/> to attach.</param>
         public void Attach(IRGBDevice device)
         {
-            lock (_devices)
+            lock (Devices)
             {
                 if (string.IsNullOrWhiteSpace(device.DeviceInfo.DeviceName)) throw new RGBDeviceException($"The device '{device.DeviceInfo.Manufacturer} {device.DeviceInfo.Model}' has no valid name.");
                 if (device.Surface != null) throw new RGBSurfaceException($"The device '{device.DeviceInfo.DeviceName}' is already attached to a surface.");
@@ -283,7 +284,7 @@ namespace RGB.NET.Core
         /// <returns><c>true</c> if the <see cref="IRGBDevice"/> could be detached; <c>false</c> otherwise.</returns>
         public void Detach(IRGBDevice device)
         {
-            lock (_devices)
+            lock (Devices)
             {
                 if (!_devices.Contains(device)) throw new RGBSurfaceException($"The device '{device.DeviceInfo.DeviceName}' is not attached to this surface.");
 
@@ -310,7 +311,7 @@ namespace RGB.NET.Core
 
         private void UpdateSurfaceRectangle()
         {
-            lock (_devices)
+            lock (Devices)
             {
                 Rectangle devicesRectangle = new(_devices.Select(d => d.Boundary));
                 Boundary = Boundary.SetSize(new Size(devicesRectangle.Location.X + devicesRectangle.Size.Width, devicesRectangle.Location.Y + devicesRectangle.Size.Height));
