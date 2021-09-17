@@ -77,6 +77,7 @@ namespace RGB.NET.Devices.Logitech
             { 0xC08D, RGBDeviceType.Mouse, "G502 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0xC332, RGBDeviceType.Mouse, "G502", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0xC083, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
+            { 0xC08F, RGBDeviceType.Mouse, "G403 Hero", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0xC080, RGBDeviceType.Mouse, "G303", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0xC084, RGBDeviceType.Mouse, "G203", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
             { 0xC085, RGBDeviceType.Mouse, "G Pro", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
