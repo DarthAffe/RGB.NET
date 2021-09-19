@@ -70,17 +70,8 @@ namespace RGB.NET.Devices.Wooting
                 if (_WootingSDK.KeyboardConnected())
                 {
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
-                    IWootingRGBDevice? device = nativeDeviceInfo.Model switch
-                    {
-                        "Wooting two" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingTwo), GetUpdateTrigger()),
-                        "Wooting one" => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(WootingDevicesIndexes.WootingOne), GetUpdateTrigger()),
-                        _ => null
-                    };
 
-                    if (device == null)
-                        Throw(new RGBDeviceException("No supported Wooting keyboard connected"));
-                    else
-                        yield return device;
+                    yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo), GetUpdateTrigger());
                 }
             }
         }

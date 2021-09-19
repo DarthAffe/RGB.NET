@@ -14,13 +14,18 @@ namespace RGB.NET.Core
         private readonly List<T> _decorators = new();
 
         /// <inheritdoc />
-        public IReadOnlyCollection<T> Decorators
+        public IReadOnlyList<T> Decorators { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractDecoratable{T}"/> class.
+        /// </summary>
+        protected AbstractDecoratable()
         {
-            get
-            {
-                lock (_decorators)
-                    return new ReadOnlyCollection<T>(_decorators);
-            }
+            Decorators = new ReadOnlyCollection<T>(_decorators);
         }
 
         #endregion

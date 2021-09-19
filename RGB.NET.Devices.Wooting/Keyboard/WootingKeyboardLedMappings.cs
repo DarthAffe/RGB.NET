@@ -13,9 +13,9 @@ namespace RGB.NET.Devices.Wooting.Keyboard
     {
         #region Properties & Fields
 
-        #region Wooting One
+        #region TKL
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingOne_US = new()
+        private static readonly Dictionary<LedId, (int row, int column)> TKL_US = new()
                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
@@ -111,7 +111,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
             { LedId.Keyboard_ArrowRight, (5,16) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingOne_UK = new()
+        private static readonly Dictionary<LedId, (int row, int column)> TKL_UK = new()
                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
@@ -178,7 +178,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
             { LedId.Keyboard_L, (3,9) },
             { LedId.Keyboard_SemicolonAndColon, (3,10) },
             { LedId.Keyboard_ApostropheAndDoubleQuote, (3,11) },
-            { LedId.Keyboard_NonUsTilde, (3,11) },
+            { LedId.Keyboard_NonUsTilde, (3,12) },
             { LedId.Keyboard_Enter, (3,13) },
 
             { LedId.Keyboard_LeftShift, (4,0) },
@@ -211,9 +211,9 @@ namespace RGB.NET.Devices.Wooting.Keyboard
 
         #endregion
 
-        #region Wooting Two
+        #region Fullsize
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingTwo_US = new()
+        private static readonly Dictionary<LedId, (int row, int column)> Fullsize_US = new()
                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
@@ -330,7 +330,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
             { LedId.Keyboard_NumPeriodAndDelete, (5,19) }
         };
 
-        private static readonly Dictionary<LedId, (int row, int column)> WootingTwo_UK = new()
+        private static readonly Dictionary<LedId, (int row, int column)> Fullsize_UK = new()
                                                                                          {
             { LedId.Keyboard_Escape, (0,0) },
             { LedId.Keyboard_F1, (0,2) },
@@ -454,20 +454,20 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// <summary>
         /// Contains all the hardware-id mappings for Wooting devices.
         /// </summary>
-        public static readonly Dictionary<WootingDevicesIndexes, Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>> Mapping =
+        public static readonly Dictionary<WootingDeviceType, Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>> Mapping =
             new()
             {
-                { WootingDevicesIndexes.WootingOne, new Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
+                { WootingDeviceType.KeyboardTKL, new Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
                   {
-                    { WootingPhysicalKeyboardLayout.US, WootingOne_US },
-                    { WootingPhysicalKeyboardLayout.UK, WootingOne_UK }
+                    { WootingPhysicalKeyboardLayout.US, TKL_US },
+                    { WootingPhysicalKeyboardLayout.UK, TKL_UK }
                   }
                 },
 
-                { WootingDevicesIndexes.WootingTwo, new Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
+                { WootingDeviceType.Keyboard, new Dictionary<WootingPhysicalKeyboardLayout, Dictionary<LedId, (int row, int column)>>
                   {
-                    { WootingPhysicalKeyboardLayout.US, WootingTwo_US },
-                    { WootingPhysicalKeyboardLayout.UK, WootingTwo_UK }
+                    { WootingPhysicalKeyboardLayout.US, Fullsize_US },
+                    { WootingPhysicalKeyboardLayout.UK, Fullsize_UK }
                   }
                 }
             };
