@@ -22,5 +22,7 @@ namespace RGB.NET.Devices.Wooting.Native
         internal WootingDeviceType DeviceType { get; private set; }
 
         internal bool V2Interface { get; set; }
+
+        internal WootingLayoutType LayoutType { get; private set; }
     }
 }
