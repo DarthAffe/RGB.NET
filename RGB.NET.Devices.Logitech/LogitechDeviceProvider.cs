@@ -101,7 +101,7 @@ namespace RGB.NET.Devices.Logitech
             { 0xC24A, RGBDeviceType.Mouse, "G600", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
             { 0xC332, RGBDeviceType.Mouse, "G502", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
 
-            { 0xC53A, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.Device, (LogitechDeviceType.Mousemat, 1) },
+            { 0xC53A, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.ZoneMousepad, (LogitechDeviceType.Mousemat, 1) },
 
             //G633 and G635 are wired headsets.
             { 0x0A5C, RGBDeviceType.Headset, "G633", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
@@ -128,7 +128,6 @@ namespace RGB.NET.Devices.Logitech
             { 0x407F, RGBDeviceType.Mouse, "G502 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0x4086, RGBDeviceType.Mouse, "G703 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0x4087, RGBDeviceType.Mouse, "G903 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-            { 0x405F, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.ZoneMousepad,(LogitechDeviceType.Mousemat, 1) },
         };
 
         /// <summary>
