@@ -56,7 +56,7 @@ namespace RGB.NET.Devices.Logitech.HID
         /// <returns>The enumerable containing the connected devices.</returns>
         public IEnumerable<HIDDeviceDefinition<TLed, TData>> GetConnectedDevices()
         {
-            foreach (var device in Detect())
+            foreach (int device in Detect())
             {
                 if (_deviceDefinitions.TryGetValue(device, out HIDDeviceDefinition<TLed, TData>? definition))
                     if (LoadFilter.HasFlag(definition.DeviceType))
@@ -86,9 +86,9 @@ namespace RGB.NET.Devices.Logitech.HID
 
         private IEnumerable<int> Detect()
         {
-            foreach (var receiverPid in ReceiverPids)
+            foreach (int receiverPid in ReceiverPids)
             {
-                foreach (var wirelessPid in Detect(receiverPid))
+                foreach (int wirelessPid in Detect(receiverPid))
                 {
                     yield return wirelessPid;
                 }
@@ -97,17 +97,17 @@ namespace RGB.NET.Devices.Logitech.HID
 
         private IEnumerable<int> Detect(int pid)
         {
-            var receiverDevices = DeviceList.Local.GetHidDevices(VendorId, pid);
-            var interfaceTwo = receiverDevices.Where(d => d.DevicePath.Contains("mi_02"));
+            IEnumerable<HidDevice>? receiverDevices = DeviceList.Local.GetHidDevices(VendorId, pid);
+            IEnumerable<HidDevice>? interfaceTwo = receiverDevices.Where(d => d.DevicePath.Contains("mi_02"));
             //this is terrible but i don't know how else to filter interfaces
 
             Dictionary<byte, HidDevice> deviceUsages = new();
-            foreach (var item in interfaceTwo)
+            foreach (HidDevice? item in interfaceTwo)
             {
                 deviceUsages.Add((byte)item.GetUsage(), item);
             }
 
-            foreach ((var wirelessPid, var deviceIndex) in GetWirelessDevices(deviceUsages))
+            foreach ((int wirelessPid, byte deviceIndex) in GetWirelessDevices(deviceUsages))
             {
                 yield return wirelessPid;
             }
@@ -121,13 +121,13 @@ namespace RGB.NET.Devices.Logitech.HID
 
             Dictionary<int, byte> map = new();
 
-            if (device_usages.TryGetValue(1, out var device))
+            if (device_usages.TryGetValue(1, out HidDevice? device))
             {
-                var stream = device.Open();
+                HidStream? stream = device.Open();
 
-                var response = new FapResponse();
+                FapResponse response = new FapResponse();
 
-                var getConnectedDevices = new FapShortRequest();
+                FapShortRequest getConnectedDevices = new FapShortRequest();
                 getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
 
                 stream.Write(getConnectedDevices.AsSpan());
@@ -172,7 +172,7 @@ namespace RGB.NET.Devices.Logitech.HID
 
                     for (int i = 0; i < deviceCount; i++)
                     {
-                        var devices = new FapResponse();
+                        FapResponse devices = new FapResponse();
                         stream.Read(devices.AsSpan());
                         int wirelessPid = (devices.Data02 << 8) | devices.Data01;
                         if (devices.DeviceIndex != 0xff)

@@ -207,7 +207,7 @@ namespace RGB.NET.Devices.Logitech
 
             IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>> wiredPerZoneDevices = PerZoneDeviceDefinitions.GetConnectedDevices().Select(x => x.definition);
             IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>> wirelessPerZoneDevices = PerZoneWirelessDeviceDefinitions.GetConnectedDevices();
-            var wiredAndWirelessPerZoneDevices = wiredPerZoneDevices.Concat(wirelessPerZoneDevices);
+            IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>>? wiredAndWirelessPerZoneDevices = wiredPerZoneDevices.Concat(wirelessPerZoneDevices);
             foreach (HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)> definition in wiredAndWirelessPerZoneDevices.GroupBy(x => x.CustomData.deviceType).Select(group => group.First()))
             {
                 LogitechZoneUpdateQueue updateQueue = new(GetUpdateTrigger(), definition.CustomData.deviceType);
