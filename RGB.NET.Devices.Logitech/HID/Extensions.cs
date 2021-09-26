@@ -3,27 +3,23 @@ using HidSharp.Reports.Encodings;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
 
 namespace RGB.NET.Devices.Logitech.HID
 {
-    public static class Extensions
+    internal static class Extensions
     {
-        public static Span<byte> AsSpan<T>(this ref T val) where T : unmanaged
+        internal static Span<byte> AsSpan<T>(this ref T val)
+            where T : unmanaged
         {
             Span<T> valSpan = MemoryMarshal.CreateSpan(ref val, 1);
             return MemoryMarshal.Cast<T, byte>(valSpan);
         }
 
-        public static uint GetUsagePage(this HidDevice device)
+        internal static uint GetUsagePage(this HidDevice device)
         {
             try
             {
-                byte[]? descriptor = device.GetRawReportDescriptor();
-                IEnumerable<EncodedItem>? decodedItems = EncodedItem.DecodeItems(descriptor, 0, descriptor.Length);
-                IEnumerable<EncodedItem>? usefulItems = decodedItems.Where(de => de.TagForLocal == LocalItemTag.Usage && de.TagForGlobal == GlobalItemTag.UsagePage);
-                EncodedItem? usagePage = usefulItems.FirstOrDefault(de => de.ItemType == ItemType.Global);
-                return usagePage.DataValue;
+                return device.GetItemByType(ItemType.Global)?.DataValue ?? uint.MaxValue;
             }
             catch
             {
@@ -31,20 +27,24 @@ namespace RGB.NET.Devices.Logitech.HID
             }
         }
 
-        public static uint GetUsage(this HidDevice device)
+        internal static uint GetUsage(this HidDevice device)
         {
             try
             {
-                byte[]? descriptor = device.GetRawReportDescriptor();
-                IEnumerable<EncodedItem>? decodedItems = EncodedItem.DecodeItems(descriptor, 0, descriptor.Length);
-                IEnumerable<EncodedItem>? usefulItems = decodedItems.Where(de => de.TagForLocal == LocalItemTag.Usage && de.TagForGlobal == GlobalItemTag.UsagePage);
-                EncodedItem? usage = usefulItems.FirstOrDefault(de => de.ItemType == ItemType.Local);
-                return usage.DataValue;
+                return device.GetItemByType(ItemType.Local)?.DataValue ?? uint.MaxValue;
             }
             catch
             {
                 return uint.MaxValue;
             }
+        }
+
+        private static EncodedItem? GetItemByType(this HidDevice device, ItemType itemType)
+        {
+            byte[] descriptor = device.GetRawReportDescriptor();
+            return EncodedItem.DecodeItems(descriptor, 0, descriptor.Length)
+                              .Where(de => (de.TagForLocal == LocalItemTag.Usage) && (de.TagForGlobal == GlobalItemTag.UsagePage))
+                              .FirstOrDefault(de => de.ItemType == itemType);
         }
     }
 }

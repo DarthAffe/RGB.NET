@@ -131,7 +131,7 @@ namespace RGB.NET.Devices.Logitech
         };
 
         /// <summary>
-        /// Gets the HID-definitions for per-device-devices.
+        /// Gets the HID-definitions for wired per-device-devices.
         /// </summary>
         public static HIDLoader<int, int> PerDeviceDeviceDefinitions { get; } = new(VENDOR_ID)
         {
@@ -149,12 +149,12 @@ namespace RGB.NET.Devices.Logitech
             { 0xC225, RGBDeviceType.Keyboard, "G11", LedMappings.Device, 0 },
         };
 
+        /// <summary>
+        /// Gets the HID-definitions for wireless per-device-devices.
+        /// </summary>
         public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = new()
-        {
-
-        };
-
-
+        { };
+        
         #endregion
 
         #region Constructors
@@ -198,28 +198,59 @@ namespace RGB.NET.Devices.Logitech
         /// <inheritdoc />
         protected override IEnumerable<IRGBDevice> LoadDevices()
         {
-            HIDDeviceDefinition<LogitechLedId, int>? perKeyDeviceDefinition = PerKeyDeviceDefinitions.GetConnectedDevices().FirstOrDefault().definition ??
-                                                                            PerKeyWirelessDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
-            if ((_perKeyUpdateQueue != null) && (perKeyDeviceDefinition != default))
+            #region PerKey
+
+            if (_perKeyUpdateQueue != null)
             {
-                yield return new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(perKeyDeviceDefinition.DeviceType, perKeyDeviceDefinition.Name, LogitechDeviceCaps.PerKeyRGB, 0), _perKeyUpdateQueue, perKeyDeviceDefinition.LedMapping);
+                (HIDDeviceDefinition<LogitechLedId, int> definition, HidDevice device) perKeyDevice = PerKeyDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
+                if (perKeyDevice != default)
+                {
+                    (HIDDeviceDefinition<LogitechLedId, int> definition, _) = perKeyDevice;
+                    yield return new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.PerKeyRGB, 0), _perKeyUpdateQueue, definition.LedMapping);
+                }
+                else
+                {
+                    HIDDeviceDefinition<LogitechLedId, int>? perKeyWirelessDevice = PerKeyWirelessDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
+                    if (perKeyWirelessDevice != null)
+                        yield return new LogitechPerKeyRGBDevice(new LogitechRGBDeviceInfo(perKeyWirelessDevice.DeviceType, perKeyWirelessDevice.Name, LogitechDeviceCaps.PerKeyRGB, 0), _perKeyUpdateQueue, perKeyWirelessDevice.LedMapping);
+                }
             }
+
+            #endregion
+
+            #region PerZone
 
             IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>> wiredPerZoneDevices = PerZoneDeviceDefinitions.GetConnectedDevices().Select(x => x.definition);
             IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>> wirelessPerZoneDevices = PerZoneWirelessDeviceDefinitions.GetConnectedDevices();
-            IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>>? wiredAndWirelessPerZoneDevices = wiredPerZoneDevices.Concat(wirelessPerZoneDevices);
-            foreach (HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)> definition in wiredAndWirelessPerZoneDevices.GroupBy(x => x.CustomData.deviceType).Select(group => group.First()))
+            foreach (HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)> definition in wiredPerZoneDevices.Concat(wirelessPerZoneDevices)
+                                                                                                                           .GroupBy(x => x.CustomData.deviceType)
+                                                                                                                           .Select(group => group.First()))
             {
                 LogitechZoneUpdateQueue updateQueue = new(GetUpdateTrigger(), definition.CustomData.deviceType);
                 yield return new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, definition.CustomData.zones), updateQueue, definition.LedMapping);
             }
 
-            HIDDeviceDefinition<int, int>? perDeviceDeviceDefinition = PerDeviceDeviceDefinitions.GetConnectedDevices().FirstOrDefault().definition ??
-                                                            PerDeviceWirelessDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
-            if ((_perDeviceUpdateQueue != null) && (perDeviceDeviceDefinition != default))
+            #endregion
+
+            #region PerDevice
+
+            if (_perDeviceUpdateQueue != null)
             {
-                yield return new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(perDeviceDeviceDefinition.DeviceType, perDeviceDeviceDefinition.Name, LogitechDeviceCaps.DeviceRGB, 0), _perDeviceUpdateQueue, perDeviceDeviceDefinition.LedMapping);
+                (HIDDeviceDefinition<int, int> definition, HidDevice device) perDeviceDevice = PerDeviceDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
+                if (perDeviceDevice != default)
+                {
+                    (HIDDeviceDefinition<int, int> definition, _) = perDeviceDevice;
+                    yield return new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, 0), _perDeviceUpdateQueue, definition.LedMapping);
+                }
+                else
+                {
+                    HIDDeviceDefinition<int, int>? perDeviceWirelessDevice = PerDeviceWirelessDeviceDefinitions.GetConnectedDevices().FirstOrDefault();
+                    if (perDeviceWirelessDevice != null)
+                        yield return new LogitechPerDeviceRGBDevice(new LogitechRGBDeviceInfo(perDeviceWirelessDevice.DeviceType, perDeviceWirelessDevice.Name, LogitechDeviceCaps.DeviceRGB, 0), _perDeviceUpdateQueue, perDeviceWirelessDevice.LedMapping);
+                }
             }
+
+            #endregion
         }
 
         /// <inheritdoc />

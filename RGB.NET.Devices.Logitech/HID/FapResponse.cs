@@ -3,7 +3,7 @@
 namespace RGB.NET.Devices.Logitech.HID
 {
     [StructLayout(LayoutKind.Sequential, Pack = 0, Size = 64)]
-    public struct FapResponse
+    internal struct FapResponse
     {
         public byte Command;
         public byte DeviceIndex;
