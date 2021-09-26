@@ -107,10 +107,9 @@ namespace RGB.NET.Devices.Logitech
             { 0x0A5C, RGBDeviceType.Headset, "G633", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
             { 0x0A89, RGBDeviceType.Headset, "G635", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
 
-            //The other 3 are wireless. These PIDs correpond to the dongles. They cannot be used wired.
+            //The other ones are wireless only. These PIDs correpond to the dongles.
             { 0x0A5B, RGBDeviceType.Headset, "G933", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
             { 0x0A87, RGBDeviceType.Headset, "G935", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
-            { 0x0AB5, RGBDeviceType.Headset, "G733", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },//fix
 
             { 0x0A78, RGBDeviceType.Speaker, "G560", LedMappings.ZoneSpeaker, (LogitechDeviceType.Speaker, 4) },
         };
@@ -147,6 +146,7 @@ namespace RGB.NET.Devices.Logitech
             { 0xC248, RGBDeviceType.Keyboard, "G105", LedMappings.Device, 0 },
             { 0xC222, RGBDeviceType.Keyboard, "G15", LedMappings.Device, 0 },
             { 0xC225, RGBDeviceType.Keyboard, "G11", LedMappings.Device, 0 },
+            { 0x0AB5, RGBDeviceType.Headset, "G733", LedMappings.Device, 0 },
         };
 
         /// <summary>
