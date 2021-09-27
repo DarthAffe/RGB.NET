@@ -12,6 +12,8 @@ namespace RGB.NET.Devices.Asus
     {
         #region Properties & Fields
 
+        private readonly IAuraRgbLight[] _lights;
+
         /// <summary>
         /// The device to be updated.
         /// </summary>
@@ -30,6 +32,10 @@ namespace RGB.NET.Devices.Asus
             : base(updateTrigger)
         {
             this.Device = device;
+
+            this._lights = new IAuraRgbLight[device.Lights.Count];
+            for (int i = 0; i < device.Lights.Count; i++)
+                _lights[i] = device.Lights[i];
         }
 
         #endregion
@@ -59,7 +65,7 @@ namespace RGB.NET.Devices.Asus
                         }
                         else
                         {
-                            IAuraRgbLight light = keyboard.Lights[id];
+                            IAuraRgbLight light = _lights[id];
                             (_, byte r, byte g, byte b) = value.GetRGBBytes();
                             light.Red = r;
                             light.Green = g;
@@ -72,7 +78,7 @@ namespace RGB.NET.Devices.Asus
                     foreach ((object key, Color value) in dataSet)
                     {
                         int index = (int)key;
-                        IAuraRgbLight light = Device.Lights[index];
+                        IAuraRgbLight light = _lights[index];
 
                         (_, byte r, byte g, byte b) = value.GetRGBBytes();
                         light.Red = r;
