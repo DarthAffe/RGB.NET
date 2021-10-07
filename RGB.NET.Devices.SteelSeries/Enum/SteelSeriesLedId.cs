@@ -397,7 +397,7 @@ namespace RGB.NET.Devices.SteelSeries
         Keypad3,
         [APIName("keypad-4")]
         Keypad4,
-        [APIName("keypad-5")]
+        [APIName("num-5")] //HACK DarthAffe 07.10.2021: Custom name to workaround a SDK-issue (https://github.com/SteelSeries/gamesense-sdk/issues/85) should normally be 'keypad-5'
         Keypad5,
         [APIName("keypad-6")]
         Keypad6,
