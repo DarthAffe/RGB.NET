@@ -44,7 +44,9 @@ namespace RGB.NET.Devices.SteelSeries.API
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-12-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-17-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-24-zone"")
-(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-103-zone"")";
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-103-zone"")
+
+(add-custom-zone '(""num-5"" 93))"; //HACK DarthAffe 07.10.2021: Custom zone to workaround a SDK-issue (https://github.com/SteelSeries/gamesense-sdk/issues/85)
 
         private const string CORE_PROPS_WINDOWS = "%PROGRAMDATA%/SteelSeries/SteelSeries Engine 3/coreProps.json";
         private const string CORE_PROPS_OSX = "/Library/Application Support/SteelSeries Engine 3/coreProps.json";
