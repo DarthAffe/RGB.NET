@@ -287,6 +287,15 @@ namespace RGB.NET.Devices.SteelSeries
         };
 
         /// <summary>
+        /// Gets the mapping for two-zone mousepads
+        /// </summary>
+        public static LedMapping<SteelSeriesLedId> MousepadTwoZone { get; } = new()
+        {
+            { LedId.Mousepad1, SteelSeriesLedId.ZoneOne },
+            { LedId.Mousepad2, SteelSeriesLedId.ZoneTwo }
+        };
+
+        /// <summary>
         /// Gets the mapping for 103-zone led strip devices (monitor).
         /// </summary>
         public static LedMapping<SteelSeriesLedId> MonitorOnehundredandthreeZone { get; } = new()

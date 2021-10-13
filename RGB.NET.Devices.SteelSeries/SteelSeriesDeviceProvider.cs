@@ -39,12 +39,14 @@ namespace RGB.NET.Devices.SteelSeries
             { 0x1720, RGBDeviceType.Mouse, "Rival 310", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
             { 0x170E, RGBDeviceType.Mouse, "Rival 500", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
             { 0x1724, RGBDeviceType.Mouse, "Rival 600", LedMappings.MouseEightZone, SteelSeriesDeviceType.EightZone },
+            { 0x1726, RGBDeviceType.Mouse, "Rival 650", LedMappings.MouseEightZone, SteelSeriesDeviceType.EightZone },
             { 0x172B, RGBDeviceType.Mouse, "Rival 650", LedMappings.MouseEightZone, SteelSeriesDeviceType.EightZone },
             { 0x1700, RGBDeviceType.Mouse, "Rival 700", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
             { 0x1824, RGBDeviceType.Mouse, "Rival 3 (Old Firmware)", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
             { 0x184C, RGBDeviceType.Mouse, "Rival 3", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
             { 0x1830, RGBDeviceType.Mouse, "Rival 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
             { 0x1832, RGBDeviceType.Mouse, "Sensei Ten", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
+            { 0x1838, RGBDeviceType.Mouse, "Aerox 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.TwoZone },
 
             //Keyboards
             { 0x161C, RGBDeviceType.Keyboard, "Apex 5", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
@@ -64,6 +66,7 @@ namespace RGB.NET.Devices.SteelSeries
 
             //Mousepads
             { 0x1507, RGBDeviceType.Mousepad, "QCK Prism", LedMappings.MousepadTwelveZone, SteelSeriesDeviceType.TwelveZone },
+            { 0x150D, RGBDeviceType.Mousepad, "QCK Prism Cloth", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
 
             //Monitors
             { 0x1126, RGBDeviceType.Monitor, "MGP27C", LedMappings.MonitorOnehundredandthreeZone, SteelSeriesDeviceType.OneHundredAndThreeZone },
