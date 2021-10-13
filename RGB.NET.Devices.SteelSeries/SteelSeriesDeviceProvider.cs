@@ -37,6 +37,7 @@ namespace RGB.NET.Devices.SteelSeries
             { 0x0472, RGBDeviceType.Mouse, "Rival 150", LedMappings.MouseOneZone, SteelSeriesDeviceType.OneZone },
             { 0x1710, RGBDeviceType.Mouse, "Rival 300", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
             { 0x1720, RGBDeviceType.Mouse, "Rival 310", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
+            { 0x1722, RGBDeviceType.Mouse, "Sensei 310", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
             { 0x170E, RGBDeviceType.Mouse, "Rival 500", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
             { 0x1724, RGBDeviceType.Mouse, "Rival 600", LedMappings.MouseEightZone, SteelSeriesDeviceType.EightZone },
             { 0x1726, RGBDeviceType.Mouse, "Rival 650", LedMappings.MouseEightZone, SteelSeriesDeviceType.EightZone },
