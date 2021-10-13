@@ -47,7 +47,7 @@ namespace RGB.NET.Devices.SteelSeries
             { 0x184C, RGBDeviceType.Mouse, "Rival 3", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
             { 0x1830, RGBDeviceType.Mouse, "Rival 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
             { 0x1832, RGBDeviceType.Mouse, "Sensei Ten", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
-            { 0x1838, RGBDeviceType.Mouse, "Aerox 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.TwoZone },
+            { 0x1838, RGBDeviceType.Mouse, "Aerox 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
 
             //Keyboards
             { 0x161C, RGBDeviceType.Keyboard, "Apex 5", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
