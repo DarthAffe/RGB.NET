@@ -33,6 +33,8 @@ namespace RGB.NET.Devices.Wooting.Generic
         /// </summary>
         public WootingDeviceType WootingDeviceType { get; }
 
+        public WootingLayoutType WootingLayoutType { get; }
+
         #endregion
 
         #region Constructors
@@ -46,6 +48,7 @@ namespace RGB.NET.Devices.Wooting.Generic
         {
             this.DeviceType = deviceType;
             this.WootingDeviceType = deviceInfo.DeviceType;
+            this.WootingLayoutType = deviceInfo.LayoutType;
 
             Model = deviceInfo.Model;
             DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);

@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         #region Properties & Fields
 
         /// <inheritdoc />
-        public KeyboardLayoutType Layout => KeyboardLayoutType.Unknown;
+        public KeyboardLayoutType Layout { get; }
 
         #endregion
 
@@ -26,7 +26,14 @@ namespace RGB.NET.Devices.Wooting.Keyboard
         /// <param name="deviceInfo">The native <see cref="T:RGB.NET.Devices.Wooting.Native._WootingDeviceInfo" />.</param>
         internal WootingKeyboardRGBDeviceInfo(_WootingDeviceInfo deviceInfo)
             : base(RGBDeviceType.Keyboard, deviceInfo)
-        { }
+        {
+            Layout = WootingLayoutType switch
+            {
+                WootingLayoutType.ANSI => KeyboardLayoutType.ANSI,
+                WootingLayoutType.ISO => KeyboardLayoutType.ISO,
+                _ => KeyboardLayoutType.Unknown
+            };
+        }
 
         #endregion
     }

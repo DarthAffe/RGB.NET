@@ -11,9 +11,9 @@ namespace RGB.NET.Devices.Wooting.Enum
     /// <remarks>
     /// Shop states ANSI (US) and ISO (UK/German/Nodics) - https://wooting.store/collections/wooting-keyboards/products/wooting-two
     /// </remarks>
-    public enum WootingPhysicalKeyboardLayout
+    public enum WootingLayoutType
     {
-        US = 0,
-        UK = 1
+        ANSI = 0,
+        ISO = 1
     }
 }

@@ -37,15 +37,14 @@ namespace RGB.NET.Devices.Wooting.Keyboard
 
         private void InitializeLayout()
         {
-            //TODO DarthAffe 13.02.2021: Check how the mapping can work without knowing the physical layout
-            Dictionary<LedId, (int row, int column)> mapping = WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType][WootingPhysicalKeyboardLayout.US];
+            Dictionary<LedId, (int row, int column)> mapping = WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType];
 
             foreach (KeyValuePair<LedId, (int row, int column)> led in mapping)
                 AddLed(led.Key, new Point(led.Value.column * 19, led.Value.row * 19), new Size(19, 19));
         }
 
         /// <inheritdoc />
-        protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType][WootingPhysicalKeyboardLayout.US][ledId];
+        protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType][ledId];
 
         /// <inheritdoc />
         protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
