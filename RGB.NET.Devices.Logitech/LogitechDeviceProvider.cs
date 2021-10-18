@@ -82,7 +82,7 @@ namespace RGB.NET.Devices.Logitech
         {
             { 0xC336, RGBDeviceType.Keyboard, "G213", LedMappings.ZoneKeyboard, (LogitechDeviceType.Keyboard, 5) },
 
-            { 0xC092, RGBDeviceType.Mouse, "G203 LIGHTSYNC", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
+            { 0xC092, RGBDeviceType.Mouse, "G203 Lightsync", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
             { 0xC080, RGBDeviceType.Mouse, "G303", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0xC081, RGBDeviceType.Mouse, "G900", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
             { 0xC082, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
