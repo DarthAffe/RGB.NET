@@ -106,6 +106,7 @@ namespace RGB.NET.Devices.Logitech
             { 0xC222, RGBDeviceType.Keyboard, "G15", LedMappings.Device, 0 },
             { 0xC225, RGBDeviceType.Keyboard, "G11", LedMappings.Device, 0 },
             { 0x0AB5, RGBDeviceType.Headset, "G733", LedMappings.Device, 0 },
+            { 0xC53A, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.Device, 0 },
         };
 
         #endregion
