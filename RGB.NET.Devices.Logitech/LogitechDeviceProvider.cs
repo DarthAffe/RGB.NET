@@ -152,9 +152,8 @@ namespace RGB.NET.Devices.Logitech
         /// <summary>
         /// Gets the HID-definitions for wireless per-device-devices.
         /// </summary>
-        public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = new()
-        { };
-        
+        public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = new();
+
         #endregion
 
         #region Constructors

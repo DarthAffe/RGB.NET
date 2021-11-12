@@ -1,6 +1,5 @@
 ﻿using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
-using RGB.NET.Devices.Wooting.Helper;
 using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Generic
