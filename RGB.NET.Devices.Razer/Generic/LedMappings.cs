@@ -313,8 +313,7 @@ public static class LedMappings
         #region Row 2
 
         [LedId.Keyboard_Programmable1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 1,
-        [LedId.Keyboard_GraveAccentAndTilde] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
+        [LedId.Keyboard_GraveAccentAndTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
         [LedId.Keyboard_1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 3,
         [LedId.Keyboard_2] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 4,
         [LedId.Keyboard_3] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 5,
@@ -325,8 +324,7 @@ public static class LedMappings
         [LedId.Keyboard_8] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 10,
         [LedId.Keyboard_9] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 11,
         [LedId.Keyboard_0] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 12,
-        [LedId.Keyboard_MinusAndUnderscore] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 2) + 13,
+        [LedId.Keyboard_MinusAndUnderscore] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 13,
         [LedId.Keyboard_EqualsAndPlus] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 14,
         [LedId.Keyboard_Backspace] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 15,
         [LedId.Keyboard_Insert] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 16,
@@ -379,10 +377,8 @@ public static class LedMappings
         [LedId.Keyboard_J] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 9,
         [LedId.Keyboard_K] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 10,
         [LedId.Keyboard_L] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 11,
-        [LedId.Keyboard_SemicolonAndColon] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 4) + 12,
-        [LedId.Keyboard_ApostropheAndDoubleQuote] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 4) + 13,
+        [LedId.Keyboard_SemicolonAndColon] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 12,
+        [LedId.Keyboard_ApostropheAndDoubleQuote] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 13,
         [LedId.Keyboard_NonUsTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 14,
         [LedId.Keyboard_Enter] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 15,
         [LedId.Keyboard_Num4] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 19,
@@ -403,12 +399,9 @@ public static class LedMappings
         [LedId.Keyboard_B] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 8,
         [LedId.Keyboard_N] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 9,
         [LedId.Keyboard_M] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 10,
-        [LedId.Keyboard_CommaAndLessThan] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 5) + 11,
-        [LedId.Keyboard_PeriodAndBiggerThan] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 5) + 12,
-        [LedId.Keyboard_SlashAndQuestionMark] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 5) + 13,
+        [LedId.Keyboard_CommaAndLessThan] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 11,
+        [LedId.Keyboard_PeriodAndBiggerThan] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 12,
+        [LedId.Keyboard_SlashAndQuestionMark] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 13,
         [LedId.Keyboard_RightShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 15,
         [LedId.Keyboard_ArrowUp] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 17,
         [LedId.Keyboard_Num1] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 19,
@@ -433,8 +426,7 @@ public static class LedMappings
         [LedId.Keyboard_ArrowDown] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 17,
         [LedId.Keyboard_ArrowRight] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 18,
         [LedId.Keyboard_Num0] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 20,
-        [LedId.Keyboard_NumPeriodAndDelete] =
-                                                                          (_Defines.KEYBOARD_MAX_COLUMN * 6) + 21,
+        [LedId.Keyboard_NumPeriodAndDelete] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 21,
 
         #endregion
 
