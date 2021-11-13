@@ -164,7 +164,7 @@ public class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x008A, RGBDeviceType.Mouse, "Viper Mini", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x008D, RGBDeviceType.Mouse, "Naga Left Handed Edition", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x0091, RGBDeviceType.Mouse, "Viper 8khz", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0096, RGBDeviceType.Mouse, "Naga X", RGB.NET.Devices.Razer.LedMappings.Mouse, RazerEndpointType.Mouse },
+        { 0x0096, RGBDeviceType.Mouse, "Naga X", LedMappings.Mouse, RazerEndpointType.Mouse },
 
         // Mousepads
         { 0x0068, RGBDeviceType.Mousepad, "Firefly Hyperflux", LedMappings.Mousepad, RazerEndpointType.Mousepad },

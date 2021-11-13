@@ -67,6 +67,7 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
     /// <summary>
     /// Initializes a new instance of the <see cref="TimerUpdateTrigger"/> class.
     /// </summary>
+    /// <param name="customUpdateData">The update-data passed on each update triggered.</param>
     /// <param name="autostart">A value indicating if the trigger should automatically <see cref="Start"/> right after construction.</param>
     public TimerUpdateTrigger(CustomUpdateData? customUpdateData, bool autostart = true)
     {

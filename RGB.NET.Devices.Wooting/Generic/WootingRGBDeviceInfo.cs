@@ -1,6 +1,5 @@
 ﻿using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
-using RGB.NET.Devices.Wooting.Helper;
 using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Generic;
@@ -29,10 +28,13 @@ public class WootingRGBDeviceInfo : IRGBDeviceInfo
     public object? LayoutMetadata { get; set; }
 
     /// <summary>
-    /// Gets the <see cref="WootingDeviceType"/> of the <see cref="WootingRGBDevice{TDeviceInfo}"/>.
+    /// Gets the <see cref="Enum.WootingDeviceType"/> of the <see cref="WootingRGBDevice{TDeviceInfo}"/>.
     /// </summary>
     public WootingDeviceType WootingDeviceType { get; }
 
+    /// <summary>
+    /// Gets the <see cref="Enum.WootingLayoutType"/> of the <see cref="WootingRGBDevice{TDeviceInfo}"/>.
+    /// </summary>
     public WootingLayoutType WootingLayoutType { get; }
 
     #endregion
