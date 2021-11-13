@@ -132,7 +132,7 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
     /// Perform a full update for all devices. Updates only dirty <see cref="Led"/> by default, or all <see cref="Led"/>, if flushLeds is set to true.
     /// </summary>
     /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
-    public void Update(bool flushLeds = false) => Update(null, new CustomUpdateData(("flushLeds", flushLeds)));
+    public void Update(bool flushLeds = false) => Update(null, new CustomUpdateData((CustomUpdateDataIndex.FLUSH_LEDS, flushLeds)));
 
     private void Update(object? updateTrigger, CustomUpdateData customData) => Update(updateTrigger as IUpdateTrigger, customData);
 
@@ -140,9 +140,9 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
     {
         try
         {
-            bool flushLeds = customData["flushLeds"] as bool? ?? false;
-            bool render = customData["render"] as bool? ?? true;
-            bool updateDevices = customData["updateDevices"] as bool? ?? true;
+            bool flushLeds = customData[CustomUpdateDataIndex.FLUSH_LEDS] as bool? ?? false;
+            bool render = customData[CustomUpdateDataIndex.RENDER] as bool? ?? true;
+            bool updateDevices = customData[CustomUpdateDataIndex.UPDATE_DEVICES] as bool? ?? true;
 
             lock (UpdateTriggers)
                 lock (Devices)

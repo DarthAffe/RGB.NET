@@ -17,6 +17,8 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
 
     private readonly object _lock = new();
 
+    private readonly CustomUpdateData? _customUpdateData;
+
     /// <summary>
     /// Gets or sets the update loop of this trigger.
     /// </summary>
@@ -57,6 +59,19 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
     /// <param name="autostart">A value indicating if the trigger should automatically <see cref="Start"/> right after construction.</param>
     public TimerUpdateTrigger(bool autostart = true)
     {
+        if (autostart)
+            // ReSharper disable once VirtualMemberCallInConstructor - HACK DarthAffe 01.06.2021: I've no idea how to correctly handle that case, for now just disable it 
+            Start();
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TimerUpdateTrigger"/> class.
+    /// </summary>
+    /// <param name="autostart">A value indicating if the trigger should automatically <see cref="Start"/> right after construction.</param>
+    public TimerUpdateTrigger(CustomUpdateData? customUpdateData, bool autostart = true)
+    {
+        this._customUpdateData = customUpdateData;
+
         if (autostart)
             // ReSharper disable once VirtualMemberCallInConstructor - HACK DarthAffe 01.06.2021: I've no idea how to correctly handle that case, for now just disable it 
             Start();
@@ -118,7 +133,7 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
         {
             long preUpdateTicks = Stopwatch.GetTimestamp();
 
-            OnUpdate();
+            OnUpdate(_customUpdateData);
 
             if (UpdateFrequency > 0)
             {
