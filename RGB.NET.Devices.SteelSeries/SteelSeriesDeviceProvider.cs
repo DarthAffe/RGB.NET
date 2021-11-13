@@ -4,28 +4,28 @@ using RGB.NET.Core;
 using RGB.NET.Devices.SteelSeries.API;
 using RGB.NET.HID;
 
-namespace RGB.NET.Devices.SteelSeries
+namespace RGB.NET.Devices.SteelSeries;
+
+/// <inheritdoc />
+/// <summary>
+/// Represents a device provider responsible for SteelSeries-devices.
+/// </summary>
+public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 {
-    /// <inheritdoc />
+    #region Properties & Fields
+
+    private static SteelSeriesDeviceProvider? _instance;
     /// <summary>
-    /// Represents a device provider responsible for SteelSeries-devices.
+    /// Gets the singleton <see cref="SteelSeriesDeviceProvider"/> instance.
     /// </summary>
-    public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
-    {
-        #region Properties & Fields
+    public static SteelSeriesDeviceProvider Instance => _instance ?? new SteelSeriesDeviceProvider();
 
-        private static SteelSeriesDeviceProvider? _instance;
-        /// <summary>
-        /// Gets the singleton <see cref="SteelSeriesDeviceProvider"/> instance.
-        /// </summary>
-        public static SteelSeriesDeviceProvider Instance => _instance ?? new SteelSeriesDeviceProvider();
+    private const int VENDOR_ID = 0x1038;
 
-        private const int VENDOR_ID = 0x1038;
-
-        /// <summary>
-        /// Gets the HID-definitions for SteelSeries-devices.
-        /// </summary>
-        public static HIDLoader<SteelSeriesLedId, SteelSeriesDeviceType> DeviceDefinitions { get; } = new(VENDOR_ID)
+    /// <summary>
+    /// Gets the HID-definitions for SteelSeries-devices.
+    /// </summary>
+    public static HIDLoader<SteelSeriesLedId, SteelSeriesDeviceType> DeviceDefinitions { get; } = new(VENDOR_ID)
         {
             //Mice
             { 0x1836, RGBDeviceType.Mouse, "Aerox 3", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
@@ -69,64 +69,63 @@ namespace RGB.NET.Devices.SteelSeries
             { 0x1126, RGBDeviceType.Monitor, "MGP27C", LedMappings.MonitorOnehundredandthreeZone, SteelSeriesDeviceType.OneHundredAndThreeZone },
         };
 
-        #endregion
+    #endregion
 
-        #region Constructors
+    #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SteelSeriesDeviceProvider"/> class.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-        public SteelSeriesDeviceProvider()
-        {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
-            _instance = this;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        protected override void InitializeSDK()
-        {
-            if (!SteelSeriesSDK.IsInitialized)
-                SteelSeriesSDK.Initialize();
-        }
-
-        /// <inheritdoc />
-        protected override IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
-        {
-            DeviceDefinitions.LoadFilter = loadFilter;
-
-            return base.GetLoadedDevices(loadFilter);
-        }
-
-        /// <inheritdoc />
-        protected override IEnumerable<IRGBDevice> LoadDevices()
-        {
-            foreach ((HIDDeviceDefinition<SteelSeriesLedId, SteelSeriesDeviceType> definition, _) in DeviceDefinitions.GetConnectedDevices(x => x.CustomData))
-            {
-                string? apiName = definition.CustomData.GetAPIName();
-                if (apiName == null)
-                    Throw(new RGBDeviceException($"Missing API-name for device {definition.Name}"));
-                else
-                    yield return new SteelSeriesRGBDevice(new SteelSeriesRGBDeviceInfo(definition.DeviceType, definition.Name, definition.CustomData), apiName, definition.LedMapping, GetUpdateTrigger());
-            }
-        }
-
-        /// <inheritdoc />
-        protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new SteelSeriesDeviceUpdateTrigger(updateRateHardLimit);
-
-        /// <inheritdoc />
-        public override void Dispose()
-        {
-            base.Dispose();
-
-            try { SteelSeriesSDK.Dispose(); }
-            catch { /* shit happens */ }
-        }
-
-        #endregion
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SteelSeriesDeviceProvider"/> class.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+    public SteelSeriesDeviceProvider()
+    {
+        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
+        _instance = this;
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    protected override void InitializeSDK()
+    {
+        if (!SteelSeriesSDK.IsInitialized)
+            SteelSeriesSDK.Initialize();
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
+    {
+        DeviceDefinitions.LoadFilter = loadFilter;
+
+        return base.GetLoadedDevices(loadFilter);
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<IRGBDevice> LoadDevices()
+    {
+        foreach ((HIDDeviceDefinition<SteelSeriesLedId, SteelSeriesDeviceType> definition, _) in DeviceDefinitions.GetConnectedDevices(x => x.CustomData))
+        {
+            string? apiName = definition.CustomData.GetAPIName();
+            if (apiName == null)
+                Throw(new RGBDeviceException($"Missing API-name for device {definition.Name}"));
+            else
+                yield return new SteelSeriesRGBDevice(new SteelSeriesRGBDeviceInfo(definition.DeviceType, definition.Name, definition.CustomData), apiName, definition.LedMapping, GetUpdateTrigger());
+        }
+    }
+
+    /// <inheritdoc />
+    protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new SteelSeriesDeviceUpdateTrigger(updateRateHardLimit);
+
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        try { SteelSeriesSDK.Dispose(); }
+        catch { /* shit happens */ }
+    }
+
+    #endregion
 }
