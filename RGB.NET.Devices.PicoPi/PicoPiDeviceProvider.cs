@@ -35,9 +35,9 @@ public class PicoPiDeviceProvider : AbstractRGBDeviceProvider
     /// Gets the HID-definitions for PicoPi-devices.
     /// </summary>
     public static HIDLoader<int, int> DeviceDefinitions { get; } = new(PicoPiSDK.VENDOR_ID)
-                                                                   {
-                                                                       { PicoPiSDK.HID_BULK_CONTROLLER_PID, RGBDeviceType.LedStripe, "WS2812B-Controller", LedMappings.StripeMapping, 0 },
-                                                                   };
+    {
+        { PicoPiSDK.HID_BULK_CONTROLLER_PID, RGBDeviceType.LedStripe, "WS2812B-Controller", LedMappings.StripeMapping, 0 },
+    };
 
     private readonly List<PicoPiSDK> _sdks = new();
 
