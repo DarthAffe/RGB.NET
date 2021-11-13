@@ -3,6 +3,30 @@
 namespace RGB.NET.Core;
 
 /// <summary>
+/// Represents an index used to identify data in the <see cref="CustomUpdateData"/>.
+/// </summary>
+public static class CustomUpdateDataIndex
+{
+    /// <summary>
+    /// Checked by the <see cref="RGBSurface"/> to see if all LEDs needs to be flushed even if they aren't changed in this update.
+    /// default: false
+    /// </summary>
+    public const string FLUSH_LEDS = "flushLeds";
+
+    /// <summary>
+    /// Checked by the <see cref="RGBSurface"/> to see if the surface should be rendered in this update.
+    /// default: true
+    /// </summary>
+    public const string RENDER = "render";
+
+    /// <summary>
+    /// Checked by the <see cref="RGBSurface"/> to see if devies should be updated after rendering.
+    /// default: true
+    /// </summary>
+    public const string UPDATE_DEVICES = "updateDevices";
+}
+
+/// <summary>
 /// Represents a set of custom data, each indexed by a string-key.
 /// </summary>
 public class CustomUpdateData

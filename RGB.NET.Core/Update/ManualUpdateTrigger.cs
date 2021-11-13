@@ -19,6 +19,8 @@ public sealed class ManualUpdateTrigger : AbstractUpdateTrigger
     private CancellationTokenSource? UpdateTokenSource { get; set; }
     private CancellationToken UpdateToken { get; set; }
 
+    private CustomUpdateData? _customUpdateData;
+
     /// <summary>
     /// Gets the time it took the last update-loop cycle to run.
     /// </summary>
@@ -71,7 +73,11 @@ public sealed class ManualUpdateTrigger : AbstractUpdateTrigger
     /// <summary>
     /// Triggers an update.
     /// </summary>
-    public void TriggerUpdate() => _mutex.Set();
+    public void TriggerUpdate(CustomUpdateData? updateData = null)
+    {
+        _customUpdateData = updateData;
+        _mutex.Set();
+    }
 
     private void UpdateLoop()
     {
@@ -82,7 +88,7 @@ public sealed class ManualUpdateTrigger : AbstractUpdateTrigger
             if (_mutex.WaitOne(100))
             {
                 long preUpdateTicks = Stopwatch.GetTimestamp();
-                OnUpdate();
+                OnUpdate(_customUpdateData);
                 LastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
             }
         }
