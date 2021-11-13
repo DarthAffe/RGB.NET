@@ -6,29 +6,28 @@
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Razer.Native
+namespace RGB.NET.Devices.Razer.Native;
+
+// ReSharper disable once InconsistentNaming
+[StructLayout(LayoutKind.Sequential, Size = sizeof(uint))]
+internal struct _Color
 {
-    // ReSharper disable once InconsistentNaming
-    [StructLayout(LayoutKind.Sequential, Size = sizeof(uint))]
-    internal struct _Color
+    #region Properties & Fields
+
+    public uint Color;
+
+    #endregion
+
+    #region Constructors
+
+    public _Color(Color color)
+        : this(color.GetR(), color.GetG(), color.GetB()) { }
+
+    public _Color(byte red, byte green, byte blue)
+        : this()
     {
-        #region Properties & Fields
-
-        public uint Color;
-
-        #endregion
-
-        #region Constructors
-
-        public _Color(Color color)
-            : this(color.GetR(), color.GetG(), color.GetB()) { }
-
-        public _Color(byte red, byte green, byte blue)
-            : this()
-        {
-            Color = red + ((uint)green << 8) + ((uint)blue << 16);
-        }
-
-        #endregion
+        Color = red + ((uint)green << 8) + ((uint)blue << 16);
     }
+
+    #endregion
 }

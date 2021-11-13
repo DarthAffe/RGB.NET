@@ -1,22 +1,21 @@
 ﻿using System;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Debug
+namespace RGB.NET.Devices.Debug;
+
+internal class DebugDeviceUpdateQueue : UpdateQueue
 {
-    internal class DebugDeviceUpdateQueue : UpdateQueue
-    {
-        #region Constructors
+    #region Constructors
 
-        public DebugDeviceUpdateQueue()
-            : base(new DeviceUpdateTrigger())
-        { }
+    public DebugDeviceUpdateQueue()
+        : base(new DeviceUpdateTrigger())
+    { }
 
-        #endregion
+    #endregion
 
-        #region Methods
+    #region Methods
 
-        protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet) { }
+    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet) { }
 
-        #endregion
-    }
+    #endregion
 }
