@@ -281,7 +281,10 @@ public static class LedMappings
         //Row 7 is also empty
     };
 
-    public static readonly LedMapping<int> KeyboardBlackWidowV3 = new()
+    /// <summary>
+    /// Gets the mapping for the Black-Widow V3 keyboard.
+    /// </summary>
+    public static LedMapping<int> KeyboardBlackWidowV3 { get; } = new()
     {
         //Row 0 is empty
 
