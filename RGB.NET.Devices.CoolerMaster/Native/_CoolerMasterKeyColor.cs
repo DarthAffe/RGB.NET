@@ -3,28 +3,27 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable NotAccessedField.Global
 
-namespace RGB.NET.Devices.CoolerMaster.Native
+namespace RGB.NET.Devices.CoolerMaster.Native;
+
+// ReSharper disable once InconsistentNaming
+internal struct _CoolerMasterKeyColor
 {
-    // ReSharper disable once InconsistentNaming
-    internal struct _CoolerMasterKeyColor
+    #region Properties & Fields
+
+    public byte R;
+    public byte G;
+    public byte B;
+
+    #endregion
+
+    #region Constructors
+
+    internal _CoolerMasterKeyColor(byte r, byte g, byte b)
     {
-        #region Properties & Fields
-
-        public byte R;
-        public byte G;
-        public byte B;
-
-        #endregion
-
-        #region Constructors
-
-        internal _CoolerMasterKeyColor(byte r, byte g, byte b)
-        {
-            this.R = r;
-            this.G = g;
-            this.B = b;
-        }
-
-        #endregion
+        this.R = r;
+        this.G = g;
+        this.B = b;
     }
+
+    #endregion
 }

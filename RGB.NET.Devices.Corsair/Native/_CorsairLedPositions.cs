@@ -5,23 +5,22 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace RGB.NET.Devices.Corsair.Native
-{
-    // ReSharper disable once InconsistentNaming
-    /// <summary>
-    /// CUE-SDK: contains number of leds and arrays with their positions
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    internal class _CorsairLedPositions
-    {
-        /// <summary>
-        /// CUE-SDK: integer value.Number of elements in following array
-        /// </summary>
-        internal int numberOfLed;
+namespace RGB.NET.Devices.Corsair.Native;
 
-        /// <summary>
-        /// CUE-SDK: array of led positions
-        /// </summary>
-        internal IntPtr pLedPosition;
-    }
+// ReSharper disable once InconsistentNaming
+/// <summary>
+/// CUE-SDK: contains number of leds and arrays with their positions
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+internal class _CorsairLedPositions
+{
+    /// <summary>
+    /// CUE-SDK: integer value.Number of elements in following array
+    /// </summary>
+    internal int numberOfLed;
+
+    /// <summary>
+    /// CUE-SDK: array of led positions
+    /// </summary>
+    internal IntPtr pLedPosition;
 }

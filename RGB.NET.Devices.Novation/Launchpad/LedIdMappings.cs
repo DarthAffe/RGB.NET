@@ -1,8 +1,7 @@
-﻿namespace RGB.NET.Devices.Novation
+﻿namespace RGB.NET.Devices.Novation;
+
+internal enum LedIdMappings
 {
-    internal enum LedIdMappings
-    {
-        Current,
-        Legacy
-    }
+    Current,
+    Legacy
 }

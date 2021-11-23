@@ -3,26 +3,25 @@
 
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Corsair
+namespace RGB.NET.Devices.Corsair;
+
+/// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
+/// <summary>
+/// Represents a corsair memory.
+/// </summary>
+public class CorsairMainboardRGBDevice : CorsairRGBDevice<CorsairMainboardRGBDeviceInfo>, IMainboard
 {
-    /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
+    #region Constructors
+
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a corsair memory.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMainboardRGBDevice" /> class.
     /// </summary>
-    public class CorsairMainboardRGBDevice : CorsairRGBDevice<CorsairMainboardRGBDeviceInfo>, IMainboard
-    {
-        #region Constructors
+    /// <param name="info">The specific information provided by CUE for the memory.</param>
+    /// <param name="updateQueue">The queue used to update this device.</param>
+    internal CorsairMainboardRGBDevice(CorsairMainboardRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+        : base(info, LedMappings.Mainboard, updateQueue)
+    { }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMainboardRGBDevice" /> class.
-        /// </summary>
-        /// <param name="info">The specific information provided by CUE for the memory.</param>
-        /// <param name="updateQueue">The queue used to update this device.</param>
-        internal CorsairMainboardRGBDevice(CorsairMainboardRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-            : base(info, LedMappings.Mainboard, updateQueue)
-        { }
-
-        #endregion
-    }
+    #endregion
 }

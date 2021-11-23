@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
 
@@ -58,9 +58,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_PackageFiles Include="$(OutputPath)\net5.0\Interop.AuraServiceLib.dll">
+    <_PackageFiles Include="$(OutputPath)\net6.0\Interop.AuraServiceLib.dll">
       <BuildAction>None</BuildAction>
-      <PackagePath>lib\net5.0\</PackagePath>
+      <PackagePath>lib\net6.0\</PackagePath>
     </_PackageFiles>
   </ItemGroup>
 
