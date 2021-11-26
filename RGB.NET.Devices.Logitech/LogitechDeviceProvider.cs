@@ -100,9 +100,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
         { 0xC091, RGBDeviceType.Mouse, "G903 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
         { 0xC24A, RGBDeviceType.Mouse, "G600", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 0) },
         { 0xC332, RGBDeviceType.Mouse, "G502", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
-
-        { 0xC53A, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.ZoneMousepad, (LogitechDeviceType.Mousemat, 1, 0) },
-
+        
         //G633 and G635 are wired headsets.
         { 0x0A5C, RGBDeviceType.Headset, "G633", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2, 0) },
         { 0x0A89, RGBDeviceType.Headset, "G635", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2, 0) },
