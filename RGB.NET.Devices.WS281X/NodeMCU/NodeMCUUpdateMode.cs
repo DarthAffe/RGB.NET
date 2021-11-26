@@ -1,21 +1,20 @@
-﻿namespace RGB.NET.Devices.WS281X.NodeMCU
+﻿namespace RGB.NET.Devices.WS281X.NodeMCU;
+
+/// <summary>
+/// Contaisn a list of possible update-modes for NodeMCU-devices.
+/// </summary>
+// ReSharper disable once InconsistentNaming
+public enum NodeMCUUpdateMode
 {
     /// <summary>
-    /// Contaisn a list of possible update-modes for NodeMCU-devices.
+    /// Updates through the HTTP-REST-API.
+    /// Slow, but reliable.
     /// </summary>
-    // ReSharper disable once InconsistentNaming
-    public enum NodeMCUUpdateMode
-    {
-        /// <summary>
-        /// Updates through the HTTP-REST-API.
-        /// Slow, but reliable.
-        /// </summary>
-        Http, 
+    Http, 
 
-        /// <summary>
-        /// Updates through a UDP-connection.
-        /// Fast, but might skip updates if the network connection is bad.
-        /// </summary>
-        Udp
-    }
+    /// <summary>
+    /// Updates through a UDP-connection.
+    /// Fast, but might skip updates if the network connection is bad.
+    /// </summary>
+    Udp
 }
