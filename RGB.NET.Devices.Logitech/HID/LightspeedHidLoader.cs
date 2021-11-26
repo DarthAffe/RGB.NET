@@ -1,4 +1,4 @@
-﻿using HidSharp;
+using HidSharp;
 using RGB.NET.Core;
 using RGB.NET.HID;
 using System;
@@ -18,6 +18,7 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
 {
     #region Constants
 
+    private const int LOGITECH_PROTOCOL_TIMEOUT = 300;
     private const int VENDOR_ID = 0x046D;
 
     // ReSharper disable once StaticMemberInGenericType - This is used like a const
@@ -115,49 +116,57 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
 
         Dictionary<int, byte> map = new();
 
-        if (deviceUsages.TryGetValue(1, out HidDevice? device))
+        if (!deviceUsages.TryGetValue(1, out HidDevice? device) || !device.TryOpen(out HidStream stream))
+            return map;
+
+        int tries = 0;
+        const int maxTries = 5;
+        while (tries < maxTries)
         {
-            HidStream? stream = device.Open();
-
-            FapResponse response = new();
-
-            FapShortRequest getConnectedDevices = new();
-            getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
-
-            stream.Write(getConnectedDevices.AsSpan());
-            stream.Read(response.AsSpan());
-
-            bool wirelessNotifications = (response.Data01 & 1) == 1;
-            if (!wirelessNotifications)
+            try
             {
-                response = new FapResponse();
+                stream.ReadTimeout = LOGITECH_PROTOCOL_TIMEOUT;
+                stream.WriteTimeout = LOGITECH_PROTOCOL_TIMEOUT;
 
-                getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_SET_REGISTER_REQUEST);
-                getConnectedDevices.Data1 = 1;
+                FapResponse response = new();
+
+                FapShortRequest getConnectedDevices = new();
+                getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
 
                 stream.Write(getConnectedDevices.AsSpan());
                 stream.Read(response.AsSpan());
 
-                if (getConnectedDevices.FeatureIndex == 0x8f)
+                bool wirelessNotifications = (response.Data01 & 1) == 1;
+                if (!wirelessNotifications)
                 {
-                    //error??
+                    response = new FapResponse();
+
+                    getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_SET_REGISTER_REQUEST);
+                    getConnectedDevices.Data1 = 1;
+
+                    stream.Write(getConnectedDevices.AsSpan());
+                    stream.Read(response.AsSpan());
+
+                    if (getConnectedDevices.FeatureIndex == 0x8f)
+                    {
+                        //error??
+                    }
                 }
-            }
 
-            response = new FapResponse();
+                response = new FapResponse();
 
-            getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
-            getConnectedDevices.FeatureCommand = 0x02;
+                getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
+                getConnectedDevices.FeatureCommand = 0x02;
 
-            stream.Write(getConnectedDevices.AsSpan());
-            stream.Read(response.AsSpan());
+                stream.Write(getConnectedDevices.AsSpan());
+                stream.Read(response.AsSpan());
+                int deviceCount = response.Data01;
+                if (deviceCount <= 0)
+                    return map;
 
-            int deviceCount = response.Data01;
-            if (deviceCount > 0)
-            {
-                //log "Faking a reconnect to get device list"
+                //Add 1 to the device_count to include the receiver
                 deviceCount++;
-                    
+
                 getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_SET_REGISTER_REQUEST);
                 getConnectedDevices.FeatureCommand = 0x02;
                 getConnectedDevices.Data0 = 0x02;
@@ -171,6 +180,14 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
                     if (devices.DeviceIndex != 0xff)
                         map.Add(wirelessPid, devices.DeviceIndex);
                 }
+
+                break;
+            }
+            catch
+            {
+                tries++;
+                //This might timeout if LGS or GHUB interfere.
+                //Retry.
             }
         }
 
