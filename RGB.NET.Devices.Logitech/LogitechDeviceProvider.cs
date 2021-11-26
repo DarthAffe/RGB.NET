@@ -78,55 +78,55 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Gets the HID-definitions for wired per-zone-devices.
     /// </summary>
-    public static HIDLoader<int, (LogitechDeviceType deviceType, int zones)> PerZoneDeviceDefinitions { get; } = new(VENDOR_ID)
+    public static HIDLoader<int, (LogitechDeviceType deviceType, int zones, int zoneOffset)> PerZoneDeviceDefinitions { get; } = new(VENDOR_ID)
     {
-        { 0xC336, RGBDeviceType.Keyboard, "G213", LedMappings.ZoneKeyboard, (LogitechDeviceType.Keyboard, 5) },
+        { 0xC336, RGBDeviceType.Keyboard, "G213", LedMappings.ZoneKeyboard, (LogitechDeviceType.Keyboard, 5, 0) },
 
-        { 0xC092, RGBDeviceType.Mouse, "G203 Lightsync", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
-        { 0xC080, RGBDeviceType.Mouse, "G303", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC081, RGBDeviceType.Mouse, "G900", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC082, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC083, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC084, RGBDeviceType.Mouse, "G203", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
-        { 0xC085, RGBDeviceType.Mouse, "G Pro", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
-        { 0xC086, RGBDeviceType.Mouse, "G903", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC087, RGBDeviceType.Mouse, "G703", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC088, RGBDeviceType.Mouse, "G Pro Wireless", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC08B, RGBDeviceType.Mouse, "G502 HERO", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC08C, RGBDeviceType.Mouse, "G Pro Hero", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
-        { 0xC08D, RGBDeviceType.Mouse, "G502 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC08F, RGBDeviceType.Mouse, "G403 HERO", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC090, RGBDeviceType.Mouse, "G703 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC091, RGBDeviceType.Mouse, "G903 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0xC24A, RGBDeviceType.Mouse, "G600", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1) },
-        { 0xC332, RGBDeviceType.Mouse, "G502", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
+        { 0xC092, RGBDeviceType.Mouse, "G203 Lightsync", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 0) },
+        { 0xC080, RGBDeviceType.Mouse, "G303", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC081, RGBDeviceType.Mouse, "G900", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC082, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC083, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC084, RGBDeviceType.Mouse, "G203", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 0) },
+        { 0xC085, RGBDeviceType.Mouse, "G Pro", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 0) },
+        { 0xC086, RGBDeviceType.Mouse, "G903", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC087, RGBDeviceType.Mouse, "G703", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC088, RGBDeviceType.Mouse, "G Pro Wireless", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC08B, RGBDeviceType.Mouse, "G502 HERO", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC08C, RGBDeviceType.Mouse, "G Pro Hero", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 1) },
+        { 0xC08D, RGBDeviceType.Mouse, "G502 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC08F, RGBDeviceType.Mouse, "G403 HERO", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC090, RGBDeviceType.Mouse, "G703 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC091, RGBDeviceType.Mouse, "G903 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC24A, RGBDeviceType.Mouse, "G600", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 0) },
+        { 0xC332, RGBDeviceType.Mouse, "G502", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
 
-        { 0xC53A, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.ZoneMousepad, (LogitechDeviceType.Mousemat, 1) },
+        { 0xC53A, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.ZoneMousepad, (LogitechDeviceType.Mousemat, 1, 0) },
 
         //G633 and G635 are wired headsets.
-        { 0x0A5C, RGBDeviceType.Headset, "G633", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
-        { 0x0A89, RGBDeviceType.Headset, "G635", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
+        { 0x0A5C, RGBDeviceType.Headset, "G633", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2, 0) },
+        { 0x0A89, RGBDeviceType.Headset, "G635", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2, 0) },
 
         //The other ones are wireless only. These PIDs correpond to the dongles.
-        { 0x0A5B, RGBDeviceType.Headset, "G933", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
-        { 0x0A87, RGBDeviceType.Headset, "G935", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2) },
+        { 0x0A5B, RGBDeviceType.Headset, "G933", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2, 0) },
+        { 0x0A87, RGBDeviceType.Headset, "G935", LedMappings.ZoneHeadset, (LogitechDeviceType.Headset, 2, 0) },
 
-        { 0x0A78, RGBDeviceType.Speaker, "G560", LedMappings.ZoneSpeaker, (LogitechDeviceType.Speaker, 4) },
+        { 0x0A78, RGBDeviceType.Speaker, "G560", LedMappings.ZoneSpeaker, (LogitechDeviceType.Speaker, 4, 0) },
     };
-
+    
     /// <summary>
     /// Gets the HID-definitions for wireless per-zone-devices.
     /// </summary>
-    public static LightspeedHIDLoader<int, (LogitechDeviceType deviceType, int zones)> PerZoneWirelessDeviceDefinitions { get; } = new()
+    public static LightspeedHIDLoader<int, (LogitechDeviceType deviceType, int zones, int zoneOffset)> PerZoneWirelessDeviceDefinitions { get; } = new()
     {
-        { 0x4053, RGBDeviceType.Mouse, "G900", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0x405D, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0x4067, RGBDeviceType.Mouse, "G903", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0x4070, RGBDeviceType.Mouse, "G703", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0x4079, RGBDeviceType.Mouse, "G Pro Wireless", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0x407F, RGBDeviceType.Mouse, "G502 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0x4086, RGBDeviceType.Mouse, "G703 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
-        { 0x4087, RGBDeviceType.Mouse, "G903 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2) },
+        { 0x4053, RGBDeviceType.Mouse, "G900", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0x405D, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0x4067, RGBDeviceType.Mouse, "G903", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0x4070, RGBDeviceType.Mouse, "G703", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0x4079, RGBDeviceType.Mouse, "G Pro Wireless", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0x407F, RGBDeviceType.Mouse, "G502 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0x4086, RGBDeviceType.Mouse, "G703 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0x4087, RGBDeviceType.Mouse, "G903 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
     };
 
     /// <summary>
@@ -219,14 +219,15 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
 
         #region PerZone
 
-        IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>> wiredPerZoneDevices = PerZoneDeviceDefinitions.GetConnectedDevices().Select(x => x.definition);
-        IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)>> wirelessPerZoneDevices = PerZoneWirelessDeviceDefinitions.GetConnectedDevices();
-        foreach (HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones)> definition in wiredPerZoneDevices.Concat(wirelessPerZoneDevices)
-                     .GroupBy(x => x.CustomData.deviceType)
-                     .Select(group => group.First()))
+        IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones, int zoneOffset)>> wiredPerZoneDevices = PerZoneDeviceDefinitions.GetConnectedDevices().Select(x => x.definition);
+        IEnumerable<HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones, int zoneOffset)>> wirelessPerZoneDevices = PerZoneWirelessDeviceDefinitions.GetConnectedDevices();
+        foreach (HIDDeviceDefinition<int, (LogitechDeviceType deviceType, int zones, int zoneOffset)> definition in wiredPerZoneDevices.Concat(wirelessPerZoneDevices)
+                                                                                                                                       .GroupBy(x => x.CustomData.deviceType)
+                                                                                                                                       .Select(group => group.First()))
         {
             LogitechZoneUpdateQueue updateQueue = new(GetUpdateTrigger(), definition.CustomData.deviceType);
-            yield return new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, definition.CustomData.zones), updateQueue, definition.LedMapping);
+            yield return new LogitechZoneRGBDevice(new LogitechRGBDeviceInfo(definition.DeviceType, definition.Name, LogitechDeviceCaps.DeviceRGB, definition.CustomData.zones, definition.CustomData.zoneOffset),
+                                                   updateQueue, definition.LedMapping);
         }
 
         #endregion

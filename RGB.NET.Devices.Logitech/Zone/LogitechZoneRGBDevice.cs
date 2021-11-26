@@ -32,10 +32,9 @@ public class LogitechZoneRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, I
     #endregion
 
     #region Methods
-
     private void InitializeLayout()
     {
-        for (int i = 0; i < DeviceInfo.Zones; i++)
+        for (int i = DeviceInfo.ZoneOffset; i < (DeviceInfo.ZoneOffset + DeviceInfo.Zones); i++)
             AddLed(_ledMapping[i], new Point(i * 10, 0), new Size(10, 10));
     }
 

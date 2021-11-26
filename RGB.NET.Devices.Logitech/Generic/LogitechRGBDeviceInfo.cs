@@ -35,6 +35,11 @@ public class LogitechRGBDeviceInfo : IRGBDeviceInfo
     /// </summary>
     public int Zones { get; }
 
+    /// <summary>
+    /// Gets the zone at which LEDs start being mapped
+    /// </summary>
+    public int ZoneOffset { get; }
+    
     #endregion
 
     #region Constructors
@@ -46,12 +51,14 @@ public class LogitechRGBDeviceInfo : IRGBDeviceInfo
     /// <param name="model">The represented device model.</param>
     /// <param name="deviceCaps">The lighting-capabilities of the device.</param>
     /// <param name="zones">The amount of zones the device is able to control.</param>
-    internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps, int zones)
+    /// <param name="zoneOffset">The zone at which to start mapping LEDs.</param>
+    internal LogitechRGBDeviceInfo(RGBDeviceType deviceType, string model, LogitechDeviceCaps deviceCaps, int zones, int zoneOffset = 0)
     {
         this.DeviceType = deviceType;
         this.Model = model;
         this.DeviceCaps = deviceCaps;
         this.Zones = zones;
+        this.ZoneOffset = zoneOffset;
 
         DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
     }
