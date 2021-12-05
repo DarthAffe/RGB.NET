@@ -27,13 +27,13 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/CUESDK.dll", "x86/CUESDK_2015.dll", "x86/CUESDK_2013.dll" };
+    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/CUESDK.dll", "x86/CUESDK_2019.dll", "x86/CUESDK_2017.dll", "x86/CUESDK_2015.dll", "x86/CUESDK_2013.dll" };
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/CUESDK.dll", "x64/CUESDK_2015.dll", "x64/CUESDK_2013.dll" };
+    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll", "x64/CUESDK.x64_2017.dll", "x64/CUESDK_2019.dll", "x64/CUESDK_2017.dll", "x64/CUESDK_2015.dll", "x64/CUESDK_2013.dll" };
 
     /// <summary>
     /// Gets the protocol details for the current SDK-connection.
