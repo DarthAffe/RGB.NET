@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -35,6 +36,8 @@ public class PicoPiSDK : IDisposable
     private const byte COMMAND_VERSION = 0x0F;
     private const byte COMMAND_UPDATE = 0x01;
     private const byte COMMAND_UPDATE_BULK = 0x02;
+
+    public const int HID_OFFSET_MULTIPLIER = 60;
 
     #endregion
 
@@ -205,6 +208,24 @@ public class PicoPiSDK : IDisposable
     }
 
     /// <summary>
+    /// Sends a update to the device using the HID-endpoint and fragments the data if needed.
+    /// </summary>
+    /// <param name="data">The data to send.</param>
+    /// <param name="channel">The channel to update.</param>
+    public void SendHidUpdate(in Span<byte> buffer, int channel)
+    {
+        int chunks = buffer.Length / HID_OFFSET_MULTIPLIER;
+        if ((chunks * HID_OFFSET_MULTIPLIER) < buffer.Length) chunks++;
+        for (int i = 0; i < chunks; i++)
+        {
+            int offset = i * HID_OFFSET_MULTIPLIER;
+            int length = Math.Min(buffer.Length - offset, HID_OFFSET_MULTIPLIER);
+            bool update = i == (chunks - 1);
+            SendHidUpdate(buffer.Slice(offset, length), channel, i, update);
+        }
+    }
+
+    /// <summary>
     /// Sends a update to the device using the HID-endpoint.
     /// </summary>
     /// <param name="data">The data packet to send.</param>
@@ -260,6 +281,15 @@ public class PicoPiSDK : IDisposable
         _bulkTransferLength = 0;
     }
 
+    /// <summary>
+    /// Resets all leds to black.
+    /// </summary>
+    public void Reset()
+    {
+        foreach ((int channel, int ledCount, _) in Channels)
+            SendHidUpdate(new byte[ledCount * 3], channel);
+    }
+
     private void SendHID(params byte[] data) => _hidStream.Write(data);
     private void SendBulk(byte[] data, int count) => _bulkWriter!.Write(data, 0, count, 1000, out int _);
 
@@ -268,6 +298,8 @@ public class PicoPiSDK : IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
+        Reset();
+
         _hidStream.Dispose();
         _bulkDevice?.Dispose();
         _usbContext?.Dispose();

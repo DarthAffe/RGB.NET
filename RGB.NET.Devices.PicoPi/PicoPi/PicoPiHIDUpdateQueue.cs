@@ -9,12 +9,6 @@ namespace RGB.NET.Devices.PicoPi;
 ///  </summary>
 public class PicoPiHIDUpdateQueue : UpdateQueue
 {
-    #region Constants
-
-    private const int OFFSET_MULTIPLIER = 60;
-
-    #endregion
-
     #region Properties & Fields
 
     private readonly PicoPiSDK _sdk;
@@ -62,15 +56,7 @@ public class PicoPiHIDUpdateQueue : UpdateQueue
             buffer[offset + 2] = b;
         }
 
-        int chunks = _dataBuffer.Length / OFFSET_MULTIPLIER;
-        if ((chunks * OFFSET_MULTIPLIER) < buffer.Length) chunks++;
-        for (int i = 0; i < chunks; i++)
-        {
-            int offset = i * OFFSET_MULTIPLIER;
-            int length = Math.Min(buffer.Length - offset, OFFSET_MULTIPLIER);
-            bool update = i == (chunks - 1);
-            _sdk.SendHidUpdate(buffer.Slice(offset, length), _channel, i, update);
-        }
+        _sdk.SendHidUpdate(buffer, _channel);
     }
 
     #endregion
