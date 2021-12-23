@@ -1,0 +1,24 @@
+name: PR-Verify
+
+on:
+  pull_request:
+    branches: [ master, Development ]
+
+jobs:
+  build:
+
+    runs-on: windows-2022
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration Release /p:Version=0.0.0
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration Release
+      
