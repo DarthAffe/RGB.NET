@@ -57,10 +57,4 @@ jobs:
         generate_release_notes: true
         files: bin/net6.0/RGB.NET.*.dll
     - name: Nuget Push
-      run: dotnet nuget push "bin/*.nupkg" --skip-duplicate --api-key ${NUGET_TOKEN}
-      env:
-        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
-    - name: Nuget Push Symbols
-      run: dotnet nuget push "bin/*.snupkg" --skip-duplicate --api-key ${NUGET_TOKEN}
-      env:
-        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+      run: dotnet nuget push **\*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
