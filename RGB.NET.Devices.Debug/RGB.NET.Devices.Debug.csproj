@@ -15,8 +15,8 @@
     <RootNamespace>RGB.NET.Devices.Debug</RootNamespace>
     <Description>Debug-Device-Implementations of RGB.NET</Description>
     <Summary>Debug-Device-Implementations of RGB.NET, a C# (.NET) library</Summary>
-    <Copyright>Copyright © Darth Affe 2021</Copyright>
-    <PackageCopyright>Copyright © Darth Affe 2021</PackageCopyright>
+    <Copyright>Copyright © Darth Affe 2022</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2022</PackageCopyright>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
     <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
