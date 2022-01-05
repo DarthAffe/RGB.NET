@@ -66,6 +66,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_PackageFiles Include="$(OutputPath)\net5.0\Interop.AuraServiceLib.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\net5.0\</PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
   </ItemGroup>
 
