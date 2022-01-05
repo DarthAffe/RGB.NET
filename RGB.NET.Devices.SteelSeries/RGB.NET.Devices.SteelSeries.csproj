@@ -15,10 +15,11 @@
     <RootNamespace>RGB.NET.Devices.SteelSeries</RootNamespace>
     <Description>SteelSeries-Device-Implementations of RGB.NET</Description>
     <Summary>SteelSeries-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Darth Affe 2021</Copyright>
-    <Icon>icon.png</Icon>
+    <Copyright>Copyright © Darth Affe 2022</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2022</PackageCopyright>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
-    <License>LGPL-2.1-only</License>
+    <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
     <RepositoryType>Github</RepositoryType>
     <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>

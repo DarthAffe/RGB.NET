@@ -120,8 +120,8 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
             return map;
 
         int tries = 0;
-        const int maxTries = 5;
-        while (tries < maxTries)
+        const int MAX_TRIES = 5;
+        while (tries < MAX_TRIES)
         {
             try
             {

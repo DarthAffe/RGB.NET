@@ -15,10 +15,11 @@
     <RootNamespace>RGB.NET.Devices.Asus</RootNamespace>
     <Description>Asus-Device-Implementations of RGB.NET</Description>
     <Summary>Asus-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Darth Affe 2021</Copyright>
-    <Icon>icon.png</Icon>
+    <Copyright>Copyright © Darth Affe 2022</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2022</PackageCopyright>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
-    <License>LGPL-2.1-only</License>
+    <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
     <RepositoryType>Github</RepositoryType>
     <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -61,6 +62,13 @@
     <_PackageFiles Include="$(OutputPath)\net6.0\Interop.AuraServiceLib.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>lib\net6.0\</PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_PackageFiles Include="$(OutputPath)\net5.0\Interop.AuraServiceLib.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\net5.0\</PackagePath>
     </_PackageFiles>
   </ItemGroup>
 
