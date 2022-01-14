@@ -1,304 +1,229 @@
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
-using RGB.NET.HID;
 
 namespace RGB.NET.Devices.Razer;
 
-/// <inheritdoc />
 /// <summary>
-/// Represents a device provider responsible for razer devices.
+/// Contains mappings for <see cref="LedId"/> to the matrix location.
 /// </summary>
-public class RazerDeviceProvider : AbstractRGBDeviceProvider
+public static class LedMappings
 {
-    #region Properties & Fields
-
-    private static RazerDeviceProvider? _instance;
     /// <summary>
-    /// Gets the singleton <see cref="RazerDeviceProvider"/> instance.
+    /// Gets the mapping for keyboards.
     /// </summary>
-    public static RazerDeviceProvider Instance => _instance ?? new RazerDeviceProvider();
-
-    /// <summary>
-    /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
-    /// The first match will be used.
-    /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { @"%systemroot%\SysWOW64\RzChromaSDK.dll" };
-
-    /// <summary>
-    /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
-    /// The first match will be used.
-    /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { @"%systemroot%\System32\RzChromaSDK.dll", @"%systemroot%\System32\RzChromaSDK64.dll" };
-
-    /// <summary>
-    /// Forces to load the devices represented by the emulator even if they aren't reported to exist.
-    /// </summary>
-    public bool LoadEmulatorDevices { get; set; } = false;
-
-    private const int VENDOR_ID = 0x1532;
-
-    /// <summary>
-    /// Gets the HID-definitions for Razer-devices.
-    /// </summary>
-    public static HIDLoader<int, RazerEndpointType> DeviceDefinitions { get; } = new(VENDOR_ID)
+    public static LedMapping<int> Keyboard { get; } = new()
     {
-        // Keyboards
-        { 0x010D, RGBDeviceType.Keyboard, "BlackWidow Ultimate 2012", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x010E, RGBDeviceType.Keyboard, "BlackWidow Classic (Alternate)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x010F, RGBDeviceType.Keyboard, "Anansi", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x011A, RGBDeviceType.Keyboard, "BlackWidow Ultimate 2013", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x011B, RGBDeviceType.Keyboard, "BlackWidow Stealth", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0202, RGBDeviceType.Keyboard, "DeathStalker Expert", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0203, RGBDeviceType.Keyboard, "BlackWidow Chroma", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0204, RGBDeviceType.Keyboard, "DeathStalker Chroma", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0205, RGBDeviceType.Keyboard, "Blade Stealth", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0209, RGBDeviceType.Keyboard, "BlackWidow Tournament Edition Chroma", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x020F, RGBDeviceType.Keyboard, "Blade QHD", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0210, RGBDeviceType.Keyboard, "Blade Pro (Late 2016)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0211, RGBDeviceType.Keyboard, "BlackWidow Chroma (Overwatch)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0214, RGBDeviceType.Keyboard, "BlackWidow Ultimate 2016", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0216, RGBDeviceType.Keyboard, "BlackWidow X Chroma", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0217, RGBDeviceType.Keyboard, "BlackWidow X Ultimate", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x021A, RGBDeviceType.Keyboard, "BlackWidow X Tournament Edition Chroma", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x021E, RGBDeviceType.Keyboard, "Ornata Chroma", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x021F, RGBDeviceType.Keyboard, "Ornata", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0220, RGBDeviceType.Keyboard, "Blade Stealth (Late 2016)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0221, RGBDeviceType.Keyboard, "BlackWidow Chroma V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0224, RGBDeviceType.Keyboard, "Blade (Late 2016)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0225, RGBDeviceType.Keyboard, "Blade Pro (2017)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0226, RGBDeviceType.Keyboard, "Huntsman Elite", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0227, RGBDeviceType.Keyboard, "Huntsman", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0228, RGBDeviceType.Keyboard, "BlackWidow Elite", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x022A, RGBDeviceType.Keyboard, "Cynosa Chroma", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x022D, RGBDeviceType.Keyboard, "Blade Stealth (Mid 2017)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x022F, RGBDeviceType.Keyboard, "Blade Pro FullHD (2017)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0232, RGBDeviceType.Keyboard, "Blade Stealth (Late 2017)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0233, RGBDeviceType.Keyboard, "Blade 15 (2018)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0234, RGBDeviceType.Keyboard, "Blade Pro 17 (2019)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0235, RGBDeviceType.Keyboard, "BlackWidow Lite (2018)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0237, RGBDeviceType.Keyboard, "BlackWidow Essential", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0239, RGBDeviceType.Keyboard, "Blade Stealth (2019)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x023A, RGBDeviceType.Keyboard, "Blade 15 (2019) Advanced", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x023B, RGBDeviceType.Keyboard, "Blade 15 (2018) Base Model", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x023F, RGBDeviceType.Keyboard, "Cynosa Lite", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0240, RGBDeviceType.Keyboard, "Blade 15 (2018) Mercury", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0241, RGBDeviceType.Keyboard, "BlackWidow (2019)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0243, RGBDeviceType.Keyboard, "Huntsman Tournament Edition", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0245, RGBDeviceType.Keyboard, "Blade 15 (Mid 2019) Mercury", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0246, RGBDeviceType.Keyboard, "Blade 15 (Mid 2019) Base", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x024A, RGBDeviceType.Keyboard, "Blade Stealth (Late 2019)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x024C, RGBDeviceType.Keyboard, "Blade Pro (Late 2019)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x024D, RGBDeviceType.Keyboard, "Blade 15 Studio Edition (2019)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x024E, RGBDeviceType.Keyboard, "BlackWidow V3", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0252, RGBDeviceType.Keyboard, "Blade Stealth (Early 2020)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0253, RGBDeviceType.Keyboard, "Blade 15 Advanced (2020)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0255, RGBDeviceType.Keyboard, "Blade 15 (Early 2020) Base", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x0259, RGBDeviceType.Keyboard, "Blade Stealth (Late 2020)", LedMappings.Keyboard, RazerEndpointType.LaptopKeyboard },
-        { 0x25A, RGBDeviceType.Keyboard, "BlackWidow V3 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // The keyboard, only present when connected with cable
-        { 0x25C, RGBDeviceType.Keyboard, "BlackWidow V3 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // The dongle, may not be present when connected with cable
-        { 0x025D, RGBDeviceType.Keyboard, "Ornata Chroma V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x025E, RGBDeviceType.Keyboard, "Cynosa V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0266, RGBDeviceType.Keyboard, "Huntsman V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        //Row 0 is empty
 
-        // Mice
-        { 0x0013, RGBDeviceType.Mouse, "Orochi 2011", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0016, RGBDeviceType.Mouse, "DeathAdder 3.5G", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0020, RGBDeviceType.Mouse, "Abyssus 1800", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0024, RGBDeviceType.Mouse, "Mamba 2012 (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0025, RGBDeviceType.Mouse, "Mamba 2012 (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x002E, RGBDeviceType.Mouse, "Naga 2012", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x002F, RGBDeviceType.Mouse, "Imperator 2012", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0032, RGBDeviceType.Mouse, "Ouroboros 2012", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0034, RGBDeviceType.Mouse, "Taipan", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0036, RGBDeviceType.Mouse, "Naga Hex (Red)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0037, RGBDeviceType.Mouse, "DeathAdder 2013", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0038, RGBDeviceType.Mouse, "DeathAdder 1800", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0039, RGBDeviceType.Mouse, "Orochi 2013", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0040, RGBDeviceType.Mouse, "Naga 2014", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0041, RGBDeviceType.Mouse, "Naga Hex", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0042, RGBDeviceType.Mouse, "Abyssus 2014", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0043, RGBDeviceType.Mouse, "DeathAdder Chroma", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0044, RGBDeviceType.Mouse, "Mamba (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0045, RGBDeviceType.Mouse, "Mamba (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0046, RGBDeviceType.Mouse, "Mamba Tournament Edition", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0048, RGBDeviceType.Mouse, "Orochi (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x004C, RGBDeviceType.Mouse, "Diamondback Chroma", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x004F, RGBDeviceType.Mouse, "DeathAdder 2000", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0050, RGBDeviceType.Mouse, "Naga Hex V2", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0053, RGBDeviceType.Mouse, "Naga Chroma", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0054, RGBDeviceType.Mouse, "DeathAdder 3500", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0059, RGBDeviceType.Mouse, "Lancehead (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x005A, RGBDeviceType.Mouse, "Lancehead (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x005B, RGBDeviceType.Mouse, "Abyssus V2", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x005C, RGBDeviceType.Mouse, "DeathAdder Elite", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x005E, RGBDeviceType.Mouse, "Abyssus 2000", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0060, RGBDeviceType.Mouse, "Lancehead Tournament Edition", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0062, RGBDeviceType.Mouse, "Atheris (Receiver)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0064, RGBDeviceType.Mouse, "Basilisk", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0067, RGBDeviceType.Mouse, "Naga Trinity", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x006A, RGBDeviceType.Mouse, "Abyssus Elite (D.Va Edition)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x006B, RGBDeviceType.Mouse, "Abyssus Essential", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x006C, RGBDeviceType.Mouse, "Mamba Elite (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x006E, RGBDeviceType.Mouse, "DeathAdder Essential", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x006F, RGBDeviceType.Mouse, "Lancehead Wireless (Receiver)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0070, RGBDeviceType.Mouse, "Lancehead Wireless (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0071, RGBDeviceType.Mouse, "DeathAdder Essential (White Edition)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0072, RGBDeviceType.Mouse, "Mamba Wireless (Receiver)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0073, RGBDeviceType.Mouse, "Mamba Wireless (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0078, RGBDeviceType.Mouse, "Viper", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x007A, RGBDeviceType.Mouse, "Viper Ultimate (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x007B, RGBDeviceType.Mouse, "Viper Ultimate (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x007C, RGBDeviceType.Mouse, "DeathAdder V2 Pro (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x007D, RGBDeviceType.Mouse, "DeathAdder V2 Pro (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0083, RGBDeviceType.Mouse, "Basilisk X HyperSpeed", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0085, RGBDeviceType.Mouse, "Basilisk V2", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0088, RGBDeviceType.Mouse, "Basilisk Ultimate", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0084, RGBDeviceType.Mouse, "DeathAdder V2", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x008A, RGBDeviceType.Mouse, "Viper Mini", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x008D, RGBDeviceType.Mouse, "Naga Left Handed Edition", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0091, RGBDeviceType.Mouse, "Viper 8khz", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0096, RGBDeviceType.Mouse, "Naga X", LedMappings.Mouse, RazerEndpointType.Mouse },
+        #region Row 1
 
-        // Mousepads
-        { 0x0068, RGBDeviceType.Mousepad, "Firefly Hyperflux", LedMappings.Mousepad, RazerEndpointType.Mousepad },
-        { 0x0C00, RGBDeviceType.Mousepad, "Firefly", LedMappings.Mousepad, RazerEndpointType.Mousepad },
-        { 0x0C01, RGBDeviceType.Mousepad, "Goliathus", LedMappings.Mousepad, RazerEndpointType.ChromaLink },
-        { 0x0C02, RGBDeviceType.Mousepad, "Goliathus Extended", LedMappings.Mousepad, RazerEndpointType.ChromaLink },
-        { 0x0C04, RGBDeviceType.Mousepad, "Firefly v2", LedMappings.Mousepad, RazerEndpointType.Mousepad },
+        [LedId.Keyboard_Escape] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 2,
+        [LedId.Keyboard_F1] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 4,
+        [LedId.Keyboard_F2] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 5,
+        [LedId.Keyboard_F3] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 6,
+        [LedId.Keyboard_F4] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 7,
+        [LedId.Keyboard_F5] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 8,
+        [LedId.Keyboard_F6] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 9,
+        [LedId.Keyboard_F7] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 10,
+        [LedId.Keyboard_F8] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 11,
+        [LedId.Keyboard_F9] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 12,
+        [LedId.Keyboard_F10] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 13,
+        [LedId.Keyboard_F11] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 14,
+        [LedId.Keyboard_F12] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 15,
+        [LedId.Keyboard_PrintScreen] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 16,
+        [LedId.Keyboard_ScrollLock] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 17,
+        [LedId.Keyboard_PauseBreak] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 18,
+        [LedId.Logo] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 21,
 
-        // Headsets
-        { 0x0501, RGBDeviceType.Headset, "Kraken 7.1", LedMappings.Headset, RazerEndpointType.Headset },
-        { 0x0504, RGBDeviceType.Headset, "Kraken 7.1 Chroma", LedMappings.Headset, RazerEndpointType.Headset },
-        { 0x0506, RGBDeviceType.Headset, "Kraken 7.1", LedMappings.Headset, RazerEndpointType.Headset },
-        { 0x0510, RGBDeviceType.Headset, "Kraken 7.1 V2", LedMappings.Headset, RazerEndpointType.Headset },
-        { 0x051A, RGBDeviceType.Headset, "Nari Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
-        { 0x0527, RGBDeviceType.Headset, "Kraken Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
-        { 0x0F19, RGBDeviceType.Headset, "Kraken Kitty Edition", LedMappings.Headset, RazerEndpointType.Headset },
+        #endregion
 
-        // Keypads
-        { 0x0111, RGBDeviceType.Keypad, "Nostromo", LedMappings.Keypad, RazerEndpointType.Keypad },
-        { 0x0113, RGBDeviceType.Keypad, "Orbweaver", LedMappings.Keypad, RazerEndpointType.Keypad },
-        { 0x0201, RGBDeviceType.Keypad, "Tartarus", LedMappings.Keypad, RazerEndpointType.Keypad },
-        { 0x0207, RGBDeviceType.Keypad, "Orbweaver Chroma", LedMappings.Keypad, RazerEndpointType.Keypad },
-        { 0x0208, RGBDeviceType.Keypad, "Tartarus Chroma", LedMappings.Keypad, RazerEndpointType.Keypad },
-        { 0x022B, RGBDeviceType.Keypad, "Tartarus V2", LedMappings.Keypad, RazerEndpointType.Keypad },
-        { 0x0244, RGBDeviceType.Keypad, "Tartarus Pro", LedMappings.Keypad, RazerEndpointType.Keypad },
+        #region Row 2
 
-        // Misc - guessing these are through ChromaLink
-        { 0x0215, RGBDeviceType.GraphicsCard, "Core", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F08, RGBDeviceType.HeadsetStand, "Base Station Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0517, RGBDeviceType.Speaker, "Nommo Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0518, RGBDeviceType.Speaker, "Nommo Pro", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F07, RGBDeviceType.Unknown, "Chroma Mug Holder", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F09, RGBDeviceType.Unknown, "Chroma Hardware Development Kit (HDK)", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F1D, RGBDeviceType.Unknown, "Mouse Bungee V3 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F20, RGBDeviceType.Unknown, "Base Station V2 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F1F, RGBDeviceType.Unknown, "Addressable RGB Controller", LedMappings.ChromaLink, RazerEndpointType.ChromaLink }
+        [LedId.Keyboard_Programmable1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 1,
+        [LedId.Keyboard_GraveAccentAndTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
+        [LedId.Keyboard_1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 3,
+        [LedId.Keyboard_2] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 4,
+        [LedId.Keyboard_3] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 5,
+        [LedId.Keyboard_4] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 6,
+        [LedId.Keyboard_5] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 7,
+        [LedId.Keyboard_6] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 8,
+        [LedId.Keyboard_7] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 9,
+        [LedId.Keyboard_8] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 10,
+        [LedId.Keyboard_9] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 11,
+        [LedId.Keyboard_0] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 12,
+        [LedId.Keyboard_MinusAndUnderscore] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 13,
+        [LedId.Keyboard_EqualsAndPlus] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 14,
+        [LedId.Keyboard_Backspace] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 15,
+        [LedId.Keyboard_Insert] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 16,
+        [LedId.Keyboard_Home] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 17,
+        [LedId.Keyboard_PageUp] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 18,
+        [LedId.Keyboard_NumLock] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 19,
+        [LedId.Keyboard_NumSlash] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 20,
+        [LedId.Keyboard_NumAsterisk] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 21,
+        [LedId.Keyboard_NumMinus] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 22,
+
+        #endregion
+
+        #region Row 3
+
+        [LedId.Keyboard_Programmable2] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 1,
+        [LedId.Keyboard_Tab] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 2,
+        [LedId.Keyboard_Q] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 3,
+        [LedId.Keyboard_W] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 4,
+        [LedId.Keyboard_E] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 5,
+        [LedId.Keyboard_R] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 6,
+        [LedId.Keyboard_T] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 7,
+        [LedId.Keyboard_Y] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 8,
+        [LedId.Keyboard_U] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 9,
+        [LedId.Keyboard_I] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 10,
+        [LedId.Keyboard_O] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 11,
+        [LedId.Keyboard_P] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 12,
+        [LedId.Keyboard_BracketLeft] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 13,
+        [LedId.Keyboard_BracketRight] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 14,
+        [LedId.Keyboard_Backslash] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 15,
+        [LedId.Keyboard_Delete] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 16,
+        [LedId.Keyboard_End] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 17,
+        [LedId.Keyboard_PageDown] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 18,
+        [LedId.Keyboard_Num7] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 19,
+        [LedId.Keyboard_Num8] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 20,
+        [LedId.Keyboard_Num9] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 21,
+        [LedId.Keyboard_NumPlus] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 22,
+
+        #endregion
+
+        #region Row 4
+
+        [LedId.Keyboard_Programmable3] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 1,
+        [LedId.Keyboard_CapsLock] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 2,
+        [LedId.Keyboard_A] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 3,
+        [LedId.Keyboard_S] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 4,
+        [LedId.Keyboard_D] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 5,
+        [LedId.Keyboard_F] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 6,
+        [LedId.Keyboard_G] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 7,
+        [LedId.Keyboard_H] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 8,
+        [LedId.Keyboard_J] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 9,
+        [LedId.Keyboard_K] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 10,
+        [LedId.Keyboard_L] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 11,
+        [LedId.Keyboard_SemicolonAndColon] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 12,
+        [LedId.Keyboard_ApostropheAndDoubleQuote] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 13,
+        [LedId.Keyboard_NonUsTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 14,
+        [LedId.Keyboard_Enter] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 15,
+        [LedId.Keyboard_Num4] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 19,
+        [LedId.Keyboard_Num5] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 20,
+        [LedId.Keyboard_Num6] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 21,
+
+        #endregion
+
+        #region Row 5
+
+        [LedId.Keyboard_Programmable4] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 1,
+        [LedId.Keyboard_LeftShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 2,
+        [LedId.Keyboard_NonUsBackslash] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 3,
+        [LedId.Keyboard_Z] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 4,
+        [LedId.Keyboard_X] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 5,
+        [LedId.Keyboard_C] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 6,
+        [LedId.Keyboard_V] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 7,
+        [LedId.Keyboard_B] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 8,
+        [LedId.Keyboard_N] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 9,
+        [LedId.Keyboard_M] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 10,
+        [LedId.Keyboard_CommaAndLessThan] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 11,
+        [LedId.Keyboard_PeriodAndBiggerThan] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 12,
+        [LedId.Keyboard_SlashAndQuestionMark] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 13,
+        [LedId.Keyboard_RightShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 15,
+        [LedId.Keyboard_ArrowUp] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 17,
+        [LedId.Keyboard_Num1] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 19,
+        [LedId.Keyboard_Num2] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 20,
+        [LedId.Keyboard_Num3] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 21,
+        [LedId.Keyboard_NumEnter] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 22,
+
+        #endregion
+
+        #region Row 6
+
+        [LedId.Keyboard_Programmable5] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 1,
+        [LedId.Keyboard_LeftCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 2,
+        [LedId.Keyboard_LeftGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 3,
+        [LedId.Keyboard_LeftAlt] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 4,
+        [LedId.Keyboard_Space] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 8,
+        [LedId.Keyboard_RightAlt] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 12,
+        [LedId.Keyboard_RightGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 13,
+        [LedId.Keyboard_Application] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 14,
+        [LedId.Keyboard_RightCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 15,
+        [LedId.Keyboard_ArrowLeft] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 16,
+        [LedId.Keyboard_ArrowDown] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 17,
+        [LedId.Keyboard_ArrowRight] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 18,
+        [LedId.Keyboard_Num0] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 20,
+        [LedId.Keyboard_NumPeriodAndDelete] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 21,
+
+        #endregion
+
+        //Row 7 is also empty
     };
 
-    #endregion
+    /// <summary>
+    /// Gets the mapping for mice.
+    /// </summary>
+    public static LedMapping<int> Mouse { get; } = new()
+    {
+        //row 0 empty
 
-    #region Constructors
+        //row 1
+        [LedId.Mouse1] = (_Defines.MOUSE_MAX_COLUMN * 1) + 0,
+        [LedId.Mouse2] = (_Defines.MOUSE_MAX_COLUMN * 1) + 6,
+
+        //row 2
+        [LedId.Mouse3] = (_Defines.MOUSE_MAX_COLUMN * 2) + 0,
+        [LedId.Mouse4] = (_Defines.MOUSE_MAX_COLUMN * 2) + 3,
+        [LedId.Mouse5] = (_Defines.MOUSE_MAX_COLUMN * 2) + 6,
+
+        //row 3
+        [LedId.Mouse6] = (_Defines.MOUSE_MAX_COLUMN * 3) + 0,
+        [LedId.Mouse7] = (_Defines.MOUSE_MAX_COLUMN * 3) + 6,
+
+        //row 4
+        [LedId.Mouse8] = (_Defines.MOUSE_MAX_COLUMN * 4) + 0,
+        [LedId.Mouse9] = (_Defines.MOUSE_MAX_COLUMN * 4) + 3,
+        [LedId.Mouse10] = (_Defines.MOUSE_MAX_COLUMN * 4) + 6,
+
+        //row 5
+        [LedId.Mouse11] = (_Defines.MOUSE_MAX_COLUMN * 5) + 0,
+        [LedId.Mouse12] = (_Defines.MOUSE_MAX_COLUMN * 5) + 6,
+
+        //row 6
+        [LedId.Mouse13] = (_Defines.MOUSE_MAX_COLUMN * 6) + 0,
+        [LedId.Mouse14] = (_Defines.MOUSE_MAX_COLUMN * 6) + 6,
+
+        //row 7
+        [LedId.Mouse15] = (_Defines.MOUSE_MAX_COLUMN * 7) + 0,
+        [LedId.Mouse16] = (_Defines.MOUSE_MAX_COLUMN * 7) + 3,
+        [LedId.Mouse17] = (_Defines.MOUSE_MAX_COLUMN * 7) + 6,
+
+        //row 8
+        [LedId.Mouse18] = (_Defines.MOUSE_MAX_COLUMN * 8) + 1,
+        [LedId.Mouse19] = (_Defines.MOUSE_MAX_COLUMN * 8) + 2,
+        [LedId.Mouse20] = (_Defines.MOUSE_MAX_COLUMN * 8) + 3,
+        [LedId.Mouse21] = (_Defines.MOUSE_MAX_COLUMN * 8) + 4,
+        [LedId.Mouse22] = (_Defines.MOUSE_MAX_COLUMN * 8) + 5,
+    };
+
+    //TODO DarthAffe 27.04.2021: Are mappings for these possible?
+    /// <summary>
+    /// Gets the mapping for mousepads.
+    /// </summary>
+    public static LedMapping<int> Mousepad { get; } = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RazerDeviceProvider"/> class.
+    /// Gets the mapping for headsets.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public RazerDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(RazerDeviceProvider)}");
-        _instance = this;
-    }
+    public static LedMapping<int> Headset { get; } = new();
 
-    #endregion
+    /// <summary>
+    /// Gets the mapping for keypads.
+    /// </summary>
+    public static LedMapping<int> Keypad { get; } = new();
 
-    #region Methods
-
-    /// <inheritdoc />
-    protected override void InitializeSDK()
-    {
-        TryUnInit();
-
-        _RazerSDK.Reload();
-
-        RazerError error;
-        if (((error = _RazerSDK.Init()) != RazerError.Success) && Enum.IsDefined(typeof(RazerError), error)) //HACK DarthAffe 08.02.2018: The x86-SDK seems to have a problem here ...
-            ThrowRazerError(error, true);
-    }
-
-    /// <inheritdoc />
-    protected override IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
-    {
-        DeviceDefinitions.LoadFilter = loadFilter;
-
-        IList<IRGBDevice> devices = base.GetLoadedDevices(loadFilter).ToList();
-
-        if (LoadEmulatorDevices)
-        {
-            if (loadFilter.HasFlag(RGBDeviceType.Keyboard) && devices.All(d => d is not RazerKeyboardRGBDevice))
-                devices.Add(new RazerKeyboardRGBDevice(new RazerKeyboardRGBDeviceInfo("Emulator Keyboard", RazerEndpointType.Keyboard), GetUpdateTrigger(), LedMappings.Keyboard));
-            if (loadFilter.HasFlag(RGBDeviceType.Mouse) && devices.All(d => d is not RazerMouseRGBDevice))
-                devices.Add(new RazerMouseRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Mouse, RazerEndpointType.Mouse, "Emulator Mouse"), GetUpdateTrigger(), LedMappings.Mouse));
-            if (loadFilter.HasFlag(RGBDeviceType.Headset) && devices.All(d => d is not RazerHeadsetRGBDevice))
-                devices.Add(new RazerHeadsetRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Headset, RazerEndpointType.Headset, "Emulator Headset"), GetUpdateTrigger()));
-            if (loadFilter.HasFlag(RGBDeviceType.Mousepad) && devices.All(d => d is not RazerMousepadRGBDevice))
-                devices.Add(new RazerMousepadRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Mousepad, RazerEndpointType.Mousepad, "Emulator Mousepad"), GetUpdateTrigger()));
-            if (loadFilter.HasFlag(RGBDeviceType.Keypad) && devices.All(d => d is not RazerMousepadRGBDevice))
-                devices.Add(new RazerKeypadRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Keypad, RazerEndpointType.Keypad, "Emulator Keypad"), GetUpdateTrigger()));
-            if (loadFilter.HasFlag(RGBDeviceType.Unknown) && devices.All(d => d is not RazerChromaLinkRGBDevice))
-                devices.Add(new RazerChromaLinkRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Unknown, RazerEndpointType.ChromaLink, "Emulator Chroma Link"), GetUpdateTrigger()));
-        }
-
-        return devices;
-    }
-
-    /// <inheritdoc />
-    protected override IEnumerable<IRGBDevice> LoadDevices()
-    {
-        // Only take the first device of each endpoint type, the Razer SDK doesn't allow separate control over multiple devices using the same endpoint
-        foreach ((HIDDeviceDefinition<int, RazerEndpointType> definition, _) in DeviceDefinitions.GetConnectedDevices(x => x.CustomData == RazerEndpointType.LaptopKeyboard ? RazerEndpointType.Keyboard : x.CustomData))
-        {
-            yield return definition.CustomData switch
-            {
-                RazerEndpointType.Keyboard => new RazerKeyboardRGBDevice(new RazerKeyboardRGBDeviceInfo(definition.Name, definition.CustomData), GetUpdateTrigger(), definition.LedMapping),
-                RazerEndpointType.LaptopKeyboard => new RazerKeyboardRGBDevice(new RazerKeyboardRGBDeviceInfo(definition.Name, definition.CustomData), GetUpdateTrigger(), definition.LedMapping),
-                RazerEndpointType.Mouse => new RazerMouseRGBDevice(new RazerRGBDeviceInfo(definition.DeviceType, definition.CustomData, definition.Name), GetUpdateTrigger(), definition.LedMapping),
-                RazerEndpointType.Headset => new RazerHeadsetRGBDevice(new RazerRGBDeviceInfo(definition.DeviceType, definition.CustomData, definition.Name), GetUpdateTrigger()),
-                RazerEndpointType.Mousepad => new RazerMousepadRGBDevice(new RazerRGBDeviceInfo(definition.DeviceType, definition.CustomData, definition.Name), GetUpdateTrigger()),
-                RazerEndpointType.Keypad => new RazerKeypadRGBDevice(new RazerRGBDeviceInfo(definition.DeviceType, definition.CustomData, definition.Name), GetUpdateTrigger()),
-                RazerEndpointType.ChromaLink => new RazerChromaLinkRGBDevice(new RazerRGBDeviceInfo(definition.DeviceType, definition.CustomData, definition.Name), GetUpdateTrigger()),
-                _ => throw new RGBDeviceException($"Razer SDK does not support endpoint '{definition.CustomData}'")
-            };
-        }
-    }
-
-    private void ThrowRazerError(RazerError errorCode, bool isCritical) => Throw(new RazerException(errorCode), isCritical);
-
-    private void TryUnInit()
-    {
-        try { _RazerSDK.UnInit(); }
-        catch { /* We tried our best */ }
-    }
-
-    /// <inheritdoc />
-    public override void Dispose()
-    {
-        base.Dispose();
-
-        TryUnInit();
-
-        // DarthAffe 03.03.2020: Fails with an access-violation - verify if an unload is already triggered by uninit
-        //try { _RazerSDK.UnloadRazerSDK(); }
-        //catch { /* at least we tried */ }
-    }
-
-    #endregion
+    /// <summary>
+    /// Gets the mapping for chroma link devices.
+    /// </summary>
+    public static LedMapping<int> ChromaLink { get; } = new();
 }
