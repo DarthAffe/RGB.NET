@@ -87,7 +87,7 @@ public class Led : Placeable
             if (RequestedColor.HasValue)
                 RequestedColor = RequestedColor.Value + value;
             else
-                RequestedColor = value;
+                RequestedColor = _color + value;
         }
     }
 
