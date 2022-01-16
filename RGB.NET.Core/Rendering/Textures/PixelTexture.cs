@@ -43,8 +43,8 @@ public abstract class PixelTexture<T> : ITexture
         {
             if (Data.Length == 0) return Color.Transparent;
 
-            int x = (int)MathF.Round(Size.Width * point.X.Clamp(0, 1));
-            int y = (int)MathF.Round(Size.Height * point.Y.Clamp(0, 1));
+            int x = (int)MathF.Round((Size.Width - 1) * point.X.Clamp(0, 1));
+            int y = (int)MathF.Round((Size.Height - 1) * point.Y.Clamp(0, 1));
             return GetColor(GetPixelData(x, y));
         }
     }
@@ -56,10 +56,13 @@ public abstract class PixelTexture<T> : ITexture
         {
             if (Data.Length == 0) return Color.Transparent;
 
-            int x = (int)MathF.Round(Size.Width * rectangle.Location.X.Clamp(0, 1));
-            int y = (int)MathF.Round(Size.Height * rectangle.Location.Y.Clamp(0, 1));
+            int x = (int)MathF.Round((Size.Width - 1) * rectangle.Location.X.Clamp(0, 1));
+            int y = (int)MathF.Round((Size.Height - 1) * rectangle.Location.Y.Clamp(0, 1));
             int width = (int)MathF.Round(Size.Width * rectangle.Size.Width.Clamp(0, 1));
             int height = (int)MathF.Round(Size.Height * rectangle.Size.Height.Clamp(0, 1));
+
+            if ((width == 0) && (rectangle.Size.Width > 0)) width = 1;
+            if ((height == 0) && (rectangle.Size.Height > 0)) height = 1;
 
             return this[x, y, width, height];
         }
