@@ -436,47 +436,92 @@ public static class LedMappings
     /// <summary>
     /// Gets the mapping for mice.
     /// </summary>
+    /// <remarks>
+    /// The order of the ids is a bit messed up since the officially documented locations are 1-21 and 22 is know to be used even if it's not documented.
+    /// 23-63 is there to not run into issues in the future.
+    /// </remarks>
     public static LedMapping<int> Mouse { get; } = new()
     {
         //row 0 empty
+        [LedId.Mouse24] = (_Defines.MOUSE_MAX_COLUMN * 0) + 0,
+        [LedId.Mouse25] = (_Defines.MOUSE_MAX_COLUMN * 0) + 1,
+        [LedId.Mouse26] = (_Defines.MOUSE_MAX_COLUMN * 0) + 2,
+        [LedId.Mouse23] = (_Defines.MOUSE_MAX_COLUMN * 0) + 3,
+        [LedId.Mouse27] = (_Defines.MOUSE_MAX_COLUMN * 0) + 4,
+        [LedId.Mouse28] = (_Defines.MOUSE_MAX_COLUMN * 0) + 5,
+        [LedId.Mouse29] = (_Defines.MOUSE_MAX_COLUMN * 0) + 6,
 
         //row 1
         [LedId.Mouse1] = (_Defines.MOUSE_MAX_COLUMN * 1) + 0,
+        [LedId.Mouse30] = (_Defines.MOUSE_MAX_COLUMN * 1) + 1,
+        [LedId.Mouse31] = (_Defines.MOUSE_MAX_COLUMN * 1) + 2,
+        [LedId.Mouse32] = (_Defines.MOUSE_MAX_COLUMN * 1) + 3,
+        [LedId.Mouse33] = (_Defines.MOUSE_MAX_COLUMN * 1) + 4,
+        [LedId.Mouse34] = (_Defines.MOUSE_MAX_COLUMN * 1) + 5,
         [LedId.Mouse2] = (_Defines.MOUSE_MAX_COLUMN * 1) + 6,
 
         //row 2
         [LedId.Mouse3] = (_Defines.MOUSE_MAX_COLUMN * 2) + 0,
+        [LedId.Mouse35] = (_Defines.MOUSE_MAX_COLUMN * 2) + 1,
+        [LedId.Mouse36] = (_Defines.MOUSE_MAX_COLUMN * 2) + 2,
         [LedId.Mouse4] = (_Defines.MOUSE_MAX_COLUMN * 2) + 3,
+        [LedId.Mouse37] = (_Defines.MOUSE_MAX_COLUMN * 2) + 4,
+        [LedId.Mouse38] = (_Defines.MOUSE_MAX_COLUMN * 2) + 5,
         [LedId.Mouse5] = (_Defines.MOUSE_MAX_COLUMN * 2) + 6,
 
         //row 3
         [LedId.Mouse6] = (_Defines.MOUSE_MAX_COLUMN * 3) + 0,
+        [LedId.Mouse39] = (_Defines.MOUSE_MAX_COLUMN * 3) + 1,
+        [LedId.Mouse40] = (_Defines.MOUSE_MAX_COLUMN * 3) + 2,
+        [LedId.Mouse41] = (_Defines.MOUSE_MAX_COLUMN * 3) + 3,
+        [LedId.Mouse42] = (_Defines.MOUSE_MAX_COLUMN * 3) + 4,
+        [LedId.Mouse43] = (_Defines.MOUSE_MAX_COLUMN * 3) + 5,
         [LedId.Mouse7] = (_Defines.MOUSE_MAX_COLUMN * 3) + 6,
 
         //row 4
         [LedId.Mouse8] = (_Defines.MOUSE_MAX_COLUMN * 4) + 0,
+        [LedId.Mouse44] = (_Defines.MOUSE_MAX_COLUMN * 4) + 1,
+        [LedId.Mouse45] = (_Defines.MOUSE_MAX_COLUMN * 4) + 2,
         [LedId.Mouse9] = (_Defines.MOUSE_MAX_COLUMN * 4) + 3,
+        [LedId.Mouse46] = (_Defines.MOUSE_MAX_COLUMN * 4) + 4,
+        [LedId.Mouse47] = (_Defines.MOUSE_MAX_COLUMN * 4) + 5,
         [LedId.Mouse10] = (_Defines.MOUSE_MAX_COLUMN * 4) + 6,
 
         //row 5
         [LedId.Mouse11] = (_Defines.MOUSE_MAX_COLUMN * 5) + 0,
+        [LedId.Mouse48] = (_Defines.MOUSE_MAX_COLUMN * 5) + 1,
+        [LedId.Mouse49] = (_Defines.MOUSE_MAX_COLUMN * 5) + 2,
+        [LedId.Mouse50] = (_Defines.MOUSE_MAX_COLUMN * 5) + 3,
+        [LedId.Mouse51] = (_Defines.MOUSE_MAX_COLUMN * 5) + 4,
+        [LedId.Mouse52] = (_Defines.MOUSE_MAX_COLUMN * 5) + 5,
         [LedId.Mouse12] = (_Defines.MOUSE_MAX_COLUMN * 5) + 6,
 
         //row 6
         [LedId.Mouse13] = (_Defines.MOUSE_MAX_COLUMN * 6) + 0,
+        [LedId.Mouse53] = (_Defines.MOUSE_MAX_COLUMN * 6) + 1,
+        [LedId.Mouse54] = (_Defines.MOUSE_MAX_COLUMN * 6) + 2,
+        [LedId.Mouse55] = (_Defines.MOUSE_MAX_COLUMN * 6) + 3,
+        [LedId.Mouse56] = (_Defines.MOUSE_MAX_COLUMN * 6) + 4,
+        [LedId.Mouse57] = (_Defines.MOUSE_MAX_COLUMN * 6) + 5,
         [LedId.Mouse14] = (_Defines.MOUSE_MAX_COLUMN * 6) + 6,
 
         //row 7
         [LedId.Mouse15] = (_Defines.MOUSE_MAX_COLUMN * 7) + 0,
+        [LedId.Mouse58] = (_Defines.MOUSE_MAX_COLUMN * 7) + 1,
+        [LedId.Mouse59] = (_Defines.MOUSE_MAX_COLUMN * 7) + 2,
         [LedId.Mouse16] = (_Defines.MOUSE_MAX_COLUMN * 7) + 3,
+        [LedId.Mouse60] = (_Defines.MOUSE_MAX_COLUMN * 7) + 4,
+        [LedId.Mouse61] = (_Defines.MOUSE_MAX_COLUMN * 7) + 5,
         [LedId.Mouse17] = (_Defines.MOUSE_MAX_COLUMN * 7) + 6,
 
         //row 8
+        [LedId.Mouse62] = (_Defines.MOUSE_MAX_COLUMN * 8) + 0,
         [LedId.Mouse18] = (_Defines.MOUSE_MAX_COLUMN * 8) + 1,
         [LedId.Mouse19] = (_Defines.MOUSE_MAX_COLUMN * 8) + 2,
         [LedId.Mouse20] = (_Defines.MOUSE_MAX_COLUMN * 8) + 3,
         [LedId.Mouse21] = (_Defines.MOUSE_MAX_COLUMN * 8) + 4,
         [LedId.Mouse22] = (_Defines.MOUSE_MAX_COLUMN * 8) + 5,
+        [LedId.Mouse63] = (_Defines.MOUSE_MAX_COLUMN * 8) + 6,
     };
 
     //TODO DarthAffe 27.04.2021: Are mappings for these possible?
