@@ -311,6 +311,8 @@ public enum SteelSeriesLedId
     RBracket,
     [APIName("backslash")]
     Backslash,
+    [APIName("non-us-backslash")]
+    NonUsBackslash, // DarthAffe 22.02.2022: Custom name since that one is missing in the original key names
     [APIName("pound")]
     Pound,
     [APIName("semicolon")]

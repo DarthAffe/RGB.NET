@@ -63,6 +63,7 @@ public static class LedMappings
         { LedId.Keyboard_ApostropheAndDoubleQuote, SteelSeriesLedId.Quote },
         { LedId.Keyboard_LeftShift, SteelSeriesLedId.LShift },
         { LedId.Keyboard_NonUsTilde, SteelSeriesLedId.Pound },
+        { LedId.Keyboard_NonUsBackslash, SteelSeriesLedId.NonUsBackslash },
         { LedId.Keyboard_Z, SteelSeriesLedId.Z },
         { LedId.Keyboard_X, SteelSeriesLedId.X },
         { LedId.Keyboard_C, SteelSeriesLedId.C },
