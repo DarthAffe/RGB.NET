@@ -18,11 +18,6 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
     #region Properties & Fields
 
     /// <summary>
-    /// Gets the corsair-id of the first LED of this device.
-    /// </summary>
-    public CorsairLedId ReferenceCorsairLed { get; }
-
-    /// <summary>
     /// Gets the amount of LEDs this device contains.
     /// </summary>
     public int LedCount { get; }
@@ -36,7 +31,6 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
 
     #region Constructors
 
-    //TODO DarthAffe 07.07.2018: DAP is a fan right now, that's most likely wrong
     /// <inheritdoc />
     /// <summary>
     /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairCustomRGBDeviceInfo" />.
@@ -44,16 +38,22 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
     /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair._CorsairChannelDeviceInfo" />.</param>
     /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
     /// <param name="channelDeviceInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairChannelDeviceInfo"/> representing this device.</param>
-    /// <param name="referenceCorsairLed">The id of the first LED of this device.</param>
     /// <param name="ledOffset">The offset used to find the LEDs of this device.</param>
-    internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, CorsairLedId referenceCorsairLed, int ledOffset)
+    internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, int ledOffset)
         : base(deviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo,
                GetModelName(nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase), channelDeviceInfo))
     {
-        this.ReferenceCorsairLed = referenceCorsairLed;
         this.LedOffset = ledOffset;
 
         LedCount = channelDeviceInfo.deviceLedCount;
+    }
+
+    internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, int ledCount)
+        : base(deviceIndex, GetDeviceType(nativeInfo.type), nativeInfo)
+    {
+        this.LedCount = ledCount;
+
+        LedOffset = 0;
     }
 
     #endregion
@@ -74,6 +74,24 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
             CorsairChannelDeviceType.Strip => RGBDeviceType.LedStripe,
             CorsairChannelDeviceType.Pump => RGBDeviceType.Cooler,
             CorsairChannelDeviceType.WaterBlock => RGBDeviceType.Cooler,
+            _ => throw new ArgumentOutOfRangeException(nameof(deviceType), deviceType, null)
+        };
+
+    private static RGBDeviceType GetDeviceType(CorsairDeviceType deviceType)
+        => deviceType switch
+        {
+            CorsairDeviceType.Unknown => RGBDeviceType.Unknown,
+            CorsairDeviceType.Mouse => RGBDeviceType.Mouse,
+            CorsairDeviceType.Keyboard => RGBDeviceType.Keyboard,
+            CorsairDeviceType.Headset => RGBDeviceType.Headset,
+            CorsairDeviceType.Mousepad => RGBDeviceType.Mousepad,
+            CorsairDeviceType.HeadsetStand => RGBDeviceType.HeadsetStand,
+            CorsairDeviceType.CommanderPro => RGBDeviceType.LedController,
+            CorsairDeviceType.LightningNodePro => RGBDeviceType.LedController,
+            CorsairDeviceType.MemoryModule => RGBDeviceType.DRAM,
+            CorsairDeviceType.Cooler => RGBDeviceType.Cooler,
+            CorsairDeviceType.Mainboard => RGBDeviceType.Mainboard,
+            CorsairDeviceType.GraphicsCard => RGBDeviceType.GraphicsCard,
             _ => throw new ArgumentOutOfRangeException(nameof(deviceType), deviceType, null)
         };
 

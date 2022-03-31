@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
@@ -141,38 +142,30 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
                 case CorsairDeviceType.Cooler:
                 case CorsairDeviceType.CommanderPro:
                 case CorsairDeviceType.LightningNodePro:
-                    _CorsairChannelsInfo? channelsInfo = nativeDeviceInfo.channels;
-                    if (channelsInfo != null)
+                    List<_CorsairChannelInfo> channels = GetChannels(nativeDeviceInfo).ToList();
+                    int channelsLedCount = channels.Sum(x => x.totalLedsCount);
+                    int deviceLedCount = nativeDeviceInfo.ledsCount - channelsLedCount;
+
+                    if (deviceLedCount > 0)
+                        yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(i, nativeDeviceInfo, deviceLedCount), updateQueue);
+
+                    int ledOffset = deviceLedCount;
+                    foreach (_CorsairChannelInfo channelInfo in channels)
                     {
-                        IntPtr channelInfoPtr = channelsInfo.channels;
-                        int ledOffset = 0;
-
-                        for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
+                        int channelDeviceInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelDeviceInfo));
+                        IntPtr channelDeviceInfoPtr = channelInfo.devices;
+                        for (int device = 0; (device < channelInfo.devicesCount) && (ledOffset < nativeDeviceInfo.ledsCount); device++)
                         {
-                            CorsairLedId referenceLed = GetChannelReferenceId(nativeDeviceInfo.type, channel);
-                            if (referenceLed == CorsairLedId.Invalid) continue;
+                            _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo))!;
 
-                            _CorsairChannelInfo channelInfo = (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo))!;
+                            yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(i, nativeDeviceInfo, channelDeviceInfo, ledOffset), updateQueue);
 
-                            int channelDeviceInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelDeviceInfo));
-                            IntPtr channelDeviceInfoPtr = channelInfo.devices;
-
-                            for (int device = 0; (device < channelInfo.devicesCount) && (ledOffset < nativeDeviceInfo.ledsCount); device++)
-                            {
-                                _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo))!;
-
-                                yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(i, nativeDeviceInfo, channelDeviceInfo, referenceLed, ledOffset), updateQueue);
-                                referenceLed += channelDeviceInfo.deviceLedCount;
-
-                                ledOffset += channelDeviceInfo.deviceLedCount;
-                                channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
-                            }
-
-                            int channelInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelInfo));
-                            channelInfoPtr = new IntPtr(channelInfoPtr.ToInt64() + channelInfoStructSize);
+                            ledOffset += channelDeviceInfo.deviceLedCount;
+                            channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
                         }
                     }
                     break;
+
                 default:
                     Throw(new RGBDeviceException("Unknown Device-Type"));
                     break;
@@ -180,18 +173,19 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
         }
     }
 
-    private static CorsairLedId GetChannelReferenceId(CorsairDeviceType deviceType, int channel)
+    private static IEnumerable<_CorsairChannelInfo> GetChannels(_CorsairDeviceInfo deviceInfo)
     {
-        if (deviceType == CorsairDeviceType.Cooler)
-            return CorsairLedId.CustomLiquidCoolerChannel1Led1;
+        _CorsairChannelsInfo? channelsInfo = deviceInfo.channels;
+        if (channelsInfo == null) yield break;
 
-        return channel switch
+        IntPtr channelInfoPtr = channelsInfo.channels;
+        for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
         {
-            0 => CorsairLedId.CustomDeviceChannel1Led1,
-            1 => CorsairLedId.CustomDeviceChannel2Led1,
-            2 => CorsairLedId.CustomDeviceChannel3Led1,
-            _ => CorsairLedId.Invalid
-        };
+            yield return (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo))!;
+
+            int channelInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelInfo));
+            channelInfoPtr = new IntPtr(channelInfoPtr.ToInt64() + channelInfoStructSize);
+        }
     }
 
     /// <inheritdoc />
