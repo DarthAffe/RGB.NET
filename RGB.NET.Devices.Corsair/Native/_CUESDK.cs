@@ -17,7 +17,7 @@ internal static class _CUESDK
     #region Libary Management
 
     private static IntPtr _dllHandle = IntPtr.Zero;
-        
+
     /// <summary>
     /// Reloads the SDK.
     /// </summary>
@@ -32,7 +32,9 @@ internal static class _CUESDK
         if (_dllHandle != IntPtr.Zero) return;
 
         // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-        List<string> possiblePathList = Environment.Is64BitProcess ? CorsairDeviceProvider.PossibleX64NativePaths : CorsairDeviceProvider.PossibleX86NativePaths;
+        List<string> possiblePathList = (Environment.Is64BitProcess ? CorsairDeviceProvider.PossibleX64NativePaths : CorsairDeviceProvider.PossibleX86NativePaths)
+                                        .Select(Environment.ExpandEnvironmentVariables)
+                                        .ToList();
         string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
         if (dllPath == null) throw new RGBDeviceException($"Can't find the CUE-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 

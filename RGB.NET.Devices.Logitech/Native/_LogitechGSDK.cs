@@ -18,7 +18,7 @@ internal class _LogitechGSDK
     #region Libary Management
 
     private static IntPtr _dllHandle = IntPtr.Zero;
-        
+
     /// <summary>
     /// Reloads the SDK.
     /// </summary>
@@ -33,7 +33,9 @@ internal class _LogitechGSDK
         if (_dllHandle != IntPtr.Zero) return;
 
         // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-        List<string> possiblePathList = Environment.Is64BitProcess ? LogitechDeviceProvider.PossibleX64NativePaths : LogitechDeviceProvider.PossibleX86NativePaths;
+        List<string> possiblePathList = (Environment.Is64BitProcess ? LogitechDeviceProvider.PossibleX64NativePaths : LogitechDeviceProvider.PossibleX86NativePaths)
+                                        .Select(Environment.ExpandEnvironmentVariables)
+                                        .ToList();
         string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
         if (dllPath == null) throw new RGBDeviceException($"Can't find the Logitech-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 

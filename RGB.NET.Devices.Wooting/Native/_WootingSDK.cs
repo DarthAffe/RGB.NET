@@ -32,7 +32,9 @@ internal static class _WootingSDK
         if (_dllHandle != IntPtr.Zero) return;
 
         // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-        List<string> possiblePathList = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths;
+        List<string> possiblePathList = (Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths)
+                                        .Select(Environment.ExpandEnvironmentVariables)
+                                        .ToList();
         string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
         if (dllPath == null) throw new RGBDeviceException($"Can't find the Wooting-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
