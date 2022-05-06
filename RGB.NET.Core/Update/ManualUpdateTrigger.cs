@@ -1,6 +1,5 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -86,11 +85,7 @@ public sealed class ManualUpdateTrigger : AbstractUpdateTrigger
         while (!UpdateToken.IsCancellationRequested)
         {
             if (_mutex.WaitOne(100))
-            {
-                long preUpdateTicks = Stopwatch.GetTimestamp();
-                OnUpdate(_customUpdateData);
-                LastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
-            }
+                LastUpdateTime = TimerHelper.Execute(() => OnUpdate(_customUpdateData));
         }
     }
 

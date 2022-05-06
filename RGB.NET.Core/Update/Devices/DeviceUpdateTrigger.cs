@@ -1,6 +1,5 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -142,25 +141,10 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
     {
         OnStartup();
 
-        while (!UpdateToken.IsCancellationRequested)
-        {
-            if (HasDataEvent.WaitOne(Timeout))
-            {
-                long preUpdateTicks = Stopwatch.GetTimestamp();
-
-                OnUpdate();
-
-                double lastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
-                LastUpdateTime = lastUpdateTime;
-
-                if (UpdateFrequency > 0)
-                {
-                    int sleep = (int)((UpdateFrequency * 1000.0) - lastUpdateTime);
-                    if (sleep > 0)
-                        Thread.Sleep(sleep);
-                }
-            }
-        }
+        using (TimerHelper.RequestHighResolutionTimer())
+            while (!UpdateToken.IsCancellationRequested)
+                if (HasDataEvent.WaitOne(Timeout))
+                    LastUpdateTime = TimerHelper.Execute(() => OnUpdate(), UpdateFrequency * 1000);
     }
 
     /// <inheritdoc />

@@ -1,7 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -130,21 +129,10 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
     {
         OnStartup();
 
-        while (!UpdateToken.IsCancellationRequested)
-        {
-            long preUpdateTicks = Stopwatch.GetTimestamp();
+        using (TimerHelper.RequestHighResolutionTimer())
+            while (!UpdateToken.IsCancellationRequested)
+                LastUpdateTime = TimerHelper.Execute(() => OnUpdate(_customUpdateData), UpdateFrequency * 1000);
 
-            OnUpdate(_customUpdateData);
-
-            if (UpdateFrequency > 0)
-            {
-                double lastUpdateTime = ((Stopwatch.GetTimestamp() - preUpdateTicks) / 10000.0);
-                LastUpdateTime = lastUpdateTime;
-                int sleep = (int)((UpdateFrequency * 1000.0) - lastUpdateTime);
-                if (sleep > 0)
-                    Thread.Sleep(sleep);
-            }
-        }
     }
 
     /// <inheritdoc />
