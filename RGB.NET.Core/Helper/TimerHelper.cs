@@ -8,6 +8,9 @@ using System.Threading;
 
 namespace RGB.NET.Core;
 
+/// <summary>
+/// Offers some helper methods for timed operations.
+/// </summary>
 public static class TimerHelper
 {
     #region DLL-Imports
