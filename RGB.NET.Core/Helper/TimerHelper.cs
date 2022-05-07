@@ -28,7 +28,6 @@ public static class TimerHelper
     private static readonly object HIGH_RESOLUTION_TIMER_LOCK = new();
 
     private static bool _areHighResolutionTimersEnabled = false;
-    private static int _highResolutionTimerUsers = 0;
 
     private static bool _useHighResolutionTimers = true;
     /// <summary>
@@ -93,20 +92,19 @@ public static class TimerHelper
     /// <returns>A disposable to remove the request.</returns>
     public static IDisposable RequestHighResolutionTimer()
     {
+        HighResolutionTimerDisposable timerLease = new();
         lock (HIGH_RESOLUTION_TIMER_LOCK)
         {
-            _highResolutionTimerUsers++;
+            _timerLeases.Add(timerLease);
             CheckHighResolutionTimerUsage();
         }
 
-        HighResolutionTimerDisposable timerLease = new();
-        _timerLeases.Add(timerLease);
         return timerLease;
     }
 
     private static void CheckHighResolutionTimerUsage()
     {
-        if (UseHighResolutionTimers && (_highResolutionTimerUsers > 0))
+        if (UseHighResolutionTimers && (_timerLeases.Count > 0))
             EnableHighResolutionTimers();
         else
             DisableHighResolutionTimers();
@@ -146,7 +144,7 @@ public static class TimerHelper
     /// </summary>
     public static void DisposeAllHighResolutionTimerRequests()
     {
-        List<HighResolutionTimerDisposable> timerLeases = _timerLeases.ToList();
+        List<HighResolutionTimerDisposable> timerLeases = new(_timerLeases);
         foreach (HighResolutionTimerDisposable timer in timerLeases)
             timer.Dispose();
     }
@@ -172,7 +170,6 @@ public static class TimerHelper
             lock (HIGH_RESOLUTION_TIMER_LOCK)
             {
                 _timerLeases.Remove(this);
-                _highResolutionTimerUsers--;
                 CheckHighResolutionTimerUsage();
             }
         }
