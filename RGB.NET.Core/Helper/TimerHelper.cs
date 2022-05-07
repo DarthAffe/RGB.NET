@@ -79,7 +79,7 @@ public static class TimerHelper
     }
 
     /// <summary>
-    /// Calculates the ellapsed time in ms from the provided timestamp until now.
+    /// Calculates the elapsed time in ms from the provided timestamp until now.
     /// </summary>
     /// <param name="initialTimestamp">The initial timestamp to calculate the time from.</param>
     /// <returns>The elapsed time in ms.</returns>
