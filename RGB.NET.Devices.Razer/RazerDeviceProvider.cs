@@ -106,6 +106,7 @@ public class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x025D, RGBDeviceType.Keyboard, "Ornata Chroma V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x025E, RGBDeviceType.Keyboard, "Cynosa V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0266, RGBDeviceType.Keyboard, "Huntsman V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x026C, RGBDeviceType.Keyboard, "Huntsman V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
         { 0x0013, RGBDeviceType.Mouse, "Orochi 2011", LedMappings.Mouse, RazerEndpointType.Mouse },
