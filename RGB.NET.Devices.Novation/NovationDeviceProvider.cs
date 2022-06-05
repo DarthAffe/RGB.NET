@@ -52,9 +52,11 @@ public class NovationDeviceProvider : AbstractRGBDeviceProvider
             MidiOutCaps outCaps = OutputDeviceBase.GetDeviceCapabilities(index);
             if (outCaps.name == null) continue;
 
+            string deviceName = outCaps.name.ToUpperInvariant();
             NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
                                                               .Cast<Enum>()
-                                                              .FirstOrDefault(x => x.GetDeviceId()?.ToUpperInvariant().Contains(outCaps.name.ToUpperInvariant()) ?? false);
+                                                              .Where(x => x.GetDeviceId() != null)
+                                                              .FirstOrDefault(x => deviceName.Contains(x.GetDeviceId()!.ToUpperInvariant()));
 
             if (deviceId == null) continue;
 

@@ -3,5 +3,6 @@
 internal enum LedIdMappings
 {
     Current,
-    Legacy
+    Legacy,
+    Pro
 }
