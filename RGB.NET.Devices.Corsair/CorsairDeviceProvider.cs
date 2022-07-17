@@ -139,6 +139,10 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
                     yield return new CorsairGraphicsCardRGBDevice(new CorsairGraphicsCardRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                     break;
 
+                case CorsairDeviceType.Touchbar:
+                    yield return new CorsairTouchbarRGBDevice(new CorsairTouchbarRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
+                    break;
+
                 case CorsairDeviceType.Cooler:
                 case CorsairDeviceType.CommanderPro:
                 case CorsairDeviceType.LightningNodePro:
