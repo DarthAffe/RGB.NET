@@ -21,5 +21,5 @@ public enum CorsairChannelDeviceType
     Pump = 7,
     FanQL = 8,
     WaterBlock = 9,
-    FanSPPRO = 10
+    EightLedSeriesFan = 10 // Previously called FanSPPRO
 };

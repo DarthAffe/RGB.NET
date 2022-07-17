@@ -70,7 +70,7 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
             CorsairChannelDeviceType.FanML => RGBDeviceType.Fan,
             CorsairChannelDeviceType.DAP => RGBDeviceType.Fan,
             CorsairChannelDeviceType.FanQL => RGBDeviceType.Fan,
-            CorsairChannelDeviceType.FanSPPRO => RGBDeviceType.Fan,
+            CorsairChannelDeviceType.EightLedSeriesFan => RGBDeviceType.Fan,
             CorsairChannelDeviceType.Strip => RGBDeviceType.LedStripe,
             CorsairChannelDeviceType.Pump => RGBDeviceType.Cooler,
             CorsairChannelDeviceType.WaterBlock => RGBDeviceType.Cooler,
@@ -117,8 +117,8 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
             case CorsairChannelDeviceType.FanQL:
                 return "QL Fan";
 
-            case CorsairChannelDeviceType.FanSPPRO:
-                return "SP-PRO Fan";
+            case CorsairChannelDeviceType.EightLedSeriesFan:
+                return "8-Led-Series Fan Fan";
 
             case CorsairChannelDeviceType.Strip:
                 // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single

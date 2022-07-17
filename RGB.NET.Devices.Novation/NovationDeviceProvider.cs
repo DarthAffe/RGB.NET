@@ -54,7 +54,11 @@ public class NovationDeviceProvider : AbstractRGBDeviceProvider
 
             NovationDevices? deviceId = (NovationDevices?)Enum.GetValues(typeof(NovationDevices))
                                                               .Cast<Enum>()
-                                                              .FirstOrDefault(x => x.GetDeviceId()?.ToUpperInvariant().Contains(outCaps.name.ToUpperInvariant()) ?? false);
+                                                              .FirstOrDefault(x =>
+                                                                              {
+                                                                                  string? deviceId = x.GetDeviceId();
+                                                                                  return (deviceId != null) && outCaps.name.ToUpperInvariant().Contains(deviceId.ToUpperInvariant());
+                                                                              });
 
             if (deviceId == null) continue;
 
