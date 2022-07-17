@@ -25,9 +25,11 @@ public class DefaultColorBehavior : IColorBehavior
     public virtual bool Equals(in Color color, object? obj)
     {
         if (obj is not Color color2) return false;
-
-        (float a, float r, float g, float b) = color2.GetRGB();
-        return color.A.EqualsInTolerance(a) && color.R.EqualsInTolerance(r) && color.G.EqualsInTolerance(g) && color.B.EqualsInTolerance(b);
+        
+        return color.A.EqualsInTolerance(color2.A) 
+            && color.R.EqualsInTolerance(color2.R) 
+            && color.G.EqualsInTolerance(color2.G) 
+            && color.B.EqualsInTolerance(color2.B);
     }
 
     /// <summary>

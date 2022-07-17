@@ -4,6 +4,7 @@ using RGB.NET.HID;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace RGB.NET.Devices.Logitech.HID;
@@ -108,6 +109,7 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
             yield return wirelessPid;
     }
 
+    [SuppressMessage("ReSharper", "MustUseReturnValue")]
     private Dictionary<int, byte> GetWirelessDevices(IReadOnlyDictionary<byte, HidDevice> deviceUsages)
     {
         const byte LOGITECH_RECEIVER_ADDRESS = 0xFF;
