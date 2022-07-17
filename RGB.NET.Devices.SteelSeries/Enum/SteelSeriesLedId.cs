@@ -443,4 +443,8 @@ public enum SteelSeriesLedId
     M4,
     [APIName("m5")]
     M5,
+    [APIName("fn")]
+    Fn,
+    [APIName("power")]
+    Power,
 }

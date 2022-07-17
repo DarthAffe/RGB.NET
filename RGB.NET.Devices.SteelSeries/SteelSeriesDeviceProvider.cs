@@ -57,6 +57,7 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1600, RGBDeviceType.Keyboard, "Apex M800", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1610, RGBDeviceType.Keyboard, "Apex Pro", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1614, RGBDeviceType.Keyboard, "Apex Pro TKL", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
+        { 0x2036, RGBDeviceType.Keyboard, "MSI Notebook", LedMappings.KeyboardNotebookMappingUk, SteelSeriesDeviceType.PerKey }, 
 
         //Headsets
         { 0x12AA, RGBDeviceType.Headset, "Arctis 5", LedMappings.HeadsetTwoZone, SteelSeriesDeviceType.TwoZone },
