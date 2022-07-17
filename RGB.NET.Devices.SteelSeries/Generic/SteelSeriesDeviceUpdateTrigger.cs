@@ -1,6 +1,5 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
-using System;
 using System.Diagnostics;
 using System.Threading;
 using RGB.NET.Core;
@@ -14,7 +13,7 @@ public class SteelSeriesDeviceUpdateTrigger : DeviceUpdateTrigger
 {
     #region Constants
 
-    private const long FLUSH_TIMER = 5 * 1000 * TimeSpan.TicksPerMillisecond; // flush the device every 5 seconds to prevent timeouts
+    private static readonly long FLUSH_TIMER = 5 * 1000 * (long)(Stopwatch.Frequency / 1000.0); // flush the device every 5 seconds to prevent timeouts
 
     #endregion
 
@@ -59,7 +58,7 @@ public class SteelSeriesDeviceUpdateTrigger : DeviceUpdateTrigger
 
                 if (UpdateFrequency > 0)
                 {
-                    double lastUpdateTime = ((_lastUpdateTimestamp - preUpdateTicks) / (double)TimeSpan.TicksPerMillisecond);
+                    double lastUpdateTime = ((_lastUpdateTimestamp - preUpdateTicks) / (Stopwatch.Frequency / 1000.0));
                     int sleep = (int)((UpdateFrequency * 1000.0) - lastUpdateTime);
                     if (sleep > 0)
                         Thread.Sleep(sleep);
