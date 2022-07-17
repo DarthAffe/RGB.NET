@@ -22,5 +22,6 @@ public enum CorsairDeviceType
     MemoryModule = 8,
     Cooler = 9,
     Mainboard = 10,
-    GraphicsCard = 11
+    GraphicsCard = 11,
+    Touchbar = 12
 };

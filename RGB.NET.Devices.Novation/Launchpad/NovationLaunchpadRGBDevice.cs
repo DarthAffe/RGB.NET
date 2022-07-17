@@ -55,6 +55,7 @@ public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGB
         {
             LedIdMappings.Current => LaunchpadIdMapping.CURRENT,
             LedIdMappings.Legacy => LaunchpadIdMapping.LEGACY,
+            LedIdMappings.Pro => LaunchpadIdMapping.PRO,
             _ => throw new ArgumentOutOfRangeException()
         };
 
