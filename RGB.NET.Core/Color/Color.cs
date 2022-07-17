@@ -33,22 +33,22 @@ public readonly struct Color
     /// <summary>
     /// Gets the alpha component value of this <see cref="Color"/> as percentage in the range [0..1].
     /// </summary>
-    public float A { get; }
+    public readonly float A;
 
     /// <summary>
     /// Gets the red component value of this <see cref="Color"/> as percentage in the range [0..1].
     /// </summary>
-    public float R { get; }
+    public readonly float R;
 
     /// <summary>
     /// Gets the green component value of this <see cref="Color"/> as percentage in the range [0..1].
     /// </summary>
-    public float G { get; }
+    public readonly float G;
 
     /// <summary>
     /// Gets the blue component value of this <see cref="Color"/> as percentage in the range [0..1].
     /// </summary>
-    public float B { get; }
+    public readonly float B;
 
     #endregion
 

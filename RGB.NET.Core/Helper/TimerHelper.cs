@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -83,7 +82,7 @@ public static class TimerHelper
     /// <param name="initialTimestamp">The initial timestamp to calculate the time from.</param>
     /// <returns>The elapsed time in ms.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double GetElapsedTime(long initialTimestamp) => ((Stopwatch.GetTimestamp() - initialTimestamp) / (double)TimeSpan.TicksPerMillisecond);
+    public static double GetElapsedTime(long initialTimestamp) => ((Stopwatch.GetTimestamp() - initialTimestamp) / (Stopwatch.Frequency / 1000.0));
 
     /// <summary>
     /// Requests to use to use High Resolution Timers if enabled.
