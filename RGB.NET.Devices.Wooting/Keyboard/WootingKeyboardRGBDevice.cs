@@ -24,8 +24,8 @@ public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDevic
     /// </summary>
     /// <param name="info">The specific information provided by Wooting for the keyboard</param>
     /// <param name="updateTrigger">The update trigger used to update this device.</param>
-    internal WootingKeyboardRGBDevice(WootingKeyboardRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
-        : base(info, updateTrigger)
+    internal WootingKeyboardRGBDevice(WootingKeyboardRGBDeviceInfo info, IUpdateQueue updateQueue)
+        : base(info, updateQueue)
     {
         InitializeLayout();
     }

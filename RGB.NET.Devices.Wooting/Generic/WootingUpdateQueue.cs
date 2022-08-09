@@ -10,15 +10,20 @@ namespace RGB.NET.Devices.Wooting.Generic;
 /// </summary>
 public class WootingUpdateQueue : UpdateQueue
 {
+    #region Properties & Fields
+    private readonly byte _deviceid;
+    #endregion
+    
     #region Constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WootingUpdateQueue"/> class.
     /// </summary>
     /// <param name="updateTrigger">The update trigger used by this queue.</param>
-    public WootingUpdateQueue(IDeviceUpdateTrigger updateTrigger)
+    public WootingUpdateQueue(IDeviceUpdateTrigger updateTrigger, byte deviceId)
         : base(updateTrigger)
     {
+        _deviceid = deviceId;
     }
 
     #endregion
@@ -30,6 +35,8 @@ public class WootingUpdateQueue : UpdateQueue
     {
         lock (_WootingSDK.SdkLock)
         {
+            _WootingSDK.SelectDevice(_deviceid);
+            
             foreach ((object key, Color color) in dataSet)
             {
                 (int row, int column) = ((int, int))key;
