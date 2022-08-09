@@ -37,6 +37,8 @@ public class WootingRGBDeviceInfo : IRGBDeviceInfo
     /// </summary>
     public WootingLayoutType WootingLayoutType { get; }
 
+    public byte WootingDeviceIndex { get; }
+
     #endregion
 
     #region Constructors
@@ -46,11 +48,12 @@ public class WootingRGBDeviceInfo : IRGBDeviceInfo
     /// </summary>
     /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
     /// <param name="deviceInfo">The <see cref="_WootingDeviceInfo"/> of the <see cref="IRGBDevice"/>.</param>
-    internal WootingRGBDeviceInfo(RGBDeviceType deviceType, _WootingDeviceInfo deviceInfo)
+    internal WootingRGBDeviceInfo(RGBDeviceType deviceType, _WootingDeviceInfo deviceInfo, byte deviceIndex)
     {
         this.DeviceType = deviceType;
         this.WootingDeviceType = deviceInfo.DeviceType;
         this.WootingLayoutType = deviceInfo.LayoutType;
+        this.WootingDeviceIndex = deviceIndex;
 
         Model = deviceInfo.Model;
         DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);

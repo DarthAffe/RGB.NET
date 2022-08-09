@@ -74,7 +74,7 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
                     _WootingSDK.SelectDevice(i);
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
 
-                    yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo), updateQueue);
+                    yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue);
                 }
             }
         }

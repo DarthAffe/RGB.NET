@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Generic;
+using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Keyboard;
 
@@ -48,5 +49,12 @@ public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDevic
     /// <inheritdoc />
     protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
+    public override void Dispose()
+    {
+        _WootingSDK.SelectDevice(DeviceInfo.WootingDeviceIndex);
+        _WootingSDK.Reset();
+
+        base.Dispose();
+    }
     #endregion
 }

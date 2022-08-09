@@ -58,7 +58,6 @@ internal static class _WootingSDK
     {
         if (_handle == IntPtr.Zero) return;
 
-        Reset();
         Close();
 
         _getDeviceInfoPointer = null;
