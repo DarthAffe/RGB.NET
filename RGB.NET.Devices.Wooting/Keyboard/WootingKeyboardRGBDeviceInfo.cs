@@ -24,8 +24,8 @@ public class WootingKeyboardRGBDeviceInfo : WootingRGBDeviceInfo, IKeyboardDevic
     /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDeviceInfo" />.
     /// </summary>
     /// <param name="deviceInfo">The native <see cref="T:RGB.NET.Devices.Wooting.Native._WootingDeviceInfo" />.</param>
-    internal WootingKeyboardRGBDeviceInfo(_WootingDeviceInfo deviceInfo)
-        : base(RGBDeviceType.Keyboard, deviceInfo)
+    internal WootingKeyboardRGBDeviceInfo(_WootingDeviceInfo deviceInfo, byte deviceIndex)
+        : base(RGBDeviceType.Keyboard, deviceInfo, deviceIndex)
     {
         Layout = WootingLayoutType switch
         {

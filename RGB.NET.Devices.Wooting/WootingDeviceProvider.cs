@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Wooting.Generic;
 using RGB.NET.Devices.Wooting.Keyboard;
 using RGB.NET.Devices.Wooting.Native;
 
@@ -67,9 +68,14 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
         {
             if (_WootingSDK.KeyboardConnected())
             {
-                _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
+                for (byte i = 0; i < _WootingSDK.GetDeviceCount(); i++)
+                {
+                    var updateQueue = new WootingUpdateQueue(GetUpdateTrigger(), i);
+                    _WootingSDK.SelectDevice(i);
+                    _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
 
-                yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo), GetUpdateTrigger());
+                    yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue);
+                }
             }
         }
     }
