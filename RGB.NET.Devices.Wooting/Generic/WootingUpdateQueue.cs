@@ -23,7 +23,7 @@ public class WootingUpdateQueue : UpdateQueue
     public WootingUpdateQueue(IDeviceUpdateTrigger updateTrigger, byte deviceId)
         : base(updateTrigger)
     {
-        _deviceid = deviceId;
+        this._deviceid = deviceId;
     }
 
     #endregion

@@ -23,16 +23,28 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
     public static WootingDeviceProvider Instance => _instance ?? new WootingDeviceProvider();
 
     /// <summary>
-    /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
+    /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 windows applications.
     /// The first match will be used.
     /// </summary>
     public static List<string> PossibleX86NativePaths { get; } = new() { "x86/wooting-rgb-sdk.dll" };
 
     /// <summary>
-    /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
+    /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 linux applications.
+    /// The first match will be used.
+    /// </summary>
+    public static List<string> PossibleX86NativePathsLinux { get; } = new() { "x86/wooting-rgb-sdk.so" };
+
+    /// <summary>
+    /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 windows applications.
     /// The first match will be used.
     /// </summary>
     public static List<string> PossibleX64NativePaths { get; } = new() { "x64/wooting-rgb-sdk64.dll" };
+
+    /// <summary>
+    /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 linux applications.
+    /// The first match will be used.
+    /// </summary>
+    public static List<string> PossibleX64NativePathsLinux { get; } = new() { "x64/wooting-rgb-sdk64.so" };
 
     #endregion
 
@@ -70,7 +82,7 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
             {
                 for (byte i = 0; i < _WootingSDK.GetDeviceCount(); i++)
                 {
-                    var updateQueue = new WootingUpdateQueue(GetUpdateTrigger(), i);
+                    WootingUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
                     _WootingSDK.SelectDevice(i);
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
 

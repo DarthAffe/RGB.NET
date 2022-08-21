@@ -56,5 +56,6 @@ public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDevic
 
         base.Dispose();
     }
+
     #endregion
 }
