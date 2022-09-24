@@ -36,7 +36,12 @@ internal static class _WootingSDK
         string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
         if (dllPath == null) throw new RGBDeviceException($"Can't find the Wooting-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
-        if (!NativeLibrary.TryLoad(dllPath, out _handle)) throw new RGBDeviceException($"Wooting LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+        if (!NativeLibrary.TryLoad(dllPath, out _handle))
+#if NET6_0
+            throw new RGBDeviceException($"Wooting LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
+#else
+            throw new RGBDeviceException($"Wooting LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+#endif
 
         if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_device_info", out _getDeviceInfoPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_device_info'");
         if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_kbd_connected", out _keyboardConnectedPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_kbd_connected'");

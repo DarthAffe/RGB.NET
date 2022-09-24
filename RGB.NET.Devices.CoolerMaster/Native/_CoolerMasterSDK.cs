@@ -16,14 +16,14 @@ internal static class _CoolerMasterSDK
 {
     #region Libary Management
 
-    private static IntPtr _dllHandle = IntPtr.Zero;
+    private static IntPtr _handle = IntPtr.Zero;
 
     /// <summary>
     /// Reloads the SDK.
     /// </summary>
     internal static void Reload()
     {
-        if (_dllHandle != IntPtr.Zero)
+        if (_handle != IntPtr.Zero)
         {
             foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))
                 EnableLedControl(false, index);
@@ -34,7 +34,7 @@ internal static class _CoolerMasterSDK
 
     private static void LoadCMSDK()
     {
-        if (_dllHandle != IntPtr.Zero) return;
+        if (_handle != IntPtr.Zero) return;
 
         // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
         List<string> possiblePathList = (Environment.Is64BitProcess ? CoolerMasterDeviceProvider.PossibleX64NativePaths : CoolerMasterDeviceProvider.PossibleX86NativePaths)
@@ -43,22 +43,43 @@ internal static class _CoolerMasterSDK
         string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
         if (dllPath == null) throw new RGBDeviceException($"Can't find the CoolerMaster-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
-        _dllHandle = LoadLibrary(dllPath);
-        if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+        _handle = LoadLibrary(dllPath);
+#if NET6_0
+        if (_handle == IntPtr.Zero) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
+#else
+        if (_handle == IntPtr.Zero) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+#endif
 
-        _getSDKVersionPointer = (GetSDKVersionPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetCM_SDK_DllVer"), typeof(GetSDKVersionPointer));
-        _setControlDevicenPointer = (SetControlDevicePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetControlDevice"), typeof(SetControlDevicePointer));
-        _isDevicePlugPointer = (IsDevicePlugPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "IsDevicePlug"), typeof(IsDevicePlugPointer));
-        _getDeviceLayoutPointer = (GetDeviceLayoutPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "GetDeviceLayout"), typeof(GetDeviceLayoutPointer));
-        _enableLedControlPointer = (EnableLedControlPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "EnableLedControl"), typeof(EnableLedControlPointer));
-        _refreshLedPointer = (RefreshLedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "RefreshLed"), typeof(RefreshLedPointer));
-        _setLedColorPointer = (SetLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetLedColor"), typeof(SetLedColorPointer));
-        _setAllLedColorPointer = (SetAllLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "SetAllLedColor"), typeof(SetAllLedColorPointer));
+        _getSDKVersionPointer = (GetSDKVersionPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "GetCM_SDK_DllVer"), typeof(GetSDKVersionPointer));
+        _setControlDevicenPointer = (SetControlDevicePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "SetControlDevice"), typeof(SetControlDevicePointer));
+        _isDevicePlugPointer = (IsDevicePlugPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "IsDevicePlug"), typeof(IsDevicePlugPointer));
+        _getDeviceLayoutPointer = (GetDeviceLayoutPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "GetDeviceLayout"), typeof(GetDeviceLayoutPointer));
+        _enableLedControlPointer = (EnableLedControlPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "EnableLedControl"), typeof(EnableLedControlPointer));
+        _refreshLedPointer = (RefreshLedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "RefreshLed"), typeof(RefreshLedPointer));
+        _setLedColorPointer = (SetLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "SetLedColor"), typeof(SetLedColorPointer));
+        _setAllLedColorPointer = (SetAllLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "SetAllLedColor"), typeof(SetAllLedColorPointer));
+    }
+
+    internal static void UnloadCMSDK()
+    {
+        if (_handle == IntPtr.Zero) return;
+
+        _getSDKVersionPointer = null;
+        _setControlDevicenPointer = null;
+        _isDevicePlugPointer = null;
+        _getDeviceLayoutPointer = null;
+        _enableLedControlPointer = null;
+        _refreshLedPointer = null;
+        _setLedColorPointer = null;
+        _setAllLedColorPointer = null;
+
+        NativeLibrary.Free(_handle);
+        _handle = IntPtr.Zero;
     }
 
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
     private static extern IntPtr LoadLibrary(string dllToLoad);
-        
+
     [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
     private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
 
