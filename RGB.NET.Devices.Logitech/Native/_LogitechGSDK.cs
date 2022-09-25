@@ -13,11 +13,11 @@ using RGB.NET.Core;
 namespace RGB.NET.Devices.Logitech.Native;
 
 // ReSharper disable once InconsistentNaming
-internal class _LogitechGSDK
+internal static class _LogitechGSDK
 {
     #region Libary Management
 
-    private static IntPtr _dllHandle = IntPtr.Zero;
+    private static IntPtr _handle = IntPtr.Zero;
 
     /// <summary>
     /// Reloads the SDK.
@@ -30,49 +30,62 @@ internal class _LogitechGSDK
 
     private static void LoadLogitechGSDK()
     {
-        if (_dllHandle != IntPtr.Zero) return;
+        if (_handle != IntPtr.Zero) return;
 
-        // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-        List<string> possiblePathList = (Environment.Is64BitProcess ? LogitechDeviceProvider.PossibleX64NativePaths : LogitechDeviceProvider.PossibleX86NativePaths)
-                                        .Select(Environment.ExpandEnvironmentVariables)
-                                        .ToList();
+        List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
+
         string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
         if (dllPath == null) throw new RGBDeviceException($"Can't find the Logitech-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
 
-        _dllHandle = LoadLibrary(dllPath);
-        if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"Logitech LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+        if (!NativeLibrary.TryLoad(dllPath, out _handle))
+#if NET6_0
+            throw new RGBDeviceException($"Logitech LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
+#else
+            throw new RGBDeviceException($"Logitech LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+#endif
 
-        _logiLedInitPointer = (LogiLedInitPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedInit"), typeof(LogiLedInitPointer));
-        _logiLedShutdownPointer = (LogiLedShutdownPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedShutdown"), typeof(LogiLedShutdownPointer));
-        _logiLedSetTargetDevicePointer = (LogiLedSetTargetDevicePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetTargetDevice"), typeof(LogiLedSetTargetDevicePointer));
-        _logiLedGetSdkVersionPointer = (LogiLedGetSdkVersionPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedGetSdkVersion"), typeof(LogiLedGetSdkVersionPointer));
-        _lgiLedSaveCurrentLightingPointer = (LogiLedSaveCurrentLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSaveCurrentLighting"), typeof(LogiLedSaveCurrentLightingPointer));
-        _logiLedRestoreLightingPointer = (LogiLedRestoreLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedRestoreLighting"), typeof(LogiLedRestoreLightingPointer));
-        _logiLedSetLightingPointer = (LogiLedSetLightingPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLighting"), typeof(LogiLedSetLightingPointer));
-        _logiLedSetLightingForKeyWithKeyNamePointer = (LogiLedSetLightingForKeyWithKeyNamePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingForKeyWithKeyName"), typeof(LogiLedSetLightingForKeyWithKeyNamePointer));
-        _logiLedSetLightingFromBitmapPointer = (LogiLedSetLightingFromBitmapPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingFromBitmap"), typeof(LogiLedSetLightingFromBitmapPointer));
-        _logiLedSetLightingForTargetZonePointer = (LogiLedSetLightingForTargetZonePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "LogiLedSetLightingForTargetZone"), typeof(LogiLedSetLightingForTargetZonePointer));
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedInit", out _logiLedInitPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedInit'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedShutdown", out _logiLedShutdownPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedShutdown'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedSetTargetDevice", out _logiLedSetTargetDevicePointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedSetTargetDevice'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedGetSdkVersion", out _logiLedGetSdkVersionPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedGetSdkVersion'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedSaveCurrentLighting", out _lgiLedSaveCurrentLightingPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedSaveCurrentLighting'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedRestoreLighting", out _logiLedRestoreLightingPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedRestoreLighting'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedSetLighting", out _logiLedSetLightingPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedSetLighting'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedSetLightingForKeyWithKeyName", out _logiLedSetLightingForKeyWithKeyNamePointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedSetLightingForKeyWithKeyName'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedSetLightingFromBitmap", out _logiLedSetLightingFromBitmapPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedSetLightingFromBitmap'");
+        if (!NativeLibrary.TryGetExport(_handle, "LogiLedSetLightingForTargetZone", out _logiLedSetLightingForTargetZonePointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedSetLightingForTargetZone'");
+    }
+
+    private static IEnumerable<string> GetPossibleLibraryPaths()
+    {
+        IEnumerable<string> possibleLibraryPaths;
+
+        if (OperatingSystem.IsWindows())
+            possibleLibraryPaths = Environment.Is64BitProcess ? LogitechDeviceProvider.PossibleX64NativePaths : LogitechDeviceProvider.PossibleX86NativePaths;
+        else
+            possibleLibraryPaths = Enumerable.Empty<string>();
+
+        return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }
 
     internal static void UnloadLogitechGSDK()
     {
-        if (_dllHandle == IntPtr.Zero) return;
+        if (_handle == IntPtr.Zero) return;
 
-        LogiLedShutdown();
+        _logiLedInitPointer = IntPtr.Zero;
+        _logiLedShutdownPointer = IntPtr.Zero;
+        _logiLedSetTargetDevicePointer = IntPtr.Zero;
+        _logiLedGetSdkVersionPointer = IntPtr.Zero;
+        _lgiLedSaveCurrentLightingPointer = IntPtr.Zero;
+        _logiLedRestoreLightingPointer = IntPtr.Zero;
+        _logiLedSetLightingPointer = IntPtr.Zero;
+        _logiLedSetLightingForKeyWithKeyNamePointer = IntPtr.Zero;
+        _logiLedSetLightingFromBitmapPointer = IntPtr.Zero;
+        _logiLedSetLightingForTargetZonePointer = IntPtr.Zero;
 
-        // ReSharper disable once EmptyEmbeddedStatement - DarthAffe 20.02.2016: We might need to reduce the internal reference counter more than once to set the library free
-        while (FreeLibrary(_dllHandle)) ;
-        _dllHandle = IntPtr.Zero;
+        NativeLibrary.Free(_handle);
+        _handle = IntPtr.Zero;
     }
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-    private static extern IntPtr LoadLibrary(string dllToLoad);
-
-    [DllImport("kernel32.dll")]
-    private static extern bool FreeLibrary(IntPtr dllHandle);
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
-    private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
 
     #endregion
 
@@ -80,60 +93,27 @@ internal class _LogitechGSDK
 
     #region Pointers
 
-    private static LogiLedInitPointer? _logiLedInitPointer;
-    private static LogiLedShutdownPointer? _logiLedShutdownPointer;
-    private static LogiLedSetTargetDevicePointer? _logiLedSetTargetDevicePointer;
-    private static LogiLedGetSdkVersionPointer? _logiLedGetSdkVersionPointer;
-    private static LogiLedSaveCurrentLightingPointer? _lgiLedSaveCurrentLightingPointer;
-    private static LogiLedRestoreLightingPointer? _logiLedRestoreLightingPointer;
-    private static LogiLedSetLightingPointer? _logiLedSetLightingPointer;
-    private static LogiLedSetLightingForKeyWithKeyNamePointer? _logiLedSetLightingForKeyWithKeyNamePointer;
-    private static LogiLedSetLightingFromBitmapPointer? _logiLedSetLightingFromBitmapPointer;
-    private static LogiLedSetLightingForTargetZonePointer? _logiLedSetLightingForTargetZonePointer;
+    private static IntPtr _logiLedInitPointer;
+    private static IntPtr _logiLedShutdownPointer;
+    private static IntPtr _logiLedSetTargetDevicePointer;
+    private static IntPtr _logiLedGetSdkVersionPointer;
+    private static IntPtr _lgiLedSaveCurrentLightingPointer;
+    private static IntPtr _logiLedRestoreLightingPointer;
+    private static IntPtr _logiLedSetLightingPointer;
+    private static IntPtr _logiLedSetLightingForKeyWithKeyNamePointer;
+    private static IntPtr _logiLedSetLightingFromBitmapPointer;
+    private static IntPtr _logiLedSetLightingForTargetZonePointer;
 
     #endregion
 
-    #region Delegates
+    internal static unsafe bool LogiLedInit()
+        => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_logiLedInitPointer))();
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedInitPointer();
+    internal static unsafe void LogiLedShutdown()
+        => ((delegate* unmanaged[Cdecl]<void>)ThrowIfZero(_logiLedShutdownPointer))();
 
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void LogiLedShutdownPointer();
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedSetTargetDevicePointer(int targetDevice);
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedGetSdkVersionPointer(ref int majorNum, ref int minorNum, ref int buildNum);
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedSaveCurrentLightingPointer();
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedRestoreLightingPointer();
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedSetLightingPointer(int redPercentage, int greenPercentage, int bluePercentage);
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedSetLightingForKeyWithKeyNamePointer(int keyCode, int redPercentage, int greenPercentage, int bluePercentage);
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedSetLightingFromBitmapPointer(byte[] bitmap);
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate bool LogiLedSetLightingForTargetZonePointer(LogitechDeviceType deviceType, int zone, int redPercentage, int greenPercentage, int bluePercentage);
-
-    #endregion
-
-    // ReSharper disable EventExceptionNotDocumented
-
-    internal static bool LogiLedInit() => (_logiLedInitPointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke();
-
-    internal static void LogiLedShutdown() => (_logiLedShutdownPointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke();
-
-    internal static bool LogiLedSetTargetDevice(LogitechDeviceCaps targetDevice) => (_logiLedSetTargetDevicePointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke((int)targetDevice);
+    internal static unsafe bool LogiLedSetTargetDevice(LogitechDeviceCaps targetDevice)
+        => ((delegate* unmanaged[Cdecl]<int, bool>)ThrowIfZero(_logiLedSetTargetDevicePointer))((int)targetDevice);
 
     internal static string LogiLedGetSdkVersion()
     {
@@ -145,25 +125,32 @@ internal class _LogitechGSDK
         return $"{major}.{minor}.{build}";
     }
 
-    internal static bool LogiLedGetSdkVersion(ref int majorNum, ref int minorNum, ref int buildNum) =>
-        (_logiLedGetSdkVersionPointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke(ref majorNum, ref minorNum, ref buildNum);
+    internal static unsafe bool LogiLedGetSdkVersion(ref int majorNum, ref int minorNum, ref int buildNum)
+        => ((delegate* unmanaged[Cdecl]<ref int, ref int, ref int, bool>)ThrowIfZero(_logiLedGetSdkVersionPointer))(ref majorNum, ref minorNum, ref buildNum);
 
-    internal static bool LogiLedSaveCurrentLighting() => (_lgiLedSaveCurrentLightingPointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke();
+    internal static unsafe bool LogiLedSaveCurrentLighting()
+        => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_lgiLedSaveCurrentLightingPointer))();
 
-    internal static bool LogiLedRestoreLighting() => (_logiLedRestoreLightingPointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke();
+    internal static unsafe bool LogiLedRestoreLighting()
+        => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_logiLedRestoreLightingPointer))();
 
-    internal static bool LogiLedSetLighting(int redPercentage, int greenPercentage, int bluePercentage) =>
-        (_logiLedSetLightingPointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke(redPercentage, greenPercentage, bluePercentage);
+    internal static unsafe bool LogiLedSetLighting(int redPercentage, int greenPercentage, int bluePercentage)
+        => ((delegate* unmanaged[Cdecl]<int, int, int, bool>)ThrowIfZero(_logiLedSetLightingPointer))(redPercentage, greenPercentage, bluePercentage);
 
-    internal static bool LogiLedSetLightingForKeyWithKeyName(int keyCode, int redPercentage, int greenPercentage, int bluePercentage)
-        => (_logiLedSetLightingForKeyWithKeyNamePointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke(keyCode, redPercentage, greenPercentage, bluePercentage);
+    internal static unsafe bool LogiLedSetLightingForKeyWithKeyName(int keyCode, int redPercentage, int greenPercentage, int bluePercentage)
+        => ((delegate* unmanaged[Cdecl]<int, int, int, int, bool>)ThrowIfZero(_logiLedSetLightingForKeyWithKeyNamePointer))(keyCode, redPercentage, greenPercentage, bluePercentage);
 
-    internal static bool LogiLedSetLightingFromBitmap(byte[] bitmap) => (_logiLedSetLightingFromBitmapPointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke(bitmap);
+    internal static unsafe bool LogiLedSetLightingFromBitmap(byte[] bitmap)
+        => ((delegate* unmanaged[Cdecl]<byte[], bool>)ThrowIfZero(_logiLedSetLightingFromBitmapPointer))(bitmap);
 
-    internal static bool LogiLedSetLightingForTargetZone(LogitechDeviceType deviceType, int zone, int redPercentage, int greenPercentage, int bluePercentage)
-        => (_logiLedSetLightingForTargetZonePointer ?? throw new RGBDeviceException("The Logitech-GSDK is not initialized.")).Invoke(deviceType, zone, redPercentage, greenPercentage, bluePercentage);
+    internal static unsafe bool LogiLedSetLightingForTargetZone(LogitechDeviceType deviceType, int zone, int redPercentage, int greenPercentage, int bluePercentage)
+        => ((delegate* unmanaged[Cdecl]<LogitechDeviceType, int, int, int, int, bool>)ThrowIfZero(_logiLedSetLightingForTargetZonePointer))(deviceType, zone, redPercentage, greenPercentage, bluePercentage);
 
-    // ReSharper restore EventExceptionNotDocumented
+    private static IntPtr ThrowIfZero(IntPtr ptr)
+    {
+        if (ptr == IntPtr.Zero) throw new RGBDeviceException("The Logitech-SDK is not initialized.");
+        return ptr;
+    }
 
     #endregion
 }

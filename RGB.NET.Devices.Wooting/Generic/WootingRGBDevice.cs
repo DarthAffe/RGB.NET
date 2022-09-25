@@ -16,9 +16,9 @@ public abstract class WootingRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     /// Initializes a new instance of the <see cref="WootingRGBDevice{TDeviceInfo}"/> class.
     /// </summary>
     /// <param name="info">The generic information provided by Wooting for the device.</param>
-    /// <param name="updateTrigger">The update trigger used to update this device.</param>
-    protected WootingRGBDevice(TDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
-        : base(info, new WootingUpdateQueue(updateTrigger))
+    /// <param name="updateQueue">The update queue used to update this device.</param>
+    protected WootingRGBDevice(TDeviceInfo info, IUpdateQueue updateQueue)
+        : base(info, updateQueue)
     { }
 
     #endregion

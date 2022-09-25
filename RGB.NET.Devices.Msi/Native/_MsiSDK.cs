@@ -16,7 +16,7 @@ internal static class _MsiSDK
 {
     #region Libary Management
 
-    private static IntPtr _dllHandle = IntPtr.Zero;
+    private static IntPtr _handle = IntPtr.Zero;
 
     /// <summary>
     /// Reloads the SDK.
@@ -29,56 +29,75 @@ internal static class _MsiSDK
 
     private static void LoadMsiSDK()
     {
-        if (_dllHandle != IntPtr.Zero) return;
+        if (_handle != IntPtr.Zero) return;
 
-        // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-        List<string> possiblePathList = (Environment.Is64BitProcess ? MsiDeviceProvider.PossibleX64NativePaths : MsiDeviceProvider.PossibleX86NativePaths)
-                                        .Select(Environment.ExpandEnvironmentVariables)
-                                        .ToList();
+        List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
+
         string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
-        if (dllPath == null) throw new RGBDeviceException($"Can't find the Msi-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
-
+        if (dllPath == null) throw new RGBDeviceException($"Can't find the CUE-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
+        
         SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath))!);
 
-        _dllHandle = LoadLibrary(dllPath);
-        if (_dllHandle == IntPtr.Zero) throw new RGBDeviceException($"MSI LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+        if (!NativeLibrary.TryLoad(dllPath, out _handle))
+#if NET6_0
+            throw new RGBDeviceException($"MSI LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
+#else
+            throw new RGBDeviceException($"MSI LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+#endif
 
-        _initializePointer = (InitializePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_Initialize"), typeof(InitializePointer));
-        _getDeviceInfoPointer = (GetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetDeviceInfo"), typeof(GetDeviceInfoPointer));
-        _getLedInfoPointer = (GetLedInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetLedInfo"), typeof(GetLedInfoPointer));
-        _getLedColorPointer = (GetLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetLedColor"), typeof(GetLedColorPointer));
-        _getLedStylePointer = (GetLedStylePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetLedStyle"), typeof(GetLedStylePointer));
-        _getLedMaxBrightPointer = (GetLedMaxBrightPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetLedMaxBright"), typeof(GetLedMaxBrightPointer));
-        _getLedBrightPointer = (GetLedBrightPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetLedBright"), typeof(GetLedBrightPointer));
-        _getLedMaxSpeedPointer = (GetLedMaxSpeedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetLedMaxSpeed"), typeof(GetLedMaxSpeedPointer));
-        _getLedSpeedPointer = (GetLedSpeedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetLedSpeed"), typeof(GetLedSpeedPointer));
-        _setLedColorPointer = (SetLedColorPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_SetLedColor"), typeof(SetLedColorPointer));
-        _setLedStylePointer = (SetLedStylePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_SetLedStyle"), typeof(SetLedStylePointer));
-        _setLedBrightPointer = (SetLedBrightPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_SetLedBright"), typeof(SetLedBrightPointer));
-        _setLedSpeedPointer = (SetLedSpeedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_SetLedSpeed"), typeof(SetLedSpeedPointer));
-        _getErrorMessagePointer = (GetErrorMessagePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "MLAPI_GetErrorMessage"), typeof(GetErrorMessagePointer));
+        _initializePointer = (InitializePointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_Initialize"), typeof(InitializePointer));
+        _getDeviceInfoPointer = (GetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetDeviceInfo"), typeof(GetDeviceInfoPointer));
+        _getLedInfoPointer = (GetLedInfoPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetLedInfo"), typeof(GetLedInfoPointer));
+        _getLedColorPointer = (GetLedColorPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetLedColor"), typeof(GetLedColorPointer));
+        _getLedStylePointer = (GetLedStylePointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetLedStyle"), typeof(GetLedStylePointer));
+        _getLedMaxBrightPointer = (GetLedMaxBrightPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetLedMaxBright"), typeof(GetLedMaxBrightPointer));
+        _getLedBrightPointer = (GetLedBrightPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetLedBright"), typeof(GetLedBrightPointer));
+        _getLedMaxSpeedPointer = (GetLedMaxSpeedPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetLedMaxSpeed"), typeof(GetLedMaxSpeedPointer));
+        _getLedSpeedPointer = (GetLedSpeedPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetLedSpeed"), typeof(GetLedSpeedPointer));
+        _setLedColorPointer = (SetLedColorPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_SetLedColor"), typeof(SetLedColorPointer));
+        _setLedStylePointer = (SetLedStylePointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_SetLedStyle"), typeof(SetLedStylePointer));
+        _setLedBrightPointer = (SetLedBrightPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_SetLedBright"), typeof(SetLedBrightPointer));
+        _setLedSpeedPointer = (SetLedSpeedPointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_SetLedSpeed"), typeof(SetLedSpeedPointer));
+        _getErrorMessagePointer = (GetErrorMessagePointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_GetErrorMessage"), typeof(GetErrorMessagePointer));
+    }
+
+    private static IEnumerable<string> GetPossibleLibraryPaths()
+    {
+        IEnumerable<string> possibleLibraryPaths;
+
+        if (OperatingSystem.IsWindows())
+            possibleLibraryPaths = Environment.Is64BitProcess ? MsiDeviceProvider.PossibleX64NativePaths : MsiDeviceProvider.PossibleX86NativePaths;
+        else
+            possibleLibraryPaths = Enumerable.Empty<string>();
+
+        return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }
 
     internal static void UnloadMsiSDK()
     {
-        if (_dllHandle == IntPtr.Zero) return;
+        if (_handle == IntPtr.Zero) return;
 
-        // ReSharper disable once EmptyEmbeddedStatement - DarthAffe 07.10.2017: We might need to reduce the internal reference counter more than once to set the library free
-        while (FreeLibrary(_dllHandle)) ;
-        _dllHandle = IntPtr.Zero;
+        _initializePointer = null;
+        _getDeviceInfoPointer = null;
+        _getLedColorPointer = null;
+        _getLedColorPointer = null;
+        _getLedStylePointer = null;
+        _getLedMaxBrightPointer = null;
+        _getLedBrightPointer = null;
+        _getLedMaxSpeedPointer = null;
+        _getLedSpeedPointer = null;
+        _setLedColorPointer = null;
+        _setLedStylePointer = null;
+        _setLedBrightPointer = null;
+        _setLedSpeedPointer = null;
+        _getErrorMessagePointer = null;
+
+        NativeLibrary.Free(_handle);
+        _handle = IntPtr.Zero;
     }
 
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
     private static extern bool SetDllDirectory(string lpPathName);
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-    private static extern IntPtr LoadLibrary(string dllToLoad);
-
-    [DllImport("kernel32.dll")]
-    private static extern bool FreeLibrary(IntPtr dllHandle);
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
-    private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
 
     #endregion
 
