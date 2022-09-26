@@ -1,7 +1,6 @@
 using OpenRGB.NET;
 using OpenRGB.NET.Models;
 using RGB.NET.Core;
-using RGB.NET.Devices.OpenRGB.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private readonly List<OpenRGBClient> _clients = new List<OpenRGBClient>();
+    private readonly List<OpenRGBClient> _clients = new();
 
     private static OpenRGBDeviceProvider? _instance;
 
@@ -28,7 +27,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Gets a list of all defined device-definitions.
     /// </summary>
-    public List<OpenRGBServerDefinition> DeviceDefinitions { get; } = new List<OpenRGBServerDefinition>();
+    public List<OpenRGBServerDefinition> DeviceDefinitions { get; } = new();
 
     /// <summary>
     /// Indicates whether all devices will be added, or just the ones with a 'Direct' mode. Defaults to false.
@@ -64,7 +63,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
         {
             try
             {
-                OpenRGBClient? openRgb = new OpenRGBClient(ip: deviceDefinition.Ip, port: deviceDefinition.Port, name: deviceDefinition.ClientName, autoconnect: true);
+                OpenRGBClient? openRgb = new(ip: deviceDefinition.Ip, port: deviceDefinition.Port, name: deviceDefinition.ClientName, autoconnect: true);
                 _clients.Add(openRgb);
                 deviceDefinition.Connected = true;
             }
@@ -72,11 +71,11 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
             {
                 deviceDefinition.Connected = false;
                 deviceDefinition.LastError = e.Message;
-                Throw(e, false);
+                Throw(e);
             }
         }
     }
-    
+
     /// <inheritdoc />
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
@@ -88,7 +87,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
             {
                 Device? device = openRgb.GetControllerData(i);
 
-                int directModeIndex = Array.FindIndex(device.Modes, device => device.Name == "Direct");
+                int directModeIndex = Array.FindIndex(device.Modes, d => d.Name == "Direct");
                 if (directModeIndex != -1)
                 {
                     //set the device to direct mode if it has it
@@ -101,27 +100,21 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
                     continue;
                 }
 
-                OpenRGBUpdateQueue? updateQueue = new OpenRGBUpdateQueue(GetUpdateTrigger(), i, openRgb, device);
+                OpenRGBUpdateQueue? updateQueue = new(GetUpdateTrigger(), i, openRgb, device);
 
                 if (PerZoneDeviceFlag.HasFlag(Helper.GetRgbNetDeviceType(device.Type)))
                 {
                     int totalLedCount = 0;
 
-                    for (int zoneIndex = 0; zoneIndex < device.Zones.Length; zoneIndex++)
-                    {
-                        Zone zone = device.Zones[zoneIndex];
-
-                        if (zone.LedCount == 0)
-                            continue;
-
-                        yield return new OpenRGBZoneDevice(new OpenRGBDeviceInfo(device), totalLedCount, zone, updateQueue);
-                        totalLedCount += (int)zone.LedCount;
-                    }
+                    foreach (Zone zone in device.Zones)
+                        if (zone.LedCount > 0)
+                        {
+                            yield return new OpenRGBZoneDevice(new OpenRGBDeviceInfo(device), totalLedCount, zone, updateQueue);
+                            totalLedCount += (int)zone.LedCount;
+                        }
                 }
                 else
-                {
                     yield return new OpenRGBGenericDevice(new OpenRGBDeviceInfo(device), updateQueue);
-                }
             }
         }
     }
@@ -131,9 +124,9 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     {
         base.Dispose();
 
-        foreach (OpenRGBClient? client in _clients)
+        foreach (OpenRGBClient client in _clients)
         {
-            try { client?.Dispose(); }
+            try { client.Dispose(); }
             catch { /* at least we tried */ }
         }
 

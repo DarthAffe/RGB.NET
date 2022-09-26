@@ -1,5 +1,4 @@
 ﻿using RGB.NET.Core;
-using System.Collections.Generic;
 using OpenRGBDevice = OpenRGB.NET.Models.Device;
 
 namespace RGB.NET.Devices.OpenRGB;
@@ -9,6 +8,8 @@ namespace RGB.NET.Devices.OpenRGB;
 /// </summary>
 public class OpenRGBDeviceInfo : IRGBDeviceInfo
 {
+    #region Properties & Fields
+
     /// <inheritdoc />
     public RGBDeviceType DeviceType { get; }
 
@@ -29,16 +30,23 @@ public class OpenRGBDeviceInfo : IRGBDeviceInfo
     /// </summary>
     public OpenRGBDevice OpenRGBDevice { get; }
 
+    #endregion
+
+    #region Constructors
+
     /// <summary>
     /// Initializes a new instance of <see cref="OpenRGBDeviceInfo"/>.
     /// </summary>
     /// <param name="openRGBDevice">The OpenRGB device to extract information from.</param>
     internal OpenRGBDeviceInfo(OpenRGBDevice openRGBDevice)
     {
-        OpenRGBDevice = openRGBDevice;
+        this.OpenRGBDevice = openRGBDevice;
+
         DeviceType = Helper.GetRgbNetDeviceType(openRGBDevice.Type);
         Manufacturer = Helper.GetVendorName(openRGBDevice);
         Model = Helper.GetModelName(openRGBDevice);
         DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
     }
+
+    #endregion
 }

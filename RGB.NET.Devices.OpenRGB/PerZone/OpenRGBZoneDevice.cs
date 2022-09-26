@@ -7,8 +7,14 @@ namespace RGB.NET.Devices.OpenRGB;
 /// <inheritdoc />
 public class OpenRGBZoneDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
 {
+    #region Properties & Fields
+
     private readonly int _initialLed;
     private readonly Zone _zone;
+
+    #endregion
+
+    #region Constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OpenRGBZoneDevice"/> class.
@@ -26,11 +32,15 @@ public class OpenRGBZoneDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
         InitializeLayout();
     }
 
+    #endregion
+
+    #region Methods
+
     private void InitializeLayout()
     {
-        Size ledSize = new Size(19);
-        const int ledSpacing = 20;
-        LedId initial = Helper.GetInitialLedIdForDeviceType(DeviceInfo.DeviceType) + _initialLed;
+        Size ledSize = new(19);
+        const int LED_SPACING = 20;
+        LedId initialId = Helper.GetInitialLedIdForDeviceType(DeviceInfo.DeviceType) + _initialLed;
 
         if (_zone.Type == ZoneType.Matrix)
         {
@@ -44,12 +54,12 @@ public class OpenRGBZoneDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
                     if (index == uint.MaxValue)
                         continue;
 
-                    LedId ledId = LedMappings.Default.TryGetValue(DeviceInfo.OpenRGBDevice.Leds[_initialLed + index].Name, out LedId l)
-                        ? l
-                        : initial++;
+                    LedId ledId = LedMappings.DEFAULT.TryGetValue(DeviceInfo.OpenRGBDevice.Leds[_initialLed + index].Name, out LedId id)
+                                      ? id
+                                      : initialId++;
 
-                    while (AddLed(ledId, new Point(ledSpacing * column, ledSpacing * row), ledSize, _initialLed + (int)index) == null)
-                        ledId = initial++;
+                    while (AddLed(ledId, new Point(LED_SPACING * column, LED_SPACING * row), ledSize, _initialLed + (int)index) == null)
+                        ledId = initialId++;
                 }
             }
         }
@@ -57,11 +67,13 @@ public class OpenRGBZoneDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
         {
             for (int i = 0; i < _zone.LedCount; i++)
             {
-                LedId ledId = initial++;
+                LedId ledId = initialId++;
 
-                while (AddLed(ledId, new Point(ledSpacing * i, 0), ledSize, _initialLed + i) == null)
-                    ledId = initial++;
+                while (AddLed(ledId, new Point(LED_SPACING * i, 0), ledSize, _initialLed + i) == null)
+                    ledId = initialId++;
             }
         }
     }
+
+    #endregion
 }
