@@ -24,6 +24,11 @@ public static class CustomUpdateDataIndex
     /// default: true
     /// </summary>
     public const string UPDATE_DEVICES = "updateDevices";
+
+    /// <summary>
+    /// Used by <see cref="DeviceUpdateTrigger"/> to indicate heatbeat updates.
+    /// </summary>
+    public const string HEARTBEAT = "heartbeat";
 }
 
 /// <summary>

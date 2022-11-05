@@ -40,4 +40,16 @@ public static class CustomUpdateDataExtension
         customUpdateData[CustomUpdateDataIndex.UPDATE_DEVICES] = value;
         return customUpdateData;
     }
+
+    /// <summary>
+    /// Sets the <see cref="CustomUpdateDataIndex.HEARTBEAT"/>-Parameter to the given value.
+    /// </summary>
+    /// <param name="customUpdateData">The update-data to modify.</param>
+    /// <param name="value">The value to set.</param>
+    /// <returns>The modified update-data.</returns>
+    public static CustomUpdateData Heartbeat(this CustomUpdateData customUpdateData, bool value = true)
+    {
+        customUpdateData[CustomUpdateDataIndex.HEARTBEAT] = value;
+        return customUpdateData;
+    }
 }

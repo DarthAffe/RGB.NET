@@ -1,5 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,8 +53,19 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
         }
     }
 
+    /// <summary>
+    /// Gets or sets the time in ms after which a refresh-request is sent even if no changes are made in the meantime to prevent the target from timing out or similar problems.
+    /// To disable heartbeats leave it at 0.
+    /// </summary>
+    public int HeartbeatTimer { get; set; }
+
     /// <inheritdoc />
     public override double LastUpdateTime { get; protected set; }
+
+    /// <summary>
+    /// Gets or sets the timestamp of the last update.
+    /// </summary>
+    protected long LastUpdateTimestamp { get; set; }
 
     /// <summary>
     /// Gets or sets the event to trigger when new data is available (<see cref="TriggerHasData"/>).
@@ -145,6 +157,14 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
             while (!UpdateToken.IsCancellationRequested)
                 if (HasDataEvent.WaitOne(Timeout))
                     LastUpdateTime = TimerHelper.Execute(() => OnUpdate(), UpdateFrequency * 1000);
+                else if ((HeartbeatTimer > 0) && (LastUpdateTimestamp > 0) && ((Stopwatch.GetTimestamp() - LastUpdateTimestamp) > HeartbeatTimer))
+                    OnUpdate(new CustomUpdateData().Heartbeat());
+    }
+
+    protected override void OnUpdate(CustomUpdateData? updateData = null)
+    {
+        base.OnUpdate(updateData);
+        LastUpdateTimestamp = Stopwatch.GetTimestamp();
     }
 
     /// <inheritdoc />

@@ -42,7 +42,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     #endregion
 
     #region Constructors
-        
+
     /// <summary>
     /// Initializes a new instance of the <see cref="AbstractRGBDeviceProvider" /> class.
     /// </summary>
@@ -156,7 +156,6 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <param name="updateRateHardLimit">The update rate hard limit tobe  set in the update trigger.</param>
     /// <returns>The newly created update trigger.</returns>
     protected virtual IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new DeviceUpdateTrigger(updateRateHardLimit);
-
 
     /// <summary>
     /// Resets the device provider and disposes all devices and update triggers.
