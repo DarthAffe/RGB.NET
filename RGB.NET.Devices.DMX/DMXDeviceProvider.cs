@@ -57,14 +57,15 @@ public class DMXDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
-        foreach (IDMXDeviceDefinition dmxDeviceDefinition in DeviceDefinitions)
+        for (int i = 0; i < DeviceDefinitions.Count; i++)
         {
+            IDMXDeviceDefinition dmxDeviceDefinition = DeviceDefinitions[i];
             IRGBDevice? device = null;
             try
             {
                 if (dmxDeviceDefinition is E131DMXDeviceDefinition e131DMXDeviceDefinition)
                     if (e131DMXDeviceDefinition.Leds.Count > 0)
-                        device = new E131Device(new E131DeviceInfo(e131DMXDeviceDefinition), e131DMXDeviceDefinition.Leds, GetUpdateTrigger(0));
+                        device = new E131Device(new E131DeviceInfo(e131DMXDeviceDefinition), e131DMXDeviceDefinition.Leds, GetUpdateTrigger(i));
             }
             catch (Exception ex)
             {
@@ -74,6 +75,15 @@ public class DMXDeviceProvider : AbstractRGBDeviceProvider
             if (device != null)
                 yield return device;
         }
+    }
+
+    protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit)
+    {
+        DeviceUpdateTrigger updateTrigger = new(updateRateHardLimit);
+        if ((DeviceDefinitions[id] is E131DMXDeviceDefinition e131DMXDeviceDefinition))
+            updateTrigger.HeartbeatTimer = e131DMXDeviceDefinition.HeartbeatTimer;
+
+        return updateTrigger;
     }
 
     #endregion
