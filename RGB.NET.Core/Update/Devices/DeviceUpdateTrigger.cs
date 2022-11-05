@@ -157,7 +157,7 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
             while (!UpdateToken.IsCancellationRequested)
                 if (HasDataEvent.WaitOne(Timeout))
                     LastUpdateTime = TimerHelper.Execute(() => OnUpdate(), UpdateFrequency * 1000);
-                else if ((HeartbeatTimer > 0) && (LastUpdateTimestamp > 0) && ((Stopwatch.GetTimestamp() - LastUpdateTimestamp) > HeartbeatTimer))
+                else if ((HeartbeatTimer > 0) && (LastUpdateTimestamp > 0) && (TimerHelper.GetElapsedTime(LastUpdateTimestamp) > HeartbeatTimer))
                     OnUpdate(new CustomUpdateData().Heartbeat());
     }
 
