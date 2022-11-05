@@ -14,7 +14,7 @@ internal class SteelSeriesDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
-    private string _deviceType;
+    private readonly string _deviceType;
 
     #endregion
 
@@ -37,7 +37,7 @@ internal class SteelSeriesDeviceUpdateQueue : UpdateQueue
 
     protected override void OnUpdate(object? sender, CustomUpdateData customData)
     {
-        if (customData["refresh"] as bool? ?? false)
+        if (customData[CustomUpdateDataIndex.HEARTBEAT] as bool? ?? false)
             SteelSeriesSDK.SendHeartbeat();
         else
             base.OnUpdate(sender, customData);
