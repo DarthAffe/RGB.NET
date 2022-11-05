@@ -52,7 +52,7 @@ public class E131UpdateQueue : UpdateQueue
 
     protected override void OnUpdate(object? sender, CustomUpdateData customData)
     {
-        if (customData[CustomUpdateDataIndex.HEARTBEAT] as bool? == true)
+        if (customData[CustomUpdateDataIndex.HEARTBEAT] as bool? ?? false)
             Update(Array.Empty<(object key, Color color)>());
         else
             base.OnUpdate(sender, customData);
