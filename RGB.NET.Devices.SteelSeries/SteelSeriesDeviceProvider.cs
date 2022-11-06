@@ -12,6 +12,12 @@ namespace RGB.NET.Devices.SteelSeries;
 /// </summary>
 public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 {
+    #region Constants
+
+    private static readonly int HEARTBEAT_TIMER = 5000; // flush the device every 5 seconds to prevent timeouts
+
+    #endregion
+
     #region Properties & Fields
 
     private static SteelSeriesDeviceProvider? _instance;
@@ -121,7 +127,7 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new SteelSeriesDeviceUpdateTrigger(updateRateHardLimit);
+    protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new DeviceUpdateTrigger(updateRateHardLimit) { HeartbeatTimer = HEARTBEAT_TIMER };
 
     /// <inheritdoc />
     public override void Dispose()

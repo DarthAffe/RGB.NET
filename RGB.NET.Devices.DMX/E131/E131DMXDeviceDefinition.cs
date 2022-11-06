@@ -57,6 +57,12 @@ public class E131DMXDeviceDefinition : IDMXDeviceDefinition
     /// </summary>
     public Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>> Leds { get; } = new();
 
+    /// <summary>
+    /// The time in ms after which the device is updated even if no changes are made in the meantime to prevent the target from timing out or similar problems.
+    /// To disable heartbeats leave it at 0.
+    /// </summary>
+    public int HeartbeatTimer { get; set; } = 0;
+
     #endregion
 
     #region Constructors
