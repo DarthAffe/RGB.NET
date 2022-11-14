@@ -43,7 +43,7 @@ public static class IdGenerator
         {
             mappedId = id;
             int mappingCounter = 1;
-            while (_registeredIds.Contains(id))
+            while (_registeredIds.Contains(mappedId))
                 mappedId = $"{id} ({++mappingCounter})";
 
             _registeredIds.Add(mappedId);
