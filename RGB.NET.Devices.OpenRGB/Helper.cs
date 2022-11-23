@@ -38,6 +38,7 @@ internal static class Helper
             DeviceType.Mouse => RGBDeviceType.Mouse,
             DeviceType.Mousemat => RGBDeviceType.Mousepad,
             DeviceType.Headset => RGBDeviceType.Headset,
+            DeviceType.Speaker => RGBDeviceType.Speaker,
             DeviceType.HeadsetStand => RGBDeviceType.HeadsetStand,
             _ => RGBDeviceType.Unknown
         };
