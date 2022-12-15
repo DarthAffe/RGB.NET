@@ -358,6 +358,23 @@ public static class LedMappings
     };
 
     /// <summary>
+    /// Gets the mapping for ten-zone mice.
+    /// </summary>
+    public static LedMapping<SteelSeriesLedId> MouseTenZone { get; } = new()
+    {
+        { LedId.Mouse1, SteelSeriesLedId.ZoneOne },
+        { LedId.Mouse2, SteelSeriesLedId.ZoneTwo },
+        { LedId.Mouse3, SteelSeriesLedId.ZoneThree },
+        { LedId.Mouse4, SteelSeriesLedId.ZoneFour },
+        { LedId.Mouse5, SteelSeriesLedId.ZoneFive },
+        { LedId.Mouse6, SteelSeriesLedId.ZoneSix },
+        { LedId.Mouse7, SteelSeriesLedId.ZoneSeven },
+        { LedId.Mouse8, SteelSeriesLedId.ZoneEight },
+        { LedId.Mouse9, SteelSeriesLedId.ZoneNine },
+        { LedId.Mouse10, SteelSeriesLedId.ZoneTen }
+    };
+    
+    /// <summary>
     /// Gets the mapping for two-zone headsets.
     /// </summary>
     public static LedMapping<SteelSeriesLedId> HeadsetTwoZone { get; } = new()
