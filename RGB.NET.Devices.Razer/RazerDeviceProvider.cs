@@ -195,14 +195,14 @@ public class RazerDeviceProvider : AbstractRGBDeviceProvider
 
         // Misc - guessing these are through ChromaLink
         { 0x0215, RGBDeviceType.GraphicsCard, "Core", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F08, RGBDeviceType.HeadsetStand, "Base Station Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+        { 0x0F08, RGBDeviceType.HeadsetStand, "Base Station Chroma", LedMappings.Mousepad, RazerEndpointType.Mousepad }, // DarthAffe 16.12.2022: Not tested but based on the V2 I assume this is also a mousepad
+        { 0x0F20, RGBDeviceType.HeadsetStand, "Base Station V2 Chroma", LedMappings.Mousepad, RazerEndpointType.Mousepad }, // DarthAffe 16.12.2022: Not sure why, but it's handled as a mousepad
         { 0x0517, RGBDeviceType.Speaker, "Nommo Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0518, RGBDeviceType.Speaker, "Nommo Pro", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F07, RGBDeviceType.Unknown, "Chroma Mug Holder", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F09, RGBDeviceType.Unknown, "Chroma Hardware Development Kit (HDK)", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F1D, RGBDeviceType.Unknown, "Mouse Bungee V3 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x0F20, RGBDeviceType.Unknown, "Base Station V2 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F1F, RGBDeviceType.Unknown, "Addressable RGB Controller", LedMappings.ChromaLink, RazerEndpointType.ChromaLink }
     };
 
