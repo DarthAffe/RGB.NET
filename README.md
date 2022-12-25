@@ -1,30 +1,87 @@
 # RGB.NET
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/DarthAffe/RGB.NET?style=for-the-badge)](https://github.com/DarthAffe/RGB.NET/releases)
+[![Nuget](https://img.shields.io/nuget/v/RGB.NET.Core?style=for-the-badge)](https://www.nuget.org/packages?q=rgb.net)
+[![GitHub](https://img.shields.io/github/license/DarthAffe/RGB.NET?style=for-the-badge)](https://github.com/DarthAffe/RGB.NET/blob/master/LICENSE)
+[![GitHub Repo stars](https://img.shields.io/github/stars/DarthAffe/RGB.NET?style=for-the-badge)](https://github.com/DarthAffe/RGB.NET/stargazers)
+[![Discord](https://img.shields.io/discord/366163308941934592?logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/9kytURv) 
 
-This project aims to unify the use of various RGB-devices.   
-**It is currently under heavy development and will have breaking changes in the future!** Right now a lot of devices aren't working as expected and there are bugs/unfinished features. Please think about that when you consider using the library in this early stage.    
-   
-If you want to help with layouting/testing devices or if you need support using the library feel free to join the [RGB.NET discord-channel](https://discord.gg/9kytURv).
+> **IMPORTANT NOTE**   
+This is a library to integrate RGB-devices into your own application. It does not contain any executables!   
+If you're looking for a full blown software solution to manage your RGB-devices, take a look at [Artemis](https://artemis-rgb.com/).
 
+## Getting Started
+### Setup
+1. Add the [RGB.NET.Core](https://www.nuget.org/packages/RGB.NET.Core) and [Devices](https://www.nuget.org/packages?q=rgb.net.Devices)-Nugets for all devices you want to use.
+2. For some of the vendors SDK-libaries are needed. Check the contained Readmes for more information in that case.
+3. Create a new `RGBSurface`.
+```csharp
+RGBSurface surface = new RGBSurface();
+```
 
-## Adding prerelease packages using NuGet ##
-This is the easiest and therefore preferred way to include RGB.NET in your project.  
+4. Initialize the providers for all devices you want to use and add the devices to the surface. For example:
+```csharp
+CorsairDeviceProvider.Instance.Initialize(throwExceptions: true);
+surface.Attach(CorsairDeviceProvider.Instance.Devices);
+```
+The `Initialize`-method allows to load only devices of specific types by setting a filter and for debugging purposes allows to enable exception throwing. (By default they are catched and provided through the `Exception`-event.)
+You can also use the `Load`-Extension on the surface.
+```csharp
+surface.Load(CorsairDeviceProvider.Instance);
+```
+> While most device-providers are implemented in a way that supports fast loading like this some may have a different loading procedure. (For example the `WS281XDeviceProvider` requires device-definitions before loading.)
 
-Since there aren't any release-packages right now you'll have to use the CI-feed from [http://nuget.arge.be](http://nuget.arge.be).   
-You can include it either by adding ```http://nuget.arge.be/v3/index.json``` to your Visual Studio package sources or by adding this [NuGet.Config](https://github.com/DarthAffe/RGB.NET/tree/master/Documentation/NuGet.Config) to your project (at the same level as your solution). 
+5. Add an update-trigger. In most cases the TimerUpdateTrigger is preferable, but you can also implement your own to fit your needs.
+```csharp
+surface.RegisterUpdateTrigger(new TimerUpdateTrigger());
+```
+> If you want to trigger updates manually the `ManualUpdateTrigger` should be used.
 
-### .NET 4.5 Support ###
-At the end of the year with the release of .NET 5 the support for old .NET-Framwork versions will be droppped!   
-It's not recommended to use RGB.NET in projects targeting .NET 4.x that aren't planned to be moved to Core/.NET 5 in the future.
+6. *This step is optional but recommended.* For rendering the location of each LED on the surface can be important. Since not all SDKs provide useful layout-information you might want to add Layouts to your devices. (TODO: add wiki article for this)
+Same goes for the location of the device on the surface. If you don't care about the exact location of the devices you can use:
+```csharp
+surface.AlignDevices();
+```
 
+The basic setup is now complete and you can start setting up your rendering.
 
-### Device-Layouts
-To be able to have devices with correct LED-locations and sizes they need to be layouted. Pre-created layouts can be found at https://github.com/DarthAffe/RGB.NET-Resources.   
+### Basic Rendering
+As an example we'll add a moving rainbow over all devices on the surface.
+1. Create a led-group containing all leds on the surface (all devices)
+```csharp
+ILedGroup allLeds = new ListLedGroup(surface, surface.Leds);
+``` 
 
-If you plan to create layouts for your own devices check out https://github.com/DarthAffe/RGB.NET/wiki/Creating-Layouts first. There's also a layout-editor which strongly simplifies most of the work: https://github.com/SpoinkyNL/RGB.NET-Layout-Editor
+2. Create a rainbow-gradient.
+```csharp
+RainbowGradient rainbow = new RainbowGradient();
+```
 
-### Example usage of RGB.NET
-[![Example video](https://img.youtube.com/vi/JLRa0Wv4qso/0.jpg)](http://www.youtube.com/watch?v=JLRa0Wv4qso)
+3. Add a decorator to the gradient to make it move. (Decorators are 
+```csharp
+rainbow.AddDecorator(new MoveGradientDecorator(surface));
+```
 
-#### Example Projects
-[https://github.com/DarthAffe/KeyboardAudioVisualizer](https://github.com/DarthAffe/KeyboardAudioVisualizer)   
-[https://github.com/DarthAffe/RGBSyncPlus](https://github.com/DarthAffe/RGBSyncPlus)
+4. Create a texture (the size - in this example 10, 10 - is not important here since the gradient shoukd be stretched anyway)
+```csharp
+ITexture texture = new ConicalGradientTexture(new Size(10, 10), rainbow);
+```
+
+5. Add a brush rendering the texture to the led-group
+```csharp
+allLeds.Brush = new TextureBrush(texture);
+```
+
+### Full example
+```csharp
+RGBSurface surface = new RGBSurface();
+surface.Load(CorsairDeviceProvider.Instance);
+surface.AlignDevices();
+
+surface.RegisterUpdateTrigger(new TimerUpdateTrigger());
+
+ILedGroup allLeds = new ListLedGroup(surface, surface.Leds);
+RainbowGradient rainbow = new RainbowGradient();
+rainbow.AddDecorator(new MoveGradientDecorator(surface));
+ITexture texture = new ConicalGradientTexture(new Size(10, 10), rainbow);
+allLeds.Brush = new TextureBrush(texture);
+```
