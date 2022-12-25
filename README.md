@@ -12,7 +12,7 @@ If you're looking for a full blown software solution to manage your RGB-devices,
 ## Getting Started
 ### Setup
 1. Add the [RGB.NET.Core](https://www.nuget.org/packages/RGB.NET.Core) and [Devices](https://www.nuget.org/packages?q=rgb.net.Devices)-Nugets for all devices you want to use.
-2. For some of the vendors SDK-libaries are needed. Check the contained Readmes for more information in that case.
+2. For some of the vendors SDK-libraries are needed. Check the contained Readmes for more information in that case.
 3. Create a new `RGBSurface`.
 ```csharp
 RGBSurface surface = new RGBSurface();
@@ -28,7 +28,7 @@ You can also use the `Load`-Extension on the surface.
 ```csharp
 surface.Load(CorsairDeviceProvider.Instance);
 ```
-> While most device-providers are implemented in a way that supports fast loading like this some may have a different loading procedure. (For example the `WS281XDeviceProvider` requires device-definitions before loading.)
+> While most device-providers are implemented in a way that supports fast loading like this some may have a different loading procedures. (For example the `WS281XDeviceProvider` requires device-definitions before loading.)
 
 5. Add an update-trigger. In most cases the TimerUpdateTrigger is preferable, but you can also implement your own to fit your needs.
 ```csharp
