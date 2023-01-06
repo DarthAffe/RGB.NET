@@ -15,9 +15,10 @@
     <RootNamespace>RGB.NET.Devices.Corsair</RootNamespace>
     <Description>Corsair-Device-Implementations of RGB.NET</Description>
     <Summary>Corsair-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
-    <Copyright>Copyright © Darth Affe 2022</Copyright>
-    <PackageCopyright>Copyright © Darth Affe 2022</PackageCopyright>
+    <Copyright>Copyright © Darth Affe 2023</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2023</PackageCopyright>
     <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
     <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
     <RepositoryType>Github</RepositoryType>
@@ -53,6 +54,7 @@
 
   <ItemGroup>
     <Content Include="..\Resources\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
