@@ -56,6 +56,14 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Adds the specified <see cref="OpenRGBServerDefinition" /> to this device-provider.
+    /// </summary>
+    /// <param name="deviceDefinition">The <see cref="OpenRGBServerDefinition"/> to add.</param>
+    // ReSharper disable once UnusedMember.Global
+    public void AddDeviceDefinition(OpenRGBServerDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
+
     /// <inheritdoc />
     protected override void InitializeSDK()
     {
@@ -63,7 +71,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
         {
             try
             {
-                OpenRGBClient? openRgb = new(ip: deviceDefinition.Ip, port: deviceDefinition.Port, name: deviceDefinition.ClientName, autoconnect: true);
+                OpenRGBClient openRgb = new(ip: deviceDefinition.Ip, port: deviceDefinition.Port, name: deviceDefinition.ClientName, autoconnect: true);
                 _clients.Add(openRgb);
                 deviceDefinition.Connected = true;
             }
