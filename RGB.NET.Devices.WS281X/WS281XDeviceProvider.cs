@@ -2,125 +2,80 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using RGB.NET.Core;
-using RGB.NET.Devices.WS281X.NodeMCU;
 
-namespace RGB.NET.Devices.WS281X
+namespace RGB.NET.Devices.WS281X;
+
+/// <inheritdoc />
+/// <summary>
+/// Represents a device provider responsible for WS2812B- and WS2811-Led-devices.
+/// </summary>
+// ReSharper disable once InconsistentNaming
+// ReSharper disable once UnusedType.Global
+public class WS281XDeviceProvider : AbstractRGBDeviceProvider
 {
-    /// <inheritdoc />
+    #region Properties & Fields
+
+    private static WS281XDeviceProvider? _instance;
     /// <summary>
-    /// Represents a device provider responsible for WS2812B- and WS2811-Led-devices.
+    /// Gets the singleton <see cref="WS281XDeviceProvider"/> instance.
     /// </summary>
-    // ReSharper disable once InconsistentNaming
-    public class WS281XDeviceProvider : IRGBDeviceProvider
+    public static WS281XDeviceProvider Instance => _instance ?? new WS281XDeviceProvider();
+
+    /// <summary>
+    /// Gets a list of all defined device-definitions.
+    /// </summary>
+    // ReSharper disable once CollectionNeverUpdated.Global
+    // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+    public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = new();
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WS281XDeviceProvider"/> class.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+    public WS281XDeviceProvider()
     {
-        #region Properties & Fields
-
-        private static WS281XDeviceProvider _instance;
-        /// <summary>
-        /// Gets the singleton <see cref="WS281XDeviceProvider"/> instance.
-        /// </summary>
-        public static WS281XDeviceProvider Instance => _instance ?? new WS281XDeviceProvider();
-
-        /// <inheritdoc />
-        public bool IsInitialized { get; private set; }
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
-
-        /// <inheritdoc />
-        public bool HasExclusiveAccess => false;
-
-        /// <summary>
-        /// Gets a list of all defined device-definitions.
-        /// </summary>
-        // ReSharper disable once CollectionNeverUpdated.Global
-        // ReSharper disable once ReturnTypeCanBeEnumerable.Global
-        public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = new List<IWS281XDeviceDefinition>();
-
-        /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
-        /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WS281XDeviceProvider"/> class.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-        public WS281XDeviceProvider()
-        {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WS281XDeviceProvider)}");
-            _instance = this;
-
-            UpdateTrigger = new DeviceUpdateTrigger();
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Adds the given <see cref="IWS281XDeviceDefinition" /> to this device-provider.
-        /// </summary>
-        /// <param name="deviceDefinition">The <see cref="IWS281XDeviceDefinition"/> to add.</param>
-        // ReSharper disable once UnusedMember.Global
-        public void AddDeviceDefinition(IWS281XDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
-
-        /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.Unknown, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
-        {
-            IsInitialized = false;
-
-            try
-            {
-                UpdateTrigger?.Stop();
-
-                List<IRGBDevice> devices = new List<IRGBDevice>();
-                foreach (IWS281XDeviceDefinition deviceDefinition in DeviceDefinitions)
-                {
-                    try
-                    {
-                        devices.AddRange(deviceDefinition.CreateDevices(UpdateTrigger));
-                    }
-                    catch { if (throwExceptions) throw; }
-                }
-                UpdateTrigger?.Start();
-
-                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-                IsInitialized = true;
-            }
-            catch
-            {
-                if (throwExceptions)
-                    throw;
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            foreach (IRGBDevice device in Devices)
-                if (device is NodeMCUWS2812USBDevice nodemcuDevice)
-                    nodemcuDevice.UpdateQueue.ResetDevice();
-        }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            try { UpdateTrigger?.Dispose(); }
-            catch { /* at least we tried */}
-
-            DeviceDefinitions.Clear();
-        }
-
-        #endregion
+        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WS281XDeviceProvider)}");
+        _instance = this;
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Adds the specified <see cref="IWS281XDeviceDefinition" /> to this device-provider.
+    /// </summary>
+    /// <param name="deviceDefinition">The <see cref="IWS281XDeviceDefinition"/> to add.</param>
+    // ReSharper disable once UnusedMember.Global
+    public void AddDeviceDefinition(IWS281XDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
+
+    /// <inheritdoc />
+    protected override void InitializeSDK() { }
+
+    /// <inheritdoc />
+    protected override IEnumerable<IRGBDevice> LoadDevices()
+    {
+        int i = 0;
+        foreach (IWS281XDeviceDefinition deviceDefinition in DeviceDefinitions)
+        {
+            IDeviceUpdateTrigger updateTrigger = GetUpdateTrigger(i++);
+            foreach (IRGBDevice device in deviceDefinition.CreateDevices(updateTrigger))
+                yield return device;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        DeviceDefinitions.Clear();
+    }
+
+    #endregion
 }

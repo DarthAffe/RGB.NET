@@ -1,103 +1,98 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using AuraServiceLib;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Asus
+namespace RGB.NET.Devices.Asus;
+
+/// <inheritdoc />
+/// <summary>
+/// Represents the update-queue performing updates for asus devices.
+/// </summary>
+public class AsusUpdateQueue : UpdateQueue
 {
-    /// <inheritdoc />
+    #region Properties & Fields
+
+    private readonly IAuraRgbLight[] _lights;
+
     /// <summary>
-    /// Represents the update-queue performing updates for asus devices.
+    /// The device to be updated.
     /// </summary>
-    public class AsusUpdateQueue : UpdateQueue
+    protected IAuraSyncDevice Device { get; }
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AsusUpdateQueue"/> class.
+    /// </summary>
+    /// <param name="updateTrigger">The update trigger used by this queue.</param>
+    /// <param name="device">The SDK-aura-device this device represents.</param>
+    public AsusUpdateQueue(IDeviceUpdateTrigger updateTrigger, IAuraSyncDevice device)
+        : base(updateTrigger)
     {
-        #region Properties & Fields
+        this.Device = device;
 
-        /// <summary>
-        /// The device to be updated.
-        /// </summary>
-        protected IAuraSyncDevice Device { get; private set; }
+        this._lights = new IAuraRgbLight[device.Lights.Count];
+        for (int i = 0; i < device.Lights.Count; i++)
+            _lights[i] = device.Lights[i];
+    }
 
-        #endregion
+    #endregion
 
-        #region Constructors
+    #region Methods
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsusUpdateQueue"/> class.
-        /// </summary>
-        /// <param name="updateTrigger">The update trigger used by this queue.</param>
-        public AsusUpdateQueue(IDeviceUpdateTrigger updateTrigger)
-            : base(updateTrigger)
-        { }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Initializes the queue.
-        /// </summary>
-        /// <param name="device">The device to be updated.</param>
-        public void Initialize(IAuraSyncDevice device)
+    /// <inheritdoc />
+    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    {
+        try
         {
-            Device = device;
-        }
-
-        /// <inheritdoc />
-        protected override void Update(Dictionary<object, Color> dataSet)
-        {
-            try
+            if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))
             {
-                if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))
+                if (Device is not IAuraSyncKeyboard keyboard)
+                    return;
+
+                foreach ((object customData, Color value) in dataSet)
                 {
-                    foreach (KeyValuePair<object, Color> data in dataSet)
+                    (AsusLedType ledType, int id) = (AsusKeyboardLedCustomData)customData;
+                    if (ledType == AsusLedType.Key)
                     {
-                        AsusLedId index = (AsusLedId)data.Key;
-                        IAuraSyncKeyboard keyboard = (IAuraSyncKeyboard)Device;
-                        if (keyboard != null)
-                        {
-                            IAuraRgbLight light = index switch
-                            {
-                                //UK keyboard Layout
-                                AsusLedId.KEY_OEM_102 => keyboard.Lights[(int)((3 * keyboard.Width) + 13)],
-                                AsusLedId.UNDOCUMENTED_1 => keyboard.Lights[(int)((4 * keyboard.Width) + 1)],
-                                _ => keyboard.Key[(ushort)index]
-                            };
-
-                            // Asus Strix Scope
-                            if (keyboard.Name == "Charm")
-                                light = index switch
-                                {
-                                    AsusLedId.KEY_LWIN => keyboard.Lights[(int)((5 * keyboard.Width) + 2)],
-                                    AsusLedId.KEY_LMENU => keyboard.Lights[(int)((5 * keyboard.Width) + 3)],
-                                    _ => light
-                                };
-
-                            (_, byte r, byte g, byte b) = data.Value.GetRGBBytes();
-                            light.Red = r;
-                            light.Green = g;
-                            light.Blue = b;
-                        }
+                        IAuraRgbLight light = keyboard.Key[(ushort)id];
+                        (_, byte r, byte g, byte b) = value.GetRGBBytes();
+                        light.Red = r;
+                        light.Green = g;
+                        light.Blue = b;
                     }
-                }
-                else
-                {
-                    foreach (KeyValuePair<object, Color> data in dataSet)
+                    else
                     {
-                        int index = (int)data.Key;
-                        IAuraRgbLight light = Device.Lights[index];
-
-                        (_, byte r, byte g, byte b) = data.Value.GetRGBBytes();
+                        IAuraRgbLight light = _lights[id];
+                        (_, byte r, byte g, byte b) = value.GetRGBBytes();
                         light.Red = r;
                         light.Green = g;
                         light.Blue = b;
                     }
                 }
-
-                Device.Apply();
             }
-            catch
-            { /* "The server threw an exception." seems to be a thing here ... */ }
+            else
+            {
+                foreach ((object key, Color value) in dataSet)
+                {
+                    int index = (int)key;
+                    IAuraRgbLight light = _lights[index];
+
+                    (_, byte r, byte g, byte b) = value.GetRGBBytes();
+                    light.Red = r;
+                    light.Green = g;
+                    light.Blue = b;
+                }
+            }
+
+            Device.Apply();
         }
-        #endregion
+        catch
+        { /* "The server threw an exception." seems to be a thing here ... */
+        }
     }
+
+    #endregion
 }

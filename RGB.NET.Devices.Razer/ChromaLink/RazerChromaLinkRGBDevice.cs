@@ -4,46 +4,40 @@
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
 
-namespace RGB.NET.Devices.Razer
+namespace RGB.NET.Devices.Razer;
+
+/// <inheritdoc cref="RazerRGBDevice" />
+/// <summary>
+/// Represents a razer chroma link.
+/// </summary>
+public class RazerChromaLinkRGBDevice : RazerRGBDevice, IUnknownDevice
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    #region Constructors
+
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a razer chroma link.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice" /> class.
     /// </summary>
-    public class RazerChromaLinkRGBDevice : RazerRGBDevice<RazerChromaLinkRGBDeviceInfo>, ILedStripe
+    /// <param name="info">The specific information provided by CUE for the chroma link.</param>
+    /// <param name="updateTrigger">The update trigger used to update this device.</param>
+    internal RazerChromaLinkRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+        : base(info, new RazerChromaLinkUpdateQueue(updateTrigger))
     {
-        #region Constructors
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerChromaLinkRGBDevice" /> class.
-        /// </summary>
-        /// <param name="info">The specific information provided by CUE for the chroma link.</param>
-        internal RazerChromaLinkRGBDevice(RazerChromaLinkRGBDeviceInfo info)
-            : base(info)
-        { }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        protected override void InitializeLayout()
-        {
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\ChromaLink", $"{model}.xml"), null);
-
-            if (LedMapping.Count == 0)
-                for (int i = 0; i < _Defines.CHROMALINK_MAX_LEDS; i++)
-                    InitializeLed(LedId.Custom1 + i, new Rectangle(i * 11, 0, 10, 10));
-        }
-
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Custom1;
-
-        /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerChromaLinkUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
-
-        #endregion
+        InitializeLayout();
     }
+
+    #endregion
+
+    #region Methods
+
+    private void InitializeLayout()
+    {
+        for (int i = 0; i < _Defines.CHROMALINK_MAX_LEDS; i++)
+            AddLed(LedId.Custom1 + i, new Point(i * 10, 0), new Size(10, 10));
+    }
+
+    /// <inheritdoc />
+    protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Custom1;
+
+    #endregion
 }

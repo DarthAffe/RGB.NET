@@ -4,46 +4,39 @@
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
 
-namespace RGB.NET.Devices.Razer
+namespace RGB.NET.Devices.Razer;
+
+/// <inheritdoc cref="RazerRGBDevice" />
+/// <summary>
+/// Represents a razer mousepad.
+/// </summary>
+public class RazerMousepadRGBDevice : RazerRGBDevice, IMousepad
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    #region Constructors
+
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a razer mousepad.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMousepadRGBDevice" /> class.
     /// </summary>
-    public class RazerMousepadRGBDevice : RazerRGBDevice<RazerMousepadRGBDeviceInfo>, IMousepad
+    /// <param name="info">The specific information provided by CUE for the mousepad.</param>
+    /// <param name="updateTrigger">The update trigger used to update this device.</param>
+    internal RazerMousepadRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger)
+        : base(info, new RazerMousepadUpdateQueue(updateTrigger))
     {
-        #region Constructors
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMousepadRGBDevice" /> class.
-        /// </summary>
-        /// <param name="info">The specific information provided by CUE for the mousepad.</param>
-        internal RazerMousepadRGBDevice(RazerMousepadRGBDeviceInfo info)
-            : base(info)
-        { }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        protected override void InitializeLayout()
-        {
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\Mousepad", $"{model}.xml"), null);
-
-            if (LedMapping.Count == 0)
-                for (int i = 0; i < _Defines.MOUSEPAD_MAX_LEDS; i++)
-                    InitializeLed(LedId.Mousepad1 + i, new Rectangle(i * 11, 0, 10, 10));
-        }
-
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mousepad1;
-
-        /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMousepadUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
-
-        #endregion
+        InitializeLayout();
     }
+
+    #endregion
+
+    #region Methods
+
+    private void InitializeLayout()
+    {
+        for (int i = 0; i < _Defines.MOUSEPAD_MAX_LEDS; i++)
+            AddLed(LedId.Mousepad1 + i, new Point(i * 10, 0), new Size(10, 10));
+    }
+
+    /// <inheritdoc />
+    protected override object? GetLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mousepad1;
+    #endregion
 }

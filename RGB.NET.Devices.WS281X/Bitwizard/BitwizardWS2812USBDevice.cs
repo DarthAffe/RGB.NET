@@ -2,76 +2,54 @@
 // ReSharper disable UnusedMember.Global
 
 using System.Collections.Generic;
-using System.Linq;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.WS281X.Bitwizard
+namespace RGB.NET.Devices.WS281X.Bitwizard;
+
+// ReSharper disable once InconsistentNaming
+/// <inheritdoc cref="AbstractRGBDevice{T}" />
+/// <summary>
+/// Represents an bitwizard WS2812 USB device.
+/// </summary>
+public class BitwizardWS2812USBDevice : AbstractRGBDevice<BitwizardWS2812USBDeviceInfo>, ILedStripe
 {
-    // ReSharper disable once InconsistentNaming
-    /// <inheritdoc />
+    #region Properties & Fields
+
+    private readonly int _ledOffset;
+
+    #endregion
+
+    #region Constructors
+
     /// <summary>
-    /// Represents an bitwizard WS2812 USB device.
+    /// Initializes a new instance of the <see cref="BitwizardWS2812USBDevice"/> class.
     /// </summary>
-    public class BitwizardWS2812USBDevice : AbstractRGBDevice<BitwizardWS2812USBDeviceInfo>, ILedStripe
+    /// <param name="deviceInfo">The device info of this device.</param>
+    /// <param name="updateQueue">The update queue performing updates for this device.</param>
+    /// <param name="ledOffset">The offset used to access the leds on this device.</param>
+    /// <param name="ledCount">The amount of leds on this device.</param>
+    public BitwizardWS2812USBDevice(BitwizardWS2812USBDeviceInfo deviceInfo, BitwizardWS2812USBUpdateQueue updateQueue, int ledOffset, int ledCount)
+        : base(deviceInfo, updateQueue)
     {
-        #region Properties & Fields
-
-        /// <summary>
-        /// Gets the update queue performing updates for this device.
-        /// </summary>
-        public BitwizardWS2812USBUpdateQueue UpdateQueue { get; }
-
-        /// <inheritdoc />
-        public override BitwizardWS2812USBDeviceInfo DeviceInfo { get; }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BitwizardWS2812USBDevice"/> class.
-        /// </summary>
-        /// <param name="deviceInfo">The update trigger used by this queue.</param>
-        /// <param name="updateQueue">The update queue performing updates for this device.</param>
-        public BitwizardWS2812USBDevice(BitwizardWS2812USBDeviceInfo deviceInfo, BitwizardWS2812USBUpdateQueue updateQueue)
-        {
-            this.DeviceInfo = deviceInfo;
-            this.UpdateQueue = updateQueue;
-        }
-
-        #endregion
-
-        #region Methods
-
-        internal void Initialize(int ledCount)
-        {
-            for (int i = 0; i < ledCount; i++)
-                InitializeLed(LedId.LedStripe1 + i, new Rectangle(i * 10, 0, 10, 10));
-
-            //TODO DarthAffe 23.12.2018: Allow to load a layout.
-
-            if (Size == Size.Invalid)
-            {
-                Rectangle ledRectangle = new Rectangle(this.Select(x => x.LedRectangle));
-                Size = ledRectangle.Size + new Size(ledRectangle.Location.X, ledRectangle.Location.Y);
-            }
-        }
-
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.LedStripe1;
-
-        /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0));
-
-        /// <inheritdoc />
-        public override void Dispose()
-        {
-            try { UpdateQueue?.Dispose(); }
-            catch { /* at least we tried */ }
-
-            base.Dispose();
-        }
-
-        #endregion
+        this._ledOffset = ledOffset;
+        InitializeLayout(ledCount);
     }
+
+    #endregion
+
+    #region Methods
+
+    private void InitializeLayout(int ledCount)
+    {
+        for (int i = 0; i < ledCount; i++)
+            AddLed(LedId.LedStripe1 + i, new Point(i * 10, 0), new Size(10, 10));
+    }
+
+    /// <inheritdoc />
+    protected override object GetLedCustomData(LedId ledId) => _ledOffset + ((int)ledId - (int)LedId.LedStripe1);
+
+    /// <inheritdoc />
+    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
+
+    #endregion
 }

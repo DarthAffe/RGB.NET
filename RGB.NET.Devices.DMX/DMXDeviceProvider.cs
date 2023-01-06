@@ -3,124 +3,88 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using RGB.NET.Core;
 using RGB.NET.Devices.DMX.E131;
 
-namespace RGB.NET.Devices.DMX
+namespace RGB.NET.Devices.DMX;
+
+/// <inheritdoc />
+/// <summary>
+/// Represents a device provider responsible for DMX devices.
+/// </summary>
+public class DMXDeviceProvider : AbstractRGBDeviceProvider
 {
-    /// <inheritdoc />
+    #region Properties & Fields
+
+    private static DMXDeviceProvider? _instance;
     /// <summary>
-    /// Represents a device provider responsible for DMX devices.
+    /// Gets the singleton <see cref="DMXDeviceProvider"/> instance.
     /// </summary>
-    public class DMXDeviceProvider : IRGBDeviceProvider
+    public static DMXDeviceProvider Instance => _instance ?? new DMXDeviceProvider();
+
+    /// <summary>
+    /// Gets a list of all defined device-definitions.
+    /// </summary>
+    public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new();
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DMXDeviceProvider"/> class.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+    public DMXDeviceProvider()
     {
-        #region Properties & Fields
+        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
+        _instance = this;
+    }
 
-        private static DMXDeviceProvider _instance;
-        /// <summary>
-        /// Gets the singleton <see cref="DMXDeviceProvider"/> instance.
-        /// </summary>
-        public static DMXDeviceProvider Instance => _instance ?? new DMXDeviceProvider();
+    #endregion
 
-        /// <inheritdoc />
-        public bool IsInitialized { get; private set; }
+    #region Methods
 
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
+    /// <summary>
+    /// Adds the specified <see cref="IDMXDeviceDefinition" /> to this device-provider.
+    /// </summary>
+    /// <param name="deviceDefinition">The <see cref="IDMXDeviceDefinition"/> to add.</param>
+    public void AddDeviceDefinition(IDMXDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
 
-        /// <inheritdoc />
-        public bool HasExclusiveAccess => false;
+    /// <inheritdoc />
+    protected override void InitializeSDK() { }
 
-        /// <summary>
-        /// Gets a list of all defined device-definitions.
-        /// </summary>
-        public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new List<IDMXDeviceDefinition>();
-
-        /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for dmx devices. 
-        /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; private set; }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DMXDeviceProvider"/> class.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-        public DMXDeviceProvider()
+    /// <inheritdoc />
+    protected override IEnumerable<IRGBDevice> LoadDevices()
+    {
+        for (int i = 0; i < DeviceDefinitions.Count; i++)
         {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
-            _instance = this;
-
-            UpdateTrigger = new DeviceUpdateTrigger();
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Adds the given <see cref="IDMXDeviceDefinition" /> to this device-provider.
-        /// </summary>
-        /// <param name="deviceDefinition">The <see cref="IDMXDeviceDefinition"/> to add.</param>
-        public void AddDeviceDefinition(IDMXDeviceDefinition deviceDefinition) => DeviceDefinitions.Add(deviceDefinition);
-
-        /// <inheritdoc />
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
-        {
-            IsInitialized = false;
-
+            IDMXDeviceDefinition dmxDeviceDefinition = DeviceDefinitions[i];
+            IRGBDevice? device = null;
             try
             {
-                UpdateTrigger.Stop();
-
-                IList<IRGBDevice> devices = new List<IRGBDevice>();
-
-                foreach (IDMXDeviceDefinition dmxDeviceDefinition in DeviceDefinitions)
-                {
-                    try
-                    {
-                        if (dmxDeviceDefinition is E131DMXDeviceDefinition e131DMXDeviceDefinition)
-                        {
-                            if (e131DMXDeviceDefinition.Leds.Count > 0)
-                            {
-                                E131Device device = new E131Device(new E131DeviceInfo(e131DMXDeviceDefinition), e131DMXDeviceDefinition.Leds);
-                                device.Initialize(UpdateTrigger);
-                                devices.Add(device);
-                            }
-                        }
-                    }
-                    catch { if (throwExceptions) throw; }
-                }
-
-                UpdateTrigger.Start();
-
-                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-                IsInitialized = true;
+                if (dmxDeviceDefinition is E131DMXDeviceDefinition e131DMXDeviceDefinition)
+                    if (e131DMXDeviceDefinition.Leds.Count > 0)
+                        device = new E131Device(new E131DeviceInfo(e131DMXDeviceDefinition), e131DMXDeviceDefinition.Leds, GetUpdateTrigger(i));
             }
-            catch
+            catch (Exception ex)
             {
-                if (throwExceptions) throw;
-                return false;
+                Throw(ex);
             }
 
-            return true;
+            if (device != null)
+                yield return device;
         }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        { }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            try { UpdateTrigger?.Dispose(); }
-            catch { /* at least we tried */ }
-        }
-
-        #endregion
     }
+
+    protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit)
+    {
+        DeviceUpdateTrigger updateTrigger = new(updateRateHardLimit);
+        if ((DeviceDefinitions[id] is E131DMXDeviceDefinition e131DMXDeviceDefinition))
+            updateTrigger.HeartbeatTimer = e131DMXDeviceDefinition.HeartbeatTimer;
+
+        return updateTrigger;
+    }
+
+    #endregion
 }

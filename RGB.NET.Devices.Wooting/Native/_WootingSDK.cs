@@ -1,4 +1,4 @@
-﻿// ReSharper disable UnusedMethodReturnValue.Global
+// ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable UnusedMember.Global
 
 using System;
@@ -8,115 +8,116 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Wooting.Native
+namespace RGB.NET.Devices.Wooting.Native;
+
+// ReSharper disable once InconsistentNaming
+internal static class _WootingSDK
 {
-    // ReSharper disable once InconsistentNaming
-    internal static class _WootingSDK
+    #region Library management
+
+    private static IntPtr _handle = IntPtr.Zero;
+    internal static object SdkLock = new();
+
+    /// <summary>
+    /// Reloads the SDK.
+    /// </summary>
+    internal static void Reload()
     {
-        #region Library management
-
-        private static IntPtr _dllHandle = IntPtr.Zero;
-
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        internal static string LoadedArchitecture { get; private set; }
-
-        /// <summary>
-        /// Reloads the SDK.
-        /// </summary>
-        internal static void Reload()
-        {
-            UnloadWootingSDK();
-            LoadWootingSDK();
-        }
-
-        private static void LoadWootingSDK()
-        {
-            if (_dllHandle != IntPtr.Zero) return;
-
-            // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
-            List<string> possiblePathList = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths;
-            string dllPath = possiblePathList.FirstOrDefault(File.Exists);
-            if (dllPath == null) throw new RGBDeviceException($"Can't find the Wooting-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
-
-            SetDllDirectory(Path.GetDirectoryName(Path.GetFullPath(dllPath)));
-
-            _dllHandle = LoadLibrary(dllPath);
-
-            _getDeviceInfoPointer = (GetDeviceInfoPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_device_info"), typeof(GetDeviceInfoPointer));
-            _keyboardConnectedPointer = (KeyboardConnectedPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_kbd_connected"), typeof(KeyboardConnectedPointer));
-            _resetPointer = (ResetPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_reset_rgb"), typeof(ResetPointer));
-            _closePointer = (ClosePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_close"), typeof(ClosePointer));
-            _arrayUpdateKeyboardPointer = (ArrayUpdateKeyboardPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_array_update_keyboard"), typeof(ArrayUpdateKeyboardPointer));
-            _arraySetSinglePointer = (ArraySetSinglePointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_dllHandle, "wooting_rgb_array_set_single"), typeof(ArraySetSinglePointer));
-        }
-
-        internal static void UnloadWootingSDK()
-        {
-            if (_dllHandle == IntPtr.Zero) return;
-
-            // ReSharper disable once EmptyEmbeddedStatement - DarthAffe 20.02.2016: We might need to reduce the internal reference counter more than once to set the library free
-            while (FreeLibrary(_dllHandle)) ;
-            _dllHandle = IntPtr.Zero;
-        }
-
-        [DllImport("kernel32.dll")]
-        private static extern bool SetDllDirectory(string lpPathName);
-
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr LoadLibrary(string dllToLoad);
-
-        [DllImport("kernel32.dll")]
-        private static extern bool FreeLibrary(IntPtr dllHandle);
-
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
-
-        #endregion
-
-        #region SDK-METHODS
-
-        #region Pointers
-
-        private static GetDeviceInfoPointer _getDeviceInfoPointer;
-        private static KeyboardConnectedPointer _keyboardConnectedPointer;
-        private static ResetPointer _resetPointer;
-        private static ClosePointer _closePointer;
-        private static ArrayUpdateKeyboardPointer _arrayUpdateKeyboardPointer;
-        private static ArraySetSinglePointer _arraySetSinglePointer;
-
-        #endregion
-
-        #region Delegates
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr GetDeviceInfoPointer();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool KeyboardConnectedPointer();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool ResetPointer();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool ClosePointer();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool ArrayUpdateKeyboardPointer();
-
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool ArraySetSinglePointer(byte row, byte column, byte red, byte green, byte blue);
-
-        #endregion
-
-        internal static IntPtr GetDeviceInfo() => _getDeviceInfoPointer();
-        internal static bool KeyboardConnected() => _keyboardConnectedPointer();
-        internal static bool Reset() => _resetPointer();
-        internal static bool Close() => _closePointer();
-        internal static bool ArrayUpdateKeyboard() => _arrayUpdateKeyboardPointer();
-        internal static bool ArraySetSingle(byte row, byte column, byte red, byte green, byte blue) => _arraySetSinglePointer(row, column, red, green, blue);
-
-        #endregion
+        UnloadWootingSDK();
+        LoadWootingSDK();
     }
+
+    private static void LoadWootingSDK()
+    {
+        if (_handle != IntPtr.Zero) return;
+
+        List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
+
+        string? dllPath = possiblePathList.FirstOrDefault(File.Exists);
+        if (dllPath == null) throw new RGBDeviceException($"Can't find the Wooting-SDK at one of the expected locations:\r\n '{string.Join("\r\n", possiblePathList.Select(Path.GetFullPath))}'");
+
+        if (!NativeLibrary.TryLoad(dllPath, out _handle))
+#if NET6_0
+            throw new RGBDeviceException($"Wooting LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
+#else
+            throw new RGBDeviceException($"Wooting LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+#endif
+
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_device_info", out _getDeviceInfoPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_device_info'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_kbd_connected", out _keyboardConnectedPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_kbd_connected'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_reset_rgb", out _resetPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_reset_rgb'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_close", out _closePointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_close'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_array_update_keyboard", out _arrayUpdateKeyboardPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_array_update_keyboard'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_array_set_single", out _arraySetSinglePointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_array_set_single'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_usb_device_count", out _getDeviceCountPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_usb_device_count'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_usb_select_device", out _selectDevicePointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_usb_select_device'");
+    }
+
+    private static IEnumerable<string> GetPossibleLibraryPaths()
+    {
+        IEnumerable<string> possibleLibraryPaths;
+
+        if (OperatingSystem.IsWindows())
+            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths;
+        else if (OperatingSystem.IsLinux())
+            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePathsLinux : WootingDeviceProvider.PossibleX86NativePathsLinux;
+        else
+            possibleLibraryPaths = Enumerable.Empty<string>();
+
+        return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
+    }
+
+    internal static void UnloadWootingSDK()
+    {
+        if (_handle == IntPtr.Zero) return;
+
+        Close();
+
+        _getDeviceInfoPointer = IntPtr.Zero;
+        _keyboardConnectedPointer = IntPtr.Zero;
+        _resetPointer = IntPtr.Zero;
+        _closePointer = IntPtr.Zero;
+        _arrayUpdateKeyboardPointer = IntPtr.Zero;
+        _arraySetSinglePointer = IntPtr.Zero;
+        _getDeviceCountPointer = IntPtr.Zero;
+        _selectDevicePointer = IntPtr.Zero;
+
+        NativeLibrary.Free(_handle);
+        _handle = IntPtr.Zero;
+    }
+
+    #endregion
+
+    #region SDK-METHODS
+
+    #region Pointers
+
+    private static IntPtr _getDeviceInfoPointer;
+    private static IntPtr _keyboardConnectedPointer;
+    private static IntPtr _resetPointer;
+    private static IntPtr _closePointer;
+    private static IntPtr _arrayUpdateKeyboardPointer;
+    private static IntPtr _arraySetSinglePointer;
+    private static IntPtr _getDeviceCountPointer;
+    private static IntPtr _selectDevicePointer;
+
+    #endregion
+
+    internal static unsafe IntPtr GetDeviceInfo() => ((delegate* unmanaged[Cdecl]<IntPtr>)ThrowIfZero(_getDeviceInfoPointer))();
+    internal static unsafe bool KeyboardConnected() => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_keyboardConnectedPointer))();
+    internal static unsafe bool Reset() => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_resetPointer))();
+    internal static unsafe bool Close() => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_closePointer))();
+    internal static unsafe bool ArrayUpdateKeyboard() => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_arrayUpdateKeyboardPointer))();
+    internal static unsafe bool ArraySetSingle(byte row, byte column, byte red, byte green, byte blue)
+        => ((delegate* unmanaged[Cdecl]<byte, byte, byte, byte, byte, bool>)ThrowIfZero(_arraySetSinglePointer))(row, column, red, green, blue);
+    internal static unsafe byte GetDeviceCount() => ((delegate* unmanaged[Cdecl]<byte>)ThrowIfZero(_getDeviceCountPointer))();
+    internal static unsafe void SelectDevice(byte index) => ((delegate* unmanaged[Cdecl]<byte, void>)ThrowIfZero(_selectDevicePointer))(index);
+
+    private static IntPtr ThrowIfZero(IntPtr ptr)
+    {
+        if (ptr == IntPtr.Zero) throw new RGBDeviceException("The Wooting-SDK is not initialized.");
+        return ptr;
+    }
+
+    #endregion
 }

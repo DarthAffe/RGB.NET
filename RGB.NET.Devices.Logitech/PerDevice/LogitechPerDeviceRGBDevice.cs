@@ -2,44 +2,48 @@
 using System.Linq;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Logitech
+namespace RGB.NET.Devices.Logitech;
+
+/// <inheritdoc cref="LogitechRGBDevice{TDeviceInfo}" />
+/// <summary>
+/// Represents a logitech per-device-lightable device.
+/// </summary>
+public class LogitechPerDeviceRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
 {
-    /// <inheritdoc cref="LogitechRGBDevice{TDeviceInfo}" />
+    #region Properties & Fields
+
+    private readonly LedMapping<int> _ledMapping;
+
+    #endregion
+
+    #region Constructors
+
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a logitech per-device-lightable device.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice" /> class.
     /// </summary>
-    public class LogitechPerDeviceRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
+    internal LogitechPerDeviceRGBDevice(LogitechRGBDeviceInfo info, IUpdateQueue updateQueue, LedMapping<int> ledMapping)
+        : base(info, updateQueue)
     {
-        #region Constructors
+        this._ledMapping = ledMapping;
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Logitech.LogitechPerDeviceRGBDevice" /> class.
-        /// </summary>
-        /// <param name="info">The specific information provided by logitech for the per-device-lightable device</param>
-        internal LogitechPerDeviceRGBDevice(LogitechRGBDeviceInfo info)
-            : base(info)
-        { }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        protected override void InitializeLayout()
-        {
-            base.InitializeLayout();
-
-            if (LedMapping.Count == 0)
-                InitializeLed(LedId.Custom1, new Rectangle(0, 0, 10, 10));
-        }
-
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (ledId, LogitechLedId.DEVICE);
-
-        /// <inheritdoc />
-        protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(ledsToUpdate.Where(x => x.Color.A > 0).Take(1));
-
-        #endregion
+        InitializeLayout();
     }
+
+    #endregion
+
+    #region Methods
+
+    private void InitializeLayout()
+    {
+        AddLed(LedId.Custom1, new Point(0, 0), new Size(10, 10));
+    }
+
+    /// <inheritdoc />
+    protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
+
+    /// <inheritdoc />
+    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate.Take(1)));
+
+    #endregion
 }

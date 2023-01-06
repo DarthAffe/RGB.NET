@@ -3,27 +3,26 @@
 
 using System;
 
-namespace RGB.NET.Devices.Corsair
+namespace RGB.NET.Devices.Corsair;
+
+/// <summary>
+/// Contains a list of corsair device capabilities.
+/// </summary>
+[Flags]
+public enum CorsairDeviceCaps
 {
     /// <summary>
-    /// Contains list of corsair device capabilities.
+    /// For devices that do not support any SDK functions.
     /// </summary>
-    [Flags]
-    public enum CorsairDeviceCaps
-    {
-        /// <summary>
-        /// For devices that do not support any SDK functions.
-        /// </summary>
-        None = 0,
+    None = 0,
 
-        /// <summary>
-        /// For devices that has controlled lighting.
-        /// </summary>
-        Lighting = 1,
+    /// <summary>
+    /// For devices that has controlled lighting.
+    /// </summary>
+    Lighting = 1,
 
-        /// <summary>
-        /// For devices that provide current state through set of properties.
-        /// </summary>
-        PropertyLookup = 2
-    };
-}
+    /// <summary>
+    /// For devices that provide current state through set of properties.
+    /// </summary>
+    PropertyLookup = 2
+};

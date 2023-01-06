@@ -1,26 +1,25 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace RGB.NET.Devices.CoolerMaster.Native
+namespace RGB.NET.Devices.CoolerMaster.Native;
+
+// ReSharper disable once InconsistentNaming
+internal struct _CoolerMasterColorMatrix
 {
-    // ReSharper disable once InconsistentNaming
-    internal struct _CoolerMasterColorMatrix
-    {
-        #region Constants
+    #region Constants
 
-        // ReSharper disable MemberCanBePrivate.Global
+    // ReSharper disable MemberCanBePrivate.Global
 
-        internal const int ROWS = 7;
-        internal const int COLUMNS = 24;
+    internal const int ROWS = 8;
+    internal const int COLUMNS = 24;
 
-        // ReSharper restore MemberCanBePrivate.Global
+    // ReSharper restore MemberCanBePrivate.Global
 
-        #endregion
+    #endregion
 
-        #region Properties & Fields
+    #region Properties & Fields
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ROWS * COLUMNS)]
-        public _CoolerMasterKeyColor[,] KeyColor;
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = ROWS * COLUMNS)]
+    public _CoolerMasterKeyColor[,] KeyColor;
 
-        #endregion
-    }
+    #endregion
 }

@@ -3,303 +3,213 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
-namespace RGB.NET.Devices.Corsair
+namespace RGB.NET.Devices.Corsair;
+
+/// <inheritdoc />
+/// <summary>
+/// Represents a device provider responsible for corsair (CUE) devices.
+/// </summary>
+public class CorsairDeviceProvider : AbstractRGBDeviceProvider
 {
-    /// <inheritdoc />
+    #region Properties & Fields
+
+    private static CorsairDeviceProvider? _instance;
     /// <summary>
-    /// Represents a device provider responsible for corsair (CUE) devices.
+    /// Gets the singleton <see cref="CorsairDeviceProvider"/> instance.
     /// </summary>
-    public class CorsairDeviceProvider : IRGBDeviceProvider
+    public static CorsairDeviceProvider Instance => _instance ?? new CorsairDeviceProvider();
+
+    /// <summary>
+    /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
+    /// The first match will be used.
+    /// </summary>
+    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/CUESDK.dll", "x86/CUESDK_2019.dll", "x86/CUESDK_2017.dll", "x86/CUESDK_2015.dll", "x86/CUESDK_2013.dll" };
+
+    /// <summary>
+    /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
+    /// The first match will be used.
+    /// </summary>
+    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll", "x64/CUESDK.x64_2017.dll", "x64/CUESDK_2019.dll", "x64/CUESDK_2017.dll", "x64/CUESDK_2015.dll", "x64/CUESDK_2013.dll" };
+
+    /// <summary>
+    /// Gets the protocol details for the current SDK-connection.
+    /// </summary>
+    public CorsairProtocolDetails? ProtocolDetails { get; private set; }
+
+    /// <summary>
+    /// Gets the last error documented by CUE.
+    /// </summary>
+    public static CorsairError LastError => _CUESDK.CorsairGetLastError();
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CorsairDeviceProvider"/> class.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
+    public CorsairDeviceProvider()
     {
-        #region Properties & Fields
+        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CorsairDeviceProvider)}");
+        _instance = this;
+    }
 
-        private static CorsairDeviceProvider _instance;
-        /// <summary>
-        /// Gets the singleton <see cref="CorsairDeviceProvider"/> instance.
-        /// </summary>
-        public static CorsairDeviceProvider Instance => _instance ?? new CorsairDeviceProvider();
+    #endregion
 
-        /// <summary>
-        /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
-        /// The first match will be used.
-        /// </summary>
-        public static List<string> PossibleX86NativePaths { get; } = new List<string> { "x86/CUESDK.dll", "x86/CUESDK_2015.dll", "x86/CUESDK_2013.dll" };
+    #region Methods
 
-        /// <summary>
-        /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
-        /// The first match will be used.
-        /// </summary>
-        public static List<string> PossibleX64NativePaths { get; } = new List<string> { "x64/CUESDK.dll", "x64/CUESDK_2015.dll", "x64/CUESDK_2013.dll" };
+    /// <inheritdoc />
+    protected override void InitializeSDK()
+    {
+        _CUESDK.Reload();
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Indicates if the SDK is initialized and ready to use.
-        /// </summary>
-        public bool IsInitialized { get; private set; }
+        ProtocolDetails = new CorsairProtocolDetails(_CUESDK.CorsairPerformProtocolHandshake());
 
-        /// <summary>
-        /// Gets the loaded architecture (x64/x86).
-        /// </summary>
-        public string LoadedArchitecture => _CUESDK.LoadedArchitecture;
+        CorsairError error = LastError;
+        if (error != CorsairError.Success)
+            Throw(new CUEException(error), true);
 
-        /// <summary>
-        /// Gets the protocol details for the current SDK-connection.
-        /// </summary>
-        public CorsairProtocolDetails ProtocolDetails { get; private set; }
+        if (ProtocolDetails.BreakingChanges)
+            Throw(new RGBDeviceException("The SDK currently used isn't compatible with the installed version of CUE.\r\n"
+                                       + $"CUE-Version: {ProtocolDetails.ServerVersion} (Protocol {ProtocolDetails.ServerProtocolVersion})\r\n"
+                                       + $"SDK-Version: {ProtocolDetails.SdkVersion} (Protocol {ProtocolDetails.SdkProtocolVersion})"), true);
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Gets whether the application has exclusive access to the SDK or not.
-        /// </summary>
-        public bool HasExclusiveAccess { get; private set; }
+        // DarthAffe 02.02.2021: 127 is iCUE
+        if (!_CUESDK.CorsairSetLayerPriority(128))
+            Throw(new CUEException(LastError));
+    }
 
-        /// <summary>
-        /// Gets the last error documented by CUE.
-        /// </summary>
-        public CorsairError LastError => _CUESDK.CorsairGetLastError();
-
-        /// <inheritdoc />
-        public IEnumerable<IRGBDevice> Devices { get; private set; }
-
-        /// <summary>
-        /// The <see cref="DeviceUpdateTrigger"/> used to trigger the updates for corsair devices. 
-        /// </summary>
-        public DeviceUpdateTrigger UpdateTrigger { get; }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CorsairDeviceProvider"/> class.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-        public CorsairDeviceProvider()
+    /// <inheritdoc />
+    protected override IEnumerable<IRGBDevice> LoadDevices()
+    {
+        foreach (ICorsairRGBDevice corsairDevice in LoadCorsairDevices())
         {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CorsairDeviceProvider)}");
-            _instance = this;
-
-            UpdateTrigger = new DeviceUpdateTrigger();
+            corsairDevice.Initialize();
+            yield return corsairDevice;
         }
+    }
 
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        /// <exception cref="RGBDeviceException">Thrown if the SDK is already initialized or if the SDK is not compatible to CUE.</exception>
-        /// <exception cref="CUEException">Thrown if the CUE-SDK provides an error.</exception>
-        public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool exclusiveAccessIfPossible = false, bool throwExceptions = false)
+    private IEnumerable<ICorsairRGBDevice> LoadCorsairDevices()
+    {
+        int deviceCount = _CUESDK.CorsairGetDeviceCount();
+        for (int i = 0; i < deviceCount; i++)
         {
-            IsInitialized = false;
+            _CorsairDeviceInfo nativeDeviceInfo = (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo))!;
+            if (!((CorsairDeviceCaps)nativeDeviceInfo.capsMask).HasFlag(CorsairDeviceCaps.Lighting))
+                continue; // Everything that doesn't support lighting control is useless
 
-            try
-            {
-                UpdateTrigger?.Stop();
-
-                _CUESDK.Reload();
-
-                ProtocolDetails = new CorsairProtocolDetails(_CUESDK.CorsairPerformProtocolHandshake());
-
-                CorsairError error = LastError;
-                if (error != CorsairError.Success)
-                    throw new CUEException(error);
-
-                if (ProtocolDetails.BreakingChanges)
-                    throw new RGBDeviceException("The SDK currently used isn't compatible with the installed version of CUE.\r\n"
-                                              + $"CUE-Version: {ProtocolDetails.ServerVersion} (Protocol {ProtocolDetails.ServerProtocolVersion})\r\n"
-                                              + $"SDK-Version: {ProtocolDetails.SdkVersion} (Protocol {ProtocolDetails.SdkProtocolVersion})");
-
-                if (exclusiveAccessIfPossible)
-                {
-                    if (!_CUESDK.CorsairRequestControl(CorsairAccessMode.ExclusiveLightingControl))
-                        throw new CUEException(LastError);
-
-                    HasExclusiveAccess = true;
-                }
-                else
-                    HasExclusiveAccess = false;
-
-                // DarthAffe 07.07.2018: 127 is CUE, we want to directly compete with it as in older versions.
-                if (!_CUESDK.CorsairSetLayerPriority(127))
-                    throw new CUEException(LastError);
-
-                Dictionary<string, int> modelCounter = new Dictionary<string, int>();
-                IList<IRGBDevice> devices = new List<IRGBDevice>();
-                int deviceCount = _CUESDK.CorsairGetDeviceCount();
-                for (int i = 0; i < deviceCount; i++)
-                {
-                    try
-                    {
-                        _CorsairDeviceInfo nativeDeviceInfo = (_CorsairDeviceInfo)Marshal.PtrToStructure(_CUESDK.CorsairGetDeviceInfo(i), typeof(_CorsairDeviceInfo));
-                        CorsairRGBDeviceInfo info = new CorsairRGBDeviceInfo(i, RGBDeviceType.Unknown, nativeDeviceInfo, modelCounter);
-                        if (!info.CapsMask.HasFlag(CorsairDeviceCaps.Lighting))
-                            continue; // Everything that doesn't support lighting control is useless
-
-                        CorsairDeviceUpdateQueue deviceUpdateQueue = null;
-                        foreach (ICorsairRGBDevice device in GetRGBDevice(info, i, nativeDeviceInfo, modelCounter))
-                        {
-                            if ((device == null) || !loadFilter.HasFlag(device.DeviceInfo.DeviceType)) continue;
-
-                            if (deviceUpdateQueue == null)
-                                deviceUpdateQueue = new CorsairDeviceUpdateQueue(UpdateTrigger, info.CorsairDeviceIndex);
-
-                            device.Initialize(deviceUpdateQueue);
-                            AddSpecialParts(device);
-
-                            error = LastError;
-                            if (error != CorsairError.Success)
-                                throw new CUEException(error);
-
-                            devices.Add(device);
-                        }
-                    }
-                    catch { if (throwExceptions) throw; }
-                }
-
-                UpdateTrigger?.Start();
-
-                Devices = new ReadOnlyCollection<IRGBDevice>(devices);
-                IsInitialized = true;
-            }
-            catch
-            {
-                Reset();
-                if (throwExceptions) throw;
-                return false;
-            }
-
-            return true;
-        }
-
-        private static IEnumerable<ICorsairRGBDevice> GetRGBDevice(CorsairRGBDeviceInfo info, int i, _CorsairDeviceInfo nativeDeviceInfo, Dictionary<string, int> modelCounter)
-        {
-            switch (info.CorsairDeviceType)
+            CorsairDeviceUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
+            switch (nativeDeviceInfo.type)
             {
                 case CorsairDeviceType.Keyboard:
-                    yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
+                    yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                     break;
 
                 case CorsairDeviceType.Mouse:
-                    yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
+                    yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                     break;
 
                 case CorsairDeviceType.Headset:
-                    yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
+                    yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                     break;
 
                 case CorsairDeviceType.Mousepad:
-                    yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
+                    yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                     break;
 
                 case CorsairDeviceType.HeadsetStand:
-                    yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
+                    yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                     break;
 
                 case CorsairDeviceType.MemoryModule:
-                    yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(i, nativeDeviceInfo, modelCounter));
+                    yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Mainboard:
+                    yield return new CorsairMainboardRGBDevice(new CorsairMainboardRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
+                    break;
+
+                case CorsairDeviceType.GraphicsCard:
+                    yield return new CorsairGraphicsCardRGBDevice(new CorsairGraphicsCardRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Touchbar:
+                    yield return new CorsairTouchbarRGBDevice(new CorsairTouchbarRGBDeviceInfo(i, nativeDeviceInfo), updateQueue);
                     break;
 
                 case CorsairDeviceType.Cooler:
                 case CorsairDeviceType.CommanderPro:
                 case CorsairDeviceType.LightningNodePro:
-                    _CorsairChannelsInfo channelsInfo = nativeDeviceInfo.channels;
-                    if (channelsInfo != null)
+                    List<_CorsairChannelInfo> channels = GetChannels(nativeDeviceInfo).ToList();
+                    int channelsLedCount = channels.Sum(x => x.totalLedsCount);
+                    int deviceLedCount = nativeDeviceInfo.ledsCount - channelsLedCount;
+
+                    if (deviceLedCount > 0)
+                        yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(i, nativeDeviceInfo, deviceLedCount), updateQueue);
+
+                    int ledOffset = deviceLedCount;
+                    foreach (_CorsairChannelInfo channelInfo in channels)
                     {
-                        IntPtr channelInfoPtr = channelsInfo.channels;
-
-                        for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
+                        int channelDeviceInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelDeviceInfo));
+                        IntPtr channelDeviceInfoPtr = channelInfo.devices;
+                        for (int device = 0; (device < channelInfo.devicesCount) && (ledOffset < nativeDeviceInfo.ledsCount); device++)
                         {
-                            CorsairLedId referenceLed = GetChannelReferenceId(info.CorsairDeviceType, channel);
-                            if (referenceLed == CorsairLedId.Invalid) continue;
+                            _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo))!;
 
-                            _CorsairChannelInfo channelInfo = (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo));
+                            yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(i, nativeDeviceInfo, channelDeviceInfo, ledOffset), updateQueue);
 
-                            int channelDeviceInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelDeviceInfo));
-                            IntPtr channelDeviceInfoPtr = channelInfo.devices;
-
-                            for (int device = 0; device < channelInfo.devicesCount; device++)
-                            {
-                                _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo));
-
-                                yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(info, nativeDeviceInfo, channelDeviceInfo, referenceLed, modelCounter));
-                                referenceLed += channelDeviceInfo.deviceLedCount;
-
-                                channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
-                            }
-
-                            int channelInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelInfo));
-                            channelInfoPtr = new IntPtr(channelInfoPtr.ToInt64() + channelInfoStructSize);
+                            ledOffset += channelDeviceInfo.deviceLedCount;
+                            channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
                         }
                     }
-
                     break;
 
-
-                // ReSharper disable once RedundantCaseLabel
-                case CorsairDeviceType.Unknown:
                 default:
-                    throw new RGBDeviceException("Unknown Device-Type");
+                    Throw(new RGBDeviceException("Unknown Device-Type"));
+                    break;
             }
         }
-
-        private static CorsairLedId GetChannelReferenceId(CorsairDeviceType deviceType, int channel)
-        {
-            if (deviceType == CorsairDeviceType.Cooler)
-                return CorsairLedId.CustomLiquidCoolerChannel1Led1;
-            else
-            {
-                switch (channel)
-                {
-                    case 0: return CorsairLedId.CustomDeviceChannel1Led1;
-                    case 1: return CorsairLedId.CustomDeviceChannel2Led1;
-                    case 2: return CorsairLedId.CustomDeviceChannel3Led1;
-                }
-            }
-
-            return CorsairLedId.Invalid;
-        }
-
-        private void AddSpecialParts(ICorsairRGBDevice device)
-        {
-            if (device.DeviceInfo.Model.Equals("K95 RGB Platinum", StringComparison.OrdinalIgnoreCase))
-                device.AddSpecialDevicePart(new LightbarSpecialPart(device));
-        }
-
-        /// <inheritdoc />
-        public void ResetDevices()
-        {
-            if (IsInitialized)
-                try
-                {
-                    _CUESDK.Reload();
-                }
-                catch {/* shit happens */}
-        }
-
-        private void Reset()
-        {
-            ProtocolDetails = null;
-            HasExclusiveAccess = false;
-            Devices = null;
-            IsInitialized = false;
-        }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            try { UpdateTrigger?.Dispose(); }
-            catch { /* at least we tried */ }
-
-            try { _CUESDK.UnloadCUESDK(); }
-            catch { /* at least we tried */ }
-        }
-
-        #endregion
     }
+
+    private static IEnumerable<_CorsairChannelInfo> GetChannels(_CorsairDeviceInfo deviceInfo)
+    {
+        _CorsairChannelsInfo? channelsInfo = deviceInfo.channels;
+        if (channelsInfo == null) yield break;
+
+        IntPtr channelInfoPtr = channelsInfo.channels;
+        for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
+        {
+            yield return (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo))!;
+
+            int channelInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelInfo));
+            channelInfoPtr = new IntPtr(channelInfoPtr.ToInt64() + channelInfoStructSize);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void Reset()
+    {
+        ProtocolDetails = null;
+
+        base.Reset();
+    }
+
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        try { _CUESDK.UnloadCUESDK(); }
+        catch { /* at least we tried */ }
+
+        GC.SuppressFinalize(this);
+    }
+
+    #endregion
 }

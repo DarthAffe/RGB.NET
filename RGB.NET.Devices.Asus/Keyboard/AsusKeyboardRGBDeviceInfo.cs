@@ -1,59 +1,43 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
 using AuraServiceLib;
 using RGB.NET.Core;
 
-namespace RGB.NET.Devices.Asus
+namespace RGB.NET.Devices.Asus;
+
+/// <summary>
+/// Represents a generic information for a <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDevice" />.
+/// </summary>
+public class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDeviceInfo
 {
+    #region Properties & Fields
+
+    /// <summary>
+    /// The ASUS SDK returns useless names for notebook keyboards, possibly for others as well.
+    /// Keep a list of those and rely on <see cref="WMIHelper.GetSystemModelInfo()"/> to get the real model
+    /// </summary>
+    private static readonly List<string> GENERIC_DEVICE_NAMES = new() { "NotebookKeyboard" };
+
+    /// <inheritdoc />
+    public KeyboardLayoutType Layout => KeyboardLayoutType.Unknown;
+
+    #endregion
+
+    #region Constructors
+
     /// <inheritdoc />
     /// <summary>
-    /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDevice" />.
+    /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDeviceInfo" />.
     /// </summary>
-    public class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo
-    {
-        #region Properties & Fields
+    /// <param name="device">The <see cref="IAuraSyncDevice"/> backing this RGB.NET device.</param>
+    internal AsusKeyboardRGBDeviceInfo(IAuraSyncDevice device)
+        : base(RGBDeviceType.Keyboard, device, GetKeyboardModel(device.Name))
+    { }
 
-        /// <summary>
-        /// Gets the physical layout of the keyboard.
-        /// </summary>
-        public AsusPhysicalKeyboardLayout PhysicalLayout { get; private set; }
+    #endregion
 
-        /// <summary>
-        /// Gets the logical layout of the keyboard.
-        /// </summary>
-        public AsusLogicalKeyboardLayout LogicalLayout { get; private set; }
+    #region Methods
 
-        #endregion
+    private static string? GetKeyboardModel(string deviceName) => GENERIC_DEVICE_NAMES.Contains(deviceName) ? WMIHelper.GetSystemModelInfo() : deviceName;
 
-        #region Constructors
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDeviceInfo" />.
-        /// </summary>
-        /// <param name="device">The <see cref="IAuraSyncDevice"/> backing this RGB.NET device.</param>
-        /// <param name="culture">The <see cref="T:System.Globalization.CultureInfo" /> of the layout this keyboard is using.</param>
-        internal AsusKeyboardRGBDeviceInfo(IAuraSyncDevice device, CultureInfo culture)
-            : base(RGBDeviceType.Keyboard, device, device.Name)
-        {
-            SetLayouts(culture.KeyboardLayoutId);
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void SetLayouts(int keyboardLayoutId)
-        {
-            switch (keyboardLayoutId)
-            {
-                //TODO DarthAffe 07.10.2017: Implement
-                default:
-                    PhysicalLayout = AsusPhysicalKeyboardLayout.TODO;
-                    LogicalLayout = AsusLogicalKeyboardLayout.TODO;
-                    break;
-            }
-        }
-
-        #endregion
-    }
+    #endregion
 }

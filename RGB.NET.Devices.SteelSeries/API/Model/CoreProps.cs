@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace RGB.NET.Devices.SteelSeries.API.Model
+namespace RGB.NET.Devices.SteelSeries.API.Model;
+
+internal class CoreProps
 {
-    internal class CoreProps
-    {
-        [JsonProperty(PropertyName = "address")]
-        public string Address { get; set; }
-    }
+    [JsonPropertyName("address")]
+    public string? Address { get; set; }
 }

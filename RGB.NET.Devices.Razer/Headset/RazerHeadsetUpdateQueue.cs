@@ -1,50 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
 
-namespace RGB.NET.Devices.Razer
+namespace RGB.NET.Devices.Razer;
+
+/// <summary>
+/// Represents the update-queue performing updates for razer headset devices.
+/// </summary>
+public class RazerHeadsetUpdateQueue : RazerUpdateQueue
 {
+    #region Constructors
+
     /// <summary>
-    /// Represents the update-queue performing updates for razer headset devices.
+    /// Initializes a new instance of the <see cref="RazerHeadsetUpdateQueue" /> class.
     /// </summary>
-    public class RazerHeadsetUpdateQueue : RazerUpdateQueue
+    /// <param name="updateTrigger">The update trigger used to update this queue.</param>
+    public RazerHeadsetUpdateQueue(IDeviceUpdateTrigger updateTrigger)
+        : base(updateTrigger)
+    { }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    protected override IntPtr CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        #region Constructors
+        _Color[] colors = new _Color[_Defines.HEADSET_MAX_LEDS];
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RazerHeadsetUpdateQueue" /> class.
-        /// </summary>
-        /// <param name="updateTrigger">The update trigger used to update this queue.</param>
-        /// <param name="deviceId">The id of the device updated by this queue.</param>
-        public RazerHeadsetUpdateQueue(IDeviceUpdateTrigger updateTrigger, Guid deviceId)
-            : base(updateTrigger, deviceId)
-        { }
+        foreach ((object key, Color color) in dataSet)
+            colors[(int)key] = new _Color(color);
 
-        #endregion
+        _HeadsetCustomEffect effectParams = new()
+                                            { Color = colors };
 
-        #region Methods
+        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
+        Marshal.StructureToPtr(effectParams, ptr, false);
 
-        /// <inheritdoc />
-        protected override IntPtr CreateEffectParams(Dictionary<object, Color> dataSet)
-        {
-            _Color[] colors = new _Color[_Defines.HEADSET_MAX_LEDS];
-
-            foreach (KeyValuePair<object, Color> data in dataSet)
-                colors[(int)data.Key] = new _Color(data.Value);
-
-            _HeadsetCustomEffect effectParams = new _HeadsetCustomEffect { Color = colors };
-          
-            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
-            Marshal.StructureToPtr(effectParams, ptr, false);
-
-            return ptr;
-        }
-
-        /// <inheritdoc />
-        protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateHeadsetEffect(_Defines.HEADSET_EFFECT_ID, effectParams, ref effectId);
-
-        #endregion
+        return ptr;
     }
+
+    /// <inheritdoc />
+    protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateHeadsetEffect(_Defines.HEADSET_EFFECT_ID, effectParams, ref effectId);
+
+    #endregion
 }

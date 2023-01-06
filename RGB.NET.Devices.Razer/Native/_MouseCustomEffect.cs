@@ -1,11 +1,13 @@
-﻿using System.Runtime.InteropServices;
+﻿#pragma warning disable IDE1006 // Naming Styles
+// ReSharper disable InconsistentNaming
 
-namespace RGB.NET.Devices.Razer.Native
+using System.Runtime.InteropServices;
+
+namespace RGB.NET.Devices.Razer.Native;
+
+[StructLayout(LayoutKind.Sequential)]
+internal struct _MouseCustomEffect
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct _MouseCustomEffect
-    {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = _Defines.MOUSE_MAX_LEDS)]
-        public _Color[] Color;
-    }
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = _Defines.MOUSE_MAX_LEDS)]
+    public _Color[] Color;
 }

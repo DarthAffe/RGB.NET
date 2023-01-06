@@ -4,49 +4,51 @@
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
 
-namespace RGB.NET.Devices.Razer
+namespace RGB.NET.Devices.Razer;
+
+/// <inheritdoc cref="RazerRGBDevice" />
+/// <summary>
+/// Represents a razer mouse.
+/// </summary>
+public class RazerMouseRGBDevice : RazerRGBDevice, IMouse
 {
-    /// <inheritdoc cref="RazerRGBDevice{TDeviceInfo}" />
+    #region Properties & Fields
+
+    private readonly LedMapping<int> _ledMapping;
+
+    #endregion
+
+    #region Constructors
+
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a razer mouse.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice" /> class.
     /// </summary>
-    public class RazerMouseRGBDevice : RazerRGBDevice<RazerMouseRGBDeviceInfo>, IMouse
+    /// <param name="info">The specific information provided by CUE for the mouse.</param>
+    /// <param name="updateTrigger">The update trigger used to update this device.</param>
+    /// <param name="ledMapping">A mapping of leds this device is initialized with.</param>
+    internal RazerMouseRGBDevice(RazerRGBDeviceInfo info, IDeviceUpdateTrigger updateTrigger, LedMapping<int> ledMapping)
+        : base(info, new RazerMouseUpdateQueue(updateTrigger))
     {
-        #region Constructors
+        this._ledMapping = ledMapping;
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Razer.RazerMouseRGBDevice" /> class.
-        /// </summary>
-        /// <param name="info">The specific information provided by CUE for the mouse.</param>
-        internal RazerMouseRGBDevice(RazerMouseRGBDeviceInfo info)
-            : base(info)
-        { }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        protected override void InitializeLayout()
-        {
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Razer\Mice", $"{model}.xml"), null);
-
-            if (LedMapping.Count == 0)
-            {
-                for (int i = 0; i < _Defines.MOUSE_MAX_ROW; i++)
-                    for (int j = 0; j < _Defines.MOUSE_MAX_COLUMN; j++)
-                        InitializeLed(LedId.Mouse1 + ((i * _Defines.MOUSE_MAX_COLUMN) + j), new Rectangle(j * 11, i * 11, 10, 10));
-            }
-        }
-
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => (int)ledId - (int)LedId.Mouse1;
-
-        /// <inheritdoc />
-        protected override RazerUpdateQueue CreateUpdateQueue(IDeviceUpdateTrigger updateTrigger) => new RazerMouseUpdateQueue(updateTrigger, DeviceInfo.DeviceId);
-
-        #endregion
+        InitializeLayout();
     }
+
+    #endregion
+
+    #region Methods
+
+    private void InitializeLayout()
+    {
+        for (int row = 0; row < _Defines.MOUSE_MAX_ROW; row++)
+            for (int column = 0; column < _Defines.MOUSE_MAX_COLUMN; column++)
+                if (_ledMapping.TryGetValue((row * _Defines.MOUSE_MAX_COLUMN) + column, out LedId ledId))
+                    AddLed(ledId, new Point(column * 10, row * 10), new Size(10, 10));
+    }
+
+    /// <inheritdoc />
+    protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
+
+    #endregion
 }

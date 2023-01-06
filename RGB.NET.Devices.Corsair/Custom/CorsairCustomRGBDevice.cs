@@ -1,75 +1,74 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using System.Collections.Generic;
+using System;
+using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Corsair.Native;
 
-namespace RGB.NET.Devices.Corsair
+namespace RGB.NET.Devices.Corsair;
+
+/// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
+/// <summary>
+/// Represents a corsair custom.
+/// </summary>
+public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInfo>, IUnknownDevice
 {
-    /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
+    #region Constructors
+
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a corsair custom.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairCustomRGBDevice" /> class.
     /// </summary>
-    public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInfo>, IUnknownDevice
+    /// <param name="info">The specific information provided by CUE for the custom-device.</param>
+    /// <param name="updateQueue">The queue used to update this device.</param>
+    internal CorsairCustomRGBDevice(CorsairCustomRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+        : base(info, new LedMapping<CorsairLedId>(), updateQueue)
+    { }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    protected override void InitializeLayout()
     {
-        #region Properties & Fields
+        Mapping.Clear();
 
-        private readonly Dictionary<LedId, CorsairLedId> _idMapping = new Dictionary<LedId, CorsairLedId>();
+        _CorsairLedPositions? nativeLedPositions = (_CorsairLedPositions?)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));
+        if (nativeLedPositions == null) return;
 
-        #endregion
+        int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
+        IntPtr ptr = new(nativeLedPositions.pLedPosition.ToInt64() + (structSize * DeviceInfo.LedOffset));
 
-        #region Constructors
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairCustomRGBDevice" /> class.
-        /// </summary>
-        /// <param name="info">The specific information provided by CUE for the custom-device.</param>
-        internal CorsairCustomRGBDevice(CorsairCustomRGBDeviceInfo info)
-            : base(info)
-        { }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        protected override void InitializeLayout()
+        LedId referenceLedId = GetReferenceLed(DeviceInfo.DeviceType);
+        for (int i = 0; i < DeviceInfo.LedCount; i++)
         {
-            LedId referenceId = GetReferenceLed(DeviceInfo.DeviceType);
-
-            for (int i = 0; i < DeviceInfo.LedCount; i++)
+            LedId ledId = referenceLedId + i;
+            _CorsairLedPosition? ledPosition = (_CorsairLedPosition?)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
+            if (ledPosition == null)
             {
-                LedId ledId = referenceId + i;
-                _idMapping.Add(ledId, DeviceInfo.ReferenceCorsairLed + i);
-                InitializeLed(ledId, new Rectangle(i * 10, 0, 10, 10));
+                ptr = new IntPtr(ptr.ToInt64() + structSize);
+                continue;
             }
 
-            string model = DeviceInfo.Model.Replace(" ", string.Empty).ToUpper();
-            ApplyLayoutFromFile(PathHelper.GetAbsolutePath(this, @"Layouts\Corsair\Customs", $"{model}.xml"), null);
+            Mapping.Add(ledId, ledPosition.LedId);
+
+            Rectangle rectangle = ledPosition.ToRectangle();
+            AddLed(ledId, rectangle.Location, rectangle.Size);
+
+            ptr = new IntPtr(ptr.ToInt64() + structSize);
         }
-
-        /// <inheritdoc />
-        protected override object CreateLedCustomData(LedId ledId) => _idMapping.TryGetValue(ledId, out CorsairLedId id) ? id : CorsairLedId.Invalid;
-
-        protected virtual LedId GetReferenceLed(RGBDeviceType deviceType)
-        {
-            switch (deviceType)
-            {
-                case RGBDeviceType.LedStripe:
-                    return LedId.LedStripe1;
-
-                case RGBDeviceType.Fan:
-                    return LedId.Fan1;
-
-                case RGBDeviceType.Cooler:
-                    return LedId.Cooler1;
-
-                default:
-                    return LedId.Custom1;
-            }
-        }
-
-        #endregion
     }
+
+    private static LedId GetReferenceLed(RGBDeviceType deviceType)
+        => deviceType switch
+        {
+            RGBDeviceType.LedStripe => LedId.LedStripe1,
+            RGBDeviceType.Fan => LedId.Fan1,
+            RGBDeviceType.Cooler => LedId.Cooler1,
+            _ => LedId.Custom1
+        };
+
+    #endregion
 }

@@ -7,17 +7,22 @@
         <xsd:element name="Description" type="xsd:string" />
         <xsd:element name="Author" type="xsd:string" />
         <xsd:element name="Type" type="xsd:string" />
-        <xsd:element name="Lighting" type="xsd:string" />
         <xsd:element name="Vendor" type="xsd:string" />
         <xsd:element name="Model" type="xsd:string" />
         <xsd:element name="Shape" type="xsd:string" />
         <xsd:element name="Width" type="xsd:double" />
         <xsd:element name="Height" type="xsd:double" />
-        <xsd:element name="ImageBasePath" type="xsd:string" />
-        <xsd:element name="DeviceImage" type="xsd:string" />
         <xsd:element name="LedUnitWidth" type="xsd:double" />
         <xsd:element name="LedUnitHeight" type="xsd:double" />
-        <xsd:element name="Leds">
+    <xsd:element name="CustomData">
+          <xsd:complexType>
+           <xsd:sequence>
+              <xsd:any />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+    <xsd:element name="Leds">
           <xsd:complexType>
             <xsd:sequence>
               <xsd:element maxOccurs="unbounded" name="Led">
@@ -28,6 +33,13 @@
                     <xsd:element name="Y" type="xsd:string" />
                     <xsd:element name="Width" type="xsd:string" />
                     <xsd:element name="Height" type="xsd:string" />
+                <xsd:element name="CustomData">
+                      <xsd:complexType>
+                       <xsd:sequence>
+                          <xsd:any />
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
                   </xsd:sequence>
                   <xsd:attribute name="Id" type="xsd:string" use="required" />
                 </xsd:complexType>
@@ -35,32 +47,7 @@
             </xsd:sequence>
           </xsd:complexType>
         </xsd:element>
-        <xsd:element name="LedImageLayouts">
-          <xsd:complexType>
-            <xsd:sequence>
-              <xsd:element maxOccurs="unbounded" name="LedImageLayout">
-                <xsd:complexType>
-                  <xsd:sequence>
-                    <xsd:element name="LedImages">
-                      <xsd:complexType>
-                        <xsd:sequence>
-                          <xsd:element maxOccurs="unbounded" name="LedImage">
-                            <xsd:complexType>
-                              <xsd:attribute name="Id" type="xsd:string" use="required" />
-                              <xsd:attribute name="Image" type="xsd:string" use="required" />
-                            </xsd:complexType>
-                          </xsd:element>
-                        </xsd:sequence>
-                      </xsd:complexType>
-                    </xsd:element>
-                  </xsd:sequence>
-                  <xsd:attribute name="Layout" type="xsd:string" />
-                </xsd:complexType>
-              </xsd:element>
-            </xsd:sequence>
-          </xsd:complexType>
-        </xsd:element>
-	  </xsd:sequence>
+    </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
 </xs:schema>

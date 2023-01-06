@@ -1,51 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
-namespace RGB.NET.Core
+namespace RGB.NET.Core;
+
+/// <inheritdoc cref="AbstractDecoratable{T}" />
+/// <inheritdoc cref="ILedGroup" />
+/// <summary>
+/// Represents a generic <see cref="T:RGB.NET.Core.AbstractLedGroup" />.
+/// </summary>
+public abstract class AbstractLedGroup : AbstractDecoratable<ILedGroupDecorator>, ILedGroup
 {
-    /// <inheritdoc cref="AbstractDecoratable{T}" />
-    /// <inheritdoc cref="ILedGroup" />
+    #region Properties & Fields
+
+    RGBSurface? ILedGroup.Surface { get; set; }
+
+    /// <inheritdoc cref="ILedGroup.Surface" />
+    public RGBSurface? Surface => ((ILedGroup)this).Surface;
+
+    /// <inheritdoc />
+    public IBrush? Brush { get; set; }
+
+    /// <inheritdoc />
+    public int ZIndex { get; set; } = 0;
+
+    #endregion
+
+    #region Constructors
+
     /// <summary>
-    /// Represents a generic <see cref="T:RGB.NET.Core.AbstractLedGroup" />.
+    /// Initializes a new instance of the <see cref="AbstractLedGroup"/> class.
     /// </summary>
-    public abstract class AbstractLedGroup : AbstractDecoratable<ILedGroupDecorator>, ILedGroup
+    protected AbstractLedGroup(RGBSurface? attachTo)
     {
-        #region Properties & Fields
-
-        /// <inheritdoc />
-        public IBrush Brush { get; set; }
-
-        /// <inheritdoc />
-        public int ZIndex { get; set; } = 0;
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractLedGroup"/> class.
-        /// </summary>
-        /// <param name="autoAttach">Specifies whether this <see cref="AbstractLedGroup"/> should be automatically attached or not.</param>
-        protected AbstractLedGroup(bool autoAttach)
-        {
-            if (autoAttach)
-                RGBSurface.Instance.AttachLedGroup(this);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc />
-        public abstract IList<Led> GetLeds();
-
-        /// <inheritdoc />
-        public virtual void OnAttach()
-        { }
-
-        /// <inheritdoc />
-        public virtual void OnDetach()
-        { }
-
-        #endregion
+        attachTo?.Attach(this);
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Gets a enumerable containing all leds in this group.
+    /// </summary>
+    /// <returns>A enumerable containing all leds of this group.</returns>
+    protected abstract IEnumerable<Led> GetLeds();
+
+    /// <inheritdoc />
+    public virtual void OnAttach() { }
+
+    /// <inheritdoc />
+    public virtual void OnDetach() { }
+
+    /// <inheritdoc />
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <inheritdoc />
+    public IEnumerator<Led> GetEnumerator() => GetLeds().GetEnumerator();
+
+    #endregion
 }
