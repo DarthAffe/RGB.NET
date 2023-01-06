@@ -8,7 +8,7 @@ surface.Load(MsiDeviceProvider.Instance);
 ```
 
 # Required SDK
-This providers requires native SDK-dlls.
+This providers requires native SDK-dlls.   
 You can get them directly from Msi at [https://de.msi.com/Landing/mystic-light-rgb-gaming-pc/download](https://de.msi.com/Landing/mystic-light-rgb-gaming-pc/download) (Direct Link: [https://download.msi.com/uti_exe/Mystic_light_SDK.zip](https://download.msi.com/uti_exe/Mystic_light_SDK.zip))
 
 Since the SDK-dlls are native it's important to use the correct architecture you're building your application for. (If in doubt you can always include both.)

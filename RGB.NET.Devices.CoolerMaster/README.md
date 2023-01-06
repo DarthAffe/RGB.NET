@@ -8,7 +8,7 @@ surface.Load(CoolerMasterDeviceProvider.Instance);
 ```
 
 # Required SDK
-This providers requires native SDK-dlls.
+This providers requires native SDK-dlls.   
 You can get them directly from Cooler Master at [https://templates.coolermaster.com/](https://templates.coolermaster.com/) (Direct Link: [https://templates.coolermaster.com/assets/sdk/coolermaster-sdk.zip](https://templates.coolermaster.com/assets/sdk/coolermaster-sdk.zip))
 
 Since the SDK-dlls are native it's important to use the correct architecture you're building your application for. (If in doubt you can always include both.)

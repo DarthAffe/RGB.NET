@@ -7,11 +7,11 @@ This provider follows the default pattern and does not require additional setup.
 surface.Load(LogitechDeviceProvider.Instance);
 ```
 
-Since the logitech SDK does not provide device information only known devices will work.
+Since the logitech SDK does not provide device information only known devices will work.   
 You can add detection for additional devices by adding entires for them to the respective static `DeviceDefinitions` on the `LogitechDeviceProvider`.
 
 # Required SDK
-This providers requires native SDK-dlls.
+This providers requires native SDK-dlls.   
 You can get them directly from Logitech at [https://www.logitechg.com/en-us/innovation/developer-lab.html](https://www.logitechg.com/en-us/innovation/developer-lab.html) (Direct Link: [https://www.logitechg.com/sdk/LED_SDK_9.00.zip](https://www.logitechg.com/sdk/LED_SDK_9.00.zip))
 
 Since the SDK-dlls are native it's important to use the correct architecture you're building your application for. (If in doubt you can always include both.)

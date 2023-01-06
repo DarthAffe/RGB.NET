@@ -8,7 +8,7 @@ surface.Load(CorsairDeviceProvider.Instance);
 ```
 
 # Required SDK
-This providers requires native SDK-dlls.
+This providers requires native SDK-dlls.   
 You can get them directly from Corsair at [https://github.com/CorsairOfficial/cue-sdk/releases](https://github.com/CorsairOfficial/cue-sdk/releases)
 
 Since the SDK-dlls are native it's important to use the correct architecture you're building your application for. (If in doubt you can always include both.)

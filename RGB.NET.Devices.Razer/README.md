@@ -7,7 +7,7 @@ This provider follows the default pattern and does not require additional setup.
 surface.Load(RazerDeviceProvider.Instance);
 ```
 
-Since the Razer SDK does not provide device information only known devices will work.
+Since the Razer SDK does not provide device information only known devices will work.   
 You can add detection for additional devices by adding entires for them to the respective static `DeviceDefinitions` on the `RazerDeviceProvider`.
 
 # Required SDK
