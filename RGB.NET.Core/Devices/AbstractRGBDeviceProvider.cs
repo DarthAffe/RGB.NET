@@ -39,6 +39,9 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <inheritdoc />
     public event EventHandler<ExceptionEventArgs>? Exception;
 
+    /// <inheritdoc />
+    public event EventHandler<EventArgs>? DevicesChanged; 
+
     #endregion
 
     #region Constructors

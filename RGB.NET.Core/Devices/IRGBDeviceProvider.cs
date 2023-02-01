@@ -41,6 +41,11 @@ public interface IRGBDeviceProvider : IDisposable
     /// </summary>
     event EventHandler<ExceptionEventArgs>? Exception;
 
+    /// <summary>
+    /// Occurs when device list changes.
+    /// </summary>
+    event EventHandler<EventArgs>? DevicesChanged; 
+
     #endregion
 
     #region Methods
