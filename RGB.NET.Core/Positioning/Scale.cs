@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Diagnostics;
 
 namespace RGB.NET.Core;
@@ -9,7 +10,7 @@ namespace RGB.NET.Core;
 /// Represents a scaling.
 /// </summary>
 [DebuggerDisplay("[Horizontal: {Horizontal}, Vertical: {Vertical}]")]
-public readonly struct Scale
+public readonly struct Scale : IEquatable<Scale>
 {
     #region Properties & Fields
 
@@ -67,7 +68,7 @@ public readonly struct Scale
     /// Returns a hash code for this <see cref="Scale" />.
     /// </summary>
     /// <returns>An integer value that specifies the hash code for this <see cref="Scale" />.</returns>
-    public override int GetHashCode() { unchecked { return (Horizontal.GetHashCode() * 397) ^ Vertical.GetHashCode(); } }
+    public override int GetHashCode() => HashCode.Combine(Horizontal, Vertical);
 
     /// <summary>
     /// Deconstructs the scale into the horizontal and vertical value.

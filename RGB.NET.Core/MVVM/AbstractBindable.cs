@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core;
@@ -28,7 +29,7 @@ public abstract class AbstractBindable : IBindable
     /// <param name="value">Value to apply.</param>
     /// <returns><c>true</c> if the value needs to be updated; otherweise <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected virtual bool RequiresUpdate<T>(ref T storage, T value) => !Equals(storage, value);
+    protected virtual bool RequiresUpdate<T>(ref T storage, T value) => !EqualityComparer<T>.Default.Equals(storage, value);
 
     /// <summary>
     /// Checks if the property already matches the desired value and updates it if not.
