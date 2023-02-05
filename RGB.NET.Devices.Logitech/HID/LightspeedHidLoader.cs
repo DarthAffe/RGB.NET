@@ -28,7 +28,8 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
                                                           0xC539,
                                                           0xC53A,
                                                           0xC541,
-                                                          0xC545
+                                                          0xC545,
+                                                          0xC547
                                                       };
 
     #endregion
