@@ -10,7 +10,7 @@ namespace RGB.NET.Core;
 /// <remarks>
 /// Averages all components (A, R, G, B) of the colors separately which isn't ideal in cases where multiple different colors are combined.
 /// </remarks>
-public class AverageColorSampler : ISampler<Color>
+public sealed class AverageColorSampler : ISampler<Color>
 {
     #region Constants
 

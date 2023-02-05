@@ -11,7 +11,7 @@ namespace RGB.NET.Core;
 /// Represents an ARGB (alpha, red, green, blue) color.
 /// </summary>
 [DebuggerDisplay("[A: {A}, R: {R}, G: {G}, B: {B}]")]
-public readonly struct Color
+public readonly struct Color : IEquatable<Color>
 {
     #region Constants
 
@@ -195,6 +195,13 @@ public readonly struct Color
     /// <param name="obj">The object to test.</param>
     /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Color" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
     public override bool Equals(object? obj) => Behavior.Equals(this, obj);
+
+    /// <summary>
+    /// Tests whether the specified <see cref="Color" /> is equivalent to this <see cref="Color" />, as defined by the current <see cref="Behavior"/>.
+    /// </summary>
+    /// <param name="other">The color to test.</param>
+    /// <returns><c>true</c> if <paramref name="other" /> is equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
+    public bool Equals(Color other) => Behavior.Equals(this, other);
 
     /// <summary>
     /// Returns a hash code for this <see cref="Color" />, as defined by the current <see cref="Behavior"/>.

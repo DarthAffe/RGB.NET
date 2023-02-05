@@ -12,7 +12,7 @@ namespace RGB.NET.Core;
 /// Represents a rectangle defined by it's position and it's size.
 /// </summary>
 [DebuggerDisplay("[Location: {Location}, Size: {Size}]")]
-public readonly struct Rectangle
+public readonly struct Rectangle : IEquatable<Rectangle>
 {
     #region Properties & Fields
 
@@ -173,34 +173,24 @@ public readonly struct Rectangle
     public override string ToString() => $"[Location: {Location}, Size: {Size}]";
 
     /// <summary>
+    /// Tests whether the specified <see cref="Rectangle" /> is equivalent to this <see cref="Rectangle" />.
+    /// </summary>
+    /// <param name="other">The rectangle to test.</param>
+    /// <returns><c>true</c> if <paramref name="other" /> is equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
+    public bool Equals(Rectangle other) => (Location == other.Location) && (Size == other.Size);
+
+    /// <summary>
     /// Tests whether the specified object is a <see cref="Rectangle" /> and is equivalent to this <see cref="Rectangle" />.
     /// </summary>
     /// <param name="obj">The object to test.</param>
     /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rectangle" /> equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Rectangle compareRect)
-            return false;
-
-        if (GetType() != compareRect.GetType())
-            return false;
-
-        return (Location == compareRect.Location) && (Size == compareRect.Size);
-    }
+    public override bool Equals(object? obj) => obj is Rectangle other && Equals(other);
 
     /// <summary>
     /// Returns a hash code for this <see cref="Rectangle" />.
     /// </summary>
     /// <returns>An integer value that specifies the hash code for this <see cref="Rectangle" />.</returns>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int hashCode = Location.GetHashCode();
-            hashCode = (hashCode * 397) ^ Size.GetHashCode();
-            return hashCode;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(Location, Size);
 
     #endregion
 

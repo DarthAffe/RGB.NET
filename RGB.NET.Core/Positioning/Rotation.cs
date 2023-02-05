@@ -10,7 +10,7 @@ namespace RGB.NET.Core;
 /// Represents an angular rotation.
 /// </summary>
 [DebuggerDisplay("[{" + nameof(Degrees) + "}°]")]
-public readonly struct Rotation
+public readonly struct Rotation : IEquatable<Rotation>
 {
     #region Constants
 
