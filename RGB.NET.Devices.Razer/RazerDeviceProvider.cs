@@ -164,7 +164,8 @@ public class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0084, RGBDeviceType.Mouse, "DeathAdder V2", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x008A, RGBDeviceType.Mouse, "Viper Mini", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x008D, RGBDeviceType.Mouse, "Naga Left Handed Edition", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0090, RGBDeviceType.Mouse, "Naga Pro", LedMappings.Mouse, RazerEndpointType.Mouse },
+        { 0x008F, RGBDeviceType.Mouse, "Naga Pro", LedMappings.Mouse, RazerEndpointType.Mouse }, //this is via usb connection
+        { 0x0090, RGBDeviceType.Mouse, "Naga Pro", LedMappings.Mouse, RazerEndpointType.Mouse }, //this is via bluetooth connection
         { 0x0091, RGBDeviceType.Mouse, "Viper 8khz", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x0096, RGBDeviceType.Mouse, "Naga X", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x0099, RGBDeviceType.Mouse, "Basilisk v3", LedMappings.Mouse, RazerEndpointType.Mouse },
