@@ -53,7 +53,6 @@
 
   <ItemGroup>
     <Content Include="..\Resources\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
-    <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
