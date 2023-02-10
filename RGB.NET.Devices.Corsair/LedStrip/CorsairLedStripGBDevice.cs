@@ -8,19 +8,19 @@ namespace RGB.NET.Devices.Corsair;
 
 /// <inheritdoc cref="CorsairRGBDevice{TDeviceInfo}" />
 /// <summary>
-/// Represents a corsair touchbar.
+/// Represents a corsair ledStrip.
 /// </summary>
-public class CorsairTouchbarRGBDevice : CorsairRGBDevice<CorsairTouchbarRGBDeviceInfo>, ILedStripe
+public class CorsairLedStripRGBDevice : CorsairRGBDevice<CorsairLedStripRGBDeviceInfo>, ILedStripe
 {
     #region Constructors
 
     /// <inheritdoc />
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairTouchbarRGBDevice" /> class.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Corsair.CorsairLedStripRGBDevice" /> class.
     /// </summary>
-    /// <param name="info">The specific information provided by CUE for the touchbar.</param>
+    /// <param name="info">The specific information provided by CUE for the ledStrip.</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
-    internal CorsairTouchbarRGBDevice(CorsairTouchbarRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+    internal CorsairLedStripRGBDevice(CorsairLedStripRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
         : base(info, updateQueue)
     { }
 

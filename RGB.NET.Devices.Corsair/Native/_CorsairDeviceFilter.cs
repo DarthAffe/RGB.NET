@@ -3,26 +3,34 @@
 #pragma warning disable 649 // Field 'x' is never assigned
 #pragma warning disable IDE1006 // Naming Styles
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace RGB.NET.Devices.Corsair.Native;
 
 // ReSharper disable once InconsistentNaming
 /// <summary>
-/// CUE-SDK: contains information about channels of the DIY-devices.
+/// iCUE-SDK: contains device search filter
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal class _CorsairChannelsInfo
+internal class _CorsairDeviceFilter
 {
-    /// <summary>
-    /// CUE-SDK: number of channels controlled by the device
-    /// </summary>
-    internal int channelsCount;
+    #region Properties & Fields
 
     /// <summary>
-    /// CUE-SDK: array containing information about each separate channel of the DIY-device.
-    /// Index of the channel in the array is same as index of the channel on the DIY-device.
+    /// iCUE-SDK: mask that describes device types, formed as logical “or” of CorsairDeviceType enum values
     /// </summary>
-    internal IntPtr channels;
+    internal CorsairDeviceType deviceTypeMask;
+
+    #endregion
+
+    #region Constructors
+
+    public _CorsairDeviceFilter() { }
+
+    public _CorsairDeviceFilter(CorsairDeviceType filter)
+    {
+        this.deviceTypeMask = filter;
+    }
+
+    #endregion
 }

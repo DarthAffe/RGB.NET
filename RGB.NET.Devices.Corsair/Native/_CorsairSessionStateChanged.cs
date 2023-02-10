@@ -10,23 +10,18 @@ namespace RGB.NET.Devices.Corsair.Native;
 
 // ReSharper disable once InconsistentNaming    
 /// <summary>
-/// iCUE-SDK: contains led id and position of led
+/// iCUE-SDK: contains information about session state and client/server versions
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal class _CorsairLedPosition
+internal class _CorsairSessionStateChanged
 {
     /// <summary>
-    /// iCUE-SDK: unique identifier of led
+    /// iCUE-SDK: new session state which SDK client has been transitioned to
     /// </summary>
-    internal uint id;
+    internal CorsairSessionState state;
 
     /// <summary>
-    /// iCUE-SDK: for keyboards, mice, mousemats, headset stands and memory modules values are
+    /// iCUE-SDK: information about client/server versions
     /// </summary>
-    internal double cx;
-
-    /// <summary>
-    /// iCUE-SDK: in mm, for DIY-devices, headsets and coolers values are in logical units
-    /// </summary>
-    internal double cy;
+    internal _CorsairSessionDetails details = new();
 };
