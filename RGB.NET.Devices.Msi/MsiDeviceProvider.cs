@@ -104,6 +104,8 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
 
         try { _MsiSDK.UnloadMsiSDK(); }
         catch { /* at least we tried */ }
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion

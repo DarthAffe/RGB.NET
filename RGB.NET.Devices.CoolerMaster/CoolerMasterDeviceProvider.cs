@@ -100,6 +100,8 @@ public class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
 
         try { _CoolerMasterSDK.Reload(); }
         catch { /* Unlucky.. */ }
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion

@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -160,6 +161,8 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
         try { LedMapping.Clear(); } catch { /* this really shouldn't happen */ }
 
         IdGenerator.ResetCounter(GetType().Assembly);
+
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>
