@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RGB.NET.Core;
 
@@ -34,11 +35,24 @@ public static class CustomUpdateDataIndex
 /// <summary>
 /// Represents a set of custom data, each indexed by a string-key.
 /// </summary>
-public class CustomUpdateData
+public interface ICustomUpdateData
+{
+    /// <summary>
+    /// Gets the value for a specific key.
+    /// </summary>
+    /// <param name="key">The key of the value.</param>
+    /// <returns>The value represented by the specified key.</returns>
+    object? this[string key] { get; }
+}
+
+/// <summary>
+/// Represents a set of custom data, each indexed by a string-key.
+/// </summary>
+public class CustomUpdateData : ICustomUpdateData
 {
     #region Properties & Fields
 
-    private Dictionary<string, object?> _data = new();
+    private readonly Dictionary<string, object?> _data = new();
 
     #endregion
 
@@ -51,8 +65,8 @@ public class CustomUpdateData
     /// <returns>The value represented by the specified key.</returns>
     public object? this[string key]
     {
-        get => _data.TryGetValue(key.ToUpperInvariant(), out object? data) ? data : default;
-        set => _data[key.ToUpperInvariant()] = value;
+        get => _data.TryGetValue(key, out object? data) ? data : default;
+        set => _data[key] = value;
     }
 
     #endregion
@@ -73,6 +87,42 @@ public class CustomUpdateData
     {
         foreach ((string key, object value) in values)
             this[key] = value;
+    }
+
+    #endregion
+}
+
+internal class DefaultCustomUpdateData : ICustomUpdateData
+{
+    #region Constants
+
+    public static readonly DefaultCustomUpdateData FLUSH = new(true);
+    public static readonly DefaultCustomUpdateData NO_FLUSH = new(false);
+
+    #endregion
+
+    #region Properties & Fields
+
+    private readonly bool _flushLeds;
+
+    public object? this[string key]
+    {
+        get
+        {
+            if (string.Equals(key, CustomUpdateDataIndex.FLUSH_LEDS, StringComparison.Ordinal))
+                return _flushLeds;
+
+            return null;
+        }
+    }
+
+    #endregion
+
+    #region Constructors
+
+    public DefaultCustomUpdateData(bool flushLeds)
+    {
+        this._flushLeds = flushLeds;
     }
 
     #endregion

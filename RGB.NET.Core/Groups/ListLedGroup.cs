@@ -122,7 +122,14 @@ public class ListLedGroup : AbstractLedGroup
     /// Gets a list containing the <see cref="T:RGB.NET.Core.Led" /> from this group.
     /// </summary>
     /// <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
-    protected override IEnumerable<Led> GetLeds()
+    protected override IEnumerable<Led> GetLeds() => ToList();
+
+    /// <inheritdoc />
+    /// <summary>
+    /// Gets a list containing the <see cref="T:RGB.NET.Core.Led" /> from this group.
+    /// </summary>
+    /// <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
+    public override IList<Led> ToList()
     {
         lock (GroupLeds)
             return new List<Led>(GroupLeds);
