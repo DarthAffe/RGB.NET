@@ -39,4 +39,10 @@ public interface ILedGroup : IDecoratable<ILedGroupDecorator>, IEnumerable<Led>
     /// Called when the <see cref="ILedGroup"/> is detached from the <see cref="RGBSurface"/>.
     /// </summary>
     void OnDetach();
+
+    /// <summary>
+    /// Returns a list containing all <see cref="Led"/> in this group.
+    /// </summary>
+    /// <returns>A list containing all <see cref="Led"/> in this group.</returns>
+    IList<Led> ToList();
 }

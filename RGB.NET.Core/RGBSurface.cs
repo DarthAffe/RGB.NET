@@ -132,11 +132,12 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
     /// Perform a full update for all devices. Updates only dirty <see cref="Led"/> by default, or all <see cref="Led"/>, if flushLeds is set to true.
     /// </summary>
     /// <param name="flushLeds">Specifies whether all <see cref="Led"/>, (including clean ones) should be updated.</param>
-    public void Update(bool flushLeds = false) => Update(null, new CustomUpdateData((CustomUpdateDataIndex.FLUSH_LEDS, flushLeds)));
+    //public void Update(bool flushLeds = false) => Update(null, new CustomUpdateData((CustomUpdateDataIndex.FLUSH_LEDS, flushLeds)));
+    public void Update(bool flushLeds = false) => Update(null, flushLeds ? DefaultCustomUpdateData.FLUSH : DefaultCustomUpdateData.NO_FLUSH);
 
-    private void Update(object? updateTrigger, CustomUpdateData customData) => Update(updateTrigger as IUpdateTrigger, customData);
+    private void Update(object? updateTrigger, ICustomUpdateData customData) => Update(updateTrigger as IUpdateTrigger, customData);
 
-    private void Update(IUpdateTrigger? updateTrigger, CustomUpdateData customData)
+    private void Update(IUpdateTrigger? updateTrigger, ICustomUpdateData customData)
     {
         try
         {
@@ -149,19 +150,25 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
                 {
                     OnUpdating(updateTrigger, customData);
 
+                    // ReSharper disable ForCanBeConvertedToForeach - 'for' has a performance benefit (no enumerator allocation) here and since 'Update' is considered a hot path it's optimized
                     if (render)
                         lock (_ledGroups)
                         {
                             // Render brushes
-                            foreach (ILedGroup ledGroup in _ledGroups)
-                                try { Render(ledGroup); }
+                            for (int i = 0; i < _ledGroups.Count; i++)
+                            {
+                                try { Render(_ledGroups[i]); }
                                 catch (Exception ex) { OnException(ex); }
+                            }
                         }
 
                     if (updateDevices)
-                        foreach (IRGBDevice device in _devices)
-                            try { device.Update(flushLeds); }
+                        for (int i = 0; i < _devices.Count; i++)
+                        {
+                            try { _devices[i].Update(flushLeds); }
                             catch (Exception ex) { OnException(ex); }
+                        }
+                    // ReSharper restore ForCanBeConvertedToForeach
 
                     OnUpdated();
                 }
@@ -197,16 +204,17 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
     /// <exception cref="ArgumentException">Thrown if the <see cref="IBrush.CalculationMode"/> of the Brush is not valid.</exception>
     private void Render(ILedGroup ledGroup)
     {
-        IList<Led> leds = ledGroup.ToList();
         IBrush? brush = ledGroup.Brush;
 
         if ((brush == null) || !brush.IsEnabled) return;
+
+        IList<Led> leds = ledGroup.ToList();
 
         IEnumerable<(RenderTarget renderTarget, Color color)> render;
         switch (brush.CalculationMode)
         {
             case RenderMode.Relative:
-                Rectangle brushRectangle = new(leds.Select(led => led.AbsoluteBoundary));
+                Rectangle brushRectangle = new(leds);
                 Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                 brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
                 render = brush.Render(brushRectangle, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
@@ -358,7 +366,7 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
     /// <summary>
     /// Handles the needed event-calls before updating.
     /// </summary>
-    private void OnUpdating(IUpdateTrigger? trigger, CustomUpdateData customData)
+    private void OnUpdating(IUpdateTrigger? trigger, ICustomUpdateData customData)
     {
         try
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RGB.NET.Core;
 
@@ -50,6 +51,9 @@ public abstract class AbstractLedGroup : AbstractDecoratable<ILedGroupDecorator>
 
     /// <inheritdoc />
     public virtual void OnDetach() { }
+
+    /// <inheritdoc />
+    public virtual IList<Led> ToList() => GetLeds().ToList();
 
     /// <inheritdoc />
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
