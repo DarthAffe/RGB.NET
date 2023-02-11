@@ -11,6 +11,12 @@ namespace RGB.NET.Core;
 public class LedMapping<T> : IEnumerable<(LedId ledId, T mapping)>
     where T : notnull
 {
+    #region Constants
+
+    public static LedMapping<T> Empty { get; } = new();
+
+    #endregion
+
     #region Properties & Fields
 
     private readonly Dictionary<LedId, T> _mapping = new();

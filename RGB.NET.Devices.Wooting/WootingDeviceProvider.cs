@@ -102,6 +102,8 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
             try { _WootingSDK.UnloadWootingSDK(); }
             catch { /* at least we tried */ }
         }
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion

@@ -36,11 +36,12 @@ public class CorsairKeyboardRGBDeviceInfo : CorsairRGBDeviceInfo, IKeyboardDevic
     /// </summary>
     /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairKeyboardRGBDevice" />.</param>
     /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
-    internal CorsairKeyboardRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
-        : base(deviceIndex, RGBDeviceType.Keyboard, nativeInfo)
+    internal CorsairKeyboardRGBDeviceInfo(_CorsairDeviceInfo nativeInfo, int ledCount, int ledOffset)
+        : base(RGBDeviceType.Keyboard, nativeInfo, ledCount, ledOffset)
     {
-        this.PhysicalLayout = (CorsairPhysicalKeyboardLayout)nativeInfo.physicalLayout;
-        this.LogicalLayout = (CorsairLogicalKeyboardLayout)nativeInfo.logicalLayout;
+        PhysicalLayout = (CorsairPhysicalKeyboardLayout)_CUESDK.ReadDevicePropertySimpleInt32(nativeInfo.id!, CorsairDevicePropertyId.PhysicalLayout);
+        LogicalLayout = (CorsairLogicalKeyboardLayout)_CUESDK.ReadDevicePropertySimpleInt32(nativeInfo.id!, CorsairDevicePropertyId.LogicalLayout);
+
         this.Layout = PhysicalLayout switch
         {
             CorsairPhysicalKeyboardLayout.US => KeyboardLayoutType.ANSI,

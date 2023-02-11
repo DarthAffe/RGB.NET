@@ -1,14 +1,14 @@
 ﻿// ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
-#pragma warning disable 1591
 
 namespace RGB.NET.Devices.Corsair;
 
 /// <summary>
-/// Contains a list of available logical layouts for corsair keyboards.
+/// iCUE-SDK: Contains a list of available logical layouts for corsair keyboards.
 /// </summary>
 public enum CorsairLogicalKeyboardLayout
 {
+    Invalid = 0,
     US_Int = 1,
     NA = 2,
     EU = 3,

@@ -22,11 +22,7 @@ public sealed class DefaultColorBehavior : IColorBehavior
     /// <param name="color">The color to test.</param>
     /// <param name="obj">The object to test.</param>
     /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Color" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
-    public bool Equals(in Color color, object? obj)
-    {
-        if (obj is not Color color2) return false;
-        return Equals(color, color2);
-    }
+    public bool Equals(in Color color, object? obj) => obj is Color color2 && Equals(color, color2);
 
     /// <summary>
     /// Tests whether the specified object is a <see cref="Color" /> and is equivalent to this <see cref="Color" />.

@@ -1,4 +1,5 @@
-﻿using System.IO.Ports;
+﻿using System;
+using System.IO.Ports;
 
 namespace RGB.NET.Devices.WS281X;
 
@@ -61,7 +62,12 @@ public class SerialPortConnection : ISerialConnection
     public void WriteLine(string line) => SerialPort.WriteLine(line);
 
     /// <inheritdoc />
-    public void Dispose() => SerialPort.Dispose();
+    public void Dispose()
+    {
+        SerialPort.Dispose();
+
+        GC.SuppressFinalize(this);
+    }
 
     #endregion
 }

@@ -33,6 +33,8 @@ public abstract class CoolerMasterRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDe
         _CoolerMasterSDK.EnableLedControl(false, DeviceInfo.DeviceIndex);
 
         base.Dispose();
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion
