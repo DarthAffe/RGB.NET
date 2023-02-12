@@ -3,6 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Reflection.Metadata;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -52,6 +55,7 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
+    
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
         if (_sdk == null) yield break;
@@ -75,6 +79,44 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
             };
         }
     }
+    /*
+    protected override IEnumerable<IRGBDevice> LoadDevices()
+    {
+        if (_sdk == null) { 
+            throw new InvalidOperationException($"Asus Library not yet loaded.");
+            yield break;
+        }
+
+        var enviroment = new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName;
+        var filePath = $"{enviroment}/ASUSDEBUG.txt";
+        var content = "";
+
+        _devices = _sdk.Enumerate(0);
+        for (int i = 0; i < _devices.Count; i++)
+        {
+            IAuraSyncDevice device = _devices[i];
+
+            content += $"Name: {device.Name} Type: {device.Type} Type Hex: {device.Type:X} LEDs: {device.Lights.Count} \n\n";
+
+            yield return (AsusDeviceType)device.Type switch
+            {
+                AsusDeviceType.MB_RGB => new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, WMIHelper.GetMainboardInfo()?.model ?? device.Name), GetUpdateTrigger()),
+                AsusDeviceType.MB_ADDRESABLE => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.LedStripe, device), LedId.LedStripe1, GetUpdateTrigger()),
+                AsusDeviceType.VGA_RGB => new AsusGraphicsCardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.GraphicsCard, device), GetUpdateTrigger()),
+                AsusDeviceType.HEADSET_RGB => new AsusHeadsetRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Headset, device), GetUpdateTrigger()),
+                AsusDeviceType.DRAM_RGB => new AsusDramRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.DRAM, device), GetUpdateTrigger()),
+                AsusDeviceType.KEYBOARD_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), LedMappings.KeyboardMapping, GetUpdateTrigger()),
+                AsusDeviceType.NB_KB_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), LedMappings.KeyboardMapping, GetUpdateTrigger()),
+                AsusDeviceType.NB_KB_4ZONE_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), null, GetUpdateTrigger()),
+                AsusDeviceType.MOUSE_RGB => new AsusMouseRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mouse, device), GetUpdateTrigger()),
+                AsusDeviceType.TERMINAL_RGB => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.LedController, device), LedId.Custom1, GetUpdateTrigger()),
+                _ => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Unknown, device), LedId.Custom1, GetUpdateTrigger())
+            };
+        }
+
+        System.IO.File.WriteAllText(filePath, content);
+    }
+    */
 
     /// <inheritdoc />
     public override void Dispose()
