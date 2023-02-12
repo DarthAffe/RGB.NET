@@ -52,7 +52,6 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
         if (_sdk == null) yield break;
