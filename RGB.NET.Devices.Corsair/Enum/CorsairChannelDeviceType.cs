@@ -1,13 +1,10 @@
 ﻿// ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 
-
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
-
 namespace RGB.NET.Devices.Corsair;
 
 /// <summary>
-/// Contains a list of available corsair channel device types.
+/// iCUE-SDK: Contains a list of available corsair channel device types.
 /// </summary>
 public enum CorsairChannelDeviceType
 {
@@ -16,10 +13,11 @@ public enum CorsairChannelDeviceType
     FanSP = 2,
     FanLL = 3,
     FanML = 4,
-    Strip = 5,
-    DAP = 6,
-    Pump = 7,
-    FanQL = 8,
-    WaterBlock = 9,
-    EightLedSeriesFan = 10 // Previously called FanSPPRO
+    FanQL = 5,
+    EightLedSeriesFan = 6,
+    Strip = 7,
+    DAP = 8,
+    Pump = 9,
+    DRAM = 10,
+    WaterBlock = 11,
 };

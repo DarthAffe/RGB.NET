@@ -1,5 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -178,7 +179,12 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
     }
 
     /// <inheritdoc />
-    public override void Dispose() => Stop();
+    public override void Dispose()
+    {
+        Stop();
+
+        GC.SuppressFinalize(this);
+    }
 
     #endregion
 }

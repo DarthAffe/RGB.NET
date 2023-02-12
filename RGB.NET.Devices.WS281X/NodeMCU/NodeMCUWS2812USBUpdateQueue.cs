@@ -171,6 +171,8 @@ public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
             ResetDevice();
             _httpClient.Dispose();
         }
+
+        GC.SuppressFinalize(this);
     }
 
     private string GetUrl(string path) => $"http://{_hostname}/{path}";

@@ -75,6 +75,8 @@ public class WS281XDeviceProvider : AbstractRGBDeviceProvider
         base.Dispose();
 
         DeviceDefinitions.Clear();
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion

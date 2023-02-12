@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 
 using RGB.NET.Core;
+using System.Collections.Generic;
 
 namespace RGB.NET.Devices.Corsair;
 
@@ -20,8 +21,14 @@ public class CorsairHeadsetStandRGBDevice : CorsairRGBDevice<CorsairHeadsetStand
     /// <param name="info">The specific information provided by CUE for the headset stand</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
     internal CorsairHeadsetStandRGBDevice(CorsairHeadsetStandRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-        : base(info, LedMappings.HeadsetStand, updateQueue)
+        : base(info, updateQueue)
     { }
+
+    #endregion
+
+    #region Methods
+
+    protected override LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids) => LedMappings.CreateHeadsetStandMapping(ids);
 
     #endregion
 }

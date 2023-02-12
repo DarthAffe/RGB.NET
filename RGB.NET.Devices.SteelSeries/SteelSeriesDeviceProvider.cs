@@ -137,6 +137,8 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 
         try { SteelSeriesSDK.Dispose(); }
         catch { /* shit happens */ }
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion

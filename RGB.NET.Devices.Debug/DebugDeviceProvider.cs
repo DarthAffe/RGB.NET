@@ -71,6 +71,8 @@ public class DebugDeviceProvider : AbstractRGBDeviceProvider
         base.Dispose();
 
         _fakeDeviceDefinitions.Clear();
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion

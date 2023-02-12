@@ -9,19 +9,22 @@ namespace RGB.NET.Devices.Corsair.Native;
 
 // ReSharper disable once InconsistentNaming
 /// <summary>
-/// CUE-SDK: contains information about separate LED-device connected to the channel controlled by the DIY-device.
+/// iCUE-SDK: contains information about device property type and value
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-
-internal class _CorsairChannelDeviceInfo
+internal struct _CorsairProperty
 {
-    /// <summary>
-    /// CUE-SDK: type of the LED-device
-    /// </summary>
-    internal CorsairChannelDeviceType type;
+    #region Properties & Fields
 
     /// <summary>
-    /// CUE-SDK: number of LEDs controlled by LED-device.
+    /// iCUE-SDK: type of property
     /// </summary>
-    internal int deviceLedCount;
+    internal CorsairDataType type;
+
+    /// <summary>
+    /// iCUE-SDK: property value
+    /// </summary>
+    internal _CorsairDataValue value;
+
+    #endregion
 }

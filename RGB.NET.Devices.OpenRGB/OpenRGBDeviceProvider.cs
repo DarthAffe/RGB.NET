@@ -35,7 +35,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     public bool ForceAddAllDevices { get; set; } = false;
 
     /// <summary>
-    /// Defines which device types will be separated by zones. Defaults to <see cref="RGBDeviceType.LedStripe" /> | <see cref="RGBDeviceType.Mainboard" | <see cref="RGBDeviceType.Speaker" />.
+    /// Defines which device types will be separated by zones. Defaults to <see cref="RGBDeviceType.LedStripe" /> | <see cref="RGBDeviceType.Mainboard"/> | <see cref="RGBDeviceType.Speaker" />.
     /// </summary>
     public RGBDeviceType PerZoneDeviceFlag { get; } = RGBDeviceType.LedStripe | RGBDeviceType.Mainboard | RGBDeviceType.Speaker;
 
@@ -141,6 +141,8 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
         _clients.Clear();
         DeviceDefinitions.Clear();
         Devices = Enumerable.Empty<IRGBDevice>();
+
+        GC.SuppressFinalize(this);
     }
     #endregion
 }

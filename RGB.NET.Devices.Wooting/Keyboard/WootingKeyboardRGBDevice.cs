@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Generic;
 using RGB.NET.Devices.Wooting.Native;
@@ -55,6 +56,8 @@ public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDevic
         _WootingSDK.Reset();
 
         base.Dispose();
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion

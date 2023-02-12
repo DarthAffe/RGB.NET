@@ -49,6 +49,8 @@ public abstract class NovationRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDevice
         Reset();
 
         base.Dispose();
+
+        GC.SuppressFinalize(this);
     }
 
     #endregion
