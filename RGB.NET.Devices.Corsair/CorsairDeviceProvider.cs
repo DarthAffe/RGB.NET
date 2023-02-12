@@ -45,6 +45,11 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
     /// </summary>
     public static bool ExclusiveAccess { get; set; } = false;
 
+    /// <summary>
+    /// Gets the details for the current SDK-session.
+    /// </summary>
+    public CorsairSessionDetails SessionDetails { get; private set; } = new();
+
     #endregion
 
     #region Constructors
@@ -81,12 +86,17 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
             _CUESDK.SessionStateChanged += OnSessionStateChanged;
 
             CorsairError errorCode = _CUESDK.CorsairConnect();
-
             if (errorCode != CorsairError.Success)
                 Throw(new RGBDeviceException($"Failed to initialized Corsair-SDK. (ErrorCode: {errorCode})"));
 
             if (!waitEvent.Wait(ConnectionTimeout))
                 Throw(new RGBDeviceException($"Failed to initialized Corsair-SDK. (Timeout - Current connection state: {_CUESDK.SesionState})"));
+
+            _CUESDK.CorsairGetSessionDetails(out _CorsairSessionDetails? details);
+            if (errorCode != CorsairError.Success)
+                Throw(new RGBDeviceException($"Failed to get session details. (ErrorCode: {errorCode})"));
+
+            SessionDetails = new CorsairSessionDetails(details!);
         }
         finally
         {
