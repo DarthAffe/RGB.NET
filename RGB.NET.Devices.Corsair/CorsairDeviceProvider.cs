@@ -129,8 +129,7 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
                 Throw(new RGBDeviceException($"Failed to take control of device '{device.id}'. (ErrorCode: {error})"));
 
             CorsairDeviceUpdateQueue updateQueue = new(GetUpdateTrigger(), device);
-
-            Console.WriteLine("Loading " + device.model);
+            
             int channelLedCount = 0;
             for (int i = 0; i < device.channelCount; i++)
             {
