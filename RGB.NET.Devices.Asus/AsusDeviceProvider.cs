@@ -55,10 +55,7 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
     
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
-        if (_sdk == null) {
-            yield break;
-        }
-
+        if (_sdk == null) yield break;
 
         _devices = _sdk.Enumerate(0);
         for (int i = 0; i < _devices.Count; i++)
