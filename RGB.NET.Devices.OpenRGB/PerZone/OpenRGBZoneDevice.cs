@@ -40,7 +40,7 @@ public class OpenRGBZoneDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
     {
         Size ledSize = new(19);
         const int LED_SPACING = 20;
-        LedId initialId = Helper.GetInitialLedIdForDeviceType(DeviceInfo.DeviceType) + _initialLed;
+        LedId initialId = Helper.GetInitialLedIdForDeviceType(DeviceInfo.DeviceType);
 
         if (_zone.Type == ZoneType.Matrix)
         {
