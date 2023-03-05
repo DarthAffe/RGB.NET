@@ -46,13 +46,26 @@ internal class SteelSeriesDeviceUpdateQueue : UpdateQueue
         }
         catch (Exception ex)
         {
-            SteelSeriesDeviceProvider.Instance.Throw(ex, true);
+            SteelSeriesDeviceProvider.Instance.Throw(ex);
         }
     }
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
-        => SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToArray().Select(x => (((SteelSeriesLedId)x.key).GetAPIName(), x.color.ToIntArray())).Where(x => x.Item1 != null).ToList()!);
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    {
+        try
+        {
+            SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToArray().Select(x => (((SteelSeriesLedId)x.key).GetAPIName(), x.color.ToIntArray())).Where(x => x.Item1 != null).ToList()!);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            SteelSeriesDeviceProvider.Instance.Throw(ex);
+        }
+
+        return false;
+    }
 
     #endregion
 }

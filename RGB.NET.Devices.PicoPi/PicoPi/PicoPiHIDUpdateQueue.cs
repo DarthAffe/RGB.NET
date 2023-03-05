@@ -41,7 +41,7 @@ public class PicoPiHIDUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -59,11 +59,15 @@ public class PicoPiHIDUpdateQueue : UpdateQueue
             }
 
             _sdk.SendHidUpdate(buffer, _channel);
+
+            return true;
         }
         catch (Exception ex)
         {
-            PicoPiDeviceProvider.Instance.Throw(ex, true);
+            PicoPiDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     #endregion

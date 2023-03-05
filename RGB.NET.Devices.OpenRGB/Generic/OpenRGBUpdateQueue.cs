@@ -49,7 +49,7 @@ public class OpenRGBUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -57,11 +57,15 @@ public class OpenRGBUpdateQueue : UpdateQueue
                 _colors[(int)key] = new OpenRGBColor(color.GetR(), color.GetG(), color.GetB());
 
             _openRGB.UpdateLeds(_deviceid, _colors);
+
+            return true;
         }
         catch (Exception ex)
         {
-            OpenRGBDeviceProvider.Instance.Throw(ex, true);
+            OpenRGBDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     #endregion

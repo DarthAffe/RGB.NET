@@ -77,13 +77,25 @@ public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
     }
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        foreach (IGrouping<int, ((int channel, int key), Color color)> channelData in dataSet.ToArray().Select(x => (((int channel, int key))x.key, x.color)).GroupBy(x => x.Item1.channel))
+        try
         {
-            byte[] buffer = GetBuffer(channelData);
-            _sendDataAction(buffer);
+            foreach (IGrouping<int, ((int channel, int key), Color color)> channelData in dataSet.ToArray()
+                         .Select(x => (((int channel, int key))x.key, x.color)).GroupBy(x => x.Item1.channel))
+            {
+                byte[] buffer = GetBuffer(channelData);
+                _sendDataAction(buffer);
+            }
+
+            return true;
         }
+        catch (Exception ex)
+        {
+            WS281XDeviceProvider.Instance.Throw(ex);
+        }
+
+        return false;
     }
 
     private void SendHttp(byte[] buffer)

@@ -25,7 +25,7 @@ public class LogitechPerDeviceUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -35,11 +35,15 @@ public class LogitechPerDeviceUpdateQueue : UpdateQueue
             _LogitechGSDK.LogiLedSetLighting((int)Math.Round(color.R * 100),
                                              (int)Math.Round(color.G * 100),
                                              (int)Math.Round(color.B * 100));
+
+            return true;
         }
         catch (Exception ex)
         {
-            LogitechDeviceProvider.Instance.Throw(ex, true);
+            LogitechDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     #endregion

@@ -33,18 +33,29 @@ public class LogitechZoneUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.All);
-
-        foreach ((object key, Color color) in dataSet)
+        try
         {
-            int zone = (int)key;
-            _LogitechGSDK.LogiLedSetLightingForTargetZone(_deviceType, zone,
-                                                          (int)MathF.Round(color.R * 100),
-                                                          (int)MathF.Round(color.G * 100),
-                                                          (int)MathF.Round(color.B * 100));
+            _LogitechGSDK.LogiLedSetTargetDevice(LogitechDeviceCaps.All);
+
+            foreach ((object key, Color color) in dataSet)
+            {
+                int zone = (int)key;
+                _LogitechGSDK.LogiLedSetLightingForTargetZone(_deviceType, zone,
+                                                              (int)MathF.Round(color.R * 100),
+                                                              (int)MathF.Round(color.G * 100),
+                                                              (int)MathF.Round(color.B * 100));
+            }
+
+            return true;
         }
+        catch (Exception ex)
+        {
+            LogitechDeviceProvider.Instance.Throw(ex);
+        }
+
+        return false;
     }
 
     #endregion

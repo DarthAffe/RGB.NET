@@ -38,10 +38,12 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override unsafe void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override unsafe bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
+            if (!_CUESDK.IsConnected) return false;
+
             Span<_CorsairLedColor> colors = new((void*)_colorPtr, dataSet.Length);
             for (int i = 0; i < colors.Length; i++)
             {
@@ -53,11 +55,15 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
             CorsairError error = _CUESDK.CorsairSetLedColors(_device.id!, dataSet.Length, _colorPtr);
             if (error != CorsairError.Success)
                 throw new RGBDeviceException($"Failed to update device '{_device.id}'. (ErrorCode: {error})");
+
+            return true;
         }
         catch (Exception ex)
         {
-            CorsairDeviceProvider.Instance.Throw(ex, true);
+            CorsairDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     /// <inheritdoc />

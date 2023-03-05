@@ -12,6 +12,11 @@ public interface IUpdateQueue<TIdentifier, TData> : IDisposable
     where TIdentifier : notnull
 {
     /// <summary>
+    /// Gets a bool indicating if the queue requires a flush of all data due to an internal error.
+    /// </summary>
+    bool RequiresFlush { get; }
+
+    /// <summary>
     /// Sets or merges the provided data set in the current dataset and notifies the trigger that there is new data available.
     /// </summary>
     /// <param name="dataSet">The set of data.</param>

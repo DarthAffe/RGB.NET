@@ -56,7 +56,7 @@ public abstract class SerialConnectionUpdateQueue<TData> : UpdateQueue
     }
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -65,11 +65,15 @@ public abstract class SerialConnectionUpdateQueue<TData> : UpdateQueue
                 SerialConnection.ReadTo(Prompt);
                 SendCommand(command);
             }
+
+            return true;
         }
         catch (Exception ex)
         {
-            WS281XDeviceProvider.Instance.Throw(ex, true);
+            WS281XDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     /// <summary>

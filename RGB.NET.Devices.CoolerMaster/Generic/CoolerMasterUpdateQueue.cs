@@ -37,7 +37,7 @@ public class CoolerMasterUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -48,11 +48,15 @@ public class CoolerMasterUpdateQueue : UpdateQueue
             }
 
             _CoolerMasterSDK.SetAllLedColor(_deviceMatrix, _deviceIndex);
+
+            return true;
         }
         catch (Exception ex)
         {
-            CoolerMasterDeviceProvider.Instance.Throw(ex, true);
+            CoolerMasterDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     #endregion

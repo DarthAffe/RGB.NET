@@ -15,7 +15,7 @@ internal class DebugDeviceUpdateQueue : UpdateQueue
 
     #region Methods
 
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet) { }
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet) => true;
 
     #endregion
 }
