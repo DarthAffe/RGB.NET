@@ -34,17 +34,21 @@ public class MsiDeviceUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
             foreach ((object key, Color color) in dataSet)
                 _MsiSDK.SetLedColor(_deviceType, (int)key, color.GetR(), color.GetG(), color.GetB());
+
+            return true;
         }
         catch (Exception ex)
         {
-            MsiDeviceProvider.Instance.Throw(ex, true);
+            MsiDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     #endregion

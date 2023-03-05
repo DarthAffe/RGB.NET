@@ -30,7 +30,7 @@ public abstract class RazerUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -44,11 +44,15 @@ public abstract class RazerUpdateQueue : UpdateQueue
                 _RazerSDK.DeleteEffect(_lastEffect.Value);
 
             _lastEffect = effectId;
+
+            return true;
         }
         catch (Exception ex)
         {
-            RazerDeviceProvider.Instance.Throw(ex, true);
+            RazerDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     /// <summary>

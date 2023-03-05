@@ -59,7 +59,7 @@ public class E131UpdateQueue : UpdateQueue
     }
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -73,11 +73,15 @@ public class E131UpdateQueue : UpdateQueue
             }
 
             _socket.Send(DataPacket, DataPacket.Length);
+
+            return true;
         }
         catch (Exception ex)
         {
-            DMXDeviceProvider.Instance.Throw(ex, true);
+            DMXDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     /// <summary>

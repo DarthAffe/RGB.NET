@@ -31,7 +31,7 @@ public class WootingUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -47,11 +47,15 @@ public class WootingUpdateQueue : UpdateQueue
 
                 _WootingSDK.ArrayUpdateKeyboard();
             }
+
+            return true;
         }
         catch (Exception ex)
         {
-            WootingDeviceProvider.Instance.Throw(ex, true);
+            WootingDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     #endregion

@@ -19,6 +19,8 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
     private readonly IDeviceUpdateTrigger _updateTrigger;
     private readonly Dictionary<TIdentifier, TData> _currentDataSet = new();
 
+    public bool RequiresFlush { get; private set; }
+
     #endregion
 
     #region Constructors
@@ -62,7 +64,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
             _currentDataSet.Clear();
         }
 
-        Update(data);
+        RequiresFlush = !Update(data);
 
         ArrayPool<(TIdentifier, TData)>.Shared.Return(dataSet);
     }
@@ -78,7 +80,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
     /// Performs the update this queue is responsible for.
     /// </summary>
     /// <param name="dataSet">The set of data that needs to be updated.</param>
-    protected abstract void Update(in ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
+    protected abstract bool Update(in ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
 
     /// <summary>
     /// Sets or merges the provided data set in the current dataset and notifies the trigger that there is new data available.

@@ -43,14 +43,14 @@ public class AsusUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
             if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))
             {
                 if (Device is not IAuraSyncKeyboard keyboard)
-                    return;
+                    return true;
 
                 foreach ((object customData, Color value) in dataSet)
                 {
@@ -88,12 +88,16 @@ public class AsusUpdateQueue : UpdateQueue
             }
 
             Device.Apply();
+
+            return true;
         }
         catch (Exception ex)
         {
-            AsusDeviceProvider.Instance.Throw(ex, true);
+            AsusDeviceProvider.Instance.Throw(ex);
         }
-    }
 
+        return false;
+    }
+    
     #endregion
 }

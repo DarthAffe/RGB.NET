@@ -25,7 +25,7 @@ public class LogitechPerKeyUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -40,11 +40,15 @@ public class LogitechPerKeyUpdateQueue : UpdateQueue
                                                                   (int)MathF.Round(color.G * 100),
                                                                   (int)MathF.Round(color.B * 100));
             }
+
+            return true;
         }
         catch (Exception ex)
         {
-            LogitechDeviceProvider.Instance.Throw(ex, true);
+            LogitechDeviceProvider.Instance.Throw(ex);
         }
+
+        return false;
     }
 
     #endregion
