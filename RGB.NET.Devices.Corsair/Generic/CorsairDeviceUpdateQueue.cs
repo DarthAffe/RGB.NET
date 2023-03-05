@@ -40,17 +40,24 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
     /// <inheritdoc />
     protected override unsafe void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        Span<_CorsairLedColor> colors = new((void*)_colorPtr, dataSet.Length);
-        for (int i = 0; i < colors.Length; i++)
+        try
         {
-            (object id, Color color) = dataSet[i];
-            (byte a, byte r, byte g, byte b) = color.GetRGBBytes();
-            colors[i] = new _CorsairLedColor((CorsairLedId)id, r, g, b, a);
-        }
+            Span<_CorsairLedColor> colors = new((void*)_colorPtr, dataSet.Length);
+            for (int i = 0; i < colors.Length; i++)
+            {
+                (object id, Color color) = dataSet[i];
+                (byte a, byte r, byte g, byte b) = color.GetRGBBytes();
+                colors[i] = new _CorsairLedColor((CorsairLedId)id, r, g, b, a);
+            }
 
-        CorsairError error = _CUESDK.CorsairSetLedColors(_device.id!, dataSet.Length, _colorPtr);
-        if (error != CorsairError.Success)
-            throw new RGBDeviceException($"Failed to update device '{_device.id}'. (ErrorCode: {error})");
+            CorsairError error = _CUESDK.CorsairSetLedColors(_device.id!, dataSet.Length, _colorPtr);
+            if (error != CorsairError.Success)
+                throw new RGBDeviceException($"Failed to update device '{_device.id}'. (ErrorCode: {error})");
+        }
+        catch (Exception ex)
+        {
+            CorsairDeviceProvider.Instance.Throw(ex, true);
+        }
     }
 
     /// <inheritdoc />

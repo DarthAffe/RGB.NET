@@ -37,8 +37,15 @@ public abstract class MidiUpdateQueue : UpdateQueue
     /// <inheritdoc />
     protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        foreach ((object key, Color color) in dataSet)
-            SendMessage(CreateMessage(key, color));
+        try
+        {
+            foreach ((object key, Color color) in dataSet)
+                SendMessage(CreateMessage(key, color));
+        }
+        catch (Exception ex)
+        {
+            NovationDeviceProvider.Instance.Throw(ex, true);
+        }
     }
 
     /// <summary>

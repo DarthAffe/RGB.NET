@@ -46,20 +46,27 @@ public class PicoPiBulkUpdateQueue : UpdateQueue
     /// <inheritdoc />
     protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        Span<byte> buffer = _dataBuffer;
-        foreach ((object key, Color color) in dataSet)
+        try
         {
-            int index = key as int? ?? -1;
-            if (index < 0) continue;
+            Span<byte> buffer = _dataBuffer;
+            foreach ((object key, Color color) in dataSet)
+            {
+                int index = key as int? ?? -1;
+                if (index < 0) continue;
 
-            (byte _, byte r, byte g, byte b) = color.GetRGBBytes();
-            int offset = index * 3;
-            buffer[offset] = r;
-            buffer[offset + 1] = g;
-            buffer[offset + 2] = b;
+                (byte _, byte r, byte g, byte b) = color.GetRGBBytes();
+                int offset = index * 3;
+                buffer[offset] = r;
+                buffer[offset + 1] = g;
+                buffer[offset + 2] = b;
+            }
+
+            _sdk.SendBulkUpdate(buffer, _channel);
         }
-
-        _sdk.SendBulkUpdate(buffer, _channel);
+        catch (Exception ex)
+        {
+            PicoPiDeviceProvider.Instance.Throw(ex, true);
+        }
     }
 
     #endregion
