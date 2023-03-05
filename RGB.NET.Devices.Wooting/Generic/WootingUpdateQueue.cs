@@ -13,7 +13,7 @@ public class WootingUpdateQueue : UpdateQueue
     #region Properties & Fields
     private readonly byte _deviceid;
     #endregion
-    
+
     #region Constructors
 
     /// <summary>
@@ -33,17 +33,24 @@ public class WootingUpdateQueue : UpdateQueue
     /// <inheritdoc />
     protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        lock (_WootingSDK.SdkLock)
+        try
         {
-            _WootingSDK.SelectDevice(_deviceid);
-            
-            foreach ((object key, Color color) in dataSet)
+            lock (_WootingSDK.SdkLock)
             {
-                (int row, int column) = ((int, int))key;
-                _WootingSDK.ArraySetSingle((byte)row, (byte)column, color.GetR(), color.GetG(), color.GetB());
-            }
+                _WootingSDK.SelectDevice(_deviceid);
 
-            _WootingSDK.ArrayUpdateKeyboard();
+                foreach ((object key, Color color) in dataSet)
+                {
+                    (int row, int column) = ((int, int))key;
+                    _WootingSDK.ArraySetSingle((byte)row, (byte)column, color.GetR(), color.GetG(), color.GetB());
+                }
+
+                _WootingSDK.ArrayUpdateKeyboard();
+            }
+        }
+        catch (Exception ex)
+        {
+            WootingDeviceProvider.Instance.Throw(ex, true);
         }
     }
 

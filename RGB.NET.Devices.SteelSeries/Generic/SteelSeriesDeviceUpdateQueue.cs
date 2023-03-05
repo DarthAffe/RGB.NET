@@ -37,10 +37,17 @@ internal class SteelSeriesDeviceUpdateQueue : UpdateQueue
 
     protected override void OnUpdate(object? sender, CustomUpdateData customData)
     {
-        if (customData[CustomUpdateDataIndex.HEARTBEAT] as bool? ?? false)
-            SteelSeriesSDK.SendHeartbeat();
-        else
-            base.OnUpdate(sender, customData);
+        try
+        {
+            if (customData[CustomUpdateDataIndex.HEARTBEAT] as bool? ?? false)
+                SteelSeriesSDK.SendHeartbeat();
+            else
+                base.OnUpdate(sender, customData);
+        }
+        catch (Exception ex)
+        {
+            SteelSeriesDeviceProvider.Instance.Throw(ex, true);
+        }
     }
 
     /// <inheritdoc />

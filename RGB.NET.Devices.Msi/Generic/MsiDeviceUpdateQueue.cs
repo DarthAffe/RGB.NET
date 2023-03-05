@@ -36,8 +36,15 @@ public class MsiDeviceUpdateQueue : UpdateQueue
     /// <inheritdoc />
     protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        foreach ((object key, Color color) in dataSet)
-            _MsiSDK.SetLedColor(_deviceType, (int)key, color.GetR(), color.GetG(), color.GetB());
+        try
+        {
+            foreach ((object key, Color color) in dataSet)
+                _MsiSDK.SetLedColor(_deviceType, (int)key, color.GetR(), color.GetG(), color.GetB());
+        }
+        catch (Exception ex)
+        {
+            MsiDeviceProvider.Instance.Throw(ex, true);
+        }
     }
 
     #endregion

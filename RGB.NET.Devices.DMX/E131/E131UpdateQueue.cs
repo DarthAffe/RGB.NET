@@ -61,16 +61,23 @@ public class E131UpdateQueue : UpdateQueue
     /// <inheritdoc />
     protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        DataPacket.SetSequenceNumber(GetNextSequenceNumber());
-
-        foreach ((object key, Color color) in dataSet)
+        try
         {
-            LedChannelMapping mapping = (LedChannelMapping)key;
-            foreach ((int channel, Func<Color, byte> getValue) in mapping)
-                DataPacket.SetChannel(channel, getValue(color));
-        }
+            DataPacket.SetSequenceNumber(GetNextSequenceNumber());
 
-        _socket.Send(DataPacket, DataPacket.Length);
+            foreach ((object key, Color color) in dataSet)
+            {
+                LedChannelMapping mapping = (LedChannelMapping)key;
+                foreach ((int channel, Func<Color, byte> getValue) in mapping)
+                    DataPacket.SetChannel(channel, getValue(color));
+            }
+
+            _socket.Send(DataPacket, DataPacket.Length);
+        }
+        catch (Exception ex)
+        {
+            DMXDeviceProvider.Instance.Throw(ex, true);
+        }
     }
 
     /// <summary>

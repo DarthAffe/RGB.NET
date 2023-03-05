@@ -20,6 +20,10 @@ public interface IRGBDeviceProvider : IDisposable
     /// <summary>
     /// Indicates if exceptions in the device provider are thrown or silently ignored.
     /// </summary>
+    /// <remarks>
+    /// This should only be set to <c>true</c> for debugging/development purposes.
+    /// Production code should use the <see cref="Exception"/>-Event to handle exceptions.
+    /// </remarks>
     bool ThrowsExceptions { get; }
 
     /// <summary>

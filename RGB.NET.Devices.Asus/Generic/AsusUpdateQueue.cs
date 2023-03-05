@@ -89,8 +89,9 @@ public class AsusUpdateQueue : UpdateQueue
 
             Device.Apply();
         }
-        catch
-        { /* "The server threw an exception." seems to be a thing here ... */
+        catch (Exception ex)
+        {
+            AsusDeviceProvider.Instance.Throw(ex, true);
         }
     }
 

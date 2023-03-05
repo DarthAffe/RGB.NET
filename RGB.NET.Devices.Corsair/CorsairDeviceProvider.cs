@@ -50,6 +50,26 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
     /// </summary>
     public CorsairSessionDetails SessionDetails { get; private set; } = new();
 
+    private CorsairSessionState _sessionState = CorsairSessionState.Invalid;
+    public CorsairSessionState SessionState
+    {
+        get => _sessionState;
+        private set
+        {
+            _sessionState = value;
+
+            try { SessionStateChanged?.Invoke(this, SessionState); }
+            catch { /* catch faulty event-handlers*/ }
+        }
+    }
+
+    #endregion
+
+    #region Events
+
+    // ReSharper disable once UnassignedField.Global
+    public EventHandler<CorsairSessionState>? SessionStateChanged;
+
     #endregion
 
     #region Constructors
@@ -74,7 +94,7 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
         using ManualResetEventSlim waitEvent = new(false);
 
-        void OnSessionStateChanged(object? sender, CorsairSessionState state)
+        void OnInitializeSessionStateChanged(object? sender, CorsairSessionState state)
         {
             if (state == CorsairSessionState.Connected)
                 // ReSharper disable once AccessToDisposedClosure
@@ -84,6 +104,7 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
         try
         {
             _CUESDK.SessionStateChanged += OnSessionStateChanged;
+            _CUESDK.SessionStateChanged += OnInitializeSessionStateChanged;
 
             CorsairError errorCode = _CUESDK.CorsairConnect();
             if (errorCode != CorsairError.Success)
@@ -100,9 +121,11 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
         }
         finally
         {
-            _CUESDK.SessionStateChanged -= OnSessionStateChanged;
+            _CUESDK.SessionStateChanged -= OnInitializeSessionStateChanged;
         }
     }
+
+    private void OnSessionStateChanged(object? sender, CorsairSessionState state) => SessionState = state;
 
     /// <inheritdoc />
     protected override IEnumerable<IRGBDevice> LoadDevices()
@@ -129,7 +152,7 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
                 Throw(new RGBDeviceException($"Failed to take control of device '{device.id}'. (ErrorCode: {error})"));
 
             CorsairDeviceUpdateQueue updateQueue = new(GetUpdateTrigger(), device);
-            
+
             int channelLedCount = 0;
             for (int i = 0; i < device.channelCount; i++)
             {

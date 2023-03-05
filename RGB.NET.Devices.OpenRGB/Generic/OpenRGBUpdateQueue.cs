@@ -51,10 +51,17 @@ public class OpenRGBUpdateQueue : UpdateQueue
     /// <inheritdoc />
     protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        foreach ((object key, Color color) in dataSet)
-            _colors[(int)key] = new OpenRGBColor(color.GetR(), color.GetG(), color.GetB());
+        try
+        {
+            foreach ((object key, Color color) in dataSet)
+                _colors[(int)key] = new OpenRGBColor(color.GetR(), color.GetG(), color.GetB());
 
-        _openRGB.UpdateLeds(_deviceid, _colors);
+            _openRGB.UpdateLeds(_deviceid, _colors);
+        }
+        catch (Exception ex)
+        {
+            OpenRGBDeviceProvider.Instance.Throw(ex, true);
+        }
     }
 
     #endregion
