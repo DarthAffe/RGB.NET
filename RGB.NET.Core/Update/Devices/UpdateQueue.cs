@@ -19,6 +19,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
     private readonly IDeviceUpdateTrigger _updateTrigger;
     private readonly Dictionary<TIdentifier, TData> _currentDataSet = new();
 
+    /// <inheritdoc />
     public bool RequiresFlush { get; private set; }
 
     #endregion
