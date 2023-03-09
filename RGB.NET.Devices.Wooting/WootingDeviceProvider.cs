@@ -26,25 +26,25 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 windows applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/wooting-rgb-sdk.dll" };
-
-    /// <summary>
-    /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 linux applications.
-    /// The first match will be used.
-    /// </summary>
-    public static List<string> PossibleX86NativePathsLinux { get; } = new() { "x86/wooting-rgb-sdk.so" };
+    public static List<string> PossibleX86NativePathsWindows { get; } = new() { "x86/wooting-rgb-sdk.dll" };
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 windows applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/wooting-rgb-sdk64.dll" };
+    public static List<string> PossibleX64NativePathsWindows { get; } = new() { "x64/wooting-rgb-sdk64.dll" };
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 linux applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePathsLinux { get; } = new() { "x64/wooting-rgb-sdk64.so" };
+    public static List<string> PossibleNativePathsLinux { get; } = new() { "x64/libwooting-rgb-sdk.so" };
+
+    /// <summary>
+    /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 MacOS applications.
+    /// The first match will be used.
+    /// </summary>
+    public static List<string> PossibleNativePathsMacOS { get; } = new() { "x64/libwooting-rgb-sdk.dylib" };
 
     #endregion
 

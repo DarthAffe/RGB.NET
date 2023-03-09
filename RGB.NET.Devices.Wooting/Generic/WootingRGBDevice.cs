@@ -20,7 +20,6 @@ public abstract class WootingRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     protected WootingRGBDevice(TDeviceInfo info, IUpdateQueue updateQueue)
         : base(info, updateQueue)
     {
-        RequiresFlush = true;
     }
 
     #endregion

@@ -58,9 +58,11 @@ internal static class _WootingSDK
         IEnumerable<string> possibleLibraryPaths;
 
         if (OperatingSystem.IsWindows())
-            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths;
+            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePathsWindows : WootingDeviceProvider.PossibleX86NativePathsWindows;
         else if (OperatingSystem.IsLinux())
-            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePathsLinux : WootingDeviceProvider.PossibleX86NativePathsLinux;
+            possibleLibraryPaths = WootingDeviceProvider.PossibleNativePathsLinux;
+        else if (OperatingSystem.IsMacOS())
+            possibleLibraryPaths = WootingDeviceProvider.PossibleNativePathsMacOS;
         else
             possibleLibraryPaths = Enumerable.Empty<string>();
 
