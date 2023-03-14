@@ -1,4 +1,4 @@
-﻿using OpenRGB.NET.Enums;
+﻿using OpenRGB.NET;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.OpenRGB;
@@ -34,15 +34,15 @@ public class OpenRGBGenericDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
         int zoneLedIndex = 0;
         const int LED_SPACING = 20;
 
-        foreach (global::OpenRGB.NET.Models.Zone? zone in DeviceInfo.OpenRGBDevice.Zones)
+        foreach (Zone? zone in DeviceInfo.OpenRGBDevice.Zones)
         {
             if (zone.Type == ZoneType.Matrix)
             {
-                for (int row = 0; row < zone.MatrixMap.Height; row++)
+                for (int row = 0; row < zone.MatrixMap!.Height; row++)
                 {
-                    for (int column = 0; column < zone.MatrixMap.Width; column++)
+                    for (int column = 0; column < zone.MatrixMap!.Width; column++)
                     {
-                        uint index = zone.MatrixMap.Matrix[row, column];
+                        uint index = zone.MatrixMap!.Matrix[row, column];
 
                         //will be max value if the position does not have an associated key
                         if (index == uint.MaxValue)
@@ -59,7 +59,7 @@ public class OpenRGBGenericDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
                             ledId = initial++;
                     }
                 }
-                y += (int)(zone.MatrixMap.Height * LED_SPACING);
+                y += (int)(zone.MatrixMap!.Height * LED_SPACING);
             }
             else
             {

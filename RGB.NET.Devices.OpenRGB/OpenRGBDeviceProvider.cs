@@ -1,5 +1,4 @@
 using OpenRGB.NET;
-using OpenRGB.NET.Models;
 using RGB.NET.Core;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private readonly List<OpenRGBClient> _clients = new();
+    private readonly List<OpenRgbClient> _clients = new();
 
     private static OpenRGBDeviceProvider? _instance;
 
@@ -71,7 +70,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
         {
             try
             {
-                OpenRGBClient openRgb = new(ip: deviceDefinition.Ip, port: deviceDefinition.Port, name: deviceDefinition.ClientName, autoconnect: true);
+                OpenRgbClient openRgb = new(ip: deviceDefinition.Ip, port: deviceDefinition.Port, name: deviceDefinition.ClientName, autoConnect: true);
                 _clients.Add(openRgb);
                 deviceDefinition.Connected = true;
             }
@@ -87,7 +86,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
-        foreach (OpenRGBClient? openRgb in _clients)
+        foreach (OpenRgbClient? openRgb in _clients)
         {
             int deviceCount = openRgb.GetControllerCount();
 
@@ -99,7 +98,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
                 if (directModeIndex != -1)
                 {
                     //set the device to direct mode if it has it
-                    openRgb.SetMode(i, directModeIndex);
+                    openRgb.UpdateMode(i, directModeIndex);
                 }
                 else if (!ForceAddAllDevices)
                 {
@@ -108,21 +107,43 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
                     continue;
                 }
 
+                if (device.Zones.Length == 0) 
+                    continue;
+                if (device.Zones.All(z => z.LedCount == 0)) 
+                    continue;
+
                 OpenRGBUpdateQueue? updateQueue = new(GetUpdateTrigger(), i, openRgb, device);
+                
+                bool anyZoneHasSegments = device.Zones.Any(z => z.Segments.Length > 0);
+                bool splitDeviceByZones = anyZoneHasSegments ||  PerZoneDeviceFlag.HasFlag(Helper.GetRgbNetDeviceType(device.Type));
 
-                if (PerZoneDeviceFlag.HasFlag(Helper.GetRgbNetDeviceType(device.Type)))
+                if (!splitDeviceByZones)
                 {
-                    int totalLedCount = 0;
-
-                    foreach (Zone zone in device.Zones)
-                        if (zone.LedCount > 0)
-                        {
-                            yield return new OpenRGBZoneDevice(new OpenRGBDeviceInfo(device), totalLedCount, zone, updateQueue);
-                            totalLedCount += (int)zone.LedCount;
-                        }
-                }
-                else
                     yield return new OpenRGBGenericDevice(new OpenRGBDeviceInfo(device), updateQueue);
+                    continue;
+                }
+                
+                int totalLedCount = 0;
+
+                foreach (Zone zone in device.Zones)
+                {
+                    if (zone.LedCount <= 0)
+                        continue;
+
+                    if (zone.Segments.Length <= 0)
+                    {
+                        yield return new OpenRGBZoneDevice(new OpenRGBDeviceInfo(device), totalLedCount, zone, updateQueue);
+                        totalLedCount += (int)zone.LedCount;
+                    }
+                    else
+                    {
+                        foreach (Segment segment in zone.Segments)
+                        {
+                            yield return new OpenRGBSegmentDevice(new OpenRGBDeviceInfo(device), totalLedCount, segment, updateQueue);
+                            totalLedCount += (int)segment.LedCount;
+                        }
+                    }
+                }
             }
         }
     }
@@ -132,7 +153,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     {
         base.Dispose();
 
-        foreach (OpenRGBClient client in _clients)
+        foreach (OpenRgbClient client in _clients)
         {
             try { client.Dispose(); }
             catch { /* at least we tried */ }

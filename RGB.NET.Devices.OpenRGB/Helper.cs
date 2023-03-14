@@ -1,6 +1,6 @@
-﻿using OpenRGB.NET.Enums;
+﻿using OpenRGB.NET;
 using RGB.NET.Core;
-using OpenRGBDevice = OpenRGB.NET.Models.Device;
+using OpenRGBDevice = OpenRGB.NET.Device;
 
 namespace RGB.NET.Devices.OpenRGB;
 
