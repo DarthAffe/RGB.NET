@@ -10,7 +10,7 @@ namespace RGB.NET.Core;
 /// </summary>
 /// <typeparam name="TIdentifier">The type of the key used to identify some data.</typeparam>
 /// <typeparam name="TData">The type of the data.</typeparam>
-public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier, TData>
+public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCounting, IUpdateQueue<TIdentifier, TData>
     where TIdentifier : notnull
 {
     #region Properties & Fields
@@ -112,8 +112,14 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
     }
 
     /// <inheritdoc />
+    /// <summary>
+    /// Disposes this queue.
+    /// Checks if any referencing objects are registered and if so, will return without disposing!
+    /// </summary>
     public virtual void Dispose()
     {
+        if (this.HasActiveReferences()) return;
+
         _updateTrigger.Starting -= OnStartup;
         _updateTrigger.Update -= OnUpdate;
 
