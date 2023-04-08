@@ -112,14 +112,8 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
     }
 
     /// <inheritdoc />
-    /// <summary>
-    /// Disposes this queue.
-    /// Checks if any referencing objects are registered and if so, will return without disposing!
-    /// </summary>
     public virtual void Dispose()
     {
-        if (this.HasActiveReferences()) return;
-
         _updateTrigger.Starting -= OnStartup;
         _updateTrigger.Update -= OnUpdate;
 

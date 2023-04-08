@@ -162,7 +162,8 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
         try
         {
             UpdateQueue.RemoveReferencingObject(this);
-            UpdateQueue.Dispose();
+            if (!UpdateQueue.HasActiveReferences())
+                UpdateQueue.Dispose();
         }
         catch { /* :( */ }
         try { LedMapping.Clear(); } catch { /* this really shouldn't happen */ }
