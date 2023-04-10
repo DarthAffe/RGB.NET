@@ -85,6 +85,8 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     {
         this.DeviceInfo = deviceInfo;
         this.UpdateQueue = updateQueue;
+
+        UpdateQueue.AddReferencingObject(this);
     }
 
     #endregion
@@ -157,7 +159,13 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     /// <inheritdoc />
     public virtual void Dispose()
     {
-        try { UpdateQueue.Dispose(); } catch { /* :( */ }
+        try
+        {
+            UpdateQueue.RemoveReferencingObject(this);
+            if (!UpdateQueue.HasActiveReferences())
+                UpdateQueue.Dispose();
+        }
+        catch { /* :( */ }
         try { LedMapping.Clear(); } catch { /* this really shouldn't happen */ }
 
         IdGenerator.ResetCounter(GetType().Assembly);
