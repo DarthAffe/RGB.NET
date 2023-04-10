@@ -8,7 +8,7 @@ namespace RGB.NET.Core;
 /// </summary>
 /// <typeparam name="TIdentifier">The identifier used to identify the data processed by this queue.</typeparam>
 /// <typeparam name="TData">The type of the data processed by this queue.</typeparam>
-public interface IUpdateQueue<TIdentifier, TData> : IDisposable
+public interface IUpdateQueue<TIdentifier, TData> : IReferenceCounting, IDisposable
     where TIdentifier : notnull
 {
     /// <summary>

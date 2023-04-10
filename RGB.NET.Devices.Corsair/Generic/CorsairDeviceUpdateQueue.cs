@@ -13,6 +13,8 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
+    private bool _isDisposed = false;
+
     private readonly _CorsairDeviceInfo _device;
     private readonly nint _colorPtr;
 
@@ -42,6 +44,7 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
     {
         try
         {
+            if (_isDisposed) throw new ObjectDisposedException(nameof(CorsairDeviceUpdateQueue));
             if (!_CUESDK.IsConnected) return false;
 
             Span<_CorsairLedColor> colors = new((void*)_colorPtr, dataSet.Length);
@@ -71,6 +74,7 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
     {
         base.Dispose();
 
+        _isDisposed = true;
         Marshal.FreeHGlobal(_colorPtr);
 
         GC.SuppressFinalize(this);
