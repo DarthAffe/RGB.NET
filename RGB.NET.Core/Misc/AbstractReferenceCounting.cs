@@ -26,8 +26,7 @@ public abstract class AbstractReferenceCounting : IReferenceCounting
     public void AddReferencingObject(object obj)
     {
         lock (_referencingObjects)
-            if (!_referencingObjects.Contains(obj))
-                _referencingObjects.Add(obj);
+            _referencingObjects.Add(obj);
     }
 
     /// <inheritdoc />
