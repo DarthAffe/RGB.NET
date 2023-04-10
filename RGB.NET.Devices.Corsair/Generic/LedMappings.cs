@@ -11,6 +11,7 @@ internal static class LedMappings
 {
     #region Constants
 
+    // ReSharper disable once InconsistentNaming
     private static LedMapping<CorsairLedId> KEYBOARD_MAPPING => new()
     {
         { LedId.Invalid, new CorsairLedId(CorsairLedGroup.Keyboard, CorsairLedIdKeyboard.Invalid) },

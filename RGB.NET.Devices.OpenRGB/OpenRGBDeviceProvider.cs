@@ -92,7 +92,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 
             for (int i = 0; i < deviceCount; i++)
             {
-                Device? device = openRgb.GetControllerData(i);
+                Device device = openRgb.GetControllerData(i);
 
                 int directModeIndex = Array.FindIndex(device.Modes, d => d.Name == "Direct");
                 if (directModeIndex != -1)
@@ -112,7 +112,7 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
                 if (device.Zones.All(z => z.LedCount == 0)) 
                     continue;
 
-                OpenRGBUpdateQueue? updateQueue = new(GetUpdateTrigger(), i, openRgb, device);
+                OpenRGBUpdateQueue updateQueue = new(GetUpdateTrigger(), i, openRgb, device);
                 
                 bool anyZoneHasSegments = device.Zones.Any(z => z.Segments.Length > 0);
                 bool splitDeviceByZones = anyZoneHasSegments ||  PerZoneDeviceFlag.HasFlag(Helper.GetRgbNetDeviceType(device.Type));

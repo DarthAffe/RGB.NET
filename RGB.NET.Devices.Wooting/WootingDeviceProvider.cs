@@ -44,6 +44,7 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 MacOS applications.
     /// The first match will be used.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public static List<string> PossibleNativePathsMacOS { get; } = new() { "x64/libwooting-rgb-sdk.dylib" };
 
     #endregion
