@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech;
 
@@ -33,9 +32,6 @@ public class LogitechPerKeyRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>,
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => _ledMapping.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : -1;
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
+    
     #endregion
 }

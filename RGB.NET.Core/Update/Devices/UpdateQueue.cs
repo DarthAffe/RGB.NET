@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RGB.NET.Core;
 
@@ -88,10 +87,9 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
     /// </summary>
     /// <param name="dataSet">The set of data.</param>
     // ReSharper disable once MemberCanBeProtected.Global
-    public virtual void SetData(IEnumerable<(TIdentifier, TData)> dataSet)
+    public virtual void SetData(ReadOnlySpan<(TIdentifier, TData)> data)
     {
-        IList<(TIdentifier, TData)> data = dataSet.ToList();
-        if (data.Count == 0) return;
+        if (data.Length == 0) return;
 
         lock (_dataLock)
         {

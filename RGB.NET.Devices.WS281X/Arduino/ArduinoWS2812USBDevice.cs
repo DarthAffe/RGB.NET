@@ -53,9 +53,6 @@ public class ArduinoWS2812USBDevice : AbstractRGBDevice<ArduinoWS2812USBDeviceIn
 
     /// <inheritdoc />
     protected override IEnumerable<Led> GetLedsToUpdate(bool flushLeds) => (flushLeds || LedMapping.Values.Any(x => x.IsDirty)) ? LedMapping.Values : Enumerable.Empty<Led>();
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
+    
     #endregion
 }

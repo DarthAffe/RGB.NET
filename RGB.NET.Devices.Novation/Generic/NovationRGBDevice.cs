@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Novation;
@@ -33,9 +32,6 @@ public abstract class NovationRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDevice
             NovationColorCapabilities.RGB => new RGBColorUpdateQueue(updateTrigger, info.DeviceId),
             _ => throw new ArgumentOutOfRangeException()
         };
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
     /// <summary>
     /// Resets the <see cref="NovationRGBDevice{TDeviceInfo}"/> back to default.

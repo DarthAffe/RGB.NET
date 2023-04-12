@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech;
 
@@ -41,9 +39,6 @@ public class LogitechPerDeviceRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInf
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate.Take(1)));
 
     #endregion
 }

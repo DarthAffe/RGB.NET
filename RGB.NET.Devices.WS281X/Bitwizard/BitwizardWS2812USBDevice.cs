@@ -1,7 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X.Bitwizard;
@@ -47,9 +46,6 @@ public class BitwizardWS2812USBDevice : AbstractRGBDevice<BitwizardWS2812USBDevi
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => _ledOffset + ((int)ledId - (int)LedId.LedStripe1);
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
+    
     #endregion
 }

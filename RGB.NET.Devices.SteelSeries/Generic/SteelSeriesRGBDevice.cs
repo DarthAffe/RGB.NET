@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.SteelSeries;
 
@@ -42,9 +41,6 @@ public class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>,
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
     #endregion
 }

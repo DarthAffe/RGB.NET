@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RGB.NET.Core;
 
@@ -21,7 +20,7 @@ public interface IUpdateQueue<TIdentifier, TData> : IReferenceCounting, IDisposa
     /// </summary>
     /// <param name="dataSet">The set of data.</param>
     // ReSharper disable once MemberCanBeProtected.Global
-    void SetData(IEnumerable<(TIdentifier, TData)> dataSet);
+    void SetData(ReadOnlySpan<(TIdentifier, TData)> dataSet);
 
     /// <summary>
     /// Resets the current data set.
