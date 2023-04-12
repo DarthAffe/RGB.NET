@@ -83,10 +83,10 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
             {
                 for (byte i = 0; i < _WootingSDK.GetDeviceCount(); i++)
                 {
-                    WootingUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
                     _WootingSDK.SelectDevice(i);
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
 
+                    WootingUpdateQueue updateQueue = new(GetUpdateTrigger(), i, nativeDeviceInfo.MaxColumns * nativeDeviceInfo.MaxRows);
                     yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue);
                 }
             }

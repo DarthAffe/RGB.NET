@@ -20,8 +20,8 @@ public class WootingUpdateQueue : UpdateQueue
     /// Initializes a new instance of the <see cref="WootingUpdateQueue"/> class.
     /// </summary>
     /// <param name="updateTrigger">The update trigger used by this queue.</param>
-    public WootingUpdateQueue(IDeviceUpdateTrigger updateTrigger, byte deviceId)
-        : base(updateTrigger)
+    public WootingUpdateQueue(IDeviceUpdateTrigger updateTrigger, byte deviceId, int initialCapacity)
+        : base(updateTrigger, initialCapacity)
     {
         this._deviceid = deviceId;
     }

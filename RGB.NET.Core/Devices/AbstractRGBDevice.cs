@@ -100,7 +100,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
         DeviceUpdate();
 
         // Send LEDs to SDK
-        List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds).ToList();
+        List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds).ToList(LedMapping.Count);
 
         foreach (Led led in ledsToUpdate)
             led.Update();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RGB.NET.Core;
@@ -16,6 +17,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
     #region Properties & Fields
 
     private readonly object _dataLock = new();
+    private readonly int _initialCapacity;
     private readonly IDeviceUpdateTrigger _updateTrigger;
     private readonly Dictionary<TIdentifier, TData> _currentDataSet = new();
 
@@ -30,9 +32,10 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
     /// Initializes a new instance of the <see cref="UpdateQueue{TIdentifier,TData}"/> class.
     /// </summary>
     /// <param name="updateTrigger">The <see cref="IDeviceUpdateTrigger"/> causing this queue to update.</param>
-    protected UpdateQueue(IDeviceUpdateTrigger updateTrigger)
+    protected UpdateQueue(IDeviceUpdateTrigger updateTrigger, int initialCapacity)
     {
         this._updateTrigger = updateTrigger;
+        this._initialCapacity = initialCapacity;
 
         _updateTrigger.Starting += OnStartup;
         _updateTrigger.Update += OnUpdate;
@@ -90,7 +93,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
     // ReSharper disable once MemberCanBeProtected.Global
     public virtual void SetData(IEnumerable<(TIdentifier, TData)> dataSet)
     {
-        IList<(TIdentifier, TData)> data = dataSet.ToList();
+        IList<(TIdentifier, TData)> data = dataSet.ToList(_initialCapacity);
         if (data.Count == 0) return;
 
         lock (_dataLock)
@@ -133,8 +136,8 @@ public abstract class UpdateQueue : UpdateQueue<object, Color>, IUpdateQueue
     #region Constructors
 
     /// <inheritdoc />
-    protected UpdateQueue(IDeviceUpdateTrigger updateTrigger)
-        : base(updateTrigger)
+    protected UpdateQueue(IDeviceUpdateTrigger updateTrigger, int initialCapacity = 0)
+        : base(updateTrigger, initialCapacity)
     { }
 
     #endregion
