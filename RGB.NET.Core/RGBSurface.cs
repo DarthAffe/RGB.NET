@@ -208,26 +208,28 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
 
         if ((brush == null) || !brush.IsEnabled) return;
 
-        IList<Led> leds = ledGroup.ToList();
-
-        IEnumerable<(RenderTarget renderTarget, Color color)> render;
-        switch (brush.CalculationMode)
+        using (ledGroup.ToListUnsafe(out IList<Led> leds))
         {
-            case RenderMode.Relative:
-                Rectangle brushRectangle = new(leds);
-                Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
-                brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
-                render = brush.Render(brushRectangle, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
-                break;
-            case RenderMode.Absolute:
-                render = brush.Render(Boundary, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary)));
-                break;
-            default:
-                throw new ArgumentException($"The CalculationMode '{brush.CalculationMode}' is not valid.");
-        }
+            IEnumerable<(RenderTarget renderTarget, Color color)> render;
+            switch (brush.CalculationMode)
+            {
+                case RenderMode.Relative:
+                    Rectangle brushRectangle = new(leds);
+                    Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
+                    brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
+                    render = brush.Render(brushRectangle,
+                                          leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
+                    break;
+                case RenderMode.Absolute:
+                    render = brush.Render(Boundary, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary)));
+                    break;
+                default:
+                    throw new ArgumentException($"The CalculationMode '{brush.CalculationMode}' is not valid.");
+            }
 
-        foreach ((RenderTarget renderTarget, Color c) in render)
-            renderTarget.Led.Color = c;
+            foreach ((RenderTarget renderTarget, Color c) in render)
+                renderTarget.Led.Color = c;
+        }
     }
 
     /// <summary>

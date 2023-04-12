@@ -1,7 +1,9 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace RGB.NET.Core;
 
@@ -133,6 +135,13 @@ public class ListLedGroup : AbstractLedGroup
     {
         lock (GroupLeds)
             return new List<Led>(GroupLeds);
+    }
+
+    protected override IDisposable ToListUnsafe(out IList<Led> leds)
+    {
+        Monitor.Enter(GroupLeds);
+        leds = GroupLeds;
+        return new ActionDisposable(() => Monitor.Exit(GroupLeds));
     }
 
     #endregion
