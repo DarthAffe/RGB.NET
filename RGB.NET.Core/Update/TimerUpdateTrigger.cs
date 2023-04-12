@@ -131,9 +131,10 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
 
         using (TimerHelper.RequestHighResolutionTimer())
             while (!UpdateToken.IsCancellationRequested)
-                LastUpdateTime = TimerHelper.Execute(() => OnUpdate(_customUpdateData), UpdateFrequency * 1000);
-
+                LastUpdateTime = TimerHelper.Execute(TimerExecute, UpdateFrequency * 1000);
     }
+
+    private void TimerExecute() => OnUpdate(_customUpdateData);
 
     /// <inheritdoc />
     public override void Dispose()
