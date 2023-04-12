@@ -7,6 +7,7 @@ using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core;
 
@@ -120,6 +121,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     /// </remarks>
     /// <param name="leds">The enumerable of leds to convert.</param>
     /// <returns>The enumerable of custom data and color tuples for the specified leds.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected (object key, Color color) GetUpdateData(Led led)
     {
         Color color = led.Color;

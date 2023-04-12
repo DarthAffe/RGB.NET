@@ -217,8 +217,7 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
                     Rectangle brushRectangle = new(leds);
                     Point offset = new(-brushRectangle.Location.X, -brushRectangle.Location.Y);
                     brushRectangle = brushRectangle.SetLocation(new Point(0, 0));
-                    render = brush.Render(brushRectangle,
-                                          leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
+                    render = brush.Render(brushRectangle, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary.Translate(offset))));
                     break;
                 case RenderMode.Absolute:
                     render = brush.Render(Boundary, leds.Select(led => new RenderTarget(led, led.AbsoluteBoundary)));
