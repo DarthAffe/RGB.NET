@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 
@@ -20,7 +19,6 @@ public class AverageByteSampler : ISampler<byte>
     #region Methods
 
     /// <inheritdoc />
-    [SkipLocalsInit]
     public unsafe void Sample(in SamplerInfo<byte> info, in Span<byte> pixelData)
     {
         int count = info.Width * info.Height;
