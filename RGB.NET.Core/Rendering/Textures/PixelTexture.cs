@@ -76,6 +76,7 @@ public abstract class PixelTexture<T> : ITexture
     /// <param name="width">The with of the region.</param>
     /// <param name="height">The height of the region.</param>
     /// <returns>The sampled color.</returns>
+    [SkipLocalsInit]
     public virtual Color this[int x, int y, int width, int height]
     {
         get

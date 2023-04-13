@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 
@@ -13,6 +14,7 @@ public class AverageFloatSampler : ISampler<float>
     #region Methods
 
     /// <inheritdoc />
+    [SkipLocalsInit]
     public unsafe void Sample(in SamplerInfo<float> info, in Span<float> pixelData)
     {
         int count = info.Width * info.Height;
