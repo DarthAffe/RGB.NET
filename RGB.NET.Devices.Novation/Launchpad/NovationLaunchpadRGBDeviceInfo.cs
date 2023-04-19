@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Novation;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Novation.NovationLaunchpadRGBDevice" />.
 /// </summary>
-public class NovationLaunchpadRGBDeviceInfo : NovationRGBDeviceInfo
+public sealed class NovationLaunchpadRGBDeviceInfo : NovationRGBDeviceInfo
 {
     #region Properties & Fields
 

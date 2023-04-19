@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Corsair.Native;
 /// iCUE-SDK: contains information about session state and client/server versions
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal class _CorsairSessionStateChanged
+internal sealed class _CorsairSessionStateChanged
 {
     /// <summary>
     /// iCUE-SDK: new session state which SDK client has been transitioned to

@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair fan.
 /// </summary>
-public class CorsairFanRGBDevice : CorsairRGBDevice<CorsairFanRGBDeviceInfo>, IFan
+public sealed class CorsairFanRGBDevice : CorsairRGBDevice<CorsairFanRGBDeviceInfo>, IFan
 {
     #region Constructors
 

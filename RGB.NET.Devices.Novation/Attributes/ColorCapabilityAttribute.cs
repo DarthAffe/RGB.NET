@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Novation.Attributes;
 /// Specifies the color-capability of a field.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field)]
-public class ColorCapabilityAttribute : Attribute
+public sealed class ColorCapabilityAttribute : Attribute
 {
     #region Properties & Fields
 

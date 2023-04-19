@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents the update-queue performing updates for cooler master devices.
 /// </summary>
-public class CoolerMasterUpdateQueue : UpdateQueue
+public sealed class CoolerMasterUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 

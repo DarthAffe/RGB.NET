@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.Msi.Exceptions;
 /// <summary>
 /// Represents an exception thrown by the MysticLight-SDK.
 /// </summary>
-public class MysticLightException : ApplicationException
+public sealed class MysticLightException : ApplicationException
 {
     #region Properties & Fields
 

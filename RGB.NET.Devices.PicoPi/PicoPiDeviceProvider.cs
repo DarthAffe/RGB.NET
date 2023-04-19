@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.PicoPi;
 /// Represents a device provider responsible for PicoPi-devices.
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class PicoPiDeviceProvider : AbstractRGBDeviceProvider
+public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Constants
 

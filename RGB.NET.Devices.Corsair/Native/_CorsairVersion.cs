@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Corsair.Native;
 /// iCUE-SDK: contains information about version that consists of three components
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal class _CorsairVersion
+internal sealed class _CorsairVersion
 {
     #region Properties & Fields
 

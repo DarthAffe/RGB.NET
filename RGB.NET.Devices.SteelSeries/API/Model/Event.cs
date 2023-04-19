@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace RGB.NET.Devices.SteelSeries.API.Model;
 
-internal class Event
+internal sealed class Event
 {
     #region Properties & Fields
 

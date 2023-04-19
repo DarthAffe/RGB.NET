@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents a razer chroma link.
 /// </summary>
-public class RazerChromaLinkRGBDevice : RazerRGBDevice, IUnknownDevice
+public sealed class RazerChromaLinkRGBDevice : RazerRGBDevice, IUnknownDevice
 {
     #region Constructors
 

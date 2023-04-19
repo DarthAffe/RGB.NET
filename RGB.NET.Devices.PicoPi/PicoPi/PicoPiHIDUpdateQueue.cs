@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.PicoPi;
 /// <summary>
 /// Represents the update-queue performing updates for Pico-Pi HID-devices.
 ///  </summary>
-public class PicoPiHIDUpdateQueue : UpdateQueue
+public sealed class PicoPiHIDUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 

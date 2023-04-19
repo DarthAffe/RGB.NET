@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.DMX.E131;
 /// <summary>
 /// Represents the data used to create a E1.31 DMX-device.
 /// </summary>
-public class E131DMXDeviceDefinition : IDMXDeviceDefinition
+public sealed class E131DMXDeviceDefinition : IDMXDeviceDefinition
 {
     #region Properties & Fields
 

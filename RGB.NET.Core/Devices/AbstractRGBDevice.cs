@@ -3,9 +3,11 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core;
 
@@ -100,12 +102,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
         DeviceUpdate();
 
         // Send LEDs to SDK
-        List<Led> ledsToUpdate = GetLedsToUpdate(flushLeds).ToList();
-
-        foreach (Led led in ledsToUpdate)
-            led.Update();
-
-        UpdateLeds(ledsToUpdate);
+        UpdateLeds(GetLedsToUpdate(flushLeds));
     }
 
     /// <summary>
@@ -124,37 +121,39 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     /// </remarks>
     /// <param name="leds">The enumerable of leds to convert.</param>
     /// <returns>The enumerable of custom data and color tuples for the specified leds.</returns>
-    protected virtual IEnumerable<(object key, Color color)> GetUpdateData(IEnumerable<Led> leds)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    protected (object key, Color color) GetUpdateData(Led led)
     {
-        if (ColorCorrections.Count > 0)
-        {
-            foreach (Led led in leds)
-            {
-                Color color = led.Color;
-                object key = led.CustomData ?? led.Id;
+        Color color = led.Color;
+        object key = led.CustomData ?? led.Id;
 
-                foreach (IColorCorrection colorCorrection in ColorCorrections)
-                    colorCorrection.ApplyTo(ref color);
+        // ReSharper disable once ForCanBeConvertedToForeach - This causes an allocation that's not really needed here
+        for (int i = 0; i < ColorCorrections.Count; i++)
+            ColorCorrections[i].ApplyTo(ref color);
 
-                yield return (key, color);
-            }
-        }
-        else
-        {
-            foreach (Led led in leds)
-            {
-                Color color = led.Color;
-                object key = led.CustomData ?? led.Id;
-
-                yield return (key, color);
-            }
-        }
+        return (key, color);
     }
 
     /// <summary>
     /// Sends all the updated <see cref="Led"/> to the device.
     /// </summary>
-    protected virtual void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
+    protected virtual void UpdateLeds(IEnumerable<Led> ledsToUpdate)
+    {
+        (object key, Color color)[] buffer = ArrayPool<(object, Color)>.Shared.Rent(LedMapping.Count);
+
+        int counter = 0;
+        foreach (Led led in ledsToUpdate)
+        {
+            led.Update();
+
+            buffer[counter] = GetUpdateData(led);
+            ++counter;
+        }
+
+        UpdateQueue.SetData(new ReadOnlySpan<(object, Color)>(buffer)[..counter]);
+
+        ArrayPool<(object, Color)>.Shared.Return(buffer);
+    }
 
     /// <inheritdoc />
     public virtual void Dispose()

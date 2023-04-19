@@ -1,6 +1,7 @@
 ﻿// ReSharper disable UnusedMemberInSuper.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Collections.Generic;
 
 namespace RGB.NET.Core;
@@ -45,4 +46,6 @@ public interface ILedGroup : IDecoratable<ILedGroupDecorator>, IEnumerable<Led>
     /// </summary>
     /// <returns>A list containing all <see cref="Led"/> in this group.</returns>
     IList<Led> ToList();
+
+    internal IDisposable? ToListUnsafe(out IList<Led> leds);
 }

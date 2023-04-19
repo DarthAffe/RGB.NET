@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents the update-queue performing updates for corsair devices.
 /// </summary>
-public class CorsairDeviceUpdateQueue : UpdateQueue
+public sealed class CorsairDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -76,8 +76,6 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
 
         _isDisposed = true;
         Marshal.FreeHGlobal(_colorPtr);
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

@@ -4,7 +4,7 @@ using RGB.NET.Core;
 namespace RGB.NET.Devices.OpenRGB;
 
 /// <inheritdoc />
-public class OpenRGBSegmentDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
+public sealed class OpenRGBSegmentDevice : AbstractOpenRGBDevice<OpenRGBDeviceInfo>
 {
     #region Properties & Fields
 

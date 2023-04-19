@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents a razer headset.
 /// </summary>
-public class RazerHeadsetRGBDevice : RazerRGBDevice, IHeadset
+public sealed class RazerHeadsetRGBDevice : RazerRGBDevice, IHeadset
 {
     #region Constructors
 

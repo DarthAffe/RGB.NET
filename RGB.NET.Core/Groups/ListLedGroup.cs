@@ -1,7 +1,9 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace RGB.NET.Core;
 
@@ -9,14 +11,16 @@ namespace RGB.NET.Core;
 /// <summary>
 /// Represents a ledgroup containing arbitrary <see cref="T:RGB.NET.Core.Led" />.
 /// </summary>
-public class ListLedGroup : AbstractLedGroup
+public sealed class ListLedGroup : AbstractLedGroup
 {
     #region Properties & Fields
+
+    private readonly ActionDisposable _unlockDisposable;
 
     /// <summary>
     /// Gets the list containing the <see cref="Led"/> of this <see cref="ListLedGroup"/>.
     /// </summary>
-    protected IList<Led> GroupLeds { get; } = new List<Led>();
+    private readonly IList<Led> _groupLeds = new List<Led>();
 
     #endregion
 
@@ -29,7 +33,9 @@ public class ListLedGroup : AbstractLedGroup
     /// <param name="surface">Specifies the surface to attach this group to or <c>null</c> if the group should not be attached on creation.</param>
     public ListLedGroup(RGBSurface? surface)
         : base(surface)
-    { }
+    {
+        _unlockDisposable = new ActionDisposable(Unlock);
+    }
 
     /// <inheritdoc />
     /// <summary>
@@ -40,6 +46,8 @@ public class ListLedGroup : AbstractLedGroup
     public ListLedGroup(RGBSurface? surface, IEnumerable<Led> leds)
         : base(surface)
     {
+        _unlockDisposable = new ActionDisposable(Unlock);
+
         AddLeds(leds);
     }
 
@@ -52,6 +60,8 @@ public class ListLedGroup : AbstractLedGroup
     public ListLedGroup(RGBSurface? surface, params Led[] leds)
         : base(surface)
     {
+        _unlockDisposable = new ActionDisposable(Unlock);
+
         AddLeds(leds);
     }
 
@@ -71,10 +81,10 @@ public class ListLedGroup : AbstractLedGroup
     /// <param name="leds">The <see cref="Led"/> to add.</param>
     public void AddLeds(IEnumerable<Led> leds)
     {
-        lock (GroupLeds)
+        lock (_groupLeds)
             foreach (Led led in leds)
                 if (!ContainsLed(led))
-                    GroupLeds.Add(led);
+                    _groupLeds.Add(led);
     }
 
     /// <summary>
@@ -89,9 +99,9 @@ public class ListLedGroup : AbstractLedGroup
     /// <param name="leds">The <see cref="Led"/> to remove.</param>
     public void RemoveLeds(IEnumerable<Led> leds)
     {
-        lock (GroupLeds)
+        lock (_groupLeds)
             foreach (Led led in leds)
-                GroupLeds.Remove(led);
+                _groupLeds.Remove(led);
     }
 
     /// <summary>
@@ -101,8 +111,8 @@ public class ListLedGroup : AbstractLedGroup
     /// <returns><c>true</c> if the LED is contained by this ledgroup; otherwise, <c>false</c>.</returns>
     public bool ContainsLed(Led led)
     {
-        lock (GroupLeds)
-            return GroupLeds.Contains(led);
+        lock (_groupLeds)
+            return _groupLeds.Contains(led);
     }
 
     /// <summary>
@@ -111,10 +121,10 @@ public class ListLedGroup : AbstractLedGroup
     /// <param name="groupToMerge">The ledgroup to merge.</param>
     public void MergeLeds(ILedGroup groupToMerge)
     {
-        lock (GroupLeds)
+        lock (_groupLeds)
             foreach (Led led in groupToMerge)
-                if (!GroupLeds.Contains(led))
-                    GroupLeds.Add(led);
+                if (!_groupLeds.Contains(led))
+                    _groupLeds.Add(led);
     }
 
     /// <inheritdoc />
@@ -131,9 +141,18 @@ public class ListLedGroup : AbstractLedGroup
     /// <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
     public override IList<Led> ToList()
     {
-        lock (GroupLeds)
-            return new List<Led>(GroupLeds);
+        lock (_groupLeds)
+            return new List<Led>(_groupLeds);
     }
+
+    protected override IDisposable ToListUnsafe(out IList<Led> leds)
+    {
+        Monitor.Enter(_groupLeds);
+        leds = _groupLeds;
+        return _unlockDisposable;
+    }
+
+    private void Unlock() => Monitor.Exit(_groupLeds);
 
     #endregion
 }

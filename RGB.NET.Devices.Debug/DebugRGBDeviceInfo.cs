@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Debug;
 /// <summary>
 /// Represents device information for a <see cref="DebugRGBDevice"/> />.
 /// </summary>
-public class DebugRGBDeviceInfo : IRGBDeviceInfo
+public sealed class DebugRGBDeviceInfo : IRGBDeviceInfo
 {
     #region Properties & Fields
 

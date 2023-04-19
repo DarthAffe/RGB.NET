@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.WS281X.Bitwizard.BitwizardWS2812USBDeviceInfo" />.
 /// </summary>
-public class BitwizardWS2812USBDeviceInfo : IRGBDeviceInfo
+public sealed class BitwizardWS2812USBDeviceInfo : IRGBDeviceInfo
 {
     #region Properties & Fields
 

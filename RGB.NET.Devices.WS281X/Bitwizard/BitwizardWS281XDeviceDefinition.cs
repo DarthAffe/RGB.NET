@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard;
 /// <summary>
 /// Represents a definition of an bitwizard WS2812 devices.
 /// </summary>
-public class BitwizardWS281XDeviceDefinition : IWS281XDeviceDefinition
+public sealed class BitwizardWS281XDeviceDefinition : IWS281XDeviceDefinition
 {
     #region Properties & Fields
 

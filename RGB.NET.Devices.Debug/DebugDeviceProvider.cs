@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.Debug;
 /// <summary>
 /// Represents a device provider responsible for debug devices.
 /// </summary>
-public class DebugDeviceProvider : AbstractRGBDeviceProvider
+public sealed class DebugDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
@@ -71,8 +71,6 @@ public class DebugDeviceProvider : AbstractRGBDeviceProvider
         base.Dispose();
 
         _fakeDeviceDefinitions.Clear();
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

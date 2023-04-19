@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Generic;
 using RGB.NET.Devices.Wooting.Native;
@@ -10,7 +9,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard;
 /// <summary>
 /// Represents a Wooting keyboard.
 /// </summary>
-public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
+public sealed class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
 {
     #region Properties & Fields
 
@@ -47,17 +46,12 @@ public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDevic
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType][ledId];
 
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
     public override void Dispose()
     {
         _WootingSDK.SelectDevice(DeviceInfo.WootingDeviceIndex);
         _WootingSDK.Reset();
 
         base.Dispose();
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

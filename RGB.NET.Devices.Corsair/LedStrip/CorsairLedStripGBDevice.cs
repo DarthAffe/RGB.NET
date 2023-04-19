@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair ledStrip.
 /// </summary>
-public class CorsairLedStripRGBDevice : CorsairRGBDevice<CorsairLedStripRGBDeviceInfo>, ILedStripe
+public sealed class CorsairLedStripRGBDevice : CorsairRGBDevice<CorsairLedStripRGBDeviceInfo>, ILedStripe
 {
     #region Constructors
 

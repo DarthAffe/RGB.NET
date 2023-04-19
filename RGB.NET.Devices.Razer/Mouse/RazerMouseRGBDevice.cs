@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents a razer mouse.
 /// </summary>
-public class RazerMouseRGBDevice : RazerRGBDevice, IMouse
+public sealed class RazerMouseRGBDevice : RazerRGBDevice, IMouse
 {
     #region Properties & Fields
 

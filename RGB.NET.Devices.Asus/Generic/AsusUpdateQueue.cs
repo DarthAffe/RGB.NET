@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Asus;
 /// <summary>
 /// Represents the update-queue performing updates for asus devices.
 /// </summary>
-public class AsusUpdateQueue : UpdateQueue
+public sealed class AsusUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -17,7 +17,7 @@ public class AsusUpdateQueue : UpdateQueue
     /// <summary>
     /// The device to be updated.
     /// </summary>
-    protected IAuraSyncDevice Device { get; }
+    private readonly IAuraSyncDevice _device;
 
     #endregion
 
@@ -31,7 +31,7 @@ public class AsusUpdateQueue : UpdateQueue
     public AsusUpdateQueue(IDeviceUpdateTrigger updateTrigger, IAuraSyncDevice device)
         : base(updateTrigger)
     {
-        this.Device = device;
+        this._device = device;
 
         this._lights = new IAuraRgbLight[device.Lights.Count];
         for (int i = 0; i < device.Lights.Count; i++)
@@ -47,9 +47,9 @@ public class AsusUpdateQueue : UpdateQueue
     {
         try
         {
-            if ((Device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (Device.Type == (uint)AsusDeviceType.NB_KB_RGB))
+            if ((_device.Type == (uint)AsusDeviceType.KEYBOARD_RGB) || (_device.Type == (uint)AsusDeviceType.NB_KB_RGB))
             {
-                if (Device is not IAuraSyncKeyboard keyboard)
+                if (_device is not IAuraSyncKeyboard keyboard)
                     return true;
 
                 foreach ((object customData, Color value) in dataSet)
@@ -87,7 +87,7 @@ public class AsusUpdateQueue : UpdateQueue
                 }
             }
 
-            Device.Apply();
+            _device.Apply();
 
             return true;
         }

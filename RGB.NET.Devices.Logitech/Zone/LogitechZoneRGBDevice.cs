@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Logitech;
 
@@ -7,7 +6,7 @@ namespace RGB.NET.Devices.Logitech;
 /// <summary>
 /// Represents a logitech zone-lightable device.
 /// </summary>
-public class LogitechZoneRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
+public sealed class LogitechZoneRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
 {
     #region Properties & Fields
 
@@ -40,9 +39,6 @@ public class LogitechZoneRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, I
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
     #endregion
 }

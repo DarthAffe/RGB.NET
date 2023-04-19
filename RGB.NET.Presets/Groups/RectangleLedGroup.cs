@@ -2,6 +2,7 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RGB.NET.Core;
@@ -12,7 +13,7 @@ namespace RGB.NET.Presets.Groups;
 /// <summary>
 /// Represents a <see cref="T:RGB.NET.Presets.Groups.RectangleLedGroup" /> containing <see cref="T:RGB.NET.Core.Led" /> which physically lay inside a <see cref="T:RGB.NET.Core.Rectangle" />.
 /// </summary>
-public class RectangleLedGroup : AbstractLedGroup
+public sealed class RectangleLedGroup : AbstractLedGroup
 {
     #region Properties & Fields
 
@@ -121,7 +122,7 @@ public class RectangleLedGroup : AbstractLedGroup
     /// Gets a list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Presets.Groups.RectangleLedGroup" />.
     /// </summary>
     /// <returns>The list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Presets.Groups.RectangleLedGroup" />.</returns>
-    public override IList<Led> ToList() => _ledCache ??= (Surface?.Leds.Where(led => led.AbsoluteBoundary.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList() ?? new List<Led>());
+    public override IList<Led> ToList() => _ledCache ??= ((IList<Led>?)Surface?.Leds.Where(led => led.AbsoluteBoundary.CalculateIntersectPercentage(Rectangle) >= MinOverlayPercentage).ToList() ?? Array.Empty<Led>());
 
     private void InvalidateCache() => _ledCache = null;
 

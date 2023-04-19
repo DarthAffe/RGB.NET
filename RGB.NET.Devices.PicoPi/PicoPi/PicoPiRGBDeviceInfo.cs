@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.PicoPi;
 /// <summary>
 /// Represents a generic information for a <see cref="PicoPiRGBDevice" />.
 /// </summary>
-public class PicoPiRGBDeviceInfo : IRGBDeviceInfo
+public sealed class PicoPiRGBDeviceInfo : IRGBDeviceInfo
 {
     #region Properties & Fields
 

@@ -48,7 +48,7 @@ public interface ICustomUpdateData
 /// <summary>
 /// Represents a set of custom data, each indexed by a string-key.
 /// </summary>
-public class CustomUpdateData : ICustomUpdateData
+public sealed class CustomUpdateData : ICustomUpdateData
 {
     #region Properties & Fields
 
@@ -92,7 +92,7 @@ public class CustomUpdateData : ICustomUpdateData
     #endregion
 }
 
-internal class DefaultCustomUpdateData : ICustomUpdateData
+internal sealed class DefaultCustomUpdateData : ICustomUpdateData
 {
     #region Constants
 
@@ -120,7 +120,7 @@ internal class DefaultCustomUpdateData : ICustomUpdateData
 
     #region Constructors
 
-    public DefaultCustomUpdateData(bool flushLeds)
+    private DefaultCustomUpdateData(bool flushLeds)
     {
         this._flushLeds = flushLeds;
     }

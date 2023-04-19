@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Novation.Attributes;
 /// Specifies the device-id of a field.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field)]
-public class DeviceIdAttribute : Attribute
+public sealed class DeviceIdAttribute : Attribute
 {
     #region Properties & Fields
 

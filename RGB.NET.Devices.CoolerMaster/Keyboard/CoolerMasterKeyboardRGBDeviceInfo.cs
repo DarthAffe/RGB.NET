@@ -5,7 +5,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterKeyboardRGBDevice" />.
 /// </summary>
-public class CoolerMasterKeyboardRGBDeviceInfo : CoolerMasterRGBDeviceInfo, IKeyboardDeviceInfo
+public sealed class CoolerMasterKeyboardRGBDeviceInfo : CoolerMasterRGBDeviceInfo, IKeyboardDeviceInfo
 {
     #region Properties & Fields
 

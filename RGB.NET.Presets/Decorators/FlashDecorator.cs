@@ -12,7 +12,7 @@ namespace RGB.NET.Presets.Decorators;
 /// <summary>
 /// Represents a decorator which allows to flash a brush by modifying his opacity.
 /// </summary>
-public class FlashDecorator : AbstractUpdateAwareDecorator, IBrushDecorator
+public sealed class FlashDecorator : AbstractUpdateAwareDecorator, IBrushDecorator
 {
     #region Properties & Fields
 

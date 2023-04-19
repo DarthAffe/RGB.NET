@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Asus;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Asus.AsusKeyboardRGBDevice" />.
 /// </summary>
-public class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDeviceInfo
+public sealed class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDeviceInfo
 {
     #region Properties & Fields
 

@@ -1,4 +1,6 @@
-﻿namespace RGB.NET.Devices.Corsair;
+﻿// ReSharper disable InconsistentNaming
+
+namespace RGB.NET.Devices.Corsair;
 
 /// <summary>
 /// iCUE-SDK: contains a list of led groups. Led group is used as a part of led identifier

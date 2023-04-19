@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairMouseRGBDevice" />.
 /// </summary>
-public class CorsairMouseRGBDeviceInfo : CorsairRGBDeviceInfo
+public sealed class CorsairMouseRGBDeviceInfo : CorsairRGBDeviceInfo
 {
     #region Constructors
 

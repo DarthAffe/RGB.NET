@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Msi;
 /// <summary>
 /// Represents a MSI mouse.
 /// </summary>
-public class MsiMouseRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>
+public sealed class MsiMouseRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>
 {
     #region Constructors
 

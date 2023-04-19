@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.DMX.E131;
 /// <summary>
 /// Represents a E1.31-DXM-device.
 /// </summary>
-public class E131Device : AbstractRGBDevice<E131DeviceInfo>, IUnknownDevice
+public sealed class E131Device : AbstractRGBDevice<E131DeviceInfo>, IUnknownDevice
 {
     #region Properties & Fields
 

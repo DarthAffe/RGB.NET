@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.Corsair.Native;
 /// iCUE-SDK: contains device search filter
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal class _CorsairDeviceFilter
+internal sealed class _CorsairDeviceFilter
 {
     #region Properties & Fields
 

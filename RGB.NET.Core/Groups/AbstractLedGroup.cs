@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -60,6 +61,15 @@ public abstract class AbstractLedGroup : AbstractDecoratable<ILedGroupDecorator>
 
     /// <inheritdoc />
     public IEnumerator<Led> GetEnumerator() => GetLeds().GetEnumerator();
+
+    /// <inheritdoc />
+    IDisposable? ILedGroup.ToListUnsafe(out IList<Led> leds) => ToListUnsafe(out leds);
+
+    protected virtual IDisposable? ToListUnsafe(out IList<Led> leds)
+    {
+        leds = ToList();
+        return null;
+    }
 
     #endregion
 }

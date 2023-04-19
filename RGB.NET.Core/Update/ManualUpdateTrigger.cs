@@ -83,11 +83,11 @@ public sealed class ManualUpdateTrigger : AbstractUpdateTrigger
         OnStartup();
 
         while (!UpdateToken.IsCancellationRequested)
-        {
             if (_mutex.WaitOne(100))
-                LastUpdateTime = TimerHelper.Execute(() => OnUpdate(_customUpdateData));
-        }
+                LastUpdateTime = TimerHelper.Execute(TimerExecute);
     }
+
+    private void TimerExecute() => OnUpdate(_customUpdateData);
 
     /// <inheritdoc />
     public override void Dispose() => Stop();

@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair memory.
 /// </summary>
-public class CorsairMainboardRGBDevice : CorsairRGBDevice<CorsairMainboardRGBDeviceInfo>, IMainboard
+public sealed class CorsairMainboardRGBDevice : CorsairRGBDevice<CorsairMainboardRGBDeviceInfo>, IMainboard
 {
     #region Constructors
 

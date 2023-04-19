@@ -4,7 +4,7 @@
 /// <summary>
 /// Represents a brush drawing a texture.
 /// </summary>
-public class TextureBrush : AbstractBrush
+public sealed class TextureBrush : AbstractBrush
 {
     #region Properties & Fields
 

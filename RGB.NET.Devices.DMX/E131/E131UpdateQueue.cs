@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.DMX.E131;
 /// <summary>
 /// Represents the update-queue performing updates for E131-DMX devices.
 /// </summary>
-public class E131UpdateQueue : UpdateQueue
+public sealed class E131UpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 

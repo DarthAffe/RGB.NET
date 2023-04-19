@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Razer;
@@ -27,10 +26,7 @@ public abstract class RazerRGBDevice : AbstractRGBDevice<RazerRGBDeviceInfo>, IR
     #endregion
 
     #region Methods
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
+    
     /// <inheritdoc />
     public override void Dispose()
     {

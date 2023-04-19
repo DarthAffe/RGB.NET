@@ -3,7 +3,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Debug;
 
-internal class DebugDeviceUpdateQueue : UpdateQueue
+internal sealed class DebugDeviceUpdateQueue : UpdateQueue
 {
     #region Constructors
 
