@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Logitech;
 /// <summary>
 /// Represents the update-queue performing updates for logitech per-key devices.
 /// </summary>
-public class LogitechPerKeyUpdateQueue : UpdateQueue
+public sealed class LogitechPerKeyUpdateQueue : UpdateQueue
 {
     #region Constructors
 
@@ -17,8 +17,7 @@ public class LogitechPerKeyUpdateQueue : UpdateQueue
     /// <param name="updateTrigger">The update trigger used by this queue.</param>
     public LogitechPerKeyUpdateQueue(IDeviceUpdateTrigger updateTrigger)
         : base(updateTrigger)
-    {
-    }
+    { }
 
     #endregion
 

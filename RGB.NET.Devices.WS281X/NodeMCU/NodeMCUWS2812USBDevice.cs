@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU;
 /// <summary>
 /// Represents an NodeMCU WS2812 device.
 /// </summary>
-public class NodeMCUWS2812USBDevice : AbstractRGBDevice<NodeMCUWS2812USBDeviceInfo>, ILedStripe
+public sealed class NodeMCUWS2812USBDevice : AbstractRGBDevice<NodeMCUWS2812USBDeviceInfo>, ILedStripe
 {
     #region Properties & Fields
 

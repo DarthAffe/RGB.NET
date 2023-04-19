@@ -10,11 +10,11 @@ namespace RGB.NET.Devices.SteelSeries;
 /// <summary>
 /// Represents a device provider responsible for SteelSeries-devices.
 /// </summary>
-public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
+public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Constants
 
-    private static readonly int HEARTBEAT_TIMER = 5000; // flush the device every 5 seconds to prevent timeouts
+    private const int HEARTBEAT_TIMER = 5000; // flush the device every 5 seconds to prevent timeouts
 
     #endregion
 
@@ -137,8 +137,6 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 
         try { SteelSeriesSDK.Dispose(); }
         catch { /* shit happens */ }
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

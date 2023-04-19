@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Logitech;
 /// <summary>
 /// Represents a logitech per-key-lightable device.
 /// </summary>
-public class LogitechPerKeyRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
+public sealed class LogitechPerKeyRGBDevice : LogitechRGBDevice<LogitechRGBDeviceInfo>, IUnknownDevice //TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
 {
     #region Properties & Fields
 

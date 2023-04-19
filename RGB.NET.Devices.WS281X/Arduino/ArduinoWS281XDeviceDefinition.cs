@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.WS281X.Arduino;
 /// <summary>
 /// Represents a definition of an arduino WS2812 devices.
 /// </summary>
-public class ArduinoWS281XDeviceDefinition : IWS281XDeviceDefinition
+public sealed class ArduinoWS281XDeviceDefinition : IWS281XDeviceDefinition
 {
     #region Properties & Fields
 

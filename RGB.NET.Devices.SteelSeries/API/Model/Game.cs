@@ -2,7 +2,7 @@
 
 namespace RGB.NET.Devices.SteelSeries.API.Model;
 
-internal class Game
+internal sealed class Game
 {
     #region Properties & Fields
 

@@ -19,7 +19,7 @@ public record HIDDeviceDefinition<TLed, TData>(int ProductId, RGBDeviceType Devi
 /// </summary>
 /// <typeparam name="TLed">The type of the identifier leds are mapped to.</typeparam>
 /// <typeparam name="TData">The type of the custom data added to the HID-device.</typeparam>
-public class HIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<TLed, TData>>
+public sealed class HIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<TLed, TData>>
     where TLed : notnull
 {
     #region Properties & Fields

@@ -13,7 +13,7 @@ namespace RGB.NET.Presets.Groups;
 /// <summary>
 /// Represents a <see cref="T:RGB.NET.Presets.Groups.RectangleLedGroup" /> containing <see cref="T:RGB.NET.Core.Led" /> which physically lay inside a <see cref="T:RGB.NET.Core.Rectangle" />.
 /// </summary>
-public class RectangleLedGroup : AbstractLedGroup
+public sealed class RectangleLedGroup : AbstractLedGroup
 {
     #region Properties & Fields
 

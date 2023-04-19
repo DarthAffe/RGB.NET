@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.OpenRGB;
 /// <summary>
 /// Represents a device provider responsible for OpenRGB devices.
 /// </summary>
-public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
+public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
@@ -162,8 +162,6 @@ public class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
         _clients.Clear();
         DeviceDefinitions.Clear();
         Devices = Enumerable.Empty<IRGBDevice>();
-
-        GC.SuppressFinalize(this);
     }
     #endregion
 }

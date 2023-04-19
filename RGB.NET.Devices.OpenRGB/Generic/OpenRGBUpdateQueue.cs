@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.OpenRGB;
 /// <summary>
 /// Represents the update-queue performing updates for OpenRGB devices.
 /// </summary>
-public class OpenRGBUpdateQueue : UpdateQueue
+public sealed class OpenRGBUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 

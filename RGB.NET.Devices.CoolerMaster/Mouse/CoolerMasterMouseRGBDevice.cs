@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents a CoolerMaster mouse.
 /// </summary>
-public class CoolerMasterMouseRGBDevice : CoolerMasterRGBDevice<CoolerMasterMouseRGBDeviceInfo>, IMouse
+public sealed class CoolerMasterMouseRGBDevice : CoolerMasterRGBDevice<CoolerMasterMouseRGBDeviceInfo>, IMouse
 {
     #region Constructors
         

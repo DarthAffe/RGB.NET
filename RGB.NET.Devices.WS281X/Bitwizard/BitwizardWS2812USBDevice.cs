@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard;
 /// <summary>
 /// Represents an bitwizard WS2812 USB device.
 /// </summary>
-public class BitwizardWS2812USBDevice : AbstractRGBDevice<BitwizardWS2812USBDeviceInfo>, ILedStripe
+public sealed class BitwizardWS2812USBDevice : AbstractRGBDevice<BitwizardWS2812USBDeviceInfo>, ILedStripe
 {
     #region Properties & Fields
 

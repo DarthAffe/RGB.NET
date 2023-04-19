@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.Asus;
 /// <summary>
 /// Represents a device provider responsible for Cooler Master devices.
 /// </summary>
-public class AsusDeviceProvider : AbstractRGBDeviceProvider
+public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
@@ -88,8 +88,6 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
 
         _devices = null;
         _sdk = null;
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

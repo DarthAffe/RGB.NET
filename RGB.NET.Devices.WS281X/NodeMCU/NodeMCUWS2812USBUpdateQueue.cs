@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU;
 /// <summary>
 /// Represents the update-queue performing updates for NodeMCU WS2812 devices.
 /// </summary>
-public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
+public sealed class NodeMCUWS2812USBUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -183,8 +183,6 @@ public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
             ResetDevice();
             _httpClient.Dispose();
         }
-
-        GC.SuppressFinalize(this);
     }
 
     private string GetUrl(string path) => $"http://{_hostname}/{path}";

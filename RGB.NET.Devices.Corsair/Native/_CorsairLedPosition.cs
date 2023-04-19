@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Corsair.Native;
 /// iCUE-SDK: contains led id and position of led
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal class _CorsairLedPosition
+internal sealed class _CorsairLedPosition
 {
     /// <summary>
     /// iCUE-SDK: unique identifier of led

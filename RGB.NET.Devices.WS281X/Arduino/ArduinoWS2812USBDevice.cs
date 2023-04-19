@@ -11,7 +11,7 @@ namespace RGB.NET.Devices.WS281X.Arduino;
 /// <summary>
 /// Represents an arduino WS2812 device.
 /// </summary>
-public class ArduinoWS2812USBDevice : AbstractRGBDevice<ArduinoWS2812USBDeviceInfo>, ILedStripe
+public sealed class ArduinoWS2812USBDevice : AbstractRGBDevice<ArduinoWS2812USBDeviceInfo>, ILedStripe
 {
     #region Properties & Fields
     /// <summary>

@@ -9,7 +9,7 @@ namespace RGB.NET.Core;
 /// Represents a single LED of a RGB-device.
 /// </summary>
 [DebuggerDisplay("{Id} {Color}")]
-public class Led : Placeable
+public sealed class Led : Placeable
 {
     #region Properties & Fields
 

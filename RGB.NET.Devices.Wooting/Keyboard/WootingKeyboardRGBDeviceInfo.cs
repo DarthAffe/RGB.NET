@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Wooting.Keyboard.WootingKeyboardRGBDevice" />.
 /// </summary>
-public class WootingKeyboardRGBDeviceInfo : WootingRGBDeviceInfo, IKeyboardDeviceInfo
+public sealed class WootingKeyboardRGBDeviceInfo : WootingRGBDeviceInfo, IKeyboardDeviceInfo
 {
     #region Properties & Fields
 

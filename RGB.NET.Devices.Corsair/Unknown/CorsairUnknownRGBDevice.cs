@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a unknown corsair device.
 /// </summary>
-public class CorsairUnknownRGBDevice : CorsairRGBDevice<CorsairUnknownRGBDeviceInfo>, IUnknownDevice
+public sealed class CorsairUnknownRGBDevice : CorsairRGBDevice<CorsairUnknownRGBDeviceInfo>, IUnknownDevice
 {
     #region Constructors
 

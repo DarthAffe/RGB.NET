@@ -7,7 +7,7 @@ namespace RGB.NET.Core;
 /// <summary>
 /// Represents a brush drawing only a single color.
 /// </summary>
-public class SolidColorBrush : AbstractBrush
+public sealed class SolidColorBrush : AbstractBrush
 {
     #region Properties & Fields
 

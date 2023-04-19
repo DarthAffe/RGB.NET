@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Msi;
 /// <summary>
 /// Represents the update-queue performing updates for MSI devices.
 /// </summary>
-public class MsiDeviceUpdateQueue : UpdateQueue
+public sealed class MsiDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 

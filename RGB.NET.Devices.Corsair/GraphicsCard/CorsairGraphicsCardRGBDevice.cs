@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair graphics card.
 /// </summary>
-public class CorsairGraphicsCardRGBDevice : CorsairRGBDevice<CorsairGraphicsCardRGBDeviceInfo>, IGraphicsCard
+public sealed class CorsairGraphicsCardRGBDevice : CorsairRGBDevice<CorsairGraphicsCardRGBDeviceInfo>, IGraphicsCard
 {
     #region Constructors
 

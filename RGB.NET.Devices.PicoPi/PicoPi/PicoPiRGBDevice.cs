@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.PicoPi;
 /// <summary>
 /// Represents a device based on an Raspberry Pi Pico.
 /// </summary>
-public class PicoPiRGBDevice : AbstractRGBDevice<PicoPiRGBDeviceInfo>
+public sealed class PicoPiRGBDevice : AbstractRGBDevice<PicoPiRGBDeviceInfo>
 {
     #region Properties & Fields
 

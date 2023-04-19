@@ -8,10 +8,12 @@ namespace RGB.NET.Devices.Wooting.Generic;
 /// <summary>
 /// Represents the update-queue performing updates for cooler master devices.
 /// </summary>
-public class WootingUpdateQueue : UpdateQueue
+public sealed class WootingUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
+
     private readonly byte _deviceid;
+
     #endregion
 
     #region Constructors

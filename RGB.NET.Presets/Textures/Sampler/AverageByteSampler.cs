@@ -8,7 +8,7 @@ namespace RGB.NET.Presets.Textures.Sampler;
 /// <summary>
 /// Represents a sampled that averages multiple byte-data entries.
 /// </summary>
-public class AverageByteSampler : ISampler<byte>
+public sealed class AverageByteSampler : ISampler<byte>
 {
     #region Constants
 

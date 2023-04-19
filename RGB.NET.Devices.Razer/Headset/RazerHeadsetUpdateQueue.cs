@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents the update-queue performing updates for razer headset devices.
 /// </summary>
-public class RazerHeadsetUpdateQueue : RazerUpdateQueue
+public sealed class RazerHeadsetUpdateQueue : RazerUpdateQueue
 {
     #region Constructors
 

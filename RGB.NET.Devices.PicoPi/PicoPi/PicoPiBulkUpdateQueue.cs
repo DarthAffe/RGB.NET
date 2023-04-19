@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.PicoPi;
 /// <remarks>
 /// Using this requires the libusb driver to be installed!
 /// </remarks>
-public class PicoPiBulkUpdateQueue : UpdateQueue
+public sealed class PicoPiBulkUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 

@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterMouseRGBDevice" />.
 /// </summary>
-public class CoolerMasterMouseRGBDeviceInfo : CoolerMasterRGBDeviceInfo
+public sealed class CoolerMasterMouseRGBDeviceInfo : CoolerMasterRGBDeviceInfo
 {
     #region Constructors
 

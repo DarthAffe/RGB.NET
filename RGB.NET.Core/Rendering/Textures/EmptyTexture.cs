@@ -1,6 +1,6 @@
 ﻿namespace RGB.NET.Core;
 
-internal class EmptyTexture : ITexture
+internal sealed class EmptyTexture : ITexture
 {
     #region Properties & Fields
 

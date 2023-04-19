@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Novation.Attributes;
 /// Specifies the led id mapping of a field.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field)]
-internal class LedIdMappingAttribute : Attribute
+internal sealed class LedIdMappingAttribute : Attribute
 {
     #region Properties & Fields
 

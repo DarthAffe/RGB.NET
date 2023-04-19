@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a definition of an OpenRGB server.
 /// </summary>
-public class OpenRGBServerDefinition
+public sealed class OpenRGBServerDefinition
 {
     /// <summary>
     /// The name of the client that will appear in the OpenRGB interface.

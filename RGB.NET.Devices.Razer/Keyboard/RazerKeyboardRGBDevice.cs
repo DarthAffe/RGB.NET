@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents a razer keyboard.
 /// </summary>
-public class RazerKeyboardRGBDevice : RazerRGBDevice, IKeyboard
+public sealed class RazerKeyboardRGBDevice : RazerRGBDevice, IKeyboard
 {
     #region Properties & Fields
 

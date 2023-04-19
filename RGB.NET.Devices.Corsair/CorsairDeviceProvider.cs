@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a device provider responsible for corsair (CUE) devices.
 /// </summary>
-public class CorsairDeviceProvider : AbstractRGBDeviceProvider
+public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
@@ -306,8 +306,6 @@ public class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
         try { _CUESDK.CorsairDisconnect(); } catch { /* at least we tried */ }
         try { _CUESDK.UnloadCUESDK(); } catch { /* at least we tried */ }
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

@@ -15,7 +15,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents a device provider responsible for razer devices.
 /// </summary>
-public class RazerDeviceProvider : AbstractRGBDeviceProvider
+public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
@@ -308,8 +308,6 @@ public class RazerDeviceProvider : AbstractRGBDeviceProvider
         // DarthAffe 03.03.2020: Fails with an access-violation - verify if an unload is already triggered by uninit
         //try { _RazerSDK.UnloadRazerSDK(); }
         //catch { /* at least we tried */ }
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

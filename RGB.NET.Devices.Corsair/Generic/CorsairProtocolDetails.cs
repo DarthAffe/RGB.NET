@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents version information for the Corsair-SDK
 /// </summary>
-public class CorsairSessionDetails
+public sealed class CorsairSessionDetails
 {
     #region Properties & Fields
 

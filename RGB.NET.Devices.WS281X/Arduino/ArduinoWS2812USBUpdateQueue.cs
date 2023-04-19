@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.WS281X.Arduino;
 /// <summary>
 /// Represents the update-queue performing updates for arduino WS2812 devices.
 /// </summary>
-public class ArduinoWS2812USBUpdateQueue : SerialConnectionUpdateQueue<byte[]>
+public sealed class ArduinoWS2812USBUpdateQueue : SerialConnectionUpdateQueue<byte[]>
 {
     #region Constants
 

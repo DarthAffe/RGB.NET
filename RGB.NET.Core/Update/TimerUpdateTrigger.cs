@@ -10,7 +10,7 @@ namespace RGB.NET.Core;
 /// <summary>
 /// Represents an update trigger that triggers in a set interval.
 /// </summary>
-public class TimerUpdateTrigger : AbstractUpdateTrigger
+public sealed class TimerUpdateTrigger : AbstractUpdateTrigger
 {
     #region Properties & Fields
 
@@ -21,17 +21,17 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
     /// <summary>
     /// Gets or sets the update loop of this trigger.
     /// </summary>
-    protected Task? UpdateTask { get; set; }
+    private Task? _updateTask;
 
     /// <summary>
-    /// Gets or sets the cancellation token source used to create the cancellation token checked by the <see cref="UpdateTask"/>.
+    /// Gets or sets the cancellation token source used to create the cancellation token checked by the <see cref="_updateTask"/>.
     /// </summary>
-    protected CancellationTokenSource? UpdateTokenSource { get; set; }
+    private CancellationTokenSource? _updateTokenSource;
 
     /// <summary>
-    /// Gets or sets the cancellation token checked by the <see cref="UpdateTask"/>.
+    /// Gets or sets the cancellation token checked by the <see cref="_updateTask"/>.
     /// </summary>
-    protected CancellationToken UpdateToken { get; set; }
+    private CancellationToken _updateToken;
 
     private double _updateFrequency = 1.0 / 30.0;
     /// <summary>
@@ -88,11 +88,11 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
     {
         lock (_lock)
         {
-            if (UpdateTask == null)
+            if (_updateTask == null)
             {
-                UpdateTokenSource?.Dispose();
-                UpdateTokenSource = new CancellationTokenSource();
-                UpdateTask = Task.Factory.StartNew(UpdateLoop, (UpdateToken = UpdateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                _updateTokenSource?.Dispose();
+                _updateTokenSource = new CancellationTokenSource();
+                _updateTask = Task.Factory.StartNew(UpdateLoop, (_updateToken = _updateTokenSource.Token), TaskCreationOptions.LongRunning, TaskScheduler.Default);
             }
         }
     }
@@ -104,13 +104,13 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
     {
         lock (_lock)
         {
-            if (UpdateTask != null)
+            if (_updateTask != null)
             {
-                UpdateTokenSource?.Cancel();
+                _updateTokenSource?.Cancel();
                 try
                 {
                     // ReSharper disable once MethodSupportsCancellation
-                    UpdateTask.Wait();
+                    _updateTask.Wait();
                 }
                 catch (AggregateException)
                 {
@@ -118,8 +118,8 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
                 }
                 finally
                 {
-                    UpdateTask.Dispose();
-                    UpdateTask = null;
+                    _updateTask.Dispose();
+                    _updateTask = null;
                 }
             }
         }
@@ -130,7 +130,7 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
         OnStartup();
 
         using (TimerHelper.RequestHighResolutionTimer())
-            while (!UpdateToken.IsCancellationRequested)
+            while (!_updateToken.IsCancellationRequested)
                 LastUpdateTime = TimerHelper.Execute(TimerExecute, UpdateFrequency * 1000);
     }
 
@@ -140,7 +140,6 @@ public class TimerUpdateTrigger : AbstractUpdateTrigger
     public override void Dispose()
     {
         Stop();
-        GC.SuppressFinalize(this);
     }
 
     #endregion

@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair mouse.
 /// </summary>
-public class CorsairMouseRGBDevice : CorsairRGBDevice<CorsairMouseRGBDeviceInfo>, IMouse
+public sealed class CorsairMouseRGBDevice : CorsairRGBDevice<CorsairMouseRGBDeviceInfo>, IMouse
 {
     #region Constructors
 

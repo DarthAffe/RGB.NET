@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair touchbar.
 /// </summary>
-public class CorsairTouchbarRGBDevice : CorsairRGBDevice<CorsairTouchbarRGBDeviceInfo>, ILedStripe
+public sealed class CorsairTouchbarRGBDevice : CorsairRGBDevice<CorsairTouchbarRGBDeviceInfo>, ILedStripe
 {
     #region Constructors
 

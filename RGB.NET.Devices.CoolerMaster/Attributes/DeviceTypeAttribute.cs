@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// Specifies the <see cref="T:RGB.NET.Core.RGBDeviceType" /> of a field.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field)]
-public class DeviceTypeAttribute : Attribute
+public sealed class DeviceTypeAttribute : Attribute
 {
     #region Properties & Fields
 

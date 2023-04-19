@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents the update-queue performing updates for razer keyboard devices.
 /// </summary>
-public class RazerKeyboardUpdateQueue : RazerUpdateQueue
+public sealed class RazerKeyboardUpdateQueue : RazerUpdateQueue
 {
     #region Constructors
 

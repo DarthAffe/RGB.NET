@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.Wooting;
 /// <summary>
 /// Represents a device provider responsible for Wooting devices.
 /// </summary>
-public class WootingDeviceProvider : AbstractRGBDeviceProvider
+public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
@@ -103,8 +103,6 @@ public class WootingDeviceProvider : AbstractRGBDeviceProvider
             try { _WootingSDK.UnloadWootingSDK(); }
             catch { /* at least we tried */ }
         }
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

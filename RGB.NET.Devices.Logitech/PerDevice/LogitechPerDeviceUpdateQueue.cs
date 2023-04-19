@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Logitech;
 /// <summary>
 /// Represents the update-queue performing updates for logitech per-device devices.
 /// </summary>
-public class LogitechPerDeviceUpdateQueue : UpdateQueue
+public sealed class LogitechPerDeviceUpdateQueue : UpdateQueue
 {
     #region Constructors
 

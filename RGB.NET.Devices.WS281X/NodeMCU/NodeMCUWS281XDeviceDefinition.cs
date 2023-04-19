@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU;
 /// <summary>
 /// Represents a definition of an NodeMCU WS2812 devices.
 /// </summary>
-public class NodeMCUWS281XDeviceDefinition : IWS281XDeviceDefinition
+public sealed class NodeMCUWS281XDeviceDefinition : IWS281XDeviceDefinition
 {
     #region Properties & Fields
 

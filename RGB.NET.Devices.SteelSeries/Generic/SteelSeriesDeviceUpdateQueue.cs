@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.SteelSeries;
 /// <summary>
 /// Represents the update-queue performing updates for steelseries devices.
 /// </summary>
-internal class SteelSeriesDeviceUpdateQueue : UpdateQueue
+internal sealed class SteelSeriesDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 

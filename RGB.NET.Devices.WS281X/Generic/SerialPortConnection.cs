@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace RGB.NET.Devices.WS281X;
 
@@ -7,7 +6,7 @@ namespace RGB.NET.Devices.WS281X;
 /// <summary>
 /// Represents a serial-connection using the default microsoft serial-port implementation.
 /// </summary>
-public class SerialPortConnection : ISerialConnection
+public sealed class SerialPortConnection : ISerialConnection
 {
     #region Properties & Fields
 
@@ -65,8 +64,6 @@ public class SerialPortConnection : ISerialConnection
     public void Dispose()
     {
         SerialPort.Dispose();
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion
