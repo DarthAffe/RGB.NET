@@ -32,12 +32,6 @@ jobs:
       run: dotnet build --no-restore --configuration Release /p:Version=${{ steps.versioning.outputs.version }}
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
-    - name: Upload a Build Artifact NET5
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: RGB.NET-NET5
-        path: bin/net5.0/RGB.NET.*.dll
-        if-no-files-found: error
     - name: Upload a Build Artifact NET6
       uses: actions/upload-artifact@v2.2.4
       with:
