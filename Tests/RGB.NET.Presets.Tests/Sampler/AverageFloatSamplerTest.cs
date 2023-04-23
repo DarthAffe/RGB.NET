@@ -27,11 +27,15 @@ public class AverageFloatSamplerTest
             data[index++] = colorData[i].B;
         }
 
-        SamplerInfo<float> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<float> info = new(0, 0, 2, 3, 16, 4, data);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 1f, 1f, 1f), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<float>(16, 16, data);
+        info = new SamplerInfo<float>(0, 0, 13, 13, 16, 4, data);
+        new AverageFloatSampler().Sample(info, result);
+        Assert.AreEqual(new Color(1f, 1f, 1f, 1f), new Color(result[0], result[1], result[2], result[3]));
+
+        info = new SamplerInfo<float>(0, 0, 16, 16, 16, 4, data);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 1f, 1f, 1f), new Color(result[0], result[1], result[2], result[3]));
     }
@@ -53,11 +57,15 @@ public class AverageFloatSamplerTest
             data[index++] = colorData[i].B;
         }
 
-        SamplerInfo<float> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<float> info = new(0, 0, 2, 3, 16, 4, data);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0f, 0f, 0f), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<float>(16, 16, data);
+        info = new SamplerInfo<float>(0, 0, 13, 13, 16, 4, data);
+        new AverageFloatSampler().Sample(info, result);
+        Assert.AreEqual(new Color(1f, 0f, 0f, 0f), new Color(result[0], result[1], result[2], result[3]));
+
+        info = new SamplerInfo<float>(0, 0, 16, 16, 16, 4, data);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0f, 0f, 0f), new Color(result[0], result[1], result[2], result[3]));
     }
@@ -80,11 +88,15 @@ public class AverageFloatSamplerTest
             data[index++] = colorData[i].B;
         }
 
-        SamplerInfo<float> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<float> info = new(0, 0, 2, 3, 16, 4, data);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0.5f, 0.5f, 0.5f), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<float>(16, 16, data);
+        info = new SamplerInfo<float>(0, 0, 13, 13, 16, 4, data);
+        new AverageFloatSampler().Sample(info, result);
+        Assert.AreEqual(new Color(1f, 6f / 13f, 6f / 13f, 6f / 13f), new Color(result[0], result[1], result[2], result[3]));
+
+        info = new SamplerInfo<float>(0, 0, 16, 16, 16, 4, data);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0.5f, 0.5f, 0.5f), new Color(result[0], result[1], result[2], result[3]));
     }
@@ -114,11 +126,11 @@ public class AverageFloatSamplerTest
             data[index++] = colorData[i].B;
         }
 
-        SamplerInfo<float> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<float> info = new(0, 0, 2, 3, 2, 4, data[..(6 * 4)]);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(0.5833333f, 0.5f, 0.291666657f, 0.25f), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<float>(16, 16, data);
+        info = new SamplerInfo<float>(0, 0, 16, 16, 16, 4, data);
         new AverageFloatSampler().Sample(info, result);
         Assert.AreEqual(new Color(0.5019531f, 0.40234375f, 0.3486328f, 0.298828125f), new Color(result[0], result[1], result[2], result[3]));
     }
