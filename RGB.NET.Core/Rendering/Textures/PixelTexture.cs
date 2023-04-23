@@ -14,7 +14,7 @@ public abstract class PixelTexture<T> : ITexture
     where T : unmanaged
 {
     #region Properties & Fields
-    
+
     /// <summary>
     /// Gets the underlying pixel data.
     /// </summary>
@@ -23,12 +23,12 @@ public abstract class PixelTexture<T> : ITexture
     /// <summary>
     /// Gets the amount of data-entries per pixel.
     /// </summary>
-    protected readonly int DataPerPixel;
+    protected int DataPerPixel { get; }
 
     /// <summary>
     /// Gets the stride of the data.
     /// </summary>
-    protected readonly int Stride;
+    protected int Stride { get; }
 
     /// <summary>
     /// Gets or sets the sampler used to get the color of a region.
