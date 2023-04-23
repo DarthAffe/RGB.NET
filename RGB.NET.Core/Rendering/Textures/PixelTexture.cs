@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+
+using System;
 using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core;
@@ -12,9 +14,21 @@ public abstract class PixelTexture<T> : ITexture
     where T : unmanaged
 {
     #region Properties & Fields
+    
+    /// <summary>
+    /// Gets the underlying pixel data.
+    /// </summary>
+    protected abstract ReadOnlySpan<T> Data { get; }
 
-    private readonly int _dataPerPixel;
-    private readonly int _stride;
+    /// <summary>
+    /// Gets the amount of data-entries per pixel.
+    /// </summary>
+    protected readonly int DataPerPixel;
+
+    /// <summary>
+    /// Gets the stride of the data.
+    /// </summary>
+    protected readonly int Stride;
 
     /// <summary>
     /// Gets or sets the sampler used to get the color of a region.
@@ -23,11 +37,6 @@ public abstract class PixelTexture<T> : ITexture
 
     /// <inheritdoc />
     public Size Size { get; }
-
-    /// <summary>
-    /// Gets the underlying pixel data.
-    /// </summary>
-    protected abstract ReadOnlySpan<T> Data { get; }
 
     /// <inheritdoc />
     public virtual Color this[in Point point]
@@ -78,9 +87,9 @@ public abstract class PixelTexture<T> : ITexture
             if ((width == 0) || (height == 0)) return Color.Transparent;
             if ((width == 1) && (height == 1)) return GetColor(GetPixelData(x, y));
 
-            SamplerInfo<T> samplerInfo = new(x, y, width, height, _stride, _dataPerPixel, Data);
+            SamplerInfo<T> samplerInfo = new(x, y, width, height, Stride, DataPerPixel, Data);
 
-            Span<T> pixelData = stackalloc T[_dataPerPixel];
+            Span<T> pixelData = stackalloc T[DataPerPixel];
             Sampler.Sample(samplerInfo, pixelData);
 
             return GetColor(pixelData);
@@ -101,8 +110,8 @@ public abstract class PixelTexture<T> : ITexture
     /// <param name="stride">The stride of the data or -1 if the width should be used.</param>
     public PixelTexture(int with, int height, int dataPerPixel, ISampler<T> sampler, int stride = -1)
     {
-        this._stride = stride == -1 ? with : stride;
-        this._dataPerPixel = dataPerPixel;
+        this.Stride = stride == -1 ? with : stride;
+        this.DataPerPixel = dataPerPixel;
         this.Sampler = sampler;
 
         Size = new Size(with, height);
@@ -126,7 +135,7 @@ public abstract class PixelTexture<T> : ITexture
     /// <param name="y">The y-location.</param>
     /// <returns>The pixel-data on the specified location.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ReadOnlySpan<T> GetPixelData(int x, int y) => Data.Slice((y * _stride) + x, _dataPerPixel);
+    private ReadOnlySpan<T> GetPixelData(int x, int y) => Data.Slice((y * Stride) + x, DataPerPixel);
 
     #endregion
 }
