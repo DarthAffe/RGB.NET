@@ -6,7 +6,7 @@ namespace RGB.NET.Core.Tests.Helper;
 
 // Simplex Noise for C#
 // Copyright © Benjamin Ward 2019
-// See LICENSE
+// See LICENSE (https://github.com/WardBenjamin/SimplexNoise/blob/2afa9a63483562cc4c0a95bbfa6b183fc256a790/LICENSE.txt)
 // Simplex Noise implementation offering 1D, 2D, and 3D forms w/ values in the range of 0 to 255.
 // Based on work by Heikki Törmälä (2012) and Stefan Gustavson (2006).
 
