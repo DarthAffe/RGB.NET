@@ -15,11 +15,11 @@ public class AverageColorSamplerTest
         data.Fill(new Core.Color(1f, 1f, 1f, 1f));
         Core.Color[] result = new Core.Color[1];
 
-        SamplerInfo<Core.Color> info = new(2, 3, data[..6]);
+        SamplerInfo<Core.Color> info = new(0, 0, 2, 3, 16, 1, data);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(1f, 1f, 1f, 1f), result[0]);
 
-        info = new SamplerInfo<Core.Color>(16, 16, data);
+        info = new SamplerInfo<Core.Color>(0, 0, 16, 16, 16, 1, data);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(1f, 1f, 1f, 1f), result[0]);
     }
@@ -31,11 +31,11 @@ public class AverageColorSamplerTest
         data.Fill(new Core.Color(1f, 0f, 0f, 0f));
         Core.Color[] result = new Core.Color[1];
 
-        SamplerInfo<Core.Color> info = new(2, 3, data[..6]);
+        SamplerInfo<Core.Color> info = new(0, 0, 2, 3, 16, 1, data);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(1f, 0f, 0f, 0f), result[0]);
 
-        info = new SamplerInfo<Core.Color>(16, 16, data);
+        info = new SamplerInfo<Core.Color>(0, 0, 16, 16, 16, 1, data);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(1f, 0f, 0f, 0f), result[0]);
     }
@@ -48,11 +48,11 @@ public class AverageColorSamplerTest
             data[i] = (i % 2) == 0 ? new Core.Color(1f, 0f, 0f, 0f) : new Core.Color(1f, 1f, 1f, 1f);
         Core.Color[] result = new Core.Color[1];
 
-        SamplerInfo<Core.Color> info = new(2, 3, data[..6]);
+        SamplerInfo<Core.Color> info = new(0, 0, 2, 3, 16, 1, data);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(1f, 0.5f, 0.5f, 0.5f), result[0]);
 
-        info = new SamplerInfo<Core.Color>(16, 16, data);
+        info = new SamplerInfo<Core.Color>(0, 0, 16, 16, 16, 1, data);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(1f, 0.5f, 0.5f, 0.5f), result[0]);
     }
@@ -72,11 +72,11 @@ public class AverageColorSamplerTest
             };
         Core.Color[] result = new Core.Color[1];
 
-        SamplerInfo<Core.Color> info = new(2, 3, data[..6]);
+        SamplerInfo<Core.Color> info = new(0, 0, 2, 3, 2, 1, data[..6]);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(0.5833333f, 0.5f, 0.291666657f, 0.25f), result[0]);
 
-        info = new SamplerInfo<Core.Color>(16, 16, data);
+        info = new SamplerInfo<Core.Color>(0, 0, 16, 16, 16, 1, data);
         new AverageColorSampler().Sample(info, result);
         Assert.AreEqual(new Core.Color(0.5019531f, 0.40234375f, 0.3486328f, 0.298828125f), result[0]);
     }

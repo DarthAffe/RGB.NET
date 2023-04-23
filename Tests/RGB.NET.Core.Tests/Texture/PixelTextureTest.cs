@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RGB.NET.Core.Tests.Helper;
 
@@ -42,7 +41,6 @@ public class PixelTextureTest
 
         Core.Color[] data = new Core.Color[SIZE * SIZE];
         SimplexNoise.Seed = 1872;
-        Random random = new(1872);
         for (int y = 0; y < SIZE; y++)
             for (int x = 0; x < SIZE; x++)
                 data[(y * SIZE) + x] = HSVColor.Create(SimplexNoise.CalcPixel2D(x, y, 1f / SIZE) * 360, 1, 1);

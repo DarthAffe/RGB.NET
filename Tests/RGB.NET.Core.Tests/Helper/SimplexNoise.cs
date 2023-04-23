@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable InconsistentNaming
+
+using System;
 
 namespace RGB.NET.Core.Tests.Helper;
 
@@ -341,14 +343,5 @@ public static class SimplexNoise
         float u = h < 8 ? x : y; // gradient directions, and compute dot product.
         float v = h < 4 ? y : (h == 12) || (h == 14) ? x : z; // Fix repeats at h = 12 to 15
         return ((h & 1) != 0 ? -u : u) + ((h & 2) != 0 ? -v : v);
-    }
-
-    private static float Grad(int hash, float x, float y, float z, float t)
-    {
-        int h = hash & 31;      // Convert low 5 bits of hash code into 32 simple
-        float u = h < 24 ? x : y; // gradient directions, and compute dot product.
-        float v = h < 16 ? y : z;
-        float w = h < 8 ? z : t;
-        return ((h & 1) != 0 ? -u : u) + ((h & 2) != 0 ? -v : v) + ((h & 4) != 0 ? -w : w);
     }
 }
