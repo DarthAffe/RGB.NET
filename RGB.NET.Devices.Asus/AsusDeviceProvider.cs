@@ -69,6 +69,7 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
                 AsusDeviceType.HEADSET_RGB => new AsusHeadsetRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Headset, device), GetUpdateTrigger()),
                 AsusDeviceType.DRAM_RGB => new AsusDramRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.DRAM, device), GetUpdateTrigger()),
                 AsusDeviceType.KEYBOARD_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), LedMappings.KeyboardMapping, GetUpdateTrigger()),
+                AsusDeviceType.KEYBOARD_5ZONE_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), null, GetUpdateTrigger()),
                 AsusDeviceType.NB_KB_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), LedMappings.KeyboardMapping, GetUpdateTrigger()),
                 AsusDeviceType.NB_KB_4ZONE_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), null, GetUpdateTrigger()),
                 AsusDeviceType.MOUSE_RGB => new AsusMouseRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mouse, device), GetUpdateTrigger()),
