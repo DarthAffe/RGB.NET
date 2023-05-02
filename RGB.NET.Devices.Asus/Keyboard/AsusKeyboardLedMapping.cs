@@ -188,4 +188,49 @@ public static class LedMappings
         { LedId.Keyboard_Custom59, 131 },
         { LedId.Keyboard_Custom60, 133 },
     };
+
+    /// <summary>
+    /// A LED mapping containing extra lights for the ROG Strix G15 (2021)
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// ASUS notebooks have extra lights under wide keys like space and backspace, these do not appear as keys on the device.
+    /// Instead they only appear in the Lights enumerable, this mapping maps the matching keys to the index of these lights.
+    /// There are also some keys which do not use the default key scan code mappings for LEDs, and instead rely on lights.
+    /// </para>
+    /// <para>You may add more of these by further populating <see cref="AsusKeyboardRGBDevice.ExtraLedMappings"/>.</para>
+    /// </remarks>
+    public static LedMapping<int> ROGStrixG15 { get; } = new()
+    {
+        { LedId.Keyboard_Custom71, 4 }, //Mic Mute
+        { LedId.Keyboard_Custom72, 5 }, //Fan
+        { LedId.Keyboard_Custom73, 6 }, //ROG Logo
+        //{ LedId.Keyboard_Function, 127 }, //commented out because adding a mapping fails if a mapping already exists for a key, even if it is incorrect for this device
+                                            //use Keyboard_Custom36 in the default mapping to get the Fn key on this laptop
+        
+        { LedId.Keyboard_Custom52, 55 }, //backspace extra LEDs (x2) - these are named to match the appropriate LEDs in the previous ROG Zephyrus mapping
+        { LedId.Keyboard_Custom53, 57 },
+        { LedId.Keyboard_Custom54, 97 }, //enter extra LEDs (x2)
+        { LedId.Keyboard_Custom55, 99 },
+        { LedId.Keyboard_Custom56, 118 }, //right shift extra LEDs (x2)
+        { LedId.Keyboard_Custom57, 120 },
+        { LedId.Keyboard_Custom58, 130 }, //space bar extra LEDs (x3)
+        { LedId.Keyboard_Custom59, 131 }, //this one specifically is also exposed as Custom7 (AsusLedID.KEY_NOCONVERT) in the main map
+        { LedId.Keyboard_Custom60, 133 }, 
+
+        { LedId.Keyboard_MediaVolumeDown, 2 },
+        { LedId.Keyboard_MediaVolumeUp, 3 },
+        { LedId.Keyboard_MediaPlay, 58 },
+        { LedId.Keyboard_MediaStop, 79 },
+        { LedId.Keyboard_MediaPreviousTrack, 100 },
+        { LedId.Keyboard_MediaNextTrack, 121 },
+
+        { LedId.LedStripe1, 174 }, //front LED strip; yes, these are in reverse order, since the SDK exposes them from right to left
+        { LedId.LedStripe2, 173 },
+        { LedId.LedStripe3, 172 },
+        { LedId.LedStripe4, 171 },
+        { LedId.LedStripe5, 170 },
+        { LedId.LedStripe6, 169 },
+
+    };
 }
