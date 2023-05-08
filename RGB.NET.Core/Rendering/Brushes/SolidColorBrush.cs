@@ -32,6 +32,8 @@ public sealed class SolidColorBrush : AbstractBrush
     public SolidColorBrush(Color color)
     {
         this.Color = color;
+
+        CalculationMode = RenderMode.Absolute;
     }
 
     #endregion
