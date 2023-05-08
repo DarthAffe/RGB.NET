@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace RGB.NET.Core;
 
@@ -7,8 +8,8 @@ public sealed class DevicesChangedEventArgs : EventArgs
 {
     #region Properties & Fields
 
-    public IList<IRGBDevice> Added { get; }
-    public IList<IRGBDevice> Removed { get; }
+    public IReadOnlyList<IRGBDevice> Added { get; }
+    public IReadOnlyList<IRGBDevice> Removed { get; }
 
     #endregion
 
@@ -16,8 +17,8 @@ public sealed class DevicesChangedEventArgs : EventArgs
 
     private DevicesChangedEventArgs(IList<IRGBDevice> added, IList<IRGBDevice> removed)
     {
-        this.Added = added;
-        this.Removed = removed;
+        this.Added = new ReadOnlyCollection<IRGBDevice>(added);
+        this.Removed = new ReadOnlyCollection<IRGBDevice>(removed);
     }
 
     #endregion
