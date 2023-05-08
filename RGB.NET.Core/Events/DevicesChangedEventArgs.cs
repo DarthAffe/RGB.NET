@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace RGB.NET.Core;
 
@@ -8,28 +6,25 @@ public sealed class DevicesChangedEventArgs : EventArgs
 {
     #region Properties & Fields
 
-    public IReadOnlyList<IRGBDevice> Added { get; }
-    public IReadOnlyList<IRGBDevice> Removed { get; }
+    public IRGBDevice? Added { get; }
+    public IRGBDevice? Removed { get; }
 
     #endregion
 
     #region Constructors
 
-    private DevicesChangedEventArgs(IList<IRGBDevice> added, IList<IRGBDevice> removed)
+    private DevicesChangedEventArgs(IRGBDevice? added, IRGBDevice? removed)
     {
-        this.Added = new ReadOnlyCollection<IRGBDevice>(added);
-        this.Removed = new ReadOnlyCollection<IRGBDevice>(removed);
+        this.Added = added;
+        this.Removed = removed;
     }
 
     #endregion
 
     #region Methods
 
-    public static DevicesChangedEventArgs CreateDevicesAddedArgs(params IRGBDevice[] addedDevices) => CreateDevicesAddedArgs((IEnumerable<IRGBDevice>)addedDevices);
-    public static DevicesChangedEventArgs CreateDevicesAddedArgs(IEnumerable<IRGBDevice> addedDevices) => new(new List<IRGBDevice>(addedDevices), new List<IRGBDevice>());
-
-    public static DevicesChangedEventArgs CreateDevicesRemovedArgs(params IRGBDevice[] removedDevices) => CreateDevicesRemovedArgs((IEnumerable<IRGBDevice>)removedDevices);
-    public static DevicesChangedEventArgs CreateDevicesRemovedArgs(IEnumerable<IRGBDevice> removedDevices) => new(new List<IRGBDevice>(), new List<IRGBDevice>(removedDevices));
+    public static DevicesChangedEventArgs CreateDevicesAddedArgs(IRGBDevice addedDevice) => new(addedDevice, null);
+    public static DevicesChangedEventArgs CreateDevicesRemovedArgs(IRGBDevice removedDevice) => new(null, removedDevice);
 
     #endregion
 }
