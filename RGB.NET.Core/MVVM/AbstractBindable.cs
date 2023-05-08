@@ -27,7 +27,7 @@ public abstract class AbstractBindable : IBindable
     /// <typeparam name="T">Type of the property.</typeparam>
     /// <param name="storage">Reference to the backing-filed.</param>
     /// <param name="value">Value to apply.</param>
-    /// <returns><c>true</c> if the value needs to be updated; otherweise <c>false</c>.</returns>
+    /// <returns><c>true</c> if the value needs to be updated; otherwise <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected virtual bool RequiresUpdate<T>(ref T storage, T value) => !EqualityComparer<T>.Default.Equals(storage, value);
 
