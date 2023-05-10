@@ -8,10 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Corsair.Events;
 
 namespace RGB.NET.Devices.Corsair.Native;
 
 internal delegate void CorsairSessionStateChangedHandler(nint context, _CorsairSessionStateChanged eventData);
+
+internal delegate void CorsairEventHandler(nint context, _CorsairEvent corsairEvent);
 
 // ReSharper disable once InconsistentNaming
 internal static unsafe class _CUESDK
@@ -47,8 +50,8 @@ internal static unsafe class _CUESDK
 
     #region Properties & Fields
 
-    internal static bool IsConnected => SesionState == CorsairSessionState.Connected;
-    internal static CorsairSessionState SesionState { get; private set; }
+    internal static bool IsConnected => SessionState == CorsairSessionState.Connected;
+    internal static CorsairSessionState SessionState { get; private set; }
 
     #endregion
 
@@ -56,14 +59,44 @@ internal static unsafe class _CUESDK
 
     internal static event EventHandler<CorsairSessionState>? SessionStateChanged;
 
+    internal static event EventHandler<CorsairDeviceConnectionStatusChangedEvent>? DeviceConnectionEvent; 
+
     #endregion
 
     #region Methods
 
-    private static void CorsairSessionStateChangedCallback(nint context, _CorsairSessionStateChanged eventdata)
+    private static void CorsairSessionStateChangedCallback(nint context, _CorsairSessionStateChanged eventData)
     {
-        SesionState = eventdata.state;
-        SessionStateChanged?.Invoke(null, eventdata.state);
+        SessionState = eventData.state;
+        SessionStateChanged?.Invoke(null, eventData.state);
+
+        switch (eventData.state)
+        {
+            case CorsairSessionState.Connected:
+                _corsairSubscribeForEvents(CorsairEventCallback, 0);
+                break;
+            case CorsairSessionState.Closed:
+                _corsairUnsubscribeForEvents();
+                break;
+        }
+    }
+
+    private static void CorsairEventCallback(nint context, _CorsairEvent eventData)
+    {
+        if (eventData.id != CorsairEventId.CEI_DeviceConnectionStatusChangedEvent)
+        {
+            return;
+        }
+
+        CorsairDeviceConnectionStatusChangedEvent? connectionStatusChangedEvent =
+            Marshal.PtrToStructure<CorsairDeviceConnectionStatusChangedEvent>(eventData.corsairEventUnion.eventPointer);
+
+        if (connectionStatusChangedEvent == null)
+        {
+            return;
+        }
+
+        DeviceConnectionEvent?.Invoke(null, connectionStatusChangedEvent);
     }
 
     #endregion
@@ -97,7 +130,7 @@ internal static unsafe class _CUESDK
         _corsairGetSessionDetails = (delegate* unmanaged[Cdecl]<nint, CorsairError>)LoadFunction("CorsairGetSessionDetails");
         _corsairDisconnect = (delegate* unmanaged[Cdecl]<CorsairError>)LoadFunction("CorsairDisconnect");
         _corsairGetDevices = (delegate* unmanaged[Cdecl]<_CorsairDeviceFilter, int, nint, out int, CorsairError>)LoadFunction("CorsairGetDevices");
-        _corsairGetDeviceInfo = (delegate* unmanaged[Cdecl]<string, _CorsairDeviceInfo, CorsairError>)LoadFunction("CorsairGetDeviceInfo");
+        _corsairGetDeviceInfo = (delegate* unmanaged[Cdecl]<string, nint, CorsairError>)LoadFunction("CorsairGetDeviceInfo");
         _corsairGetLedPositions = (delegate* unmanaged[Cdecl]<string, int, nint, out int, CorsairError>)LoadFunction("CorsairGetLedPositions");
         _corsairSetLedColors = (delegate* unmanaged[Cdecl]<string, int, nint, CorsairError>)LoadFunction("CorsairSetLedColors");
         _corsairSetLayerPriority = (delegate* unmanaged[Cdecl]<uint, CorsairError>)LoadFunction("CorsairSetLayerPriority");
@@ -106,6 +139,8 @@ internal static unsafe class _CUESDK
         _corsairReleaseControl = (delegate* unmanaged[Cdecl]<string, CorsairError>)LoadFunction("CorsairReleaseControl");
         _getDevicePropertyInfo = (delegate* unmanaged[Cdecl]<string, CorsairDevicePropertyId, uint, out CorsairDataType, out CorsairPropertyFlag, CorsairError>)LoadFunction("CorsairGetDevicePropertyInfo");
         _readDeviceProperty = (delegate* unmanaged[Cdecl]<string, CorsairDevicePropertyId, uint, nint, CorsairError>)LoadFunction("CorsairReadDeviceProperty");
+        _corsairSubscribeForEvents = (delegate* unmanaged[Cdecl]<CorsairEventHandler, nint, CorsairError>)LoadFunction("CorsairSubscribeForEvents");
+        _corsairUnsubscribeForEvents = (delegate* unmanaged[Cdecl]<CorsairError>)LoadFunction("CorsairSubscribeForEvents");
     }
 
     private static nint LoadFunction(string function)
@@ -143,6 +178,8 @@ internal static unsafe class _CUESDK
         _corsairReleaseControl = null;
         _getDevicePropertyInfo = null;
         _readDeviceProperty = null;
+        _corsairSubscribeForEvents = null;
+        _corsairUnsubscribeForEvents = null;
 
         NativeLibrary.Free(_handle);
         _handle = 0;
@@ -158,7 +195,7 @@ internal static unsafe class _CUESDK
     private static delegate* unmanaged[Cdecl]<nint, CorsairError> _corsairGetSessionDetails;
     private static delegate* unmanaged[Cdecl]<CorsairError> _corsairDisconnect;
     private static delegate* unmanaged[Cdecl]<_CorsairDeviceFilter, int, nint, out int, CorsairError> _corsairGetDevices;
-    private static delegate* unmanaged[Cdecl]<string, _CorsairDeviceInfo, CorsairError> _corsairGetDeviceInfo;
+    private static delegate* unmanaged[Cdecl]<string, nint, CorsairError> _corsairGetDeviceInfo;
     private static delegate* unmanaged[Cdecl]<string, int, nint, out int, CorsairError> _corsairGetLedPositions;
     private static delegate* unmanaged[Cdecl]<string, int, nint, CorsairError> _corsairSetLedColors;
     private static delegate* unmanaged[Cdecl]<uint, CorsairError> _corsairSetLayerPriority;
@@ -167,6 +204,8 @@ internal static unsafe class _CUESDK
     private static delegate* unmanaged[Cdecl]<string, CorsairError> _corsairReleaseControl;
     private static delegate* unmanaged[Cdecl]<string, CorsairDevicePropertyId, uint, out CorsairDataType, out CorsairPropertyFlag, CorsairError> _getDevicePropertyInfo;
     private static delegate* unmanaged[Cdecl]<string, CorsairDevicePropertyId, uint, nint, CorsairError> _readDeviceProperty;
+    private static delegate* unmanaged[Cdecl]<CorsairEventHandler, nint, CorsairError> _corsairSubscribeForEvents;
+    private static delegate* unmanaged[Cdecl]<CorsairError> _corsairUnsubscribeForEvents;
 
     #endregion
 
@@ -198,7 +237,10 @@ internal static unsafe class _CUESDK
     internal static CorsairError CorsairDisconnect()
     {
         if (!IsConnected) throw new RGBDeviceException("The Corsair-SDK is not connected.");
-        return _corsairDisconnect();
+        CorsairError corsairDisconnect = _corsairDisconnect();
+        // docs say this event is called with disconnect but doesnt :/
+        CorsairSessionStateChangedCallback(0, new _CorsairSessionStateChanged{state = CorsairSessionState.Closed});
+        return corsairDisconnect;
     }
 
     internal static CorsairError CorsairGetDevices(_CorsairDeviceFilter filter, out _CorsairDeviceInfo[] devices)
@@ -223,7 +265,19 @@ internal static unsafe class _CUESDK
     internal static CorsairError CorsairGetDeviceInfo(string deviceId, _CorsairDeviceInfo deviceInfo)
     {
         if (!IsConnected) throw new RGBDeviceException("The Corsair-SDK is not connected.");
-        return _corsairGetDeviceInfo(deviceId, deviceInfo);
+
+        nint myStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<_CorsairDeviceInfo>());
+        Marshal.StructureToPtr(deviceInfo, myStructPtr, false);
+        try
+        {
+            CorsairError error = _corsairGetDeviceInfo(deviceId, myStructPtr);
+            Marshal.PtrToStructure(myStructPtr, deviceInfo);
+            return error;
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(myStructPtr);
+        }
     }
 
     internal static CorsairError CorsairGetLedPositions(string deviceId, out _CorsairLedPosition[] ledPositions)
