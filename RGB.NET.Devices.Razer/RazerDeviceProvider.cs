@@ -109,6 +109,28 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x026C, RGBDeviceType.Keyboard, "Huntsman V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x028D, RGBDeviceType.Keyboard, "BlackWidow V4", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02A1, RGBDeviceType.Keyboard, "Ornata V3", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0295, RGBDeviceType.Keyboard, "DeathStalker V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0292, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wired
+        { 0x0290, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wireless
+        { 0x0298, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wired
+        { 0x0296, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wireless
+        { 0x0294, RGBDeviceType.Keyboard, "Ornata V3 X", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x028C, RGBDeviceType.Keyboard, "Blade 14 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x028B, RGBDeviceType.Keyboard, "Blade 17 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x028A, RGBDeviceType.Keyboard, "Blade 15 Advanced (Early 2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x027A, RGBDeviceType.Keyboard, "Blade 15 Base (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0279, RGBDeviceType.Keyboard, "Blade 17 Pro (Mid 2021)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0276, RGBDeviceType.Keyboard, "Blade 15 Advanced (Mid 2021)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0270, RGBDeviceType.Keyboard, "Blade 14 (2021)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x026F, RGBDeviceType.Keyboard, "Blade 15 Base (Early 2021)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x026E, RGBDeviceType.Keyboard, "Blade 17 Pro (Early 2021)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x026D, RGBDeviceType.Keyboard, "Blade 15 Advanced (Early 2021)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x026A, RGBDeviceType.Keyboard, "Book 13 (2020)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0282, RGBDeviceType.Keyboard, "Huntsman Mini Analog", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0271, RGBDeviceType.Keyboard, "BlackWidow V3 Mini Hyperspeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x026B, RGBDeviceType.Keyboard, "Huntsman V2 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0269, RGBDeviceType.Keyboard, "Huntsman Mini (JP)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
         { 0x0013, RGBDeviceType.Mouse, "Orochi 2011", LedMappings.Mouse, RazerEndpointType.Mouse },
