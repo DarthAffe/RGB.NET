@@ -68,7 +68,11 @@ internal static unsafe class _CUESDK
     private static void CorsairSessionStateChangedCallback(nint context, _CorsairSessionStateChanged eventData)
     {
         SessionState = eventData.state;
-        SessionStateChanged?.Invoke(null, eventData.state);
+        try
+        {
+            SessionStateChanged?.Invoke(null, eventData.state);
+        }
+        catch { /* dont let exception go to sdk */ }
 
         switch (eventData.state)
         {
@@ -96,7 +100,11 @@ internal static unsafe class _CUESDK
             return;
         }
 
-        DeviceConnectionEvent?.Invoke(null, connectionStatusChangedEvent);
+        try
+        {
+            DeviceConnectionEvent?.Invoke(null, connectionStatusChangedEvent);
+        }
+        catch { /* dont let exception go to sdk */ }
     }
 
     #endregion
