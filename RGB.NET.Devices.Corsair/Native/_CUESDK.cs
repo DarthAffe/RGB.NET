@@ -92,19 +92,18 @@ internal static unsafe class _CUESDK
             return;
         }
 
-        CorsairDeviceConnectionStatusChangedEvent? connectionStatusChangedEvent =
-            Marshal.PtrToStructure<CorsairDeviceConnectionStatusChangedEvent>(eventData.corsairEventUnion.eventPointer);
-
-        if (connectionStatusChangedEvent == null)
-        {
-            return;
-        }
-
         try
         {
+            if (eventData.eventPointer == 0)
+            {
+                return;
+            }
+
+            CorsairDeviceConnectionStatusChangedEvent connectionStatusChangedEvent =
+                Marshal.PtrToStructure<CorsairDeviceConnectionStatusChangedEvent>(eventData.eventPointer)!;
+
             DeviceConnectionEvent?.Invoke(null, connectionStatusChangedEvent);
-        }
-        catch { /* dont let exception go to sdk */ }
+        }catch { /* dont let exception go to sdk */ }
     }
 
     #endregion
@@ -245,10 +244,7 @@ internal static unsafe class _CUESDK
     internal static CorsairError CorsairDisconnect()
     {
         if (!IsConnected) throw new RGBDeviceException("The Corsair-SDK is not connected.");
-        CorsairError corsairDisconnect = _corsairDisconnect();
-        // docs say this event is called with disconnect but doesnt :/
-        CorsairSessionStateChangedCallback(0, new _CorsairSessionStateChanged{state = CorsairSessionState.Closed});
-        return corsairDisconnect;
+        return _corsairDisconnect();
     }
 
     internal static CorsairError CorsairGetDevices(_CorsairDeviceFilter filter, out _CorsairDeviceInfo[] devices)

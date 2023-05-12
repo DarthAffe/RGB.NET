@@ -22,22 +22,8 @@ internal sealed class _CorsairEvent
     internal CorsairEventId id;
 
     /// <summary>
-    /// iCUE-SDK: Anonymous union with fields:
-    /// const CorsairDeviceConnectionStatusChangedEvent *deviceConnectionStatusChangedEvent - when id == CEI_DeviceConnectionStatusChangedEvent
-    ///     contains valid pointer to structure with information about connected or disconnected device
-    /// const CorsairKeyEvent *keyEvent - when id == CEI_KeyEvent
-    ///     contains valid pointer to structure with information about pressed or released G, M or S button and device where this event happened
-    /// </summary>
-    internal CorsairEventUnion corsairEventUnion;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-internal sealed class CorsairEventUnion
-{
-    /// <summary>
     /// Points to <see cref="CorsairDeviceConnectionStatusChangedEvent"/> if _CorsairEvent's id is CEI_DeviceConnectionStatusChangedEvent,
     /// points to <see cref="CorsairKeyEvent"/> if _CorsairEvent's id is CEI_KeyEvent
     /// </summary>
     internal nint eventPointer;
 }
-
