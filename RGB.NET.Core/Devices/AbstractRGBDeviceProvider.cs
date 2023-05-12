@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -20,8 +21,13 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <inheritdoc />
     public bool ThrowsExceptions { get; protected set; }
 
+    /// <summary>
+    /// The list of devices managed by this device-provider.
+    /// </summary>
+    protected List<IRGBDevice> InternalDevices { get; } = new();
+
     /// <inheritdoc />
-    public virtual IEnumerable<IRGBDevice> Devices { get; protected set; } = Enumerable.Empty<IRGBDevice>();
+    public virtual IReadOnlyList<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(InternalDevices);
 
     /// <summary>
     /// Gets the dictionary containing the registered update triggers.
@@ -73,12 +79,15 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
 
             InitializeSDK();
 
-            Devices = new ReadOnlyCollection<IRGBDevice>(GetLoadedDevices(loadFilter).ToList());
+            foreach (IRGBDevice rgbDevice in Devices) RemoveDevice(rgbDevice);
+            foreach (IRGBDevice device in GetLoadedDevices(loadFilter))
+                AddDevice(device);
 
             foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
                 updateTrigger.Start();
 
             IsInitialized = true;
+            return true;
         }
         catch (DeviceProviderException)
         {
@@ -91,8 +100,6 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
             Throw(ex, true);
             return false;
         }
-
-        return true;
     }
 
     /// <summary>
@@ -122,6 +129,19 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
         }
 
         return devices;
+    }
+
+    protected void AddDevice(IRGBDevice device)
+    {
+        InternalDevices.Add(device);
+        DeviceAdded?.Invoke(this, new RGBDeviceAddedEventArgs(device));
+    }
+
+    protected void RemoveDevice(IRGBDevice device)
+    {
+        device.Dispose();
+        InternalDevices.Remove(device);
+        DeviceRemoved?.Invoke(this, new RGBDeviceRemovedEventArgs(device));
     }
 
     /// <summary>
@@ -170,12 +190,13 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     {
         foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
             updateTrigger.Dispose();
-
-        foreach (IRGBDevice device in Devices)
-            device.Dispose();
-
-        Devices = Enumerable.Empty<IRGBDevice>();
         UpdateTriggerMapping.Clear();
+
+        foreach (IRGBDevice rgbDevice in Devices.ToImmutableArray())
+        {
+            RemoveDevice(rgbDevice);
+        }
+
         IsInitialized = false;
     }
 

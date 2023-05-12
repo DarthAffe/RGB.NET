@@ -9,4 +9,6 @@ public interface IDeviceUpdateTrigger : IUpdateTrigger
     /// Indicates that there's data available to process.
     /// </summary>
     void TriggerHasData();
+
+    void Stop();
 }

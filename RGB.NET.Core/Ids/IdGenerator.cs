@@ -15,6 +15,7 @@ public static class IdGenerator
     private static readonly HashSet<string> _registeredIds = new();
     private static readonly Dictionary<Assembly, Dictionary<string, string>> _idMappings = new();
     private static readonly Dictionary<Assembly, Dictionary<string, int>> _counter = new();
+    private static readonly Dictionary<string, string> savedSdkIds = new();
     // ReSharper restore InconsistentNaming
 
     #endregion
@@ -29,8 +30,13 @@ public static class IdGenerator
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static string MakeUnique(string id) => MakeUnique(Assembly.GetCallingAssembly(), id);
 
-    internal static string MakeUnique(Assembly callingAssembly, string id)
+    internal static string MakeUnique(Assembly callingAssembly, string id, string? sdkId = null)
     {
+        if (!string.IsNullOrEmpty(sdkId) && savedSdkIds.TryGetValue(sdkId, out string savedId))
+        {
+            return savedId;
+        }
+        
         if (!_idMappings.TryGetValue(callingAssembly, out Dictionary<string, string>? idMapping))
         {
             _idMappings.Add(callingAssembly, idMapping = new Dictionary<string, string>());
@@ -53,7 +59,12 @@ public static class IdGenerator
         counterMapping.TryAdd(mappedId, 0);
 
         int counter = ++counterMapping[mappedId];
-        return counter <= 1 ? mappedId : $"{mappedId} ({counter})";
+        string uniqueId = counter <= 1 ? mappedId : $"{mappedId} ({counter})";
+        if (!string.IsNullOrEmpty(sdkId))
+        {
+            savedSdkIds.Add(sdkId, uniqueId);
+        }
+        return uniqueId;
     }
 
     /// <summary>
