@@ -10,28 +10,52 @@ namespace RGB.NET.Devices.Corsair.Native;
 
 // ReSharper disable once InconsistentNaming    
 /// <summary>
-/// CUE-SDK: contains information about led and its color
+/// iCUE-SDK: contains information about led and its color
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal class _CorsairLedColor
+internal struct _CorsairLedColor
 {
-    /// <summary>
-    /// CUE-SDK: identifier of LED to set
-    /// </summary>
-    internal int ledId;
+    #region Properties & Fields
 
     /// <summary>
-    /// CUE-SDK: red   brightness[0..255]
+    /// iCUE-SDK: identifier of LED to set
     /// </summary>
-    internal int r;
+    internal CorsairLedId ledId;
 
     /// <summary>
-    /// CUE-SDK: green brightness[0..255]
+    /// iCUE-SDK: red   brightness[0..255]
     /// </summary>
-    internal int g;
+    internal byte r;
 
     /// <summary>
-    /// CUE-SDK: blue  brightness[0..255]
+    /// iCUE-SDK: green brightness[0..255]
     /// </summary>
-    internal int b;
+    internal byte g;
+
+    /// <summary>
+    /// iCUE-SDK: blue  brightness[0..255]
+    /// </summary>
+    internal byte b;
+
+    /// <summary>
+    /// iCUE-SDK: alpha channel [0..255]. The opacity of the color from 0 for completely translucent to 255 for opaque
+    /// </summary>
+    internal byte a;
+
+    #endregion
+
+    #region Constructors
+
+    public _CorsairLedColor() { }
+
+    public _CorsairLedColor(CorsairLedId ledId, byte r, byte g, byte b, byte a)
+    {
+        this.ledId = ledId;
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
+    }
+
+    #endregion
 };

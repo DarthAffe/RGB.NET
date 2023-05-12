@@ -73,6 +73,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     {
         { 0x407C, RGBDeviceType.Keyboard, "G915", LedMappings.PerKey, 0 },
         { 0x408E, RGBDeviceType.Keyboard, "G915 TKL", LedMappings.PerKey, 0 },
+        { 0xC232, RGBDeviceType.Keyboard, "G915 TKL", LedMappings.PerKey, 0 },
     };
 
     /// <summary>

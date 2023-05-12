@@ -5,7 +5,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.DMX;
 
-internal class LedChannelMapping : IEnumerable<(int channel, Func<Color, byte> getValue)>
+internal sealed class LedChannelMapping : IEnumerable<(int channel, Func<Color, byte> getValue)>
 {
     #region Properties & Fields
 

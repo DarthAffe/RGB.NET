@@ -21,6 +21,14 @@ public interface IColorBehavior
     bool Equals(in Color color, object? obj);
 
     /// <summary>
+    /// Tests whether the specified object is a <see cref="Color" /> and is equivalent to this <see cref="Color" />.
+    /// </summary>
+    /// <param name="color">The first color to test.</param>
+    /// <param name="color2">The second color to test.</param>
+    /// <returns><c>true</c> if <paramref name="color2" /> equivalent to this <see cref="Color" />; otherwise, <c>false</c>.</returns>
+    bool Equals(in Color color, in Color color2);
+
+    /// <summary>
     /// Returns a hash code for this <see cref="Color" />.
     /// </summary>
     /// <returns>An integer value that specifies the hash code for this <see cref="Color" />.</returns>

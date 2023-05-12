@@ -9,11 +9,14 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents the update-queue performing updates for corsair devices.
 /// </summary>
-public class CorsairDeviceUpdateQueue : UpdateQueue
+public sealed class CorsairDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
-    private int _deviceIndex;
+    private bool _isDisposed = false;
+
+    private readonly _CorsairDeviceInfo _device;
+    private readonly nint _colorPtr;
 
     #endregion
 
@@ -24,10 +27,12 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
     /// </summary>
     /// <param name="updateTrigger">The update trigger used by this queue.</param>
     /// <param name="deviceIndex">The index used to identify the device.</param>
-    public CorsairDeviceUpdateQueue(IDeviceUpdateTrigger updateTrigger, int deviceIndex)
+    internal CorsairDeviceUpdateQueue(IDeviceUpdateTrigger updateTrigger, _CorsairDeviceInfo device)
         : base(updateTrigger)
     {
-        this._deviceIndex = deviceIndex;
+        this._device = device;
+
+        _colorPtr = Marshal.AllocHGlobal(Marshal.SizeOf<_CorsairLedColor>() * device.ledCount);
     }
 
     #endregion
@@ -35,28 +40,42 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override unsafe bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
-        IntPtr ptr = Marshal.AllocHGlobal(structSize * dataSet.Length);
-        IntPtr addPtr = new(ptr.ToInt64());
-        foreach ((object key, Color color) in dataSet)
+        try
         {
-            _CorsairLedColor corsairColor = new()
-                                            {
-                                                ledId = (int)key,
-                                                r = color.GetR(),
-                                                g = color.GetG(),
-                                                b = color.GetB()
-                                            };
+            if (_isDisposed) throw new ObjectDisposedException(nameof(CorsairDeviceUpdateQueue));
+            if (!_CUESDK.IsConnected) return false;
 
-            Marshal.StructureToPtr(corsairColor, addPtr, false);
-            addPtr = new IntPtr(addPtr.ToInt64() + structSize);
+            Span<_CorsairLedColor> colors = new((void*)_colorPtr, dataSet.Length);
+            for (int i = 0; i < colors.Length; i++)
+            {
+                (object id, Color color) = dataSet[i];
+                (byte a, byte r, byte g, byte b) = color.GetRGBBytes();
+                colors[i] = new _CorsairLedColor((CorsairLedId)id, r, g, b, a);
+            }
+
+            CorsairError error = _CUESDK.CorsairSetLedColors(_device.id!, dataSet.Length, _colorPtr);
+            if (error != CorsairError.Success)
+                throw new RGBDeviceException($"Failed to update device '{_device.id}'. (ErrorCode: {error})");
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            CorsairDeviceProvider.Instance.Throw(ex);
         }
 
-        _CUESDK.CorsairSetLedsColorsBufferByDeviceIndex(_deviceIndex, dataSet.Length, ptr);
-        _CUESDK.CorsairSetLedsColorsFlushBuffer();
-        Marshal.FreeHGlobal(ptr);
+        return false;
+    }
+
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        _isDisposed = true;
+        Marshal.FreeHGlobal(_colorPtr);
     }
 
     #endregion

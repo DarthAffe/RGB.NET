@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.DMX.E131;
 /// <summary>
 /// Represents the update-queue performing updates for E131-DMX devices.
 /// </summary>
-public class E131UpdateQueue : UpdateQueue
+public sealed class E131UpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -59,18 +59,29 @@ public class E131UpdateQueue : UpdateQueue
     }
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        DataPacket.SetSequenceNumber(GetNextSequenceNumber());
-
-        foreach ((object key, Color color) in dataSet)
+        try
         {
-            LedChannelMapping mapping = (LedChannelMapping)key;
-            foreach ((int channel, Func<Color, byte> getValue) in mapping)
-                DataPacket.SetChannel(channel, getValue(color));
+            DataPacket.SetSequenceNumber(GetNextSequenceNumber());
+
+            foreach ((object key, Color color) in dataSet)
+            {
+                LedChannelMapping mapping = (LedChannelMapping)key;
+                foreach ((int channel, Func<Color, byte> getValue) in mapping)
+                    DataPacket.SetChannel(channel, getValue(color));
+            }
+
+            _socket.Send(DataPacket, DataPacket.Length);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            DMXDeviceProvider.Instance.Throw(ex);
         }
 
-        _socket.Send(DataPacket, DataPacket.Length);
+        return false;
     }
 
     /// <summary>

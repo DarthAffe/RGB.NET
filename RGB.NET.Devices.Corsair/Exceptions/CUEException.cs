@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents an exception thrown by the CUE.
 /// </summary>
-public class CUEException : ApplicationException
+public sealed class CUEException : ApplicationException
 {
     #region Properties & Fields
 

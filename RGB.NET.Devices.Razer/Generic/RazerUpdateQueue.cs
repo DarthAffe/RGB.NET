@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.Razer;
 public abstract class RazerUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
-        
+
     private Guid? _lastEffect;
 
     #endregion
@@ -23,26 +23,36 @@ public abstract class RazerUpdateQueue : UpdateQueue
     /// <param name="updateTrigger">The update trigger used to update this queue.</param>
     protected RazerUpdateQueue(IDeviceUpdateTrigger updateTrigger)
         : base(updateTrigger)
-    {
-    }
+    { }
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        IntPtr effectParams = CreateEffectParams(dataSet);
-        Guid effectId = Guid.NewGuid();
-        CreateEffect(effectParams, ref effectId);
+        try
+        {
+            IntPtr effectParams = CreateEffectParams(dataSet);
+            Guid effectId = Guid.NewGuid();
+            CreateEffect(effectParams, ref effectId);
 
-        _RazerSDK.SetEffect(effectId);
+            _RazerSDK.SetEffect(effectId);
 
-        if (_lastEffect.HasValue)
-            _RazerSDK.DeleteEffect(_lastEffect.Value);
+            if (_lastEffect.HasValue)
+                _RazerSDK.DeleteEffect(_lastEffect.Value);
 
-        _lastEffect = effectId;
+            _lastEffect = effectId;
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            RazerDeviceProvider.Instance.Throw(ex);
+        }
+
+        return false;
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿// ReSharper disable UnusedMethodReturnValue.Global
+// ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable UnusedMember.Global
 
 using System;
@@ -49,7 +49,7 @@ internal static class _WootingSDK
         if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_close", out _closePointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_close'");
         if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_array_update_keyboard", out _arrayUpdateKeyboardPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_array_update_keyboard'");
         if (!NativeLibrary.TryGetExport(_handle, "wooting_rgb_array_set_single", out _arraySetSinglePointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_rgb_array_set_single'");
-        if (!NativeLibrary.TryGetExport(_handle, "wooting_usb_keyboard_count", out _getDeviceCountPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_usb_keyboard_count'");
+        if (!NativeLibrary.TryGetExport(_handle, "wooting_usb_device_count", out _getDeviceCountPointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_usb_device_count'");
         if (!NativeLibrary.TryGetExport(_handle, "wooting_usb_select_device", out _selectDevicePointer)) throw new RGBDeviceException("Failed to load wooting function 'wooting_usb_select_device'");
     }
 
@@ -58,9 +58,11 @@ internal static class _WootingSDK
         IEnumerable<string> possibleLibraryPaths;
 
         if (OperatingSystem.IsWindows())
-            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths;
+            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePathsWindows : WootingDeviceProvider.PossibleX86NativePathsWindows;
         else if (OperatingSystem.IsLinux())
-            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePathsLinux : WootingDeviceProvider.PossibleX86NativePathsLinux;
+            possibleLibraryPaths = WootingDeviceProvider.PossibleNativePathsLinux;
+        else if (OperatingSystem.IsMacOS())
+            possibleLibraryPaths = WootingDeviceProvider.PossibleNativePathsMacOS;
         else
             possibleLibraryPaths = Enumerable.Empty<string>();
 

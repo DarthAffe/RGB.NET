@@ -27,11 +27,15 @@ public class AverageByteSamplerTest
             data[index++] = colorData[i].GetB();
         }
 
-        SamplerInfo<byte> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<byte> info = new(0, 0, 2, 3, 16, 4, data);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 1f, 1f, 1f), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<byte>(16, 16, data);
+        info = new SamplerInfo<byte>(0, 0, 13, 13, 16, 4, data);
+        new AverageByteSampler().Sample(info, result);
+        Assert.AreEqual(new Color(1f, 1f, 1f, 1f), new Color(result[0], result[1], result[2], result[3]));
+
+        info = new SamplerInfo<byte>(0, 0, 16, 16, 16, 4, data);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 1f, 1f, 1f), new Color(result[0], result[1], result[2], result[3]));
     }
@@ -53,11 +57,15 @@ public class AverageByteSamplerTest
             data[index++] = colorData[i].GetB();
         }
 
-        SamplerInfo<byte> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<byte> info = new(0, 0, 2, 3, 16, 4, data);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0f, 0f, 0f), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<byte>(16, 16, data);
+        info = new SamplerInfo<byte>(0, 0, 13, 13, 16, 4, data);
+        new AverageByteSampler().Sample(info, result);
+        Assert.AreEqual(new Color(1f, 0f, 0f, 0f), new Color(result[0], result[1], result[2], result[3]));
+
+        info = new SamplerInfo<byte>(0, 0, 16, 16, 16, 4, data);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0f, 0f, 0f), new Color(result[0], result[1], result[2], result[3]));
     }
@@ -80,11 +88,15 @@ public class AverageByteSamplerTest
             data[index++] = colorData[i].GetB();
         }
 
-        SamplerInfo<byte> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<byte> info = new(0, 0, 2, 3, 16, 4, data);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0.5f, 0.5f, 0.5f), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<byte>(16, 16, data);
+        info = new SamplerInfo<byte>(0, 0, 13, 13, 16, 4, data);
+        new AverageByteSampler().Sample(info, result);
+        Assert.AreEqual(new Color(1f, (6f / 13f).GetByteValueFromPercentage(), (6f / 13f).GetByteValueFromPercentage(), (6f / 13f).GetByteValueFromPercentage()), new Color(result[0], result[1], result[2], result[3]));
+
+        info = new SamplerInfo<byte>(0, 0, 16, 16, 16, 4, data);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(1f, 0.5f, 0.5f, 0.5f), new Color(result[0], result[1], result[2], result[3]));
     }
@@ -114,11 +126,11 @@ public class AverageByteSamplerTest
             data[index++] = colorData[i].GetB();
         }
 
-        SamplerInfo<byte> info = new(2, 3, data[..(6 * 4)]);
+        SamplerInfo<byte> info = new(0, 0, 2, 3, 2, 4, data[..(6 * 4)]);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(149, 128, 74, 64), new Color(result[0], result[1], result[2], result[3]));
 
-        info = new SamplerInfo<byte>(16, 16, data);
+        info = new SamplerInfo<byte>(0, 0, 16, 16, 16, 4, data);
         new AverageByteSampler().Sample(info, result);
         Assert.AreEqual(new Color(128, 103, 89, 76), new Color(result[0], result[1], result[2], result[3]));
     }

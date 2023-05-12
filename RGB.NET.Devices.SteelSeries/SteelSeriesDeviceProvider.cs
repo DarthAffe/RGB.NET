@@ -10,11 +10,11 @@ namespace RGB.NET.Devices.SteelSeries;
 /// <summary>
 /// Represents a device provider responsible for SteelSeries-devices.
 /// </summary>
-public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
+public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Constants
 
-    private static readonly int HEARTBEAT_TIMER = 5000; // flush the device every 5 seconds to prevent timeouts
+    private const int HEARTBEAT_TIMER = 5000; // flush the device every 5 seconds to prevent timeouts
 
     #endregion
 
@@ -54,6 +54,7 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1830, RGBDeviceType.Mouse, "Rival 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
         { 0x1832, RGBDeviceType.Mouse, "Sensei Ten", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
         { 0x1838, RGBDeviceType.Mouse, "Aerox 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x183C, RGBDeviceType.Mouse, "Rival 5", LedMappings.MouseTenZone, SteelSeriesDeviceType.TenZone },
 
         //Keyboards
         { 0x161C, RGBDeviceType.Keyboard, "Apex 5", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },

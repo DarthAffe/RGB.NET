@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Novation;
 /// <summary>
 /// Represents a device provider responsible for Novation  devices.
 /// </summary>
-public class NovationDeviceProvider : AbstractRGBDeviceProvider
+public sealed class NovationDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 

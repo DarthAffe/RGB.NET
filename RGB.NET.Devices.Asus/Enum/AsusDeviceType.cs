@@ -20,5 +20,6 @@ internal enum AsusDeviceType : uint
     NB_KB_4ZONE_RGB = 0x81001,
     MOUSE_RGB = 0x90000,
     CHASSIS_RGB = 0xB0000,
-    PROJECTOR_RGB = 0xC0000
+    PROJECTOR_RGB = 0xC0000,
+    TERMINAL_RGB = 0xE0000
 }

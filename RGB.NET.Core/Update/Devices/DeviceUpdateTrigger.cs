@@ -1,5 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -156,10 +157,12 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
         using (TimerHelper.RequestHighResolutionTimer())
             while (!UpdateToken.IsCancellationRequested)
                 if (HasDataEvent.WaitOne(Timeout))
-                    LastUpdateTime = TimerHelper.Execute(() => OnUpdate(), UpdateFrequency * 1000);
+                    LastUpdateTime = TimerHelper.Execute(TimerExecute, UpdateFrequency * 1000);
                 else if ((HeartbeatTimer > 0) && (LastUpdateTimestamp > 0) && (TimerHelper.GetElapsedTime(LastUpdateTimestamp) > HeartbeatTimer))
                     OnUpdate(new CustomUpdateData().Heartbeat());
     }
+
+    private void TimerExecute() => OnUpdate();
 
     protected override void OnUpdate(CustomUpdateData? updateData = null)
     {
@@ -178,7 +181,12 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
     }
 
     /// <inheritdoc />
-    public override void Dispose() => Stop();
+    public override void Dispose()
+    {
+        Stop();
+
+        GC.SuppressFinalize(this);
+    }
 
     #endregion
 }

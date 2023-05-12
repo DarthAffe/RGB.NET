@@ -1,6 +1,6 @@
 ﻿namespace RGB.NET.Devices.SteelSeries;
 
-internal class APIName : System.Attribute
+internal sealed class APIName : System.Attribute
 {
     #region Properties & Fields
 

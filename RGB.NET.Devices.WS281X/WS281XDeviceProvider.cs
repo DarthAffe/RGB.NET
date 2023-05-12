@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.WS281X;
 /// </summary>
 // ReSharper disable once InconsistentNaming
 // ReSharper disable once UnusedType.Global
-public class WS281XDeviceProvider : AbstractRGBDeviceProvider
+public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 

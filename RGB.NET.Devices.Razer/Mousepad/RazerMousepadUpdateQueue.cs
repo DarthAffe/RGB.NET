@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents the update-queue performing updates for razer mousepad devices.
 /// </summary>
-public class RazerMousepadUpdateQueue : RazerUpdateQueue
+public sealed class RazerMousepadUpdateQueue : RazerUpdateQueue
 {
     #region Constructors
 

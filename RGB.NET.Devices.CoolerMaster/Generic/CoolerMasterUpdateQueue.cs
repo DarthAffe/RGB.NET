@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents the update-queue performing updates for cooler master devices.
 /// </summary>
-public class CoolerMasterUpdateQueue : UpdateQueue
+public sealed class CoolerMasterUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -37,15 +37,26 @@ public class CoolerMasterUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        foreach ((object key, Color color) in dataSet)
+        try
         {
-            (int row, int column) = ((int, int))key;
-            _deviceMatrix.KeyColor[row, column] = new _CoolerMasterKeyColor(color.GetR(), color.GetG(), color.GetB());
+            foreach ((object key, Color color) in dataSet)
+            {
+                (int row, int column) = ((int, int))key;
+                _deviceMatrix.KeyColor[row, column] = new _CoolerMasterKeyColor(color.GetR(), color.GetG(), color.GetB());
+            }
+
+            _CoolerMasterSDK.SetAllLedColor(_deviceMatrix, _deviceIndex);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            CoolerMasterDeviceProvider.Instance.Throw(ex);
         }
 
-        _CoolerMasterSDK.SetAllLedColor(_deviceMatrix, _deviceIndex);
+        return false;
     }
 
     #endregion

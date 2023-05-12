@@ -211,7 +211,7 @@ public class Placeable : AbstractBindable, IPlaceable
     /// </summary>
     protected virtual void OnLocationChanged()
     {
-        LocationChanged?.Invoke(this, new EventArgs());
+        LocationChanged?.Invoke(this, EventArgs.Empty);
         UpdateActualPlaceableData();
     }
 
@@ -220,7 +220,7 @@ public class Placeable : AbstractBindable, IPlaceable
     /// </summary>
     protected virtual void OnSizeChanged()
     {
-        SizeChanged?.Invoke(this, new EventArgs());
+        SizeChanged?.Invoke(this, EventArgs.Empty);
         UpdateActualPlaceableData();
     }
 
@@ -229,7 +229,7 @@ public class Placeable : AbstractBindable, IPlaceable
     /// </summary>
     protected virtual void OnScaleChanged()
     {
-        ScaleChanged?.Invoke(this, new EventArgs());
+        ScaleChanged?.Invoke(this, EventArgs.Empty);
         UpdateActualPlaceableData();
     }
 
@@ -238,24 +238,24 @@ public class Placeable : AbstractBindable, IPlaceable
     /// </summary>
     protected virtual void OnRotationChanged()
     {
-        RotationChanged?.Invoke(this, new EventArgs());
+        RotationChanged?.Invoke(this, EventArgs.Empty);
         UpdateActualPlaceableData();
     }
 
     /// <summary>
     /// Called when the <see cref="ActualLocation"/> property was changed.
     /// </summary>
-    protected virtual void OnActualLocationChanged() => ActualLocationChanged?.Invoke(this, new EventArgs());
+    protected virtual void OnActualLocationChanged() => ActualLocationChanged?.Invoke(this, EventArgs.Empty);
 
     /// <summary>
     /// Called when the <see cref="ActualLocation"/> property was changed.
     /// </summary>
-    protected virtual void OnActualSizeChanged() => ActualSizeChanged?.Invoke(this, new EventArgs());
+    protected virtual void OnActualSizeChanged() => ActualSizeChanged?.Invoke(this, EventArgs.Empty);
 
     /// <summary>
     /// Called when the <see cref="Boundary"/> property was changed.
     /// </summary>
-    protected virtual void OnBoundaryChanged() => BoundaryChanged?.Invoke(this, new EventArgs());
+    protected virtual void OnBoundaryChanged() => BoundaryChanged?.Invoke(this, EventArgs.Empty);
 
     #endregion
 }

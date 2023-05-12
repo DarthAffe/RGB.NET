@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.Debug;
 /// <summary>
 /// Represents a debug device.
 /// </summary>
-public class DebugRGBDevice : AbstractRGBDevice<DebugRGBDeviceInfo>, IUnknownDevice
+public sealed class DebugRGBDevice : AbstractRGBDevice<DebugRGBDeviceInfo>, IUnknownDevice
 {
     #region Properties & Fields
 

@@ -3,7 +3,7 @@ using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Debug;
 
-internal class DebugDeviceUpdateQueue : UpdateQueue
+internal sealed class DebugDeviceUpdateQueue : UpdateQueue
 {
     #region Constructors
 
@@ -15,7 +15,7 @@ internal class DebugDeviceUpdateQueue : UpdateQueue
 
     #region Methods
 
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet) { }
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet) => true;
 
     #endregion
 }

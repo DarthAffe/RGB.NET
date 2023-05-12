@@ -10,7 +10,7 @@ namespace RGB.NET.Core;
 /// Represents a point consisting of a X- and a Y-position.
 /// </summary>
 [DebuggerDisplay("[X: {X}, Y: {Y}]")]
-public readonly struct Point
+public readonly struct Point : IEquatable<Point>
 {
     #region Constants
 
@@ -60,17 +60,19 @@ public readonly struct Point
     public override string ToString() => $"[X: {X}, Y: {Y}]";
 
     /// <summary>
+    /// Tests whether the specified <see cref="Point" /> is equivalent to this <see cref="Point" />.
+    /// </summary>
+    /// <param name="other">The point to test.</param>
+    /// <returns><c>true</c> if <paramref name="other" /> is equivalent to this <see cref="Point" />; otherwise, <c>false</c>.</returns>
+    public bool Equals(Point other) => ((float.IsNaN(X) && float.IsNaN(other.X)) || X.EqualsInTolerance(other.X))
+                                    && ((float.IsNaN(Y) && float.IsNaN(other.Y)) || Y.EqualsInTolerance(other.Y));
+
+    /// <summary>
     /// Tests whether the specified object is a <see cref="Point" /> and is equivalent to this <see cref="Point" />.
     /// </summary>
     /// <param name="obj">The object to test.</param>
     /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Point" /> equivalent to this <see cref="Point" />; otherwise, <c>false</c>.</returns>
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Point comparePoint) return false;
-
-        return ((float.IsNaN(X) && float.IsNaN(comparePoint.X)) || X.EqualsInTolerance(comparePoint.X))
-            && ((float.IsNaN(Y) && float.IsNaN(comparePoint.Y)) || Y.EqualsInTolerance(comparePoint.Y));
-    }
+    public override bool Equals(object? obj) => obj is Point other && Equals(other);
 
     /// <summary>
     /// Returns a hash code for this <see cref="Point" />.

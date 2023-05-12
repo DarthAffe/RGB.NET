@@ -1,5 +1,6 @@
-﻿using System;
-using System.Buffers;
+﻿// ReSharper disable MemberCanBePrivate.Global
+
+using System;
 using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core;
@@ -12,16 +13,22 @@ namespace RGB.NET.Core;
 public abstract class PixelTexture<T> : ITexture
     where T : unmanaged
 {
-    #region Constants
-
-    private const int STACK_ALLOC_LIMIT = 1024;
-
-    #endregion
-
     #region Properties & Fields
 
-    private readonly int _dataPerPixel;
-    private readonly int _stride;
+    /// <summary>
+    /// Gets the underlying pixel data.
+    /// </summary>
+    protected abstract ReadOnlySpan<T> Data { get; }
+
+    /// <summary>
+    /// Gets the amount of data-entries per pixel.
+    /// </summary>
+    protected int DataPerPixel { get; }
+
+    /// <summary>
+    /// Gets the stride of the data.
+    /// </summary>
+    protected int Stride { get; }
 
     /// <summary>
     /// Gets or sets the sampler used to get the color of a region.
@@ -30,11 +37,6 @@ public abstract class PixelTexture<T> : ITexture
 
     /// <inheritdoc />
     public Size Size { get; }
-
-    /// <summary>
-    /// Gets the underlying pixel data.
-    /// </summary>
-    protected abstract ReadOnlySpan<T> Data { get; }
 
     /// <inheritdoc />
     public virtual Color this[in Point point]
@@ -85,31 +87,12 @@ public abstract class PixelTexture<T> : ITexture
             if ((width == 0) || (height == 0)) return Color.Transparent;
             if ((width == 1) && (height == 1)) return GetColor(GetPixelData(x, y));
 
-            int bufferSize = width * height * _dataPerPixel;
-            if (bufferSize <= STACK_ALLOC_LIMIT)
-            {
-                Span<T> buffer = stackalloc T[bufferSize];
-                GetRegionData(x, y, width, height, buffer);
+            SamplerInfo<T> samplerInfo = new(x, y, width, height, Stride, DataPerPixel, Data);
 
-                Span<T> pixelData = stackalloc T[_dataPerPixel];
-                Sampler.Sample(new SamplerInfo<T>(width, height, buffer), pixelData);
+            Span<T> pixelData = stackalloc T[DataPerPixel];
+            Sampler.Sample(samplerInfo, pixelData);
 
-                return GetColor(pixelData);
-            }
-            else
-            {
-                T[] rent = ArrayPool<T>.Shared.Rent(bufferSize);
-
-                Span<T> buffer = new Span<T>(rent)[..bufferSize];
-                GetRegionData(x, y, width, height, buffer);
-
-                Span<T> pixelData = stackalloc T[_dataPerPixel];
-                Sampler.Sample(new SamplerInfo<T>(width, height, buffer), pixelData);
-
-                ArrayPool<T>.Shared.Return(rent);
-
-                return GetColor(pixelData);
-            }
+            return GetColor(pixelData);
         }
     }
 
@@ -127,8 +110,8 @@ public abstract class PixelTexture<T> : ITexture
     /// <param name="stride">The stride of the data or -1 if the width should be used.</param>
     public PixelTexture(int with, int height, int dataPerPixel, ISampler<T> sampler, int stride = -1)
     {
-        this._stride = stride == -1 ? with : stride;
-        this._dataPerPixel = dataPerPixel;
+        this.Stride = stride == -1 ? with : stride;
+        this.DataPerPixel = dataPerPixel;
         this.Sampler = sampler;
 
         Size = new Size(with, height);
@@ -152,27 +135,7 @@ public abstract class PixelTexture<T> : ITexture
     /// <param name="y">The y-location.</param>
     /// <returns>The pixel-data on the specified location.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected virtual ReadOnlySpan<T> GetPixelData(int x, int y) => Data.Slice((y * _stride) + x, _dataPerPixel);
-
-    /// <summary>
-    /// Writes the pixel-data of the specified region to the passed buffer.
-    /// </summary>
-    /// <param name="x">The x-location of the region to get the data for.</param>
-    /// <param name="y">The y-location of the region to get the data for.</param>
-    /// <param name="width">The width of the region to get the data for.</param>
-    /// <param name="height">The height of the region to get the data for.</param>
-    /// <param name="buffer">The buffer to write the data to.</param>
-    protected virtual void GetRegionData(int x, int y, int width, int height, in Span<T> buffer)
-    {
-        int dataWidth = width * _dataPerPixel;
-        ReadOnlySpan<T> data = Data;
-        for (int i = 0; i < height; i++)
-        {
-            ReadOnlySpan<T> dataSlice = data.Slice((((y + i) * _stride) + x) * _dataPerPixel, dataWidth);
-            Span<T> destination = buffer.Slice(i * dataWidth, dataWidth);
-            dataSlice.CopyTo(destination);
-        }
-    }
+    private ReadOnlySpan<T> GetPixelData(int x, int y) => Data.Slice((y * Stride) + x, DataPerPixel);
 
     #endregion
 }
@@ -225,6 +188,7 @@ public sealed class PixelTexture : PixelTexture<Color>
     #region Methods
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected override Color GetColor(in ReadOnlySpan<Color> pixel) => pixel[0];
 
     #endregion

@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard;
 /// <summary>
 /// Represents a Wooting keyboard.
 /// </summary>
-public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
+public sealed class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
 {
     #region Properties & Fields
 
@@ -45,9 +45,6 @@ public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDevic
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType][ledId];
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
     public override void Dispose()
     {

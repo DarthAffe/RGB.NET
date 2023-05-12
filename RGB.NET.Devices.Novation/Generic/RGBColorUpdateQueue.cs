@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Novation;
 /// <summary>
 /// Represents the update-queue performing updates for a RGB-color novation device.
 /// </summary>
-public class RGBColorUpdateQueue : MidiUpdateQueue
+public sealed class RGBColorUpdateQueue : MidiUpdateQueue
 {
     #region Properties & Fields
 
@@ -165,7 +165,7 @@ public class RGBColorUpdateQueue : MidiUpdateQueue
     /// </summary>
     /// <param name="color">The <see cref="Color"/> to convert.</param>
     /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
-    protected virtual int ConvertColor(in Color color)
+    private static int ConvertColor(in Color color)
     {
         int bestVelocity = 0;
         double bestMatchDistance = double.MaxValue;

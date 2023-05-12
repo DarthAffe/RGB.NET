@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.DMX;
 /// <summary>
 /// Represents a device provider responsible for DMX devices.
 /// </summary>
-public class DMXDeviceProvider : AbstractRGBDeviceProvider
+public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 

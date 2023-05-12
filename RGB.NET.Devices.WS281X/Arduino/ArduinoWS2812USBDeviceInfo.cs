@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.WS281X.Arduino;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.WS281X.Arduino.ArduinoWS2812USBDevice" />.
 /// </summary>
-public class ArduinoWS2812USBDeviceInfo : IRGBDeviceInfo
+public sealed class ArduinoWS2812USBDeviceInfo : IRGBDeviceInfo
 {
     #region Properties & Fields
 

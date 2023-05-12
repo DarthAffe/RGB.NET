@@ -43,7 +43,7 @@ internal static class WMIHelper
         if ((_systemModelInfo == null) && (_systemModelSearcher != null))
             foreach (ManagementBaseObject managementBaseObject in _systemModelSearcher.Get())
             {
-                _systemModelInfo = managementBaseObject["Model"]?.ToString();
+                _systemModelInfo = managementBaseObject["Model"].ToString();
                 break;
             }
 
@@ -57,7 +57,7 @@ internal static class WMIHelper
         if (!_mainboardInfo.HasValue && (_mainboardSearcher != null))
             foreach (ManagementBaseObject managementBaseObject in _mainboardSearcher.Get())
             {
-                _mainboardInfo = (managementBaseObject["Manufacturer"]?.ToString() ?? string.Empty, managementBaseObject["Product"]?.ToString() ?? string.Empty);
+                _mainboardInfo = (managementBaseObject["Manufacturer"].ToString() ?? string.Empty, managementBaseObject["Product"].ToString() ?? string.Empty);
                 break;
             }
 
@@ -71,7 +71,7 @@ internal static class WMIHelper
         if ((_graphicsCardInfo == null) && (_graphicsCardSearcher != null))
             foreach (ManagementBaseObject managementBaseObject in _graphicsCardSearcher.Get())
             {
-                _graphicsCardInfo = managementBaseObject["Name"]?.ToString();
+                _graphicsCardInfo = managementBaseObject["Name"].ToString();
                 break;
             }
 

@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Novation;
 /// <summary>
 /// Represents a Novation launchpad.
 /// </summary>
-public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGBDeviceInfo>, ILedMatrix
+public sealed class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGBDeviceInfo>, ILedMatrix
 {
     #region Constructors
 
@@ -50,7 +50,7 @@ public class NovationLaunchpadRGBDevice : NovationRGBDevice<NovationLaunchpadRGB
     /// </summary>
     /// <returns>The mapping of the device.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if the value of <see cref="NovationLaunchpadRGBDeviceInfo.LedMapping"/> is not known.</exception>
-    protected virtual Dictionary<LedId, (byte mode, byte id, int x, int y)> GetDeviceMapping()
+    private Dictionary<LedId, (byte mode, byte id, int x, int y)> GetDeviceMapping()
         => DeviceInfo.LedMapping switch
         {
             LedIdMappings.Current => LaunchpadIdMapping.CURRENT,

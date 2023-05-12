@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 
 using RGB.NET.Core;
+using System.Collections.Generic;
 
 namespace RGB.NET.Devices.Corsair;
 
@@ -9,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair touchbar.
 /// </summary>
-public class CorsairTouchbarRGBDevice : CorsairRGBDevice<CorsairTouchbarRGBDeviceInfo>, IDRAM
+public sealed class CorsairTouchbarRGBDevice : CorsairRGBDevice<CorsairTouchbarRGBDeviceInfo>, ILedStripe
 {
     #region Constructors
 
@@ -20,8 +21,14 @@ public class CorsairTouchbarRGBDevice : CorsairRGBDevice<CorsairTouchbarRGBDevic
     /// <param name="info">The specific information provided by CUE for the touchbar.</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
     internal CorsairTouchbarRGBDevice(CorsairTouchbarRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-        : base(info, LedMappings.Keyboard, updateQueue) //TODO DarthAffe 17.07.2022: Find someone with such a device and check which LedIds are actually used
+        : base(info, updateQueue)
     { }
+
+    #endregion
+
+    #region Methods
+
+    protected override LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids) => LedMappings.CreateLedStripMapping(ids);
 
     #endregion
 }

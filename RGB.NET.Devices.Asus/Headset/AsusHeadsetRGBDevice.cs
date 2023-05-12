@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Asus;
 /// <summary>
 /// Represents a Asus headset.
 /// </summary>
-public class AsusHeadsetRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IHeadset
+public sealed class AsusHeadsetRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IHeadset
 {
     #region Constructors
 

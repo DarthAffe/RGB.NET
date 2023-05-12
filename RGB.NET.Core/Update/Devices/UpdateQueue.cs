@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RGB.NET.Core;
 
@@ -10,7 +9,7 @@ namespace RGB.NET.Core;
 /// </summary>
 /// <typeparam name="TIdentifier">The type of the key used to identify some data.</typeparam>
 /// <typeparam name="TData">The type of the data.</typeparam>
-public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier, TData>
+public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCounting, IUpdateQueue<TIdentifier, TData>
     where TIdentifier : notnull
 {
     #region Properties & Fields
@@ -18,6 +17,9 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
     private readonly object _dataLock = new();
     private readonly IDeviceUpdateTrigger _updateTrigger;
     private readonly Dictionary<TIdentifier, TData> _currentDataSet = new();
+
+    /// <inheritdoc />
+    public bool RequiresFlush { get; private set; }
 
     #endregion
 
@@ -62,7 +64,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
             _currentDataSet.Clear();
         }
 
-        Update(data);
+        RequiresFlush = !Update(data);
 
         ArrayPool<(TIdentifier, TData)>.Shared.Return(dataSet);
     }
@@ -78,17 +80,16 @@ public abstract class UpdateQueue<TIdentifier, TData> : IUpdateQueue<TIdentifier
     /// Performs the update this queue is responsible for.
     /// </summary>
     /// <param name="dataSet">The set of data that needs to be updated.</param>
-    protected abstract void Update(in ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
+    protected abstract bool Update(in ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
 
     /// <summary>
     /// Sets or merges the provided data set in the current dataset and notifies the trigger that there is new data available.
     /// </summary>
     /// <param name="dataSet">The set of data.</param>
     // ReSharper disable once MemberCanBeProtected.Global
-    public virtual void SetData(IEnumerable<(TIdentifier, TData)> dataSet)
+    public virtual void SetData(ReadOnlySpan<(TIdentifier, TData)> data)
     {
-        IList<(TIdentifier, TData)> data = dataSet.ToList();
-        if (data.Count == 0) return;
+        if (data.Length == 0) return;
 
         lock (_dataLock)
         {

@@ -8,9 +8,15 @@ namespace RGB.NET.Core;
 /// Represents a mapping from <see cref="LedId"/> to a custom identifier.
 /// </summary>
 /// <typeparam name="T">The identifier the <see cref="LedId"/> is mapped to.</typeparam>
-public class LedMapping<T> : IEnumerable<(LedId ledId, T mapping)>
+public sealed class LedMapping<T> : IEnumerable<(LedId ledId, T mapping)>
     where T : notnull
 {
+    #region Constants
+
+    public static LedMapping<T> Empty { get; } = new();
+
+    #endregion
+
     #region Properties & Fields
 
     private readonly Dictionary<LedId, T> _mapping = new();

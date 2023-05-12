@@ -19,7 +19,8 @@ public abstract class WootingRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     /// <param name="updateQueue">The update queue used to update this device.</param>
     protected WootingRGBDevice(TDeviceInfo info, IUpdateQueue updateQueue)
         : base(info, updateQueue)
-    { }
+    {
+    }
 
     #endregion
 }

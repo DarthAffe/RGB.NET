@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents a device provider responsible for Cooler Master devices.
 /// </summary>
-public class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
+public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 

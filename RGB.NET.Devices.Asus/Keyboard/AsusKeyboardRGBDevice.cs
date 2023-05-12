@@ -20,7 +20,7 @@ public record AsusKeyboardExtraMapping(Regex Regex, LedMapping<int> LedMapping);
 /// <summary>
 /// Represents a Asus keyboard.
 /// </summary>
-public class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceInfo>, IKeyboard
+public sealed class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceInfo>, IKeyboard
 {
     #region Properties & Fields
 

@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.SteelSeries;
 /// <summary>
 /// Represents a generic information for a SteelSeries-<see cref="T:RGB.NET.Core.IRGBDevice" />.
 /// </summary>
-public class SteelSeriesRGBDeviceInfo : IRGBDeviceInfo
+public sealed class SteelSeriesRGBDeviceInfo : IRGBDeviceInfo
 {
     #region Properties & Fields
 

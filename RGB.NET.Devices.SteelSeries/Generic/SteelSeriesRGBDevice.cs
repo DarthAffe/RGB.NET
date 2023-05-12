@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 
 namespace RGB.NET.Devices.SteelSeries;
 
@@ -8,7 +7,7 @@ namespace RGB.NET.Devices.SteelSeries;
 /// <summary>
 /// Represents a SteelSeries-device. (keyboard, mouse, headset, mousepad).
 /// </summary>
-public class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>, ISteelSeriesRGBDevice, IUnknownDevice//TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
+public sealed class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>, ISteelSeriesRGBDevice, IUnknownDevice//TODO DarthAffe 18.04.2020: It's know which kind of device this is, but they would need to be separated
 {
     #region Properties & Fields
 
@@ -42,9 +41,6 @@ public class SteelSeriesRGBDevice : AbstractRGBDevice<SteelSeriesRGBDeviceInfo>,
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => _ledMapping[ledId];
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
 
     #endregion
 }

@@ -41,6 +41,7 @@ internal static class SteelSeriesSDK
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-6-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-7-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-8-zone"")
+(add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-10-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-12-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-17-zone"")
 (add-event-zone-use-with-specifier ""{EVENT_NAME}"" ""all"" ""rgb-24-zone"")

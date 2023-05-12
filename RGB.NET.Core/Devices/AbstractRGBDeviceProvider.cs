@@ -184,7 +184,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// </summary>
     /// <param name="ex">The exception to throw.</param>
     /// <param name="isCritical">Indicates if the exception is critical for device provider to work correctly.</param>
-    protected virtual void Throw(Exception ex, bool isCritical = false)
+    public virtual void Throw(Exception ex, bool isCritical = false)
     {
         ExceptionEventArgs args = new(ex, isCritical, ThrowsExceptions);
         try { OnException(args); } catch { /* we don't want to throw due to bad event handlers */ }

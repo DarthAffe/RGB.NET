@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Asus;
 /// <summary>
 /// Represents a Asus graphicsCard.
 /// </summary>
-public class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IGraphicsCard
+public sealed class AsusGraphicsCardRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IGraphicsCard
 {
     #region Constructors
 

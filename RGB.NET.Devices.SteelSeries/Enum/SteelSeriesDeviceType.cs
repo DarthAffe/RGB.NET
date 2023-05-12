@@ -32,6 +32,9 @@ public enum SteelSeriesDeviceType
     [APIName("rgb-8-zone")]
     EightZone,
 
+    [APIName("rgb-10-zone")]
+    TenZone,
+
     [APIName("rgb-12-zone")]
     TwelveZone,
 

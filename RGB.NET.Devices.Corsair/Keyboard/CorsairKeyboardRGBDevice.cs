@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 
 using RGB.NET.Core;
+using System.Collections.Generic;
 
 namespace RGB.NET.Devices.Corsair;
 
@@ -9,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair keyboard.
 /// </summary>
-public class CorsairKeyboardRGBDevice : CorsairRGBDevice<CorsairKeyboardRGBDeviceInfo>, IKeyboard
+public sealed class CorsairKeyboardRGBDevice : CorsairRGBDevice<CorsairKeyboardRGBDeviceInfo>, IKeyboard
 {
     #region Properties & Fields
 
@@ -26,8 +27,14 @@ public class CorsairKeyboardRGBDevice : CorsairRGBDevice<CorsairKeyboardRGBDevic
     /// <param name="info">The specific information provided by CUE for the keyboard.</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
     internal CorsairKeyboardRGBDevice(CorsairKeyboardRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-        : base(info, LedMappings.Keyboard, updateQueue)
+        : base(info, updateQueue)
     { }
+
+    #endregion
+
+    #region Methods
+
+    protected override LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids) => LedMappings.CreateKeyboardMapping(ids);
 
     #endregion
 }

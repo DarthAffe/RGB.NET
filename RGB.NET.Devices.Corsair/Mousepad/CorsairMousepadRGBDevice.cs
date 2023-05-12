@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 
 using RGB.NET.Core;
+using System.Collections.Generic;
 
 namespace RGB.NET.Devices.Corsair;
 
@@ -9,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair mousepad.
 /// </summary>
-public class CorsairMousepadRGBDevice : CorsairRGBDevice<CorsairMousepadRGBDeviceInfo>, IMousepad
+public sealed class CorsairMousepadRGBDevice : CorsairRGBDevice<CorsairMousepadRGBDeviceInfo>, IMousepad
 {
     #region Constructors
 
@@ -20,8 +21,14 @@ public class CorsairMousepadRGBDevice : CorsairRGBDevice<CorsairMousepadRGBDevic
     /// <param name="info">The specific information provided by CUE for the mousepad</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
     internal CorsairMousepadRGBDevice(CorsairMousepadRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-        : base(info, LedMappings.Mousepad, updateQueue)
+        : base(info, updateQueue)
     { }
+
+    #endregion
+
+    #region Methods
+
+    protected override LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids) => LedMappings.CreateMousepadMapping(ids);
 
     #endregion
 }

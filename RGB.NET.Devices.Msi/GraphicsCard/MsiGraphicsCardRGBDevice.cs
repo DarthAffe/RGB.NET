@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Msi;
 /// <summary>
 /// Represents MSI VGA adapters.
 /// </summary>
-public class MsiGraphicsCardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IGraphicsCard
+public sealed class MsiGraphicsCardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IGraphicsCard
 {
     #region Constructors
 

@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents the update-queue performing updates for razer chroma-link devices.
 /// </summary>
-public class RazerChromaLinkUpdateQueue : RazerUpdateQueue
+public sealed class RazerChromaLinkUpdateQueue : RazerUpdateQueue
 {
     #region Constructors
 

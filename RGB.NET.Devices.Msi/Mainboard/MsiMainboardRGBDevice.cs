@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Msi;
 /// <summary>
 /// Represents a MSI mainboard.
 /// </summary>
-public class MsiMainboardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IMainboard
+public sealed class MsiMainboardRGBDevice : MsiRGBDevice<MsiRGBDeviceInfo>, IMainboard
 {
     #region Constructors
 

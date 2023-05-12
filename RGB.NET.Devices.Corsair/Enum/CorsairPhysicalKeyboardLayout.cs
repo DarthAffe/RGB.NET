@@ -4,32 +4,14 @@
 namespace RGB.NET.Devices.Corsair;
 
 /// <summary>
-/// Contains a list of available physical layouts for corsair keyboards.
+/// iCUE-SDK: Contains a list of available physical layouts for corsair keyboards.
 /// </summary>
 public enum CorsairPhysicalKeyboardLayout
 {
-    /// <summary>
-    /// US-Keyboard
-    /// </summary>
+    Invalid = 0,
     US = 1,
-
-    /// <summary>
-    /// UK-Keyboard
-    /// </summary>
     UK = 2,
-
-    /// <summary>
-    /// BR-Keyboard
-    /// </summary>
-    BR = 3,
-
-    /// <summary>
-    /// JP-Keyboard
-    /// </summary>
-    JP = 4,
-
-    /// <summary>
-    /// KR-Keyboard
-    /// </summary>
-    KR = 5
+    JP = 3,
+    KR = 4,
+    BR = 5
 }

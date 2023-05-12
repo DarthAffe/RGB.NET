@@ -50,8 +50,7 @@ public static class IdGenerator
             idMapping.Add(id, mappedId);
         }
 
-        if (!counterMapping.ContainsKey(mappedId))
-            counterMapping.Add(mappedId, 0);
+        counterMapping.TryAdd(mappedId, 0);
 
         int counter = ++counterMapping[mappedId];
         return counter <= 1 ? mappedId : $"{mappedId} ({counter})";

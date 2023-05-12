@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.Logitech.HID;
 /// </summary>
 /// <typeparam name="TLed">The type of the identifier leds are mapped to.</typeparam>
 /// <typeparam name="TData">The type of the custom data added to the HID-device.</typeparam>
-public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<TLed, TData>>
+public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<TLed, TData>>
     where TLed : notnull
 {
     #region Constants
@@ -28,7 +28,8 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
                                                           0xC539,
                                                           0xC53A,
                                                           0xC541,
-                                                          0xC545
+                                                          0xC545,
+                                                          0xC547
                                                       };
 
     #endregion
