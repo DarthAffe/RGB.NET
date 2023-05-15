@@ -6,25 +6,31 @@ public sealed class DevicesChangedEventArgs : EventArgs
 {
     #region Properties & Fields
 
-    public IRGBDevice? Added { get; }
-    public IRGBDevice? Removed { get; }
+    public IRGBDevice Device { get; }
+    public DevicesChangedAction Action { get; }
 
     #endregion
 
     #region Constructors
 
-    private DevicesChangedEventArgs(IRGBDevice? added, IRGBDevice? removed)
+    public DevicesChangedEventArgs(IRGBDevice device, DevicesChangedAction action)
     {
-        this.Added = added;
-        this.Removed = removed;
+        this.Device = device;
+        this.Action = action;
     }
 
     #endregion
 
     #region Methods
 
-    public static DevicesChangedEventArgs CreateDevicesAddedArgs(IRGBDevice addedDevice) => new(addedDevice, null);
-    public static DevicesChangedEventArgs CreateDevicesRemovedArgs(IRGBDevice removedDevice) => new(null, removedDevice);
+    public static DevicesChangedEventArgs CreateDevicesAddedArgs(IRGBDevice addedDevice) => new(addedDevice, DevicesChangedAction.Added);
+    public static DevicesChangedEventArgs CreateDevicesRemovedArgs(IRGBDevice removedDevice) => new(removedDevice, DevicesChangedAction.Removed);
 
     #endregion
+
+    public enum DevicesChangedAction
+    {
+        Added,
+        Removed
+    }
 }
