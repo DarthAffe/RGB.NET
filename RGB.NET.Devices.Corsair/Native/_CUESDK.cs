@@ -87,7 +87,7 @@ internal static unsafe class _CUESDK
 
     private static void CorsairEventCallback(nint context, _CorsairEvent eventData)
     {
-        if (eventData.id != CorsairEventId.CEI_DeviceConnectionStatusChangedEvent)
+        if (eventData.id != CorsairEventId.DeviceConnectionStatusChangedEvent)
         {
             return;
         }

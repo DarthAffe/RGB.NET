@@ -2,7 +2,7 @@
 
 public enum CorsairEventId
 {
-    CEI_Invalid = 0,
-    CEI_DeviceConnectionStatusChangedEvent = 1,
-    CEI_KeyEvent = 1,
+    Invalid = 0,
+    DeviceConnectionStatusChangedEvent = 1,
+    KeyEvent = 2,
 }
