@@ -74,8 +74,11 @@ public sealed class CorsairDeviceUpdateQueue : UpdateQueue
     {
         base.Dispose();
 
+        if (!_isDisposed)
+        {
+            Marshal.FreeHGlobal(_colorPtr);
+        }
         _isDisposed = true;
-        Marshal.FreeHGlobal(_colorPtr);
     }
 
     #endregion

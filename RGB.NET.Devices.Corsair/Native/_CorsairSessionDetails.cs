@@ -13,20 +13,20 @@ namespace RGB.NET.Devices.Corsair.Native;
 /// iCUE-SDK: contains information about SDK and iCUE versions
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal sealed class _CorsairSessionDetails
+internal struct _CorsairSessionDetails
 {
     /// <summary>
     /// iCUE-SDK: version of SDK client (like {4,0,1}). Always contains valid value even if there was no iCUE found. Must comply with the semantic versioning rules.
     /// </summary>
-    internal _CorsairVersion clientVersion = new();
+    internal _CorsairVersion clientVersion;
 
     /// <summary>
     /// iCUE-SDK: version of SDK server (like {4,0,1}) or empty struct ({0,0,0}) if the iCUE was not found. Must comply with the semantic versioning rules.
     /// </summary>
-    internal _CorsairVersion serverVersion = new();
+    internal _CorsairVersion serverVersion;
 
     /// <summary>
     /// iCUE-SDK: version of iCUE (like {3,33,100}) or empty struct ({0,0,0}) if the iCUE was not found.
     /// </summary>
-    internal _CorsairVersion serverHostVersion = new();
+    internal _CorsairVersion serverHostVersion;
 };

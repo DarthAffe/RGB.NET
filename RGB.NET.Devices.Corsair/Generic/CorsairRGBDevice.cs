@@ -19,6 +19,10 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     /// </summary>
     protected LedMapping<CorsairLedId> Mapping { get; private set; } = LedMapping<CorsairLedId>.Empty;
 
+    public string DeviceId { get; set; }
+
+    private bool _disposed = false;
+
     #endregion
 
     #region Constructors
@@ -31,7 +35,9 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     /// <param name="updateQueue">The queue used to update this device.</param>
     protected CorsairRGBDevice(TDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
         : base(info, updateQueue)
-    { }
+    {
+        DeviceId = DeviceInfo.DeviceId;
+    }
 
     #endregion
 
@@ -64,6 +70,18 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
 
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => Mapping.TryGetValue(ledId, out CorsairLedId corsairLedId) ? corsairLedId : new CorsairLedId(0);
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        if (!_disposed)
+        {
+            _CUESDK.CorsairReleaseControl(DeviceId);
+        }
+
+        _disposed = true;
+    }
 
     #endregion
 }

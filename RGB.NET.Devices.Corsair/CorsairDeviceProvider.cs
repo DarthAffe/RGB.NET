@@ -3,8 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Threading;
 using RGB.NET.Core;
+using RGB.NET.Devices.Corsair.Events;
 using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair;
@@ -38,7 +41,7 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Gets or sets the timeout used when connecting to the SDK.
     /// </summary>
-    public static TimeSpan ConnectionTimeout { get; set; } = TimeSpan.FromMilliseconds(500);
+    public static TimeSpan ConnectionTimeout { get; set; } = TimeSpan.FromMilliseconds(1000);
 
     /// <summary>
     /// Gets or sets a bool indicating if exclusive request should be requested through the iCUE-SDK.
@@ -90,15 +93,14 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
     protected override void InitializeSDK()
     {
-        _CUESDK.Reload();
-
         using ManualResetEventSlim waitEvent = new(false);
 
         void OnInitializeSessionStateChanged(object? sender, CorsairSessionState state)
         {
-            if (state == CorsairSessionState.Connected)
-                // ReSharper disable once AccessToDisposedClosure
-                waitEvent.Set();
+            if (state != CorsairSessionState.Connected) return;
+            // ReSharper disable once AccessToDisposedClosure
+            waitEvent.Set();
+            _CUESDK.SessionStateChanged -= OnInitializeSessionStateChanged;
         }
 
         try
@@ -111,13 +113,18 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                 Throw(new RGBDeviceException($"Failed to initialized Corsair-SDK. (ErrorCode: {errorCode})"));
 
             if (!waitEvent.Wait(ConnectionTimeout))
-                Throw(new RGBDeviceException($"Failed to initialized Corsair-SDK. (Timeout - Current connection state: {_CUESDK.SesionState})"));
+            {
+                _CUESDK.CorsairDisconnect();
+                Throw(new
+                          RGBDeviceException($"Failed to initialized Corsair-SDK. (Timeout - Current connection state: {_CUESDK.SessionState})"));
+            }
+            _CUESDK.SubscribeToEvents();
 
-            _CUESDK.CorsairGetSessionDetails(out _CorsairSessionDetails? details);
+            errorCode = _CUESDK.CorsairGetSessionDetails(out _CorsairSessionDetails details);
             if (errorCode != CorsairError.Success)
                 Throw(new RGBDeviceException($"Failed to get session details. (ErrorCode: {errorCode})"));
 
-            SessionDetails = new CorsairSessionDetails(details!);
+            SessionDetails = new CorsairSessionDetails(details);
         }
         finally
         {
@@ -125,89 +132,178 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
         }
     }
 
-    private void OnSessionStateChanged(object? sender, CorsairSessionState state) => SessionState = state;
+    private void OnSessionStateChanged(object? sender, CorsairSessionState state)
+    {
+        SessionState = state;
+    }
 
     /// <inheritdoc />
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
-        foreach (ICorsairRGBDevice corsairDevice in LoadCorsairDevices())
+        foreach (ICorsairRGBDevice corsairDevice in LoadCorsairDevices().SelectMany(LoadDevice))
         {
             corsairDevice.Initialize();
             yield return corsairDevice;
         }
     }
 
-    private IEnumerable<ICorsairRGBDevice> LoadCorsairDevices()
+    private IEnumerable<_CorsairDeviceInfo> LoadCorsairDevices()
     {
         CorsairError error = _CUESDK.CorsairGetDevices(new _CorsairDeviceFilter(CorsairDeviceType.All), out _CorsairDeviceInfo[] devices);
         if (error != CorsairError.Success)
             Throw(new RGBDeviceException($"Failed to load devices. (ErrorCode: {error})"));
 
-        foreach (_CorsairDeviceInfo device in devices)
+        return devices;
+    }
+
+    private IEnumerable<ICorsairRGBDevice> LoadDevice(_CorsairDeviceInfo device)
+    {
+        if (string.IsNullOrWhiteSpace(device.id)) yield break;
+
+        // sometimes it is okay to fail :) (can cause problems with reconnections)
+        _CUESDK.CorsairRequestControl(device.id, ExclusiveAccess ? CorsairAccessLevel.ExclusiveLightingControl : CorsairAccessLevel.Shared);
+
+        IDeviceUpdateTrigger updateTrigger = GetUpdateTrigger();
+        CorsairDeviceUpdateQueue updateQueue = new(updateTrigger, device);
+
+        int channelLedCount = 0;
+        for (int i = 0; i < device.channelCount; i++)
         {
-            if (string.IsNullOrWhiteSpace(device.id)) continue;
+            Console.WriteLine($"Channel {i}/{device.channelCount}");
+            channelLedCount += _CUESDK.ReadDevicePropertySimpleInt32(device.id!, CorsairDevicePropertyId.ChannelLedCount, (uint)i);
+        }
 
-            error = _CUESDK.CorsairRequestControl(device.id, ExclusiveAccess ? CorsairAccessLevel.ExclusiveLightingControl : CorsairAccessLevel.Shared);
-            if (error != CorsairError.Success)
-                Throw(new RGBDeviceException($"Failed to take control of device '{device.id}'. (ErrorCode: {error})"));
-
-            CorsairDeviceUpdateQueue updateQueue = new(GetUpdateTrigger(), device);
-
-            int channelLedCount = 0;
-            for (int i = 0; i < device.channelCount; i++)
+        int deviceLedCount = device.ledCount - channelLedCount;
+        if (deviceLedCount > 0)
+            switch (device.type)
             {
-                Console.WriteLine($"Channel {i}/{device.channelCount}");
-                channelLedCount += _CUESDK.ReadDevicePropertySimpleInt32(device.id!, CorsairDevicePropertyId.ChannelLedCount, (uint)i);
+                case CorsairDeviceType.Keyboard:
+                    yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Mouse:
+                    yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Headset:
+                    yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Mousemat:
+                    yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.HeadsetStand:
+                    yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.MemoryModule:
+                    yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Motherboard:
+                    yield return new CorsairMainboardRGBDevice(new CorsairMainboardRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.GraphicsCard:
+                    yield return new CorsairGraphicsCardRGBDevice(new CorsairGraphicsCardRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Touchbar:
+                    yield return new CorsairTouchbarRGBDevice(new CorsairTouchbarRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.Cooler:
+                    yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                case CorsairDeviceType.FanLedController:
+                case CorsairDeviceType.LedController:
+                case CorsairDeviceType.Unknown:
+                    yield return new CorsairUnknownRGBDevice(new CorsairUnknownRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    break;
+
+                default:
+                    Throw(new RGBDeviceException("Unknown Device-Type"));
+                    break;
             }
 
-            int deviceLedCount = device.ledCount - channelLedCount;
-            if (deviceLedCount > 0)
-                switch (device.type)
+        int offset = deviceLedCount;
+        for (int i = 0; i < device.channelCount; i++)
+        {
+            int deviceCount = _CUESDK.ReadDevicePropertySimpleInt32(device.id!, CorsairDevicePropertyId.ChannelDeviceCount, (uint)i);
+            if (deviceCount <= 0)
+                continue; // DarthAffe 10.02.2023: There seem to be an issue in the SDK where it reports empty channels and fails when getting ledCounts and device types from them
+
+            int[] ledCounts =
+                _CUESDK.ReadDevicePropertySimpleInt32Array(device.id!, CorsairDevicePropertyId.ChannelDeviceLedCountArray, (uint)i);
+            int[] deviceTypes = _CUESDK.ReadDevicePropertySimpleInt32Array(device.id!, CorsairDevicePropertyId.ChannelDeviceTypeArray, (uint)i);
+
+            for (int j = 0; j < deviceCount; j++)
+            {
+                CorsairChannelDeviceType deviceType = (CorsairChannelDeviceType)deviceTypes[j];
+                int ledCount = ledCounts[j];
+
+                switch (deviceType)
                 {
-                    case CorsairDeviceType.Keyboard:
-                        yield return new CorsairKeyboardRGBDevice(new CorsairKeyboardRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.FanHD:
+                        yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "HD Fan"), updateQueue);
                         break;
 
-                    case CorsairDeviceType.Mouse:
-                        yield return new CorsairMouseRGBDevice(new CorsairMouseRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.FanSP:
+                        yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "SP Fan"), updateQueue);
                         break;
 
-                    case CorsairDeviceType.Headset:
-                        yield return new CorsairHeadsetRGBDevice(new CorsairHeadsetRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.FanLL:
+                        yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "LL Fan"), updateQueue);
                         break;
 
-                    case CorsairDeviceType.Mousemat:
-                        yield return new CorsairMousepadRGBDevice(new CorsairMousepadRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.FanML:
+                        yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "ML Fan"), updateQueue);
                         break;
 
-                    case CorsairDeviceType.HeadsetStand:
-                        yield return new CorsairHeadsetStandRGBDevice(new CorsairHeadsetStandRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.FanQL:
+                        yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QL Fan"), updateQueue);
                         break;
 
-                    case CorsairDeviceType.MemoryModule:
-                        yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.EightLedSeriesFan:
+                        yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "8-Led-Series Fan Fan"),
+                                                             updateQueue);
                         break;
 
-                    case CorsairDeviceType.Motherboard:
-                        yield return new CorsairMainboardRGBDevice(new CorsairMainboardRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.DAP:
+                        yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "DAP Fan"), updateQueue);
                         break;
 
-                    case CorsairDeviceType.GraphicsCard:
-                        yield return new CorsairGraphicsCardRGBDevice(new CorsairGraphicsCardRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.Pump:
+                        yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, ledCount, offset, "Pump"), updateQueue);
                         break;
 
-                    case CorsairDeviceType.Touchbar:
-                        yield return new CorsairTouchbarRGBDevice(new CorsairTouchbarRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.WaterBlock:
+                        yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, ledCount, offset, "Water Block"),
+                                                                updateQueue);
                         break;
 
-                    case CorsairDeviceType.Cooler:
-                        yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.Strip:
+                        string modelName = "LED Strip";
+
+                        // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single
+                        if ((device.model == "LS100 Starter Kit") && (ledCount == 138))
+                            modelName = "LS100 LED Strip (dual monitor)";
+                        else if ((device.model == "LS100 Starter Kit") && (ledCount == 84))
+                            modelName = "LS100 LED Strip (single monitor)";
+                        // Any other value means an "External LED Strip" in iCUE, these are reported per-strip, 15 for short strips, 27 for long
+                        else if ((device.model == "LS100 Starter Kit") && (ledCount == 15))
+                            modelName = "LS100 LED Strip (short)";
+                        else if ((device.model == "LS100 Starter Kit") && (ledCount == 27))
+                            modelName = "LS100 LED Strip (long)";
+
+                        yield return new CorsairLedStripRGBDevice(new CorsairLedStripRGBDeviceInfo(device, ledCount, offset, modelName),
+                                                                  updateQueue);
                         break;
 
-                    case CorsairDeviceType.FanLedController:
-                    case CorsairDeviceType.LedController:
-                    case CorsairDeviceType.Unknown:
-                        yield return new CorsairUnknownRGBDevice(new CorsairUnknownRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                    case CorsairChannelDeviceType.DRAM:
+                        yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(device, ledCount, offset, "DRAM"), updateQueue);
                         break;
 
                     default:
@@ -215,97 +311,44 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                         break;
                 }
 
-            int offset = deviceLedCount;
-            for (int i = 0; i < device.channelCount; i++)
-            {
-                int deviceCount = _CUESDK.ReadDevicePropertySimpleInt32(device.id!, CorsairDevicePropertyId.ChannelDeviceCount, (uint)i);
-                if (deviceCount <= 0) continue; // DarthAffe 10.02.2023: There seem to be an issue in the SDK where it reports empty channels and fails when getting ledCounts and device types from them
-
-                int[] ledCounts = _CUESDK.ReadDevicePropertySimpleInt32Array(device.id!, CorsairDevicePropertyId.ChannelDeviceLedCountArray, (uint)i);
-                int[] deviceTypes = _CUESDK.ReadDevicePropertySimpleInt32Array(device.id!, CorsairDevicePropertyId.ChannelDeviceTypeArray, (uint)i);
-
-                for (int j = 0; j < deviceCount; j++)
-                {
-                    CorsairChannelDeviceType deviceType = (CorsairChannelDeviceType)deviceTypes[j];
-                    int ledCount = ledCounts[j];
-
-                    switch (deviceType)
-                    {
-                        case CorsairChannelDeviceType.FanHD:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "HD Fan"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.FanSP:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "SP Fan"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.FanLL:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "LL Fan"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.FanML:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "ML Fan"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.FanQL:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QL Fan"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.EightLedSeriesFan:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "8-Led-Series Fan Fan"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.DAP:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "DAP Fan"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.Pump:
-                            yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, ledCount, offset, "Pump"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.WaterBlock:
-                            yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, ledCount, offset, "Water Block"), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.Strip:
-                            string modelName = "LED Strip";
-
-                            // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single
-                            if ((device.model == "LS100 Starter Kit") && (ledCount == 138))
-                                modelName = "LS100 LED Strip (dual monitor)";
-                            else if ((device.model == "LS100 Starter Kit") && (ledCount == 84))
-                                modelName = "LS100 LED Strip (single monitor)";
-                            // Any other value means an "External LED Strip" in iCUE, these are reported per-strip, 15 for short strips, 27 for long
-                            else if ((device.model == "LS100 Starter Kit") && (ledCount == 15))
-                                modelName = "LS100 LED Strip (short)";
-                            else if ((device.model == "LS100 Starter Kit") && (ledCount == 27))
-                                modelName = "LS100 LED Strip (long)";
-
-                            yield return new CorsairLedStripRGBDevice(new CorsairLedStripRGBDeviceInfo(device, ledCount, offset, modelName), updateQueue);
-                            break;
-
-                        case CorsairChannelDeviceType.DRAM:
-                            yield return new CorsairMemoryRGBDevice(new CorsairMemoryRGBDeviceInfo(device, ledCount, offset, "DRAM"), updateQueue);
-                            break;
-
-                        default:
-                            Throw(new RGBDeviceException("Unknown Device-Type"));
-                            break;
-                    }
-
-                    offset += ledCount;
-                }
+                offset += ledCount;
             }
         }
+        updateTrigger.Start();
     }
 
     /// <inheritdoc />
     public override void Dispose()
-    {
-        base.Dispose();
+    { 
+        foreach (IRGBDevice internalDevice in Devices)
+        {
+            internalDevice.Dispose();
+        }
+        
+        ManualResetEventSlim? dcWaitEvent = new(false);
+        void OnSessionStateChangedForDc(object? sender, CorsairSessionState state)
+        {
+            if (state != CorsairSessionState.Closed) return;
+            dcWaitEvent?.Set();
+            _CUESDK.SessionStateChanged -= OnSessionStateChangedForDc;
+        }
 
-        try { _CUESDK.CorsairDisconnect(); } catch { /* at least we tried */ }
-        try { _CUESDK.UnloadCUESDK(); } catch { /* at least we tried */ }
+        _CUESDK.SessionStateChanged += OnSessionStateChangedForDc;
+        
+        using (dcWaitEvent)
+        {
+            CorsairError error = _CUESDK.CorsairDisconnect();
+            if (error == CorsairError.Success)
+            {
+                dcWaitEvent.Wait(new TimeSpan(0, 0, 3));
+            }
+            else
+            {
+                Console.WriteLine(" " + error);
+            }
+        }
+        
+        base.Dispose();
     }
 
     #endregion

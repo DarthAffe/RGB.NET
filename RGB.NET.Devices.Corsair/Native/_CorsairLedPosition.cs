@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.Corsair.Native;
 /// iCUE-SDK: contains led id and position of led
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal sealed class _CorsairLedPosition
+internal struct _CorsairLedPosition
 {
     /// <summary>
     /// iCUE-SDK: unique identifier of led
@@ -22,11 +22,7 @@ internal sealed class _CorsairLedPosition
 
     /// <summary>
     /// iCUE-SDK: for keyboards, mice, mousemats, headset stands and memory modules values are
+    /// in mm, for DIY-devices, headsets and coolers values are in logical units
     /// </summary>
-    internal double cx;
-
-    /// <summary>
-    /// iCUE-SDK: in mm, for DIY-devices, headsets and coolers values are in logical units
-    /// </summary>
-    internal double cy;
-};
+    internal double cx, cy;
+}

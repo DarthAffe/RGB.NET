@@ -29,5 +29,6 @@ internal sealed class CorsairKeyEvent
     /// <summary>
     /// iCUE-SDK: true if pressed, false if released
     /// </summary>
+    [MarshalAs(UnmanagedType.U1)]
     internal bool isPressed;
 }

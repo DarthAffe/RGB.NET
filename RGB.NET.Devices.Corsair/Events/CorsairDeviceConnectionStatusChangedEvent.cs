@@ -24,5 +24,6 @@ internal sealed class CorsairDeviceConnectionStatusChangedEvent
     /// <summary>
     /// iCUE-SDK: true if connected, false if disconnected
     /// </summary>
-    internal byte isConnected;
+    [MarshalAs(UnmanagedType.U1)]
+    internal bool isConnected;
 } 
