@@ -174,7 +174,9 @@ internal static class _CUESDK
         if (!IsConnected) throw new RGBDeviceException("The Corsair-SDK is not connected.");
 
         property = new _CorsairProperty();
-        return iCUE.ReadDeviceProperty(deviceId, propertyId, index, ref property);
+        CorsairError deviceProperty = iCUE.ReadDeviceProperty(deviceId, propertyId, index, ref property);
+        iCUE.FreeProperty(ref property);
+        return deviceProperty;
     }
 
     internal static int ReadDevicePropertySimpleInt32(string deviceId, CorsairDevicePropertyId propertyId, uint index = 0) => ReadDevicePropertySimple(deviceId, propertyId, CorsairDataType.Int32, index).int32;
