@@ -30,7 +30,7 @@ public static class iCUE
     [DllImport(ICUESDK_X64_DLL, EntryPoint = "CorsairReadDeviceProperty", CallingConvention = CallingConvention.Cdecl)]
     internal static extern CorsairError ReadDeviceProperty(string deviceId, CorsairDevicePropertyId property, uint index, ref _CorsairProperty daType);
     
-    [DllImport(ICUESDK_X64_DLL, EntryPoint = "CorsairReadDeviceProperty", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(ICUESDK_X64_DLL, EntryPoint = "CorsairFreeProperty", CallingConvention = CallingConvention.Cdecl)]
     internal static extern CorsairError FreeProperty(ref _CorsairProperty daType);
 
     [DllImport(ICUESDK_X64_DLL, EntryPoint = "CorsairGetLedPositions", CallingConvention = CallingConvention.Cdecl)]
