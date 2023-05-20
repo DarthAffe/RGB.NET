@@ -55,6 +55,8 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1832, RGBDeviceType.Mouse, "Sensei Ten", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
         { 0x1838, RGBDeviceType.Mouse, "Aerox 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
         { 0x183C, RGBDeviceType.Mouse, "Rival 5", LedMappings.MouseTenZone, SteelSeriesDeviceType.TenZone },
+        { 0x1854, RGBDeviceType.Mouse, "Aerox 5 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1852, RGBDeviceType.Mouse, "Aerox 5 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
 
         //Keyboards
         { 0x161C, RGBDeviceType.Keyboard, "Apex 5", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
