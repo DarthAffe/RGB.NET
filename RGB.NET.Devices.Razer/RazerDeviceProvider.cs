@@ -111,10 +111,10 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x02A1, RGBDeviceType.Keyboard, "Ornata V3", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0295, RGBDeviceType.Keyboard, "DeathStalker V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0292, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wired
-        { 0x0290, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wireless
-        { 0x0298, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wired
-        { 0x0296, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, #Wireless
+        { 0x0292, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wired
+        { 0x0290, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wireless
+        { 0x0298, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wired
+        { 0x0296, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wireless
         { 0x0294, RGBDeviceType.Keyboard, "Ornata V3 X", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x028C, RGBDeviceType.Keyboard, "Blade 14 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x028B, RGBDeviceType.Keyboard, "Blade 17 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
