@@ -4,7 +4,7 @@ namespace RGB.NET.Devices.Asus;
 
 /// <inheritdoc cref="AsusRGBDevice{TDeviceInfo}" />
 /// <summary>
-/// Represents a Asus headset.
+/// Represents a Asus device that is otherwise not handled by a more specific helper.
 /// </summary>
 public sealed class AsusUnspecifiedRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IUnknownDevice
 {
@@ -18,9 +18,9 @@ public sealed class AsusUnspecifiedRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>,
 
     /// <inheritdoc />
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusHeadsetRGBDevice" /> class.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Asus.AsusUnspecifiedRGBDevice" /> class.
     /// </summary>
-    /// <param name="info">The specific information provided by Asus for the headset.</param>
+    /// <param name="info">The specific information provided by Asus for the device.</param>
     /// <param name="baseLedId">The ledId of the first led of this device. All other leds are created by incrementing this base-id by 1.</param>
     /// <param name="updateTrigger">The update trigger used to update this device.</param>
     internal AsusUnspecifiedRGBDevice(AsusRGBDeviceInfo info, LedId baseLedId, IDeviceUpdateTrigger updateTrigger)
