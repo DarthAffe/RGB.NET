@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 
 namespace RGB.NET.Core;
 
@@ -41,7 +40,7 @@ public sealed class AverageColorSampler : ISampler<Color>
             {
                 ReadOnlySpan<Color> data = info[y];
 
-                fixed (Color* colorPtr = &MemoryMarshal.GetReference(data))
+                fixed (Color* colorPtr = data)
                 {
                     Color* current = colorPtr;
                     for (int i = 0; i < chunks; i++)

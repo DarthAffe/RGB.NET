@@ -133,7 +133,7 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
     /// <summary>
     /// Stops the trigger.
     /// </summary>
-    public async void Stop()
+    public virtual async void Stop()
     {
         if (!IsRunning) return;
 
@@ -141,7 +141,9 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
 
         UpdateTokenSource?.Cancel();
         if (UpdateTask != null)
-            await UpdateTask;
+            try { await UpdateTask.ConfigureAwait(false); }
+            catch (TaskCanceledException) { }
+            catch (OperationCanceledException) { }
 
         UpdateTask?.Dispose();
         UpdateTask = null;

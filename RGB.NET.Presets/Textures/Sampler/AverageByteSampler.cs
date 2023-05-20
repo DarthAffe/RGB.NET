@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using RGB.NET.Core;
 
 namespace RGB.NET.Presets.Textures.Sampler;
@@ -42,7 +41,7 @@ public sealed class AverageByteSampler : ISampler<byte>
             {
                 ReadOnlySpan<byte> data = info[y];
 
-                fixed (byte* colorPtr = &MemoryMarshal.GetReference(data))
+                fixed (byte* colorPtr = data)
                 {
                     byte* current = colorPtr;
                     for (int i = 0; i < chunks; i++)

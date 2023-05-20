@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using RGB.NET.Core;
 
 namespace RGB.NET.Presets.Textures.Sampler;
@@ -33,7 +32,7 @@ public sealed class AverageFloatSampler : ISampler<float>
             {
                 ReadOnlySpan<float> data = info[y];
 
-                fixed (float* colorPtr = &MemoryMarshal.GetReference(data))
+                fixed (float* colorPtr = data)
                 {
                     float* current = colorPtr;
                     for (int i = 0; i < chunks; i++)
