@@ -29,7 +29,7 @@ public interface IRGBDeviceProvider : IDisposable
     /// <summary>
     /// Gets a collection of <see cref="IRGBDevice"/> loaded by this <see cref="IRGBDeviceProvider"/>.
     /// </summary>
-    IEnumerable<IRGBDevice> Devices { get; }
+    IReadOnlyList<IRGBDevice> Devices { get; }
 
     /// <summary>
     /// Gets a collection <see cref="IDeviceUpdateTrigger"/> registered to this device provider.
@@ -44,6 +44,11 @@ public interface IRGBDeviceProvider : IDisposable
     /// Occurs when an exception is thrown in the device provider.
     /// </summary>
     event EventHandler<ExceptionEventArgs>? Exception;
+
+    /// <summary>
+    /// Occures when the devices provided by this device provider changed.
+    /// </summary>
+    event EventHandler<DevicesChangedEventArgs>? DevicesChanged; 
 
     #endregion
 
