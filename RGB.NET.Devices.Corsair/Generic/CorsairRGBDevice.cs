@@ -63,6 +63,9 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
             FixOffsetDeviceLayout();
     }
 
+    /// <summary>
+    /// Fixes the locations for devices split by offset by aligning them to the top left.
+    /// </summary>
     protected virtual void FixOffsetDeviceLayout()
     {
         float minX = this.Min(x => x.Location.X);
