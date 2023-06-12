@@ -194,7 +194,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0083, RGBDeviceType.Mouse, "Basilisk X HyperSpeed", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x0084, RGBDeviceType.Mouse, "DeathAdder V2", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x0085, RGBDeviceType.Mouse, "Basilisk V2", LedMappings.Mouse, RazerEndpointType.Mouse },
-        { 0x0085, RGBDeviceType.Mouse, "Basilisk Ultimate (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
+        { 0x0086, RGBDeviceType.Mouse, "Basilisk Ultimate (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x0088, RGBDeviceType.Mouse, "Basilisk Ultimate", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x008A, RGBDeviceType.Mouse, "Viper Mini", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x008C, RGBDeviceType.Mouse, "DeathAdder V2 Mini", LedMappings.Mouse, RazerEndpointType.Mouse },
