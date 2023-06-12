@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
@@ -58,6 +58,21 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
             Rectangle rectangle = ledPosition.ToRectangle();
             AddLed(ledId, rectangle.Location, rectangle.Size);
         }
+
+        if (DeviceInfo.LedOffset > 0)
+            FixOffsetDeviceLayout();
+    }
+
+    /// <summary>
+    /// Fixes the locations for devices split by offset by aligning them to the top left.
+    /// </summary>
+    protected virtual void FixOffsetDeviceLayout()
+    {
+        float minX = this.Min(x => x.Location.X);
+        float minY = this.Min(x => x.Location.Y);
+
+        foreach (Led led in this)
+            led.Location = led.Location.Translate(-minX, -minY);
     }
 
     protected abstract LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids);
