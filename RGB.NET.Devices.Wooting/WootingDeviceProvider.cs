@@ -94,15 +94,17 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         lock (_WootingSDK.SdkLock)
         {
             try { _WootingSDK.UnloadWootingSDK(); }
             catch { /* at least we tried */ }
         }
+
+        _instance = null;
     }
 
     #endregion

@@ -86,5 +86,13 @@ public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
         return updateTrigger;
     }
 
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        _instance = null;
+    }
+
     #endregion
 }

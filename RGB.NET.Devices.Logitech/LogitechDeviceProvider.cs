@@ -254,9 +254,9 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         try { _LogitechGSDK.LogiLedRestoreLighting(); }
         catch { /* at least we tried */ }
@@ -264,7 +264,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
         try { _LogitechGSDK.UnloadLogitechGSDK(); }
         catch { /* at least we tried */ }
 
-        GC.SuppressFinalize(this);
+        _instance = null;
     }
 
     #endregion

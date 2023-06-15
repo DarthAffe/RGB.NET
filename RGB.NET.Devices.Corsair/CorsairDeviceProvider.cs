@@ -300,12 +300,14 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         try { _CUESDK.CorsairDisconnect(); } catch { /* at least we tried */ }
         try { _CUESDK.UnloadCUESDK(); } catch { /* at least we tried */ }
+
+        _instance = null;
     }
 
     #endregion

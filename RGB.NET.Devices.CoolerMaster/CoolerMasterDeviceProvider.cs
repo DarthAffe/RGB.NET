@@ -94,12 +94,14 @@ public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         try { _CoolerMasterSDK.Reload(); }
         catch { /* Unlucky.. */ }
+
+        _instance = null;
     }
 
     #endregion

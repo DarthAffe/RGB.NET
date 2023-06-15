@@ -126,5 +126,13 @@ public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
         _sdks.Clear();
     }
 
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        _instance = null;
+    }
+
     #endregion
 }

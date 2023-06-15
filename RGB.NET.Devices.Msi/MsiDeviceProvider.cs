@@ -98,14 +98,14 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
     private void ThrowMsiError(int errorCode, bool isCritical = false) => Throw(new MysticLightException(errorCode, _MsiSDK.GetErrorMessage(errorCode)), isCritical);
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         try { _MsiSDK.UnloadMsiSDK(); }
         catch { /* at least we tried */ }
-
-        GC.SuppressFinalize(this);
+        
+        _instance = null;
     }
 
     #endregion

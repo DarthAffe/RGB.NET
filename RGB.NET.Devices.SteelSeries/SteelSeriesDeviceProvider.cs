@@ -133,12 +133,14 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new DeviceUpdateTrigger(updateRateHardLimit) { HeartbeatTimer = HEARTBEAT_TIMER };
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         try { SteelSeriesSDK.Dispose(); }
         catch { /* shit happens */ }
+
+        _instance = null;
     }
 
     #endregion

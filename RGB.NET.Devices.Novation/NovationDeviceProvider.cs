@@ -67,5 +67,13 @@ public sealed class NovationDeviceProvider : AbstractRGBDeviceProvider
         }
     }
 
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        _instance = null;
+    }
+
     #endregion
 }

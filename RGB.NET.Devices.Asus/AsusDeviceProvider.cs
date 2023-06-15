@@ -80,15 +80,16 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         try { _sdk?.ReleaseControl(0); }
         catch { /* at least we tried */ }
 
         _devices = null;
         _sdk = null;
+        _instance = null;
     }
 
     #endregion

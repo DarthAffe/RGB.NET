@@ -107,22 +107,22 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
                     continue;
                 }
 
-                if (device.Zones.Length == 0) 
+                if (device.Zones.Length == 0)
                     continue;
-                if (device.Zones.All(z => z.LedCount == 0)) 
+                if (device.Zones.All(z => z.LedCount == 0))
                     continue;
 
                 OpenRGBUpdateQueue updateQueue = new(GetUpdateTrigger(), i, openRgb, device);
-                
+
                 bool anyZoneHasSegments = device.Zones.Any(z => z.Segments.Length > 0);
-                bool splitDeviceByZones = anyZoneHasSegments ||  PerZoneDeviceFlag.HasFlag(Helper.GetRgbNetDeviceType(device.Type));
+                bool splitDeviceByZones = anyZoneHasSegments || PerZoneDeviceFlag.HasFlag(Helper.GetRgbNetDeviceType(device.Type));
 
                 if (!splitDeviceByZones)
                 {
                     yield return new OpenRGBGenericDevice(new OpenRGBDeviceInfo(device), updateQueue);
                     continue;
                 }
-                
+
                 int totalLedCount = 0;
 
                 foreach (Zone zone in device.Zones)
@@ -149,9 +149,9 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         foreach (OpenRgbClient client in _clients)
         {
@@ -161,6 +161,8 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 
         _clients.Clear();
         DeviceDefinitions.Clear();
+
+        _instance = null;
     }
 
     #endregion

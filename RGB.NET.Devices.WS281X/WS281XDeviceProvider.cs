@@ -70,11 +70,13 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         DeviceDefinitions.Clear();
+
+        _instance = null;
     }
 
     #endregion

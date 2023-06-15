@@ -342,15 +342,17 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
 
         TryUnInit();
 
         // DarthAffe 03.03.2020: Fails with an access-violation - verify if an unload is already triggered by uninit
         //try { _RazerSDK.UnloadRazerSDK(); }
         //catch { /* at least we tried */ }
+
+        _instance = null;
     }
 
     #endregion
