@@ -16,11 +16,21 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static WS281XDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="WS281XDeviceProvider"/> instance.
     /// </summary>
-    public static WS281XDeviceProvider Instance => _instance ?? new WS281XDeviceProvider();
+    public static WS281XDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new WS281XDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a list of all defined device-definitions.
@@ -39,8 +49,11 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public WS281XDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WS281XDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WS281XDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -72,11 +85,14 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        DeviceDefinitions.Clear();
+            DeviceDefinitions.Clear();
 
-        _instance = null;
+            _instance = null;
+        }
     }
 
     #endregion

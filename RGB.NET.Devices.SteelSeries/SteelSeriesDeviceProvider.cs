@@ -20,11 +20,21 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static SteelSeriesDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="SteelSeriesDeviceProvider"/> instance.
     /// </summary>
-    public static SteelSeriesDeviceProvider Instance => _instance ?? new SteelSeriesDeviceProvider();
+    public static SteelSeriesDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new SteelSeriesDeviceProvider();
+        }
+    }
 
     private const int VENDOR_ID = 0x1038;
 
@@ -93,8 +103,11 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public SteelSeriesDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -135,12 +148,15 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { SteelSeriesSDK.Dispose(); }
-        catch { /* shit happens */ }
+            try { SteelSeriesSDK.Dispose(); }
+            catch { /* shit happens */ }
 
-        _instance = null;
+            _instance = null;
+        }
     }
 
     #endregion

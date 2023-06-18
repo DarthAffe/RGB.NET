@@ -16,11 +16,21 @@ public sealed class DebugDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static DebugDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="DebugDeviceProvider"/> instance.
     /// </summary>
-    public static DebugDeviceProvider Instance => _instance ?? new DebugDeviceProvider();
+    public static DebugDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new DebugDeviceProvider();
+        }
+    }
 
     private List<(IDeviceLayout layout, Action<IEnumerable<Led>>? updateLedsAction)> _fakeDeviceDefinitions = new();
 
@@ -34,8 +44,11 @@ public sealed class DebugDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public DebugDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DebugDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DebugDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -68,11 +81,14 @@ public sealed class DebugDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        _fakeDeviceDefinitions.Clear();
+            _fakeDeviceDefinitions.Clear();
 
-        _instance = null;
+            _instance = null;
+        }
     }
 
     #endregion

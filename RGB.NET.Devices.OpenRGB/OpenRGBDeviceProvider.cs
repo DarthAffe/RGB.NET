@@ -14,6 +14,9 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private readonly List<OpenRgbClient> _clients = new();
 
     private static OpenRGBDeviceProvider? _instance;
@@ -21,7 +24,14 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Gets the singleton <see cref="OpenRGBDeviceProvider"/> instance.
     /// </summary>
-    public static OpenRGBDeviceProvider Instance => _instance ?? new OpenRGBDeviceProvider();
+    public static OpenRGBDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new OpenRGBDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a list of all defined device-definitions.
@@ -48,8 +58,11 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public OpenRGBDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(OpenRGBDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(OpenRGBDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -151,18 +164,21 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
-
-        foreach (OpenRgbClient client in _clients)
+        lock (_lock)
         {
-            try { client.Dispose(); }
-            catch { /* at least we tried */ }
+            base.Dispose(disposing);
+
+            foreach (OpenRgbClient client in _clients)
+            {
+                try { client.Dispose(); }
+                catch { /* at least we tried */ }
+            }
+
+            _clients.Clear();
+            DeviceDefinitions.Clear();
+
+            _instance = null;
         }
-
-        _clients.Clear();
-        DeviceDefinitions.Clear();
-
-        _instance = null;
     }
 
     #endregion

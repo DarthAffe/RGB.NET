@@ -17,11 +17,21 @@ public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static CoolerMasterDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="CoolerMasterDeviceProvider"/> instance.
     /// </summary>
-    public static CoolerMasterDeviceProvider Instance => _instance ?? new CoolerMasterDeviceProvider();
+    public static CoolerMasterDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new CoolerMasterDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -45,8 +55,11 @@ public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public CoolerMasterDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CoolerMasterDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CoolerMasterDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -96,12 +109,15 @@ public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { _CoolerMasterSDK.Reload(); }
-        catch { /* Unlucky.. */ }
+            try { _CoolerMasterSDK.Reload(); }
+            catch { /* Unlucky.. */ }
 
-        _instance = null;
+            _instance = null;
+        }
     }
 
     #endregion

@@ -16,11 +16,21 @@ public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static DMXDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="DMXDeviceProvider"/> instance.
     /// </summary>
-    public static DMXDeviceProvider Instance => _instance ?? new DMXDeviceProvider();
+    public static DMXDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new DMXDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a list of all defined device-definitions.
@@ -37,8 +47,11 @@ public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public DMXDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -89,9 +102,12 @@ public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        _instance = null;
+            _instance = null;
+        }
     }
 
     #endregion

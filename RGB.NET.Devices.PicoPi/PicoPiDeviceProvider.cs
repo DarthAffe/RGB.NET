@@ -25,11 +25,21 @@ public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
 
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static PicoPiDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="PicoPiDeviceProvider"/> instance.
     /// </summary>
-    public static PicoPiDeviceProvider Instance => _instance ?? new PicoPiDeviceProvider();
+    public static PicoPiDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new PicoPiDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets the HID-definitions for PicoPi-devices.
@@ -57,8 +67,11 @@ public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public PicoPiDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(PicoPiDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(PicoPiDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -129,9 +142,12 @@ public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        _instance = null;
+            _instance = null;
+        }
     }
 
     #endregion

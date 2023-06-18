@@ -17,11 +17,21 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static MsiDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="MsiDeviceProvider"/> instance.
     /// </summary>
-    public static MsiDeviceProvider Instance => _instance ?? new MsiDeviceProvider();
+    public static MsiDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new MsiDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -45,8 +55,11 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public MsiDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(MsiDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(MsiDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -100,12 +113,15 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { _MsiSDK.UnloadMsiSDK(); }
-        catch { /* at least we tried */ }
-        
-        _instance = null;
+            try { _MsiSDK.UnloadMsiSDK(); }
+            catch { /* at least we tried */ }
+
+            _instance = null;
+        }
     }
 
     #endregion
