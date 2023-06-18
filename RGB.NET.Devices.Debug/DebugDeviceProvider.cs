@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Layout;
 
@@ -16,27 +17,13 @@ public sealed class DebugDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static DebugDeviceProvider? _instance;
+    private static Lazy<DebugDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="DebugDeviceProvider"/> instance.
     /// </summary>
-    public static DebugDeviceProvider Instance => _instance ?? new DebugDeviceProvider();
+    public static DebugDeviceProvider Instance => _instance.Value;
 
     private List<(IDeviceLayout layout, Action<IEnumerable<Led>>? updateLedsAction)> _fakeDeviceDefinitions = new();
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DebugDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public DebugDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DebugDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

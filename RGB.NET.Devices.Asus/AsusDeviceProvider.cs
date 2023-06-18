@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -16,28 +17,14 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static AsusDeviceProvider? _instance;
+    private static Lazy<AsusDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="AsusDeviceProvider"/> instance.
     /// </summary>
-    public static AsusDeviceProvider Instance => _instance ?? new AsusDeviceProvider();
+    public static AsusDeviceProvider Instance => _instance.Value;
 
     private IAuraSdk2? _sdk;
     private IAuraSyncDeviceCollection? _devices; //HACK DarthAffe 05.04.2021: Due to some researches this might fix the access violation in the asus-sdk
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AsusDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public AsusDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(AsusDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

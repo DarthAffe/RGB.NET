@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X;
@@ -16,11 +17,11 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static WS281XDeviceProvider? _instance;
+    private static Lazy<WS281XDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="WS281XDeviceProvider"/> instance.
     /// </summary>
-    public static WS281XDeviceProvider Instance => _instance ?? new WS281XDeviceProvider();
+    public static WS281XDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a list of all defined device-definitions.
@@ -28,20 +29,6 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
     // ReSharper disable once CollectionNeverUpdated.Global
     // ReSharper disable once ReturnTypeCanBeEnumerable.Global
     public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = new();
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WS281XDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public WS281XDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WS281XDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

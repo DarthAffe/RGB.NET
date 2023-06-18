@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using HidSharp;
 using RGB.NET.Core;
 using RGB.NET.Devices.PicoPi.Enum;
@@ -25,11 +26,11 @@ public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
 
     #region Properties & Fields
 
-    private static PicoPiDeviceProvider? _instance;
+    private static Lazy<PicoPiDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="PicoPiDeviceProvider"/> instance.
     /// </summary>
-    public static PicoPiDeviceProvider Instance => _instance ?? new PicoPiDeviceProvider();
+    public static PicoPiDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets the HID-definitions for PicoPi-devices.
@@ -46,20 +47,6 @@ public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
     /// If auto is set it automatically is using bulk-updates for devies with more than 40 LEDs if supported. Else HID is used.
     /// </summary>
     public UpdateMode UpdateMode { get; set; } = UpdateMode.Auto;
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PicoPiDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public PicoPiDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(PicoPiDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

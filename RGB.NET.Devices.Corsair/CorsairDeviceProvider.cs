@@ -17,11 +17,11 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static CorsairDeviceProvider? _instance;
+    private static Lazy<CorsairDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="CorsairDeviceProvider"/> instance.
     /// </summary>
-    public static CorsairDeviceProvider Instance => _instance ?? new CorsairDeviceProvider();
+    public static CorsairDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -69,20 +69,6 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
     // ReSharper disable once UnassignedField.Global
     public EventHandler<CorsairSessionState>? SessionStateChanged;
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CorsairDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public CorsairDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CorsairDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

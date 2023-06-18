@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using HidSharp;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.Native;
@@ -20,11 +21,11 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static LogitechDeviceProvider? _instance;
+    private static Lazy<LogitechDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="LogitechDeviceProvider"/> instance.
     /// </summary>
-    public static LogitechDeviceProvider Instance => _instance ?? new LogitechDeviceProvider();
+    public static LogitechDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -153,20 +154,6 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     /// Gets the HID-definitions for wireless per-device-devices.
     /// </summary>
     public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = new();
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LogitechDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public LogitechDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(LogitechDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.CoolerMaster.Helper;
 using RGB.NET.Devices.CoolerMaster.Native;
@@ -17,11 +18,11 @@ public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static CoolerMasterDeviceProvider? _instance;
+    private static Lazy<CoolerMasterDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="CoolerMasterDeviceProvider"/> instance.
     /// </summary>
-    public static CoolerMasterDeviceProvider Instance => _instance ?? new CoolerMasterDeviceProvider();
+    public static CoolerMasterDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -34,20 +35,6 @@ public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
     /// The first match will be used.
     /// </summary>
     public static List<string> PossibleX64NativePaths { get; } = new() { "x64/CMSDK.dll" };
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CoolerMasterDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public CoolerMasterDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CoolerMasterDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

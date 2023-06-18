@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.Razer.Native;
 using RGB.NET.HID;
@@ -19,11 +20,11 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static RazerDeviceProvider? _instance;
+    private static Lazy<RazerDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="RazerDeviceProvider"/> instance.
     /// </summary>
-    public static RazerDeviceProvider Instance => _instance ?? new RazerDeviceProvider();
+    public static RazerDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -235,20 +236,6 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0F1F, RGBDeviceType.LedController, "Addressable RGB Controller", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         
     };
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RazerDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public RazerDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(RazerDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

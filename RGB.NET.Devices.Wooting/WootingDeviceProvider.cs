@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Generic;
 using RGB.NET.Devices.Wooting.Keyboard;
@@ -16,11 +17,11 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static WootingDeviceProvider? _instance;
+    private static Lazy<WootingDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="WootingDeviceProvider"/> instance.
     /// </summary>
-    public static WootingDeviceProvider Instance => _instance ?? new WootingDeviceProvider();
+    public static WootingDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 windows applications.
@@ -46,20 +47,6 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public static List<string> PossibleNativePathsMacOS { get; } = new() { "x64/libwooting-rgb-sdk.dylib" };
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WootingDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public WootingDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WootingDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

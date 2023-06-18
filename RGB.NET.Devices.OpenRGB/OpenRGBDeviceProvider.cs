@@ -3,6 +3,7 @@ using RGB.NET.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace RGB.NET.Devices.OpenRGB;
 
@@ -16,12 +17,12 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 
     private readonly List<OpenRgbClient> _clients = new();
 
-    private static OpenRGBDeviceProvider? _instance;
+    private static Lazy<OpenRGBDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
 
     /// <summary>
     /// Gets the singleton <see cref="OpenRGBDeviceProvider"/> instance.
     /// </summary>
-    public static OpenRGBDeviceProvider Instance => _instance ?? new OpenRGBDeviceProvider();
+    public static OpenRGBDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a list of all defined device-definitions.
@@ -37,20 +38,6 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     /// Defines which device types will be separated by zones. Defaults to <see cref="RGBDeviceType.LedStripe" /> | <see cref="RGBDeviceType.Mainboard"/> | <see cref="RGBDeviceType.Speaker" />.
     /// </summary>
     public RGBDeviceType PerZoneDeviceFlag { get; } = RGBDeviceType.LedStripe | RGBDeviceType.Mainboard | RGBDeviceType.Speaker;
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="OpenRGBDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public OpenRGBDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(OpenRGBDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

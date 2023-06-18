@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.SteelSeries.API;
 using RGB.NET.HID;
@@ -20,11 +21,11 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 
     #region Properties & Fields
 
-    private static SteelSeriesDeviceProvider? _instance;
+    private static Lazy<SteelSeriesDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="SteelSeriesDeviceProvider"/> instance.
     /// </summary>
-    public static SteelSeriesDeviceProvider Instance => _instance ?? new SteelSeriesDeviceProvider();
+    public static SteelSeriesDeviceProvider Instance => _instance.Value;
 
     private const int VENDOR_ID = 0x1038;
 
@@ -82,20 +83,6 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         //Monitors
         { 0x1126, RGBDeviceType.Monitor, "MGP27C", LedMappings.MonitorOnehundredandthreeZone, SteelSeriesDeviceType.OneHundredAndThreeZone },
     };
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SteelSeriesDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public SteelSeriesDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

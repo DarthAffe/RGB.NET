@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.DMX.E131;
 
@@ -16,30 +17,16 @@ public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static DMXDeviceProvider? _instance;
+    private static Lazy<DMXDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="DMXDeviceProvider"/> instance.
     /// </summary>
-    public static DMXDeviceProvider Instance => _instance ?? new DMXDeviceProvider();
+    public static DMXDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a list of all defined device-definitions.
     /// </summary>
     public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new();
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DMXDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public DMXDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

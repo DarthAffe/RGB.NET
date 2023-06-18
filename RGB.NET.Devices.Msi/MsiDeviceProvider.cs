@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.Msi.Exceptions;
 using RGB.NET.Devices.Msi.Native;
@@ -17,11 +18,11 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static MsiDeviceProvider? _instance;
+    private static Lazy<MsiDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="MsiDeviceProvider"/> instance.
     /// </summary>
-    public static MsiDeviceProvider Instance => _instance ?? new MsiDeviceProvider();
+    public static MsiDeviceProvider Instance => _instance.Value;
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -34,20 +35,6 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
     /// The first match will be used.
     /// </summary>
     public static List<string> PossibleX64NativePaths { get; } = new() { "x64/MysticLight_SDK.dll" };
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MsiDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    public MsiDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(MsiDeviceProvider)}");
-        _instance = this;
-    }
 
     #endregion
 

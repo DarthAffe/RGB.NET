@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using RGB.NET.Core;
 using Sanford.Multimedia.Midi;
 
@@ -17,25 +18,11 @@ public sealed class NovationDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
-    private static NovationDeviceProvider? _instance;
+    private static Lazy<NovationDeviceProvider> _instance = new(LazyThreadSafetyMode.ExecutionAndPublication);
     /// <summary>
     /// Gets the singleton <see cref="NovationDeviceProvider"/> instance.
     /// </summary>
-    public static NovationDeviceProvider Instance => _instance ?? new NovationDeviceProvider();
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="NovationDeviceProvider"/> class.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
-    private NovationDeviceProvider()
-    {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(NovationDeviceProvider)}");
-        _instance = this;
-    }
+    public static NovationDeviceProvider Instance => _instance.Value;
 
     #endregion
 
