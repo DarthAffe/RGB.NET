@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core;
 
@@ -150,6 +151,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <param name="id">The id of the update trigger.</param>
     /// <param name="updateRateHardLimit">The update rate hard limit to be set in the update trigger.</param>
     /// <returns>The update trigger mapped to the specified id.</returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     protected virtual IDeviceUpdateTrigger GetUpdateTrigger(int id = -1, double? updateRateHardLimit = null)
     {
         if (!UpdateTriggerMapping.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))

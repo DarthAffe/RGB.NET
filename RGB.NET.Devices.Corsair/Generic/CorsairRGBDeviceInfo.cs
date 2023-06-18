@@ -1,4 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
@@ -33,7 +36,7 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
     /// Returns the unique ID provided by the Corsair-SDK.
     /// Returns string.Empty for Custom devices.
     /// </summary>
-    public string DeviceId { get; }
+    public string DeviceId { get; init; }
 
     /// <inheritdoc />
     public object? LayoutMetadata { get; set; }
@@ -67,7 +70,7 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
         this.LedCount = ledCount;
         this.LedOffset = ledOffset;
 
-        DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
+        DeviceName = Manufacturer + " " + Model + " " + HashAndShorten(DeviceId);
     }
 
     /// <summary>
@@ -86,7 +89,27 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
         this.LedCount = ledCount;
         this.LedOffset = ledOffset;
 
-        DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
+        DeviceName = Manufacturer + " " + Model + " " + HashAndShorten(DeviceId) + " " + ledOffset;
+    }
+
+    #endregion
+
+    #region Methods
+
+    private static string HashAndShorten(string input)
+    {
+        using SHA256 sha256Hash = SHA256.Create();
+        byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+        // Take the first 4 bytes of the hash
+        byte[] shortenedBytes = new byte[4];
+        Array.Copy(bytes, shortenedBytes, 4);
+        // Convert the bytes to a string
+        StringBuilder shortenedHash = new();
+        foreach (byte b in shortenedBytes)
+        {
+            shortenedHash.Append(b.ToString("X2"));
+        }
+        return shortenedHash.ToString();
     }
 
     #endregion

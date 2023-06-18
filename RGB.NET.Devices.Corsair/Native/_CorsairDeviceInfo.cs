@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.Corsair.Native;
 /// iCUE-SDK: contains information about device
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal sealed class _CorsairDeviceInfo
+internal struct _CorsairDeviceInfo
 {
     /// <summary>
     /// iCUE-SDK: enum describing device type
