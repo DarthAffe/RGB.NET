@@ -1,4 +1,7 @@
-﻿using OpenRGB.NET;
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+using OpenRGB.NET;
 using RGB.NET.Core;
 using OpenRGBDevice = OpenRGB.NET.Device;
 
@@ -53,4 +56,20 @@ internal static class Helper
     public static string GetModelName(OpenRGBDevice openRGBDevice) => string.IsNullOrWhiteSpace(openRGBDevice.Vendor)
                                                                           ? openRGBDevice.Name
                                                                           : openRGBDevice.Name.Replace(openRGBDevice.Vendor, "").Trim();
+    
+    internal static string HashAndShorten(string input)
+    {
+        using SHA256 sha256Hash = SHA256.Create();
+        byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+        // Take the first 4 bytes of the hash
+        byte[] shortenedBytes = new byte[4];
+        Array.Copy(bytes, shortenedBytes, 4);
+        // Convert the bytes to a string
+        StringBuilder shortenedHash = new();
+        foreach (byte b in shortenedBytes)
+        {
+            shortenedHash.Append(b.ToString("X2"));
+        }
+        return shortenedHash.ToString();
+    }
 }
