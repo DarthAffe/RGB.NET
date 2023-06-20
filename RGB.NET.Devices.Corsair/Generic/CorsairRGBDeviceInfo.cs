@@ -70,7 +70,7 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
         this.LedCount = ledCount;
         this.LedOffset = ledOffset;
 
-        DeviceName = Manufacturer + " " + Model + " " + HashAndShorten(DeviceId);
+        DeviceName = Manufacturer + " " + Model + " #" + HashAndShorten(DeviceId);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
         this.LedCount = ledCount;
         this.LedOffset = ledOffset;
 
-        DeviceName = Manufacturer + " " + Model + " " + HashAndShorten(DeviceId) + " " + ledOffset;
+        DeviceName = Manufacturer + " " + Model + " #" + HashAndShorten(DeviceId) + " " + ledOffset;
     }
 
     #endregion
