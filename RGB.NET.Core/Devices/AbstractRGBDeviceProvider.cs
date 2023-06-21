@@ -89,6 +89,15 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
             Reset();
             throw;
         }
+        catch (RGBDeviceException)
+        {
+            Reset();
+            if (throwExceptions)
+            {
+                throw;
+            }
+            return false;
+        }
         catch (Exception ex)
         {
             Reset();

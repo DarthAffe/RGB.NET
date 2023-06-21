@@ -214,7 +214,10 @@ internal static unsafe class _CUESDK
     internal static CorsairError CorsairConnect()
     {
         if (_corsairConnectPtr == null) throw new RGBDeviceException("The Corsair-SDK is not initialized.");
-        if (IsConnected) throw new RGBDeviceException("The Corsair-SDK is already connected.");
+        if (SessionState is CorsairSessionState.Connecting or CorsairSessionState.Timeout)
+        {
+            return CorsairError.Success;
+        }
         return _corsairConnectPtr(CorsairSessionStateChangedCallback, 0);
     }
 
@@ -238,7 +241,6 @@ internal static unsafe class _CUESDK
 
     internal static CorsairError CorsairDisconnect()
     {
-        if (!IsConnected) throw new RGBDeviceException("The Corsair-SDK is not connected.");
         return _corsairDisconnect();
     }
 

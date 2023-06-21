@@ -91,6 +91,7 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
     protected override void InitializeSDK()
     {
+        _CUESDK.SessionStateChanged -= CancelOnConnect;
         _CUESDK.Reload();
 
         using ManualResetEventSlim waitEvent = new(false);
@@ -112,7 +113,10 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                 Throw(new RGBDeviceException($"Failed to initialized Corsair-SDK. (ErrorCode: {errorCode})"));
 
             if (!waitEvent.Wait(ConnectionTimeout))
+            {
+                _CUESDK.SessionStateChanged += CancelOnConnect; //We can't cancel connection. All we can do is disconnect after connection
                 Throw(new RGBDeviceException($"Failed to initialized Corsair-SDK. (Timeout - Current connection state: {_CUESDK.SessionState})"));
+            }
 
             _CUESDK.CorsairGetSessionDetails(out _CorsairSessionDetails? details);
             if (errorCode != CorsairError.Success)
@@ -126,7 +130,14 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
             _CUESDK.SessionStateChanged -= OnInitializeSessionStateChanged;
         }
     }
-    
+
+    private void CancelOnConnect(object? sender, CorsairSessionState e)
+    {
+        if (e != CorsairSessionState.Connected) return;
+        _CUESDK.SessionStateChanged -= CancelOnConnect;
+        _CUESDK.CorsairDisconnect();
+    }
+
     private void OnDeviceConnectionEvent(object? sender, _CorsairDeviceConnectionStatusChangedEvent connectionStatusChangedEvent)
     {
         string? deviceId = connectionStatusChangedEvent.deviceId;
@@ -139,11 +150,7 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
             foreach (ICorsairRGBDevice corsairRGBDevice in device)
             {
                 corsairRGBDevice.Initialize();
-                if (!AddDevice(corsairRGBDevice))
-                {
-                    deviceUpdateTrigger.Dispose();
-                }
-                else
+                if (AddDevice(corsairRGBDevice))
                 {
                     deviceUpdateTrigger.Start();
                 }
