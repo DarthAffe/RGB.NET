@@ -70,7 +70,14 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
         this.LedCount = ledCount;
         this.LedOffset = ledOffset;
 
-        DeviceName = Manufacturer + " " + Model + " #" + HashAndShorten(DeviceId);
+        if (nativeInfo.id == null)  // this device is 99% unpluggable
+        {
+            DeviceName = IdGenerator.MakeUnique(typeof(CorsairDeviceProvider), Manufacturer + " " + Model);
+        }
+        else
+        {
+            DeviceName = Manufacturer + " " + Model + " #" + HashAndShorten(DeviceId);
+        }
     }
 
     /// <summary>
@@ -89,7 +96,14 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
         this.LedCount = ledCount;
         this.LedOffset = ledOffset;
 
-        DeviceName = Manufacturer + " " + Model + " #" + HashAndShorten(DeviceId) + " " + ledOffset;
+        if (nativeInfo.id == null)
+        {
+            DeviceName = IdGenerator.MakeUnique(typeof(CorsairDeviceProvider),Manufacturer + " " + Model) + " " + ledOffset;;
+        }
+        else
+        {
+            DeviceName = Manufacturer + " " + Model + " #" + HashAndShorten(DeviceId) + " " + ledOffset;
+        }
     }
 
     #endregion

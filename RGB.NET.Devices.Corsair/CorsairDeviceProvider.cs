@@ -349,6 +349,8 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
         try { _CUESDK.CorsairDisconnect(); } catch { /* at least we tried */ }
         try { _CUESDK.UnloadCUESDK(); } catch { /* at least we tried */ }
+
+        IdGenerator.ResetCounter(typeof(CorsairDeviceProvider));
     }
 
     #endregion
