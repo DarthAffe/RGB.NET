@@ -48,7 +48,14 @@ public class OpenRGBDeviceInfo : IRGBDeviceInfo
         Model = Helper.GetModelName(openRGBDevice);
         string model = Manufacturer + " " + Model;
         string id = string.IsNullOrWhiteSpace(openRGBDevice.Serial) ? openRGBDevice.Location : openRGBDevice.Serial;
-        DeviceName = model + " #" + Helper.HashAndShorten(id) + (splitId != null ? $" {splitId}" : null);
+        if (string.IsNullOrWhiteSpace(id))  // this device is 99% unpluggable
+        {
+            DeviceName = IdGenerator.MakeUnique(typeof(OpenRGBDeviceProvider), Manufacturer + " " + Model);
+        }
+        else
+        {
+            DeviceName = model + " #" + Helper.HashAndShorten(id) + (splitId != null ? $" {splitId}" : null);
+        }
     }
 
     #endregion

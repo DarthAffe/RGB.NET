@@ -201,6 +201,8 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 
         _clients.Clear();
         DeviceDefinitions.Clear();
+
+        IdGenerator.ResetCounter(typeof(OpenRGBDeviceProvider));
     }
 
     #endregion
