@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Presets.Tests", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.OpenRGB", "RGB.NET.Devices.OpenRGB\RGB.NET.Devices.OpenRGB.csproj", "{F29A96E5-CDD0-469F-A871-A35A7519BC49}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Corsair_Legacy", "..\..\..\..\DarthAffe\Source\Repos\RGB.NET\RGB.NET.Devices.Corsair_Legacy\RGB.NET.Devices.Corsair_Legacy.csproj", "{66AF690C-27A1-4097-AC53-57C0ED89E286}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Corsair_Legacy", "RGB.NET.Devices.Corsair_Legacy\RGB.NET.Devices.Corsair_Legacy.csproj", "{66AF690C-27A1-4097-AC53-57C0ED89E286}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
