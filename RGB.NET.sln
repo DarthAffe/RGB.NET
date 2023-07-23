@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Presets.Tests", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.OpenRGB", "RGB.NET.Devices.OpenRGB\RGB.NET.Devices.OpenRGB.csproj", "{F29A96E5-CDD0-469F-A871-A35A7519BC49}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Corsair_Legacy", "..\..\..\..\DarthAffe\Source\Repos\RGB.NET\RGB.NET.Devices.Corsair_Legacy\RGB.NET.Devices.Corsair_Legacy.csproj", "{66AF690C-27A1-4097-AC53-57C0ED89E286}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{F29A96E5-CDD0-469F-A871-A35A7519BC49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F29A96E5-CDD0-469F-A871-A35A7519BC49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F29A96E5-CDD0-469F-A871-A35A7519BC49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66AF690C-27A1-4097-AC53-57C0ED89E286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66AF690C-27A1-4097-AC53-57C0ED89E286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66AF690C-27A1-4097-AC53-57C0ED89E286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66AF690C-27A1-4097-AC53-57C0ED89E286}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +160,7 @@ Global
 		{7FC5C7A8-7B27-46E7-A8E8-DB80568F49C5} = {D13032C6-432E-4F43-8A32-071133C22B16}
 		{EDBA49D6-AE96-4E96-9E6A-30154D93BD5F} = {92D7C263-D4C9-4D26-93E2-93C1F9C2CD16}
 		{F29A96E5-CDD0-469F-A871-A35A7519BC49} = {D13032C6-432E-4F43-8A32-071133C22B16}
+		{66AF690C-27A1-4097-AC53-57C0ED89E286} = {D13032C6-432E-4F43-8A32-071133C22B16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7F222AD4-1F9E-4AAB-9D69-D62372D4C1BA}
