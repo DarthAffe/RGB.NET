@@ -2,6 +2,7 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.CorsairLegacy.Native;
@@ -59,6 +60,21 @@ public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInf
 
             ptr = new IntPtr(ptr.ToInt64() + structSize);
         }
+
+        if (DeviceInfo.LedOffset > 0)
+            FixOffsetDeviceLayout();
+    }
+
+    /// <summary>
+    /// Fixes the locations for devices split by offset by aligning them to the top left.
+    /// </summary>
+    protected virtual void FixOffsetDeviceLayout()
+    {
+        float minX = this.Min(x => x.Location.X);
+        float minY = this.Min(x => x.Location.Y);
+
+        foreach (Led led in this)
+            led.Location = led.Location.Translate(-minX, -minY);
     }
 
     private static LedId GetReferenceLed(RGBDeviceType deviceType)
