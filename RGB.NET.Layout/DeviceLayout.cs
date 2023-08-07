@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -118,20 +118,16 @@ public class DeviceLayout : IDeviceLayout
     /// <summary>
     /// Creates a new <see cref="DeviceLayout"/> from the specified xml.
     /// </summary>
-    /// <param name="path">The path to the xml file.</param>
+    /// <param name="stream">The stream that contains the layout to be loaded.</param>
     /// <param name="customDeviceDataType">The type of the custom data.</param>
     /// <param name="customLedDataType">The type of the custom data of the leds.</param>
     /// <returns>The deserialized <see cref="DeviceLayout"/>.</returns>
-    public static DeviceLayout? Load(string path, Type? customDeviceDataType = null, Type? customLedDataType = null)
+    public static DeviceLayout? Load(Stream stream, Type? customDeviceDataType = null, Type? customLedDataType = null)
     {
-        if (!File.Exists(path)) return null;
-
         try
         {
             XmlSerializer serializer = new(typeof(DeviceLayout));
-            using StreamReader reader = new(path);
-
-            DeviceLayout? layout = serializer.Deserialize(reader) as DeviceLayout;
+            DeviceLayout? layout = serializer.Deserialize(stream) as DeviceLayout;
             if (layout != null)
                 layout.CustomData = layout.GetCustomData(layout.InternalCustomData, customDeviceDataType);
 
@@ -153,6 +149,21 @@ public class DeviceLayout : IDeviceLayout
         {
             return null;
         }
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="DeviceLayout"/> from the specified xml.
+    /// </summary>
+    /// <param name="path">The path to the xml file.</param>
+    /// <param name="customDeviceDataType">The type of the custom data.</param>
+    /// <param name="customLedDataType">The type of the custom data of the leds.</param>
+    /// <returns>The deserialized <see cref="DeviceLayout"/>.</returns>
+    public static DeviceLayout? Load(string path, Type? customDeviceDataType = null, Type? customLedDataType = null)
+    {
+        if (!File.Exists(path)) return null;
+
+        using Stream stream = File.OpenRead(path);
+        return Load(stream, customDeviceDataType, customLedDataType);
     }
 
     /// <summary>

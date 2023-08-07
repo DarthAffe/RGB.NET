@@ -20,8 +20,13 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <inheritdoc />
     public bool ThrowsExceptions { get; protected set; }
 
+    /// <summary>
+    /// The list of devices managed by this device-provider.
+    /// </summary>
+    protected List<IRGBDevice> InternalDevices { get; } = new();
+
     /// <inheritdoc />
-    public virtual IEnumerable<IRGBDevice> Devices { get; protected set; } = Enumerable.Empty<IRGBDevice>();
+    public virtual IReadOnlyList<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(InternalDevices);
 
     /// <summary>
     /// Gets the dictionary containing the registered update triggers.
@@ -38,6 +43,9 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
 
     /// <inheritdoc />
     public event EventHandler<ExceptionEventArgs>? Exception;
+
+    /// <inheritdoc />
+    public event EventHandler<DevicesChangedEventArgs>? DevicesChanged;
 
     #endregion
 
@@ -67,7 +75,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
 
             InitializeSDK();
 
-            Devices = new ReadOnlyCollection<IRGBDevice>(GetLoadedDevices(loadFilter).ToList());
+            foreach (IRGBDevice device in GetLoadedDevices(loadFilter))
+                AddDevice(device);
 
             foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
                 updateTrigger.Start();
@@ -168,9 +177,41 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
         foreach (IRGBDevice device in Devices)
             device.Dispose();
 
-        Devices = Enumerable.Empty<IRGBDevice>();
+        List<IRGBDevice> devices = new(InternalDevices);
+        foreach (IRGBDevice device in devices)
+            RemoveDevice(device);
+
         UpdateTriggerMapping.Clear();
         IsInitialized = false;
+    }
+
+    /// <summary>
+    /// Adds the provided device to the list of managed devices.
+    /// </summary>
+    /// <param name="device">The device to add.</param>
+    /// <returns><c>true</c> if the device was added successfully; otherwise <c>false</c>.</returns>
+    protected virtual bool AddDevice(IRGBDevice device)
+    {
+        if (InternalDevices.Contains(device)) return false;
+
+        InternalDevices.Add(device);
+        try { OnDevicesChanged(DevicesChangedEventArgs.CreateDevicesAddedArgs(device)); } catch { /* we don't want to throw due to bad event handlers */ }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Removes the provided device from the list of managed devices.
+    /// </summary>
+    /// <param name="device">The device to remove.</param>
+    /// <returns><c>true</c> if the device was removed successfully; otherwise <c>false</c>.</returns>
+    protected virtual bool RemoveDevice(IRGBDevice device)
+    {
+        if (!InternalDevices.Remove(device)) return false;
+
+        try { OnDevicesChanged(DevicesChangedEventArgs.CreateDevicesRemovedArgs(device)); } catch { /* we don't want to throw due to bad event handlers */ }
+
+        return true;
     }
 
     /// <summary>
@@ -188,10 +229,16 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     }
 
     /// <summary>
-    /// Throws the <see cref="Exception"/> event.
+    /// Throws the <see cref="Exception"/>.event.
     /// </summary>
     /// <param name="args">The parameters passed to the event.</param>
     protected virtual void OnException(ExceptionEventArgs args) => Exception?.Invoke(this, args);
+
+    /// <summary>
+    /// Throws the <see cref="DevicesChanged"/>-event.
+    /// </summary>
+    /// <param name="args">The parameters passed to the event.</param>
+    protected virtual void OnDevicesChanged(DevicesChangedEventArgs args) => DevicesChanged?.Invoke(this, args);
 
     /// <inheritdoc />
     public virtual void Dispose()

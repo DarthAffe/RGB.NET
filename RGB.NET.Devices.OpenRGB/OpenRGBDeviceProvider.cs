@@ -161,7 +161,7 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
 
         _clients.Clear();
         DeviceDefinitions.Clear();
-        Devices = Enumerable.Empty<IRGBDevice>();
     }
+
     #endregion
 }
