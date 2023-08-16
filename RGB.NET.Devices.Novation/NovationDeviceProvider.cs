@@ -17,11 +17,21 @@ public sealed class NovationDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static NovationDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="NovationDeviceProvider"/> instance.
     /// </summary>
-    public static NovationDeviceProvider Instance => _instance ?? new NovationDeviceProvider();
+    public static NovationDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new NovationDeviceProvider();
+        }
+    }
 
     #endregion
 
@@ -33,8 +43,11 @@ public sealed class NovationDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     private NovationDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(NovationDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(NovationDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -64,6 +77,17 @@ public sealed class NovationDeviceProvider : AbstractRGBDeviceProvider
             if (colorCapability == NovationColorCapabilities.None) continue;
 
             yield return new NovationLaunchpadRGBDevice(new NovationLaunchpadRGBDeviceInfo(outCaps.name, index, colorCapability, deviceId.GetLedIdMapping()), GetUpdateTrigger());
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        lock (_lock)
+        {
+            base.Dispose(disposing);
+
+            _instance = null;
         }
     }
 

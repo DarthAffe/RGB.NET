@@ -19,11 +19,21 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static RazerDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="RazerDeviceProvider"/> instance.
     /// </summary>
-    public static RazerDeviceProvider Instance => _instance ?? new RazerDeviceProvider();
+    public static RazerDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new RazerDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -255,7 +265,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F1D, RGBDeviceType.Unknown, "Mouse Bungee V3 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F1F, RGBDeviceType.LedController, "Addressable RGB Controller", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        
+
     };
 
     #endregion
@@ -268,8 +278,11 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public RazerDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(RazerDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(RazerDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -343,15 +356,20 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        TryUnInit();
+            TryUnInit();
 
-        // DarthAffe 03.03.2020: Fails with an access-violation - verify if an unload is already triggered by uninit
-        //try { _RazerSDK.UnloadRazerSDK(); }
-        //catch { /* at least we tried */ }
+            // DarthAffe 03.03.2020: Fails with an access-violation - verify if an unload is already triggered by uninit
+            //try { _RazerSDK.UnloadRazerSDK(); }
+            //catch { /* at least we tried */ }
+
+            _instance = null;
+        }
     }
 
     #endregion
