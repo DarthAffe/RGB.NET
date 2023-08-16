@@ -18,11 +18,21 @@ public sealed class CorsairLegacyDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static CorsairLegacyDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="CorsairLegacyDeviceProvider"/> instance.
     /// </summary>
-    public static CorsairLegacyDeviceProvider Instance => _instance ?? new CorsairLegacyDeviceProvider();
+    public static CorsairLegacyDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new CorsairLegacyDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -56,8 +66,11 @@ public sealed class CorsairLegacyDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public CorsairLegacyDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CorsairLegacyDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(CorsairLegacyDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -201,12 +214,17 @@ public sealed class CorsairLegacyDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { _CUESDK.UnloadCUESDK(); }
-        catch { /* at least we tried */ }
+            try { _CUESDK.UnloadCUESDK(); }
+            catch { /* at least we tried */ }
+
+            _instance = null;
+        }
     }
 
     #endregion
