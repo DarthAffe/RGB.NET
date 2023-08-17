@@ -53,6 +53,8 @@ public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInf
                 continue;
             }
 
+            if (ledPosition.LedId == CorsairLedId.Invalid) continue;
+
             Mapping.Add(ledId, ledPosition.LedId);
 
             Rectangle rectangle = ledPosition.ToRectangle();
