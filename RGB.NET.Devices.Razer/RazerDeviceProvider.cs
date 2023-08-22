@@ -146,6 +146,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0296, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wireless
         { 0x0298, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wired
         { 0x02A1, RGBDeviceType.Keyboard, "Ornata V3", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x02A5, RGBDeviceType.Keyboard, "Razer Bacl Widow V4 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
