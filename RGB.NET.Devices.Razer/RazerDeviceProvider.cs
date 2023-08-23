@@ -134,6 +134,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0279, RGBDeviceType.Keyboard, "Blade 17 Pro (Mid 2021)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x027A, RGBDeviceType.Keyboard, "Blade 15 Base (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0282, RGBDeviceType.Keyboard, "Huntsman Mini Analog", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0287, RGBDeviceType.Keyboard, "BlackWidow V4", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x028A, RGBDeviceType.Keyboard, "Blade 15 Advanced (Early 2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x028B, RGBDeviceType.Keyboard, "Blade 17 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x028C, RGBDeviceType.Keyboard, "Blade 14 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
