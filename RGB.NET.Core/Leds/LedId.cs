@@ -385,7 +385,7 @@ public enum LedId
     Mouse2 = 0x00100002,
     Mouse3 = 0x00100003,
     Mouse4 = 0x00100004,
-    Mouse5 = 0x00100005,    
+    Mouse5 = 0x00100005,
     Mouse6 = 0x00100006,
     Mouse7 = 0x00100007,
     Mouse8 = 0x00100008,
