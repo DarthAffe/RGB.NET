@@ -372,6 +372,14 @@ public enum LedId
     Keyboard_Custom127 = 0x0000707F,
     Keyboard_Custom128 = 0x00007080,
 
+    Keyboard_IndicatorNumLock = 0x00008001,
+    Keyboard_IndicatorCapsLock = 0x00008002,
+    Keyboard_IndicatorScrollLock = 0x00008003,
+    Keyboard_IndicatorWinLock = 0x00008004,
+    Keyboard_IndicatorPower = 0x00008005,
+    Keyboard_IndicatorMuted = 0x00008006,
+    Keyboard_IndicatorMacro = 0x00008007,
+    
     /*### Mouse ###*/
     Mouse1 = 0x00100001,
     Mouse2 = 0x00100002,
