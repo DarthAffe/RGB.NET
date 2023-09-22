@@ -146,6 +146,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0295, RGBDeviceType.Keyboard, "DeathStalker V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0296, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wireless
         { 0x0298, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wired
+        { 0x02A0, RGBDeviceType.Keyboard, "Blade 18", LedMappings.Blade, RazerEndpointType.Keyboard },
         { 0x02A1, RGBDeviceType.Keyboard, "Ornata V3", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02A5, RGBDeviceType.Keyboard, "BlackWidow V4 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
@@ -223,6 +224,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x00A1, RGBDeviceType.Mouse, "DeathAdder V2 Lite", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00A5, RGBDeviceType.Mouse, "Viper V2 Pro (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00A6, RGBDeviceType.Mouse, "Viper V2 Pro (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
+        { 0x00A7, RGBDeviceType.Mouse, "Naga V2 Pro", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00A8, RGBDeviceType.Mouse, "Naga V2 Pro", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00AA, RGBDeviceType.Mouse, "Basilisk V3 Pro (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00AB, RGBDeviceType.Mouse, "Basilisk V3 Pro (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
@@ -244,6 +246,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x051A, RGBDeviceType.Headset, "Nari Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
         { 0x051C, RGBDeviceType.Headset, "Nari", LedMappings.Headset, RazerEndpointType.Headset },
         { 0x0527, RGBDeviceType.Headset, "Kraken Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
+        { 0x0560, RGBDeviceType.Headset, "Kraken Kitty V2", LedMappings.Headset, RazerEndpointType.Headset },
         { 0x0F19, RGBDeviceType.Headset, "Kraken Kitty Edition", LedMappings.Headset, RazerEndpointType.Headset },
 
         // Keypads
@@ -260,6 +263,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0F08, RGBDeviceType.HeadsetStand, "Base Station Chroma", LedMappings.Mousepad, RazerEndpointType.Mousepad }, // DarthAffe 16.12.2022: Not tested but based on the V2 I assume this is also a mousepad
         { 0x0F20, RGBDeviceType.HeadsetStand, "Base Station V2 Chroma", LedMappings.Mousepad, RazerEndpointType.Mousepad }, // DarthAffe 16.12.2022: Not sure why, but it's handled as a mousepad
         { 0x007E, RGBDeviceType.LedStripe, "Razer Mouse Dock Chroma", LedMappings.Mousepad, RazerEndpointType.Mousepad }, //roxaskeyheart 06.02.2023: Probably handled the same as a mousepad
+        { 0x00A4, RGBDeviceType.LedStripe, "Mouse Dock Pro", LedMappings.Mousepad, RazerEndpointType.Mousepad }, // DarthAffe 22.09.2023: Most likely also a mousepad?
         { 0x0517, RGBDeviceType.Speaker, "Nommo Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0518, RGBDeviceType.Speaker, "Nommo Pro", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F07, RGBDeviceType.Unknown, "Chroma Mug Holder", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
