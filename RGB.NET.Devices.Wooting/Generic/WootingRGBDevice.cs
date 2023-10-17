@@ -1,4 +1,5 @@
 ﻿using RGB.NET.Core;
+using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Generic;
 
@@ -22,5 +23,18 @@ public abstract class WootingRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     {
     }
 
+    #endregion
+
+
+    #region Methods
+
+    public override void Dispose()
+    {
+        _WootingSDK.SelectDevice(DeviceInfo.WootingDeviceIndex);
+        _WootingSDK.Reset();
+
+        base.Dispose();
+    }
+    
     #endregion
 }

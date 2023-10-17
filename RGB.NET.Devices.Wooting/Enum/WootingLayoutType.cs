@@ -13,6 +13,7 @@ namespace RGB.NET.Devices.Wooting.Enum;
 /// </remarks>
 public enum WootingLayoutType
 {
+    Unknown = -1,
     ANSI = 0,
     ISO = 1
 }

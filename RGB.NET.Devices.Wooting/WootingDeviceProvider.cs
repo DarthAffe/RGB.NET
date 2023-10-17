@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Generic;
 using RGB.NET.Devices.Wooting.Keyboard;
+using RGB.NET.Devices.Wooting.Keypad;
 using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting;
@@ -100,7 +102,11 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
                     _WootingSDK.SelectDevice(i);
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
 
-                    yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue);
+                    yield return nativeDeviceInfo.DeviceType switch
+                    {
+                        WootingDeviceType.Keypad3Keys => new WootingKeypadRGBDevice(new WootingKeypadRGBDeviceInfo(nativeDeviceInfo, i), updateQueue),
+                        _ => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue),
+                    };
                 }
             }
         }
