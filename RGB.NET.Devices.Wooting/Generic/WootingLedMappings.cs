@@ -307,27 +307,29 @@ internal static class WootingLedMappings
 
     private static readonly Dictionary<LedId, (int row, int column)> ThreeKeyKeypad = new()
     {
-        //top left - bottom left
-        [LedId.LedStripe1] = (0, 0),
-        [LedId.LedStripe2] = (1, 0),
+        //left (from top to bottom)
+        [LedId.LedStripe1] = (1, 0),
+        [LedId.LedStripe2] = (2, 0),
         [LedId.LedStripe3] = (3, 0),
         
-        //bottom left - bottom right
+        //bottom (from left to right)
         [LedId.LedStripe4] = (4, 1),
         [LedId.LedStripe5] = (4, 2),
         [LedId.LedStripe6] = (4, 4),
         [LedId.LedStripe7] = (4, 5),
         
-        //bottom right - top right
+        //right (from bottom to top)
         [LedId.LedStripe8] = (3, 6),
-        [LedId.LedStripe9] = (1, 6),
-        [LedId.LedStripe10] = (0, 6),
+        [LedId.LedStripe9] = (2, 6),
+        [LedId.LedStripe10] = (1, 6),
         
-        //top right - top left
-        [LedId.LedStripe11] = (0, 4),
-        [LedId.LedStripe12] = (0, 2),
+        //top (from right to left)
+        [LedId.LedStripe11] = (0, 6),
+        [LedId.LedStripe12] = (0, 4),
+        [LedId.LedStripe13] = (0, 2),
+        [LedId.LedStripe14] = (0, 0),
         
-        //Analog Keys
+        //analog keys
         [LedId.Keypad1] = (3, 2),
         [LedId.Keypad2] = (3, 3),
         [LedId.Keypad3] = (3, 4),
