@@ -101,6 +101,10 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
                     WootingUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
                     _WootingSDK.SelectDevice(i);
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
+                    
+                    //Uwu non-rgb returns zero here.
+                    if (nativeDeviceInfo.MaxLedIndex == 0)
+                        continue;
 
                     yield return nativeDeviceInfo.DeviceType switch
                     {
