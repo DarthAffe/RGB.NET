@@ -330,9 +330,9 @@ internal static class WootingLedMappings
         [LedId.LedStripe14] = (0, 0),
         
         //analog keys
-        [LedId.Keypad1] = (3, 2),
-        [LedId.Keypad2] = (3, 3),
-        [LedId.Keypad3] = (3, 4),
+        [LedId.Keypad1] = (2, 1),
+        [LedId.Keypad2] = (2, 3),
+        [LedId.Keypad3] = (2, 5),
     };
 
     /// <summary>
