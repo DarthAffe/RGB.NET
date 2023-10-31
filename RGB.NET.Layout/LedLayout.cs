@@ -11,7 +11,15 @@ namespace RGB.NET.Layout;
 /// </summary>
 [Serializable]
 [XmlType("Led")]
-public class LedLayout : ILedLayout
+public class LedLayout : LedLayout<object>
+{ }
+
+/// <summary>
+/// Represents the serializable layout of a <see cref="Led"/>.
+/// </summary>
+[Serializable]
+[XmlType("Led")]
+public class LedLayout<TCustomLedData> : ILedLayout
 {
     #region Properties & Fields
 
@@ -62,17 +70,6 @@ public class LedLayout : ILedLayout
     public string DescriptiveHeight { get; set; } = "1.0";
 
     /// <summary>
-    /// Gets or sets the internal custom data of this layout.
-    /// Normally you should use <see cref="CustomData"/> to access or set this data.
-    /// </summary>
-    [XmlElement("CustomData")]
-    public object? InternalCustomData { get; set; }
-
-    /// <inheritdoc />
-    [XmlIgnore]
-    public object? CustomData { get; set; }
-
-    /// <summary>
     /// Gets or sets the <see cref="RGB.NET.Core.Shape"/> of the <see cref="LedLayout"/>.
     /// </summary>
     [XmlIgnore]
@@ -108,6 +105,17 @@ public class LedLayout : ILedLayout
     [XmlIgnore]
     public float Height { get; private set; }
 
+    /// <summary>
+    /// Gets or sets the custom data of this layout.
+    /// </summary>
+    [XmlElement("CustomData")]
+    public TCustomLedData? CustomData { get; set; }
+    
+    /// <summary>
+    /// Gets the untyped custom data of this layout.
+    /// </summary>
+    public object? UntypedCustomData => CustomData;
+
     #endregion
 
     #region Methods
@@ -117,13 +125,14 @@ public class LedLayout : ILedLayout
     /// </summary>
     /// <param name="device">The <see cref="DeviceLayout"/> this <see cref="LedLayout"/> belongs to.</param>
     /// <param name="lastLed">The <see cref="LedLayout"/> previously calculated.</param>
-    public virtual void CalculateValues(DeviceLayout device, LedLayout? lastLed)
+    public virtual void CalculateValues(IDeviceLayout device, ILedLayout? lastLed)
     {
         if (!Enum.TryParse(DescriptiveShape, true, out Shape shape))
         {
             shape = Shape.Custom;
             ShapeData = DescriptiveShape;
         }
+
         Shape = shape;
 
         Width = GetSizeValue(DescriptiveWidth, device.LedUnitWidth);

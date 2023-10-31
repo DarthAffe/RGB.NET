@@ -27,7 +27,7 @@ public sealed class DebugRGBDevice : AbstractRGBDevice<DebugRGBDeviceInfo>, IUnk
     /// Internal constructor of <see cref="DebugRGBDeviceInfo"/>.
     /// </summary>
     internal DebugRGBDevice(IDeviceLayout layout, Action<IEnumerable<Led>>? updateLedsAction = null)
-        : base(new DebugRGBDeviceInfo(layout.Type, layout.Vendor ?? "RGB.NET", layout.Model ?? "Debug", layout.CustomData), new DebugDeviceUpdateQueue())
+        : base(new DebugRGBDeviceInfo(layout.Type, layout.Vendor ?? "RGB.NET", layout.Model ?? "Debug", layout.UntypedCustomData), new DebugDeviceUpdateQueue())
     {
         this.Layout = layout;
         this._updateLedsAction = updateLedsAction;

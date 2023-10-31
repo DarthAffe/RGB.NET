@@ -52,14 +52,24 @@ public interface IDeviceLayout
     /// Gets or sets the height of the <see cref="IDeviceLayout"/>.
     /// </summary>
     float Height { get; }
+    
+    /// <summary>
+    /// Gets or sets the width of one 'unit' used for the calculation of led positions and sizes.
+    /// </summary>
+    float LedUnitWidth { get; set; }
 
+    /// <summary>
+    /// Gets or sets the height of one 'unit' used for the calculation of led positions and sizes.
+    /// </summary>
+    float LedUnitHeight { get; set; }
+    
     /// <summary>
     /// Gets or sets a list of <see cref="ILedLayout"/> representing all the <see cref="Led"/> of the <see cref="IDeviceLayout"/>.
     /// </summary>
     IEnumerable<ILedLayout> Leds { get; }
-
+    
     /// <summary>
-    /// Gets the the custom data associated with the device.
+    /// Gets the untyped custom data of this layout.
     /// </summary>
-    object? CustomData { get; }
+    object? UntypedCustomData { get; }
 }

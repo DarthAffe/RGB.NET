@@ -20,7 +20,7 @@ public static class LayoutExtension
     public static void ApplyTo(this IDeviceLayout layout, IRGBDevice device, bool createMissingLeds = false, bool removeExcessiveLeds = false)
     {
         device.Size = new Size(layout.Width, layout.Height);
-        device.DeviceInfo.LayoutMetadata = layout.CustomData;
+        device.DeviceInfo.LayoutMetadata = layout.UntypedCustomData;
 
         HashSet<LedId> ledIds = new();
         foreach (ILedLayout layoutLed in layout.Leds)
@@ -39,7 +39,7 @@ public static class LayoutExtension
                     led.Size = new Size(layoutLed.Width, layoutLed.Height);
                     led.Shape = layoutLed.Shape;
                     led.ShapeData = layoutLed.ShapeData;
-                    led.LayoutMetadata = layoutLed.CustomData;
+                    led.LayoutMetadata = layoutLed.UntypedCustomData;
                 }
             }
         }

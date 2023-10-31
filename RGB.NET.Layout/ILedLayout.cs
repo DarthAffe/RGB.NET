@@ -43,7 +43,7 @@ public interface ILedLayout
     float Height { get; }
 
     /// <summary>
-    /// Gets the the custom data associated with the LED.
+    /// Gets the untyped custom data of this layout.
     /// </summary>
-    object? CustomData { get; }
+    object? UntypedCustomData { get; }
 }
