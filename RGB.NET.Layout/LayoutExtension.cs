@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using RGB.NET.Core;
 
 namespace RGB.NET.Layout;
@@ -50,5 +52,49 @@ public static class LayoutExtension
             foreach (LedId led in ledsToRemove)
                 device.RemoveLed(led);
         }
+    }
+
+    /// <summary>
+    /// Saves the specified layout to the given location.
+    /// </summary>
+    /// <param name="layout">The layout to save.</param>
+    /// <param name="targetFile">The location to save to.</param>
+    public static void Save(this IDeviceLayout layout, string targetFile)
+    {
+        using FileStream fs = new(targetFile, FileMode.Create);
+        layout.Save(fs);
+    }
+
+    /// <summary>
+    /// Saves the specified layout to the given stream.
+    /// </summary>
+    /// <param name="layout">The layout to save.</param>
+    /// <param name="stream">The stream to save to.</param>
+    public static void Save(this IDeviceLayout layout, Stream stream)
+    {
+        Type? customDataType = layout.CustomData?.GetType();
+        Type? customLedDataType = layout.Leds.FirstOrDefault(x => x.CustomData != null)?.GetType();
+
+        Type[] customTypes;
+        if ((customDataType != null) && (customLedDataType != null))
+            customTypes = new[] { customDataType, customLedDataType };
+        else if (customDataType != null)
+            customTypes = new[] { customDataType };
+        else if (customLedDataType != null)
+            customTypes = new[] { customLedDataType };
+        else
+            customTypes = Array.Empty<Type>();
+
+        if (layout is DeviceLayout deviceLayout)
+        {
+            deviceLayout.InternalCustomData = deviceLayout.CustomData;
+
+            foreach (ILedLayout led in deviceLayout.Leds)
+                if (led is LedLayout ledLayout)
+                    ledLayout.InternalCustomData = ledLayout.CustomData;
+        }
+
+        XmlSerializer serializer = new(typeof(DeviceLayout), null, customTypes, null, null);
+        serializer.Serialize(stream, layout);
     }
 }
