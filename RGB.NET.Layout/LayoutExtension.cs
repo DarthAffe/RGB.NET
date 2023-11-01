@@ -73,7 +73,7 @@ public static class LayoutExtension
     public static void Save(this IDeviceLayout layout, Stream stream)
     {
         Type? customDataType = layout.CustomData?.GetType();
-        Type? customLedDataType = layout.Leds.FirstOrDefault(x => x.CustomData != null)?.GetType();
+        Type? customLedDataType = layout.Leds.FirstOrDefault(x => x.CustomData != null)?.CustomData?.GetType();
 
         Type[] customTypes;
         if ((customDataType != null) && (customLedDataType != null))
