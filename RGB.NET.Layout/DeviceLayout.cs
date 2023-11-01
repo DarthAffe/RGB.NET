@@ -174,7 +174,7 @@ public class DeviceLayout : IDeviceLayout
     /// <returns>The deserialized custom data object.</returns>
     protected virtual object? GetCustomData(object? customData, Type? type)
     {
-        XmlNode? node = (customData as XmlNode) ?? (customData as IEnumerable<XmlNode>)?.FirstOrDefault()?.ParentNode; //HACK DarthAffe 16.01.2021: This gives us the CustomData-Node
+        XmlNode? node = (customData as XmlNode) ?? (customData as IEnumerable<XmlNode>)?.FirstOrDefault(x => x.ParentNode != null)?.ParentNode; //HACK DarthAffe 16.01.2021: This gives us the CustomData-Node
         if ((node == null) || (type == null)) return null;
 
         using MemoryStream ms = new();
