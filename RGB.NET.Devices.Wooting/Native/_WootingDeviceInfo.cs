@@ -17,11 +17,13 @@ internal struct _WootingDeviceInfo
 
     internal byte MaxColumns { get; private set; }
 
-    internal byte KeycodeLimit { get; private set; }
+    internal byte MaxLedIndex { get; private set; }
 
     internal WootingDeviceType DeviceType { get; private set; }
 
-    internal bool V2Interface { get; set; }
+    internal bool V2Interface { get; private set; }
 
     internal WootingLayoutType LayoutType { get; private set; }
+    
+    internal bool UsesSmallPackets { get; private set; }
 }
