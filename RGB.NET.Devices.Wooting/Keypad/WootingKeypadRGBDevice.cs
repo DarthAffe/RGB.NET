@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Generic;
-using RGB.NET.Devices.Wooting.Keyboard;
 
 namespace RGB.NET.Devices.Wooting.Keypad;
 
