@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
+using RGB.NET.Devices.Wooting.Enum;
 using RGB.NET.Devices.Wooting.Generic;
 using RGB.NET.Devices.Wooting.Keyboard;
+using RGB.NET.Devices.Wooting.Keypad;
 using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting;
@@ -16,11 +18,21 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static WootingDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="WootingDeviceProvider"/> instance.
     /// </summary>
-    public static WootingDeviceProvider Instance => _instance ?? new WootingDeviceProvider();
+    public static WootingDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new WootingDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 windows applications.
@@ -57,8 +69,11 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public WootingDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WootingDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WootingDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -86,22 +101,35 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
                     WootingUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
                     _WootingSDK.SelectDevice(i);
                     _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
+                    
+                    //Uwu non-rgb returns zero here.
+                    if (nativeDeviceInfo.MaxLedIndex == 0)
+                        continue;
 
-                    yield return new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue);
+                    yield return nativeDeviceInfo.DeviceType switch
+                    {
+                        WootingDeviceType.Keypad3Keys => new WootingKeypadRGBDevice(new WootingKeypadRGBDeviceInfo(nativeDeviceInfo, i), updateQueue),
+                        _ => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue),
+                    };
                 }
             }
         }
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
-
-        lock (_WootingSDK.SdkLock)
+        lock (_lock)
         {
-            try { _WootingSDK.UnloadWootingSDK(); }
-            catch { /* at least we tried */ }
+            base.Dispose(disposing);
+
+            lock (_WootingSDK.SdkLock)
+            {
+                try { _WootingSDK.UnloadWootingSDK(); }
+                catch { /* at least we tried */ }
+            }
+
+            _instance = null;
         }
     }
 

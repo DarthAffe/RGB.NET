@@ -13,6 +13,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
 {
     #region Properties & Fields
 
+    private bool _isDisposed = false;
+
     private readonly double _defaultUpdateRateHardLimit;
 
     /// <inheritdoc />
@@ -61,6 +63,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
         this._defaultUpdateRateHardLimit = defaultUpdateRateHardLimit;
     }
 
+    ~AbstractRGBDeviceProvider() => Dispose(false);
+
     #endregion
 
     #region Methods
@@ -68,6 +72,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <inheritdoc />
     public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         ThrowsExceptions = throwExceptions;
 
         try
@@ -118,6 +124,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <returns>The filtered collection of loaded devices.</returns>
     protected virtual IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         List<IRGBDevice> devices = new();
         foreach (IRGBDevice device in LoadDevices())
         {
@@ -163,6 +171,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     [MethodImpl(MethodImplOptions.Synchronized)]
     protected virtual IDeviceUpdateTrigger GetUpdateTrigger(int id = -1, double? updateRateHardLimit = null)
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         if (!UpdateTriggerMapping.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))
             UpdateTriggerMapping[id] = (updaeTrigger = CreateUpdateTrigger(id, updateRateHardLimit ?? _defaultUpdateRateHardLimit));
 
@@ -182,6 +192,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// </summary>
     protected virtual void Reset()
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
             updateTrigger.Dispose();
 
@@ -203,6 +215,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <returns><c>true</c> if the device was added successfully; otherwise <c>false</c>.</returns>
     protected virtual bool AddDevice(IRGBDevice device)
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         if (InternalDevices.Contains(device)) return false;
 
         InternalDevices.Add(device);
@@ -218,6 +232,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <returns><c>true</c> if the device was removed successfully; otherwise <c>false</c>.</returns>
     protected virtual bool RemoveDevice(IRGBDevice device)
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         if (!InternalDevices.Remove(device)) return false;
 
         try { OnDevicesChanged(DevicesChangedEventArgs.CreateDevicesRemovedArgs(device)); } catch { /* we don't want to throw due to bad event handlers */ }
@@ -252,12 +268,26 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     protected virtual void OnDevicesChanged(DevicesChangedEventArgs args) => DevicesChanged?.Invoke(this, args);
 
     /// <inheritdoc />
-    public virtual void Dispose()
+    public void Dispose()
     {
-        Reset();
+        if (_isDisposed) return;
+
+        try
+        {
+            Dispose(true);
+        }
+        catch { /* don't throw in dispose! */ }
 
         GC.SuppressFinalize(this);
+
+        _isDisposed = true;
     }
+
+    /// <summary>
+    /// Disposes the object and frees all resources.
+    /// </summary>
+    /// <param name="disposing"><c>true</c> if explicitely called through the Dispose-Method, <c>false</c> if called by the destructor.</param>
+    protected virtual void Dispose(bool disposing) => Reset();
 
     #endregion
 }

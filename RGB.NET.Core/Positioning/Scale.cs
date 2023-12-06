@@ -51,6 +51,12 @@ public readonly struct Scale : IEquatable<Scale>
     #region Methods
 
     /// <summary>
+    /// Converts the <see cref="Horizontal"/> and <see cref="Vertical"/> value of this <see cref="Scale"/> to a human-readable string.
+    /// </summary>
+    /// <returns>A string that contains the <see cref="Horizontal"/> and <see cref="Vertical"/> value of this <see cref="Scale"/>. For example "[Horizontal: 1, Vertical: 0.5]".</returns>
+    public override string ToString() => $"[Horizontal: {Horizontal}, Vertical: {Vertical}]\"";
+
+    /// <summary>
     /// Tests whether the specified <see cref="Scale"/> is equivalent to this <see cref="Scale" />.
     /// </summary>
     /// <param name="other">The scale to test.</param>
