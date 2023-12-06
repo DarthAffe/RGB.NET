@@ -56,7 +56,9 @@ internal static class Helper
     public static string GetModelName(OpenRGBDevice openRGBDevice) => string.IsNullOrWhiteSpace(openRGBDevice.Vendor)
                                                                           ? openRGBDevice.Name
                                                                           : openRGBDevice.Name.Replace(openRGBDevice.Vendor, "").Trim();
-    
+    /**
+     * Shortens given input into 8 character string
+     */
     internal static string HashAndShorten(string input)
     {
         using SHA256 sha256Hash = SHA256.Create();
