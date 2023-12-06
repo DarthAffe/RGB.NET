@@ -18,7 +18,12 @@ public enum WootingDeviceType
     Keyboard = 2,
 
     /// <summary>
-    /// Full Size keyboard. E.g. Wooting Two
+    /// 60 percent keyboard, E.g. Wooting 60HE
     /// </summary>
-    KeyboardSixtyPercent = 3
+    KeyboardSixtyPercent = 3,
+    
+    /// <summary>
+    /// Three key keypad. E.g. Wooting Uwu
+    /// </summary>
+    Keypad3Keys = 4,
 }

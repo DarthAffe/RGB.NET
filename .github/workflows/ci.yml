@@ -11,16 +11,19 @@ on:
 jobs:
   build:
 
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x        
+        dotnet-version: |
+          8.0.x
+          7.0.x
+          6.0.x
     - name: Git Semantic Version
       id: versioning
       uses: PaulHatch/semantic-version@v4.0.3
@@ -45,6 +48,12 @@ jobs:
         name: RGB.NET-NET7
         path: bin/net7.0/RGB.NET.*.dll
         if-no-files-found: error
+    - name: Upload a Build Artifact NET8
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: RGB.NET-NET8
+        path: bin/net8.0/RGB.NET.*.dll
+        if-no-files-found: error
     - name: Upload Nuget Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -53,3 +62,5 @@ jobs:
         if-no-files-found: error
     - name: Nuget Push
       run: dotnet nuget push **\*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
+    - name: Symbols Push
+      run: dotnet nuget push **\*.snupkg --skip-duplicate --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json

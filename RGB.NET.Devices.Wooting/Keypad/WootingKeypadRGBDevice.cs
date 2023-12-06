@@ -2,29 +2,23 @@
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Generic;
 
-namespace RGB.NET.Devices.Wooting.Keyboard;
+namespace RGB.NET.Devices.Wooting.Keypad;
 
 /// <inheritdoc cref="WootingRGBDevice{TDeviceInfo}" />
 /// <summary>
 /// Represents a Wooting keyboard.
 /// </summary>
-public sealed class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
+public sealed class WootingKeypadRGBDevice : WootingRGBDevice<WootingKeypadRGBDeviceInfo>, IKeypad
 {
-    #region Properties & Fields
-
-    IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
-
-    #endregion
-
     #region Constructors
 
     /// <inheritdoc />
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Wooting.Keyboard.WootingKeyboardRGBDevice" /> class.
+    /// Initializes a new instance of the <see cref="T:RGB.NET.Devices.Wooting.Keyboard.WootingKeypadRGBDevice" /> class.
     /// </summary>
     /// <param name="info">The specific information provided by Wooting for the keyboard</param>
-    /// <param name="updateTrigger">The update trigger used to update this device.</param>
-    internal WootingKeyboardRGBDevice(WootingKeyboardRGBDeviceInfo info, IUpdateQueue updateQueue)
+    /// <param name="updateQueue">The update queue used to update this device.</param>
+    internal WootingKeypadRGBDevice(WootingKeypadRGBDeviceInfo info, IUpdateQueue updateQueue)
         : base(info, updateQueue)
     {
         InitializeLayout();

@@ -16,11 +16,21 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static AsusDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="AsusDeviceProvider"/> instance.
     /// </summary>
-    public static AsusDeviceProvider Instance => _instance ?? new AsusDeviceProvider();
+    public static AsusDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new AsusDeviceProvider();
+        }
+    }
 
     private IAuraSdk2? _sdk;
     private IAuraSyncDeviceCollection? _devices; //HACK DarthAffe 05.04.2021: Due to some researches this might fix the access violation in the asus-sdk
@@ -35,8 +45,11 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public AsusDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(AsusDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(AsusDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -80,15 +93,19 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { _sdk?.ReleaseControl(0); }
-        catch { /* at least we tried */ }
+            try { _sdk?.ReleaseControl(0); }
+            catch { /* at least we tried */ }
 
-        _devices = null;
-        _sdk = null;
+            _devices = null;
+            _sdk = null;
+            _instance = null;
+        }
     }
 
     #endregion
