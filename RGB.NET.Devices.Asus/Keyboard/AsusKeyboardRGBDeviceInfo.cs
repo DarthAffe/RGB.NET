@@ -1,4 +1,5 @@
-﻿using AuraServiceLib;
+﻿using System.Collections.Generic;
+using AuraServiceLib;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Asus;
@@ -9,6 +10,11 @@ namespace RGB.NET.Devices.Asus;
 public sealed class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDeviceInfo
 {
     #region Properties & Fields
+
+    /// <summary>
+    /// The ASUS SDK returns useless names for notebook keyboards, possibly for others as well.
+    /// </summary>
+    private static readonly List<string> GENERIC_DEVICE_NAMES = new() { "NotebookKeyboard" };
 
     /// <inheritdoc />
     public KeyboardLayoutType Layout => KeyboardLayoutType.Unknown;
@@ -30,7 +36,7 @@ public sealed class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDevi
 
     #region Methods
 
-    private static string? GetKeyboardModel(string deviceName) => deviceName;
+    private static string? GetKeyboardModel(string deviceName) => GENERIC_DEVICE_NAMES.Contains(deviceName) ? "Asus Motherboard" : deviceName;
 
     #endregion
 }
