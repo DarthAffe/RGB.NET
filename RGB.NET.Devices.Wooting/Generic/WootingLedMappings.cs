@@ -1,15 +1,15 @@
-﻿// ReSharper disable InconsistentNaming
+// ReSharper disable InconsistentNaming
 
+using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Enum;
-using System.Collections.Generic;
 
-namespace RGB.NET.Devices.Wooting.Keyboard;
+namespace RGB.NET.Devices.Wooting.Generic;
 
 /// <summary>
 /// Contains all the hardware-id mappings for Wooting devices.
 /// </summary>
-internal static class WootingKeyboardLedMappings
+internal static class WootingLedMappings
 {
     #region Properties & Fields
 
@@ -305,6 +305,36 @@ internal static class WootingKeyboardLedMappings
         { LedId.Keyboard_Function, (5, 13) }
     };
 
+    private static readonly Dictionary<LedId, (int row, int column)> ThreeKeyKeypad = new()
+    {
+        //left (from top to bottom)
+        [LedId.LedStripe1] = (1, 0),
+        [LedId.LedStripe2] = (2, 0),
+        [LedId.LedStripe3] = (3, 0),
+        
+        //bottom (from left to right)
+        [LedId.LedStripe4] = (4, 1),
+        [LedId.LedStripe5] = (4, 2),
+        [LedId.LedStripe6] = (4, 4),
+        [LedId.LedStripe7] = (4, 5),
+        
+        //right (from bottom to top)
+        [LedId.LedStripe8] = (3, 6),
+        [LedId.LedStripe9] = (2, 6),
+        [LedId.LedStripe10] = (1, 6),
+        
+        //top (from right to left)
+        [LedId.LedStripe11] = (0, 6),
+        [LedId.LedStripe12] = (0, 4),
+        [LedId.LedStripe13] = (0, 2),
+        [LedId.LedStripe14] = (0, 0),
+        
+        //analog keys
+        [LedId.Keypad1] = (2, 1),
+        [LedId.Keypad2] = (2, 3),
+        [LedId.Keypad3] = (2, 5),
+    };
+
     /// <summary>
     /// Contains all the hardware-id mappings for Wooting devices.
     /// </summary>
@@ -312,7 +342,8 @@ internal static class WootingKeyboardLedMappings
     {
         [WootingDeviceType.Keyboard] = Fullsize,
         [WootingDeviceType.KeyboardTKL] = TKL,
-        [WootingDeviceType.KeyboardSixtyPercent] = SixtyPercent
+        [WootingDeviceType.KeyboardSixtyPercent] = SixtyPercent,
+        [WootingDeviceType.Keypad3Keys] = ThreeKeyKeypad
     };
 
     #endregion

@@ -20,11 +20,21 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static LogitechDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="LogitechDeviceProvider"/> instance.
     /// </summary>
-    public static LogitechDeviceProvider Instance => _instance ?? new LogitechDeviceProvider();
+    public static LogitechDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new LogitechDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
@@ -112,7 +122,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
 
         { 0x0A78, RGBDeviceType.Speaker, "G560", LedMappings.ZoneSpeaker, (LogitechDeviceType.Speaker, 4, 0) },
     };
-    
+
     /// <summary>
     /// Gets the HID-definitions for wireless per-zone-devices.
     /// </summary>
@@ -164,8 +174,12 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public LogitechDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(LogitechDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null)
+                throw new InvalidOperationException($"There can be only one instance of type {nameof(LogitechDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -254,17 +268,20 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { _LogitechGSDK.LogiLedRestoreLighting(); }
-        catch { /* at least we tried */ }
+            try { _LogitechGSDK.LogiLedRestoreLighting(); }
+            catch { /* at least we tried */ }
 
-        try { _LogitechGSDK.UnloadLogitechGSDK(); }
-        catch { /* at least we tried */ }
+            try { _LogitechGSDK.UnloadLogitechGSDK(); }
+            catch { /* at least we tried */ }
 
-        GC.SuppressFinalize(this);
+            _instance = null;
+        }
     }
 
     #endregion

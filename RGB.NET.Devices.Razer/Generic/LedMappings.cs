@@ -160,6 +160,137 @@ public static class LedMappings
         //Row 7 is also empty
     };
 
+
+    /// <summary>
+    /// Gets the mapping for Blade keyboards.
+    /// </summary>
+    public static LedMapping<int> Blade { get; } = new()
+    {
+        //Row 0 is empty
+
+        #region Row 1
+
+        [LedId.Keyboard_Escape] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 2,
+        [LedId.Keyboard_F1] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 3,
+        [LedId.Keyboard_F2] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 4,
+        [LedId.Keyboard_F3] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 5,
+        [LedId.Keyboard_F4] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 6,
+        [LedId.Keyboard_F5] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 7,
+        [LedId.Keyboard_F6] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 8,
+        [LedId.Keyboard_F7] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 9,
+        [LedId.Keyboard_F8] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 10,
+        [LedId.Keyboard_F9] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 11,
+        [LedId.Keyboard_F10] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 12,
+        [LedId.Keyboard_F11] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 13,
+        [LedId.Keyboard_F12] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 14,
+        [LedId.Keyboard_PrintScreen] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 15,
+        [LedId.Keyboard_ScrollLock] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 16,
+
+        #endregion
+
+        #region Row 2
+
+        [LedId.Keyboard_GraveAccentAndTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
+        [LedId.Keyboard_1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 3,
+        [LedId.Keyboard_2] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 4,
+        [LedId.Keyboard_3] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 5,
+        [LedId.Keyboard_4] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 6,
+        [LedId.Keyboard_5] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 7,
+        [LedId.Keyboard_6] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 8,
+        [LedId.Keyboard_7] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 9,
+        [LedId.Keyboard_8] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 10,
+        [LedId.Keyboard_9] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 11,
+        [LedId.Keyboard_0] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 12,
+        [LedId.Keyboard_MinusAndUnderscore] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 13,
+        [LedId.Keyboard_EqualsAndPlus] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 14,
+        [LedId.Keyboard_Backspace] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 16,
+
+        #endregion
+
+        #region Row 3
+
+        [LedId.Keyboard_Tab] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 2,
+        [LedId.Keyboard_Q] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 3,
+        [LedId.Keyboard_W] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 4,
+        [LedId.Keyboard_E] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 5,
+        [LedId.Keyboard_R] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 6,
+        [LedId.Keyboard_T] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 7,
+        [LedId.Keyboard_Y] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 8,
+        [LedId.Keyboard_U] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 9,
+        [LedId.Keyboard_I] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 10,
+        [LedId.Keyboard_O] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 11,
+        [LedId.Keyboard_P] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 12,
+        [LedId.Keyboard_BracketLeft] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 13,
+        [LedId.Keyboard_BracketRight] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 14,
+        [LedId.Keyboard_Backslash] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 16,
+
+        #endregion
+
+        #region Row 4
+
+        [LedId.Keyboard_CapsLock] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 2,
+        [LedId.Keyboard_A] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 3,
+        [LedId.Keyboard_S] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 4,
+        [LedId.Keyboard_D] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 5,
+        [LedId.Keyboard_F] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 6,
+        [LedId.Keyboard_G] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 7,
+        [LedId.Keyboard_H] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 8,
+        [LedId.Keyboard_J] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 9,
+        [LedId.Keyboard_K] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 10,
+        [LedId.Keyboard_L] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 11,
+        [LedId.Keyboard_SemicolonAndColon] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 12,
+        [LedId.Keyboard_ApostropheAndDoubleQuote] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 13,
+        [LedId.Keyboard_NonUsTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 14,
+        [LedId.Keyboard_Enter] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 16,
+
+        #endregion
+
+        #region Row 5
+
+        [LedId.Keyboard_LeftShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 2,
+        [LedId.Keyboard_NonUsBackslash] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 3,
+        [LedId.Keyboard_Z] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 4,
+        [LedId.Keyboard_X] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 5,
+        [LedId.Keyboard_C] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 6,
+        [LedId.Keyboard_V] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 7,
+        [LedId.Keyboard_B] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 8,
+        [LedId.Keyboard_N] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 9,
+        [LedId.Keyboard_M] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 10,
+        [LedId.Keyboard_CommaAndLessThan] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 11,
+        [LedId.Keyboard_PeriodAndBiggerThan] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 12,
+        [LedId.Keyboard_SlashAndQuestionMark] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 13,
+        [LedId.Keyboard_RightShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 16,
+
+        #endregion
+
+        #region Row 6
+
+        [LedId.Keyboard_LeftCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 2,
+        // left gui lights left fn key
+        [LedId.Keyboard_LeftGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 3,
+        // left alt lights left gui key
+        [LedId.Keyboard_LeftAlt] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 4,
+        // space lights left alt key
+        [LedId.Keyboard_Space] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 6,
+        // see comment bellow
+        [LedId.Keyboard_RightAlt] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 10,
+        // right gui lights right fn key (this one (11) seems to light both right alt and right fn, but 8, 9 and 10 don't light anything)
+        [LedId.Keyboard_RightGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 11,
+        // application key lights right control to make room for up/down keys stacked in 1 key spot
+        [LedId.Keyboard_Application] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 12,
+        // right ctrl lights left arrow key
+        [LedId.Keyboard_RightCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 13,
+        // arrow left lights up arrow key
+        [LedId.Keyboard_ArrowLeft] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 14,
+        // these arrows appear to be flipped
+        [LedId.Keyboard_ArrowDown] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 16,
+        [LedId.Keyboard_ArrowRight] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 15,
+
+        #endregion
+
+        //Row 7 is also empty
+    };
+
     /// <summary>
     /// Gets the mapping for mice.
     /// </summary>
