@@ -217,6 +217,10 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                         yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
                         break;
 
+                    case CorsairDeviceType.GameController:
+                        yield return new CorsairGameControllerRGBDevice(new CorsairGameControllerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                        break;
+
                     case CorsairDeviceType.FanLedController:
                     case CorsairDeviceType.LedController:
                     case CorsairDeviceType.Unknown:
@@ -262,6 +266,10 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
                         case CorsairChannelDeviceType.FanQL:
                             yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QL Fan"), updateQueue);
+                            break;
+
+                        case CorsairChannelDeviceType.FanQX:
+                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QX Fan"), updateQueue);
                             break;
 
                         case CorsairChannelDeviceType.EightLedSeriesFan:

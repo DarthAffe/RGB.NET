@@ -160,6 +160,7 @@ internal static class LedMappings
     internal static LedMapping<CorsairLedId> CreateMousepadMapping(IEnumerable<CorsairLedId> ids) => CreateMapping(ids, LedId.Mousepad1);
     internal static LedMapping<CorsairLedId> CreateHeadsetMapping(IEnumerable<CorsairLedId> ids) => CreateMapping(ids, LedId.Headset1);
     internal static LedMapping<CorsairLedId> CreateMouseMapping(IEnumerable<CorsairLedId> ids) => CreateMapping(ids, LedId.Mouse1);
+    internal static LedMapping<CorsairLedId> CreateGameControllerMapping(IEnumerable<CorsairLedId> ids) => CreateMapping(ids, LedId.GameController1);
     internal static LedMapping<CorsairLedId> CreateUnknownMapping(IEnumerable<CorsairLedId> ids) => CreateMapping(ids, LedId.Unknown1);
 
     internal static LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids, LedId referenceId)
