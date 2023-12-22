@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using RGB.NET.Core;
 using RGB.NET.Devices.CorsairLegacy.Native;
@@ -65,7 +64,7 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
         this.CorsairDeviceIndex = deviceIndex;
         this.DeviceType = deviceType;
         this.CorsairDeviceType = nativeInfo.type;
-        this.Model = nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
+        this.Model = nativeInfo.model == 0 ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
         this.DeviceId = nativeInfo.deviceId ?? string.Empty;
         this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
 

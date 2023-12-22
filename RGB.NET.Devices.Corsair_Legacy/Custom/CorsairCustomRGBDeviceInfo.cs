@@ -41,7 +41,7 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
     /// <param name="ledOffset">The offset used to find the LEDs of this device.</param>
     internal CorsairCustomRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo, _CorsairChannelDeviceInfo channelDeviceInfo, int ledOffset)
         : base(deviceIndex, GetDeviceType(channelDeviceInfo.type), nativeInfo,
-               GetModelName(nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase), channelDeviceInfo))
+               GetModelName(nativeInfo.model == 0 ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase), channelDeviceInfo))
     {
         this.LedOffset = ledOffset;
 

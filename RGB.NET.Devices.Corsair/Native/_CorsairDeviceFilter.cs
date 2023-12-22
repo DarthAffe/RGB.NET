@@ -19,6 +19,7 @@ internal sealed class _CorsairDeviceFilter
     /// <summary>
     /// iCUE-SDK: mask that describes device types, formed as logical “or” of CorsairDeviceType enum values
     /// </summary>
+    // ReSharper disable once NotAccessedField.Global
     internal CorsairDeviceType deviceTypeMask;
 
     #endregion

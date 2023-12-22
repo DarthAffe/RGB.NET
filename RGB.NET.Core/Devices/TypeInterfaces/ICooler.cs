@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a cooler-device
 /// </summary>
-public interface ICooler : IRGBDevice
-{ }
+public interface ICooler : IRGBDevice;

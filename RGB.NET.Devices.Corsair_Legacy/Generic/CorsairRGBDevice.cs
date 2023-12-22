@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using RGB.NET.Core;
 using RGB.NET.Devices.CorsairLegacy.Native;
 
@@ -50,14 +49,14 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
         if (nativeLedPositions == null) return;
 
         int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
-        IntPtr ptr = nativeLedPositions.pLedPosition;
+        nint ptr = nativeLedPositions.pLedPosition;
 
         for (int i = 0; i < nativeLedPositions.numberOfLed; i++)
         {
             _CorsairLedPosition? ledPosition = (_CorsairLedPosition?)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
             if (ledPosition == null)
             {
-                ptr = new IntPtr(ptr.ToInt64() + structSize);
+                ptr += structSize;
                 continue;
             }
 
@@ -65,7 +64,7 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
             Rectangle rectangle = ledPosition.ToRectangle();
             AddLed(ledId, rectangle.Location, rectangle.Size);
 
-            ptr = new IntPtr(ptr.ToInt64() + structSize);
+            ptr += structSize;
         }
     }
 

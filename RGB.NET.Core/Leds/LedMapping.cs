@@ -13,14 +13,14 @@ public sealed class LedMapping<T> : IEnumerable<(LedId ledId, T mapping)>
 {
     #region Constants
 
-    public static LedMapping<T> Empty { get; } = new();
+    public static LedMapping<T> Empty { get; } = [];
 
     #endregion
 
     #region Properties & Fields
 
-    private readonly Dictionary<LedId, T> _mapping = new();
-    private readonly Dictionary<T, LedId> _reverseMapping = new();
+    private readonly Dictionary<LedId, T> _mapping = [];
+    private readonly Dictionary<T, LedId> _reverseMapping = [];
 
     /// <summary>
     /// Gets the number of entries in this mapping.

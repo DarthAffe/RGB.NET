@@ -6,7 +6,7 @@ public abstract class AbstractReferenceCounting : IReferenceCounting
 {
     #region Properties & Fields
 
-    private readonly HashSet<object> _referencingObjects = new();
+    private readonly HashSet<object> _referencingObjects = [];
 
     /// <inheritdoc />
     public int ActiveReferenceCount

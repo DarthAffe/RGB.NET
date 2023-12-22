@@ -2,7 +2,6 @@
 #pragma warning disable 414 // Field 'x' is assigned but its value never used
 #pragma warning disable 649 // Field 'x' is never assigned
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace RGB.NET.Devices.CorsairLegacy.Native;
@@ -17,12 +16,12 @@ internal struct _CorsairProtocolDetails
     /// <summary>
     /// CUE-SDK: null - terminated string containing version of SDK(like “1.0.0.1”). Always contains valid value even if there was no CUE found
     /// </summary>
-    internal IntPtr sdkVersion;
+    internal nint sdkVersion;
 
     /// <summary>
     /// CUE-SDK: null - terminated string containing version of CUE(like “1.0.0.1”) or NULL if CUE was not found.
     /// </summary>
-    internal IntPtr serverVersion;
+    internal nint serverVersion;
 
     /// <summary>
     /// CUE-SDK: integer number that specifies version of protocol that is implemented by current SDK.

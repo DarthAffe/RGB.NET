@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a mainboard-device
 /// </summary>
-public interface IMainboard : IRGBDevice
-{ }
+public interface IMainboard : IRGBDevice;

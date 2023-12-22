@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a gamecontroller-device
 /// </summary>
-public interface IGameController: IRGBDevice
-{ }
+public interface IGameController: IRGBDevice;

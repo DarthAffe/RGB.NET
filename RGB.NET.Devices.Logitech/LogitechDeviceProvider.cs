@@ -40,13 +40,13 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/LogitechLedEnginesWrapper.dll" };
+    public static List<string> PossibleX86NativePaths { get; } = ["x86/LogitechLedEnginesWrapper.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/LogitechLedEnginesWrapper.dll" };
+    public static List<string> PossibleX64NativePaths { get; } = ["x64/LogitechLedEnginesWrapper.dll"];
 
     private LogitechPerDeviceUpdateQueue? _perDeviceUpdateQueue;
     private LogitechPerKeyUpdateQueue? _perKeyUpdateQueue;
@@ -162,7 +162,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Gets the HID-definitions for wireless per-device-devices.
     /// </summary>
-    public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = new();
+    public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = [];
 
     #endregion
 

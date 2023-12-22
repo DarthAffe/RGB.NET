@@ -17,7 +17,7 @@ internal static class _LogitechGSDK
 {
     #region Libary Management
 
-    private static IntPtr _handle = IntPtr.Zero;
+    private static nint _handle = 0;
 
     /// <summary>
     /// Reloads the SDK.
@@ -30,7 +30,7 @@ internal static class _LogitechGSDK
 
     private static void LoadLogitechGSDK()
     {
-        if (_handle != IntPtr.Zero) return;
+        if (_handle != 0) return;
 
         List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
 
@@ -70,21 +70,21 @@ internal static class _LogitechGSDK
 
     internal static void UnloadLogitechGSDK()
     {
-        if (_handle == IntPtr.Zero) return;
+        if (_handle == 0) return;
 
-        _logiLedInitPointer = IntPtr.Zero;
-        _logiLedShutdownPointer = IntPtr.Zero;
-        _logiLedSetTargetDevicePointer = IntPtr.Zero;
-        _logiLedGetSdkVersionPointer = IntPtr.Zero;
-        _lgiLedSaveCurrentLightingPointer = IntPtr.Zero;
-        _logiLedRestoreLightingPointer = IntPtr.Zero;
-        _logiLedSetLightingPointer = IntPtr.Zero;
-        _logiLedSetLightingForKeyWithKeyNamePointer = IntPtr.Zero;
-        _logiLedSetLightingFromBitmapPointer = IntPtr.Zero;
-        _logiLedSetLightingForTargetZonePointer = IntPtr.Zero;
+        _logiLedInitPointer = 0;
+        _logiLedShutdownPointer = 0;
+        _logiLedSetTargetDevicePointer = 0;
+        _logiLedGetSdkVersionPointer = 0;
+        _lgiLedSaveCurrentLightingPointer = 0;
+        _logiLedRestoreLightingPointer = 0;
+        _logiLedSetLightingPointer = 0;
+        _logiLedSetLightingForKeyWithKeyNamePointer = 0;
+        _logiLedSetLightingFromBitmapPointer = 0;
+        _logiLedSetLightingForTargetZonePointer = 0;
 
         NativeLibrary.Free(_handle);
-        _handle = IntPtr.Zero;
+        _handle = 0;
     }
 
     #endregion
@@ -93,16 +93,16 @@ internal static class _LogitechGSDK
 
     #region Pointers
 
-    private static IntPtr _logiLedInitPointer;
-    private static IntPtr _logiLedShutdownPointer;
-    private static IntPtr _logiLedSetTargetDevicePointer;
-    private static IntPtr _logiLedGetSdkVersionPointer;
-    private static IntPtr _lgiLedSaveCurrentLightingPointer;
-    private static IntPtr _logiLedRestoreLightingPointer;
-    private static IntPtr _logiLedSetLightingPointer;
-    private static IntPtr _logiLedSetLightingForKeyWithKeyNamePointer;
-    private static IntPtr _logiLedSetLightingFromBitmapPointer;
-    private static IntPtr _logiLedSetLightingForTargetZonePointer;
+    private static nint _logiLedInitPointer;
+    private static nint _logiLedShutdownPointer;
+    private static nint _logiLedSetTargetDevicePointer;
+    private static nint _logiLedGetSdkVersionPointer;
+    private static nint _lgiLedSaveCurrentLightingPointer;
+    private static nint _logiLedRestoreLightingPointer;
+    private static nint _logiLedSetLightingPointer;
+    private static nint _logiLedSetLightingForKeyWithKeyNamePointer;
+    private static nint _logiLedSetLightingFromBitmapPointer;
+    private static nint _logiLedSetLightingForTargetZonePointer;
 
     #endregion
 
@@ -146,9 +146,9 @@ internal static class _LogitechGSDK
     internal static unsafe bool LogiLedSetLightingForTargetZone(LogitechDeviceType deviceType, int zone, int redPercentage, int greenPercentage, int bluePercentage)
         => ((delegate* unmanaged[Cdecl]<LogitechDeviceType, int, int, int, int, bool>)ThrowIfZero(_logiLedSetLightingForTargetZonePointer))(deviceType, zone, redPercentage, greenPercentage, bluePercentage);
 
-    private static IntPtr ThrowIfZero(IntPtr ptr)
+    private static nint ThrowIfZero(nint ptr)
     {
-        if (ptr == IntPtr.Zero) throw new RGBDeviceException("The Logitech-SDK is not initialized.");
+        if (ptr == 0) throw new RGBDeviceException("The Logitech-SDK is not initialized.");
         return ptr;
     }
 

@@ -24,7 +24,7 @@ public static class LayoutExtension
         device.Size = new Size(layout.Width, layout.Height);
         device.DeviceInfo.LayoutMetadata = layout.CustomData;
 
-        HashSet<LedId> ledIds = new();
+        HashSet<LedId> ledIds = [];
         foreach (ILedLayout layoutLed in layout.Leds)
         {
             if (Enum.TryParse(layoutLed.Id, true, out LedId ledId))

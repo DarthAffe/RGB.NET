@@ -11,7 +11,7 @@ public abstract class AbstractDecoratable<T> : AbstractBindable, IDecoratable<T>
 {
     #region Properties & Fields
 
-    private readonly List<T> _decorators = new();
+    private readonly List<T> _decorators = [];
 
     /// <inheritdoc />
     public IReadOnlyList<T> Decorators { get; }

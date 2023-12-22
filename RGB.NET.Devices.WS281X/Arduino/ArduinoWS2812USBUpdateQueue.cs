@@ -21,7 +21,7 @@ public sealed class ArduinoWS2812USBUpdateQueue : SerialConnectionUpdateQueue<by
 
     #region Properties & Fields
 
-    private readonly Dictionary<int, byte[]> _dataBuffer = new();
+    private readonly Dictionary<int, byte[]> _dataBuffer = [];
 
     #endregion
 

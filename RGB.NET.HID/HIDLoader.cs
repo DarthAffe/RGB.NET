@@ -24,7 +24,7 @@ public sealed class HIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<TLe
 {
     #region Properties & Fields
 
-    private readonly Dictionary<int, HIDDeviceDefinition<TLed, TData>> _deviceDefinitions = new();
+    private readonly Dictionary<int, HIDDeviceDefinition<TLed, TData>> _deviceDefinitions = [];
 
     /// <summary>
     /// Gets the vendor id used for this loader.
