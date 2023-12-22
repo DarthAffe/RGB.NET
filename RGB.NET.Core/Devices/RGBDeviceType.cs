@@ -94,6 +94,11 @@ public enum RGBDeviceType
     LedController = 1 << 15,
 
     /// <summary>
+    /// Represents a game controller.
+    /// </summary>
+    GameController = 1 << 16,
+
+    /// <summary>
     /// Represents a device where the type is not known or not present in the list.
     /// </summary>
     Unknown = 1 << 31,

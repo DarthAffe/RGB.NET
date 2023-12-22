@@ -80,5 +80,10 @@ public enum CorsairLedGroup
     /// <summary>
     /// iCUE-SDK: for touchbar leds
     /// </summary>
-    Touchbar = 14
+    Touchbar = 14,
+
+    /// <summary>
+    /// iCUE-SDK: for game controller leds
+    /// </summary>
+    GameController = 15
 }

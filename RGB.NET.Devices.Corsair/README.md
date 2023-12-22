@@ -11,7 +11,7 @@ surface.Load(CorsairDeviceProvider.Instance);
 This providers requires native SDK-dlls.   
 You can get them directly from Corsair at [https://github.com/CorsairOfficial/cue-sdk/releases](https://github.com/CorsairOfficial/cue-sdk/releases)
 
-(Developed and tested with iCUE SDK v4.0.48)
+(Developed and tested with iCUE SDK v4.0.84)
 
 Since the SDK-dlls are native it's important to use the correct architecture you're building your application for. (If in doubt you can always include both.)
 
@@ -20,7 +20,7 @@ Since the SDK-dlls are native it's important to use the correct architecture you
 
 You can use other, custom paths by adding them to `CorsairDeviceProvider.PossibleX64NativePaths`.
 
-### x86
+### x86 (only SDKs before v4.0.84) 
 `redist\i386\iCUESDK_2019.dll` from the SDK-zip needs to be distributed as `<application-directory>\x86\iCUESDK_2019.dll` (or simply named `iCUESDK.dll`)
 
 You can use other, custom paths by adding them to `CorsairDeviceProvider.PossibleX86NativePaths`.
