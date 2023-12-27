@@ -53,7 +53,7 @@ public abstract class AbstractDecorator : AbstractBindable, IDecorator
                                                                                     && (t.Name == typeof(IDecoratable<>).Name)
                                                                                     && t.GenericTypeArguments[0].IsInstanceOfType(this));
             foreach (Type decoratableType in types)
-                decoratableType.GetMethod(nameof(IDecoratable<IDecorator>.RemoveDecorator))?.Invoke(decoratable, new object[] { this });
+                decoratableType.GetMethod(nameof(IDecoratable<IDecorator>.RemoveDecorator))?.Invoke(decoratable, [this]);
         }
     }
 

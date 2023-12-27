@@ -13,9 +13,9 @@ public sealed class ArduinoWS2812USBUpdateQueue : SerialConnectionUpdateQueue<by
 {
     #region Constants
 
-    private static readonly byte[] COUNT_COMMAND = { 0x01 };
-    private static readonly byte[] UPDATE_COMMAND = { 0x02 };
-    private static readonly byte[] ASK_PROMPT_COMMAND = { 0x0F };
+    private static readonly byte[] COUNT_COMMAND = [0x01];
+    private static readonly byte[] UPDATE_COMMAND = [0x02];
+    private static readonly byte[] ASK_PROMPT_COMMAND = [0x0F];
 
     #endregion
 
@@ -91,7 +91,7 @@ public sealed class ArduinoWS2812USBUpdateQueue : SerialConnectionUpdateQueue<by
         for (int i = 1; i <= channelCount; i++)
         {
             SerialConnection.ReadTo(Prompt);
-            byte[] channelLedCountCommand = { (byte)((i << 4) | COUNT_COMMAND[0]) };
+            byte[] channelLedCountCommand = [(byte)((i << 4) | COUNT_COMMAND[0])];
             SendCommand(channelLedCountCommand);
             int ledCount = SerialConnection.ReadByte();
             if (ledCount > 0)
