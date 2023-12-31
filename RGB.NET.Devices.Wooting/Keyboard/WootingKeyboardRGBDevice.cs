@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using RGB.NET.Core;
 using RGB.NET.Devices.Wooting.Generic;
-using RGB.NET.Devices.Wooting.Native;
 
 namespace RGB.NET.Devices.Wooting.Keyboard;
 
@@ -9,7 +8,7 @@ namespace RGB.NET.Devices.Wooting.Keyboard;
 /// <summary>
 /// Represents a Wooting keyboard.
 /// </summary>
-public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
+public sealed class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDeviceInfo>, IKeyboard
 {
     #region Properties & Fields
 
@@ -37,25 +36,14 @@ public class WootingKeyboardRGBDevice : WootingRGBDevice<WootingKeyboardRGBDevic
 
     private void InitializeLayout()
     {
-        Dictionary<LedId, (int row, int column)> mapping = WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType];
+        Dictionary<LedId, (int row, int column)> mapping = WootingLedMappings.Mapping[DeviceInfo.WootingDeviceType];
 
         foreach (KeyValuePair<LedId, (int row, int column)> led in mapping)
             AddLed(led.Key, new Point(led.Value.column * 19, led.Value.row * 19), new Size(19, 19));
     }
 
     /// <inheritdoc />
-    protected override object GetLedCustomData(LedId ledId) => WootingKeyboardLedMappings.Mapping[DeviceInfo.WootingDeviceType][ledId];
-
-    /// <inheritdoc />
-    protected override void UpdateLeds(IEnumerable<Led> ledsToUpdate) => UpdateQueue.SetData(GetUpdateData(ledsToUpdate));
-
-    public override void Dispose()
-    {
-        _WootingSDK.SelectDevice(DeviceInfo.WootingDeviceIndex);
-        _WootingSDK.Reset();
-
-        base.Dispose();
-    }
+    protected override object GetLedCustomData(LedId ledId) => WootingLedMappings.Mapping[DeviceInfo.WootingDeviceType][ledId];
 
     #endregion
 }

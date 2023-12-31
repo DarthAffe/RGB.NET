@@ -13,7 +13,7 @@ namespace RGB.NET.Presets.Textures.Gradients;
 /// Represents a rainbow gradient which circles through all colors of the HUE-color-space.<br />
 /// See <see href="http://upload.wikimedia.org/wikipedia/commons/a/ad/HueScale.svg" /> as reference.
 /// </summary>
-public class RainbowGradient : AbstractDecoratable<IGradientDecorator>, IGradient
+public sealed class RainbowGradient : AbstractDecoratable<IGradientDecorator>, IGradient
 {
     #region Properties & Fields
 
@@ -102,7 +102,7 @@ public class RainbowGradient : AbstractDecoratable<IGradientDecorator>, IGradien
     /// <summary>
     /// Should be called to indicate that the gradient was changed.
     /// </summary>
-    protected void OnGradientChanged() => GradientChanged?.Invoke(this, EventArgs.Empty);
+    private void OnGradientChanged() => GradientChanged?.Invoke(this, EventArgs.Empty);
 
     #endregion
 }

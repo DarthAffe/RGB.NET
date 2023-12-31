@@ -13,7 +13,7 @@ namespace RGB.NET.Devices.PicoPi;
 /// <summary>
 /// Represents a SDK to access devices based on a Raspberry Pi Pico.
 /// </summary>
-public class PicoPiSDK : IDisposable
+public sealed class PicoPiSDK : IDisposable
 {
     #region Constants
 
@@ -303,8 +303,6 @@ public class PicoPiSDK : IDisposable
         _hidStream.Dispose();
         _bulkDevice?.Dispose();
         _usbContext?.Dispose();
-
-        GC.SuppressFinalize(this);
     }
 
     #endregion

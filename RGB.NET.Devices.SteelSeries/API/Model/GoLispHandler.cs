@@ -2,7 +2,7 @@
 
 namespace RGB.NET.Devices.SteelSeries.API.Model;
 
-internal class GoLispHandler
+internal sealed class GoLispHandler
 {
     #region Properties & Fields
 

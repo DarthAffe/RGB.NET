@@ -6,7 +6,7 @@ namespace RGB.NET.Devices.Asus;
 /// <summary>
 /// Represents a Asus mouse.
 /// </summary>
-public class AsusMouseRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IMouse
+public sealed class AsusMouseRGBDevice : AsusRGBDevice<AsusRGBDeviceInfo>, IMouse
 {
     #region Constructors
 

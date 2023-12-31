@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Linq;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
@@ -17,7 +17,7 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     /// <summary>
     /// Gets the mapping of <see cref="LedId"/> to <see cref="CorsairLedId"/> used to update the LEDs of this device.
     /// </summary>
-    protected LedMapping<CorsairLedId> Mapping { get; }
+    protected LedMapping<CorsairLedId> Mapping { get; private set; } = LedMapping<CorsairLedId>.Empty;
 
     #endregion
 
@@ -29,48 +29,56 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     /// <param name="info">The generic information provided by CUE for the device.</param>
     /// <param name="mapping">The mapping <see cref="LedId"/> to <see cref="CorsairLedId"/> used to update the LEDs of this device.</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
-    protected CorsairRGBDevice(TDeviceInfo info, LedMapping<CorsairLedId> mapping, CorsairDeviceUpdateQueue updateQueue)
+    protected CorsairRGBDevice(TDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
         : base(info, updateQueue)
-    {
-        this.Mapping = mapping;
-    }
+    { }
 
     #endregion
 
     #region Methods
 
     void ICorsairRGBDevice.Initialize() => InitializeLayout();
-        
+
     /// <summary>
     /// Initializes the LEDs of the device based on the data provided by the SDK.
     /// </summary>
     protected virtual void InitializeLayout()
     {
-        _CorsairLedPositions? nativeLedPositions = (_CorsairLedPositions?)Marshal.PtrToStructure(_CUESDK.CorsairGetLedPositionsByDeviceIndex(DeviceInfo.CorsairDeviceIndex), typeof(_CorsairLedPositions));
-        if (nativeLedPositions == null) return;
+        CorsairError error = _CUESDK.CorsairGetLedPositions(DeviceInfo.DeviceId, out _CorsairLedPosition[] ledPositions);
+        if (error != CorsairError.Success)
+            throw new RGBDeviceException($"Failed to load device '{DeviceInfo.DeviceId}'. (ErrorCode: {error})");
 
-        int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
-        IntPtr ptr = nativeLedPositions.pLedPosition;
+        List<_CorsairLedPosition> deviceLeds = ledPositions.Skip(DeviceInfo.LedOffset).Take(DeviceInfo.LedCount).ToList();
 
-        for (int i = 0; i < nativeLedPositions.numberOfLed; i++)
+        Mapping = CreateMapping(deviceLeds.Select(x => new CorsairLedId(x.id)));
+
+        foreach (_CorsairLedPosition ledPosition in deviceLeds)
         {
-            _CorsairLedPosition? ledPosition = (_CorsairLedPosition?)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
-            if (ledPosition == null)
-            {
-                ptr = new IntPtr(ptr.ToInt64() + structSize);
-                continue;
-            }
-
-            LedId ledId = Mapping.TryGetValue(ledPosition.LedId, out LedId id) ? id : LedId.Invalid;
+            LedId ledId = Mapping.TryGetValue(new CorsairLedId(ledPosition.id), out LedId id) ? id : LedId.Invalid;
             Rectangle rectangle = ledPosition.ToRectangle();
             AddLed(ledId, rectangle.Location, rectangle.Size);
-
-            ptr = new IntPtr(ptr.ToInt64() + structSize);
         }
+
+        if (DeviceInfo.LedOffset > 0)
+            FixOffsetDeviceLayout();
     }
 
+    /// <summary>
+    /// Fixes the locations for devices split by offset by aligning them to the top left.
+    /// </summary>
+    protected virtual void FixOffsetDeviceLayout()
+    {
+        float minX = this.Min(x => x.Location.X);
+        float minY = this.Min(x => x.Location.Y);
+
+        foreach (Led led in this)
+            led.Location = led.Location.Translate(-minX, -minY);
+    }
+
+    protected abstract LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids);
+
     /// <inheritdoc />
-    protected override object GetLedCustomData(LedId ledId) => Mapping.TryGetValue(ledId, out CorsairLedId corsairLedId) ? corsairLedId : CorsairLedId.Invalid;
+    protected override object GetLedCustomData(LedId ledId) => Mapping.TryGetValue(ledId, out CorsairLedId corsairLedId) ? corsairLedId : new CorsairLedId(0);
 
     #endregion
 }

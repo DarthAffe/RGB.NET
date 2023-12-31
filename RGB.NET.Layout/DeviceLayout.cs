@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -92,7 +92,7 @@ public class DeviceLayout : IDeviceLayout
     /// Normally you should use <see cref="Leds"/> to access this data.
     /// </summary>
     [XmlArray("Leds")]
-    public List<LedLayout> InternalLeds { get; set; } = new();
+    public List<LedLayout> InternalLeds { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a list of <see cref="LedLayout"/> representing all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.
@@ -118,20 +118,16 @@ public class DeviceLayout : IDeviceLayout
     /// <summary>
     /// Creates a new <see cref="DeviceLayout"/> from the specified xml.
     /// </summary>
-    /// <param name="path">The path to the xml file.</param>
+    /// <param name="stream">The stream that contains the layout to be loaded.</param>
     /// <param name="customDeviceDataType">The type of the custom data.</param>
     /// <param name="customLedDataType">The type of the custom data of the leds.</param>
     /// <returns>The deserialized <see cref="DeviceLayout"/>.</returns>
-    public static DeviceLayout? Load(string path, Type? customDeviceDataType = null, Type? customLedDataType = null)
+    public static DeviceLayout? Load(Stream stream, Type? customDeviceDataType = null, Type? customLedDataType = null)
     {
-        if (!File.Exists(path)) return null;
-
         try
         {
             XmlSerializer serializer = new(typeof(DeviceLayout));
-            using StreamReader reader = new(path);
-
-            DeviceLayout? layout = serializer.Deserialize(reader) as DeviceLayout;
+            DeviceLayout? layout = serializer.Deserialize(stream) as DeviceLayout;
             if (layout != null)
                 layout.CustomData = layout.GetCustomData(layout.InternalCustomData, customDeviceDataType);
 
@@ -156,6 +152,21 @@ public class DeviceLayout : IDeviceLayout
     }
 
     /// <summary>
+    /// Creates a new <see cref="DeviceLayout"/> from the specified xml.
+    /// </summary>
+    /// <param name="path">The path to the xml file.</param>
+    /// <param name="customDeviceDataType">The type of the custom data.</param>
+    /// <param name="customLedDataType">The type of the custom data of the leds.</param>
+    /// <returns>The deserialized <see cref="DeviceLayout"/>.</returns>
+    public static DeviceLayout? Load(string path, Type? customDeviceDataType = null, Type? customLedDataType = null)
+    {
+        if (!File.Exists(path)) return null;
+
+        using Stream stream = File.OpenRead(path);
+        return Load(stream, customDeviceDataType, customLedDataType);
+    }
+
+    /// <summary>
     /// Gets the deserialized custom data.
     /// </summary>
     /// <param name="customData">The internal custom data node.</param>
@@ -163,7 +174,7 @@ public class DeviceLayout : IDeviceLayout
     /// <returns>The deserialized custom data object.</returns>
     protected virtual object? GetCustomData(object? customData, Type? type)
     {
-        XmlNode? node = (customData as XmlNode) ?? (customData as IEnumerable<XmlNode>)?.FirstOrDefault()?.ParentNode; //HACK DarthAffe 16.01.2021: This gives us the CustomData-Node
+        XmlNode? node = (customData as XmlNode) ?? (customData as IEnumerable<XmlNode>)?.FirstOrDefault(x => x.ParentNode != null)?.ParentNode; //HACK DarthAffe 16.01.2021: This gives us the CustomData-Node
         if ((node == null) || (type == null)) return null;
 
         using MemoryStream ms = new();

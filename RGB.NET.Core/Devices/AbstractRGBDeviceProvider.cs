@@ -12,6 +12,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
 {
     #region Properties & Fields
 
+    private bool _isDisposed = false;
+
     private readonly double _defaultUpdateRateHardLimit;
 
     /// <inheritdoc />
@@ -20,14 +22,19 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <inheritdoc />
     public bool ThrowsExceptions { get; protected set; }
 
+    /// <summary>
+    /// The list of devices managed by this device-provider.
+    /// </summary>
+    protected List<IRGBDevice> InternalDevices { get; } = [];
+
     /// <inheritdoc />
-    public virtual IEnumerable<IRGBDevice> Devices { get; protected set; } = Enumerable.Empty<IRGBDevice>();
+    public virtual IReadOnlyList<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(InternalDevices);
 
     /// <summary>
     /// Gets the dictionary containing the registered update triggers.
     /// Normally <see cref="UpdateTriggers"/> should be used to access them.
     /// </summary>
-    protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggerMapping { get; } = new();
+    protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggerMapping { get; } = [];
 
     /// <inheritdoc />
     public IReadOnlyList<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers => new ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)>(UpdateTriggerMapping.Select(x => (x.Key, x.Value)).ToList());
@@ -38,6 +45,9 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
 
     /// <inheritdoc />
     public event EventHandler<ExceptionEventArgs>? Exception;
+
+    /// <inheritdoc />
+    public event EventHandler<DevicesChangedEventArgs>? DevicesChanged;
 
     #endregion
 
@@ -52,6 +62,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
         this._defaultUpdateRateHardLimit = defaultUpdateRateHardLimit;
     }
 
+    ~AbstractRGBDeviceProvider() => Dispose(false);
+
     #endregion
 
     #region Methods
@@ -59,6 +71,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <inheritdoc />
     public bool Initialize(RGBDeviceType loadFilter = RGBDeviceType.All, bool throwExceptions = false)
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         ThrowsExceptions = throwExceptions;
 
         try
@@ -67,7 +81,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
 
             InitializeSDK();
 
-            Devices = new ReadOnlyCollection<IRGBDevice>(GetLoadedDevices(loadFilter).ToList());
+            foreach (IRGBDevice device in GetLoadedDevices(loadFilter))
+                AddDevice(device);
 
             foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
                 updateTrigger.Start();
@@ -99,7 +114,9 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <returns>The filtered collection of loaded devices.</returns>
     protected virtual IEnumerable<IRGBDevice> GetLoadedDevices(RGBDeviceType loadFilter)
     {
-        List<IRGBDevice> devices = new();
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
+        List<IRGBDevice> devices = [];
         foreach (IRGBDevice device in LoadDevices())
         {
             try
@@ -143,6 +160,8 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <returns>The update trigger mapped to the specified id.</returns>
     protected virtual IDeviceUpdateTrigger GetUpdateTrigger(int id = -1, double? updateRateHardLimit = null)
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         if (!UpdateTriggerMapping.TryGetValue(id, out IDeviceUpdateTrigger? updaeTrigger))
             UpdateTriggerMapping[id] = (updaeTrigger = CreateUpdateTrigger(id, updateRateHardLimit ?? _defaultUpdateRateHardLimit));
 
@@ -162,15 +181,53 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// </summary>
     protected virtual void Reset()
     {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
         foreach (IDeviceUpdateTrigger updateTrigger in UpdateTriggerMapping.Values)
             updateTrigger.Dispose();
 
         foreach (IRGBDevice device in Devices)
             device.Dispose();
 
-        Devices = Enumerable.Empty<IRGBDevice>();
+        List<IRGBDevice> devices = [..InternalDevices];
+        foreach (IRGBDevice device in devices)
+            RemoveDevice(device);
+
         UpdateTriggerMapping.Clear();
         IsInitialized = false;
+    }
+
+    /// <summary>
+    /// Adds the provided device to the list of managed devices.
+    /// </summary>
+    /// <param name="device">The device to add.</param>
+    /// <returns><c>true</c> if the device was added successfully; otherwise <c>false</c>.</returns>
+    protected virtual bool AddDevice(IRGBDevice device)
+    {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
+        if (InternalDevices.Contains(device)) return false;
+
+        InternalDevices.Add(device);
+        try { OnDevicesChanged(DevicesChangedEventArgs.CreateDevicesAddedArgs(device)); } catch { /* we don't want to throw due to bad event handlers */ }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Removes the provided device from the list of managed devices.
+    /// </summary>
+    /// <param name="device">The device to remove.</param>
+    /// <returns><c>true</c> if the device was removed successfully; otherwise <c>false</c>.</returns>
+    protected virtual bool RemoveDevice(IRGBDevice device)
+    {
+        if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
+
+        if (!InternalDevices.Remove(device)) return false;
+
+        try { OnDevicesChanged(DevicesChangedEventArgs.CreateDevicesRemovedArgs(device)); } catch { /* we don't want to throw due to bad event handlers */ }
+
+        return true;
     }
 
     /// <summary>
@@ -178,7 +235,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// </summary>
     /// <param name="ex">The exception to throw.</param>
     /// <param name="isCritical">Indicates if the exception is critical for device provider to work correctly.</param>
-    protected virtual void Throw(Exception ex, bool isCritical = false)
+    public virtual void Throw(Exception ex, bool isCritical = false)
     {
         ExceptionEventArgs args = new(ex, isCritical, ThrowsExceptions);
         try { OnException(args); } catch { /* we don't want to throw due to bad event handlers */ }
@@ -188,18 +245,38 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     }
 
     /// <summary>
-    /// Throws the <see cref="Exception"/> event.
+    /// Throws the <see cref="Exception"/>.event.
     /// </summary>
     /// <param name="args">The parameters passed to the event.</param>
     protected virtual void OnException(ExceptionEventArgs args) => Exception?.Invoke(this, args);
 
+    /// <summary>
+    /// Throws the <see cref="DevicesChanged"/>-event.
+    /// </summary>
+    /// <param name="args">The parameters passed to the event.</param>
+    protected virtual void OnDevicesChanged(DevicesChangedEventArgs args) => DevicesChanged?.Invoke(this, args);
+
     /// <inheritdoc />
-    public virtual void Dispose()
+    public void Dispose()
     {
-        Reset();
+        if (_isDisposed) return;
+
+        try
+        {
+            Dispose(true);
+        }
+        catch { /* don't throw in dispose! */ }
 
         GC.SuppressFinalize(this);
+
+        _isDisposed = true;
     }
+
+    /// <summary>
+    /// Disposes the object and frees all resources.
+    /// </summary>
+    /// <param name="disposing"><c>true</c> if explicitely called through the Dispose-Method, <c>false</c> if called by the destructor.</param>
+    protected virtual void Dispose(bool disposing) => Reset();
 
     #endregion
 }

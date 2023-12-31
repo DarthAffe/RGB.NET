@@ -74,9 +74,13 @@ public abstract class AbstractBrush : AbstractDecoratable<IBrushDecorator>, IBru
         if (Decorators.Count == 0) return;
 
         lock (Decorators)
-            foreach (IBrushDecorator decorator in Decorators)
+            // ReSharper disable once ForCanBeConvertedToForeach - Sadly this does not get optimized reliably and causes allocations if foreached
+            for (int i = 0; i < Decorators.Count; i++)
+            {
+                IBrushDecorator decorator = Decorators[i];
                 if (decorator.IsEnabled)
                     decorator.ManipulateColor(rectangle, renderTarget, ref color);
+            }
     }
 
     /// <summary>

@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a mousepad-device
 /// </summary>
-public interface IMousepad : IRGBDevice
-{ }
+public interface IMousepad : IRGBDevice;

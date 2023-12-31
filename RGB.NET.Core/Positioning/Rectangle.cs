@@ -12,7 +12,7 @@ namespace RGB.NET.Core;
 /// Represents a rectangle defined by it's position and it's size.
 /// </summary>
 [DebuggerDisplay("[Location: {Location}, Size: {Size}]")]
-public readonly struct Rectangle
+public readonly struct Rectangle : IEquatable<Rectangle>
 {
     #region Properties & Fields
 
@@ -57,7 +57,8 @@ public readonly struct Rectangle
     /// Initializes a new instance of the <see cref="Rectangle"/> class using the <see cref="Location"/>(0,0) and the specified <see cref="Core.Size"/>.
     /// </summary>
     /// <param name="size">The size of of this <see cref="T:RGB.NET.Core.Rectangle" />.</param>
-    public Rectangle(Size size) : this(new Point(), size)
+    public Rectangle(Size size)
+        : this(new Point(), size)
     { }
 
     /// <summary>
@@ -120,15 +121,13 @@ public readonly struct Rectangle
     public Rectangle(params Point[] points)
         : this(points.AsEnumerable())
     { }
-
-    /// <inheritdoc />
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Rectangle" /> class using the specified list of <see cref="T:RGB.NET.Core.Point" />.
     /// The <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" /> is calculated to contain all points provided as parameters.
     /// </summary>
     /// <param name="points">The list of <see cref="T:RGB.NET.Core.Point" /> used to calculate the <see cref="P:RGB.NET.Core.Rectangle.Location" /> and <see cref="P:RGB.NET.Core.Rectangle.Size" />.</param>
     public Rectangle(IEnumerable<Point> points)
-        : this()
     {
         bool hasPoint = false;
         float posX = float.MaxValue;
@@ -145,8 +144,32 @@ public readonly struct Rectangle
             posY2 = Math.Max(posY2, point.Y);
         }
 
-        (Point location, Size size) = hasPoint ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2)) : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
+        (Point location, Size size) = hasPoint ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2))
+                                          : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
 
+        Location = location;
+        Size = size;
+        Center = new Point(Location.X + (Size.Width / 2.0f), Location.Y + (Size.Height / 2.0f));
+    }
+
+    internal Rectangle(IList<Led> leds)
+    {
+        float posX = float.MaxValue;
+        float posY = float.MaxValue;
+        float posX2 = float.MinValue;
+        float posY2 = float.MinValue;
+
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (int i = 0; i < leds.Count; i++)
+        {
+            Rectangle rectangle = leds[i].AbsoluteBoundary;
+            posX = Math.Min(posX, rectangle.Location.X);
+            posY = Math.Min(posY, rectangle.Location.Y);
+            posX2 = Math.Max(posX2, rectangle.Location.X + rectangle.Size.Width);
+            posY2 = Math.Max(posY2, rectangle.Location.Y + rectangle.Size.Height);
+        }
+
+        (Point location, Size size) = leds.Count > 0 ? InitializeFromPoints(new Point(posX, posY), new Point(posX2, posY2)) : InitializeFromPoints(new Point(0, 0), new Point(0, 0));
         Location = location;
         Size = size;
         Center = new Point(Location.X + (Size.Width / 2.0f), Location.Y + (Size.Height / 2.0f));
@@ -173,34 +196,24 @@ public readonly struct Rectangle
     public override string ToString() => $"[Location: {Location}, Size: {Size}]";
 
     /// <summary>
+    /// Tests whether the specified <see cref="Rectangle" /> is equivalent to this <see cref="Rectangle" />.
+    /// </summary>
+    /// <param name="other">The rectangle to test.</param>
+    /// <returns><c>true</c> if <paramref name="other" /> is equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
+    public bool Equals(Rectangle other) => (Location == other.Location) && (Size == other.Size);
+
+    /// <summary>
     /// Tests whether the specified object is a <see cref="Rectangle" /> and is equivalent to this <see cref="Rectangle" />.
     /// </summary>
     /// <param name="obj">The object to test.</param>
     /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Rectangle" /> equivalent to this <see cref="Rectangle" />; otherwise, <c>false</c>.</returns>
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Rectangle compareRect)
-            return false;
-
-        if (GetType() != compareRect.GetType())
-            return false;
-
-        return (Location == compareRect.Location) && (Size == compareRect.Size);
-    }
+    public override bool Equals(object? obj) => obj is Rectangle other && Equals(other);
 
     /// <summary>
     /// Returns a hash code for this <see cref="Rectangle" />.
     /// </summary>
     /// <returns>An integer value that specifies the hash code for this <see cref="Rectangle" />.</returns>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int hashCode = Location.GetHashCode();
-            hashCode = (hashCode * 397) ^ Size.GetHashCode();
-            return hashCode;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(Location, Size);
 
     #endregion
 

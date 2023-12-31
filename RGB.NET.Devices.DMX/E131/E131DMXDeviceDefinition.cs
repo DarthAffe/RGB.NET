@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.DMX.E131;
 /// <summary>
 /// Represents the data used to create a E1.31 DMX-device.
 /// </summary>
-public class E131DMXDeviceDefinition : IDMXDeviceDefinition
+public sealed class E131DMXDeviceDefinition : IDMXDeviceDefinition
 {
     #region Properties & Fields
 
@@ -55,7 +55,7 @@ public class E131DMXDeviceDefinition : IDMXDeviceDefinition
     /// <summary>
     /// Gets or sets the led-mappings used to create the device.
     /// </summary>
-    public Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>> Leds { get; } = new();
+    public Dictionary<LedId, List<(int channel, Func<Color, byte> getValueFunc)>> Leds { get; } = [];
 
     /// <summary>
     /// The time in ms after which the device is updated even if no changes are made in the meantime to prevent the target from timing out or similar problems.

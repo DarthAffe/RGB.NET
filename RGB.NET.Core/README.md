@@ -17,7 +17,7 @@ surface.AlignDevices();
 surface.RegisterUpdateTrigger(new TimerUpdateTrigger());
 ```
 
-## Basis Rendering
+## Basic Rendering
 ```csharp
 // Create a led-group containing all leds on the surface
 ILedGroup allLeds = new ListLedGroup(surface, surface.Leds);

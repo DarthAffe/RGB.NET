@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a speaker-device
 /// </summary>
-public interface ISpeaker : IRGBDevice
-{ }
+public interface ISpeaker : IRGBDevice;

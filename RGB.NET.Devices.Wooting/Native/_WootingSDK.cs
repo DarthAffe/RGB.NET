@@ -15,7 +15,7 @@ internal static class _WootingSDK
 {
     #region Library management
 
-    private static IntPtr _handle = IntPtr.Zero;
+    private static nint _handle = 0;
     internal static object SdkLock = new();
 
     /// <summary>
@@ -29,7 +29,7 @@ internal static class _WootingSDK
 
     private static void LoadWootingSDK()
     {
-        if (_handle != IntPtr.Zero) return;
+        if (_handle != 0) return;
 
         List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
 
@@ -58,9 +58,11 @@ internal static class _WootingSDK
         IEnumerable<string> possibleLibraryPaths;
 
         if (OperatingSystem.IsWindows())
-            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePaths : WootingDeviceProvider.PossibleX86NativePaths;
+            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePathsWindows : WootingDeviceProvider.PossibleX86NativePathsWindows;
         else if (OperatingSystem.IsLinux())
-            possibleLibraryPaths = Environment.Is64BitProcess ? WootingDeviceProvider.PossibleX64NativePathsLinux : WootingDeviceProvider.PossibleX86NativePathsLinux;
+            possibleLibraryPaths = WootingDeviceProvider.PossibleNativePathsLinux;
+        else if (OperatingSystem.IsMacOS())
+            possibleLibraryPaths = WootingDeviceProvider.PossibleNativePathsMacOS;
         else
             possibleLibraryPaths = Enumerable.Empty<string>();
 
@@ -69,21 +71,21 @@ internal static class _WootingSDK
 
     internal static void UnloadWootingSDK()
     {
-        if (_handle == IntPtr.Zero) return;
+        if (_handle == 0) return;
 
         Close();
 
-        _getDeviceInfoPointer = IntPtr.Zero;
-        _keyboardConnectedPointer = IntPtr.Zero;
-        _resetPointer = IntPtr.Zero;
-        _closePointer = IntPtr.Zero;
-        _arrayUpdateKeyboardPointer = IntPtr.Zero;
-        _arraySetSinglePointer = IntPtr.Zero;
-        _getDeviceCountPointer = IntPtr.Zero;
-        _selectDevicePointer = IntPtr.Zero;
+        _getDeviceInfoPointer = 0;
+        _keyboardConnectedPointer = 0;
+        _resetPointer = 0;
+        _closePointer = 0;
+        _arrayUpdateKeyboardPointer = 0;
+        _arraySetSinglePointer = 0;
+        _getDeviceCountPointer = 0;
+        _selectDevicePointer = 0;
 
         NativeLibrary.Free(_handle);
-        _handle = IntPtr.Zero;
+        _handle = 0;
     }
 
     #endregion
@@ -92,18 +94,18 @@ internal static class _WootingSDK
 
     #region Pointers
 
-    private static IntPtr _getDeviceInfoPointer;
-    private static IntPtr _keyboardConnectedPointer;
-    private static IntPtr _resetPointer;
-    private static IntPtr _closePointer;
-    private static IntPtr _arrayUpdateKeyboardPointer;
-    private static IntPtr _arraySetSinglePointer;
-    private static IntPtr _getDeviceCountPointer;
-    private static IntPtr _selectDevicePointer;
+    private static nint _getDeviceInfoPointer;
+    private static nint _keyboardConnectedPointer;
+    private static nint _resetPointer;
+    private static nint _closePointer;
+    private static nint _arrayUpdateKeyboardPointer;
+    private static nint _arraySetSinglePointer;
+    private static nint _getDeviceCountPointer;
+    private static nint _selectDevicePointer;
 
     #endregion
 
-    internal static unsafe IntPtr GetDeviceInfo() => ((delegate* unmanaged[Cdecl]<IntPtr>)ThrowIfZero(_getDeviceInfoPointer))();
+    internal static unsafe nint GetDeviceInfo() => ((delegate* unmanaged[Cdecl]<nint>)ThrowIfZero(_getDeviceInfoPointer))();
     internal static unsafe bool KeyboardConnected() => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_keyboardConnectedPointer))();
     internal static unsafe bool Reset() => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_resetPointer))();
     internal static unsafe bool Close() => ((delegate* unmanaged[Cdecl]<bool>)ThrowIfZero(_closePointer))();
@@ -113,9 +115,9 @@ internal static class _WootingSDK
     internal static unsafe byte GetDeviceCount() => ((delegate* unmanaged[Cdecl]<byte>)ThrowIfZero(_getDeviceCountPointer))();
     internal static unsafe void SelectDevice(byte index) => ((delegate* unmanaged[Cdecl]<byte, void>)ThrowIfZero(_selectDevicePointer))(index);
 
-    private static IntPtr ThrowIfZero(IntPtr ptr)
+    private static nint ThrowIfZero(nint ptr)
     {
-        if (ptr == IntPtr.Zero) throw new RGBDeviceException("The Wooting-SDK is not initialized.");
+        if (ptr == 0) throw new RGBDeviceException("The Wooting-SDK is not initialized.");
         return ptr;
     }
 

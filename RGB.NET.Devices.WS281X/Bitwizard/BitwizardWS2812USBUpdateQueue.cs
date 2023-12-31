@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard;
 /// <summary>
 /// Represents the update-queue performing updates for a bitwizard WS2812 device.
 /// </summary>
-public class BitwizardWS2812USBUpdateQueue : SerialConnectionUpdateQueue<string>
+public sealed class BitwizardWS2812USBUpdateQueue : SerialConnectionUpdateQueue<string>
 {
     #region Constructors
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using RGB.NET.Core;
 using RGB.NET.Devices.Corsair.Native;
 
@@ -18,11 +16,6 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
     /// Gets the corsair specific device type.
     /// </summary>
     public CorsairDeviceType CorsairDeviceType { get; }
-
-    /// <summary>
-    /// Gets the index of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.
-    /// </summary>
-    public int CorsairDeviceIndex { get; }
 
     /// <inheritdoc />
     public RGBDeviceType DeviceType { get; }
@@ -44,11 +37,16 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
 
     /// <inheritdoc />
     public object? LayoutMetadata { get; set; }
+    
+    /// <summary>
+    /// Gets the amount of LEDs this device contains.
+    /// </summary>
+    public int LedCount { get; }
 
     /// <summary>
-    /// Gets a flag that describes device capabilities. (<see cref="CorsairDeviceCaps" />)
+    /// Gets the offset used to access the LEDs of this device.
     /// </summary>
-    public CorsairDeviceCaps CapsMask { get; }
+    internal int LedOffset { get; }
 
     #endregion
 
@@ -60,14 +58,14 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
     /// <param name="deviceIndex">The index of the <see cref="CorsairRGBDevice{TDeviceInfo}"/>.</param>
     /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
     /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
-    internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo)
+    internal CorsairRGBDeviceInfo(RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, int ledCount, int ledOffset)
     {
-        this.CorsairDeviceIndex = deviceIndex;
         this.DeviceType = deviceType;
         this.CorsairDeviceType = nativeInfo.type;
-        this.Model = nativeInfo.model == IntPtr.Zero ? string.Empty : Regex.Replace(Marshal.PtrToStringAnsi(nativeInfo.model) ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
-        this.DeviceId = nativeInfo.deviceId ?? string.Empty;
-        this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
+        this.Model = nativeInfo.model == null ? string.Empty : Regex.Replace(nativeInfo.model ?? string.Empty, " ?DEMO", string.Empty, RegexOptions.IgnoreCase);
+        this.DeviceId = nativeInfo.id ?? string.Empty;
+        this.LedCount = ledCount;
+        this.LedOffset = ledOffset;
 
         DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
     }
@@ -79,14 +77,14 @@ public class CorsairRGBDeviceInfo : IRGBDeviceInfo
     /// <param name="deviceType">The type of the <see cref="IRGBDevice"/>.</param>
     /// <param name="nativeInfo">The native <see cref="_CorsairDeviceInfo" />-struct</param>
     /// <param name="modelName">The name of the device-model (overwrites the one provided with the device info).</param>
-    internal CorsairRGBDeviceInfo(int deviceIndex, RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, string modelName)
+    internal CorsairRGBDeviceInfo(RGBDeviceType deviceType, _CorsairDeviceInfo nativeInfo, int ledCount, int ledOffset, string modelName)
     {
-        this.CorsairDeviceIndex = deviceIndex;
         this.DeviceType = deviceType;
         this.CorsairDeviceType = nativeInfo.type;
         this.Model = modelName;
-        this.DeviceId = nativeInfo.deviceId ?? string.Empty;
-        this.CapsMask = (CorsairDeviceCaps)nativeInfo.capsMask;
+        this.DeviceId = nativeInfo.id ?? string.Empty;
+        this.LedCount = ledCount;
+        this.LedOffset = ledOffset;
 
         DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace RGB.NET.Core;
@@ -26,9 +27,9 @@ public abstract class AbstractBindable : IBindable
     /// <typeparam name="T">Type of the property.</typeparam>
     /// <param name="storage">Reference to the backing-filed.</param>
     /// <param name="value">Value to apply.</param>
-    /// <returns><c>true</c> if the value needs to be updated; otherweise <c>false</c>.</returns>
+    /// <returns><c>true</c> if the value needs to be updated; otherwise <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected virtual bool RequiresUpdate<T>(ref T storage, T value) => !Equals(storage, value);
+    protected bool RequiresUpdate<T>(ref T storage, T value) => !EqualityComparer<T>.Default.Equals(storage, value);
 
     /// <summary>
     /// Checks if the property already matches the desired value and updates it if not.
@@ -39,7 +40,7 @@ public abstract class AbstractBindable : IBindable
     /// <param name="propertyName">Name of the property used to notify listeners. This value is optional 
     /// and can be provided automatically when invoked from compilers that support <see cref="CallerMemberNameAttribute"/>.</param>
     /// <returns><c>true</c> if the value was changed, <c>false</c> if the existing value matched the desired value.</returns>
-    protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
+    protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
     {
         if (!RequiresUpdate(ref storage, value)) return false;
 
@@ -54,7 +55,7 @@ public abstract class AbstractBindable : IBindable
     /// </summary>
     /// <param name="propertyName">Name of the property used to notify listeners. This value is optional 
     /// and can be provided automatically when invoked from compilers that support <see cref="CallerMemberNameAttribute"/>.</param>
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     #endregion

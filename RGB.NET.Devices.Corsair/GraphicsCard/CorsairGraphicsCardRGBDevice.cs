@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System.Collections.Generic;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.Corsair;
@@ -9,7 +10,7 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a corsair graphics card.
 /// </summary>
-public class CorsairGraphicsCardRGBDevice : CorsairRGBDevice<CorsairGraphicsCardRGBDeviceInfo>, IGraphicsCard
+public sealed class CorsairGraphicsCardRGBDevice : CorsairRGBDevice<CorsairGraphicsCardRGBDeviceInfo>, IGraphicsCard
 {
     #region Constructors
 
@@ -20,8 +21,14 @@ public class CorsairGraphicsCardRGBDevice : CorsairRGBDevice<CorsairGraphicsCard
     /// <param name="info">The specific information provided by CUE for the graphics card.</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
     internal CorsairGraphicsCardRGBDevice(CorsairGraphicsCardRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-        : base(info, LedMappings.GraphicsCard, updateQueue)
+        : base(info, updateQueue)
     { }
+
+    #endregion
+
+    #region Methods
+
+    protected override LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids) => LedMappings.CreateGraphicsCardMapping(ids);
 
     #endregion
 }

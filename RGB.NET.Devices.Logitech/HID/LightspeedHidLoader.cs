@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.Logitech.HID;
 /// </summary>
 /// <typeparam name="TLed">The type of the identifier leds are mapped to.</typeparam>
 /// <typeparam name="TData">The type of the custom data added to the HID-device.</typeparam>
-public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<TLed, TData>>
+public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<TLed, TData>>
     where TLed : notnull
 {
     #region Constants
@@ -23,19 +23,20 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
     private const int VENDOR_ID = 0x046D;
 
     // ReSharper disable once StaticMemberInGenericType - This is used like a const
-    private static readonly List<int> RECEIVER_PIDS = new()
-                                                      {
-                                                          0xC539,
-                                                          0xC53A,
-                                                          0xC541,
-                                                          0xC545
-                                                      };
+    private static readonly List<int> RECEIVER_PIDS =
+    [
+        0xC539,
+        0xC53A,
+        0xC541,
+        0xC545,
+        0xC547
+    ];
 
     #endregion
 
     #region Properties & Fields
 
-    private readonly Dictionary<int, HIDDeviceDefinition<TLed, TData>> _deviceDefinitions = new();
+    private readonly Dictionary<int, HIDDeviceDefinition<TLed, TData>> _deviceDefinitions = [];
 
     /// <summary>
     /// Gets the vendor id used for this loader.
@@ -116,7 +117,7 @@ public class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefinition<
         const byte LOGITECH_SET_REGISTER_REQUEST = 0x80;
         const byte LOGITECH_GET_REGISTER_REQUEST = 0x81;
 
-        Dictionary<int, byte> map = new();
+        Dictionary<int, byte> map = [];
 
         if (!deviceUsages.TryGetValue(1, out HidDevice? device) || !device.TryOpen(out HidStream stream))
             return map;

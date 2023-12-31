@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents the update-queue performing updates for razer chroma-link devices.
 /// </summary>
-public class RazerChromaLinkUpdateQueue : RazerUpdateQueue
+public sealed class RazerChromaLinkUpdateQueue : RazerUpdateQueue
 {
     #region Constructors
 
@@ -25,7 +25,7 @@ public class RazerChromaLinkUpdateQueue : RazerUpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override IntPtr CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override nint CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         _Color[] colors = new _Color[_Defines.CHROMALINK_MAX_LEDS];
 
@@ -35,14 +35,14 @@ public class RazerChromaLinkUpdateQueue : RazerUpdateQueue
         _ChromaLinkCustomEffect effectParams = new()
                                                { Color = colors };
 
-        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
+        nint ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
         Marshal.StructureToPtr(effectParams, ptr, false);
 
         return ptr;
     }
 
     /// <inheritdoc />
-    protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateChromaLinkEffect(_Defines.CHROMALINK_EFFECT_ID, effectParams, ref effectId);
+    protected override void CreateEffect(nint effectParams, ref Guid effectId) => _RazerSDK.CreateChromaLinkEffect(_Defines.CHROMALINK_EFFECT_ID, effectParams, ref effectId);
 
     #endregion
 }

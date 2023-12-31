@@ -10,7 +10,7 @@ namespace RGB.NET.Devices.SteelSeries;
 /// <summary>
 /// Represents the update-queue performing updates for steelseries devices.
 /// </summary>
-internal class SteelSeriesDeviceUpdateQueue : UpdateQueue
+internal sealed class SteelSeriesDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -37,15 +37,35 @@ internal class SteelSeriesDeviceUpdateQueue : UpdateQueue
 
     protected override void OnUpdate(object? sender, CustomUpdateData customData)
     {
-        if (customData[CustomUpdateDataIndex.HEARTBEAT] as bool? ?? false)
-            SteelSeriesSDK.SendHeartbeat();
-        else
-            base.OnUpdate(sender, customData);
+        try
+        {
+            if (customData[CustomUpdateDataIndex.HEARTBEAT] as bool? ?? false)
+                SteelSeriesSDK.SendHeartbeat();
+            else
+                base.OnUpdate(sender, customData);
+        }
+        catch (Exception ex)
+        {
+            SteelSeriesDeviceProvider.Instance.Throw(ex);
+        }
     }
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
-        => SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToArray().Select(x => (((SteelSeriesLedId)x.key).GetAPIName(), x.color.ToIntArray())).Where(x => x.Item1 != null).ToList()!);
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    {
+        try
+        {
+            SteelSeriesSDK.UpdateLeds(_deviceType, dataSet.ToArray().Select(x => (((SteelSeriesLedId)x.key).GetAPIName(), x.color.ToIntArray())).Where(x => x.Item1 != null).ToList()!);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            SteelSeriesDeviceProvider.Instance.Throw(ex);
+        }
+
+        return false;
+    }
 
     #endregion
 }

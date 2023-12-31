@@ -1,19 +1,10 @@
 ﻿namespace RGB.NET.Devices.SteelSeries;
 
-internal class APIName : System.Attribute
+internal sealed class APIName(string name) : System.Attribute
 {
     #region Properties & Fields
 
-    public string Name { get; set; }
-
-    #endregion
-
-    #region Constructors
-
-    public APIName(string name)
-    {
-        this.Name = name;
-    }
+    public string Name { get; set; } = name;
 
     #endregion
 }

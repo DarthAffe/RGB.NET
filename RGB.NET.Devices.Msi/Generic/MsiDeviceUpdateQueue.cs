@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Msi;
 /// <summary>
 /// Represents the update-queue performing updates for MSI devices.
 /// </summary>
-public class MsiDeviceUpdateQueue : UpdateQueue
+public sealed class MsiDeviceUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -34,10 +34,21 @@ public class MsiDeviceUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        foreach ((object key, Color color) in dataSet)
-            _MsiSDK.SetLedColor(_deviceType, (int)key, color.GetR(), color.GetG(), color.GetB());
+        try
+        {
+            foreach ((object key, Color color) in dataSet)
+                _MsiSDK.SetLedColor(_deviceType, (int)key, color.GetR(), color.GetG(), color.GetB());
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            MsiDeviceProvider.Instance.Throw(ex);
+        }
+
+        return false;
     }
 
     #endregion

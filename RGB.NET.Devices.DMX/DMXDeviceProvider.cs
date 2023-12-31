@@ -12,20 +12,30 @@ namespace RGB.NET.Devices.DMX;
 /// <summary>
 /// Represents a device provider responsible for DMX devices.
 /// </summary>
-public class DMXDeviceProvider : AbstractRGBDeviceProvider
+public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
+
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
 
     private static DMXDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="DMXDeviceProvider"/> instance.
     /// </summary>
-    public static DMXDeviceProvider Instance => _instance ?? new DMXDeviceProvider();
+    public static DMXDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new DMXDeviceProvider();
+        }
+    }
 
     /// <summary>
     /// Gets a list of all defined device-definitions.
     /// </summary>
-    public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new();
+    public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = [];
 
     #endregion
 
@@ -37,8 +47,11 @@ public class DMXDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public DMXDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(DMXDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -84,6 +97,17 @@ public class DMXDeviceProvider : AbstractRGBDeviceProvider
             updateTrigger.HeartbeatTimer = e131DMXDeviceDefinition.HeartbeatTimer;
 
         return updateTrigger;
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        lock (_lock)
+        {
+            base.Dispose(disposing);
+
+            _instance = null;
+        }
     }
 
     #endregion

@@ -9,7 +9,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents an exception thrown by the Razer-SDK.
 /// </summary>
-public class RazerException : ApplicationException
+public sealed class RazerException : ApplicationException
 {
     #region Properties & Fields
 

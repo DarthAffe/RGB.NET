@@ -11,12 +11,12 @@ namespace RGB.NET.Presets.Textures.Gradients;
 /// <summary>
 /// Represents a linear interpolated gradient with n stops.
 /// </summary>
-public class LinearGradient : AbstractGradient
+public sealed class LinearGradient : AbstractGradient
 {
     #region Properties & Fields
 
     private bool _isOrderedGradientListDirty = true;
-    private LinkedList<GradientStop> _orderedGradientStops = new();
+    private readonly List<GradientStop> _orderedGradientStops = [];
 
     #endregion
 
@@ -89,7 +89,10 @@ public class LinearGradient : AbstractGradient
         if (GradientStops.Count == 1) return GradientStops[0].Color;
 
         if (_isOrderedGradientListDirty)
-            _orderedGradientStops = new LinkedList<GradientStop>(GradientStops.OrderBy(x => x.Offset));
+        {
+            _orderedGradientStops.Clear();
+            _orderedGradientStops.AddRange(GradientStops.OrderBy(x => x.Offset));
+        }
 
         (GradientStop gsBefore, GradientStop gsAfter) = GetEnclosingGradientStops(offset, _orderedGradientStops, WrapGradient);
 
@@ -112,7 +115,7 @@ public class LinearGradient : AbstractGradient
     /// <param name="orderedStops">The ordered list of <see cref="GradientStop"/> to choose from.</param>
     /// <param name="wrap">Bool indicating if the gradient should be wrapped or not.</param>
     /// <returns>The two <see cref="GradientStop"/>s encapsulating the specified offset.</returns>
-    protected virtual (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(float offset, LinkedList<GradientStop> orderedStops, bool wrap)
+    private (GradientStop gsBefore, GradientStop gsAfter) GetEnclosingGradientStops(float offset, IEnumerable<GradientStop> orderedStops, bool wrap)
     {
         LinkedList<GradientStop> gradientStops = new(orderedStops);
 

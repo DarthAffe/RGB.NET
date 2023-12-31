@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents a CoolerMaster keyboard.
 /// </summary>
-public class CoolerMasterKeyboardRGBDevice : CoolerMasterRGBDevice<CoolerMasterKeyboardRGBDeviceInfo>, IKeyboard
+public sealed class CoolerMasterKeyboardRGBDevice : CoolerMasterRGBDevice<CoolerMasterKeyboardRGBDeviceInfo>, IKeyboard
 {
     #region Properties & Fields
 

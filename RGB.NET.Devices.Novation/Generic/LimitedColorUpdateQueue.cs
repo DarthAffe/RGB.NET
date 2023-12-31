@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.Novation;
 /// <summary>
 /// Represents the update-queue performing updates for a limited-color novation device.
 /// </summary>
-public class LimitedColorUpdateQueue : MidiUpdateQueue
+public sealed class LimitedColorUpdateQueue : MidiUpdateQueue
 {
     #region Constructors
 
@@ -37,7 +37,7 @@ public class LimitedColorUpdateQueue : MidiUpdateQueue
     /// </summary>
     /// <param name="color">The <see cref="Color"/> to convert.</param>
     /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
-    protected virtual int ConvertColor(in Color color)
+    private static int ConvertColor(in Color color)
     {
         (double hue, double _, double value) = color.GetHSV();
 

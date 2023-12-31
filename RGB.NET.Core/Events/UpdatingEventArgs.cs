@@ -26,7 +26,7 @@ public class UpdatingEventArgs : EventArgs
     /// <summary>
     /// Gets the custom-data provided by the trigger for this update.
     /// </summary>
-    public CustomUpdateData CustomData { get; }
+    public ICustomUpdateData CustomData { get; }
 
     #endregion
 
@@ -39,7 +39,7 @@ public class UpdatingEventArgs : EventArgs
     /// <param name="deltaTime">The elapsed time (in seconds) since the last update.</param>
     /// <param name="trigger">The trigger causing this update.</param>
     /// <param name="customData">The custom-data provided by the trigger for this update.</param>
-    public UpdatingEventArgs(double deltaTime, IUpdateTrigger? trigger, CustomUpdateData customData)
+    public UpdatingEventArgs(double deltaTime, IUpdateTrigger? trigger, ICustomUpdateData customData)
     {
         this.DeltaTime = deltaTime;
         this.Trigger = trigger;

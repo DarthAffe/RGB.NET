@@ -14,7 +14,7 @@ namespace RGB.NET.Devices.WS281X.NodeMCU;
 /// <summary>
 /// Represents the update-queue performing updates for NodeMCU WS2812 devices.
 /// </summary>
-public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
+public sealed class NodeMCUWS2812USBUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -23,8 +23,8 @@ public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
     private HttpClient _httpClient = new();
     private UdpClient? _udpClient;
 
-    private readonly Dictionary<int, byte[]> _dataBuffer = new();
-    private readonly Dictionary<int, byte> _sequenceNumbers = new();
+    private readonly Dictionary<int, byte[]> _dataBuffer = [];
+    private readonly Dictionary<int, byte> _sequenceNumbers = [];
 
     private readonly Action<byte[]> _sendDataAction;
 
@@ -77,13 +77,25 @@ public class NodeMCUWS2812USBUpdateQueue : UpdateQueue
     }
 
     /// <inheritdoc />
-    protected override void Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
-        foreach (IGrouping<int, ((int channel, int key), Color color)> channelData in dataSet.ToArray().Select(x => (((int channel, int key))x.key, x.color)).GroupBy(x => x.Item1.channel))
+        try
         {
-            byte[] buffer = GetBuffer(channelData);
-            _sendDataAction(buffer);
+            foreach (IGrouping<int, ((int channel, int key), Color color)> channelData in dataSet.ToArray()
+                         .Select(x => (((int channel, int key))x.key, x.color)).GroupBy(x => x.Item1.channel))
+            {
+                byte[] buffer = GetBuffer(channelData);
+                _sendDataAction(buffer);
+            }
+
+            return true;
         }
+        catch (Exception ex)
+        {
+            WS281XDeviceProvider.Instance.Throw(ex);
+        }
+
+        return false;
     }
 
     private void SendHttp(byte[] buffer)

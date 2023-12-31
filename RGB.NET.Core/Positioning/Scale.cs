@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Diagnostics;
 
 namespace RGB.NET.Core;
@@ -9,7 +10,7 @@ namespace RGB.NET.Core;
 /// Represents a scaling.
 /// </summary>
 [DebuggerDisplay("[Horizontal: {Horizontal}, Vertical: {Vertical}]")]
-public readonly struct Scale
+public readonly struct Scale : IEquatable<Scale>
 {
     #region Properties & Fields
 
@@ -50,6 +51,12 @@ public readonly struct Scale
     #region Methods
 
     /// <summary>
+    /// Converts the <see cref="Horizontal"/> and <see cref="Vertical"/> value of this <see cref="Scale"/> to a human-readable string.
+    /// </summary>
+    /// <returns>A string that contains the <see cref="Horizontal"/> and <see cref="Vertical"/> value of this <see cref="Scale"/>. For example "[Horizontal: 1, Vertical: 0.5]".</returns>
+    public override string ToString() => $"[Horizontal: {Horizontal}, Vertical: {Vertical}]\"";
+
+    /// <summary>
     /// Tests whether the specified <see cref="Scale"/> is equivalent to this <see cref="Scale" />.
     /// </summary>
     /// <param name="other">The scale to test.</param>
@@ -67,7 +74,7 @@ public readonly struct Scale
     /// Returns a hash code for this <see cref="Scale" />.
     /// </summary>
     /// <returns>An integer value that specifies the hash code for this <see cref="Scale" />.</returns>
-    public override int GetHashCode() { unchecked { return (Horizontal.GetHashCode() * 397) ^ Vertical.GetHashCode(); } }
+    public override int GetHashCode() => HashCode.Combine(Horizontal, Vertical);
 
     /// <summary>
     /// Deconstructs the scale into the horizontal and vertical value.

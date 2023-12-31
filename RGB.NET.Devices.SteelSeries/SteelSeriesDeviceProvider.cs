@@ -10,21 +10,31 @@ namespace RGB.NET.Devices.SteelSeries;
 /// <summary>
 /// Represents a device provider responsible for SteelSeries-devices.
 /// </summary>
-public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
+public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Constants
 
-    private static readonly int HEARTBEAT_TIMER = 5000; // flush the device every 5 seconds to prevent timeouts
+    private const int HEARTBEAT_TIMER = 5000; // flush the device every 5 seconds to prevent timeouts
 
     #endregion
 
     #region Properties & Fields
 
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
+
     private static SteelSeriesDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="SteelSeriesDeviceProvider"/> instance.
     /// </summary>
-    public static SteelSeriesDeviceProvider Instance => _instance ?? new SteelSeriesDeviceProvider();
+    public static SteelSeriesDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new SteelSeriesDeviceProvider();
+        }
+    }
 
     private const int VENDOR_ID = 0x1038;
 
@@ -55,6 +65,8 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1832, RGBDeviceType.Mouse, "Sensei Ten", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
         { 0x1838, RGBDeviceType.Mouse, "Aerox 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
         { 0x183C, RGBDeviceType.Mouse, "Rival 5", LedMappings.MouseTenZone, SteelSeriesDeviceType.TenZone },
+        { 0x1854, RGBDeviceType.Mouse, "Aerox 5 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1852, RGBDeviceType.Mouse, "Aerox 5 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
 
         //Keyboards
         { 0x161C, RGBDeviceType.Keyboard, "Apex 5", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
@@ -91,8 +103,11 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public SteelSeriesDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(SteelSeriesDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -131,12 +146,17 @@ public class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     protected override IDeviceUpdateTrigger CreateUpdateTrigger(int id, double updateRateHardLimit) => new DeviceUpdateTrigger(updateRateHardLimit) { HeartbeatTimer = HEARTBEAT_TIMER };
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { SteelSeriesSDK.Dispose(); }
-        catch { /* shit happens */ }
+            try { SteelSeriesSDK.Dispose(); }
+            catch { /* shit happens */ }
+
+            _instance = null;
+        }
     }
 
     #endregion

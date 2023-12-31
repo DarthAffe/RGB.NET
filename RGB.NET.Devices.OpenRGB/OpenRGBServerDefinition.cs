@@ -3,17 +3,17 @@
 /// <summary>
 /// Represents a definition of an OpenRGB server.
 /// </summary>
-public class OpenRGBServerDefinition
+public sealed class OpenRGBServerDefinition
 {
     /// <summary>
     /// The name of the client that will appear in the OpenRGB interface.
     /// </summary>
-    public string? ClientName { get; set; } = "RGB.NET";
+    public string ClientName { get; set; } = "RGB.NET";
 
     /// <summary>
     /// The ip address of the server.
     /// </summary>
-    public string? Ip { get; set; } = "127.0.0.1";
+    public string Ip { get; set; } = "127.0.0.1";
 
     /// <summary>
     /// The port of the server.

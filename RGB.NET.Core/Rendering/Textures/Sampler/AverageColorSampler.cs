@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 
 namespace RGB.NET.Core;
 
@@ -10,7 +9,7 @@ namespace RGB.NET.Core;
 /// <remarks>
 /// Averages all components (A, R, G, B) of the colors separately which isn't ideal in cases where multiple different colors are combined.
 /// </remarks>
-public class AverageColorSampler : ISampler<Color>
+public sealed class AverageColorSampler : ISampler<Color>
 {
     #region Constants
 
@@ -30,20 +29,35 @@ public class AverageColorSampler : ISampler<Color>
 
         float a = 0, r = 0, g = 0, b = 0;
 
-        if (Vector.IsHardwareAccelerated && (info.Data.Length >= Vector<float>.Count))
+        if (Vector.IsHardwareAccelerated && (info.Height > 1) && (info.Width >= ELEMENTS_PER_VECTOR))
         {
-            int chunks = info.Data.Length / ELEMENTS_PER_VECTOR;
-            int missingElements = info.Data.Length - (chunks * ELEMENTS_PER_VECTOR);
+            int chunks = info.Width / ELEMENTS_PER_VECTOR;
+            int missingElements = info.Width - (chunks * ELEMENTS_PER_VECTOR);
 
             Vector<float> sum = Vector<float>.Zero;
 
-            fixed (Color* colorPtr = &MemoryMarshal.GetReference(info.Data))
+            for (int y = 0; y < info.Height; y++)
             {
-                Color* current = colorPtr;
-                for (int i = 0; i < chunks; i++)
+                ReadOnlySpan<Color> data = info[y];
+
+                fixed (Color* colorPtr = data)
                 {
-                    sum = Vector.Add(sum, *(Vector<float>*)current);
-                    current += ELEMENTS_PER_VECTOR;
+                    Color* current = colorPtr;
+                    for (int i = 0; i < chunks; i++)
+                    {
+                        sum = Vector.Add(sum, *(Vector<float>*)current);
+                        current += ELEMENTS_PER_VECTOR;
+                    }
+                }
+
+                for (int i = 0; i < missingElements; i++)
+                {
+                    Color color = data[^(i + 1)];
+
+                    a += color.A;
+                    r += color.R;
+                    g += color.G;
+                    b += color.B;
                 }
             }
 
@@ -54,26 +68,17 @@ public class AverageColorSampler : ISampler<Color>
                 g += sum[i + 2];
                 b += sum[i + 3];
             }
-
-            for (int i = 0; i < missingElements; i++)
-            {
-                Color color = info.Data[^(i + 1)];
-
-                a += color.A;
-                r += color.R;
-                g += color.G;
-                b += color.B;
-            }
         }
         else
         {
-            foreach (Color color in info.Data)
-            {
-                a += color.A;
-                r += color.R;
-                g += color.G;
-                b += color.B;
-            }
+            for (int y = 0; y < info.Height; y++)
+                foreach (Color color in info[y])
+                {
+                    a += color.A;
+                    r += color.R;
+                    g += color.G;
+                    b += color.B;
+                }
         }
 
         pixelData[0] = new Color(a / count, r / count, g / count, b / count);

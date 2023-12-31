@@ -12,9 +12,9 @@ public static class IdGenerator
     #region Properties & Fields
 
     // ReSharper disable InconsistentNaming
-    private static readonly HashSet<string> _registeredIds = new();
-    private static readonly Dictionary<Assembly, Dictionary<string, string>> _idMappings = new();
-    private static readonly Dictionary<Assembly, Dictionary<string, int>> _counter = new();
+    private static readonly HashSet<string> _registeredIds = [];
+    private static readonly Dictionary<Assembly, Dictionary<string, string>> _idMappings = [];
+    private static readonly Dictionary<Assembly, Dictionary<string, int>> _counter = [];
     // ReSharper restore InconsistentNaming
 
     #endregion
@@ -33,8 +33,8 @@ public static class IdGenerator
     {
         if (!_idMappings.TryGetValue(callingAssembly, out Dictionary<string, string>? idMapping))
         {
-            _idMappings.Add(callingAssembly, idMapping = new Dictionary<string, string>());
-            _counter.Add(callingAssembly, new Dictionary<string, int>());
+            _idMappings.Add(callingAssembly, idMapping = []);
+            _counter.Add(callingAssembly, []);
         }
 
         Dictionary<string, int> counterMapping = _counter[callingAssembly];
@@ -50,8 +50,7 @@ public static class IdGenerator
             idMapping.Add(id, mappedId);
         }
 
-        if (!counterMapping.ContainsKey(mappedId))
-            counterMapping.Add(mappedId, 0);
+        counterMapping.TryAdd(mappedId, 0);
 
         int counter = ++counterMapping[mappedId];
         return counter <= 1 ? mappedId : $"{mappedId} ({counter})";

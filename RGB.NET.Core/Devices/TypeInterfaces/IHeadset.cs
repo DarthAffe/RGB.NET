@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a headset-device
 /// </summary>
-public interface IHeadset : IRGBDevice
-{ }
+public interface IHeadset : IRGBDevice;

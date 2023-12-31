@@ -12,15 +12,25 @@ namespace RGB.NET.Devices.Asus;
 /// <summary>
 /// Represents a device provider responsible for Cooler Master devices.
 /// </summary>
-public class AsusDeviceProvider : AbstractRGBDeviceProvider
+public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Properties & Fields
+
+    // ReSharper disable once InconsistentNaming
+    private static readonly object _lock = new();
 
     private static AsusDeviceProvider? _instance;
     /// <summary>
     /// Gets the singleton <see cref="AsusDeviceProvider"/> instance.
     /// </summary>
-    public static AsusDeviceProvider Instance => _instance ?? new AsusDeviceProvider();
+    public static AsusDeviceProvider Instance
+    {
+        get
+        {
+            lock (_lock)
+                return _instance ?? new AsusDeviceProvider();
+        }
+    }
 
     private IAuraSdk2? _sdk;
     private IAuraSyncDeviceCollection? _devices; //HACK DarthAffe 05.04.2021: Due to some researches this might fix the access violation in the asus-sdk
@@ -35,8 +45,11 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
     /// <exception cref="InvalidOperationException">Thrown if this constructor is called even if there is already an instance of this class.</exception>
     public AsusDeviceProvider()
     {
-        if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(AsusDeviceProvider)}");
-        _instance = this;
+        lock (_lock)
+        {
+            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(AsusDeviceProvider)}");
+            _instance = this;
+        }
     }
 
     #endregion
@@ -60,6 +73,7 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
         for (int i = 0; i < _devices.Count; i++)
         {
             IAuraSyncDevice device = _devices[i];
+
             yield return (AsusDeviceType)device.Type switch
             {
                 AsusDeviceType.MB_RGB => new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, WMIHelper.GetMainboardInfo()?.model ?? device.Name), GetUpdateTrigger()),
@@ -68,26 +82,30 @@ public class AsusDeviceProvider : AbstractRGBDeviceProvider
                 AsusDeviceType.HEADSET_RGB => new AsusHeadsetRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Headset, device), GetUpdateTrigger()),
                 AsusDeviceType.DRAM_RGB => new AsusDramRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.DRAM, device), GetUpdateTrigger()),
                 AsusDeviceType.KEYBOARD_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), LedMappings.KeyboardMapping, GetUpdateTrigger()),
+                AsusDeviceType.KEYBOARD_5ZONE_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), null, GetUpdateTrigger()),
                 AsusDeviceType.NB_KB_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), LedMappings.KeyboardMapping, GetUpdateTrigger()),
                 AsusDeviceType.NB_KB_4ZONE_RGB => new AsusKeyboardRGBDevice(new AsusKeyboardRGBDeviceInfo(device), null, GetUpdateTrigger()),
                 AsusDeviceType.MOUSE_RGB => new AsusMouseRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mouse, device), GetUpdateTrigger()),
-                _ => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Unknown, device), LedId.Custom1, GetUpdateTrigger())
+                AsusDeviceType.TERMINAL_RGB => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.LedController, device), LedId.Custom1, GetUpdateTrigger()),
+                _ => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Unknown, device), LedId.Unknown1, GetUpdateTrigger())
             };
         }
     }
 
     /// <inheritdoc />
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        lock (_lock)
+        {
+            base.Dispose(disposing);
 
-        try { _sdk?.ReleaseControl(0); }
-        catch { /* at least we tried */ }
+            try { _sdk?.ReleaseControl(0); }
+            catch { /* at least we tried */ }
 
-        _devices = null;
-        _sdk = null;
-
-        GC.SuppressFinalize(this);
+            _devices = null;
+            _sdk = null;
+            _instance = null;
+        }
     }
 
     #endregion

@@ -10,18 +10,13 @@ namespace RGB.NET.Devices.Corsair;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Corsair.CorsairMainboardRGBDevice" />.
 /// </summary>
-public class CorsairMainboardRGBDeviceInfo : CorsairRGBDeviceInfo
+public sealed class CorsairMainboardRGBDeviceInfo : CorsairRGBDeviceInfo
 {
     #region Constructors
 
     /// <inheritdoc />
-    /// <summary>
-    /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Corsair.CorsairMainboardRGBDeviceInfo" />.
-    /// </summary>
-    /// <param name="deviceIndex">The index of the <see cref="T:RGB.NET.Devices.Corsair.CorsairMainboardRGBDevice" />.</param>
-    /// <param name="nativeInfo">The native <see cref="T:RGB.NET.Devices.Corsair.Native._CorsairDeviceInfo" />-struct</param>
-    internal CorsairMainboardRGBDeviceInfo(int deviceIndex, _CorsairDeviceInfo nativeInfo)
-        : base(deviceIndex, RGBDeviceType.Mainboard, nativeInfo)
+    internal CorsairMainboardRGBDeviceInfo(_CorsairDeviceInfo nativeInfo, int ledCount, int ledOffset)
+        : base(RGBDeviceType.Mainboard, nativeInfo, ledCount, ledOffset)
     { }
 
     #endregion

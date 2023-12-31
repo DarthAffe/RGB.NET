@@ -1,6 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.Diagnostics;
 
 namespace RGB.NET.Core;
@@ -9,7 +10,7 @@ namespace RGB.NET.Core;
 /// Represents a size consisting of a width and a height.
 /// </summary>
 [DebuggerDisplay("[Width: {Width}, Height: {Height}]")]
-public readonly struct Size
+public readonly struct Size : IEquatable<Size>
 {
     #region Constants
 
@@ -68,32 +69,25 @@ public readonly struct Size
     public override string ToString() => $"[Width: {Width}, Height: {Height}]";
 
     /// <summary>
+    /// Tests whether the specified <see cref="Size" /> is equivalent to this <see cref="Size" />.
+    /// </summary>
+    /// <param name="other">The size to test.</param>
+    /// <returns><c>true</c> if <paramref name="other" /> is equivalent to this <see cref="Size" />; otherwise, <c>false</c>.</returns>
+    public bool Equals(Size other) => ((float.IsNaN(Width) && float.IsNaN(other.Width)) || Width.EqualsInTolerance(other.Width))
+                                   && ((float.IsNaN(Height) && float.IsNaN(other.Height)) || Height.EqualsInTolerance(other.Height));
+
+    /// <summary>
     /// Tests whether the specified object is a <see cref="Size" /> and is equivalent to this <see cref="Size" />.
     /// </summary>
     /// <param name="obj">The object to test.</param>
     /// <returns><c>true</c> if <paramref name="obj" /> is a <see cref="Size" /> equivalent to this <see cref="Size" />; otherwise, <c>false</c>.</returns>
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Size size) return false;
-
-        (float width, float height) = size;
-        return ((float.IsNaN(Width) && float.IsNaN(width)) || Width.EqualsInTolerance(width))
-            && ((float.IsNaN(Height) && float.IsNaN(height)) || Height.EqualsInTolerance(height));
-    }
+    public override bool Equals(object? obj) => obj is Size other && Equals(other);
 
     /// <summary>
     /// Returns a hash code for this <see cref="Size" />.
     /// </summary>
     /// <returns>An integer value that specifies the hash code for this <see cref="Size" />.</returns>
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int hashCode = Width.GetHashCode();
-            hashCode = (hashCode * 397) ^ Height.GetHashCode();
-            return hashCode;
-        }
-    }
+    public override int GetHashCode() => HashCode.Combine(Width, Height);
 
     /// <summary>
     /// Deconstructs the size into the width and height value.

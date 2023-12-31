@@ -6,8 +6,7 @@ namespace RGB.NET.Core;
 /// <summary>
 /// Represents a basic decoratable.
 /// </summary>
-public interface IDecoratable : INotifyPropertyChanged
-{ }
+public interface IDecoratable : INotifyPropertyChanged;
 
 /// <inheritdoc />
 /// <summary>

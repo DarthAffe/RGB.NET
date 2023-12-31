@@ -8,7 +8,7 @@ namespace RGB.NET.Presets.Textures.Gradients;
 /// <summary>
 /// Represents a stop on a gradient.
 /// </summary>
-public class GradientStop : AbstractBindable
+public sealed class GradientStop : AbstractBindable
 {
     #region Properties & Fields
 

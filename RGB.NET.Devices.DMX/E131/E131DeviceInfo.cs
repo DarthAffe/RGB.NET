@@ -7,7 +7,7 @@ namespace RGB.NET.Devices.DMX.E131;
 /// <summary>
 /// Represents device information for a <see cref="E131Device"/> />.
 /// </summary>
-public class E131DeviceInfo : IRGBDeviceInfo
+public sealed class E131DeviceInfo : IRGBDeviceInfo
 {
     #region Constants
 

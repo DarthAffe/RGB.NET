@@ -12,7 +12,7 @@ namespace RGB.NET.Devices.WS281X.Bitwizard;
 /// <summary>
 /// Represents a definition of an bitwizard WS2812 devices.
 /// </summary>
-public class BitwizardWS281XDeviceDefinition : IWS281XDeviceDefinition
+public sealed class BitwizardWS281XDeviceDefinition : IWS281XDeviceDefinition
 {
     #region Properties & Fields
 
@@ -39,7 +39,7 @@ public class BitwizardWS281XDeviceDefinition : IWS281XDeviceDefinition
     /// <summary>
     /// Gets a list of LED-strips configured on this device.
     /// </summary>
-    public List<(int pin, int stripLength)> Strips { get; } = new();
+    public List<(int pin, int stripLength)> Strips { get; } = [];
 
     /// <summary>
     /// Gets or sets the amount of leds controlled by one pin.

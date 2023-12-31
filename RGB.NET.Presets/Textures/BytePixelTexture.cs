@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using RGB.NET.Core;
 using RGB.NET.Presets.Textures.Sampler;
 
@@ -59,6 +60,7 @@ public sealed class BytePixelTexture : PixelTexture<byte>
     #region Methods
 
     /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected override Color GetColor(in ReadOnlySpan<byte> pixel)
     {
         return ColorFormat switch

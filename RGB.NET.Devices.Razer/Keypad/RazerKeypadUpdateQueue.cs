@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents the update-queue performing updates for razer keypad devices.
 /// </summary>
-public class RazerKeypadUpdateQueue : RazerUpdateQueue
+public sealed class RazerKeypadUpdateQueue : RazerUpdateQueue
 {
     #region Constructors
 
@@ -25,7 +25,7 @@ public class RazerKeypadUpdateQueue : RazerUpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override IntPtr CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override nint CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         _Color[] colors = new _Color[_Defines.KEYPAD_MAX_LEDS];
 
@@ -34,14 +34,14 @@ public class RazerKeypadUpdateQueue : RazerUpdateQueue
 
         _KeypadCustomEffect effectParams = new() { Color = colors };
 
-        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
+        nint ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
         Marshal.StructureToPtr(effectParams, ptr, false);
 
         return ptr;
     }
 
     /// <inheritdoc />
-    protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateKeypadEffect(_Defines.KEYPAD_EFFECT_ID, effectParams, ref effectId);
+    protected override void CreateEffect(nint effectParams, ref Guid effectId) => _RazerSDK.CreateKeypadEffect(_Defines.KEYPAD_EFFECT_ID, effectParams, ref effectId);
 
     #endregion
 }

@@ -8,7 +8,7 @@ namespace RGB.NET.Devices.Razer;
 /// <summary>
 /// Represents a generic information for a <see cref="T:RGB.NET.Devices.Razer.RazerKeyboardRGBDevice" />.
 /// </summary>
-public class RazerKeyboardRGBDeviceInfo : RazerRGBDeviceInfo, IKeyboardDeviceInfo
+public sealed class RazerKeyboardRGBDeviceInfo : RazerRGBDeviceInfo, IKeyboardDeviceInfo
 {
     #region Properties & Fields
 
