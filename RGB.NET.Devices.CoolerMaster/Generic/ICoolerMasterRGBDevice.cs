@@ -5,5 +5,4 @@ namespace RGB.NET.Devices.CoolerMaster;
 /// <summary>
 /// Represents a CoolerMaster RGB-device.
 /// </summary>
-public interface ICoolerMasterRGBDevice : IRGBDevice
-{ }
+public interface ICoolerMasterRGBDevice : IRGBDevice;

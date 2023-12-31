@@ -49,7 +49,7 @@ public sealed class PicoPiDeviceProvider : AbstractRGBDeviceProvider
         { PicoPiSDK.HID_BULK_CONTROLLER_PID, RGBDeviceType.LedStripe, "WS2812B-Controller", LedMappings.StripeMapping, 0 },
     };
 
-    private readonly List<PicoPiSDK> _sdks = new();
+    private readonly List<PicoPiSDK> _sdks = [];
 
     /// <summary>
     /// Gets or sets the endpoint used to update devices. (default <see cref="PicoPi.Enum.UpdateMode.Auto"/>).

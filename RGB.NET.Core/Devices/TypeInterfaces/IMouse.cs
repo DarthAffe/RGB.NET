@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a mouse-device
 /// </summary>
-public interface IMouse : IRGBDevice
-{ }
+public interface IMouse : IRGBDevice;

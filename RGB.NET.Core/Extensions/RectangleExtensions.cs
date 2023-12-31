@@ -151,12 +151,13 @@ public static class RectangleExtensions
     /// <returns>A array of <see cref="Point"/> containing the new locations of the corners of the original rectangle.</returns>
     public static Point[] Rotate(this in Rectangle rect, in Rotation rotation, in Point origin = new())
     {
-        Point[] points = {
-                             rect.Location, // top left
-                             new(rect.Location.X + rect.Size.Width, rect.Location.Y), // top right
-                             new(rect.Location.X + rect.Size.Width, rect.Location.Y + rect.Size.Height), // bottom right
-                             new(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
-                         };
+        Point[] points =
+        [
+            rect.Location, // top left
+            new Point(rect.Location.X + rect.Size.Width, rect.Location.Y), // top right
+            new Point(rect.Location.X + rect.Size.Width, rect.Location.Y + rect.Size.Height), // bottom right
+            new Point(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
+        ];
 
         float sin = MathF.Sin(rotation.Radians);
         float cos = MathF.Cos(rotation.Radians);

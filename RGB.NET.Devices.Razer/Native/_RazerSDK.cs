@@ -16,7 +16,7 @@ internal static class _RazerSDK
 {
     #region Libary Management
 
-    private static IntPtr _handle = IntPtr.Zero;
+    private static nint _handle = 0;
 
     /// <summary>
     /// Reloads the SDK.
@@ -29,7 +29,7 @@ internal static class _RazerSDK
 
     private static void LoadRazerSDK()
     {
-        if (_handle != IntPtr.Zero) return;
+        if (_handle != 0) return;
 
         List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
 
@@ -71,23 +71,23 @@ internal static class _RazerSDK
 
     internal static void UnloadRazerSDK()
     {
-        if (_handle == IntPtr.Zero) return;
+        if (_handle == 0) return;
 
-        _initPointer = IntPtr.Zero;
-        _unInitPointer = IntPtr.Zero;
-        _queryDevicePointer = IntPtr.Zero;
-        _createEffectPointer = IntPtr.Zero;
-        _createHeadsetEffectPointer = IntPtr.Zero;
-        _createChromaLinkEffectPointer = IntPtr.Zero;
-        _createKeyboardEffectPointer = IntPtr.Zero;
-        _createKeypadEffectPointer = IntPtr.Zero;
-        _createMouseEffectPointer = IntPtr.Zero;
-        _createMousepadEffectPointer = IntPtr.Zero;
-        _setEffectPointer = IntPtr.Zero;
-        _deleteEffectPointer = IntPtr.Zero;
+        _initPointer = 0;
+        _unInitPointer = 0;
+        _queryDevicePointer = 0;
+        _createEffectPointer = 0;
+        _createHeadsetEffectPointer = 0;
+        _createChromaLinkEffectPointer = 0;
+        _createKeyboardEffectPointer = 0;
+        _createKeypadEffectPointer = 0;
+        _createMouseEffectPointer = 0;
+        _createMousepadEffectPointer = 0;
+        _setEffectPointer = 0;
+        _deleteEffectPointer = 0;
 
         NativeLibrary.Free(_handle);
-        _handle = IntPtr.Zero;
+        _handle = 0;
     }
 
     #endregion
@@ -96,18 +96,18 @@ internal static class _RazerSDK
 
     #region Pointers
 
-    private static IntPtr _initPointer;
-    private static IntPtr _unInitPointer;
-    private static IntPtr _queryDevicePointer;
-    private static IntPtr _createEffectPointer;
-    private static IntPtr _createHeadsetEffectPointer;
-    private static IntPtr _createChromaLinkEffectPointer;
-    private static IntPtr _createKeyboardEffectPointer;
-    private static IntPtr _createKeypadEffectPointer;
-    private static IntPtr _createMouseEffectPointer;
-    private static IntPtr _createMousepadEffectPointer;
-    private static IntPtr _setEffectPointer;
-    private static IntPtr _deleteEffectPointer;
+    private static nint _initPointer;
+    private static nint _unInitPointer;
+    private static nint _queryDevicePointer;
+    private static nint _createEffectPointer;
+    private static nint _createHeadsetEffectPointer;
+    private static nint _createChromaLinkEffectPointer;
+    private static nint _createKeyboardEffectPointer;
+    private static nint _createKeypadEffectPointer;
+    private static nint _createMouseEffectPointer;
+    private static nint _createMousepadEffectPointer;
+    private static nint _setEffectPointer;
+    private static nint _deleteEffectPointer;
 
     #endregion
 
@@ -128,9 +128,9 @@ internal static class _RazerSDK
     internal static unsafe RazerError QueryDevice(Guid deviceId, out _DeviceInfo deviceInfo)
     {
         int structSize = Marshal.SizeOf(typeof(_DeviceInfo));
-        IntPtr deviceInfoPtr = Marshal.AllocHGlobal(structSize);
+        nint deviceInfoPtr = Marshal.AllocHGlobal(structSize);
 
-        RazerError error = ((delegate* unmanaged[Cdecl]<Guid, IntPtr, RazerError>)ThrowIfZero(_queryDevicePointer))(deviceId, deviceInfoPtr);
+        RazerError error = ((delegate* unmanaged[Cdecl]<Guid, nint, RazerError>)ThrowIfZero(_queryDevicePointer))(deviceId, deviceInfoPtr);
 
         deviceInfo = (_DeviceInfo)Marshal.PtrToStructure(deviceInfoPtr, typeof(_DeviceInfo))!;
         Marshal.FreeHGlobal(deviceInfoPtr);
@@ -138,26 +138,26 @@ internal static class _RazerSDK
         return error;
     }
 
-    internal static unsafe RazerError CreateEffect(Guid deviceId, int effectType, IntPtr param, ref Guid effectId)
-        => ((delegate* unmanaged[Cdecl]<Guid, int, IntPtr, ref Guid, RazerError>)ThrowIfZero(_createEffectPointer))(deviceId, effectType, param, ref effectId);
+    internal static unsafe RazerError CreateEffect(Guid deviceId, int effectType, nint param, ref Guid effectId)
+        => ((delegate* unmanaged[Cdecl]<Guid, int, nint, ref Guid, RazerError>)ThrowIfZero(_createEffectPointer))(deviceId, effectType, param, ref effectId);
 
-    internal static unsafe RazerError CreateHeadsetEffect(int effectType, IntPtr param, ref Guid effectId)
-        => ((delegate* unmanaged[Cdecl]<int, IntPtr, ref Guid, RazerError>)ThrowIfZero(_createHeadsetEffectPointer))(effectType, param, ref effectId);
+    internal static unsafe RazerError CreateHeadsetEffect(int effectType, nint param, ref Guid effectId)
+        => ((delegate* unmanaged[Cdecl]<int, nint, ref Guid, RazerError>)ThrowIfZero(_createHeadsetEffectPointer))(effectType, param, ref effectId);
 
-    internal static unsafe RazerError CreateChromaLinkEffect(int effectType, IntPtr param, ref Guid effectId)
-        => ((delegate* unmanaged[Cdecl]<int, IntPtr, ref Guid, RazerError>)ThrowIfZero(_createChromaLinkEffectPointer))(effectType, param, ref effectId);
+    internal static unsafe RazerError CreateChromaLinkEffect(int effectType, nint param, ref Guid effectId)
+        => ((delegate* unmanaged[Cdecl]<int, nint, ref Guid, RazerError>)ThrowIfZero(_createChromaLinkEffectPointer))(effectType, param, ref effectId);
 
-    internal static unsafe RazerError CreateKeyboardEffect(int effectType, IntPtr param, ref Guid effectId)
-        => ((delegate* unmanaged[Cdecl]<int, IntPtr, ref Guid, RazerError>)ThrowIfZero(_createKeyboardEffectPointer))(effectType, param, ref effectId);
+    internal static unsafe RazerError CreateKeyboardEffect(int effectType, nint param, ref Guid effectId)
+        => ((delegate* unmanaged[Cdecl]<int, nint, ref Guid, RazerError>)ThrowIfZero(_createKeyboardEffectPointer))(effectType, param, ref effectId);
 
-    internal static unsafe RazerError CreateKeypadEffect(int effectType, IntPtr param, ref Guid effectId)
-        => ((delegate* unmanaged[Cdecl]<int, IntPtr, ref Guid, RazerError>)ThrowIfZero(_createKeypadEffectPointer))(effectType, param, ref effectId);
+    internal static unsafe RazerError CreateKeypadEffect(int effectType, nint param, ref Guid effectId)
+        => ((delegate* unmanaged[Cdecl]<int, nint, ref Guid, RazerError>)ThrowIfZero(_createKeypadEffectPointer))(effectType, param, ref effectId);
 
-    internal static unsafe RazerError CreateMouseEffect(int effectType, IntPtr param, ref Guid effectId)
-        => ((delegate* unmanaged[Cdecl]<int, IntPtr, ref Guid, RazerError>)ThrowIfZero(_createMouseEffectPointer))(effectType, param, ref effectId);
+    internal static unsafe RazerError CreateMouseEffect(int effectType, nint param, ref Guid effectId)
+        => ((delegate* unmanaged[Cdecl]<int, nint, ref Guid, RazerError>)ThrowIfZero(_createMouseEffectPointer))(effectType, param, ref effectId);
 
-    internal static unsafe RazerError CreateMousepadEffect(int effectType, IntPtr param, ref Guid effectId)
-        => ((delegate* unmanaged[Cdecl]<int, IntPtr, ref Guid, RazerError>)ThrowIfZero(_createMousepadEffectPointer))(effectType, param, ref effectId);
+    internal static unsafe RazerError CreateMousepadEffect(int effectType, nint param, ref Guid effectId)
+        => ((delegate* unmanaged[Cdecl]<int, nint, ref Guid, RazerError>)ThrowIfZero(_createMousepadEffectPointer))(effectType, param, ref effectId);
 
     internal static unsafe RazerError SetEffect(Guid effectId)
         => ((delegate* unmanaged[Cdecl]<Guid, RazerError>)ThrowIfZero(_setEffectPointer))(effectId);
@@ -165,9 +165,9 @@ internal static class _RazerSDK
     internal static unsafe RazerError DeleteEffect(Guid effectId)
         => ((delegate* unmanaged[Cdecl]<Guid, RazerError>)ThrowIfZero(_deleteEffectPointer))(effectId);
 
-    private static IntPtr ThrowIfZero(IntPtr ptr)
+    private static nint ThrowIfZero(nint ptr)
     {
-        if (ptr == IntPtr.Zero) throw new RGBDeviceException("The Razer-SDK is not initialized.");
+        if (ptr == 0) throw new RGBDeviceException("The Razer-SDK is not initialized.");
         return ptr;
     }
 

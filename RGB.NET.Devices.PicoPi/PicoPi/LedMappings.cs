@@ -12,7 +12,7 @@ public static class LedMappings
     /// <summary>
     /// Gets the defautlt offset-mapping.
     /// </summary>
-    public static LedMapping<int> StripeMapping = new();
+    public static LedMapping<int> StripeMapping = [];
 
     #endregion
 

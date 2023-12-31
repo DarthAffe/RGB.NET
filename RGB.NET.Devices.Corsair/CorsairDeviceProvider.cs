@@ -37,13 +37,13 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/iCUESDK.dll", "x86/CUESDK_2019.dll" };
+    public static List<string> PossibleX86NativePaths { get; } = ["x86/iCUESDK.dll", "x86/CUESDK_2019.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/iCUESDK.dll", "x64/iCUESDK.x64_2019.dll", "x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll" };
+    public static List<string> PossibleX64NativePaths { get; } = ["x64/iCUESDK.dll", "x64/iCUESDK.x64_2019.dll", "x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll"];
 
     /// <summary>
     /// Gets or sets the timeout used when connecting to the SDK.

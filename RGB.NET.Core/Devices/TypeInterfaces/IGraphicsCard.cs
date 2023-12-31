@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a graphics-card-device
 /// </summary>
-public interface IGraphicsCard : IRGBDevice
-{ }
+public interface IGraphicsCard : IRGBDevice;

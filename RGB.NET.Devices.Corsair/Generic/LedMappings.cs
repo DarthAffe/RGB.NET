@@ -165,7 +165,7 @@ internal static class LedMappings
 
     internal static LedMapping<CorsairLedId> CreateMapping(IEnumerable<CorsairLedId> ids, LedId referenceId)
     {
-        LedMapping<CorsairLedId> mapping = new();
+        LedMapping<CorsairLedId> mapping = [];
         int counter = 0;
         foreach (CorsairLedId corsairLedId in ids.OrderBy(x => x))
             mapping.Add(referenceId + counter++, corsairLedId);

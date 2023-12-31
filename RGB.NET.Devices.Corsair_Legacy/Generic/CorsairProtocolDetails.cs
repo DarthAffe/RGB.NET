@@ -1,7 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-using System;
 using System.Runtime.InteropServices;
 using RGB.NET.Devices.CorsairLegacy.Native;
 
@@ -54,8 +53,8 @@ public class CorsairProtocolDetails
     /// <param name="nativeDetails">The native CorsairProtocolDetails-struct</param>
     internal CorsairProtocolDetails(_CorsairProtocolDetails nativeDetails)
     {
-        this.SdkVersion = nativeDetails.sdkVersion == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeDetails.sdkVersion);
-        this.ServerVersion = nativeDetails.serverVersion == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(nativeDetails.serverVersion);
+        this.SdkVersion = nativeDetails.sdkVersion == 0 ? null : Marshal.PtrToStringAnsi(nativeDetails.sdkVersion);
+        this.ServerVersion = nativeDetails.serverVersion == 0 ? null : Marshal.PtrToStringAnsi(nativeDetails.serverVersion);
         this.SdkProtocolVersion = nativeDetails.sdkProtocolVersion;
         this.ServerProtocolVersion = nativeDetails.serverProtocolVersion;
         this.BreakingChanges = nativeDetails.breakingChanges != 0;

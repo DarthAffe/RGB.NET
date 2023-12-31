@@ -32,7 +32,7 @@ public sealed class DebugDeviceProvider : AbstractRGBDeviceProvider
         }
     }
 
-    private List<(IDeviceLayout layout, Action<IEnumerable<Led>>? updateLedsAction)> _fakeDeviceDefinitions = new();
+    private readonly List<(IDeviceLayout layout, Action<IEnumerable<Led>>? updateLedsAction)> _fakeDeviceDefinitions = [];
 
     #endregion
 

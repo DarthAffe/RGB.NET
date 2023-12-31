@@ -16,7 +16,7 @@ public sealed class LinearGradient : AbstractGradient
     #region Properties & Fields
 
     private bool _isOrderedGradientListDirty = true;
-    private readonly List<GradientStop> _orderedGradientStops = new();
+    private readonly List<GradientStop> _orderedGradientStops = [];
 
     #endregion
 

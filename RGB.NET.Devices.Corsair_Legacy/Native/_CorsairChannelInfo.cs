@@ -3,7 +3,6 @@
 #pragma warning disable 649 // Field 'x' is never assigned
 #pragma warning disable IDE1006 // Naming Styles
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace RGB.NET.Devices.CorsairLegacy.Native;
@@ -29,5 +28,5 @@ internal class _CorsairChannelInfo
     /// CUE-SDK: array containing information about each separate LED-device connected to the channel controlled by the DIY device.
     /// Index of the LED-device in array is same as the index of the LED-device connected to the DIY-device.
     /// </summary>
-    internal IntPtr devices;
+    internal nint devices;
 }

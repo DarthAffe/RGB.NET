@@ -16,14 +16,14 @@ internal static class _CoolerMasterSDK
 {
     #region Libary Management
 
-    private static IntPtr _handle = IntPtr.Zero;
+    private static nint _handle = 0;
 
     /// <summary>
     /// Reloads the SDK.
     /// </summary>
     internal static void Reload()
     {
-        if (_handle != IntPtr.Zero)
+        if (_handle != 0)
         {
             foreach (CoolerMasterDevicesIndexes index in Enum.GetValues(typeof(CoolerMasterDevicesIndexes)))
                 EnableLedControl(false, index);
@@ -34,7 +34,7 @@ internal static class _CoolerMasterSDK
 
     private static void LoadCMSDK()
     {
-        if (_handle != IntPtr.Zero) return;
+        if (_handle != 0) return;
 
         // HACK: Load library at runtime to support both, x86 and x64 with one managed dll
         List<string> possiblePathList = (Environment.Is64BitProcess ? CoolerMasterDeviceProvider.PossibleX64NativePaths : CoolerMasterDeviceProvider.PossibleX86NativePaths)
@@ -47,7 +47,7 @@ internal static class _CoolerMasterSDK
 #if NET6_0
         if (_handle == IntPtr.Zero) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
 #else
-        if (_handle == IntPtr.Zero) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+        if (_handle == 0) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
 #endif
 
         _getSDKVersionPointer = (GetSDKVersionPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "GetCM_SDK_DllVer"), typeof(GetSDKVersionPointer));
@@ -62,7 +62,7 @@ internal static class _CoolerMasterSDK
 
     internal static void UnloadCMSDK()
     {
-        if (_handle == IntPtr.Zero) return;
+        if (_handle == 0) return;
 
         _getSDKVersionPointer = null;
         _setControlDevicenPointer = null;
@@ -74,14 +74,14 @@ internal static class _CoolerMasterSDK
         _setAllLedColorPointer = null;
 
         NativeLibrary.Free(_handle);
-        _handle = IntPtr.Zero;
+        _handle = 0;
     }
 
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-    private static extern IntPtr LoadLibrary(string dllToLoad);
+    private static extern nint LoadLibrary(string dllToLoad);
 
     [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
-    private static extern IntPtr GetProcAddress(IntPtr dllHandle, string name);
+    private static extern nint GetProcAddress(nint dllHandle, string name);
 
     #endregion
 

@@ -46,7 +46,7 @@ public static class TimerHelper
     }
 
     // ReSharper disable once InconsistentNaming
-    private static readonly HashSet<HighResolutionTimerDisposable> _timerLeases = new();
+    private static readonly HashSet<HighResolutionTimerDisposable> _timerLeases = [];
 
     #endregion
 
@@ -143,7 +143,7 @@ public static class TimerHelper
     /// </summary>
     public static void DisposeAllHighResolutionTimerRequests()
     {
-        List<HighResolutionTimerDisposable> timerLeases = new(_timerLeases);
+        List<HighResolutionTimerDisposable> timerLeases = [.._timerLeases];
         foreach (HighResolutionTimerDisposable timer in timerLeases)
             timer.Dispose();
     }

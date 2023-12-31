@@ -3,5 +3,4 @@
 /// <summary>
 /// represents a fan-device
 /// </summary>
-public interface IFan : IRGBDevice
-{ }
+public interface IFan : IRGBDevice;
