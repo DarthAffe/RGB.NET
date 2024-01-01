@@ -284,9 +284,10 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
             CorsairDeviceType.Cooler =>
                 new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue),
+
             CorsairDeviceType.GameController =>
                 new CorsairGameControllerRGBDevice(new CorsairGameControllerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue),
-            
+
             CorsairDeviceType.FanLedController or 
                 CorsairDeviceType.LedController or 
                 CorsairDeviceType.Unknown =>
@@ -315,10 +316,10 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
             CorsairChannelDeviceType.FanQL =>
                 new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QL Fan"), updateQueue),
-            
+
             CorsairChannelDeviceType.FanQX =>
                 new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QX Fan"), updateQueue),
-        
+
             CorsairChannelDeviceType.EightLedSeriesFan =>
                 new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "8-Led-Series Fan Fan"), updateQueue),
 
@@ -340,8 +341,7 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
         };
     }
 
-    private static CorsairLedStripRGBDevice CreateLedStripDevice(_CorsairDeviceInfo device, int ledCount, int offset,
-                                                                 CorsairDeviceUpdateQueue updateQueue)
+    private static CorsairLedStripRGBDevice CreateLedStripDevice(_CorsairDeviceInfo device, int ledCount, int offset, CorsairDeviceUpdateQueue updateQueue)
     {
         string modelName = "LED Strip";
 
