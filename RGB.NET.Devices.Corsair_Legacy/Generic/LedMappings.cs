@@ -34,27 +34,27 @@ public static class LedMappings
     /// <summary>
     /// Gets the mapping for graphics cards.
     /// </summary>
-    public static LedMapping<CorsairLedId> GraphicsCard { get; } = new();
+    public static LedMapping<CorsairLedId> GraphicsCard { get; } = [];
 
     /// <summary>
     /// Gets the mapping for headsets.
     /// </summary>
-    public static LedMapping<CorsairLedId> HeadsetStand { get; } = new();
+    public static LedMapping<CorsairLedId> HeadsetStand { get; } = [];
 
     /// <summary>
     /// Gets the mapping for mainboards.
     /// </summary>
-    public static LedMapping<CorsairLedId> Mainboard { get; } = new();
+    public static LedMapping<CorsairLedId> Mainboard { get; } = [];
 
     /// <summary>
     /// Gets the mapping for memory.
     /// </summary>
-    public static LedMapping<CorsairLedId> Memory { get; } = new();
+    public static LedMapping<CorsairLedId> Memory { get; } = [];
 
     /// <summary>
     /// Gets the mapping for mousepads.
     /// </summary>
-    public static LedMapping<CorsairLedId> Mousepad { get; } = new();
+    public static LedMapping<CorsairLedId> Mousepad { get; } = [];
 
     /// <summary>
     /// Gets the mapping for headsets.

@@ -39,13 +39,13 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { @"%systemroot%\SysWOW64\RzChromaSDK.dll" };
+    public static List<string> PossibleX86NativePaths { get; } = [@"%systemroot%\SysWOW64\RzChromaSDK.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { @"%systemroot%\System32\RzChromaSDK.dll", @"%systemroot%\System32\RzChromaSDK64.dll" };
+    public static List<string> PossibleX64NativePaths { get; } = [@"%systemroot%\System32\RzChromaSDK.dll", @"%systemroot%\System32\RzChromaSDK64.dll"];
 
     /// <summary>
     /// Forces to load the devices represented by the emulator even if they aren't reported to exist.

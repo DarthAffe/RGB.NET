@@ -25,7 +25,7 @@ public sealed class RazerMousepadUpdateQueue : RazerUpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override IntPtr CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override nint CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         _Color[] colors = new _Color[_Defines.MOUSEPAD_MAX_LEDS];
 
@@ -34,14 +34,14 @@ public sealed class RazerMousepadUpdateQueue : RazerUpdateQueue
 
         _MousepadCustomEffect effectParams = new() { Color = colors };
 
-        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
+        nint ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
         Marshal.StructureToPtr(effectParams, ptr, false);
 
         return ptr;
     }
 
     /// <inheritdoc />
-    protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateMousepadEffect(_Defines.MOUSEPAD_EFFECT_ID, effectParams, ref effectId);
+    protected override void CreateEffect(nint effectParams, ref Guid effectId) => _RazerSDK.CreateMousepadEffect(_Defines.MOUSEPAD_EFFECT_ID, effectParams, ref effectId);
 
     #endregion
 }

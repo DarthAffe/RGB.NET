@@ -20,4 +20,5 @@ public enum CorsairChannelDeviceType
     Pump = 9,
     DRAM = 10,
     WaterBlock = 11,
+    FanQX = 12,
 };

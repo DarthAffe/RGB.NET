@@ -92,7 +92,7 @@ public class DeviceLayout : IDeviceLayout
     /// Normally you should use <see cref="Leds"/> to access this data.
     /// </summary>
     [XmlArray("Leds")]
-    public List<LedLayout> InternalLeds { get; set; } = new();
+    public List<LedLayout> InternalLeds { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a list of <see cref="LedLayout"/> representing all the <see cref="Led"/> of the <see cref="DeviceLayout"/>.

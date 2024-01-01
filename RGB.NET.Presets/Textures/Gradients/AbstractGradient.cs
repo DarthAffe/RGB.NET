@@ -24,7 +24,7 @@ public abstract class AbstractGradient : AbstractDecoratable<IGradientDecorator>
     /// <summary>
     /// Gets a list of the stops used by this <see cref="AbstractGradient"/>.
     /// </summary>
-    public ObservableCollection<GradientStop> GradientStops { get; } = new();
+    public ObservableCollection<GradientStop> GradientStops { get; } = [];
 
     private bool _wrapGradient;
     /// <summary>

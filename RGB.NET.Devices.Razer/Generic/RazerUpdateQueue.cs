@@ -34,7 +34,7 @@ public abstract class RazerUpdateQueue : UpdateQueue
     {
         try
         {
-            IntPtr effectParams = CreateEffectParams(dataSet);
+            nint effectParams = CreateEffectParams(dataSet);
             Guid effectId = Guid.NewGuid();
             CreateEffect(effectParams, ref effectId);
 
@@ -60,7 +60,7 @@ public abstract class RazerUpdateQueue : UpdateQueue
     /// </summary>
     /// <param name="effectParams">The parameters of the effect.</param>
     /// <param name="effectId">The id this effect is created with.</param>
-    protected abstract void CreateEffect(IntPtr effectParams, ref Guid effectId);
+    protected abstract void CreateEffect(nint effectParams, ref Guid effectId);
 
     /// <inheritdoc />
     public override void Reset()
@@ -77,7 +77,7 @@ public abstract class RazerUpdateQueue : UpdateQueue
     /// </summary>
     /// <param name="dataSet">The data to be updated.</param>
     /// <returns>An <see cref="IntPtr"/> pointing to the effect parameter struct.</returns>
-    protected abstract IntPtr CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet);
+    protected abstract nint CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet);
 
     #endregion
 }

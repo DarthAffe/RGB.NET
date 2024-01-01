@@ -3,7 +3,6 @@
 #pragma warning disable 649 // Field 'x' is never assigned
 #pragma warning disable IDE1006 // Naming Styles
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace RGB.NET.Devices.CorsairLegacy.Native;
@@ -23,7 +22,7 @@ internal class _CorsairDeviceInfo
     /// <summary>
     /// CUE-SDK: null - terminated device model(like “K95RGB”)
     /// </summary>
-    internal IntPtr model;
+    internal nint model;
 
     /// <summary>
     /// CUE-SDK: enum describing physical layout of the keyboard or mouse

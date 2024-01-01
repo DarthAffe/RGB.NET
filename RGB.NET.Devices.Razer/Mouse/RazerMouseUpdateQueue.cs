@@ -25,7 +25,7 @@ public sealed class RazerMouseUpdateQueue : RazerUpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override IntPtr CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override nint CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
     {
         _Color[] colors = new _Color[_Defines.MOUSE_MAX_LEDS];
 
@@ -34,7 +34,7 @@ public sealed class RazerMouseUpdateQueue : RazerUpdateQueue
 
         _MouseCustomEffect effectParams = new() { Color = colors };
 
-        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
+        nint ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effectParams));
         Marshal.StructureToPtr(effectParams, ptr, false);
 
         return ptr;
@@ -42,7 +42,7 @@ public sealed class RazerMouseUpdateQueue : RazerUpdateQueue
 
 
     /// <inheritdoc />
-    protected override void CreateEffect(IntPtr effectParams, ref Guid effectId) => _RazerSDK.CreateMouseEffect(_Defines.MOUSE_EFFECT_ID, effectParams, ref effectId);
+    protected override void CreateEffect(nint effectParams, ref Guid effectId) => _RazerSDK.CreateMouseEffect(_Defines.MOUSE_EFFECT_ID, effectParams, ref effectId);
 
     #endregion
 }

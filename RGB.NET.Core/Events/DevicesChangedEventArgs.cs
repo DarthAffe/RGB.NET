@@ -2,22 +2,13 @@
 
 namespace RGB.NET.Core;
 
-public sealed class DevicesChangedEventArgs : EventArgs
+public sealed class DevicesChangedEventArgs(IRGBDevice device, DevicesChangedEventArgs.DevicesChangedAction action)
+    : EventArgs
 {
     #region Properties & Fields
 
-    public IRGBDevice Device { get; }
-    public DevicesChangedAction Action { get; }
-
-    #endregion
-
-    #region Constructors
-
-    public DevicesChangedEventArgs(IRGBDevice device, DevicesChangedAction action)
-    {
-        this.Device = device;
-        this.Action = action;
-    }
+    public IRGBDevice Device { get; } = device;
+    public DevicesChangedAction Action { get; } = action;
 
     #endregion
 

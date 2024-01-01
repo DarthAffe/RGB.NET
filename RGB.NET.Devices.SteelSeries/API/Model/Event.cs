@@ -15,7 +15,7 @@ internal sealed class Event
 
     // ReSharper disable once CollectionNeverQueried.Global
     [JsonPropertyName("data")]
-    public Dictionary<string, object> Data { get; } = new();
+    public Dictionary<string, object> Data { get; } = [];
 
     #endregion
 

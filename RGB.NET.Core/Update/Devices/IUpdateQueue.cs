@@ -31,5 +31,4 @@ public interface IUpdateQueue<TIdentifier, TData> : IReferenceCounting, IDisposa
 /// <summary>
 /// Represents a generic update queue processing <see cref="Color"/>-data using <see cref="object"/>-identifiers.
 /// </summary>
-public interface IUpdateQueue : IUpdateQueue<object, Color>
-{ }
+public interface IUpdateQueue : IUpdateQueue<object, Color>;

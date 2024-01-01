@@ -24,7 +24,7 @@ public static class LayoutExtension
         device.Size = new Size(layout.Width, layout.Height);
         device.DeviceInfo.LayoutMetadata = layout.CustomData;
 
-        HashSet<LedId> ledIds = new();
+        HashSet<LedId> ledIds = [];
         foreach (ILedLayout layoutLed in layout.Leds)
         {
             if (Enum.TryParse(layoutLed.Id, true, out LedId ledId))
@@ -77,13 +77,13 @@ public static class LayoutExtension
 
         Type[] customTypes;
         if ((customDataType != null) && (customLedDataType != null))
-            customTypes = new[] { customDataType, customLedDataType };
+            customTypes = [customDataType, customLedDataType];
         else if (customDataType != null)
-            customTypes = new[] { customDataType };
+            customTypes = [customDataType];
         else if (customLedDataType != null)
-            customTypes = new[] { customLedDataType };
+            customTypes = [customLedDataType];
         else
-            customTypes = Array.Empty<Type>();
+            customTypes = [];
 
         if (layout is DeviceLayout deviceLayout)
         {
