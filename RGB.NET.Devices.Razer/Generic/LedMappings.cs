@@ -386,20 +386,20 @@ public static class LedMappings
     /// <summary>
     /// Gets the mapping for mousepads.
     /// </summary>
-    public static LedMapping<int> Mousepad { get; } = new();
+    public static LedMapping<int> Mousepad { get; } = [];
 
     /// <summary>
     /// Gets the mapping for headsets.
     /// </summary>
-    public static LedMapping<int> Headset { get; } = new();
+    public static LedMapping<int> Headset { get; } = [];
 
     /// <summary>
     /// Gets the mapping for keypads.
     /// </summary>
-    public static LedMapping<int> Keypad { get; } = new();
+    public static LedMapping<int> Keypad { get; } = [];
 
     /// <summary>
     /// Gets the mapping for chroma link devices.
     /// </summary>
-    public static LedMapping<int> ChromaLink { get; } = new();
+    public static LedMapping<int> ChromaLink { get; } = [];
 }

@@ -10,8 +10,8 @@ internal static class SteelSeriesEnumExtension
     #region Properties & Fields
     // ReSharper disable InconsistentNaming
 
-    private static readonly Dictionary<SteelSeriesDeviceType, string?> _deviceTypeNames = new();
-    private static readonly Dictionary<SteelSeriesLedId, string?> _ledIdNames = new();
+    private static readonly Dictionary<SteelSeriesDeviceType, string?> _deviceTypeNames = [];
+    private static readonly Dictionary<SteelSeriesLedId, string?> _ledIdNames = [];
 
     // ReSharper restore InconsistentNaming
     #endregion

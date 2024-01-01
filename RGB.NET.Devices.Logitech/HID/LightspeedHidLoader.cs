@@ -23,20 +23,20 @@ public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefi
     private const int VENDOR_ID = 0x046D;
 
     // ReSharper disable once StaticMemberInGenericType - This is used like a const
-    private static readonly List<int> RECEIVER_PIDS = new()
-                                                      {
-                                                          0xC539,
-                                                          0xC53A,
-                                                          0xC541,
-                                                          0xC545,
-                                                          0xC547
-                                                      };
+    private static readonly List<int> RECEIVER_PIDS =
+    [
+        0xC539,
+        0xC53A,
+        0xC541,
+        0xC545,
+        0xC547
+    ];
 
     #endregion
 
     #region Properties & Fields
 
-    private readonly Dictionary<int, HIDDeviceDefinition<TLed, TData>> _deviceDefinitions = new();
+    private readonly Dictionary<int, HIDDeviceDefinition<TLed, TData>> _deviceDefinitions = [];
 
     /// <summary>
     /// Gets the vendor id used for this loader.
@@ -117,7 +117,7 @@ public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefi
         const byte LOGITECH_SET_REGISTER_REQUEST = 0x80;
         const byte LOGITECH_GET_REGISTER_REQUEST = 0x81;
 
-        Dictionary<int, byte> map = new();
+        Dictionary<int, byte> map = [];
 
         if (!deviceUsages.TryGetValue(1, out HidDevice? device) || !device.TryOpen(out HidStream stream))
             return map;

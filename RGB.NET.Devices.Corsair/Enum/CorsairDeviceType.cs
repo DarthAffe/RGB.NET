@@ -77,6 +77,11 @@ public enum CorsairDeviceType : uint
     Touchbar = 0x0800,
 
     /// <summary>
+    /// iCUE-SDK: for game controllers
+    /// </summary>
+    GameController = 0x1000,
+
+    /// <summary>
     /// iCUE-SDK: for all devices
     /// </summary>
     All = 0xFFFFFFFF

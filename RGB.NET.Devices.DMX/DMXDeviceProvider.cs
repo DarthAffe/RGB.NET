@@ -35,7 +35,7 @@ public sealed class DMXDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Gets a list of all defined device-definitions.
     /// </summary>
-    public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = new();
+    public List<IDMXDeviceDefinition> DeviceDefinitions { get; } = [];
 
     #endregion
 

@@ -6,5 +6,4 @@ namespace RGB.NET.Presets.Decorators;
 /// <summary>
 /// Represents a basic decorator decorating a <see cref="T:RGB.NET.Presets.Gradients.IGradient" />.
 /// </summary>
-public interface IGradientDecorator : IDecorator
-{ }
+public interface IGradientDecorator : IDecorator;

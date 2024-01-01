@@ -23,8 +23,8 @@ public sealed class NodeMCUWS2812USBUpdateQueue : UpdateQueue
     private HttpClient _httpClient = new();
     private UdpClient? _udpClient;
 
-    private readonly Dictionary<int, byte[]> _dataBuffer = new();
-    private readonly Dictionary<int, byte> _sequenceNumbers = new();
+    private readonly Dictionary<int, byte[]> _dataBuffer = [];
+    private readonly Dictionary<int, byte> _sequenceNumbers = [];
 
     private readonly Action<byte[]> _sendDataAction;
 

@@ -14,7 +14,7 @@ public sealed class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDevi
     /// <summary>
     /// The ASUS SDK returns useless names for notebook keyboards, possibly for others as well.
     /// </summary>
-    private static readonly List<string> GENERIC_DEVICE_NAMES = new() { "NotebookKeyboard" };
+    private static readonly List<string> GENERIC_DEVICE_NAMES = ["NotebookKeyboard"];
 
     /// <inheritdoc />
     public KeyboardLayoutType Layout => KeyboardLayoutType.Unknown;

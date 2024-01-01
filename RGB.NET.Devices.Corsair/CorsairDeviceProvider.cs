@@ -37,13 +37,13 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/iCUESDK.dll", "x86/CUESDK_2019.dll" };
+    public static List<string> PossibleX86NativePaths { get; } = ["x86/iCUESDK.dll", "x86/CUESDK_2019.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/iCUESDK.dll", "x64/iCUESDK.x64_2019.dll", "x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll" };
+    public static List<string> PossibleX64NativePaths { get; } = ["x64/iCUESDK.dll", "x64/iCUESDK.x64_2019.dll", "x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll"];
 
     /// <summary>
     /// Gets or sets the timeout used when connecting to the SDK.
@@ -217,6 +217,10 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                         yield return new CorsairCoolerRGBDevice(new CorsairCoolerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
                         break;
 
+                    case CorsairDeviceType.GameController:
+                        yield return new CorsairGameControllerRGBDevice(new CorsairGameControllerRGBDeviceInfo(device, deviceLedCount, 0), updateQueue);
+                        break;
+
                     case CorsairDeviceType.FanLedController:
                     case CorsairDeviceType.LedController:
                     case CorsairDeviceType.Unknown:
@@ -262,6 +266,10 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
 
                         case CorsairChannelDeviceType.FanQL:
                             yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QL Fan"), updateQueue);
+                            break;
+
+                        case CorsairChannelDeviceType.FanQX:
+                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "QX Fan"), updateQueue);
                             break;
 
                         case CorsairChannelDeviceType.EightLedSeriesFan:

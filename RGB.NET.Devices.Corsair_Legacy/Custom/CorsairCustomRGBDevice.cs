@@ -1,7 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using RGB.NET.Core;
@@ -24,7 +23,7 @@ public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInf
     /// <param name="info">The specific information provided by CUE for the custom-device.</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
     internal CorsairCustomRGBDevice(CorsairCustomRGBDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
-        : base(info, new LedMapping<CorsairLedId>(), updateQueue)
+        : base(info, [], updateQueue)
     { }
 
     #endregion
@@ -40,7 +39,7 @@ public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInf
         if (nativeLedPositions == null) return;
 
         int structSize = Marshal.SizeOf(typeof(_CorsairLedPosition));
-        IntPtr ptr = new(nativeLedPositions.pLedPosition.ToInt64() + (structSize * DeviceInfo.LedOffset));
+        nint ptr = nativeLedPositions.pLedPosition + (structSize * DeviceInfo.LedOffset);
 
         LedId referenceLedId = GetReferenceLed(DeviceInfo.DeviceType);
         for (int i = 0; i < DeviceInfo.LedCount; i++)
@@ -49,7 +48,7 @@ public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInf
             _CorsairLedPosition? ledPosition = (_CorsairLedPosition?)Marshal.PtrToStructure(ptr, typeof(_CorsairLedPosition));
             if (ledPosition == null)
             {
-                ptr = new IntPtr(ptr.ToInt64() + structSize);
+                ptr += structSize;
                 continue;
             }
 
@@ -60,7 +59,7 @@ public class CorsairCustomRGBDevice : CorsairRGBDevice<CorsairCustomRGBDeviceInf
             Rectangle rectangle = ledPosition.ToRectangle();
             AddLed(ledId, rectangle.Location, rectangle.Size);
 
-            ptr = new IntPtr(ptr.ToInt64() + structSize);
+            ptr += structSize;
         }
 
         if (DeviceInfo.LedOffset > 0)

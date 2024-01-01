@@ -16,7 +16,7 @@ internal static class _MsiSDK
 {
     #region Libary Management
 
-    private static IntPtr _handle = IntPtr.Zero;
+    private static nint _handle = 0;
 
     /// <summary>
     /// Reloads the SDK.
@@ -29,7 +29,7 @@ internal static class _MsiSDK
 
     private static void LoadMsiSDK()
     {
-        if (_handle != IntPtr.Zero) return;
+        if (_handle != 0) return;
 
         List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
 
@@ -75,7 +75,7 @@ internal static class _MsiSDK
 
     internal static void UnloadMsiSDK()
     {
-        if (_handle == IntPtr.Zero) return;
+        if (_handle == 0) return;
 
         _initializePointer = null;
         _getDeviceInfoPointer = null;
@@ -93,7 +93,7 @@ internal static class _MsiSDK
         _getErrorMessagePointer = null;
 
         NativeLibrary.Free(_handle);
-        _handle = IntPtr.Zero;
+        _handle = 0;
     }
 
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]

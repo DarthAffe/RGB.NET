@@ -3,5 +3,4 @@
 /// <summary>
 /// Marker interface for DMX device definitions.
 /// </summary>
-public interface IDMXDeviceDefinition
-{ }
+public interface IDMXDeviceDefinition;

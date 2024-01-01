@@ -16,7 +16,7 @@ internal static class _CUESDK
 {
     #region Libary Management
 
-    private static IntPtr _handle = IntPtr.Zero;
+    private static nint _handle = 0;
 
     /// <summary>
     /// Reloads the SDK.
@@ -29,7 +29,7 @@ internal static class _CUESDK
 
     private static void LoadCUESDK()
     {
-        if (_handle != IntPtr.Zero) return;
+        if (_handle != 0) return;
 
         List<string> possiblePathList = GetPossibleLibraryPaths().ToList();
 
@@ -71,23 +71,23 @@ internal static class _CUESDK
 
     internal static void UnloadCUESDK()
     {
-        if (_handle == IntPtr.Zero) return;
+        if (_handle == 0) return;
 
-        _corsairSetLedsColorsBufferByDeviceIndexPointer = IntPtr.Zero;
-        _corsairSetLedsColorsFlushBufferPointer = IntPtr.Zero;
-        _corsairGetLedsColorsByDeviceIndexPointer = IntPtr.Zero;
-        _corsairSetLayerPriorityPointer = IntPtr.Zero;
-        _corsairGetDeviceCountPointer = IntPtr.Zero;
-        _corsairGetDeviceInfoPointer = IntPtr.Zero;
-        _corsairGetLedIdForKeyNamePointer = IntPtr.Zero;
-        _corsairGetLedPositionsByDeviceIndexPointer = IntPtr.Zero;
-        _corsairRequestControlPointer = IntPtr.Zero;
-        _corsairReleaseControlPointer = IntPtr.Zero;
-        _corsairPerformProtocolHandshakePointer = IntPtr.Zero;
-        _corsairGetLastErrorPointer = IntPtr.Zero;
+        _corsairSetLedsColorsBufferByDeviceIndexPointer = 0;
+        _corsairSetLedsColorsFlushBufferPointer = 0;
+        _corsairGetLedsColorsByDeviceIndexPointer = 0;
+        _corsairSetLayerPriorityPointer = 0;
+        _corsairGetDeviceCountPointer = 0;
+        _corsairGetDeviceInfoPointer = 0;
+        _corsairGetLedIdForKeyNamePointer = 0;
+        _corsairGetLedPositionsByDeviceIndexPointer = 0;
+        _corsairRequestControlPointer = 0;
+        _corsairReleaseControlPointer = 0;
+        _corsairPerformProtocolHandshakePointer = 0;
+        _corsairGetLastErrorPointer = 0;
 
         NativeLibrary.Free(_handle);
-        _handle = IntPtr.Zero;
+        _handle = 0;
     }
 
     #endregion
@@ -96,18 +96,18 @@ internal static class _CUESDK
 
     #region Pointers
 
-    private static IntPtr _corsairSetLedsColorsBufferByDeviceIndexPointer;
-    private static IntPtr _corsairSetLedsColorsFlushBufferPointer;
-    private static IntPtr _corsairGetLedsColorsByDeviceIndexPointer;
-    private static IntPtr _corsairSetLayerPriorityPointer;
-    private static IntPtr _corsairGetDeviceCountPointer;
-    private static IntPtr _corsairGetDeviceInfoPointer;
-    private static IntPtr _corsairGetLedIdForKeyNamePointer;
-    private static IntPtr _corsairGetLedPositionsByDeviceIndexPointer;
-    private static IntPtr _corsairRequestControlPointer;
-    private static IntPtr _corsairReleaseControlPointer;
-    private static IntPtr _corsairPerformProtocolHandshakePointer;
-    private static IntPtr _corsairGetLastErrorPointer;
+    private static nint _corsairSetLedsColorsBufferByDeviceIndexPointer;
+    private static nint _corsairSetLedsColorsFlushBufferPointer;
+    private static nint _corsairGetLedsColorsByDeviceIndexPointer;
+    private static nint _corsairSetLayerPriorityPointer;
+    private static nint _corsairGetDeviceCountPointer;
+    private static nint _corsairGetDeviceInfoPointer;
+    private static nint _corsairGetLedIdForKeyNamePointer;
+    private static nint _corsairGetLedPositionsByDeviceIndexPointer;
+    private static nint _corsairRequestControlPointer;
+    private static nint _corsairReleaseControlPointer;
+    private static nint _corsairPerformProtocolHandshakePointer;
+    private static nint _corsairGetLastErrorPointer;
 
     #endregion
 
@@ -118,8 +118,8 @@ internal static class _CUESDK
     /// and follows after one or more calls of CorsairSetLedsColorsBufferByDeviceIndex to set the LEDs buffer.
     /// This function does not take logical layout into account.
     /// </summary>
-    internal static unsafe bool CorsairSetLedsColorsBufferByDeviceIndex(int deviceIndex, int size, IntPtr ledsColors)
-        => ((delegate* unmanaged[Cdecl]<int, int, IntPtr, bool>)ThrowIfZero(_corsairSetLedsColorsBufferByDeviceIndexPointer))(deviceIndex, size, ledsColors);
+    internal static unsafe bool CorsairSetLedsColorsBufferByDeviceIndex(int deviceIndex, int size, nint ledsColors)
+        => ((delegate* unmanaged[Cdecl]<int, int, nint, bool>)ThrowIfZero(_corsairSetLedsColorsBufferByDeviceIndexPointer))(deviceIndex, size, ledsColors);
 
     /// <summary>
     /// CUE-SDK: writes to the devices LEDs colors buffer which is previously filled by the CorsairSetLedsColorsBufferByDeviceIndex function.
@@ -132,8 +132,8 @@ internal static class _CUESDK
     /// The color should represent the actual state of the hardware LED, which could be a combination of SDK and/or CUE input.
     /// This function works for keyboard, mouse, mousemat, headset, headset stand and DIY-devices.
     /// </summary>
-    internal static unsafe bool CorsairGetLedsColorsByDeviceIndex(int deviceIndex, int size, IntPtr ledsColors)
-        => ((delegate* unmanaged[Cdecl]<int, int, IntPtr, bool>)ThrowIfZero(_corsairGetLedsColorsByDeviceIndexPointer))(deviceIndex, size, ledsColors);
+    internal static unsafe bool CorsairGetLedsColorsByDeviceIndex(int deviceIndex, int size, nint ledsColors)
+        => ((delegate* unmanaged[Cdecl]<int, int, nint, bool>)ThrowIfZero(_corsairGetLedsColorsByDeviceIndexPointer))(deviceIndex, size, ledsColors);
 
     /// <summary>
     /// CUE-SDK: set layer priority for this shared client.
@@ -150,12 +150,12 @@ internal static class _CUESDK
     /// <summary>
     /// CUE-SDK: returns information about device at provided index.
     /// </summary>
-    internal static unsafe IntPtr CorsairGetDeviceInfo(int deviceIndex) => ((delegate* unmanaged[Cdecl]<int, IntPtr>)ThrowIfZero(_corsairGetDeviceInfoPointer))(deviceIndex);
+    internal static unsafe nint CorsairGetDeviceInfo(int deviceIndex) => ((delegate* unmanaged[Cdecl]<int, nint>)ThrowIfZero(_corsairGetDeviceInfoPointer))(deviceIndex);
 
     /// <summary>
     /// CUE-SDK: provides list of keyboard or mousepad LEDs with their physical positions.
     /// </summary>
-    internal static unsafe IntPtr CorsairGetLedPositionsByDeviceIndex(int deviceIndex) => ((delegate* unmanaged[Cdecl]<int, IntPtr>)ThrowIfZero(_corsairGetLedPositionsByDeviceIndexPointer))(deviceIndex);
+    internal static unsafe nint CorsairGetLedPositionsByDeviceIndex(int deviceIndex) => ((delegate* unmanaged[Cdecl]<int, nint>)ThrowIfZero(_corsairGetLedPositionsByDeviceIndexPointer))(deviceIndex);
 
     /// <summary>
     /// CUE-SDK: retrieves led id for key name taking logical layout into account.
@@ -183,9 +183,9 @@ internal static class _CUESDK
     /// </summary>
     internal static unsafe CorsairError CorsairGetLastError() => ((delegate* unmanaged[Cdecl]<CorsairError>)ThrowIfZero(_corsairGetLastErrorPointer))();
 
-    private static IntPtr ThrowIfZero(IntPtr ptr)
+    private static nint ThrowIfZero(nint ptr)
     {
-        if (ptr == IntPtr.Zero) throw new RGBDeviceException("The Corsair-SDK is not initialized.");
+        if (ptr == 0) throw new RGBDeviceException("The Corsair-SDK is not initialized.");
         return ptr;
     }
 

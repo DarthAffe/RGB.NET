@@ -16,7 +16,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
 
     private readonly object _dataLock = new();
     private readonly IDeviceUpdateTrigger _updateTrigger;
-    private readonly Dictionary<TIdentifier, TData> _currentDataSet = new();
+    private readonly Dictionary<TIdentifier, TData> _currentDataSet = [];
 
     /// <inheritdoc />
     public bool RequiresFlush { get; private set; }

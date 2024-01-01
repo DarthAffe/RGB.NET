@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a DRAM-device
 /// </summary>
-public interface IDRAM : IRGBDevice
-{ }
+public interface IDRAM : IRGBDevice;

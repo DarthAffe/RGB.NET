@@ -12,7 +12,7 @@ public sealed class RGBColorUpdateQueue : MidiUpdateQueue
     #region Properties & Fields
 
     private static readonly (Color, int)[] COLOR_PALETTE =
-    {
+    [
         (new Color(0, 0, 0), 0),
         (new Color(28, 28, 28), 1),
         (new Color(124, 124, 124), 2),
@@ -130,8 +130,8 @@ public sealed class RGBColorUpdateQueue : MidiUpdateQueue
         (new Color(0, 64, 0), 123),
         (new Color(61, 48, 0), 125),
         (new Color(180, 93, 0), 126),
-        (new Color(74, 20, 0), 127),
-    };
+        (new Color(74, 20, 0), 127)
+    ];
 
     #endregion
 

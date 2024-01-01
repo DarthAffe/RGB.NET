@@ -10,11 +10,12 @@ namespace RGB.NET.Devices.Razer.Native;
 
 // ReSharper disable once InconsistentNaming
 [StructLayout(LayoutKind.Sequential, Size = sizeof(uint))]
-internal struct _Color
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Native-naming")]
+internal struct _Color(byte red, byte green, byte blue)
 {
     #region Properties & Fields
 
-    public uint Color;
+    public uint Color = red + ((uint)green << 8) + ((uint)blue << 16);
 
     #endregion
 
@@ -22,12 +23,6 @@ internal struct _Color
 
     public _Color(Color color)
         : this(color.GetR(), color.GetG(), color.GetB()) { }
-
-    public _Color(byte red, byte green, byte blue)
-        : this()
-    {
-        Color = red + ((uint)green << 8) + ((uint)blue << 16);
-    }
 
     #endregion
 }

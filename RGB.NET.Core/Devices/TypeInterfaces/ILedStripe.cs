@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a led-stripe-device
 /// </summary>
-public interface ILedStripe : IRGBDevice
-{ }
+public interface ILedStripe : IRGBDevice;

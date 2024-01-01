@@ -37,13 +37,13 @@ public class MsiDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/MysticLight_SDK.dll" };
+    public static List<string> PossibleX86NativePaths { get; } = ["x86/MysticLight_SDK.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/MysticLight_SDK.dll" };
+    public static List<string> PossibleX64NativePaths { get; } = ["x64/MysticLight_SDK.dll"];
 
     #endregion
 

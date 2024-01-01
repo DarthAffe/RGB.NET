@@ -53,7 +53,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     /// <summary>
     /// Gets a dictionary containing all <see cref="Led"/> of the <see cref="IRGBDevice"/>.
     /// </summary>
-    protected Dictionary<LedId, Led> LedMapping { get; } = new();
+    protected Dictionary<LedId, Led> LedMapping { get; } = [];
 
     /// <summary>
     /// Gets the update queue used to update this device.

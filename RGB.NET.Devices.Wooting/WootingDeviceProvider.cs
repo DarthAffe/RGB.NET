@@ -38,26 +38,26 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 windows applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePathsWindows { get; } = new() { "x86/wooting-rgb-sdk.dll" };
+    public static List<string> PossibleX86NativePathsWindows { get; } = ["x86/wooting-rgb-sdk.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 windows applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePathsWindows { get; } = new() { "x64/wooting-rgb-sdk64.dll" };
+    public static List<string> PossibleX64NativePathsWindows { get; } = ["x64/wooting-rgb-sdk64.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 linux applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleNativePathsLinux { get; } = new() { "x64/libwooting-rgb-sdk.so" };
+    public static List<string> PossibleNativePathsLinux { get; } = ["x64/libwooting-rgb-sdk.so"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 MacOS applications.
     /// The first match will be used.
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public static List<string> PossibleNativePathsMacOS { get; } = new() { "x64/libwooting-rgb-sdk.dylib" };
+    public static List<string> PossibleNativePathsMacOS { get; } = ["x64/libwooting-rgb-sdk.dylib"];
 
     #endregion
 

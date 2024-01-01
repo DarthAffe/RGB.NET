@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a keypad-device
 /// </summary>
-public interface IKeypad : IRGBDevice
-{ }
+public interface IKeypad : IRGBDevice;
