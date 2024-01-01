@@ -37,7 +37,7 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
     /// </summary>
     // ReSharper disable once CollectionNeverUpdated.Global
     // ReSharper disable once ReturnTypeCanBeEnumerable.Global
-    public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = new();
+    public List<IWS281XDeviceDefinition> DeviceDefinitions { get; } = [];
 
     #endregion
 

@@ -29,7 +29,7 @@ public abstract class AbstractDecorator : AbstractBindable, IDecorator
     /// <summary>
     /// Gets a readonly-list of all <see cref="IDecoratable"/> this decorator is attached to.
     /// </summary>
-    protected List<IDecoratable> DecoratedObjects { get; } = new();
+    protected List<IDecoratable> DecoratedObjects { get; } = [];
 
     #endregion
 
@@ -46,14 +46,14 @@ public abstract class AbstractDecorator : AbstractBindable, IDecorator
     /// </summary>
     protected virtual void Detach()
     {
-        List<IDecoratable> decoratables = new(DecoratedObjects);
+        List<IDecoratable> decoratables = [..DecoratedObjects];
         foreach (IDecoratable decoratable in decoratables)
         {
             IEnumerable<Type> types = decoratable.GetType().GetInterfaces().Where(t => t.IsGenericType
                                                                                     && (t.Name == typeof(IDecoratable<>).Name)
                                                                                     && t.GenericTypeArguments[0].IsInstanceOfType(this));
             foreach (Type decoratableType in types)
-                decoratableType.GetMethod(nameof(IDecoratable<IDecorator>.RemoveDecorator))?.Invoke(decoratable, new object[] { this });
+                decoratableType.GetMethod(nameof(IDecoratable<IDecorator>.RemoveDecorator))?.Invoke(decoratable, [this]);
         }
     }
 

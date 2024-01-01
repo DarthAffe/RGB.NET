@@ -25,8 +25,8 @@ public sealed class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceI
     #region Properties & Fields
 
     private readonly LedMapping<AsusLedId>? _ledMapping;
-    private readonly Dictionary<LedId, AsusLedId> _ledAsusLed = new();
-    private readonly Dictionary<LedId, int> _ledAsusLights = new();
+    private readonly Dictionary<LedId, AsusLedId> _ledAsusLed = [];
+    private readonly Dictionary<LedId, int> _ledAsusLights = [];
 
     IKeyboardDeviceInfo IKeyboard.DeviceInfo => DeviceInfo;
 
@@ -35,11 +35,11 @@ public sealed class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceI
     /// <para>Note: These LED mappings should be based on light indexes.</para>
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public static readonly List<AsusKeyboardExtraMapping> ExtraLedMappings = new()
-                                                                             {
-                                                                                 new AsusKeyboardExtraMapping(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15),
-                                                                                 new AsusKeyboardExtraMapping(new Regex("(ROG Strix G513QM).*?"), LedMappings.ROGStrixG15)
-                                                                             };
+    public static readonly List<AsusKeyboardExtraMapping> ExtraLedMappings =
+    [
+        new AsusKeyboardExtraMapping(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15),
+        new AsusKeyboardExtraMapping(new Regex("(ROG Strix G513QM).*?"), LedMappings.ROGStrixG15)
+    ];
 
     #endregion
 
@@ -66,7 +66,7 @@ public sealed class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceI
 
     private void InitializeLayout()
     {
-        if (DeviceInfo.Device.Type != (uint)AsusDeviceType.NB_KB_4ZONE_RGB && DeviceInfo.Device.Type !=(uint)AsusDeviceType.KEYBOARD_5ZONE_RGB)
+        if ((DeviceInfo.Device.Type != (uint)AsusDeviceType.NB_KB_4ZONE_RGB) && (DeviceInfo.Device.Type !=(uint)AsusDeviceType.KEYBOARD_5ZONE_RGB))
         {
             int pos = 0;
             int unknownLed = (int)LedId.Unknown1;

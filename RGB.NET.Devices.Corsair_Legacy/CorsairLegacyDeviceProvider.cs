@@ -38,13 +38,13 @@ public sealed class CorsairLegacyDeviceProvider : AbstractRGBDeviceProvider
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x86 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX86NativePaths { get; } = new() { "x86/CUESDK.dll", "x86/CUESDK_2019.dll", "x86/CUESDK_2017.dll", "x86/CUESDK_2015.dll", "x86/CUESDK_2013.dll" };
+    public static List<string> PossibleX86NativePaths { get; } = ["x86/CUESDK.dll", "x86/CUESDK_2019.dll", "x86/CUESDK_2017.dll", "x86/CUESDK_2015.dll", "x86/CUESDK_2013.dll"];
 
     /// <summary>
     /// Gets a modifiable list of paths used to find the native SDK-dlls for x64 applications.
     /// The first match will be used.
     /// </summary>
-    public static List<string> PossibleX64NativePaths { get; } = new() { "x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll", "x64/CUESDK.x64_2017.dll", "x64/CUESDK_2019.dll", "x64/CUESDK_2017.dll", "x64/CUESDK_2015.dll", "x64/CUESDK_2013.dll" };
+    public static List<string> PossibleX64NativePaths { get; } = ["x64/CUESDK.dll", "x64/CUESDK.x64_2019.dll", "x64/CUESDK.x64_2017.dll", "x64/CUESDK_2019.dll", "x64/CUESDK_2017.dll", "x64/CUESDK_2015.dll", "x64/CUESDK_2013.dll"];
 
     /// <summary>
     /// Gets the protocol details for the current SDK-connection.
@@ -170,7 +170,7 @@ public sealed class CorsairLegacyDeviceProvider : AbstractRGBDeviceProvider
                     foreach (_CorsairChannelInfo channelInfo in channels)
                     {
                         int channelDeviceInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelDeviceInfo));
-                        IntPtr channelDeviceInfoPtr = channelInfo.devices;
+                        nint channelDeviceInfoPtr = channelInfo.devices;
                         for (int device = 0; (device < channelInfo.devicesCount) && (ledOffset < nativeDeviceInfo.ledsCount); device++)
                         {
                             _CorsairChannelDeviceInfo channelDeviceInfo = (_CorsairChannelDeviceInfo)Marshal.PtrToStructure(channelDeviceInfoPtr, typeof(_CorsairChannelDeviceInfo))!;
@@ -178,7 +178,7 @@ public sealed class CorsairLegacyDeviceProvider : AbstractRGBDeviceProvider
                             yield return new CorsairCustomRGBDevice(new CorsairCustomRGBDeviceInfo(i, nativeDeviceInfo, channelDeviceInfo, ledOffset), updateQueue);
 
                             ledOffset += channelDeviceInfo.deviceLedCount;
-                            channelDeviceInfoPtr = new IntPtr(channelDeviceInfoPtr.ToInt64() + channelDeviceInfoStructSize);
+                            channelDeviceInfoPtr += channelDeviceInfoStructSize;
                         }
                     }
                     break;
@@ -195,13 +195,13 @@ public sealed class CorsairLegacyDeviceProvider : AbstractRGBDeviceProvider
         _CorsairChannelsInfo? channelsInfo = deviceInfo.channels;
         if (channelsInfo == null) yield break;
 
-        IntPtr channelInfoPtr = channelsInfo.channels;
+        nint channelInfoPtr = channelsInfo.channels;
         for (int channel = 0; channel < channelsInfo.channelsCount; channel++)
         {
             yield return (_CorsairChannelInfo)Marshal.PtrToStructure(channelInfoPtr, typeof(_CorsairChannelInfo))!;
 
             int channelInfoStructSize = Marshal.SizeOf(typeof(_CorsairChannelInfo));
-            channelInfoPtr = new IntPtr(channelInfoPtr.ToInt64() + channelInfoStructSize);
+            channelInfoPtr += channelInfoStructSize;
         }
     }
 

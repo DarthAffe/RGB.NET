@@ -22,7 +22,7 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
 
     private readonly IList<IRGBDevice> _devices = new List<IRGBDevice>();
     private readonly IList<IUpdateTrigger> _updateTriggers = new List<IUpdateTrigger>();
-    private readonly List<ILedGroup> _ledGroups = new();
+    private readonly List<ILedGroup> _ledGroups = [];
 
     /// <summary>
     /// Gets a readonly list containing all loaded <see cref="IRGBDevice"/>.
@@ -184,7 +184,7 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
     {
         List<IRGBDevice> devices;
         lock (Devices)
-            devices = new List<IRGBDevice>(_devices);
+            devices = [.._devices];
 
         foreach (IRGBDevice device in devices)
             try { Detach(device); }

@@ -52,7 +52,7 @@ public sealed class CustomUpdateData : ICustomUpdateData
 {
     #region Properties & Fields
 
-    private readonly Dictionary<string, object?> _data = new();
+    private readonly Dictionary<string, object?> _data = [];
 
     #endregion
 

@@ -18,7 +18,7 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     // ReSharper disable once InconsistentNaming
     private static readonly object _lock = new();
 
-    private readonly List<OpenRGBClientWrapper> _clients = new();
+    private readonly List<OpenRGBClientWrapper> _clients = [];
 
     private static OpenRGBDeviceProvider? _instance;
 
@@ -37,7 +37,7 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Gets a list of all defined device-definitions.
     /// </summary>
-    public List<OpenRGBServerDefinition> DeviceDefinitions { get; } = new();
+    public List<OpenRGBServerDefinition> DeviceDefinitions { get; } = [];
 
     /// <summary>
     /// Indicates whether all devices will be added, or just the ones with a 'Direct' mode. Defaults to false.

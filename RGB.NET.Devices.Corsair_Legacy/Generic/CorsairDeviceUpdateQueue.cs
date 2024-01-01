@@ -40,8 +40,8 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
         try
         {
             int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
-            IntPtr ptr = Marshal.AllocHGlobal(structSize * dataSet.Length);
-            IntPtr addPtr = new(ptr.ToInt64());
+            nint ptr = Marshal.AllocHGlobal(structSize * dataSet.Length);
+            nint addPtr = ptr;
             try
             {
                 foreach ((object key, Color color) in dataSet)
@@ -55,7 +55,7 @@ public class CorsairDeviceUpdateQueue : UpdateQueue
                     };
 
                     Marshal.StructureToPtr(corsairColor, addPtr, false);
-                    addPtr = new IntPtr(addPtr.ToInt64() + structSize);
+                    addPtr += structSize;
                 }
 
                 _CUESDK.CorsairSetLedsColorsBufferByDeviceIndex(_deviceIndex, dataSet.Length, ptr);

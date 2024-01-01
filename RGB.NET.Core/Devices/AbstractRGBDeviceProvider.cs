@@ -25,7 +25,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// <summary>
     /// The list of devices managed by this device-provider.
     /// </summary>
-    protected List<IRGBDevice> InternalDevices { get; } = new();
+    protected List<IRGBDevice> InternalDevices { get; } = [];
 
     /// <inheritdoc />
     public virtual IReadOnlyList<IRGBDevice> Devices => new ReadOnlyCollection<IRGBDevice>(InternalDevices);
@@ -34,7 +34,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     /// Gets the dictionary containing the registered update triggers.
     /// Normally <see cref="UpdateTriggers"/> should be used to access them.
     /// </summary>
-    protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggerMapping { get; } = new();
+    protected Dictionary<int, IDeviceUpdateTrigger> UpdateTriggerMapping { get; } = [];
 
     /// <inheritdoc />
     public IReadOnlyList<(int id, IDeviceUpdateTrigger trigger)> UpdateTriggers => new ReadOnlyCollection<(int id, IDeviceUpdateTrigger trigger)>(UpdateTriggerMapping.Select(x => (x.Key, x.Value)).ToList());
@@ -116,7 +116,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
     {
         if (_isDisposed) throw new ObjectDisposedException(GetType().FullName);
 
-        List<IRGBDevice> devices = new();
+        List<IRGBDevice> devices = [];
         foreach (IRGBDevice device in LoadDevices())
         {
             try
@@ -189,7 +189,7 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
         foreach (IRGBDevice device in Devices)
             device.Dispose();
 
-        List<IRGBDevice> devices = new(InternalDevices);
+        List<IRGBDevice> devices = [..InternalDevices];
         foreach (IRGBDevice device in devices)
             RemoveDevice(device);
 

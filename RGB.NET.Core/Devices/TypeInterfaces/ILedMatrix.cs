@@ -3,5 +3,4 @@
 /// <summary>
 /// Represents a led-matrix-device
 /// </summary>
-public interface ILedMatrix : IRGBDevice
-{ }
+public interface ILedMatrix : IRGBDevice;
