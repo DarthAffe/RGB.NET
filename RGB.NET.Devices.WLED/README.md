@@ -42,7 +42,7 @@ public static class WledDiscoveryHelper
     public static IEnumerable<(string address, WledInfo info)> DiscoverDevices(int waitFor = 500, int maxDevices = -1)
     {
         List<(string address, WledInfo info)> devices = [];
-        using ManualResetEventSlim waitEvent = new();
+        using ManualResetEventSlim waitEvent = new(false);
 
         int devicesToDetect = maxDevices <= 0 ? int.MaxValue : maxDevices;
 
