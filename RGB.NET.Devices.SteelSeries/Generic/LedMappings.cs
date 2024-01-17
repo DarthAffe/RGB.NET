@@ -318,6 +318,7 @@ public static class LedMappings
     /// <summary>
     /// Gets the mapping for GE78HX keyboards.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public static LedMapping<SteelSeriesLedId> KeyboardMSIGE78Mapping { get; } = new()
     {
         { LedId.Keyboard_Escape, SteelSeriesLedId.Escape },
