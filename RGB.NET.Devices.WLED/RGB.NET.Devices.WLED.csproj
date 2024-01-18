@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <Authors>Darth Affe</Authors>
+    <Company>Wyrez</Company>
+    <Language>en-US</Language>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>RGB.NET.Devices.WLED</Title>
+    <AssemblyName>RGB.NET.Devices.WLED</AssemblyName>
+    <AssemblyTitle>RGB.NET.Devices.WLED</AssemblyTitle>
+    <PackageId>RGB.NET.Devices.WLED</PackageId>
+    <RootNamespace>RGB.NET.Devices.WLED</RootNamespace>
+    <Description>WLED-Device-Implementations of RGB.NET</Description>
+    <Summary>WLED-Device-Implementations of RGB.NET, a C# (.NET) library for accessing various RGB-peripherals</Summary>
+    <Copyright>Copyright © Darth Affe 2024</Copyright>
+    <PackageCopyright>Copyright © Darth Affe 2024</PackageCopyright>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/DarthAffe/RGB.NET</PackageProjectUrl>
+    <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
+    <RepositoryType>Github</RepositoryType>
+    <RepositoryUrl>https://github.com/DarthAffe/RGB.NET</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <PackageReleaseNotes></PackageReleaseNotes>
+
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+
+    <OutputPath>..\bin\</OutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <DebugType>portable</DebugType>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>true</Optimize>
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <DefineConstants>RELEASE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\Resources\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
+  </ItemGroup>
+</Project>
