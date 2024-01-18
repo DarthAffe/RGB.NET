@@ -16,7 +16,7 @@ public sealed class WledDeviceProvider : AbstractRGBDeviceProvider
 {
     #region Constants
 
-    private const int HEARTBEAT_TIMER = 1000;
+    private const int HEARTBEAT_TIMER = 250;
 
     #endregion
 

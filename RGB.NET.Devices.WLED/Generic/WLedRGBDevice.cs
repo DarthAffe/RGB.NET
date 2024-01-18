@@ -18,6 +18,8 @@ public sealed class WledRGBDevice : AbstractRGBDevice<WledRGBDeviceInfo>, IWledR
         : base(info, new WledDeviceUpdateQueue(updateTrigger, address, info.Info.UDPPort, info.Info.Leds.Count))
     {
         InitializeLayout();
+
+        RequiresFlush = true;
     }
 
     #endregion
