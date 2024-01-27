@@ -141,5 +141,8 @@ internal static class LedMappings
         ["Key: G9"] = LedId.Keyboard_Programmable9,
         ["Lighting"] = LedId.Keyboard_Brightness,
         ["Game Mode"] = LedId.Keyboard_WinLock,
+        ["Num Lock Indicator"] = LedId.Keyboard_IndicatorNumLock,
+        ["Caps Lock Indicator"] = LedId.Keyboard_IndicatorCapsLock,
+        ["Scroll Lock Indicator"] = LedId.Keyboard_IndicatorScrollLock,
     };
 }
