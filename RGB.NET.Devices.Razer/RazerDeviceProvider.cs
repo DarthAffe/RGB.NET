@@ -58,6 +58,36 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
     public bool LoadKeypadEmulator { get; set; } = false;
     public bool LoadLinkEmulator { get; set; } = false;
 
+    /// <summary>
+    /// Forces to load keyboard represented by the emulator if they aren't reported to exist.
+    /// </summary>
+    public bool LoadKeyboardEmulator { get; set; } = false;
+
+    /// <summary>
+    /// Forces to load mouse represented by the emulator if they aren't reported to exist.
+    /// </summary>
+    public bool LoadMouseEmulator { get; set; } = false;
+
+    /// <summary>
+    /// Forces to load headset represented by the emulator if they aren't reported to exist.
+    /// </summary>
+    public bool LoadHeadsetEmulator { get; set; } = false;
+
+    /// <summary>
+    /// Forces to load mosuepad represented by the emulator if they aren't reported to exist.
+    /// </summary>
+    public bool LoadMousepadEmulator { get; set; } = false;
+
+    /// <summary>
+    /// Forces to load keypad represented by the emulator if they aren't reported to exist.
+    /// </summary>
+    public bool LoadKeypadEmulator { get; set; } = false;
+
+    /// <summary>
+    /// Forces to load link device represented by the emulator if they aren't reported to exist.
+    /// </summary>
+    public bool LoadLinkEmulator { get; set; } = false;
+
     private const int VENDOR_ID = 0x1532;
 
     /// <summary>
