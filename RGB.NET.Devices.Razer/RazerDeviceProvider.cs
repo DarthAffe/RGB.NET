@@ -50,7 +50,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
     /// <summary>
     /// Forces to load the devices represented by the emulator even if they aren't reported to exist.
     /// </summary>
-    public bool LoadEmulatorDevices { get; set; } = false;
+    public RazerEndpointType LoadEmulatorDevices { get; set; } = RazerEndpointType.None;
 
     private const int VENDOR_ID = 0x1532;
 
@@ -313,21 +313,26 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
     {
         DeviceDefinitions.LoadFilter = loadFilter;
 
-        IList<IRGBDevice> devices = base.GetLoadedDevices(loadFilter).ToList();
+        List<IRGBDevice> devices = base.GetLoadedDevices(loadFilter).ToList();
 
-        if (LoadEmulatorDevices)
+        if (LoadEmulatorDevices != RazerEndpointType.None)
         {
-            if (loadFilter.HasFlag(RGBDeviceType.Keyboard) && devices.All(d => d is not RazerKeyboardRGBDevice))
+            if (loadFilter.HasFlag(RGBDeviceType.Keyboard) && (LoadEmulatorDevices.HasFlag(RazerEndpointType.Keyboard) || LoadEmulatorDevices.HasFlag(RazerEndpointType.LaptopKeyboard)) && devices.All(d => d is not RazerKeyboardRGBDevice))
                 devices.Add(new RazerKeyboardRGBDevice(new RazerKeyboardRGBDeviceInfo("Emulator Keyboard", RazerEndpointType.Keyboard), GetUpdateTrigger(), LedMappings.Keyboard));
-            if (loadFilter.HasFlag(RGBDeviceType.Mouse) && devices.All(d => d is not RazerMouseRGBDevice))
+
+            if (loadFilter.HasFlag(RGBDeviceType.Mouse) && LoadEmulatorDevices.HasFlag(RazerEndpointType.Mouse) && devices.All(d => d is not RazerMouseRGBDevice))
                 devices.Add(new RazerMouseRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Mouse, RazerEndpointType.Mouse, "Emulator Mouse"), GetUpdateTrigger(), LedMappings.Mouse));
-            if (loadFilter.HasFlag(RGBDeviceType.Headset) && devices.All(d => d is not RazerHeadsetRGBDevice))
+
+            if (loadFilter.HasFlag(RGBDeviceType.Headset) && LoadEmulatorDevices.HasFlag(RazerEndpointType.Headset) && devices.All(d => d is not RazerHeadsetRGBDevice))
                 devices.Add(new RazerHeadsetRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Headset, RazerEndpointType.Headset, "Emulator Headset"), GetUpdateTrigger()));
-            if (loadFilter.HasFlag(RGBDeviceType.Mousepad) && devices.All(d => d is not RazerMousepadRGBDevice))
+
+            if (loadFilter.HasFlag(RGBDeviceType.Mousepad) && LoadEmulatorDevices.HasFlag(RazerEndpointType.Mousepad) && devices.All(d => d is not RazerMousepadRGBDevice))
                 devices.Add(new RazerMousepadRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Mousepad, RazerEndpointType.Mousepad, "Emulator Mousepad"), GetUpdateTrigger()));
-            if (loadFilter.HasFlag(RGBDeviceType.Keypad) && devices.All(d => d is not RazerMousepadRGBDevice))
+
+            if (loadFilter.HasFlag(RGBDeviceType.Keypad) && LoadEmulatorDevices.HasFlag(RazerEndpointType.Keypad) && devices.All(d => d is not RazerMousepadRGBDevice))
                 devices.Add(new RazerKeypadRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Keypad, RazerEndpointType.Keypad, "Emulator Keypad"), GetUpdateTrigger()));
-            if (loadFilter.HasFlag(RGBDeviceType.Unknown) && devices.All(d => d is not RazerChromaLinkRGBDevice))
+
+            if (loadFilter.HasFlag(RGBDeviceType.Unknown) && LoadEmulatorDevices.HasFlag(RazerEndpointType.ChromaLink) && devices.All(d => d is not RazerChromaLinkRGBDevice))
                 devices.Add(new RazerChromaLinkRGBDevice(new RazerRGBDeviceInfo(RGBDeviceType.Unknown, RazerEndpointType.ChromaLink, "Emulator Chroma Link"), GetUpdateTrigger()));
         }
 
