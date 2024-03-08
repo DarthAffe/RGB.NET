@@ -28,8 +28,7 @@ jobs:
       id: versioning
       uses: PaulHatch/semantic-version@v5.4.0
       with:
-        short_tags: false
-        format: "${major}.${minor}.${patch}-prerelease.${increment}"
+        version_format: "${major}.${minor}.${patch}-prerelease.${increment}"
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
