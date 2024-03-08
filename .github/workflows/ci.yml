@@ -31,6 +31,7 @@ jobs:
         tag_prefix: "v"
         version_from_branch: false
         version_format: "${major}.${minor}.${patch}-prerelease.${increment}"
+        debug: true
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
