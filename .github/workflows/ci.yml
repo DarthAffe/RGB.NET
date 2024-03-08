@@ -28,6 +28,7 @@ jobs:
       id: versioning
       uses: PaulHatch/semantic-version@v5.4.0
       with:
+        version_from_branch: false
         version_format: "${major}.${minor}.${patch}-prerelease.${increment}"
     - name: Restore dependencies
       run: dotnet restore
