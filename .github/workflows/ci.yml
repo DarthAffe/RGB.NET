@@ -26,12 +26,10 @@ jobs:
           6.0.x
     - name: Git Semantic Version
       id: versioning
-      uses: PaulHatch/semantic-version@v5.4.0
+      uses: PaulHatch/semantic-version@v4.0.3
       with:
-        tag_prefix: "v"
-        version_from_branch: false
-        version_format: "${major}.${minor}.${patch}-prerelease.${increment}"
-        debug: true
+        short_tags: false
+        format: "${major}.${minor}.${patch}-prerelease.${increment}"
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
