@@ -34,5 +34,10 @@ public enum NovationDevices
     [DeviceId("Launchpad Open")]
     [ColorCapability(NovationColorCapabilities.RGB)]
     [LedIdMapping(LedIdMappings.Pro)]
-    LaunchpadCustomFirmware
+    LaunchpadCustomFirmware,
+
+    [DeviceId("LPMiniMK3")]
+    [ColorCapability(NovationColorCapabilities.RGB)]
+    [LedIdMapping(LedIdMappings.Current)]
+    LaunchpadMiniMK3,
 }

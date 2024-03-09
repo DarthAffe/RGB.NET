@@ -99,5 +99,12 @@ public sealed class E131UpdateQueue : UpdateQueue
         return _sequenceNumber++;
     }
 
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        _socket.Dispose();
+    }
+
     #endregion
 }

@@ -14,11 +14,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4.1.1
       with:
         fetch-depth: 0
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
           8.0.x
@@ -37,25 +37,25 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
     - name: Upload a Build Artifact NET6
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4.3.1
       with:
         name: RGB.NET-NET6
         path: bin/net6.0/RGB.NET.*.dll
         if-no-files-found: error
     - name: Upload a Build Artifact NET7
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4.3.1
       with:
         name: RGB.NET-NET7
         path: bin/net7.0/RGB.NET.*.dll
         if-no-files-found: error
     - name: Upload a Build Artifact NET8
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4.3.1
       with:
         name: RGB.NET-NET8
         path: bin/net8.0/RGB.NET.*.dll
         if-no-files-found: error
     - name: Upload Nuget Build Artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4.3.1
       with:
         name: RGB.NET-Nugets
         path: bin/*nupkg
@@ -64,9 +64,3 @@ jobs:
       run: dotnet nuget push **\*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
     - name: Symbols Push
       run: dotnet nuget push **\*.snupkg --skip-duplicate --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
-    - name: Create Tag
-      uses: mathieudutour/github-tag-action@v6.1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        custom_tag: ${{ steps.versioning.outputs.version }}
-        tag_prefix: v
