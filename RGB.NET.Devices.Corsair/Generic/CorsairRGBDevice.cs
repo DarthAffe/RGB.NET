@@ -15,6 +15,11 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     #region Properties & Fields
 
     /// <summary>
+    /// <inheritdoc cref="ICorsairRGBDevice"/>
+    /// </summary>
+    public string DeviceId => DeviceInfo.DeviceId;
+
+    /// <summary>
     /// Gets the mapping of <see cref="LedId"/> to <see cref="CorsairLedId"/> used to update the LEDs of this device.
     /// </summary>
     protected LedMapping<CorsairLedId> Mapping { get; private set; } = LedMapping<CorsairLedId>.Empty;
@@ -29,13 +34,31 @@ public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceI
     /// <param name="info">The generic information provided by CUE for the device.</param>
     /// <param name="mapping">The mapping <see cref="LedId"/> to <see cref="CorsairLedId"/> used to update the LEDs of this device.</param>
     /// <param name="updateQueue">The queue used to update this device.</param>
-    protected CorsairRGBDevice(TDeviceInfo info, CorsairDeviceUpdateQueue updateQueue)
+    protected CorsairRGBDevice(TDeviceInfo info, IUpdateQueue updateQueue)
         : base(info, updateQueue)
     { }
 
     #endregion
 
     #region Methods
+
+    protected bool Equals(CorsairRGBDevice<TDeviceInfo> other)
+    {
+        return DeviceId == other.DeviceId;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((CorsairRGBDevice<TDeviceInfo>)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return DeviceId.GetHashCode();
+    }
 
     void ICorsairRGBDevice.Initialize() => InitializeLayout();
 

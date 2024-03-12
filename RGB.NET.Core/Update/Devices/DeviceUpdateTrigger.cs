@@ -141,11 +141,15 @@ public class DeviceUpdateTrigger : AbstractUpdateTrigger, IDeviceUpdateTrigger
 
         UpdateTokenSource?.Cancel();
         if (UpdateTask != null)
-            try { await UpdateTask.ConfigureAwait(false); }
+            try
+            {
+                await UpdateTask.ConfigureAwait(false);
+                UpdateTask?.Dispose();
+            }
             catch (TaskCanceledException) { }
             catch (OperationCanceledException) { }
+            catch (InvalidOperationException) { }
 
-        UpdateTask?.Dispose();
         UpdateTask = null;
     }
 
