@@ -47,6 +47,9 @@ internal static unsafe class _CUESDK
 
     #region Properties & Fields
 
+    // ReSharper disable once NotAccessedField.Local - This is important, the delegate can be collected if it's not stored!
+    private static readonly CorsairSessionStateChangedHandler SESSION_STATE_CHANGED_CALLBACK;
+
     internal static bool IsConnected => SesionState == CorsairSessionState.Connected;
     internal static CorsairSessionState SesionState { get; private set; }
 
@@ -55,6 +58,15 @@ internal static unsafe class _CUESDK
     #region Events
 
     internal static event EventHandler<CorsairSessionState>? SessionStateChanged;
+
+    #endregion
+
+    #region Constructors
+
+    static _CUESDK()
+    {
+        SESSION_STATE_CHANGED_CALLBACK = CorsairSessionStateChangedCallback;
+    }
 
     #endregion
 
@@ -174,7 +186,7 @@ internal static unsafe class _CUESDK
     {
         if (_corsairConnectPtr == null) throw new RGBDeviceException("The Corsair-SDK is not initialized.");
         if (IsConnected) throw new RGBDeviceException("The Corsair-SDK is already connected.");
-        return _corsairConnectPtr(CorsairSessionStateChangedCallback, 0);
+        return _corsairConnectPtr(SESSION_STATE_CHANGED_CALLBACK, 0);
     }
 
     internal static CorsairError CorsairGetSessionDetails(out _CorsairSessionDetails? details)
