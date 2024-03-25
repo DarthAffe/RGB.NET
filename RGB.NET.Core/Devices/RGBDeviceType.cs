@@ -99,6 +99,26 @@ public enum RGBDeviceType
     GameController = 1 << 16,
 
     /// <summary>
+    /// Represents a chassis
+    /// </summary>
+    Chassis = 1 << 17,
+
+    /// <summary>
+    /// Represents a furniture
+    /// </summary>
+    Furniture = 1 << 18,
+
+    /// <summary>
+    /// Represents a wearable
+    /// </summary>
+    Wearable = 1 << 19,
+
+    /// <summary>
+    /// Represents a piece of art
+    /// </summary>
+    Art = 1 << 20,
+
+    /// <summary>
     /// Represents a device where the type is not known or not present in the list.
     /// </summary>
     Unknown = 1 << 31,
