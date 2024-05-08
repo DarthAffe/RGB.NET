@@ -33,6 +33,10 @@ public static class LedMappings
         [LedId.Keyboard_PrintScreen] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 16,
         [LedId.Keyboard_ScrollLock] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 17,
         [LedId.Keyboard_PauseBreak] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 18,
+        [LedId.Keyboard_MediaPreviousTrack] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 19,
+        [LedId.Keyboard_MediaPlay] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 20,
+        [LedId.Keyboard_MediaNextTrack] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 21,
+        [LedId.Keyboard_MediaMute] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 22,
         [LedId.Logo] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 21,
 
         #endregion
