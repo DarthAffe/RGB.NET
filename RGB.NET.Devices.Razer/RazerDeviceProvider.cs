@@ -149,6 +149,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x02A0, RGBDeviceType.Keyboard, "Blade 18", LedMappings.Blade, RazerEndpointType.Keyboard },
         { 0x02A1, RGBDeviceType.Keyboard, "Ornata V3", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02A5, RGBDeviceType.Keyboard, "BlackWidow V4 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x02A7, RGBDeviceType.Keyboard, "Huntsman V3 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
