@@ -30,7 +30,7 @@ public abstract class RazerUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -77,7 +77,7 @@ public abstract class RazerUpdateQueue : UpdateQueue
     /// </summary>
     /// <param name="dataSet">The data to be updated.</param>
     /// <returns>An <see cref="IntPtr"/> pointing to the effect parameter struct.</returns>
-    protected abstract nint CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet);
+    protected abstract nint CreateEffectParams(ReadOnlySpan<(object key, Color color)> dataSet);
 
     #endregion
 }

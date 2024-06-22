@@ -7,7 +7,7 @@ internal sealed class DebugDeviceUpdateQueue() : UpdateQueue(new DeviceUpdateTri
 {
     #region Methods
 
-    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet) => true;
+    protected override bool Update(ReadOnlySpan<(object key, Color color)> dataSet) => true;
 
     #endregion
 }

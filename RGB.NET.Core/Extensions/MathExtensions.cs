@@ -91,9 +91,8 @@ public static class FloatExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static byte GetByteValueFromPercentage(this float percentage)
     {
-        if (float.IsNaN(percentage)) return 0;
+        if (float.IsNaN(percentage) || (percentage <= 0)) return 0;
 
-        percentage = percentage.Clamp(0, 1.0f);
         return (byte)(percentage >= 1.0f ? 255 : percentage * 256.0f);
     }
 

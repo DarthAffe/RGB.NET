@@ -40,7 +40,7 @@ public sealed class CorsairDeviceUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override unsafe bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override unsafe bool Update(ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
