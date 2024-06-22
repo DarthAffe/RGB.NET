@@ -212,7 +212,7 @@ public sealed class PicoPiSDK : IDisposable
     /// </summary>
     /// <param name="data">The data to send.</param>
     /// <param name="channel">The channel to update.</param>
-    public void SendHidUpdate(in Span<byte> buffer, int channel)
+    public void SendHidUpdate(Span<byte> buffer, int channel)
     {
         int chunks = buffer.Length / HID_OFFSET_MULTIPLIER;
         if ((chunks * HID_OFFSET_MULTIPLIER) < buffer.Length) chunks++;
@@ -232,7 +232,7 @@ public sealed class PicoPiSDK : IDisposable
     /// <param name="channel">The channel to update.</param>
     /// <param name="chunk">The chunk id of the packet. (Required if packets are fragmented.)</param>
     /// <param name="update">A value indicating if the device should update directly after receiving this packet. (If packets are fragmented this should only be true for the last chunk.)</param>
-    public void SendHidUpdate(in Span<byte> data, int channel, int chunk, bool update)
+    public void SendHidUpdate(Span<byte> data, int channel, int chunk, bool update)
     {
         if (data.Length == 0) return;
 
@@ -253,7 +253,7 @@ public sealed class PicoPiSDK : IDisposable
     /// </remarks>
     /// <param name="data">The data packet to send.</param>
     /// <param name="channel">The channel to update.</param>
-    public void SendBulkUpdate(in Span<byte> data, int channel)
+    public void SendBulkUpdate(Span<byte> data, int channel)
     {
         if ((data.Length == 0) || !IsBulkSupported) return;
 
