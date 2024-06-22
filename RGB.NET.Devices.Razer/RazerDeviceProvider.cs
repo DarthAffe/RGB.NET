@@ -139,7 +139,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x028B, RGBDeviceType.Keyboard, "Blade 17 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x028C, RGBDeviceType.Keyboard, "Blade 14 (2022)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x029F, RGBDeviceType.Keyboard, "Blade 16 (2023)", LedMappings.Blade, RazerEndpointType.Keyboard },
-        { 0x028D, RGBDeviceType.Keyboard, "BlackWidow V4", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x028D, RGBDeviceType.Keyboard, "BlackWidow V4 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0290, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wireless
         { 0x0292, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wired
         { 0x0294, RGBDeviceType.Keyboard, "Ornata V3 X", LedMappings.Keyboard, RazerEndpointType.Keyboard },
