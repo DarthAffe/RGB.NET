@@ -22,7 +22,7 @@ public sealed class AverageColorSampler : ISampler<Color>
     #region Methods
 
     /// <inheritdoc />
-    public unsafe void Sample(in SamplerInfo<Color> info, in Span<Color> pixelData)
+    public unsafe void Sample(in SamplerInfo<Color> info, Span<Color> pixelData)
     {
         int count = info.Width * info.Height;
         if (count == 0) return;

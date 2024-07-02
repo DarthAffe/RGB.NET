@@ -25,7 +25,7 @@ public sealed class RazerMousepadUpdateQueue : RazerUpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override nint CreateEffectParams(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override nint CreateEffectParams(ReadOnlySpan<(object key, Color color)> dataSet)
     {
         _Color[] colors = new _Color[_Defines.MOUSEPAD_MAX_LEDS];
 

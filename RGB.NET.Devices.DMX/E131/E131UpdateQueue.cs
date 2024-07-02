@@ -59,7 +59,7 @@ public sealed class E131UpdateQueue : UpdateQueue
     }
 
     /// <inheritdoc />
-    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -97,6 +97,13 @@ public sealed class E131UpdateQueue : UpdateQueue
         }
 
         return _sequenceNumber++;
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        _socket.Dispose();
     }
 
     #endregion

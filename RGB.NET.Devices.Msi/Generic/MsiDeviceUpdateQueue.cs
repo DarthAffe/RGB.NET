@@ -34,7 +34,7 @@ public sealed class MsiDeviceUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {

@@ -56,7 +56,7 @@ public abstract class SerialConnectionUpdateQueue<TData> : UpdateQueue
     }
 
     /// <inheritdoc />
-    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {

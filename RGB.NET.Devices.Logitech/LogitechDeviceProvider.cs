@@ -277,6 +277,9 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
             try { _LogitechGSDK.LogiLedRestoreLighting(); }
             catch { /* at least we tried */ }
 
+            try { _LogitechGSDK.LogiLedShutdown(); }
+            catch { /* at least we tried */ }
+
             try { _LogitechGSDK.UnloadLogitechGSDK(); }
             catch { /* at least we tried */ }
 
