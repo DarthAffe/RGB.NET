@@ -269,7 +269,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x00A4, RGBDeviceType.LedStripe, "Mouse Dock Pro", LedMappings.Mousepad, RazerEndpointType.Mousepad }, // DarthAffe 22.09.2023: Most likely also a mousepad?
         { 0x0517, RGBDeviceType.Speaker, "Nommo Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0518, RGBDeviceType.Speaker, "Nommo Pro", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-        { 0x054a, RGBDeviceType.Speaker, "Leviathan V2 X", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+        { 0x054A, RGBDeviceType.Speaker, "Leviathan V2 X", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F07, RGBDeviceType.Unknown, "Chroma Mug Holder", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F09, RGBDeviceType.LedController, "Chroma Hardware Development Kit (HDK)", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
