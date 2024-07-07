@@ -151,6 +151,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x02A5, RGBDeviceType.Keyboard, "BlackWidow V4 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02A7, RGBDeviceType.Keyboard, "Huntsman V3 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x02BA, RGBDeviceType.Keyboard, "BlackWidow V4 Mini HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
         { 0x0013, RGBDeviceType.Mouse, "Orochi 2011", LedMappings.Mouse, RazerEndpointType.Mouse },
@@ -268,6 +269,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x00A4, RGBDeviceType.LedStripe, "Mouse Dock Pro", LedMappings.Mousepad, RazerEndpointType.Mousepad }, // DarthAffe 22.09.2023: Most likely also a mousepad?
         { 0x0517, RGBDeviceType.Speaker, "Nommo Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0518, RGBDeviceType.Speaker, "Nommo Pro", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
+        { 0x054A, RGBDeviceType.Speaker, "Leviathan V2 X", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F07, RGBDeviceType.Unknown, "Chroma Mug Holder", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F09, RGBDeviceType.LedController, "Chroma Hardware Development Kit (HDK)", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
