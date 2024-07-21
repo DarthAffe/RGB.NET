@@ -7,13 +7,26 @@ namespace RGB.NET.Presets.Textures;
 
 /// <inheritdoc />
 /// <summary>
-/// Represents a texture drawing  an <see cref="IImage"/>.
+/// Represents a texture drawing an <see cref="IImage"/>.
 /// </summary>
 public sealed class ImageTexture : ITexture
 {
     #region Properties & Fields
 
-    private readonly IImage _image;
+    private IImage _image;
+
+    /// <summary>
+    /// The image drawn by this texture.
+    /// </summary>
+    public IImage Image
+    {
+        get => _image;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _image = value;
+        }
+    }
 
     /// <inheritdoc />
     public Size Size { get; }
@@ -26,7 +39,7 @@ public sealed class ImageTexture : ITexture
             int x = (int)MathF.Round((Size.Width - 1) * point.X.Clamp(0, 1));
             int y = (int)MathF.Round((Size.Height - 1) * point.Y.Clamp(0, 1));
 
-            return _image[x, y].ToColor();
+            return Image[x, y].ToColor();
         }
     }
 
@@ -55,7 +68,7 @@ public sealed class ImageTexture : ITexture
     /// <param name="width">The with of the region.</param>
     /// <param name="height">The height of the region.</param>
     /// <returns>The sampled color.</returns>
-    public Color this[int x, int y, int width, int height] => _image[x, y, width, height].Average().ToColor();
+    public Color this[int x, int y, int width, int height] => Image[x, y, width, height].Average().ToColor();
 
     #endregion
 
@@ -65,9 +78,11 @@ public sealed class ImageTexture : ITexture
     /// Initializes a new instance of the <see cref="ImageTexture" /> class.
     /// </summary>
     /// <param name="image">The image represented by the texture.</param>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public ImageTexture(IImage image)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
-        this._image = image;
+        this.Image = image;
 
         Size = new Size(image.Width, image.Height);
     }
