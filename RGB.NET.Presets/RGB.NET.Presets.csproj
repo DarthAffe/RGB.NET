@@ -58,6 +58,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HPPH" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
   </ItemGroup>
 </Project>
