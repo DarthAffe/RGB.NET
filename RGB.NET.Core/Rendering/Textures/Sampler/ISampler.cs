@@ -13,5 +13,5 @@ public interface ISampler<T>
     /// </summary>
     /// <param name="info">The information containing the data to sample.</param>
     /// <param name="pixelData">The buffer used to write the resulting pixel to.</param>
-    void Sample(in SamplerInfo<T> info, Span<T> pixelData);
+    void Sample(SamplerInfo<T> info, Span<T> pixelData);
 }

@@ -72,7 +72,7 @@ public interface IRGBDevice : IEnumerable<Led>, IPlaceable, IBindable, IDisposab
     /// <param name="size">The size of the led.</param>
     /// <param name="customData">Custom data saved on the led.</param>
     /// <returns>The newly added led or <c>null</c> if a led with this id is already added.</returns>
-    Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null);
+    Led? AddLed(LedId ledId, Point location, Size size, object? customData = null);
 
     /// <summary>
     /// Removes the led with the specified id from the device.

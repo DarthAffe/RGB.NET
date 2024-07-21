@@ -175,7 +175,7 @@ public readonly struct Color : IEquatable<Color>
     /// Initializes a new instance of the <see cref="T:RGB.NET.Core.Color" /> struct by cloning a existing <see cref="T:RGB.NET.Core.Color" />.
     /// </summary>
     /// <param name="color">The <see cref="T:RGB.NET.Core.Color" /> the values are copied from.</param>
-    public Color(in Color color)
+    public Color(Color color)
         : this(color.A, color.R, color.G, color.B)
     { }
 
@@ -214,7 +214,7 @@ public readonly struct Color : IEquatable<Color>
     /// Blends a <see cref="Color"/> over this color, as defined by the current <see cref="Behavior"/>.
     /// </summary>
     /// <param name="color">The <see cref="Color"/> to blend.</param>
-    public Color Blend(in Color color) => Behavior.Blend(this, color);
+    public Color Blend(Color color) => Behavior.Blend(this, color);
 
     #endregion
 
@@ -226,7 +226,7 @@ public readonly struct Color : IEquatable<Color>
     /// <param name="color1">The base color.</param>
     /// <param name="color2">The color to blend.</param>
     /// <returns>The blended color.</returns>
-    public static Color operator +(in Color color1, in Color color2) => color1.Blend(color2);
+    public static Color operator +(Color color1, Color color2) => color1.Blend(color2);
 
     /// <summary>
     /// Returns a value that indicates whether two specified <see cref="Color" /> are equal.
@@ -234,7 +234,7 @@ public readonly struct Color : IEquatable<Color>
     /// <param name="color1">The first <see cref="Color" /> to compare.</param>
     /// <param name="color2">The second <see cref="Color" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="color1" /> and <paramref name="color2" /> are equal; otherwise, <c>false</c>.</returns>
-    public static bool operator ==(in Color color1, in Color color2) => color1.Equals(color2);
+    public static bool operator ==(Color color1, Color color2) => color1.Equals(color2);
 
     /// <summary>
     /// Returns a value that indicates whether two specified <see cref="Color" /> are equal.
@@ -242,7 +242,7 @@ public readonly struct Color : IEquatable<Color>
     /// <param name="color1">The first <see cref="Color" /> to compare.</param>
     /// <param name="color2">The second <see cref="Color" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="color1" /> and <paramref name="color2" /> are not equal; otherwise, <c>false</c>.</returns>
-    public static bool operator !=(in Color color1, in Color color2) => !(color1 == color2);
+    public static bool operator !=(Color color1, Color color2) => !(color1 == color2);
 
     /// <summary>
     /// Converts a <see cref="ValueTuple"/> of ARGB-components to a <see cref="Color"/>.

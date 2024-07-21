@@ -16,21 +16,21 @@ public static class LabColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The L component value of the color.</returns>
-    public static float GetLabL(this in Color color) => color.GetLab().l;
+    public static float GetLabL(this Color color) => color.GetLab().l;
 
     /// <summary>
     /// Gets the a component value (Lab-color space) of this <see cref="Color"/> in the range [0..1].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The a component value of the color.</returns>
-    public static float GetLabA(this in Color color) => color.GetLab().a;
+    public static float GetLabA(this Color color) => color.GetLab().a;
 
     /// <summary>
     /// Gets the b component value (Lab-color space) of this <see cref="Color"/> in the range [0..1].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The b component value of the color.</returns>
-    public static float GetLabB(this in Color color) => color.GetLab().b;
+    public static float GetLabB(this Color color) => color.GetLab().b;
 
     /// <summary>
     /// Gets the L, a and b component values (Lab-color space) of this <see cref="Color"/>.
@@ -40,7 +40,7 @@ public static class LabColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>A tuple containing the L, a and b component value of the color.</returns>
-    public static (float l, float a, float b) GetLab(this in Color color)
+    public static (float l, float a, float b) GetLab(this Color color)
         => CalculateLabFromRGB(color.R, color.G, color.B);
 
     #endregion
@@ -55,7 +55,7 @@ public static class LabColor
     /// <param name="a">The a value to add.</param>
     /// <param name="b">The b value to add.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color AddLab(this in Color color, float l = 0, float a = 0, float b = 0)
+    public static Color AddLab(this Color color, float l = 0, float a = 0, float b = 0)
     {
         (float cL, float cA, float cB) = color.GetLab();
         return Create(color.A, cL + l, cA + a, cB + b);
@@ -69,7 +69,7 @@ public static class LabColor
     /// <param name="a">The a value to subtract.</param>
     /// <param name="b">The b value to subtract.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SubtractLab(this in Color color, float l = 0, float a = 0, float b = 0)
+    public static Color SubtractLab(this Color color, float l = 0, float a = 0, float b = 0)
     {
         (float cL, float cA, float cB) = color.GetLab();
         return Create(color.A, cL - l, cA - a, cB - b);
@@ -83,7 +83,7 @@ public static class LabColor
     /// <param name="a">The a value to multiply.</param>
     /// <param name="b">The b value to multiply.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color MultiplyLab(this in Color color, float l = 1, float a = 1, float b = 1)
+    public static Color MultiplyLab(this Color color, float l = 1, float a = 1, float b = 1)
     {
         (float cL, float cA, float cB) = color.GetLab();
         return Create(color.A, cL * l, cA * a, cB * b);
@@ -97,7 +97,7 @@ public static class LabColor
     /// <param name="a">The a value to divide.</param>
     /// <param name="b">The b value to divide.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color DivideLab(this in Color color, float l = 1, float a = 1, float b = 1)
+    public static Color DivideLab(this Color color, float l = 1, float a = 1, float b = 1)
     {
         (float cL, float cA, float cB) = color.GetLab();
         return Create(color.A, cL / l, cA / a, cB / b);
@@ -111,7 +111,7 @@ public static class LabColor
     /// <param name="a">The a value to set.</param>
     /// <param name="b">The b value to set.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SetLab(this in Color color, float? l = null, float? a = null, float? b = null)
+    public static Color SetLab(this Color color, float? l = null, float? a = null, float? b = null)
     {
         (float cL, float cA, float cB) = color.GetLab();
         return Create(color.A, l ?? cL, a ?? cA, b ?? cB);

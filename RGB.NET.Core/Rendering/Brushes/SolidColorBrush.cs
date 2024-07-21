@@ -41,7 +41,7 @@ public sealed class SolidColorBrush : AbstractBrush
     #region Methods
 
     /// <inheritdoc />
-    protected override Color GetColorAtPoint(in Rectangle rectangle, in RenderTarget renderTarget) => Color;
+    protected override Color GetColorAtPoint(Rectangle rectangle, RenderTarget renderTarget) => Color;
 
     #endregion
 

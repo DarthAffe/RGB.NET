@@ -16,7 +16,7 @@ public static class PointExtensions
     /// <param name="x">The x-ammount to move.</param>
     /// <param name="y">The y-ammount to move.</param>
     /// <returns>The new location of the point.</returns>
-    public static Point Translate(this in Point point, float x = 0, float y = 0) => new(point.X + x, point.Y + y);
+    public static Point Translate(this Point point, float x = 0, float y = 0) => new(point.X + x, point.Y + y);
 
     /// <summary>
     /// Rotates the specified <see cref="Point"/> by the specified amuont around the specified origin.
@@ -25,7 +25,7 @@ public static class PointExtensions
     /// <param name="rotation">The rotation.</param>
     /// <param name="origin">The origin to rotate around. [0,0] if not set.</param>
     /// <returns>The new location of the point.</returns>
-    public static Point Rotate(this in Point point, in Rotation rotation, in Point origin = new())
+    public static Point Rotate(this Point point, Rotation rotation, Point origin = new())
     {
         float sin = MathF.Sin(rotation.Radians);
         float cos = MathF.Cos(rotation.Radians);

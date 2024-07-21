@@ -91,9 +91,11 @@ public static class FloatExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static byte GetByteValueFromPercentage(this float percentage)
     {
+        // ReSharper disable once ConvertIfStatementToSwitchStatement - This results in a bit more instructions
         if (float.IsNaN(percentage) || (percentage <= 0)) return 0;
+        if (percentage >= 1.0f) return byte.MaxValue;
 
-        return (byte)(percentage >= 1.0f ? 255 : percentage * 256.0f);
+        return (byte)(percentage * 256.0f);
     }
 
     /// <summary>

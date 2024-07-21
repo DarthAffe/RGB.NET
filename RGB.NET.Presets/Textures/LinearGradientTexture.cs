@@ -71,7 +71,7 @@ public sealed class LinearGradientTexture : AbstractGradientTexture
     #region Methods
 
     /// <inheritdoc />
-    protected override Color GetColor(in Point point)
+    protected override Color GetColor(Point point)
     {
         float offset = GradientHelper.CalculateLinearGradientOffset(StartPoint, EndPoint, point);
         return Gradient.GetColor(offset);

@@ -179,7 +179,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     { }
 
     /// <inheritdoc />
-    public virtual Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null)
+    public virtual Led? AddLed(LedId ledId, Point location, Size size, object? customData = null)
     {
         if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 
