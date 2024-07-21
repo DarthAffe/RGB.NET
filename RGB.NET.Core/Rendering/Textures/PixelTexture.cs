@@ -39,7 +39,7 @@ public abstract class PixelTexture<T> : ITexture
     public Size Size { get; }
 
     /// <inheritdoc />
-    public virtual Color this[in Point point]
+    public virtual Color this[Point point]
     {
         get
         {
@@ -52,7 +52,7 @@ public abstract class PixelTexture<T> : ITexture
     }
 
     /// <inheritdoc />
-    public virtual Color this[in Rectangle rectangle]
+    public virtual Color this[Rectangle rectangle]
     {
         get
         {

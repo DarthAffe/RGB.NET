@@ -20,7 +20,7 @@ public static class GradientHelper
     /// <param name="endPoint">The end <see cref="Point"/> of the gradient.</param>
     /// <param name="point">The <see cref="Point"/> on the gradient to which the offset is calculated.</param>
     /// <returns>The offset of the <see cref="Point"/> on the gradient.</returns>
-    public static float CalculateLinearGradientOffset(in Point startPoint, in Point endPoint, in Point point)
+    public static float CalculateLinearGradientOffset(Point startPoint, Point endPoint, Point point)
     {
         Point intersectingPoint;
         if (startPoint.Y.EqualsInTolerance(endPoint.Y)) // Horizontal case
@@ -57,7 +57,7 @@ public static class GradientHelper
     /// <param name="origin">The origin of the vector.</param>
     /// <param name="direction">The direction of the vector.</param>
     /// <returns>The signed magnitude of a <see cref="Point"/> on a vector.</returns>
-    public static float CalculateDistance(in Point point, in Point origin, in Point direction)
+    public static float CalculateDistance(Point point, Point origin, Point direction)
     {
         float distance = CalculateDistance(point, origin);
 
@@ -74,7 +74,7 @@ public static class GradientHelper
     /// <param name="point1">The first <see cref="Point"/>.</param>
     /// <param name="point2">The second <see cref="Point"/>.</param>
     /// <returns>The distance between the two <see cref="Point"/>.</returns>
-    public static float CalculateDistance(in Point point1, in Point point2)
+    public static float CalculateDistance(Point point1, Point point2)
     {
         float x = point1.X - point2.X;
         float y = point1.Y - point2.Y;

@@ -16,21 +16,21 @@ public static class HSVColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The hue component value of the color.</returns>
-    public static float GetHue(this in Color color) => color.GetHSV().hue;
+    public static float GetHue(this Color color) => color.GetHSV().hue;
 
     /// <summary>
     /// Gets the saturation component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The saturation component value of the color.</returns>
-    public static float GetSaturation(this in Color color) => color.GetHSV().saturation;
+    public static float GetSaturation(this Color color) => color.GetHSV().saturation;
 
     /// <summary>
     /// Gets the value component value (HSV-color space) of this <see cref="Color"/> in the range [0..1].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The value component value of the color.</returns>
-    public static float GetValue(this in Color color) => color.GetHSV().value;
+    public static float GetValue(this Color color) => color.GetHSV().value;
 
     /// <summary>
     /// Gets the hue, saturation and value component values (HSV-color space) of this <see cref="Color"/>.
@@ -40,7 +40,7 @@ public static class HSVColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>A tuple containing the hue, saturation and value component value of the color.</returns>
-    public static (float hue, float saturation, float value) GetHSV(this in Color color)
+    public static (float hue, float saturation, float value) GetHSV(this Color color)
         => CaclulateHSVFromRGB(color.R, color.G, color.B);
 
     #endregion
@@ -55,7 +55,7 @@ public static class HSVColor
     /// <param name="saturation">The saturation value to add.</param>
     /// <param name="value">The value value to add.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color AddHSV(this in Color color, float hue = 0, float saturation = 0, float value = 0)
+    public static Color AddHSV(this Color color, float hue = 0, float saturation = 0, float value = 0)
     {
         (float cHue, float cSaturation, float cValue) = color.GetHSV();
         return Create(color.A, cHue + hue, cSaturation + saturation, cValue + value);
@@ -69,7 +69,7 @@ public static class HSVColor
     /// <param name="saturation">The saturation value to subtract.</param>
     /// <param name="value">The value value to subtract.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SubtractHSV(this in Color color, float hue = 0, float saturation = 0, float value = 0)
+    public static Color SubtractHSV(this Color color, float hue = 0, float saturation = 0, float value = 0)
     {
         (float cHue, float cSaturation, float cValue) = color.GetHSV();
         return Create(color.A, cHue - hue, cSaturation - saturation, cValue - value);
@@ -83,7 +83,7 @@ public static class HSVColor
     /// <param name="saturation">The saturation value to multiply.</param>
     /// <param name="value">The value value to multiply.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color MultiplyHSV(this in Color color, float hue = 1, float saturation = 1, float value = 1)
+    public static Color MultiplyHSV(this Color color, float hue = 1, float saturation = 1, float value = 1)
     {
         (float cHue, float cSaturation, float cValue) = color.GetHSV();
         return Create(color.A, cHue * hue, cSaturation * saturation, cValue * value);
@@ -97,7 +97,7 @@ public static class HSVColor
     /// <param name="saturation">The saturation value to divide.</param>
     /// <param name="value">The value value to divide.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color DivideHSV(this in Color color, float hue = 1, float saturation = 1, float value = 1)
+    public static Color DivideHSV(this Color color, float hue = 1, float saturation = 1, float value = 1)
     {
         (float cHue, float cSaturation, float cValue) = color.GetHSV();
         return Create(color.A, cHue / hue, cSaturation / saturation, cValue / value);
@@ -111,7 +111,7 @@ public static class HSVColor
     /// <param name="saturation">The saturation value to set.</param>
     /// <param name="value">The value value to set.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SetHSV(this in Color color, float? hue = null, float? saturation = null, float? value = null)
+    public static Color SetHSV(this Color color, float? hue = null, float? saturation = null, float? value = null)
     {
         (float cHue, float cSaturation, float cValue) = color.GetHSV();
         return Create(color.A, hue ?? cHue, saturation ?? cSaturation, value ?? cValue);

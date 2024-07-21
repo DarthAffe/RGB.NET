@@ -12,7 +12,7 @@ public sealed class AverageFloatSampler : ISampler<float>
     #region Methods
 
     /// <inheritdoc />
-    public unsafe void Sample(in SamplerInfo<float> info, Span<float> pixelData)
+    public unsafe void Sample(SamplerInfo<float> info, Span<float> pixelData)
     {
         int count = info.Width * info.Height;
         if (count == 0) return;

@@ -90,7 +90,7 @@ public sealed class FlashDecorator : AbstractUpdateAwareDecorator, IBrushDecorat
     #region Methods
 
     /// <inheritdoc />
-    public void ManipulateColor(in Rectangle rectangle, in RenderTarget renderTarget, ref Color color) => color = color.SetA(_currentValue);
+    public void ManipulateColor(Rectangle rectangle, RenderTarget renderTarget, ref Color color) => color = color.SetA(_currentValue);
 
     /// <inheritdoc />
     protected override void Update(double deltaTime)

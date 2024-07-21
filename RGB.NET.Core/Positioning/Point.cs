@@ -90,7 +90,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point1">The first <see cref="Point" /> to compare.</param>
     /// <param name="point2">The second <see cref="Point" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="point1" /> and <paramref name="point2" /> are equal; otherwise, <c>false</c>.</returns>
-    public static bool operator ==(in Point point1, in Point point2) => point1.Equals(point2);
+    public static bool operator ==(Point point1, Point point2) => point1.Equals(point2);
 
     /// <summary>
     /// Returns a value that indicates whether two specified <see cref="Point" /> are equal.
@@ -98,7 +98,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point1">The first <see cref="Point" /> to compare.</param>
     /// <param name="point2">The second <see cref="Point" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="point1" /> and <paramref name="point2" /> are not equal; otherwise, <c>false</c>.</returns>
-    public static bool operator !=(in Point point1, in Point point2) => !(point1 == point2);
+    public static bool operator !=(Point point1, Point point2) => !(point1 == point2);
 
     /// <summary>
     /// Returns a new <see cref="Point"/> representing the addition of the two provided <see cref="Point"/>.
@@ -106,7 +106,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point1">The first <see cref="Point"/>.</param>
     /// <param name="point2">The second <see cref="Point"/>.</param>
     /// <returns>A new <see cref="Point"/> representing the addition of the two provided <see cref="Point"/>.</returns>
-    public static Point operator +(in Point point1, in Point point2) => new(point1.X + point2.X, point1.Y + point2.Y);
+    public static Point operator +(Point point1, Point point2) => new(point1.X + point2.X, point1.Y + point2.Y);
 
     /// <summary>
     /// Returns a new <see cref="Rectangle"/> created from the provided <see cref="Point"/> and <see cref="Size"/>.
@@ -114,7 +114,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point">The <see cref="Point"/> of the rectangle.</param>
     /// <param name="size">The <see cref="Size"/> of the rectangle.</param>
     /// <returns>The rectangle created from the provided <see cref="Point"/> and <see cref="Size"/>.</returns>
-    public static Rectangle operator +(in Point point, in Size size) => new(point, size);
+    public static Rectangle operator +(Point point, Size size) => new(point, size);
 
     /// <summary>
     /// Returns a new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.
@@ -122,7 +122,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point1">The first <see cref="Point"/>.</param>
     /// <param name="point2">The second <see cref="Point"/>.</param>
     /// <returns>A new <see cref="Point"/> representing the subtraction of the two provided <see cref="Point"/>.</returns>
-    public static Point operator -(in Point point1, in Point point2) => new(point1.X - point2.X, point1.Y - point2.Y);
+    public static Point operator -(Point point1, Point point2) => new(point1.X - point2.X, point1.Y - point2.Y);
 
     /// <summary>
     /// Returns a new <see cref="Point"/> representing the multiplication of the two provided <see cref="Point"/>.
@@ -130,7 +130,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point1">The first <see cref="Point"/>.</param>
     /// <param name="point2">The second <see cref="Point"/>.</param>
     /// <returns>A new <see cref="Point"/> representing the multiplication of the two provided <see cref="Point"/>.</returns>
-    public static Point operator *(in Point point1, in Point point2) => new(point1.X * point2.X, point1.Y * point2.Y);
+    public static Point operator *(Point point1, Point point2) => new(point1.X * point2.X, point1.Y * point2.Y);
 
     /// <summary>
     /// Returns a new <see cref="Point"/> representing the division of the two provided <see cref="Point"/>.
@@ -138,7 +138,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point1">The first <see cref="Point"/>.</param>
     /// <param name="point2">The second <see cref="Point"/>.</param>
     /// <returns>A new <see cref="Point"/> representing the division of the two provided <see cref="Point"/>.</returns>
-    public static Point operator /(in Point point1, in Point point2)
+    public static Point operator /(Point point1, Point point2)
     {
         if (point2.X.EqualsInTolerance(0) || point2.Y.EqualsInTolerance(0)) return Invalid;
         return new Point(point1.X / point2.X, point1.Y / point2.Y);
@@ -150,7 +150,7 @@ public readonly struct Point : IEquatable<Point>
     /// <param name="point">The <see cref="Point"/>.</param>
     /// <param name="scale">The <see cref="Scale"/>.</param>
     /// <returns>A new <see cref="Point"/> representing the multiplication of the <see cref="Point"/> and the provided <see cref="Scale"/>.</returns>
-    public static Point operator *(in Point point, in Scale scale) => new(point.X * scale.Horizontal, point.Y * scale.Vertical);
+    public static Point operator *(Point point, Scale scale) => new(point.X * scale.Horizontal, point.Y * scale.Vertical);
 
     #endregion
 }
