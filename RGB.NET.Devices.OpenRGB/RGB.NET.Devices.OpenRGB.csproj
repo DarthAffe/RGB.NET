@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenRGB.NET" Version="2.2.0" />
+    <PackageReference Include="OpenRGB.NET" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
