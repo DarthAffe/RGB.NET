@@ -240,6 +240,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0C01, RGBDeviceType.Mousepad, "Goliathus", LedMappings.Mousepad, RazerEndpointType.ChromaLink },
         { 0x0C02, RGBDeviceType.Mousepad, "Goliathus Extended", LedMappings.Mousepad, RazerEndpointType.ChromaLink },
         { 0x0C04, RGBDeviceType.Mousepad, "Firefly v2", LedMappings.Mousepad, RazerEndpointType.Mousepad },
+        { 0x0C08, RGBDeviceType.Mousepad, "Firefly v2 Pro", LedMappings.Mousepad, RazerEndpointType.Mousepad },
 
         // Headsets
         { 0x0501, RGBDeviceType.Headset, "Kraken 7.1", LedMappings.Headset, RazerEndpointType.Headset },
