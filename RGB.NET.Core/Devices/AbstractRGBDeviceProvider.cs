@@ -100,6 +100,10 @@ public abstract class AbstractRGBDeviceProvider : IRGBDeviceProvider
             Throw(ex, true);
             return false;
         }
+        finally
+        {
+            ThrowsExceptions = false;
+        }
 
         return true;
     }
