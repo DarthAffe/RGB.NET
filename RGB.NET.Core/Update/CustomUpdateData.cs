@@ -51,6 +51,7 @@ public interface ICustomUpdateData
 public sealed class CustomUpdateData : ICustomUpdateData
 {
     #region Properties & Fields
+    public static readonly CustomUpdateData Empty = new CustomUpdateData();
 
     private readonly Dictionary<string, object?> _data = [];
 
