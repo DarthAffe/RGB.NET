@@ -199,9 +199,9 @@ internal static class WootingLedMappings
         { LedId.Keyboard_LeftCtrl, (5, 0) },
         { LedId.Keyboard_LeftGui, (5, 1) },
         { LedId.Keyboard_LeftAlt, (5, 2) },
-        { LedId.Keyboard_International3, (4, 3) },//JIS key
+        { LedId.Keyboard_International3, (5, 3) },//JIS key
         { LedId.Keyboard_Space, (5, 6) },
-        { LedId.Keyboard_International4, (4, 9) },//JIS key
+        { LedId.Keyboard_International4, (5, 9) },//JIS key
         { LedId.Keyboard_RightAlt, (5, 10) },
         { LedId.Keyboard_RightGui, (5, 11) },
         { LedId.Keyboard_Function, (5, 12) },
