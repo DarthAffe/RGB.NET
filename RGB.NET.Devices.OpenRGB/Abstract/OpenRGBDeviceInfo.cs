@@ -38,14 +38,24 @@ public class OpenRGBDeviceInfo : IRGBDeviceInfo
     /// Initializes a new instance of <see cref="OpenRGBDeviceInfo"/>.
     /// </summary>
     /// <param name="openRGBDevice">The OpenRGB device to extract information from.</param>
-    internal OpenRGBDeviceInfo(OpenRGBDevice openRGBDevice)
+    /// <param name="splitId">If this is a zone or segment, specify the name</param>
+    internal OpenRGBDeviceInfo(OpenRGBDevice openRGBDevice, string? splitId = null)
     {
         this.OpenRGBDevice = openRGBDevice;
 
         DeviceType = Helper.GetRgbNetDeviceType(openRGBDevice.Type);
         Manufacturer = Helper.GetVendorName(openRGBDevice);
         Model = Helper.GetModelName(openRGBDevice);
-        DeviceName = DeviceHelper.CreateDeviceName(Manufacturer, Model);
+        string model = Manufacturer + " " + Model;
+        string id = string.IsNullOrWhiteSpace(openRGBDevice.Serial) ? openRGBDevice.Location : openRGBDevice.Serial;
+        if (string.IsNullOrWhiteSpace(id))  // this device is 99% unpluggable
+        {
+            DeviceName = IdGenerator.MakeUnique(typeof(OpenRGBDeviceProvider), Manufacturer + " " + Model);
+        }
+        else
+        {
+            DeviceName = model + " #" + Helper.HashAndShorten(id) + (splitId != null ? $" {splitId}" : null);
+        }
     }
 
     #endregion

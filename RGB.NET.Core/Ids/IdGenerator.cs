@@ -13,8 +13,8 @@ public static class IdGenerator
 
     // ReSharper disable InconsistentNaming
     private static readonly HashSet<string> _registeredIds = [];
-    private static readonly Dictionary<Assembly, Dictionary<string, string>> _idMappings = [];
-    private static readonly Dictionary<Assembly, Dictionary<string, int>> _counter = [];
+    private static readonly Dictionary<object, Dictionary<string, string>> _idMappings = [];
+    private static readonly Dictionary<object, Dictionary<string, int>> _counter = [];
     // ReSharper restore InconsistentNaming
 
     #endregion
@@ -29,7 +29,7 @@ public static class IdGenerator
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static string MakeUnique(string id) => MakeUnique(Assembly.GetCallingAssembly(), id);
 
-    internal static string MakeUnique(Assembly callingAssembly, string id)
+    public static string MakeUnique(object callingAssembly, string id)
     {
         if (!_idMappings.TryGetValue(callingAssembly, out Dictionary<string, string>? idMapping))
         {
@@ -63,7 +63,7 @@ public static class IdGenerator
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ResetCounter() => ResetCounter(Assembly.GetCallingAssembly());
 
-    internal static void ResetCounter(Assembly callingAssembly)
+    public static void ResetCounter(object callingAssembly)
     {
         if (_counter.TryGetValue(callingAssembly, out Dictionary<string, int>? counter))
             counter.Clear();
