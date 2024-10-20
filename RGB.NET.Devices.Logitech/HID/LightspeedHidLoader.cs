@@ -104,7 +104,9 @@ public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefi
         Dictionary<byte, HidDevice> deviceUsages = DeviceList.Local
                                                              .GetHidDevices(VendorId, pid)
                                                              .Where(d => d.DevicePath.Contains("mi_02"))
-                                                             .ToDictionary(x => (byte)x.GetUsage(), x => x);
+                                                             .Select(x => ((byte)x.GetUsage(), x))
+                                                             .DistinctBy(x => x.Item1)
+                                                             .ToDictionary(x => x.Item1, x => x.x);
 
         foreach ((int wirelessPid, byte _) in GetWirelessDevices(deviceUsages))
             yield return wirelessPid;
