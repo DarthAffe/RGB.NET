@@ -57,10 +57,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Management" Version="7.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
   </ItemGroup>
 
