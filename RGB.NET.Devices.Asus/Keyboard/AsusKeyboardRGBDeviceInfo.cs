@@ -36,7 +36,7 @@ public sealed class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDevi
 
     #region Methods
 
-    private static string? GetKeyboardModel(string deviceName) => GENERIC_DEVICE_NAMES.Contains(deviceName) ? "Asus Motherboard" : deviceName;
+    private static string? GetKeyboardModel(string deviceName) => GENERIC_DEVICE_NAMES.Contains(deviceName) ? "Asus Keyboard" : deviceName;
 
     #endregion
 }
