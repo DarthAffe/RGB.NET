@@ -69,7 +69,7 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1852, RGBDeviceType.Mouse, "Aerox 5 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
 
         //Keyboards
-        { 0x161A, RGBDeviceType.Keyboard, "Apex 3", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.TenZone },
+        { 0x161A, RGBDeviceType.Keyboard, "Apex 3", LedMappings.KeyboardTenZone, SteelSeriesDeviceType.TenZone },
         { 0x161C, RGBDeviceType.Keyboard, "Apex 5", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1612, RGBDeviceType.Keyboard, "Apex 7", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1618, RGBDeviceType.Keyboard, "Apex 7 TKL", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
