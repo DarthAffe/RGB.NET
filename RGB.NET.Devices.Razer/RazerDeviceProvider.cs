@@ -276,7 +276,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0F13, RGBDeviceType.Unknown, "Lian Li O11", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F1D, RGBDeviceType.Unknown, "Mouse Bungee V3 Chroma", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
         { 0x0F1F, RGBDeviceType.LedController, "Addressable RGB Controller", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
-
+        { 0x0F2C, RGBDeviceType.LedController, "Chroma Wireless ARGB Controller", LedMappings.ChromaLink, RazerEndpointType.ChromaLink },
     };
 
     #endregion
