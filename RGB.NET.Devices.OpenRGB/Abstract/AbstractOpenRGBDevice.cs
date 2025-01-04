@@ -21,4 +21,23 @@ public abstract class AbstractOpenRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDe
     { }
 
     #endregion
+
+    #region Methods
+
+    private bool Equals(AbstractOpenRGBDevice<TDeviceInfo> other)
+    {
+        return DeviceInfo.DeviceName == other.DeviceInfo.DeviceName;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return ReferenceEquals(this, obj) || (obj is AbstractOpenRGBDevice<TDeviceInfo> other && Equals(other));
+    }
+
+    public override int GetHashCode()
+    {
+        return DeviceInfo.DeviceName.GetHashCode();
+    }
+
+    #endregion
 }

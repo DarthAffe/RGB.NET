@@ -18,7 +18,7 @@ public sealed class OpenRGBUpdateQueue : UpdateQueue
 
     private readonly int _deviceId;
 
-    private readonly OpenRgbClient _openRGB;
+    private readonly IOpenRgbClient _openRGB;
     private readonly OpenRGBColor[] _colors;
 
     #endregion
@@ -32,7 +32,7 @@ public sealed class OpenRGBUpdateQueue : UpdateQueue
     /// <param name="deviceId">The index used to identify the device.</param>
     /// <param name="client">The OpenRGB client used to send updates to the OpenRGB server.</param>
     /// <param name="device">The OpenRGB Device containing device-specific information.</param>
-    public OpenRGBUpdateQueue(IDeviceUpdateTrigger updateTrigger, int deviceId, OpenRgbClient client, OpenRGBDevice device)
+    public OpenRGBUpdateQueue(IDeviceUpdateTrigger updateTrigger, int deviceId, IOpenRgbClient client, OpenRGBDevice device)
         : base(updateTrigger)
     {
         this._deviceId = deviceId;
