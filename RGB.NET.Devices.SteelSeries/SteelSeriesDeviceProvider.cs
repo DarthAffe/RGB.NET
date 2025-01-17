@@ -46,6 +46,7 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         //Mice
         { 0x1836, RGBDeviceType.Mouse, "Aerox 3", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
         { 0x183A, RGBDeviceType.Mouse, "Aerox 3 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1858, RGBDeviceType.Mouse, "Aerox 9 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
         { 0x1702, RGBDeviceType.Mouse, "Rival 100", LedMappings.MouseOneZone, SteelSeriesDeviceType.OneZone },
         { 0x1814, RGBDeviceType.Mouse, "Rival 105", LedMappings.MouseOneZone, SteelSeriesDeviceType.OneZone },
         { 0x1816, RGBDeviceType.Mouse, "Rival 106", LedMappings.MouseOneZone, SteelSeriesDeviceType.OneZone },
@@ -78,6 +79,7 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1610, RGBDeviceType.Keyboard, "Apex Pro", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1614, RGBDeviceType.Keyboard, "Apex Pro TKL", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1630, RGBDeviceType.Keyboard, "Apex Pro TKL", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey }, // DarthAffe 27.05.2024: This could be a generic wireless connector
+        { 0x1640, RGBDeviceType.Keyboard, "Apex Pro 3", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x2036, RGBDeviceType.Keyboard, "MSI Notebook", LedMappings.KeyboardNotebookMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x113A, RGBDeviceType.Keyboard, "MSI GE78HX", LedMappings.KeyboardMSIGE78Mapping, SteelSeriesDeviceType.PerKey },
         { 0x1122, RGBDeviceType.Keyboard, "MSI Notebook", LedMappings.KeyboardNotebookMappingUk, SteelSeriesDeviceType.PerKey },
