@@ -142,6 +142,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x028D, RGBDeviceType.Keyboard, "BlackWidow V4 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0290, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wireless
         { 0x0292, RGBDeviceType.Keyboard, "DeathStalker V2 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wired
+        { 0x0293, RGBDeviceType.Keyboard, "BlackWidow V4 X", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0294, RGBDeviceType.Keyboard, "Ornata V3 X", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0295, RGBDeviceType.Keyboard, "DeathStalker V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0296, RGBDeviceType.Keyboard, "DeathStalker V2 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // Wireless
@@ -225,6 +226,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x009A, RGBDeviceType.Mouse, "Pro Click Mini (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x009C, RGBDeviceType.Mouse, "DeathAdder V2 X Hyperspeed", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00A1, RGBDeviceType.Mouse, "DeathAdder V2 Lite", LedMappings.Mouse, RazerEndpointType.Mouse },
+        { 0x00A3, RGBDeviceType.Mouse, "Cobra", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00A5, RGBDeviceType.Mouse, "Viper V2 Pro (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00A6, RGBDeviceType.Mouse, "Viper V2 Pro (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00A7, RGBDeviceType.Mouse, "Naga V2 Pro", LedMappings.Mouse, RazerEndpointType.Mouse },
