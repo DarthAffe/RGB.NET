@@ -76,7 +76,7 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
 
             yield return (AsusDeviceType)device.Type switch
             {
-                AsusDeviceType.MB_RGB => new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, WMIHelper.GetMainboardInfo()?.model ?? device.Name), GetUpdateTrigger()),
+                AsusDeviceType.MB_RGB => new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, "Asus Motherboard"), GetUpdateTrigger()),
                 AsusDeviceType.MB_ADDRESABLE => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.LedStripe, device), LedId.LedStripe1, GetUpdateTrigger()),
                 AsusDeviceType.VGA_RGB => new AsusGraphicsCardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.GraphicsCard, device), GetUpdateTrigger()),
                 AsusDeviceType.HEADSET_RGB => new AsusHeadsetRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Headset, device), GetUpdateTrigger()),

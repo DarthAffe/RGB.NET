@@ -61,7 +61,7 @@ public sealed class FloatPixelTexture : PixelTexture<float>
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected override Color GetColor(in ReadOnlySpan<float> pixel)
+    protected override Color GetColor(ReadOnlySpan<float> pixel)
     {
         return ColorFormat switch
         {

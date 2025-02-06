@@ -35,7 +35,7 @@ public abstract class MidiUpdateQueue : UpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override bool Update(in ReadOnlySpan<(object key, Color color)> dataSet)
+    protected override bool Update(ReadOnlySpan<(object key, Color color)> dataSet)
     {
         try
         {
@@ -68,7 +68,7 @@ public abstract class MidiUpdateQueue : UpdateQueue
     /// <param name="key">The key used to identify the LED to update.</param>
     /// <param name="color">The color to send.</param>
     /// <returns>The message created out of the data set.</returns>
-    protected abstract ShortMessage? CreateMessage(object key, in Color color);
+    protected abstract ShortMessage? CreateMessage(object key, Color color);
 
     /// <inheritdoc />
     public override void Dispose()

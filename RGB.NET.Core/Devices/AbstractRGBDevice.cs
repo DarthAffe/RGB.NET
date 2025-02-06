@@ -119,7 +119,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     /// Applies all <see cref="ColorCorrections"/>.
     /// if no <see cref="Led.CustomData"/> ist specified the <see cref="Led.Id"/> is used.
     /// </remarks>
-    /// <param name="leds">The enumerable of leds to convert.</param>
+    /// <param name="led">The of led to convert.</param>
     /// <returns>The enumerable of custom data and color tuples for the specified leds.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected (object key, Color color) GetUpdateData(Led led)
@@ -179,7 +179,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     { }
 
     /// <inheritdoc />
-    public virtual Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null)
+    public virtual Led? AddLed(LedId ledId, Point location, Size size, object? customData = null)
     {
         if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 

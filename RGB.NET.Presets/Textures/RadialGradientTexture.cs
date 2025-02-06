@@ -69,7 +69,7 @@ public sealed class RadialGradientTexture : AbstractGradientTexture
     }
 
     /// <inheritdoc />
-    protected override Color GetColor(in Point point)
+    protected override Color GetColor(Point point)
     {
         float distance = GradientHelper.CalculateDistance(point, Center);
         float offset = distance / _referenceDistance;

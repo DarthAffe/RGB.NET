@@ -25,7 +25,7 @@ public sealed class LimitedColorUpdateQueue : MidiUpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override ShortMessage CreateMessage(object key, in Color color)
+    protected override ShortMessage CreateMessage(object key, Color color)
     {
         (byte mode, byte id) = ((byte, byte))key;
         return new ShortMessage(mode, id, Convert.ToByte(ConvertColor(color)));
@@ -37,7 +37,7 @@ public sealed class LimitedColorUpdateQueue : MidiUpdateQueue
     /// </summary>
     /// <param name="color">The <see cref="Color"/> to convert.</param>
     /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
-    private static int ConvertColor(in Color color)
+    private static int ConvertColor(Color color)
     {
         (double hue, double _, double value) = color.GetHSV();
 

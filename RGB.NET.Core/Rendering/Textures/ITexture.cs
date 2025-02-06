@@ -20,12 +20,12 @@ public interface ITexture
     /// </summary>
     /// <param name="point">The location to get the color from.</param>
     /// <returns>The color at the specified location.</returns>
-    Color this[in Point point] { get; }
+    Color this[Point point] { get; }
 
     /// <summary>
     /// Gets the sampled color inside the specified rectangle.
     /// </summary>
     /// <param name="rectangle">The rectangle to get the color from.</param>
     /// <returns>The sampled color.</returns>
-    Color this[in Rectangle rectangle] { get; }
+    Color this[Rectangle rectangle] { get; }
 }

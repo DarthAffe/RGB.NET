@@ -80,7 +80,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
     /// Performs the update this queue is responsible for.
     /// </summary>
     /// <param name="dataSet">The set of data that needs to be updated.</param>
-    protected abstract bool Update(in ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
+    protected abstract bool Update(ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
 
     /// <summary>
     /// Sets or merges the provided data set in the current dataset and notifies the trigger that there is new data available.

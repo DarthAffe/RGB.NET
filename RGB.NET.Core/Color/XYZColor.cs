@@ -16,21 +16,21 @@ public static class XYZColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The X component value of the color.</returns>
-    public static float GetX(this in Color color) => color.GetXYZ().x;
+    public static float GetX(this Color color) => color.GetXYZ().x;
 
     /// <summary>
     /// Gets the Y component value (XYZ-color space) of this <see cref="Color"/> in the range [0..100].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The Y component value of the color.</returns>
-    public static float GetY(this in Color color) => color.GetXYZ().y;
+    public static float GetY(this Color color) => color.GetXYZ().y;
 
     /// <summary>
     /// Gets the Z component value (XYZ-color space) of this <see cref="Color"/> in the range [0..108.883].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The Z component value of the color.</returns>
-    public static float GetZ(this in Color color) => color.GetXYZ().z;
+    public static float GetZ(this Color color) => color.GetXYZ().z;
 
     /// <summary>
     /// Gets the X, Y and Z component values (XYZ-color space) of this <see cref="Color"/>.
@@ -40,7 +40,7 @@ public static class XYZColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>A tuple containing the X, Y and Z component value of the color.</returns>
-    public static (float x, float y, float z) GetXYZ(this in Color color)
+    public static (float x, float y, float z) GetXYZ(this Color color)
         => CaclulateXYZFromRGB(color.R, color.G, color.B);
 
     #endregion
@@ -55,7 +55,7 @@ public static class XYZColor
     /// <param name="y">The Y value to add.</param>
     /// <param name="z">The Z value to add.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color AddXYZ(this in Color color, float x = 0, float y = 0, float z = 0)
+    public static Color AddXYZ(this Color color, float x = 0, float y = 0, float z = 0)
     {
         (float cX, float cY, float cZ) = color.GetXYZ();
         return Create(color.A, cX + x, cY + y, cZ + z);
@@ -69,7 +69,7 @@ public static class XYZColor
     /// <param name="y">The Y value to subtract.</param>
     /// <param name="z">The Z value to subtract.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SubtractXYZ(this in Color color, float x = 0, float y = 0, float z = 0)
+    public static Color SubtractXYZ(this Color color, float x = 0, float y = 0, float z = 0)
     {
         (float cX, float cY, float cZ) = color.GetXYZ();
         return Create(color.A, cX - x, cY - y, cZ - z);
@@ -83,7 +83,7 @@ public static class XYZColor
     /// <param name="y">The Y value to multiply.</param>
     /// <param name="z">The Z value to multiply.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color MultiplyXYZ(this in Color color, float x = 1, float y = 1, float z = 1)
+    public static Color MultiplyXYZ(this Color color, float x = 1, float y = 1, float z = 1)
     {
         (float cX, float cY, float cZ) = color.GetXYZ();
         return Create(color.A, cX * x, cY * y, cZ * z);
@@ -97,7 +97,7 @@ public static class XYZColor
     /// <param name="y">The Y value to divide.</param>
     /// <param name="z">The Z value to divide.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color DivideXYZ(this in Color color, float x = 1, float y = 1, float z = 1)
+    public static Color DivideXYZ(this Color color, float x = 1, float y = 1, float z = 1)
     {
         (float cX, float cY, float cZ) = color.GetXYZ();
         return Create(color.A, cX / x, cY / y, cZ / z);
@@ -111,7 +111,7 @@ public static class XYZColor
     /// <param name="y">The Y value to set.</param>
     /// <param name="z">The Z value to set.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SetXYZ(this in Color color, float? x = null, float? y = null, float? z = null)
+    public static Color SetXYZ(this Color color, float? x = null, float? y = null, float? z = null)
     {
         (float cX, float cY, float cZ) = color.GetXYZ();
         return Create(color.A, x ?? cX, y ?? cY, z ?? cZ);

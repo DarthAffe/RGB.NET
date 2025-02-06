@@ -88,7 +88,7 @@ public sealed class ConicalGradientTexture : AbstractGradientTexture
     #region Methods
 
     /// <inheritdoc />
-    protected override Color GetColor(in Point point)
+    protected override Color GetColor(Point point)
     {
         float angle = MathF.Atan2(point.Y - Center.Y, point.X - Center.X) - Origin;
         if (angle < 0) angle += PI2;

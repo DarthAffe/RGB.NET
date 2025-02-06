@@ -21,26 +21,12 @@ jobs:
       with:
         dotnet-version: |
           8.0.x
-          7.0.x
-          6.0.x  
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release /p:Version=${{ github.event.inputs.version }}
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
-    - name: Upload a Build Artifact NET6
-      uses: actions/upload-artifact@v4.3.1
-      with:
-        name: RGB.NET-NET6
-        path: bin/net6.0/RGB.NET.*.dll
-        if-no-files-found: error
-    - name: Upload a Build Artifact NET7
-      uses: actions/upload-artifact@v4.3.1
-      with:
-        name: RGB.NET-NET7
-        path: bin/net7.0/RGB.NET.*.dll
-        if-no-files-found: error
     - name: Upload a Build Artifact NET8
       uses: actions/upload-artifact@v4.3.1
       with:

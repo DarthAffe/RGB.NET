@@ -179,7 +179,7 @@ public readonly struct Rectangle : IEquatable<Rectangle>
 
     #region Methods
 
-    private static (Point location, Size size) InitializeFromPoints(in Point point1, in Point point2)
+    private static (Point location, Size size) InitializeFromPoints(Point point1, Point point2)
     {
         float posX = Math.Min(point1.X, point2.X);
         float posY = Math.Min(point1.Y, point2.Y);
@@ -225,7 +225,7 @@ public readonly struct Rectangle : IEquatable<Rectangle>
     /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
     /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are equal; otherwise, <c>false</c>.</returns>
-    public static bool operator ==(in Rectangle rectangle1, in Rectangle rectangle2) => rectangle1.Equals(rectangle2);
+    public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2) => rectangle1.Equals(rectangle2);
 
     /// <summary>
     /// Returns a value that indicates whether two specified <see cref="Rectangle" /> are equal.
@@ -233,7 +233,7 @@ public readonly struct Rectangle : IEquatable<Rectangle>
     /// <param name="rectangle1">The first <see cref="Rectangle" /> to compare.</param>
     /// <param name="rectangle2">The second <see cref="Rectangle" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="rectangle1" /> and <paramref name="rectangle2" /> are not equal; otherwise, <c>false</c>.</returns>
-    public static bool operator !=(in Rectangle rectangle1, in Rectangle rectangle2) => !(rectangle1 == rectangle2);
+    public static bool operator !=(Rectangle rectangle1, Rectangle rectangle2) => !(rectangle1 == rectangle2);
 
     // DarthAffe 20.02.2021: Used for normalization
     /// <summary>
@@ -242,7 +242,7 @@ public readonly struct Rectangle : IEquatable<Rectangle>
     /// <param name="rectangle1">The rectangle to nromalize.</param>
     /// <param name="rectangle2">The reference used for normalization.</param>
     /// <returns>A normalized rectangle.</returns>
-    public static Rectangle operator /(in Rectangle rectangle1, in Rectangle rectangle2)
+    public static Rectangle operator /(Rectangle rectangle1, Rectangle rectangle2)
     {
         float x = rectangle1.Location.X / (rectangle2.Size.Width - rectangle2.Location.X);
         float y = rectangle1.Location.Y / (rectangle2.Size.Height - rectangle2.Location.Y);

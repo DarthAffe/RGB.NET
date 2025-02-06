@@ -29,13 +29,13 @@ public abstract class AbstractUpdateTrigger : AbstractBindable, IUpdateTrigger
     /// Invokes the <see cref="Starting"/>-event.
     /// </summary>
     /// <param name="updateData">Optional custom-data passed to the subscribers of the <see cref="Starting"/>.event.</param>
-    protected virtual void OnStartup(CustomUpdateData? updateData = null) => Starting?.Invoke(this, updateData ?? new CustomUpdateData());
+    protected virtual void OnStartup(CustomUpdateData? updateData = null) => Starting?.Invoke(this, updateData ?? CustomUpdateData.Empty);
 
     /// <summary>
     /// Invokes the <see cref="Update"/>-event.
     /// </summary>
     /// <param name="updateData">Optional custom-data passed to the subscribers of the <see cref="Update"/>.event.</param>
-    protected virtual void OnUpdate(CustomUpdateData? updateData = null) => Update?.Invoke(this, updateData ?? new CustomUpdateData());
+    protected virtual void OnUpdate(CustomUpdateData? updateData = null) => Update?.Invoke(this, updateData ?? CustomUpdateData.Empty);
 
     /// <inheritdoc />
     public abstract void Start();

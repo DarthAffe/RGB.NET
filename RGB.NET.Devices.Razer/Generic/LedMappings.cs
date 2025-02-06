@@ -13,10 +13,17 @@ public static class LedMappings
     /// </summary>
     public static LedMapping<int> Keyboard { get; } = new()
     {
-        //Row 0 is empty
+        #region Row 0
+
+        [LedId.LedStripe1] = (_Defines.KEYBOARD_MAX_COLUMN * 0) + 0,
+        [LedId.LedStripe16] = (_Defines.KEYBOARD_MAX_COLUMN * 0) + 23,
+
+        #endregion
 
         #region Row 1
 
+        [LedId.LedStripe2] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 0,
+        [LedId.Custom1] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 1,
         [LedId.Keyboard_Escape] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 2,
         [LedId.Keyboard_F1] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 4,
         [LedId.Keyboard_F2] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 5,
@@ -33,12 +40,17 @@ public static class LedMappings
         [LedId.Keyboard_PrintScreen] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 16,
         [LedId.Keyboard_ScrollLock] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 17,
         [LedId.Keyboard_PauseBreak] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 18,
-        [LedId.Logo] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 21,
+        [LedId.Keyboard_MediaPreviousTrack] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 19,
+        [LedId.Keyboard_MediaPlay] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 20,
+        [LedId.Keyboard_MediaNextTrack] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 21,
+        [LedId.Keyboard_MediaMute] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 22,
+        [LedId.LedStripe15] = (_Defines.KEYBOARD_MAX_COLUMN * 1) + 23,
 
         #endregion
 
         #region Row 2
 
+        [LedId.LedStripe3] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 0,
         [LedId.Keyboard_Programmable1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 1,
         [LedId.Keyboard_GraveAccentAndTilde] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 2,
         [LedId.Keyboard_1] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 3,
@@ -61,11 +73,13 @@ public static class LedMappings
         [LedId.Keyboard_NumSlash] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 20,
         [LedId.Keyboard_NumAsterisk] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 21,
         [LedId.Keyboard_NumMinus] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 22,
+        [LedId.LedStripe14] = (_Defines.KEYBOARD_MAX_COLUMN * 2) + 23,
 
         #endregion
 
         #region Row 3
 
+        [LedId.LedStripe4] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 0,
         [LedId.Keyboard_Programmable2] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 1,
         [LedId.Keyboard_Tab] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 2,
         [LedId.Keyboard_Q] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 3,
@@ -88,11 +102,13 @@ public static class LedMappings
         [LedId.Keyboard_Num8] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 20,
         [LedId.Keyboard_Num9] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 21,
         [LedId.Keyboard_NumPlus] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 22,
+        [LedId.LedStripe13] = (_Defines.KEYBOARD_MAX_COLUMN * 3) + 23,
 
         #endregion
 
         #region Row 4
 
+        [LedId.LedStripe5] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 0,
         [LedId.Keyboard_Programmable3] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 1,
         [LedId.Keyboard_CapsLock] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 2,
         [LedId.Keyboard_A] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 3,
@@ -111,11 +127,13 @@ public static class LedMappings
         [LedId.Keyboard_Num4] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 19,
         [LedId.Keyboard_Num5] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 20,
         [LedId.Keyboard_Num6] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 21,
+        [LedId.LedStripe12] = (_Defines.KEYBOARD_MAX_COLUMN * 4) + 23,
 
         #endregion
 
         #region Row 5
 
+        [LedId.LedStripe6] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 0,
         [LedId.Keyboard_Programmable4] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 1,
         [LedId.Keyboard_LeftShift] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 2,
         [LedId.Keyboard_NonUsBackslash] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 3,
@@ -135,11 +153,13 @@ public static class LedMappings
         [LedId.Keyboard_Num2] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 20,
         [LedId.Keyboard_Num3] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 21,
         [LedId.Keyboard_NumEnter] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 22,
+        [LedId.LedStripe11] = (_Defines.KEYBOARD_MAX_COLUMN * 5) + 23,
 
         #endregion
 
         #region Row 6
 
+        [LedId.LedStripe7] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 0,
         [LedId.Keyboard_Programmable5] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 1,
         [LedId.Keyboard_LeftCtrl] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 2,
         [LedId.Keyboard_LeftGui] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 3,
@@ -152,12 +172,18 @@ public static class LedMappings
         [LedId.Keyboard_ArrowLeft] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 16,
         [LedId.Keyboard_ArrowDown] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 17,
         [LedId.Keyboard_ArrowRight] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 18,
+        [LedId.LedStripe9] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 19,
         [LedId.Keyboard_Num0] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 20,
         [LedId.Keyboard_NumPeriodAndDelete] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 21,
+        [LedId.LedStripe10] = (_Defines.KEYBOARD_MAX_COLUMN * 6) + 23,
 
         #endregion
 
-        //Row 7 is also empty
+        #region Row 6
+
+        [LedId.LedStripe8] = (_Defines.KEYBOARD_MAX_COLUMN * 7) + 0,
+
+        #endregion
     };
 
 
