@@ -644,4 +644,15 @@ public static class LedMappings
         { LedId.Keyboard_Custom9, SteelSeriesLedId.ZoneNine },
         { LedId.Keyboard_Custom10, SteelSeriesLedId.ZoneTen }
     };
+
+    /// <summary>
+    /// Gets the mapping for 4-zone speakers.
+    /// </summary>
+    public static LedMapping<SteelSeriesLedId> SpeakerFourZone { get; } = new()
+    {
+        { LedId.Speaker1, SteelSeriesLedId.ZoneOne },
+        { LedId.Speaker2, SteelSeriesLedId.ZoneTwo },
+        { LedId.Speaker3, SteelSeriesLedId.ZoneThree },
+        { LedId.Speaker4, SteelSeriesLedId.ZoneFour },
+    };
 }

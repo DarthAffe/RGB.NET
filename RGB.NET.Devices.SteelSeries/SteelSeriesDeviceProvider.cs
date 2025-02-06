@@ -98,6 +98,9 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
 
         //Monitors
         { 0x1126, RGBDeviceType.Monitor, "MGP27C", LedMappings.MonitorOnehundredandthreeZone, SteelSeriesDeviceType.OneHundredAndThreeZone },
+
+        //Speaker
+        { 0x1A05, RGBDeviceType.Speaker, "Arena 9", LedMappings.SpeakerFourZone, SteelSeriesDeviceType.FourZone },
     };
 
     #endregion
