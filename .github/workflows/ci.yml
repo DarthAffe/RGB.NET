@@ -24,6 +24,7 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
+          9.0.x
           8.0.x
     - name: Restore dependencies
       run: dotnet restore
@@ -31,6 +32,12 @@ jobs:
       run: dotnet build --no-restore --configuration Release /p:Version=${{ github.event.inputs.version }}-prerelease.${{ github.event.inputs.increment }}
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
+    - name: Upload a Build Artifact NET9
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: RGB.NET-NET9
+        path: bin/net9.0/RGB.NET.*.dll
+        if-no-files-found: error
     - name: Upload a Build Artifact NET8
       uses: actions/upload-artifact@v4.3.1
       with:
