@@ -78,6 +78,7 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1600, RGBDeviceType.Keyboard, "Apex M800", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1610, RGBDeviceType.Keyboard, "Apex Pro", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1614, RGBDeviceType.Keyboard, "Apex Pro TKL", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
+        { 0x1644, RGBDeviceType.Keyboard, "Apex Pro TKL Wireless Gen3", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x1630, RGBDeviceType.Keyboard, "Apex Pro TKL", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey }, // DarthAffe 27.05.2024: This could be a generic wireless connector
         { 0x1640, RGBDeviceType.Keyboard, "Apex Pro 3", LedMappings.KeyboardMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x2036, RGBDeviceType.Keyboard, "MSI Notebook", LedMappings.KeyboardNotebookMappingUk, SteelSeriesDeviceType.PerKey },
