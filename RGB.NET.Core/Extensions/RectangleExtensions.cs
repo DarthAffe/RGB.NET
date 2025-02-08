@@ -154,9 +154,9 @@ public static class RectangleExtensions
         Point[] points =
         [
             rect.Location, // top left
-            new Point(rect.Location.X + rect.Size.Width, rect.Location.Y), // top right
-            new Point(rect.Location.X + rect.Size.Width, rect.Location.Y + rect.Size.Height), // bottom right
-            new Point(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
+            new(rect.Location.X + rect.Size.Width, rect.Location.Y), // top right
+            new(rect.Location.X + rect.Size.Width, rect.Location.Y + rect.Size.Height), // bottom right
+            new(rect.Location.X, rect.Location.Y + rect.Size.Height), // bottom right
         ];
 
         float sin = MathF.Sin(rotation.Radians);
