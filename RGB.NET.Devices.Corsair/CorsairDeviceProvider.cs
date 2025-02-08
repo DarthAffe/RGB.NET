@@ -310,6 +310,14 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                             break;
 
                         default:
+                            
+                            //Workaround to support LX Fans because they have an invalid ChannelDeviceType
+                            if ((device.model == "iCUE LINK System Hub") && (ledCount == 18))
+                            {
+                                yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "LX Fan"), updateQueue);
+                                break;
+                            }
+
                             Throw(new RGBDeviceException("Unknown Device-Type"));
                             break;
                     }
