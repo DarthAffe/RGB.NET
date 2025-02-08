@@ -18,7 +18,7 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static CorsairDeviceProvider? _instance;
     /// <summary>

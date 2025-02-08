@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.SteelSeries.API;
 using RGB.NET.HID;
@@ -21,7 +22,7 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static SteelSeriesDeviceProvider? _instance;
     /// <summary>

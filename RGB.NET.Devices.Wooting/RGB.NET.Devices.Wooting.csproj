@@ -52,6 +52,10 @@
     <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <Using Include="RGB.NET.Core.Compatibility.Net8" />
+  </ItemGroup>
+
   <ItemGroup>
     <Content Include="..\Resources\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
     <None Include="README.md" Pack="true" PackagePath="\" />

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using RGB.NET.Core;
 using Sanford.Multimedia.Midi;
 
@@ -18,7 +19,7 @@ public sealed class NovationDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static NovationDeviceProvider? _instance;
     /// <summary>

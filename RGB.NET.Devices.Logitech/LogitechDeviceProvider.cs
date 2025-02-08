@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using HidSharp;
 using RGB.NET.Core;
 using RGB.NET.Devices.Logitech.Native;
@@ -21,7 +22,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static LogitechDeviceProvider? _instance;
     /// <summary>

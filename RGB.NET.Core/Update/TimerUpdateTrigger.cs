@@ -14,7 +14,7 @@ public sealed class TimerUpdateTrigger : AbstractUpdateTrigger
 {
     #region Properties & Fields
 
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
 
     private readonly CustomUpdateData? _customUpdateData;
 
