@@ -18,7 +18,7 @@ public sealed class AverageByteSampler : ISampler<byte>
     #region Methods
 
     /// <inheritdoc />
-    public unsafe void Sample(in SamplerInfo<byte> info, in Span<byte> pixelData)
+    public unsafe void Sample(SamplerInfo<byte> info, Span<byte> pixelData)
     {
         int count = info.Width * info.Height;
         if (count == 0) return;

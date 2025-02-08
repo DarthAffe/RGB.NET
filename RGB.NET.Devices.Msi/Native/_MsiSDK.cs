@@ -68,7 +68,7 @@ internal static class _MsiSDK
         if (OperatingSystem.IsWindows())
             possibleLibraryPaths = Environment.Is64BitProcess ? MsiDeviceProvider.PossibleX64NativePaths : MsiDeviceProvider.PossibleX86NativePaths;
         else
-            possibleLibraryPaths = Enumerable.Empty<string>();
+            possibleLibraryPaths = [];
 
         return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }

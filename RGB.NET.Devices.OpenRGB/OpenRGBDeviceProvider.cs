@@ -3,6 +3,7 @@ using RGB.NET.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace RGB.NET.Devices.OpenRGB;
 
@@ -15,7 +16,7 @@ public sealed class OpenRGBDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private readonly List<OpenRgbClient> _clients = [];
 

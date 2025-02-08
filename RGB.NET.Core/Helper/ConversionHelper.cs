@@ -40,7 +40,7 @@ public static class ConversionHelper
     public static byte[] HexToBytes(ReadOnlySpan<char> hexString)
     {
         if ((hexString.Length == 0) || ((hexString.Length % 2) != 0))
-            return Array.Empty<byte>();
+            return [];
 
         byte[] buffer = new byte[hexString.Length / 2];
         for (int bx = 0, sx = 0; bx < buffer.Length; ++bx, ++sx)

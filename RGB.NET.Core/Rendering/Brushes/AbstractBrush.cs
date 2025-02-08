@@ -69,7 +69,7 @@ public abstract class AbstractBrush : AbstractDecoratable<IBrushDecorator>, IBru
     /// <param name="rectangle">The rectangle in which the brush should be drawn.</param>
     /// <param name="renderTarget">The target (key/point) from which the color should be taken.</param>
     /// <param name="color">The <see cref="Color"/> to be modified.</param>
-    protected virtual void ApplyDecorators(in Rectangle rectangle, in RenderTarget renderTarget, ref Color color)
+    protected virtual void ApplyDecorators(Rectangle rectangle, RenderTarget renderTarget, ref Color color)
     {
         if (Decorators.Count == 0) return;
 
@@ -89,7 +89,7 @@ public abstract class AbstractBrush : AbstractDecoratable<IBrushDecorator>, IBru
     /// <param name="rectangle">The rectangle in which the brush should be drawn.</param>
     /// <param name="renderTarget">The target (key/point) from which the color should be taken.</param>
     /// <returns>The color at the specified point.</returns>
-    protected abstract Color GetColorAtPoint(in Rectangle rectangle, in RenderTarget renderTarget);
+    protected abstract Color GetColorAtPoint(Rectangle rectangle, RenderTarget renderTarget);
 
     /// <summary>
     /// Finalizes the color by appliing the overall brightness and opacity.<br/>

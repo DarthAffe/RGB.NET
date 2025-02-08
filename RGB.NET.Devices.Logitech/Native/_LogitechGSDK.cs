@@ -63,7 +63,7 @@ internal static class _LogitechGSDK
         if (OperatingSystem.IsWindows())
             possibleLibraryPaths = Environment.Is64BitProcess ? LogitechDeviceProvider.PossibleX64NativePaths : LogitechDeviceProvider.PossibleX86NativePaths;
         else
-            possibleLibraryPaths = Enumerable.Empty<string>();
+            possibleLibraryPaths = [];
 
         return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }

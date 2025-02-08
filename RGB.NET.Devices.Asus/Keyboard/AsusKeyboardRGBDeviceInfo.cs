@@ -13,7 +13,6 @@ public sealed class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDevi
 
     /// <summary>
     /// The ASUS SDK returns useless names for notebook keyboards, possibly for others as well.
-    /// Keep a list of those and rely on <see cref="WMIHelper.GetSystemModelInfo()"/> to get the real model
     /// </summary>
     private static readonly List<string> GENERIC_DEVICE_NAMES = ["NotebookKeyboard"];
 
@@ -37,7 +36,7 @@ public sealed class AsusKeyboardRGBDeviceInfo : AsusRGBDeviceInfo, IKeyboardDevi
 
     #region Methods
 
-    private static string? GetKeyboardModel(string deviceName) => GENERIC_DEVICE_NAMES.Contains(deviceName) ? WMIHelper.GetSystemModelInfo() : deviceName;
+    private static string GetKeyboardModel(string deviceName) => GENERIC_DEVICE_NAMES.Contains(deviceName) ? "Asus Keyboard" : deviceName;
 
     #endregion
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace RGB.NET.Core;
 
@@ -14,7 +15,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
 {
     #region Properties & Fields
 
-    private readonly object _dataLock = new();
+    private readonly Lock _dataLock = new();
     private readonly IDeviceUpdateTrigger _updateTrigger;
     private readonly Dictionary<TIdentifier, TData> _currentDataSet = [];
 
@@ -80,7 +81,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
     /// Performs the update this queue is responsible for.
     /// </summary>
     /// <param name="dataSet">The set of data that needs to be updated.</param>
-    protected abstract bool Update(in ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
+    protected abstract bool Update(ReadOnlySpan<(TIdentifier key, TData color)> dataSet);
 
     /// <summary>
     /// Sets or merges the provided data set in the current dataset and notifies the trigger that there is new data available.

@@ -24,7 +24,7 @@ public static class TimerHelper
 
     #region Properties & Fields
 
-    private static readonly object HIGH_RESOLUTION_TIMER_LOCK = new();
+    private static readonly Lock HIGH_RESOLUTION_TIMER_LOCK = new();
 
     private static bool _areHighResolutionTimersEnabled = false;
 

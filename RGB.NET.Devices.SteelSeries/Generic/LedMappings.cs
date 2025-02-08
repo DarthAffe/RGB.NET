@@ -480,7 +480,7 @@ public static class LedMappings
         { LedId.Mouse9, SteelSeriesLedId.ZoneNine },
         { LedId.Mouse10, SteelSeriesLedId.ZoneTen }
     };
-    
+
     /// <summary>
     /// Gets the mapping for two-zone headsets.
     /// </summary>
@@ -626,5 +626,33 @@ public static class LedMappings
         { LedId.LedStripe101, SteelSeriesLedId.ZoneOneHundredOne },
         { LedId.LedStripe102, SteelSeriesLedId.ZoneOneHundredTwo },
         { LedId.LedStripe103, SteelSeriesLedId.ZoneOneHundredThree }
+    };
+
+    /// <summary>
+    /// Gets the mapping for 10-zone kayboard.
+    /// </summary>
+    public static LedMapping<SteelSeriesLedId> KeyboardTenZone { get; } = new()
+    {
+        { LedId.Keyboard_Custom1, SteelSeriesLedId.ZoneOne },
+        { LedId.Keyboard_Custom2, SteelSeriesLedId.ZoneTwo },
+        { LedId.Keyboard_Custom3, SteelSeriesLedId.ZoneThree },
+        { LedId.Keyboard_Custom4, SteelSeriesLedId.ZoneFour },
+        { LedId.Keyboard_Custom5, SteelSeriesLedId.ZoneFive },
+        { LedId.Keyboard_Custom6, SteelSeriesLedId.ZoneSix },
+        { LedId.Keyboard_Custom7, SteelSeriesLedId.ZoneSeven },
+        { LedId.Keyboard_Custom8, SteelSeriesLedId.ZoneEight },
+        { LedId.Keyboard_Custom9, SteelSeriesLedId.ZoneNine },
+        { LedId.Keyboard_Custom10, SteelSeriesLedId.ZoneTen }
+    };
+
+    /// <summary>
+    /// Gets the mapping for 4-zone speakers.
+    /// </summary>
+    public static LedMapping<SteelSeriesLedId> SpeakerFourZone { get; } = new()
+    {
+        { LedId.Speaker1, SteelSeriesLedId.ZoneOne },
+        { LedId.Speaker2, SteelSeriesLedId.ZoneTwo },
+        { LedId.Speaker3, SteelSeriesLedId.ZoneThree },
+        { LedId.Speaker4, SteelSeriesLedId.ZoneFour },
     };
 }

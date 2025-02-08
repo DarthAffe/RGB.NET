@@ -39,7 +39,7 @@ public abstract class PixelTexture<T> : ITexture
     public Size Size { get; }
 
     /// <inheritdoc />
-    public virtual Color this[in Point point]
+    public virtual Color this[Point point]
     {
         get
         {
@@ -52,7 +52,7 @@ public abstract class PixelTexture<T> : ITexture
     }
 
     /// <inheritdoc />
-    public virtual Color this[in Rectangle rectangle]
+    public virtual Color this[Rectangle rectangle]
     {
         get
         {
@@ -126,7 +126,7 @@ public abstract class PixelTexture<T> : ITexture
     /// </summary>
     /// <param name="pixel">The pixel-data to convert.</param>
     /// <returns>The color represented by the specified pixel-data.</returns>
-    protected abstract Color GetColor(in ReadOnlySpan<T> pixel);
+    protected abstract Color GetColor(ReadOnlySpan<T> pixel);
 
     /// <summary>
     /// Gets the pixel-data at the specified location.
@@ -189,7 +189,7 @@ public sealed class PixelTexture : PixelTexture<Color>
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected override Color GetColor(in ReadOnlySpan<Color> pixel) => pixel[0];
+    protected override Color GetColor(ReadOnlySpan<Color> pixel) => pixel[0];
 
     #endregion
 }

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -17,7 +18,7 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static AsusDeviceProvider? _instance;
     /// <summary>
@@ -76,7 +77,7 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
 
             yield return (AsusDeviceType)device.Type switch
             {
-                AsusDeviceType.MB_RGB => new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, WMIHelper.GetMainboardInfo()?.model ?? device.Name), GetUpdateTrigger()),
+                AsusDeviceType.MB_RGB => new AsusMainboardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Mainboard, device, "Asus Motherboard"), GetUpdateTrigger()),
                 AsusDeviceType.MB_ADDRESABLE => new AsusUnspecifiedRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.LedStripe, device), LedId.LedStripe1, GetUpdateTrigger()),
                 AsusDeviceType.VGA_RGB => new AsusGraphicsCardRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.GraphicsCard, device), GetUpdateTrigger()),
                 AsusDeviceType.HEADSET_RGB => new AsusHeadsetRGBDevice(new AsusRGBDeviceInfo(RGBDeviceType.Headset, device), GetUpdateTrigger()),

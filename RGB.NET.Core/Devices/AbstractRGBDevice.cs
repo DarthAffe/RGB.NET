@@ -43,7 +43,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
     /// <inheritdoc />
-    public IList<IColorCorrection> ColorCorrections { get; } = new List<IColorCorrection>();
+    public IList<IColorCorrection> ColorCorrections { get; } = [];
 
     /// <summary>
     /// Gets or sets if the device needs to be flushed on every update.
@@ -63,7 +63,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     #region Indexer
 
     /// <inheritdoc />
-    Led? IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led? led) ? led : null;
+    Led? IRGBDevice.this[LedId ledId] => LedMapping.GetValueOrDefault(ledId);
 
     /// <inheritdoc />
     Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.Boundary.Contains(location));
@@ -119,7 +119,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     /// Applies all <see cref="ColorCorrections"/>.
     /// if no <see cref="Led.CustomData"/> ist specified the <see cref="Led.Id"/> is used.
     /// </remarks>
-    /// <param name="leds">The enumerable of leds to convert.</param>
+    /// <param name="led">The of led to convert.</param>
     /// <returns>The enumerable of custom data and color tuples for the specified leds.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected (object key, Color color) GetUpdateData(Led led)
@@ -179,7 +179,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     { }
 
     /// <inheritdoc />
-    public virtual Led? AddLed(LedId ledId, in Point location, in Size size, object? customData = null)
+    public virtual Led? AddLed(LedId ledId, Point location, Size size, object? customData = null)
     {
         if ((ledId == LedId.Invalid) || LedMapping.ContainsKey(ledId)) return null;
 

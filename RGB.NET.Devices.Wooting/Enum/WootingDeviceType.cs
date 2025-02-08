@@ -26,4 +26,9 @@ public enum WootingDeviceType
     /// Three key keypad. E.g. Wooting Uwu
     /// </summary>
     Keypad3Keys = 4,
+    
+    /// <summary>
+    /// 80 percent keyboard. E.g. Wooting 80HE
+    /// </summary>
+    KeyboardEightyPercent = 5,
 }

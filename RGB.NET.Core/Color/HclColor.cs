@@ -16,21 +16,21 @@ public static class HclColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The H component value of the color. </returns>
-    public static float GetHclH(this in Color color) => color.GetHcl().h;
+    public static float GetHclH(this Color color) => color.GetHcl().h;
 
     /// <summary>
     /// Gets the c component value (Hcl-color space) of this <see cref="Color"/> in the range [0..1].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The c component value of the color. </returns>
-    public static float GetHclC(this in Color color) => color.GetHcl().c;
+    public static float GetHclC(this Color color) => color.GetHcl().c;
 
     /// <summary>
     /// Gets the l component value (Hcl-color space) of this <see cref="Color"/> in the range [0..1].
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>The l component value of the color. </returns>
-    public static float GetHclL(this in Color color) => color.GetHcl().l;
+    public static float GetHclL(this Color color) => color.GetHcl().l;
 
     /// <summary>
     /// Gets the H, c and l component values (Hcl-color space) of this <see cref="Color"/>.
@@ -40,7 +40,7 @@ public static class HclColor
     /// </summary>
     /// <param name="color">The color to get the value from.</param>
     /// <returns>A tuple containing the H, c and l component value of the color.</returns>
-    public static (float h, float c, float l) GetHcl(this in Color color)
+    public static (float h, float c, float l) GetHcl(this Color color)
         => CalculateHclFromRGB(color.R, color.G, color.B);
 
     #endregion
@@ -55,7 +55,7 @@ public static class HclColor
     /// <param name="c">The c value to add.</param>
     /// <param name="l">The l value to add.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color AddHcl(this in Color color, float h = 0, float c = 0, float l = 0)
+    public static Color AddHcl(this Color color, float h = 0, float c = 0, float l = 0)
     {
         (float cH, float cC, float cL) = color.GetHcl();
         return Create(color.A, cH + h, cC + c, cL + l);
@@ -69,7 +69,7 @@ public static class HclColor
     /// <param name="c">The c value to subtract.</param>
     /// <param name="l">The l value to subtract.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SubtractHcl(this in Color color, float h = 0, float c = 0, float l = 0)
+    public static Color SubtractHcl(this Color color, float h = 0, float c = 0, float l = 0)
     {
         (float cH, float cC, float cL) = color.GetHcl();
         return Create(color.A, cH - h, cC - c, cL - l);
@@ -83,7 +83,7 @@ public static class HclColor
     /// <param name="c">The c value to multiply.</param>
     /// <param name="l">The l value to multiply.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color MultiplyHcl(this in Color color, float h = 1, float c = 1, float l = 1)
+    public static Color MultiplyHcl(this Color color, float h = 1, float c = 1, float l = 1)
     {
         (float cH, float cC, float cL) = color.GetHcl();
         return Create(color.A, cH * h, cC * c, cL * l);
@@ -97,7 +97,7 @@ public static class HclColor
     /// <param name="c">The c value to divide.</param>
     /// <param name="l">The l value to divide.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color DivideHcl(this in Color color, float h = 1, float c = 1, float l = 1)
+    public static Color DivideHcl(this Color color, float h = 1, float c = 1, float l = 1)
     {
         (float cH, float cC, float cL) = color.GetHcl();
         return Create(color.A, cH / h, cC / c, cL / l);
@@ -111,7 +111,7 @@ public static class HclColor
     /// <param name="c">The c value to set.</param>
     /// <param name="l">The l value to set.</param>
     /// <returns>The new color after the modification.</returns>
-    public static Color SetHcl(this in Color color, float? h = null, float? c = null, float? l = null)
+    public static Color SetHcl(this Color color, float? h = null, float? c = null, float? l = null)
     {
         (float cH, float cC, float cL) = color.GetHcl();
         return Create(color.A, h ?? cH, c ?? cC, l ?? cL);

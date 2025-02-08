@@ -21,10 +21,10 @@ public abstract class AbstractGradientTexture : AbstractBindable, ITexture
     public Size Size { get; }
 
     /// <inheritdoc />
-    public Color this[in Point point] => GetColor(point);
+    public Color this[Point point] => GetColor(point);
 
     /// <inheritdoc />
-    public Color this[in Rectangle rectangle] => GetColor(rectangle.Center);
+    public Color this[Rectangle rectangle] => GetColor(rectangle.Center);
 
     #endregion
 
@@ -50,7 +50,7 @@ public abstract class AbstractGradientTexture : AbstractBindable, ITexture
     /// </summary>
     /// <param name="point">The location to get the color from.</param>
     /// <returns>The color at the specified location.</returns>
-    protected abstract Color GetColor(in Point point);
+    protected abstract Color GetColor(Point point);
 
     #endregion
 }

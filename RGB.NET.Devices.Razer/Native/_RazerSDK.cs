@@ -64,7 +64,7 @@ internal static class _RazerSDK
         if (OperatingSystem.IsWindows())
             possibleLibraryPaths = Environment.Is64BitProcess ? RazerDeviceProvider.PossibleX64NativePaths : RazerDeviceProvider.PossibleX86NativePaths;
         else
-            possibleLibraryPaths = Enumerable.Empty<string>();
+            possibleLibraryPaths = [];
 
         return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }

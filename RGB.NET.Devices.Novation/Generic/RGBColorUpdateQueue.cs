@@ -151,7 +151,7 @@ public sealed class RGBColorUpdateQueue : MidiUpdateQueue
     #region Methods
 
     /// <inheritdoc />
-    protected override ShortMessage? CreateMessage(object key, in Color color)
+    protected override ShortMessage? CreateMessage(object key, Color color)
     {
         (byte mode, byte id) = ((byte, byte))key;
         if (mode == 0x00) return null;
@@ -165,7 +165,7 @@ public sealed class RGBColorUpdateQueue : MidiUpdateQueue
     /// </summary>
     /// <param name="color">The <see cref="Color"/> to convert.</param>
     /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
-    private static int ConvertColor(in Color color)
+    private static int ConvertColor(Color color)
     {
         int bestVelocity = 0;
         double bestMatchDistance = double.MaxValue;

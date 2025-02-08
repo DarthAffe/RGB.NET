@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 
 namespace RGB.NET.Devices.WS281X;
@@ -17,7 +18,7 @@ public sealed class WS281XDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static WS281XDeviceProvider? _instance;
     /// <summary>

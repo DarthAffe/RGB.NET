@@ -61,7 +61,7 @@ public sealed class BytePixelTexture : PixelTexture<byte>
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected override Color GetColor(in ReadOnlySpan<byte> pixel)
+    protected override Color GetColor(ReadOnlySpan<byte> pixel)
     {
         return ColorFormat switch
         {

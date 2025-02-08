@@ -44,7 +44,7 @@ public readonly ref struct SamplerInfo<T>
     /// <param name="width">The width of the region the data comes from.</param>
     /// <param name="height">The height of region the data comes from.</param>
     /// <param name="data">The data to sample.</param>
-    public SamplerInfo(int x, int y, int width, int height, int stride, int dataPerPixel, in ReadOnlySpan<T> data)
+    public SamplerInfo(int x, int y, int width, int height, int stride, int dataPerPixel, ReadOnlySpan<T> data)
     {
         this._x = x;
         this._y = y;
