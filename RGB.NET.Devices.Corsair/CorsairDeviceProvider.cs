@@ -273,7 +273,12 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                             break;
 
                         case CorsairChannelDeviceType.EightLedSeriesFan:
-                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, "8-Led-Series Fan Fan"), updateQueue);
+                            string fanModelName = "8-Led-Series Fan";
+                            
+                            if (device.model == "iCUE LINK System Hub")
+                                fanModelName = "RX Fan";
+                            
+                            yield return new CorsairFanRGBDevice(new CorsairFanRGBDeviceInfo(device, ledCount, offset, fanModelName), updateQueue);
                             break;
 
                         case CorsairChannelDeviceType.DAP:
@@ -289,20 +294,20 @@ public sealed class CorsairDeviceProvider : AbstractRGBDeviceProvider
                             break;
 
                         case CorsairChannelDeviceType.Strip:
-                            string modelName = "LED Strip";
+                            string stripModelName = "LED Strip";
 
                             // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single
                             if ((device.model == "LS100 Starter Kit") && (ledCount == 138))
-                                modelName = "LS100 LED Strip (dual monitor)";
+                                stripModelName = "LS100 LED Strip (dual monitor)";
                             else if ((device.model == "LS100 Starter Kit") && (ledCount == 84))
-                                modelName = "LS100 LED Strip (single monitor)";
+                                stripModelName = "LS100 LED Strip (single monitor)";
                             // Any other value means an "External LED Strip" in iCUE, these are reported per-strip, 15 for short strips, 27 for long
                             else if ((device.model == "LS100 Starter Kit") && (ledCount == 15))
-                                modelName = "LS100 LED Strip (short)";
+                                stripModelName = "LS100 LED Strip (short)";
                             else if ((device.model == "LS100 Starter Kit") && (ledCount == 27))
-                                modelName = "LS100 LED Strip (long)";
+                                stripModelName = "LS100 LED Strip (long)";
 
-                            yield return new CorsairLedStripRGBDevice(new CorsairLedStripRGBDeviceInfo(device, ledCount, offset, modelName), updateQueue);
+                            yield return new CorsairLedStripRGBDevice(new CorsairLedStripRGBDeviceInfo(device, ledCount, offset, stripModelName), updateQueue);
                             break;
 
                         case CorsairChannelDeviceType.DRAM:
