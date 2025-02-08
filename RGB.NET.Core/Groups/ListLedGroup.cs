@@ -20,7 +20,7 @@ public sealed class ListLedGroup : AbstractLedGroup
     /// <summary>
     /// Gets the list containing the <see cref="Led"/> of this <see cref="ListLedGroup"/>.
     /// </summary>
-    private readonly IList<Led> _groupLeds = new List<Led>();
+    private readonly IList<Led> _groupLeds = [];
 
     #endregion
 
@@ -142,7 +142,7 @@ public sealed class ListLedGroup : AbstractLedGroup
     public override IList<Led> ToList()
     {
         lock (_groupLeds)
-            return new List<Led>(_groupLeds);
+            return [.._groupLeds];
     }
 
     protected override IDisposable ToListUnsafe(out IList<Led> leds)

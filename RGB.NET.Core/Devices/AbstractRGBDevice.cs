@@ -43,7 +43,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
     /// <inheritdoc />
-    public IList<IColorCorrection> ColorCorrections { get; } = new List<IColorCorrection>();
+    public IList<IColorCorrection> ColorCorrections { get; } = [];
 
     /// <summary>
     /// Gets or sets if the device needs to be flushed on every update.
@@ -63,7 +63,7 @@ public abstract class AbstractRGBDevice<TDeviceInfo> : Placeable, IRGBDevice<TDe
     #region Indexer
 
     /// <inheritdoc />
-    Led? IRGBDevice.this[LedId ledId] => LedMapping.TryGetValue(ledId, out Led? led) ? led : null;
+    Led? IRGBDevice.this[LedId ledId] => LedMapping.GetValueOrDefault(ledId);
 
     /// <inheritdoc />
     Led? IRGBDevice.this[Point location] => LedMapping.Values.FirstOrDefault(x => x.Boundary.Contains(location));

@@ -68,7 +68,7 @@ public sealed class CustomUpdateData : ICustomUpdateData
     /// <returns>The value represented by the specified key.</returns>
     public object? this[string key]
     {
-        get => _data.TryGetValue(key, out object? data) ? data : default;
+        get => _data.GetValueOrDefault(key);
         set => _data[key] = value;
     }
 
