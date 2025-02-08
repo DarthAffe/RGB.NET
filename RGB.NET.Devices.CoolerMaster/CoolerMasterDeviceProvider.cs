@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using RGB.NET.Core;
 using RGB.NET.Devices.CoolerMaster.Helper;
 using RGB.NET.Devices.CoolerMaster.Native;
@@ -18,7 +19,7 @@ public sealed class CoolerMasterDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static CoolerMasterDeviceProvider? _instance;
     /// <summary>

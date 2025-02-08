@@ -20,8 +20,8 @@ public sealed class RGBSurface : AbstractBindable, IDisposable
 
     private readonly Stopwatch _deltaTimeCounter;
 
-    private readonly IList<IRGBDevice> _devices = new List<IRGBDevice>();
-    private readonly IList<IUpdateTrigger> _updateTriggers = new List<IUpdateTrigger>();
+    private readonly IList<IRGBDevice> _devices = [];
+    private readonly IList<IUpdateTrigger> _updateTriggers = [];
     private readonly List<ILedGroup> _ledGroups = [];
 
     /// <summary>

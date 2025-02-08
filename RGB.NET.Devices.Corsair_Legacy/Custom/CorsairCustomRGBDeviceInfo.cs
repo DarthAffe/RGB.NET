@@ -124,16 +124,19 @@ public class CorsairCustomRGBDeviceInfo : CorsairRGBDeviceInfo
                 // LS100 Led Strips are reported as one big strip if configured in monitor mode in iCUE, 138 LEDs for dual monitor, 84 for single
                 if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 138))
                     return "LS100 LED Strip (dual monitor)";
-                else if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 84))
+
+                if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 84))
                     return "LS100 LED Strip (single monitor)";
+
                 // Any other value means an "External LED Strip" in iCUE, these are reported per-strip, 15 for short strips, 27 for long
-                else if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 15))
+                if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 15))
                     return "LS100 LED Strip (short)";
-                else if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 27))
+
+                if ((model == "LS100 Starter Kit") && (channelDeviceInfo.deviceLedCount == 27))
                     return "LS100 LED Strip (long)";
+
                 // Device model is "Commander Pro" for regular LED strips
-                else
-                    return "LED Strip";
+                return "LED Strip";
 
             case CorsairChannelDeviceType.DAP:
                 return "DAP Fan";

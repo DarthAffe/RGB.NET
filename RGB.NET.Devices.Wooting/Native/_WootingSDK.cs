@@ -64,7 +64,7 @@ internal static class _WootingSDK
         else if (OperatingSystem.IsMacOS())
             possibleLibraryPaths = WootingDeviceProvider.PossibleNativePathsMacOS;
         else
-            possibleLibraryPaths = Enumerable.Empty<string>();
+            possibleLibraryPaths = [];
 
         return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }

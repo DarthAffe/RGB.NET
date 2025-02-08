@@ -139,7 +139,7 @@ public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefi
                 getConnectedDevices.Init(LOGITECH_RECEIVER_ADDRESS, LOGITECH_GET_REGISTER_REQUEST);
 
                 stream.Write(getConnectedDevices.AsSpan());
-                stream.Read(response.AsSpan());
+                stream.ReadExactly(response.AsSpan());
 
                 bool wirelessNotifications = (response.Data01 & 1) == 1;
                 if (!wirelessNotifications)
@@ -150,7 +150,7 @@ public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefi
                     getConnectedDevices.Data1 = 1;
 
                     stream.Write(getConnectedDevices.AsSpan());
-                    stream.Read(response.AsSpan());
+                    stream.ReadExactly(response.AsSpan());
 
                     if (getConnectedDevices.FeatureIndex == 0x8f)
                     {
@@ -164,7 +164,7 @@ public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefi
                 getConnectedDevices.FeatureCommand = 0x02;
 
                 stream.Write(getConnectedDevices.AsSpan());
-                stream.Read(response.AsSpan());
+                stream.ReadExactly(response.AsSpan());
                 int deviceCount = response.Data01;
                 if (deviceCount <= 0)
                     return map;
@@ -180,7 +180,7 @@ public sealed class LightspeedHIDLoader<TLed, TData> : IEnumerable<HIDDeviceDefi
                 for (int i = 0; i < deviceCount; i++)
                 {
                     FapResponse devices = new();
-                    stream.Read(devices.AsSpan());
+                    stream.ReadExactly(devices.AsSpan());
                     int wirelessPid = (devices.Data02 << 8) | devices.Data01;
                     if (devices.DeviceIndex != 0xff)
                         map.Add(wirelessPid, devices.DeviceIndex);

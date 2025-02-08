@@ -133,7 +133,7 @@ internal static unsafe class _CUESDK
         if (OperatingSystem.IsWindows())
             possibleLibraryPaths = Environment.Is64BitProcess ? CorsairDeviceProvider.PossibleX64NativePaths : CorsairDeviceProvider.PossibleX86NativePaths;
         else
-            possibleLibraryPaths = Enumerable.Empty<string>();
+            possibleLibraryPaths = [];
 
         return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }

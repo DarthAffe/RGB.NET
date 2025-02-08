@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using AuraServiceLib;
 using RGB.NET.Core;
 
@@ -17,7 +18,7 @@ public sealed class AsusDeviceProvider : AbstractRGBDeviceProvider
     #region Properties & Fields
 
     // ReSharper disable once InconsistentNaming
-    private static readonly object _lock = new();
+    private static readonly Lock _lock = new();
 
     private static AsusDeviceProvider? _instance;
     /// <summary>

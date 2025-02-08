@@ -37,8 +37,8 @@ public sealed class AsusKeyboardRGBDevice : AsusRGBDevice<AsusKeyboardRGBDeviceI
     // ReSharper disable once InconsistentNaming
     public static readonly List<AsusKeyboardExtraMapping> ExtraLedMappings =
     [
-        new AsusKeyboardExtraMapping(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15),
-        new AsusKeyboardExtraMapping(new Regex("(ROG Strix G513QM).*?"), LedMappings.ROGStrixG15)
+        new(new Regex("(ROG Zephyrus Duo 15).*?"), LedMappings.ROGZephyrusDuo15),
+        new(new Regex("(ROG Strix G513QM).*?"), LedMappings.ROGStrixG15)
     ];
 
     #endregion

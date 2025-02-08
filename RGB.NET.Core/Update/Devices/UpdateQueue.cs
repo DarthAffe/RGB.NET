@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace RGB.NET.Core;
 
@@ -14,7 +15,7 @@ public abstract class UpdateQueue<TIdentifier, TData> : AbstractReferenceCountin
 {
     #region Properties & Fields
 
-    private readonly object _dataLock = new();
+    private readonly Lock _dataLock = new();
     private readonly IDeviceUpdateTrigger _updateTrigger;
     private readonly Dictionary<TIdentifier, TData> _currentDataSet = [];
 

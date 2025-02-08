@@ -64,7 +64,7 @@ internal static class _CUESDK
         if (OperatingSystem.IsWindows())
             possibleLibraryPaths = Environment.Is64BitProcess ? CorsairLegacyDeviceProvider.PossibleX64NativePaths : CorsairLegacyDeviceProvider.PossibleX86NativePaths;
         else
-            possibleLibraryPaths = Enumerable.Empty<string>();
+            possibleLibraryPaths = [];
 
         return possibleLibraryPaths.Select(Environment.ExpandEnvironmentVariables);
     }
