@@ -255,6 +255,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0527, RGBDeviceType.Headset, "Kraken Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
         { 0x0560, RGBDeviceType.Headset, "Kraken Kitty V2", LedMappings.Headset, RazerEndpointType.Headset },
         { 0x0F19, RGBDeviceType.Headset, "Kraken Kitty Edition", LedMappings.Headset, RazerEndpointType.Headset },
+        { 0X533, RGBDeviceType.Headset, "Kraken V3 HyperSense", LedMappings.Headset, RazerEndpointType.Headset},
 
         // Keypads
         { 0x0111, RGBDeviceType.Keypad, "Nostromo", LedMappings.Keypad, RazerEndpointType.Keypad },
