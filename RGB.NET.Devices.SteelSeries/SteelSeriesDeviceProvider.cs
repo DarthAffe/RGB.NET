@@ -96,6 +96,7 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         //Mousepads
         { 0x1507, RGBDeviceType.Mousepad, "QCK Prism", LedMappings.MousepadTwelveZone, SteelSeriesDeviceType.TwelveZone },
         { 0x150D, RGBDeviceType.Mousepad, "QCK Prism Cloth", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x1516, RGBDeviceType.Mousepad, "QCK Prism Cloth 3XL", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
 
         //Monitors
         { 0x1126, RGBDeviceType.Monitor, "MGP27C", LedMappings.MonitorOnehundredandthreeZone, SteelSeriesDeviceType.OneHundredAndThreeZone },
