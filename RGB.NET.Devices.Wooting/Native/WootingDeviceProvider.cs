@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -72,7 +72,8 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
     {
         lock (_lock)
         {
-            if (_instance != null) throw new InvalidOperationException($"There can be only one instance of type {nameof(WootingDeviceProvider)}");
+            if (_instance != null)
+                throw new InvalidOperationException($"There can be only one instance of type {nameof(WootingDeviceProvider)}");
             _instance = this;
         }
     }
@@ -99,18 +100,35 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
             {
                 for (byte i = 0; i < _WootingSDK.GetDeviceCount(); i++)
                 {
-                    WootingUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
+                    WootingNativeUpdateQueue updateQueue = new(GetUpdateTrigger(), i);
                     _WootingSDK.SelectDevice(i);
-                    _WootingDeviceInfo nativeDeviceInfo = (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
-                    
+                    _WootingDeviceInfo nativeDeviceInfo =
+                        (_WootingDeviceInfo)Marshal.PtrToStructure(_WootingSDK.GetDeviceInfo(), typeof(_WootingDeviceInfo))!;
+
                     //Uwu non-rgb returns zero here.
                     if (nativeDeviceInfo.MaxLedIndex == 0)
                         continue;
 
+                    KeyboardLayoutType layoutType = nativeDeviceInfo.LayoutType switch
+                    {
+                        WootingLayoutType.Unknown => KeyboardLayoutType.Unknown,
+                        WootingLayoutType.ANSI => KeyboardLayoutType.ANSI,
+                        WootingLayoutType.ISO => KeyboardLayoutType.ISO,
+                        WootingLayoutType.JIS => KeyboardLayoutType.JIS,
+                        WootingLayoutType.ANSI_SPLIT_SPACEBAR => KeyboardLayoutType.ANSI,
+                        WootingLayoutType.ISO_SPLIT_SPACEBAR => KeyboardLayoutType.ISO,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+
+                    //Note: we cannot change *any* of these here or the local database Artemis has will no longer match up and everything breaks.
+                    string model = nativeDeviceInfo.Model;
+                    string name = DeviceHelper.CreateDeviceName("Wooting", model);
+
                     yield return nativeDeviceInfo.DeviceType switch
                     {
-                        WootingDeviceType.Keypad3Keys => new WootingKeypadRGBDevice(new WootingKeypadRGBDeviceInfo(nativeDeviceInfo, i), updateQueue),
-                        _ => new WootingKeyboardRGBDevice(new WootingKeyboardRGBDeviceInfo(nativeDeviceInfo, i), updateQueue),
+                        WootingDeviceType.Keypad3Keys => new WootingKeypadRGBDevice(nativeDeviceInfo.DeviceType, new(model, name),
+                                                                                    updateQueue),
+                        _ => new WootingKeyboardRGBDevice(nativeDeviceInfo.DeviceType, new(layoutType, model, name), updateQueue)
                     };
                 }
             }
@@ -127,7 +145,9 @@ public sealed class WootingDeviceProvider : AbstractRGBDeviceProvider
             lock (_WootingSDK.SdkLock)
             {
                 try { _WootingSDK.UnloadWootingSDK(); }
-                catch { /* at least we tried */ }
+                catch
+                { /* at least we tried */
+                }
             }
 
             _instance = null;

@@ -23,16 +23,13 @@ public sealed class WootingKeyboardRGBDeviceInfo : WootingRGBDeviceInfo, IKeyboa
     /// <summary>
     /// Internal constructor of managed <see cref="T:RGB.NET.Devices.Wooting.WootingKeyboardRGBDeviceInfo" />.
     /// </summary>
-    /// <param name="deviceInfo">The native <see cref="T:RGB.NET.Devices.Wooting.Native._WootingDeviceInfo" />.</param>
-    internal WootingKeyboardRGBDeviceInfo(_WootingDeviceInfo deviceInfo, byte deviceIndex)
-        : base(RGBDeviceType.Keyboard, deviceInfo, deviceIndex)
+    /// <param name="layout">The layout of the keyboard.</param>
+    /// <param name="model">The model of the keyboard.</param>
+    /// <param name="name">The name of the keyboard.</param>
+    internal WootingKeyboardRGBDeviceInfo(KeyboardLayoutType layout, string model, string name)
+        : base(RGBDeviceType.Keyboard, model, name)
     {
-        Layout = WootingLayoutType switch
-        {
-            WootingLayoutType.ANSI => KeyboardLayoutType.ANSI,
-            WootingLayoutType.ISO => KeyboardLayoutType.ISO,
-            _ => KeyboardLayoutType.Unknown
-        };
+        Layout = layout;
     }
 
     #endregion

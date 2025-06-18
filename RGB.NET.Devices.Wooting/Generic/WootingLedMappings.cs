@@ -11,6 +11,10 @@ namespace RGB.NET.Devices.Wooting.Generic;
 /// </summary>
 internal static class WootingLedMappings
 {
+    
+    public const int ROWS = 6;
+    public const int COLUMNS = 21;
+    
     #region Properties & Fields
 
     private static readonly Dictionary<LedId, (int row, int column)> TKL = new()

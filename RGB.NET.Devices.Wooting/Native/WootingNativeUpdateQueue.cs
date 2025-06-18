@@ -1,14 +1,13 @@
-﻿using System;
+using System;
 using RGB.NET.Core;
-using RGB.NET.Devices.Wooting.Native;
 
-namespace RGB.NET.Devices.Wooting.Generic;
+namespace RGB.NET.Devices.Wooting.Native;
 
 /// <inheritdoc />
 /// <summary>
 /// Represents the update-queue performing updates for cooler master devices.
 /// </summary>
-public sealed class WootingUpdateQueue : UpdateQueue
+public sealed class WootingNativeUpdateQueue : UpdateQueue
 {
     #region Properties & Fields
 
@@ -19,10 +18,10 @@ public sealed class WootingUpdateQueue : UpdateQueue
     #region Constructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WootingUpdateQueue"/> class.
+    /// Initializes a new instance of the <see cref="WootingNativeUpdateQueue"/> class.
     /// </summary>
     /// <param name="updateTrigger">The update trigger used by this queue.</param>
-    public WootingUpdateQueue(IDeviceUpdateTrigger updateTrigger, byte deviceId)
+    public WootingNativeUpdateQueue(IDeviceUpdateTrigger updateTrigger, byte deviceId)
         : base(updateTrigger)
     {
         this._deviceid = deviceId;
@@ -58,6 +57,15 @@ public sealed class WootingUpdateQueue : UpdateQueue
         }
 
         return false;
+    }
+
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        _WootingSDK.SelectDevice(_deviceid);
+        _WootingSDK.Reset();
+        
+        base.Dispose();
     }
 
     #endregion
