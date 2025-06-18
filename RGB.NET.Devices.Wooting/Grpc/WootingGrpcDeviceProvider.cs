@@ -62,7 +62,7 @@ public sealed class WootingGrpcDeviceProvider : AbstractRGBDeviceProvider
     /// <inheritdoc />
     protected override void InitializeSDK()
     {
-        _channel = GrpcChannel.ForAddress("http://localhost:50051");
+        _channel = GrpcChannel.ForAddress("http://127.0.0.1:50051");
         _client = new RgbSdkService.RgbSdkServiceClient(_channel);
     }
 
