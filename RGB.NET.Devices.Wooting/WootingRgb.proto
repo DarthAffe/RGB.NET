@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package wooting_rgb_sdk;
+
+//from C rgb_sdk
+enum RgbDeviceType {
+  None = 0;
+  Tkl = 1;
+  FullSize = 2;
+  SixtyPercent = 3;
+  ThreeKey = 4;
+  EighyPercent = 5;
+}
+
+//from C rgb_sdk
+enum RgbDeviceLayout {
+  ANSI = 0;
+  ISO = 1;
+  JIS = 2;
+  ANSI_SPLIT_SPACEBAR = 3;
+  ISO_SPLIT_SPACEBAR = 4;
+  Unknown = -1;
+}
+
+message RgbGetConnectedDevicesRequest {}
+
+message RgbGetConnectedDevicesResponse {
+  message RgbDevice {
+    uint64 id = 1;
+    uint32 rows = 2;
+    uint32 columns = 3;
+    string model_name = 4;
+    string serial_number = 5;
+    RgbDeviceType device_type = 6;
+    RgbDeviceLayout layout_type = 7;
+  }
+
+  repeated RgbDevice devices = 1;
+}
+
+message RgbInitializeRequest {
+  uint64 id = 1;
+}
+
+message RgbInitializeResponse {
+}
+
+message RgbSetColorsRequest {
+  uint64 id = 1;
+  bytes colors = 2;
+}
+
+message RgbSetColorsResponse {
+}
+
+message RgbCloseRequest {
+  uint64 id = 1;
+}
+
+message RgbCloseResponse {
+}
+
+service RgbSdkService {
+  rpc GetConnectedDevices(RgbGetConnectedDevicesRequest) returns (RgbGetConnectedDevicesResponse);
+  rpc Initialize(RgbInitializeRequest) returns (RgbInitializeResponse);
+  rpc SetColors(RgbSetColorsRequest) returns (RgbSetColorsResponse);
+  rpc Close(RgbCloseRequest) returns (RgbCloseResponse);
+}

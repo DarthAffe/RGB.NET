@@ -9,9 +9,7 @@ namespace RGB.NET.Devices.Wooting.Keypad;
 /// </summary>
 public sealed class WootingKeypadRGBDeviceInfo : WootingRGBDeviceInfo
 {
-    internal WootingKeypadRGBDeviceInfo(_WootingDeviceInfo deviceInfo, byte deviceIndex)
-        : base(RGBDeviceType.Keypad, deviceInfo, deviceIndex)
-    {
-        
-    }
+    internal WootingKeypadRGBDeviceInfo(string model, string name)
+        : base(RGBDeviceType.Keypad, model, name)
+    { }
 }
