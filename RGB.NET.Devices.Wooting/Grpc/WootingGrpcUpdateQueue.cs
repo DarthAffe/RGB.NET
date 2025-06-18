@@ -48,7 +48,7 @@ public sealed class WootingGrpcUpdateQueue : UpdateQueue
             foreach ((object key, Color color) in dataSet)
             {
                 (int row, int column) = ((int, int))key;
-                long index = (WootingLedMappings.COLUMNS * row) + column;
+                int index = (WootingLedMappings.COLUMNS * row) + column;
 
                 _colors[index] = new WootingColor(color.GetR(), color.GetG(), color.GetB());
             }
@@ -79,12 +79,12 @@ public sealed class WootingGrpcUpdateQueue : UpdateQueue
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-internal struct WootingColor
+internal readonly struct WootingColor
 {
-    public byte r;
-    public byte g;
-    public byte b;
-    public byte a;
+    public readonly byte r;
+    public readonly byte g;
+    public readonly byte b;
+    public readonly byte a;
 
     public WootingColor(byte r, byte g, byte b)
     {
@@ -94,4 +94,3 @@ internal struct WootingColor
         this.a = 0; // Alpha is not used in Wooting devices
     }
 }
-

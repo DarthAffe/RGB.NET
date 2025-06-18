@@ -66,7 +66,7 @@ public sealed class WootingGrpcDeviceProvider : AbstractRGBDeviceProvider
         _client = new RgbSdkService.RgbSdkServiceClient(_channel);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc /> 
     protected override IEnumerable<IRGBDevice> LoadDevices()
     {
         ArgumentNullException.ThrowIfNull(_client, nameof(_client));
