@@ -18,7 +18,7 @@ public sealed class WootingNativeUpdateQueue : UpdateQueue
     #region Constructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WootingUpdateQueue"/> class.
+    /// Initializes a new instance of the <see cref="WootingNativeUpdateQueue"/> class.
     /// </summary>
     /// <param name="updateTrigger">The update trigger used by this queue.</param>
     public WootingNativeUpdateQueue(IDeviceUpdateTrigger updateTrigger, byte deviceId)
