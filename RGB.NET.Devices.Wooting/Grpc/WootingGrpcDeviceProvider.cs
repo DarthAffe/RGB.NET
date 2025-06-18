@@ -71,7 +71,6 @@ public sealed class WootingGrpcDeviceProvider : AbstractRGBDeviceProvider
     {
         ArgumentNullException.ThrowIfNull(_client, nameof(_client));
         
-        int i = 0;
         foreach (RgbGetConnectedDevicesResponse.Types.RgbDevice? device in _client.GetConnectedDevices(new()).Devices)
         {
             if (device.DeviceType == RgbDeviceType.None)
@@ -79,7 +78,7 @@ public sealed class WootingGrpcDeviceProvider : AbstractRGBDeviceProvider
 
             _client.Initialize(new RgbInitializeRequest { Id = device.Id });
 
-            WootingGrpcUpdateQueue updateQueue = new(GetUpdateTrigger(i++), device, _client);
+            WootingGrpcUpdateQueue updateQueue = new(GetUpdateTrigger(device.SerialNumber.GetHashCode()), device, _client);
 
             WootingDeviceType deviceType = device.DeviceType switch
             {
