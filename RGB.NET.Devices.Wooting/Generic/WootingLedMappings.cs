@@ -11,6 +11,10 @@ namespace RGB.NET.Devices.Wooting.Generic;
 /// </summary>
 internal static class WootingLedMappings
 {
+    
+    public const int ROWS = 6;
+    public const int COLUMNS = 21;
+    
     #region Properties & Fields
 
     private static readonly Dictionary<LedId, (int row, int column)> TKL = new()
@@ -126,7 +130,7 @@ internal static class WootingLedMappings
         { LedId.Keyboard_F10, (0, 11) },
         { LedId.Keyboard_F11, (0, 12) },
         { LedId.Keyboard_F12, (0, 13) },
-        { LedId.Keyboard_Custom1, (0, 14) },
+        { LedId.Keyboard_Profile, (0, 14) },
         { LedId.Keyboard_PrintScreen, (0, 15) },
         { LedId.Keyboard_PauseBreak, (0, 16) },
 
@@ -200,7 +204,11 @@ internal static class WootingLedMappings
         { LedId.Keyboard_LeftGui, (5, 1) },
         { LedId.Keyboard_LeftAlt, (5, 2) },
         { LedId.Keyboard_International3, (5, 3) },//JIS key
+        { LedId.Keyboard_Custom1, (5, 4) },
+        { LedId.Keyboard_Custom2, (5, 5) },
         { LedId.Keyboard_Space, (5, 6) },
+        { LedId.Keyboard_Custom3, (5, 7) },
+        { LedId.Keyboard_Custom4, (5, 8) },
         { LedId.Keyboard_International4, (5, 9) },//JIS key
         { LedId.Keyboard_RightAlt, (5, 10) },
         { LedId.Keyboard_RightGui, (5, 11) },

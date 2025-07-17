@@ -151,9 +151,11 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x02A0, RGBDeviceType.Keyboard, "Blade 18", LedMappings.Blade, RazerEndpointType.Keyboard },
         { 0x02A1, RGBDeviceType.Keyboard, "Ornata V3", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02A5, RGBDeviceType.Keyboard, "BlackWidow V4 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x02A6, RGBDeviceType.Keyboard, "Huntsman V3 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02A7, RGBDeviceType.Keyboard, "Huntsman V3 Pro TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02BA, RGBDeviceType.Keyboard, "BlackWidow V4 Mini HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x02B4, RGBDeviceType.Keyboard, "BlackWidow V4 Pro 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
         { 0x0013, RGBDeviceType.Mouse, "Orochi 2011", LedMappings.Mouse, RazerEndpointType.Mouse },
@@ -255,6 +257,8 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0527, RGBDeviceType.Headset, "Kraken Ultimate", LedMappings.Headset, RazerEndpointType.Headset },
         { 0x0560, RGBDeviceType.Headset, "Kraken Kitty V2", LedMappings.Headset, RazerEndpointType.Headset },
         { 0x0F19, RGBDeviceType.Headset, "Kraken Kitty Edition", LedMappings.Headset, RazerEndpointType.Headset },
+        { 0X0533, RGBDeviceType.Headset, "Kraken V3 HyperSense", LedMappings.Headset, RazerEndpointType.Headset},
+        { 0X0574, RGBDeviceType.Headset, "Barracuda X Chroma", LedMappings.Headset, RazerEndpointType.Headset},
 
         // Keypads
         { 0x0111, RGBDeviceType.Keypad, "Nostromo", LedMappings.Keypad, RazerEndpointType.Keypad },

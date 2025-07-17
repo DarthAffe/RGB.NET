@@ -1,40 +1,47 @@
-﻿using RGB.NET.Core;
-using RGB.NET.Devices.Wooting.Native;
+﻿using System.Collections.Generic;
+using RGB.NET.Core;
+using RGB.NET.Devices.Wooting.Enum;
 
 namespace RGB.NET.Devices.Wooting.Generic;
 
-/// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
-/// <inheritdoc cref="IWootingRGBDevice" />
-/// <summary>
-/// Represents a Wooting-device
-/// </summary>
 public abstract class WootingRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, IWootingRGBDevice
     where TDeviceInfo : WootingRGBDeviceInfo
 {
+    #region Properties & Fields
+
+    private readonly Dictionary<LedId, (int row, int column)> _mapping;
+
+    #endregion
+
     #region Constructors
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WootingRGBDevice{TDeviceInfo}"/> class.
-    /// </summary>
-    /// <param name="info">The generic information provided by Wooting for the device.</param>
-    /// <param name="updateQueue">The update queue used to update this device.</param>
-    protected WootingRGBDevice(TDeviceInfo info, IUpdateQueue updateQueue)
+    internal WootingRGBDevice(WootingDeviceType deviceType, TDeviceInfo info, IUpdateQueue updateQueue)
         : base(info, updateQueue)
     {
+        _mapping = WootingLedMappings.Mapping[deviceType];
+        InitializeLayout();
     }
 
     #endregion
 
-
     #region Methods
 
+    private void InitializeLayout()
+    {
+        foreach (KeyValuePair<LedId, (int row, int column)> led in _mapping)
+            AddLed(led.Key, new Point(led.Value.column * 19, led.Value.row * 19), new Size(19, 19));
+    }
+
+    /// <inheritdoc />
+    protected override object GetLedCustomData(LedId ledId) => _mapping[ledId];
+    
+    /// <inheritdoc />
     public override void Dispose()
     {
-        _WootingSDK.SelectDevice(DeviceInfo.WootingDeviceIndex);
-        _WootingSDK.Reset();
+        UpdateQueue.Dispose();
 
         base.Dispose();
     }
-    
+
     #endregion
 }

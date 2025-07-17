@@ -15,5 +15,8 @@ public enum WootingLayoutType
 {
     Unknown = -1,
     ANSI = 0,
-    ISO = 1
+    ISO = 1,
+    JIS = 2,
+    ANSI_SPLIT_SPACEBAR = 3,
+    ISO_SPLIT_SPACEBAR = 4,
 }
