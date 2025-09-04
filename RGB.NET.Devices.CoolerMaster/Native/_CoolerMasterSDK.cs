@@ -47,7 +47,7 @@ internal static class _CoolerMasterSDK
 #if NET6_0
         if (_handle == IntPtr.Zero) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
 #else
-        if (_handle == 0) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+        if (_handle == 0) throw new RGBDeviceException($"CoolerMaster LoadLibrary failed with error code {Marshal.GetLastSystemError()}");
 #endif
 
         _getSDKVersionPointer = (GetSDKVersionPointer)Marshal.GetDelegateForFunctionPointer(GetProcAddress(_handle, "GetCM_SDK_DllVer"), typeof(GetSDKVersionPointer));
