@@ -41,7 +41,7 @@ internal static class _LogitechGSDK
 #if NET6_0
             throw new RGBDeviceException($"Logitech LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
 #else
-            throw new RGBDeviceException($"Logitech LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+            throw new RGBDeviceException($"Logitech LoadLibrary failed with error code {Marshal.GetLastSystemError()}");
 #endif
 
         if (!NativeLibrary.TryGetExport(_handle, "LogiLedInit", out _logiLedInitPointer)) throw new RGBDeviceException("Failed to load Logitech function 'LogiLedInit'");

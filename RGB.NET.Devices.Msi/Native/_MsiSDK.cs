@@ -42,7 +42,7 @@ internal static class _MsiSDK
 #if NET6_0
             throw new RGBDeviceException($"MSI LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
 #else
-            throw new RGBDeviceException($"MSI LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+            throw new RGBDeviceException($"MSI LoadLibrary failed with error code {Marshal.GetLastSystemError()}");
 #endif
 
         _initializePointer = (InitializePointer)Marshal.GetDelegateForFunctionPointer(NativeLibrary.GetExport(_handle, "MLAPI_Initialize"), typeof(InitializePointer));
