@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
@@ -50,6 +50,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.Corsair_Legacy", "RGB.NET.Devices.Corsair_Legacy\RGB.NET.Devices.Corsair_Legacy.csproj", "{66AF690C-27A1-4097-AC53-57C0ED89E286}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RGB.NET.Devices.WLED", "RGB.NET.Devices.WLED\RGB.NET.Devices.WLED.csproj", "{C533C5EA-66A8-4826-A814-80791E7593ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGB.NET.Sandbox", "RGB.NET.Sandbox\RGB.NET.Sandbox.csproj", "{BA099D3B-1B54-43D7-BCBE-18182CA91F28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +147,10 @@ Global
 		{C533C5EA-66A8-4826-A814-80791E7593ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C533C5EA-66A8-4826-A814-80791E7593ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C533C5EA-66A8-4826-A814-80791E7593ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA099D3B-1B54-43D7-BCBE-18182CA91F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA099D3B-1B54-43D7-BCBE-18182CA91F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA099D3B-1B54-43D7-BCBE-18182CA91F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA099D3B-1B54-43D7-BCBE-18182CA91F28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
