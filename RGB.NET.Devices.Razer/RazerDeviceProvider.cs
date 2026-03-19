@@ -121,7 +121,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x025C, RGBDeviceType.Keyboard, "BlackWidow V3 Pro", LedMappings.Keyboard, RazerEndpointType.Keyboard }, // The dongle, may not be present when connected with cable
         { 0x025D, RGBDeviceType.Keyboard, "Ornata Chroma V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x025E, RGBDeviceType.Keyboard, "Cynosa V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x0266, RGBDeviceType.Keyboard, "Huntsman V2", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x0266, RGBDeviceType.Keyboard, "Huntsman V2 Analog", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x0269, RGBDeviceType.Keyboard, "Huntsman Mini (JP)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x026A, RGBDeviceType.Keyboard, "Book 13 (2020)", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x026B, RGBDeviceType.Keyboard, "Huntsman V2 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
@@ -157,6 +157,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x02BA, RGBDeviceType.Keyboard, "BlackWidow V4 Mini HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02B4, RGBDeviceType.Keyboard, "BlackWidow V4 Pro 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02CC, RGBDeviceType.Keyboard, "BlackWidow V4 Low-profile HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x02D5, RGBDeviceType.Keyboard, "BlackWidow V4 TKL HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
         { 0x0013, RGBDeviceType.Mouse, "Orochi 2011", LedMappings.Mouse, RazerEndpointType.Mouse },
@@ -239,6 +240,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x00AB, RGBDeviceType.Mouse, "Basilisk V3 Pro (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00B6, RGBDeviceType.Mouse, "DeathAdder V3 (Wired)", LedMappings.Mouse, RazerEndpointType.Mouse },
         { 0x00B7, RGBDeviceType.Mouse, "DeathAdder V3 (Wireless)", LedMappings.Mouse, RazerEndpointType.Mouse },
+        { 0x00C8, RGBDeviceType.Mouse, "Pro Click V2 Vertical", LedMappings.Mouse, RazerEndpointType.Mouse },
         
         // Mousepads
         { 0x0068, RGBDeviceType.Mousepad, "Firefly Hyperflux", LedMappings.Mousepad, RazerEndpointType.Mousepad },
