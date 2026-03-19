@@ -40,7 +40,7 @@ internal static class _RazerSDK
 #if NET6_0
             throw new RGBDeviceException($"Razer LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
 #else
-            throw new RGBDeviceException($"Razer LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+            throw new RGBDeviceException($"Razer LoadLibrary failed with error code {Marshal.GetLastSystemError()}");
 #endif
 
         if (!NativeLibrary.TryGetExport(_handle, "Init", out _initPointer)) throw new RGBDeviceException("Failed to load Razer function 'Init'");

@@ -40,7 +40,7 @@ internal static class _CUESDK
 #if NET6_0
             throw new RGBDeviceException($"Corsair LoadLibrary failed with error code {Marshal.GetLastPInvokeError()}");
 #else
-            throw new RGBDeviceException($"Corsair LoadLibrary failed with error code {Marshal.GetLastWin32Error()}");
+            throw new RGBDeviceException($"Corsair LoadLibrary failed with error code {Marshal.GetLastSystemError()}");
 #endif
 
         if (!NativeLibrary.TryGetExport(_handle, "CorsairSetLedsColorsBufferByDeviceIndex", out _corsairSetLedsColorsBufferByDeviceIndexPointer)) throw new RGBDeviceException("Failed to load Corsair function 'CorsairSetLedsColorsBufferByDeviceIndex'");
