@@ -24,14 +24,24 @@ public sealed class LogitechPerKeyRGBDevice : LogitechRGBDevice<LogitechRGBDevic
         : base(info, updateQueue)
     {
         this._ledMapping = ledMapping;
+
+        InitializeLayout();
     }
 
     #endregion
 
     #region Methods
 
+    private void InitializeLayout()
+    {
+        int pos = 0;
+            
+        foreach ((LedId ledId, LogitechLedId mapping) in _ledMapping)
+            AddLed(ledId, new Point(pos++ * 19, 0), new Size(19, 19));
+    }
+
     /// <inheritdoc />
     protected override object GetLedCustomData(LedId ledId) => _ledMapping.TryGetValue(ledId, out LogitechLedId logitechLedId) ? logitechLedId : -1;
-    
+
     #endregion
 }
