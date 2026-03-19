@@ -34,11 +34,10 @@ public sealed class LogitechPerKeyRGBDevice : LogitechRGBDevice<LogitechRGBDevic
 
     private void InitializeLayout()
     {
+        int pos = 0;
+            
         foreach ((LedId ledId, LogitechLedId mapping) in _ledMapping)
-        {
-            // TODO: Impove layout (curently places them in a grid)
-            AddLed(ledId, new Point(0, 0), new Size(10, 10));
-        }
+            AddLed(ledId, new Point(pos++ * 19, 0), new Size(19, 19));
     }
 
     /// <inheritdoc />
