@@ -74,6 +74,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
         { 0xC359, RGBDeviceType.Keyboard, "G915 X", LedMappings.PerKey, 0 },
         { 0xC547, RGBDeviceType.Keyboard, "G915 X TKL", LedMappings.PerKey, 0 },
         { 0xC358, RGBDeviceType.Keyboard, "G515", LedMappings.PerKey, 0 },
+        { 0xC363, RGBDeviceType.Keyboard, "G515 Rapid TKL", LedMappings.PerKey, 0 },
 
         //non-rgb
         { 0xC333, RGBDeviceType.Keyboard, "G610", LedMappings.PerKey, 0 },
