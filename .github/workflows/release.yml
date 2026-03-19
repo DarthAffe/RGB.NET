@@ -17,9 +17,10 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: |
+          10.0.x
           9.0.x
           8.0.x
     - name: Restore dependencies
@@ -28,6 +29,12 @@ jobs:
       run: dotnet build --no-restore --configuration Release /p:Version=${{ github.event.inputs.version }}
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
+    - name: Upload a Build Artifact NET10
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: RGB.NET-NET10
+        path: bin/net10.0/RGB.NET.*.dll
+        if-no-files-found: error
     - name: Upload a Build Artifact NET9
       uses: actions/upload-artifact@v4.3.1
       with:
@@ -51,6 +58,6 @@ jobs:
       with:
         tag_name: v${{ github.event.inputs.version }}
         generate_release_notes: true
-        files: bin/net9.0/RGB.NET.*.dll
+        files: bin/net10.0/RGB.NET.*.dll
     - name: Nuget Push
       run: dotnet nuget push **\*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
