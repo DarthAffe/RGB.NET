@@ -93,7 +93,9 @@ public sealed class ArduinoWS2812USBUpdateQueue : SerialConnectionUpdateQueue<by
             SerialConnection.ReadTo(Prompt);
             byte[] channelLedCountCommand = [(byte)((i << 4) | COUNT_COMMAND[0])];
             SendCommand(channelLedCountCommand);
-            int ledCount = SerialConnection.ReadByte();
+            int low = SerialConnection.ReadByte();
+            int high = SerialConnection.ReadByte();
+            int ledCount = low | (high << 8);
             if (ledCount > 0)
                 yield return (i, ledCount);
         }

@@ -64,7 +64,8 @@ void loop()
 
       // ### channel 1 ###
       case 0x11: // get led-count of channel 1
-        Serial.write(LEDS_CHANNEL_1);
+        Serial.write(lowByte(LEDS_CHANNEL_1));
+        Serial.write(highByte(LEDS_CHANNEL_1));
         break;
       case 0x12: // set leds of channel 1
         Serial.readBytes(((uint8_t*)leds_channel_1), (LEDS_CHANNEL_1 * 3));
@@ -72,7 +73,8 @@ void loop()
 
       // ### channel 2 ###
       case 0x21: // get led-count of channel 2
-        Serial.write(LEDS_CHANNEL_2);
+        Serial.write(lowByte(LEDS_CHANNEL_2));
+        Serial.write(highByte(LEDS_CHANNEL_2));
         break;
       case 0x22: // set leds of channel 2
         Serial.readBytes(((uint8_t*)leds_channel_2), (LEDS_CHANNEL_2 * 3));
@@ -80,7 +82,8 @@ void loop()
 
       // ### channel 3 ###
       case 0x31: // get led-count of channel 3
-        Serial.write(LEDS_CHANNEL_3);
+        Serial.write(lowByte(LEDS_CHANNEL_3));
+        Serial.write(highByte(LEDS_CHANNEL_3));
         break;
       case 0x32: // set leds of channel 3
         Serial.readBytes(((uint8_t*)leds_channel_3), (LEDS_CHANNEL_3 * 3));
@@ -88,7 +91,8 @@ void loop()
 
       // ### channel 4 ###
       case 0x41: // get led-count of channel 4
-        Serial.write(LEDS_CHANNEL_4);
+        Serial.write(lowByte(LEDS_CHANNEL_4));
+        Serial.write(highByte(LEDS_CHANNEL_4));
         break;
       case 0x42: // set leds of channel 4
         Serial.readBytes(((uint8_t*)leds_channel_4), (LEDS_CHANNEL_4 * 3));
