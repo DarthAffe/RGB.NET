@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RGB.NET.Core\RGB.NET.Core.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Asus\RGB.NET.Devices.Asus.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.CoolerMaster\RGB.NET.Devices.CoolerMaster.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Corsair\RGB.NET.Devices.Corsair.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Corsair_Legacy\RGB.NET.Devices.Corsair_Legacy.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Debug\RGB.NET.Devices.Debug.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.DMX\RGB.NET.Devices.DMX.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Logitech\RGB.NET.Devices.Logitech.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Msi\RGB.NET.Devices.Msi.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Novation\RGB.NET.Devices.Novation.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.OpenRGB\RGB.NET.Devices.OpenRGB.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.PicoPi\RGB.NET.Devices.PicoPi.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Razer\RGB.NET.Devices.Razer.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.SteelSeries\RGB.NET.Devices.SteelSeries.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.WLED\RGB.NET.Devices.WLED.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.Wooting\RGB.NET.Devices.Wooting.csproj" />
+    <ProjectReference Include="..\RGB.NET.Devices.WS281X\RGB.NET.Devices.WS281X.csproj" />
+    <ProjectReference Include="..\RGB.NET.Presets\RGB.NET.Presets.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="x64\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
