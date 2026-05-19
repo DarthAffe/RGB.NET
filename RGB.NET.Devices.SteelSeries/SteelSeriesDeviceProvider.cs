@@ -69,6 +69,17 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x183C, RGBDeviceType.Mouse, "Rival 5", LedMappings.MouseTenZone, SteelSeriesDeviceType.TenZone },
         { 0x1854, RGBDeviceType.Mouse, "Aerox 5 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
         { 0x1852, RGBDeviceType.Mouse, "Aerox 5 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1850, RGBDeviceType.Mouse, "Aerox 5 Wired", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x185A, RGBDeviceType.Mouse, "Aerox 9 Wireless", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1878, RGBDeviceType.Mouse, "Aerox 3 CS2 Dragon Lore Edition", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x187A, RGBDeviceType.Mouse, "Aerox 3 CS2 Dragon Lore Edition", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x185C, RGBDeviceType.Mouse, "Aerox 5 Destiny 2 Edition", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x185E, RGBDeviceType.Mouse, "Aerox 5 Destiny 2 Edition", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1860, RGBDeviceType.Mouse, "Aerox 5 Diablo IV Edition", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1862, RGBDeviceType.Mouse, "Aerox 5 Diablo IV Edition", LedMappings.MouseThreeZone, SteelSeriesDeviceType.ThreeZone },
+        { 0x1730, RGBDeviceType.Mouse, "Rival 710", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x172E, RGBDeviceType.Mouse, "Rival 600 Dota 2 Edition", LedMappings.MouseEightZone, SteelSeriesDeviceType.EightZone },
+        { 0x1834, RGBDeviceType.Mouse, "Sensei Ten CS:GO Neon Rider Edition", LedMappings.MouseTwoZone, SteelSeriesDeviceType.TwoZone },
 
         //Keyboards
         { 0x161A, RGBDeviceType.Keyboard, "Apex 3", LedMappings.KeyboardTenZone, SteelSeriesDeviceType.TenZone },
@@ -86,6 +97,12 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x2036, RGBDeviceType.Keyboard, "MSI Notebook", LedMappings.KeyboardNotebookMappingUk, SteelSeriesDeviceType.PerKey },
         { 0x113A, RGBDeviceType.Keyboard, "MSI GE78HX", LedMappings.KeyboardMSIGE78Mapping, SteelSeriesDeviceType.PerKey },
         { 0x1122, RGBDeviceType.Keyboard, "MSI Notebook", LedMappings.KeyboardNotebookMappingUk, SteelSeriesDeviceType.PerKey },
+        { 0x1622, RGBDeviceType.Keyboard, "Apex 3 TKL", LedMappings.KeyboardTenZone, SteelSeriesDeviceType.TenZone },
+        { 0x1620, RGBDeviceType.Keyboard, "Apex 9 Mini", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
+        { 0x1634, RGBDeviceType.Keyboard, "Apex 9 TKL", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
+        { 0x1642, RGBDeviceType.Keyboard, "Apex Pro TKL Gen 3", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
+        { 0x1646, RGBDeviceType.Keyboard, "Apex Pro TKL Gen 3 Wireless", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
+        { 0x1632, RGBDeviceType.Keyboard, "Apex Pro TKL 2023 Wireless", LedMappings.KeyboardTklMappingUk, SteelSeriesDeviceType.PerKey },
 
         //Headsets
         { 0x12AA, RGBDeviceType.Headset, "Arctis 5", LedMappings.HeadsetTwoZone, SteelSeriesDeviceType.TwoZone },
@@ -98,6 +115,13 @@ public sealed class SteelSeriesDeviceProvider : AbstractRGBDeviceProvider
         { 0x1507, RGBDeviceType.Mousepad, "QCK Prism", LedMappings.MousepadTwelveZone, SteelSeriesDeviceType.TwelveZone },
         { 0x150D, RGBDeviceType.Mousepad, "QCK Prism Cloth", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
         { 0x1516, RGBDeviceType.Mousepad, "QCK Prism Cloth 3XL", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x150A, RGBDeviceType.Mousepad, "QCK Prism Cloth Medium", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x1518, RGBDeviceType.Mousepad, "QCK Prism Cloth 4XL", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x151A, RGBDeviceType.Mousepad, "QCK Prism Cloth 5XL", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x151E, RGBDeviceType.Mousepad, "QCK Prism Cloth XL Destiny Edition", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x1520, RGBDeviceType.Mousepad, "QCK Prism Cloth XL Destiny 2 Lightfall Edition", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x1514, RGBDeviceType.Mousepad, "QCK Prism Cloth XL CS:GO Neon Rider Edition", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
+        { 0x151C, RGBDeviceType.Mousepad, "QCK Prism Cloth XL CS:GO Neo Noir Edition", LedMappings.MousepadTwoZone, SteelSeriesDeviceType.TwoZone },
 
         //Monitors
         { 0x1126, RGBDeviceType.Monitor, "MGP27C", LedMappings.MonitorOnehundredandthreeZone, SteelSeriesDeviceType.OneHundredAndThreeZone },
