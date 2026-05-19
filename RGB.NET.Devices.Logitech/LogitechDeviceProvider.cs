@@ -75,6 +75,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
         { 0xC547, RGBDeviceType.Keyboard, "G915 X TKL", LedMappings.PerKey, 0 },
         { 0xC358, RGBDeviceType.Keyboard, "G515", LedMappings.PerKey, 0 },
         { 0xC363, RGBDeviceType.Keyboard, "G515 Rapid TKL", LedMappings.PerKey, 0 },
+        { 0xC35B, RGBDeviceType.Keyboard, "G Pro X TKL Rapid", LedMappings.PerKey, 0 },
 
         //non-rgb
         { 0xC333, RGBDeviceType.Keyboard, "G610", LedMappings.PerKey, 0 },
@@ -99,6 +100,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
         { 0xC336, RGBDeviceType.Keyboard, "G213", LedMappings.ZoneKeyboard, (LogitechDeviceType.Keyboard, 5, 0) },
 
         { 0xC092, RGBDeviceType.Mouse, "G203 Lightsync", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 0) },
+        { 0xC09D, RGBDeviceType.Mouse, "G102 Lightsync", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 0) },
         { 0xC080, RGBDeviceType.Mouse, "G303", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
         { 0xC081, RGBDeviceType.Mouse, "G900", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
         { 0xC082, RGBDeviceType.Mouse, "G403", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
@@ -111,6 +113,7 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
         { 0xC08B, RGBDeviceType.Mouse, "G502 HERO", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
         { 0xC08C, RGBDeviceType.Mouse, "G Pro Hero", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 1, 1) },
         { 0xC08D, RGBDeviceType.Mouse, "G502 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
+        { 0xC095, RGBDeviceType.Mouse, "G502 X Plus", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
         { 0xC08F, RGBDeviceType.Mouse, "G403 HERO", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
         { 0xC090, RGBDeviceType.Mouse, "G703 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
         { 0xC091, RGBDeviceType.Mouse, "G903 Lightspeed", LedMappings.ZoneMouse, (LogitechDeviceType.Mouse, 2, 0) },
@@ -161,13 +164,18 @@ public class LogitechDeviceProvider : AbstractRGBDeviceProvider
         { 0xC222, RGBDeviceType.Keyboard, "G15", LedMappings.Device, 0 },
         { 0xC225, RGBDeviceType.Keyboard, "G11", LedMappings.Device, 0 },
         { 0x0AB5, RGBDeviceType.Headset, "G733", LedMappings.Device, 0 },
+        { 0x0AFE, RGBDeviceType.Headset, "G733", LedMappings.Device, 0 },
+        { 0x0B1F, RGBDeviceType.Headset, "G733", LedMappings.Device, 0 },
         { 0xC53A, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.Device, 0 },
     };
 
     /// <summary>
     /// Gets the HID-definitions for wireless per-device-devices.
     /// </summary>
-    public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = [];
+    public static LightspeedHIDLoader<int, int> PerDeviceWirelessDeviceDefinitions { get; } = new()
+    {
+        { 0x405F, RGBDeviceType.Mousepad, "POWERPLAY", LedMappings.Device, 0 },
+    };
 
     #endregion
 
