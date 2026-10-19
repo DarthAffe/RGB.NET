@@ -13,8 +13,10 @@ public static class IdGenerator
 
     // ReSharper disable InconsistentNaming
     private static readonly HashSet<string> _registeredIds = [];
-    private static readonly Dictionary<Assembly, Dictionary<string, string>> _idMappings = [];
-    private static readonly Dictionary<Assembly, Dictionary<string, int>> _counter = [];
+    // Keyed by the assembly's full name rather than the Assembly instance, so a reloaded copy of an assembly
+    // (e.g. a plugin in a new AssemblyLoadContext) keeps its ids and unloaded assemblies aren't kept alive.
+    private static readonly Dictionary<string, Dictionary<string, string>> _idMappings = [];
+    private static readonly Dictionary<string, Dictionary<string, int>> _counter = [];
     // ReSharper restore InconsistentNaming
 
     #endregion
@@ -31,13 +33,14 @@ public static class IdGenerator
 
     internal static string MakeUnique(Assembly callingAssembly, string id)
     {
-        if (!_idMappings.TryGetValue(callingAssembly, out Dictionary<string, string>? idMapping))
+        string assemblyKey = GetAssemblyKey(callingAssembly);
+        if (!_idMappings.TryGetValue(assemblyKey, out Dictionary<string, string>? idMapping))
         {
-            _idMappings.Add(callingAssembly, idMapping = []);
-            _counter.Add(callingAssembly, []);
+            _idMappings.Add(assemblyKey, idMapping = []);
+            _counter.Add(assemblyKey, []);
         }
 
-        Dictionary<string, int> counterMapping = _counter[callingAssembly];
+        Dictionary<string, int> counterMapping = _counter[assemblyKey];
 
         if (!idMapping.TryGetValue(id, out string? mappedId))
         {
@@ -65,9 +68,11 @@ public static class IdGenerator
 
     internal static void ResetCounter(Assembly callingAssembly)
     {
-        if (_counter.TryGetValue(callingAssembly, out Dictionary<string, int>? counter))
+        if (_counter.TryGetValue(GetAssemblyKey(callingAssembly), out Dictionary<string, int>? counter))
             counter.Clear();
     }
+
+    private static string GetAssemblyKey(Assembly assembly) => assembly.FullName ?? assembly.GetName().Name ?? string.Empty;
 
     #endregion
 }
