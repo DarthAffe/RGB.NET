@@ -123,6 +123,8 @@ internal static class LedMappings
         ["Key: Media Play"] = LedId.Keyboard_MediaPlay,
         ["Key: Media Play/Pause"] = LedId.Keyboard_MediaPlay,
         ["Key: Media Mute"] = LedId.Keyboard_MediaMute,
+        ["Key: Media Volume -"] = LedId.Keyboard_MediaVolumeDown,
+        ["Key: Media Volume +"] = LedId.Keyboard_MediaVolumeUp,
         ["Logo"] = LedId.Logo,
         ["Key: Brightness"] = LedId.Keyboard_Brightness,
         ["Key: M1"] = LedId.Keyboard_Macro1,
