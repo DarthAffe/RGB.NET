@@ -156,7 +156,7 @@ public sealed class RazerDeviceProvider : AbstractRGBDeviceProvider
         { 0x0A24, RGBDeviceType.Keyboard, "BlackWidow V3 TKL", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02BA, RGBDeviceType.Keyboard, "BlackWidow V4 Mini HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
         { 0x02B4, RGBDeviceType.Keyboard, "BlackWidow V4 Pro 75%", LedMappings.Keyboard, RazerEndpointType.Keyboard },
-        { 0x02CC, RGBDeviceType.Keyboard, "BlackWidow V4 Low-profile HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
+        { 0x02CC, RGBDeviceType.Keyboard, "BlackWidow V4 Low-profile HyperSpeed", LedMappings.BlackWidowV4LowProfileHyperSpeed, RazerEndpointType.Keyboard },
         { 0x02D5, RGBDeviceType.Keyboard, "BlackWidow V4 TKL HyperSpeed", LedMappings.Keyboard, RazerEndpointType.Keyboard },
 
         // Mice
